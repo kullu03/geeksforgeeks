@@ -1,0 +1,2887 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Detect and Remove Loop in a Linked List - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/detect-and-remove-loop-in-a-linked-list/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Detect and Remove Loop in a Linked List - GeeksforGeeks" />
+<meta property="og:description" content="Write a function detectAndRemoveLoop() that checks whether a given Linked List contains loop and if loop is present then removes the loop and returns true. And if the list doesn&#8217;t contain loop then returns false. Below diagram shows a linked list with a loop. detectAndRemoveLoop() must change the below list to 1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL. We recommend to &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/detect-and-remove-loop-in-a-linked-list/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:section" content="Linked Lists" />
+<meta property="article:published_time" content="2011-05-09T23:42:35+00:00" />
+<meta property="article:modified_time" content="2011-12-14T10:53:43+00:00" />
+<meta property="og:updated_time" content="2011-12-14T10:53:43+00:00" />
+<meta property="og:image" content="http://geeksforgeeks.org/wp-content/uploads/2009/04/Linked-List-Loop.gif" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.500 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111105 210.212.53.139 172.19.11.169';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Detect and Remove Loop in a Linked List</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Write a function <em>detectAndRemoveLoop()</em> that checks whether a given Linked List contains loop and if loop is present then removes the loop and returns true. <span id="more-12225"></span>And if the list doesn&#8217;t contain loop then returns false. Below diagram shows a linked list with a loop. <em>detectAndRemoveLoop()</em> must change the below list to 1->2->3->4->5->NULL.</p>
+<p><a href="http://geeksforgeeks.org/wp-content/uploads/2009/04/Linked-List-Loop.gif"><img src="http://geeksforgeeks.org/wp-content/uploads/2009/04/Linked-List-Loop.gif" alt="" title="Linked List Loop" width="300" height="150" class="aligncenter size-full wp-image-866" /></a></p>
+<p>We recommend to read following post as a prerequisite.<br />
+<a href="http://geeksforgeeks.org/?p=112"><br />
+Write a C function to detect loop in a linked list</a></p>
+<p>Before trying to remove the loop, we must detect it. Techniques discussed in the above post can be used to detect loop.  To remove loop, all we need to do is to get pointer to the last node of the loop.  For example, node with value 5 in the above diagram. Once we have pointer to the last node, we can make the next of this node as NULL and loop is gone.<br />
+We can easily use Hashing or Visited node techniques (discussed in the aobve mentioned post) to get the pointer to the last node.  Idea is simple: the very first node whose next is already visited (or hashed) is the last node.<br />
+We can also use Floyd Cycle Detection algorithm to detect and remove the loop. In the Floyd&#8217;s algo, the slow and fast pointers meet at a loop node.  We can use this loop node to remove cycle. There are following two different ways of removing loop when Floyd’s algorithm is used for Loop detection.</p>
+<p><strong>Method 1 (Check one by one)  </strong><br />
+We know that Floyd’s Cycle detection algorithm terminates when fast and slow pointers meet at a common point.  We also know that this common point is one of the loop nodes (2 or 3 or 4 or 5 in the above diagram). We store the address of this in a pointer variable say ptr2.  Then we start from the head of the Linked List and check for nodes one by one if they are reachable from ptr2.  When we find a node that is reachable, we know that this node is the starting node of the loop in Linked List and we can get pointer to the previous of this node.</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+
+/* Link list node */
+struct node
+{
+    int data;
+    struct node* next;
+};
+
+/* Function to remove loop. Used by detectAndRemoveLoop() */
+void removeLoop(struct node *, struct node *);
+
+/* This function detects and removes loop in the list
+  If loop was there in the list then it returns 1,
+  otherwise returns 0 */
+int detectAndRemoveLoop(struct node *list)
+{
+    struct node  *slow_p = list, *fast_p = list;
+
+    while (slow_p &amp;&amp; fast_p &amp;&amp; fast_p-&gt;next)
+    {
+        slow_p = slow_p-&gt;next;
+        fast_p  = fast_p-&gt;next-&gt;next;
+
+        /* If slow_p and fast_p meet at some point then there
+           is a loop */
+        if (slow_p == fast_p)
+        {
+            removeLoop(slow_p, list);
+
+            /* Return 1 to indicate that loop is found */
+            return 1;
+        }
+    }
+
+    /* Return 0 to indeciate that ther is no loop*/
+    return 0;
+}
+
+/* Function to remove loop.
+ loop_node --&gt; Pointer to one of the loop nodes
+ head --&gt;  Pointer to the start node of the linked list */
+void removeLoop(struct node *loop_node, struct node *head)
+{
+   struct node *ptr1;
+   struct node *ptr2;
+
+   /* Set a pointer to the beging of the Linked List and
+      move it one by one to find the first node which is
+      part of the Linked List */
+   ptr1 = head;
+   while(1)
+   {
+     /* Now start a pointer from loop_node and check if it ever
+       reaches ptr2 */
+     ptr2 = loop_node;
+     while(ptr2-&gt;next != loop_node &amp;&amp; ptr2-&gt;next != ptr1)
+     {
+         ptr2 = ptr2-&gt;next;
+     }
+
+     /* If ptr2 reahced ptr1 then there is a loop. So break the
+        loop */
+     if(ptr2-&gt;next == ptr1)
+        break;
+
+     /* If ptr2 did't reach ptr1 then try the next node after ptr1 */
+     else
+       ptr1 = ptr1-&gt;next;
+   }
+
+   /* After the end of loop ptr2 is the last node of the loop. So
+     make next of ptr2 as NULL */
+   ptr2-&gt;next = NULL;
+}
+
+/* UTILITY FUNCTIONS */
+/* Given a reference (pointer to pointer) to the head
+  of a list and an int, pushes a new node on the front
+  of the list. */
+void push(struct node** head_ref, int new_data)
+{
+    /* allocate node */
+    struct node* new_node =
+        (struct node*) malloc(sizeof(struct node));
+
+    /* put in the data  */
+    new_node-&gt;data  = new_data;
+
+    /* link the old list off the new node */
+    new_node-&gt;next = (*head_ref);
+
+    /* move the head to point to the new node */
+    (*head_ref)    = new_node;
+}
+
+/* Function to print linked list */
+void printList(struct node *node)
+{
+    while(node != NULL)
+    {
+        printf(&quot;%d  &quot;, node-&gt;data);
+        node = node-&gt;next;
+    }
+}
+
+/* Drier program to test above function*/
+int main()
+{
+    /* Start with the empty list */
+    struct node* head = NULL;
+
+    push(&amp;head, 10);
+    push(&amp;head, 4);
+    push(&amp;head, 15);
+    push(&amp;head, 20);
+    push(&amp;head, 50);
+
+    /* Create a loop for testing */
+    head-&gt;next-&gt;next-&gt;next-&gt;next-&gt;next = head-&gt;next-&gt;next;
+
+    detectAndRemoveLoop(head);
+
+    printf(&quot;Linked List after removing loop \n&quot;);
+    printList(head);
+
+    getchar();
+    return 0;
+}
+</pre>
+<p><strong>Method 2 (Efficient Solution)</strong><br />
+This method is also dependent on Floyd&#8217;s Cycle detection algorithm.<br />
+1)   Detect Loop using Floyd&#8217;s Cycle detection algo and get the pointer to a loop node.<br />
+2)   Count the number of nodes in loop. Let the count be k.<br />
+3)   Fix one pointer to the head and another to kth node from head.<br />
+4)   Move both pointers at the same pace, they will meet at loop starting node.<br />
+5)   Get pointer to the last node of loop and make next of it as NULL.</p>
+<p>Thanks to WgpShashank for suggesting this method.</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+
+/* Link list node */
+struct node
+{
+    int data;
+    struct node* next;
+};
+
+/* Function to remove loop. */
+void removeLoop(struct node *, struct node *);
+
+/* This function detects and removes loop in the list
+  If loop was there in the list then it returns 1,
+  otherwise returns 0 */
+int detectAndRemoveLoop(struct node *list)
+{
+    struct node  *slow_p = list, *fast_p = list;
+
+    while (slow_p &amp;&amp; fast_p &amp;&amp; fast_p-&gt;next)
+    {
+        slow_p = slow_p-&gt;next;
+        fast_p  = fast_p-&gt;next-&gt;next;
+
+        /* If slow_p and fast_p meet at some point then there
+           is a loop */
+        if (slow_p == fast_p)
+        {
+            removeLoop(slow_p, list);
+
+            /* Return 1 to indicate that loop is found */
+            return 1;
+        }
+    }
+
+    /* Return 0 to indeciate that ther is no loop*/
+    return 0;
+}
+
+/* Function to remove loop.
+ loop_node --&gt; Pointer to one of the loop nodes
+ head --&gt;  Pointer to the start node of the linked list */
+void removeLoop(struct node *loop_node, struct node *head)
+{
+    struct node *ptr1 = loop_node;
+    struct node *ptr2 = loop_node;
+
+    // Count the number of nodes in loop
+    unsigned int k = 1, i;
+    while (ptr1-&gt;next != ptr2)
+    {
+        ptr1 = ptr1-&gt;next;
+        k++;
+    }
+
+    // Fix one pointer to head
+    ptr1 = head;
+
+    // And the other pointer to k nodes after head
+    ptr2 = head;
+    for(i = 0; i &lt; k; i++)
+      ptr2 = ptr2-&gt;next;
+
+    /*  Move both pointers at the same pace,
+      they will meet at loop starting node */
+    while(ptr2 != ptr1)
+    {
+        ptr1 = ptr1-&gt;next;
+        ptr2 = ptr2-&gt;next;
+    }
+
+    // Get pointer to the last node
+    ptr2 = ptr2-&gt;next;
+    while(ptr2-&gt;next != ptr1)
+       ptr2 = ptr2-&gt;next;
+
+    /* Set the next node of the loop ending node
+      to fix the loop */
+    ptr2-&gt;next = NULL;
+}
+
+/* UTILITY FUNCTIONS */
+/* Given a reference (pointer to pointer) to the head
+  of a list and an int, pushes a new node on the front
+  of the list. */
+void push(struct node** head_ref, int new_data)
+{
+    /* allocate node */
+    struct node* new_node =
+        (struct node*) malloc(sizeof(struct node));
+
+    /* put in the data  */
+    new_node-&gt;data  = new_data;
+
+    /* link the old list off the new node */
+    new_node-&gt;next = (*head_ref);
+
+    /* move the head to point to the new node */
+    (*head_ref)    = new_node;
+}
+
+/* Function to print linked list */
+void printList(struct node *node)
+{
+    while(node != NULL)
+    {
+        printf(&quot;%d  &quot;, node-&gt;data);
+        node = node-&gt;next;
+    }
+}
+
+/* Drier program to test above function*/
+int main()
+{
+    /* Start with the empty list */
+    struct node* head = NULL;
+
+    push(&amp;head, 10);
+    push(&amp;head, 4);
+    push(&amp;head, 15);
+    push(&amp;head, 20);
+    push(&amp;head, 50);
+
+    /* Create a loop for testing */
+    head-&gt;next-&gt;next-&gt;next-&gt;next-&gt;next = head-&gt;next-&gt;next;
+
+    detectAndRemoveLoop(head);
+
+    printf(&quot;Linked List after removing loop \n&quot;);
+    printList(head);
+
+    getchar();
+    return 0;
+}
+</pre>
+<p>Please write comments if you find the above codes/algorithms incorrect, or find other ways to solve the same problem.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/given-linked-list-reverse-alternate-nodes-append-end/" title="Given a linked list, reverse alternate nodes and append at the end">Given a linked list, reverse alternate nodes and append at the end</a></li><li><a href="http://www.geeksforgeeks.org/pairwise-swap-elements-of-a-given-linked-list-by-changing-links/" title="Pairwise swap elements of a given linked list by changing links">Pairwise swap elements of a given linked list by changing links</a></li><li><a href="http://www.geeksforgeeks.org/self-organizing-list-set-1-introduction/" title="Self Organizing List | Set 1 (Introduction)">Self Organizing List | Set 1 (Introduction)</a></li><li><a href="http://www.geeksforgeeks.org/merge-a-linked-list-into-another-linked-list-at-alternate-positions/" title="Merge a linked list into another linked list at alternate positions">Merge a linked list into another linked list at alternate positions</a></li><li><a href="http://www.geeksforgeeks.org/quicksort-on-singly-linked-list/" title="QuickSort on Singly Linked List">QuickSort on Singly Linked List</a></li><li><a href="http://www.geeksforgeeks.org/delete-n-nodes-after-m-nodes-of-a-linked-list/" title="Delete N nodes after M nodes of a linked list">Delete N nodes after M nodes of a linked list</a></li><li><a href="http://www.geeksforgeeks.org/design-a-stack-with-find-middle-operation/" title="Design a stack with operations on middle element">Design a stack with operations on middle element</a></li><li><a href="http://www.geeksforgeeks.org/swap-kth-node-from-beginning-with-kth-node-from-end-in-a-linked-list/" title="Swap Kth node from beginning with Kth node from end in a Linked List">Swap Kth node from beginning with Kth node from end in a Linked List</a></li></ul>
+<p></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fdetect-and-remove-loop-in-a-linked-list%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/detect-and-remove-loop-in-a-linked-list/" data-text="Detect and Remove Loop in a Linked List" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/detect-and-remove-loop-in-a-linked-list/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-34819">
+        <div id="dsq-comment-header-34819" class="dsq-comment-header">
+            <cite id="dsq-cite-34819">
+https://www.facebook.com/?q=#/jambotkar?ref=tn_tnmn                <span id="dsq-author-user-34819">AMIT JAMBOTKAR</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34819" class="dsq-comment-body">
+            <div id="dsq-comment-message-34819" class="dsq-comment-message"><p>For Java Lovers</p>
+<p>public class LinkedList implements Cloneable{</p>
+<p>	Node head = null;</p>
+<p>	  class Node {</p>
+<p>	T value;</p>
+<p>	Node nextReference;</p>
+<p>	public Node(T value) {</p>
+<p>		this.value = value;</p>
+<p>		this.nextReference = null;</p>
+<p>	}</p>
+<p>	public Node(T value, Node ref) {</p>
+<p>		this.value = value;</p>
+<p>		this.nextReference = ref;</p>
+<p>	}</p>
+<p>	public Node() {</p>
+<p>		// TODO Auto-generated constructor stub</p>
+<p>	}</p>
+<p>	public T getValue() {</p>
+<p>		return value;</p>
+<p>	}</p>
+<p>	public void setValue(T value) {</p>
+<p>		this.value = value;</p>
+<p>	}</p>
+<p>	public Node getNextReference() {</p>
+<p>		return nextReference;</p>
+<p>	}</p>
+<p>	public void setNextReference(Node nextReference) {</p>
+<p>		this.nextReference = nextReference;</p>
+<p>	}</p>
+<p>}</p>
+<p>	//Adding at the End</p>
+<p>	public void add(E value) {</p>
+<p>		Node nodeToBeAdded = head;</p>
+<p>		if (head==null) {</p>
+<p>			head = new Node(value);</p>
+<p>         return;</p>
+<p>		}</p>
+<p>		while (nodeToBeAdded.getNextReference() != null) {</p>
+<p>			nodeToBeAdded = nodeToBeAdded.getNextReference();</p>
+<p>		}</p>
+<p>		Node node = new Node(value);</p>
+<p>		nodeToBeAdded.setNextReference(node);</p>
+<p>	}</p>
+<p>//Floyd algorithm For for findinf a loop in list</p>
+<p>//this algo will depends on fast and slow pointer if slow pointer and fast ponter meets then its a loop.</p>
+<p>//to fix this loop find a starting node of loop.</p>
+<p>	// which can be achieved by first point of floyd algo.</p>
+<p>void detectLoopAndFix(){</p>
+<p>	Node node=head;</p>
+<p>	Node fastPointer=head;</p>
+<p>	while(fastPointer!=null &amp;&amp; fastPointer.getNextReference()!=null){</p>
+<p>		node=node.getNextReference();</p>
+<p>		fastPointer=fastPointer.getNextReference().getNextReference();</p>
+<p>		if(node.equals(fastPointer)){</p>
+<p>			System.out.println(&#8220;Loop is there&#8221;)	;</p>
+<p>			remove(node);</p>
+<p>			return;</p>
+<p>		}</p>
+<p>	}</p>
+<p>}</p>
+<p>public void  createLoop(){</p>
+<p>	head.nextReference.nextReference.nextReference= head.nextReference;</p>
+<p>}</p>
+<p>void remove(Node slowPointer){</p>
+<p>Node node=slowPointer;</p>
+<p>Node nodeLast=slowPointer;</p>
+<p>int count=1;</p>
+<p>while(!nodeLast.getNextReference().equals(node)){</p>
+<p>	count++;</p>
+<p>	nodeLast=nodeLast.getNextReference();</p>
+<p>}</p>
+<p>Node node1=head;</p>
+<p>Node node2=head;</p>
+<p>for(int i=0;i&lt;count;i++){</p>
+<p>	node2=node2.getNextReference();</p>
+<p>}</p>
+<p>while(!node1.equals(node2)){</p>
+<p>node1=node1.getNextReference();</p>
+<p>node2=node2.getNextReference();</p>
+<p>}</p>
+<p>node2=node2.getNextReference();</p>
+<p>while(!node2.getNextReference().equals(node1)){</p>
+<p>node2=node2.getNextReference();	</p>
+<p>}</p>
+<p>node2.setNextReference(null);</p>
+<p>}</p>
+<p>void printAll() {</p>
+<p>		Node node = head;</p>
+<p>		while (node != null) {</p>
+<p>			System.out.println(node.getValue());</p>
+<p>			node = node.getNextReference();</p>
+<p>		}</p>
+<p>	}</p>
+<p>	public static void main(String[] args) {</p>
+<p>		LinkedList linkedList = new LinkedList();</p>
+<p>		linkedList.add(&#8220;1&#8243;);</p>
+<p>		linkedList.add(&#8220;2&#8243;);</p>
+<p>		linkedList.add(&#8220;3&#8243;);</p>
+<p>		linkedList.add(&#8220;4&#8243;);</p>
+<p>		linkedList.add(&#8220;5&#8243;);</p>
+<p>		linkedList.add(&#8220;6&#8243;);</p>
+<p>	    linkedList.createLoop();</p>
+<p>		linkedList.detectLoopAndFix();</p>
+<p>		linkedList.printAll();</p>
+<p>		//System.out.println(&#8220;Middle:&#8221; +linkedList.findNumberOfNodesWithSameValue(&#8220;Amit&#8221;));</p>
+<p>	}</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-34609">
+        <div id="dsq-comment-header-34609" class="dsq-comment-header">
+            <cite id="dsq-cite-34609">
+                <span id="dsq-author-user-34609">Rahul Maheshwari</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34609" class="dsq-comment-body">
+            <div id="dsq-comment-message-34609" class="dsq-comment-message"><p>Why you guys counting number of nodes.. Look my solution .. Its easy and robust</p>
+<p>void remove(struct node *slow , struct node *head){</p>
+<p>  struct node *ptr1 = head  ; struct node *ptr2 = head;</p>
+<p>  while(ptr2-&gt;next != slow){</p>
+<p>    ptr2 = ptr2-&gt;next;</p>
+<p>  }</p>
+<p>  while(slow != ptr1){</p>
+<p>    ptr1=ptr1-&gt;next;</p>
+<p>    ptr2 = slow;</p>
+<p>    slow = slow-&gt;next;</p>
+<p>  }</p>
+<p>  ptr2-&gt;next = NULL;</p>
+<p>}</p>
+<p>int  detectAndRemoveLoop(struct node *head){</p>
+<p>  struct node *slow_p = head , *fast_p = head;</p>
+<p>  while(fast_p &amp;&amp; fast_p-&gt;next){</p>
+<p>    slow_p = slow_p-&gt;next;</p>
+<p>    fast_p = fast_p-&gt;next-&gt;next;</p>
+<p>    if(slow_p == fast_p){</p>
+<p>      remove(slow_p , head);</p>
+<p>      return 1;</p>
+<p>    }</p>
+<p>  }</p>
+<p>  return 0;</p>
+<p>}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-34790">
+        <div id="dsq-comment-header-34790" class="dsq-comment-header">
+            <cite id="dsq-cite-34790">
+https://www.facebook.com/?q=#/jambotkar?ref=tn_tnmn                <span id="dsq-author-user-34790">AMIT JAMBOTKAR</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34790" class="dsq-comment-body">
+            <div id="dsq-comment-message-34790" class="dsq-comment-message"><p>How your solution will guarantee that  your pointing at last node only specially this line<br />
+ ptr2-&gt;next = NULL;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-33227">
+        <div id="dsq-comment-header-33227" class="dsq-comment-header">
+            <cite id="dsq-cite-33227">
+                <span id="dsq-author-user-33227">Vishal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33227" class="dsq-comment-body">
+            <div id="dsq-comment-message-33227" class="dsq-comment-message"><p>Node* detectAndRemoveLoop(Node *head)<br />
+{<br />
+    Node *slow,*fast,*temp;<br />
+    temp = slow = fast = head;<br />
+    while(slow &amp;&amp; fast &amp;&amp;fast-&gt;next)<br />
+    {<br />
+        slow = slow-&gt;next;<br />
+        fast = fast-&gt;next-&gt;next;</p>
+<p>        if(slow == fast)<br />
+            break;<br />
+    }<br />
+    if(slow == fast &amp;&amp; (slow &amp;&amp; fast &amp;&amp;fast-&gt;next) )<br />
+    {<br />
+        fast-&gt;next-&gt;next = NULL;<br />
+    }</p>
+<p>    return head;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-31488">
+        <div id="dsq-comment-header-31488" class="dsq-comment-header">
+            <cite id="dsq-cite-31488">
+                <span id="dsq-author-user-31488">Abhijit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31488" class="dsq-comment-body">
+            <div id="dsq-comment-message-31488" class="dsq-comment-message"><p>Why do we need all the three pointers in while loop? i.e while(slow &amp;&amp; fast &amp;&amp; fast-&gt;next) ?  Isnt just fast sufficient ?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-31679">
+        <div id="dsq-comment-header-31679" class="dsq-comment-header">
+            <cite id="dsq-cite-31679">
+                <span id="dsq-author-user-31679">Vishal Hemnani</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31679" class="dsq-comment-body">
+            <div id="dsq-comment-message-31679" class="dsq-comment-message"><p>Needed to avoid NullPointer when we do fast = fast-&gt;next-&gt;next ..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-32345">
+        <div id="dsq-comment-header-32345" class="dsq-comment-header">
+            <cite id="dsq-cite-32345">
+                <span id="dsq-author-user-32345">Himanshu Dagar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32345" class="dsq-comment-body">
+            <div id="dsq-comment-message-32345" class="dsq-comment-message"><p>no<br />
+but you can omit slow frm here<br />
+But fast and fast-&gt;next both are necessary otherwise ur program may crash at run time</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-31261">
+        <div id="dsq-comment-header-31261" class="dsq-comment-header">
+            <cite id="dsq-cite-31261">
+                <span id="dsq-author-user-31261">Somashekhar Ganjigatti</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31261" class="dsq-comment-body">
+            <div id="dsq-comment-message-31261" class="dsq-comment-message"><p>what if only two nodes are there &#8211; how to find loop &#8211; thanks</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-31487">
+        <div id="dsq-comment-header-31487" class="dsq-comment-header">
+            <cite id="dsq-cite-31487">
+                <span id="dsq-author-user-31487">Abhi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31487" class="dsq-comment-body">
+            <div id="dsq-comment-message-31487" class="dsq-comment-message"><p>This works for two nodes also. First loop it wont be detected, but in next iteration Slow points to head and fast points again to head, hence in the succeeding  loop it will be caught.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-31103">
+        <div id="dsq-comment-header-31103" class="dsq-comment-header">
+            <cite id="dsq-cite-31103">
+                <span id="dsq-author-user-31103">gaurav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31103" class="dsq-comment-body">
+            <div id="dsq-comment-message-31103" class="dsq-comment-message"><p>what is problem with this code</p>
+<p>#include</p>
+<p>#include</p>
+<p>#include</p>
+<p>struct node</p>
+<p> {</p>
+<p>  int data;</p>
+<p>  struct node *next;</p>
+<p> };</p>
+<p>void push(struct node **start,int num)</p>
+<p>{</p>
+<p>    struct node *temp=(struct node*)malloc(sizeof(struct node));</p>
+<p>    temp-&gt;data=num;</p>
+<p>    temp-&gt;next=*start;</p>
+<p>    *start=temp;</p>
+<p>}</p>
+<p>int detectloop(struct node *start)</p>
+<p>{</p>
+<p>    struct node *slow=start,*fast=start;</p>
+<p>    while(slow&amp;&amp;fast&amp;&amp;fast-&gt;next)</p>
+<p>    {</p>
+<p>        slow=slow-&gt;next;</p>
+<p>        fast=fast-&gt;next-&gt;next;</p>
+<p>        if(slow==fast)</p>
+<p>         {</p>
+<p>             printf(&#8220;Loop exists&#8221;);</p>
+<p>             removeloop(slow,start);</p>
+<p>             return 1;</p>
+<p>         }</p>
+<p>    }</p>
+<p>    return 0;</p>
+<p>}</p>
+<p>void removeloop(struct node *loopnode,struct node *start)</p>
+<p>{</p>
+<p>    struct node *ptr1=loopnode;</p>
+<p>    struct node *ptr2=loopnode;</p>
+<p>    unsigned int i,k=1;</p>
+<p>    while(ptr1-&gt;next!=ptr2)</p>
+<p>    {</p>
+<p>        ptr1=ptr1-&gt;next;</p>
+<p>        k++;</p>
+<p>    }</p>
+<p>    ptr1=start;</p>
+<p>    ptr2=start;</p>
+<p>    for(i=0;inext;</p>
+<p>    while(ptr1-&gt;next!=ptr2-&gt;next)</p>
+<p>     {</p>
+<p>         ptr1=ptr1-&gt;next;</p>
+<p>         ptr2=ptr2-&gt;next;</p>
+<p>     }</p>
+<p>     /*ptr2=ptr2-&gt;next;</p>
+<p>     while(ptr2-&gt;next!=ptr1)</p>
+<p>         ptr2=ptr2-&gt;next;*/</p>
+<p>     ptr2-&gt;next=NULL;</p>
+<p>}</p>
+<p>void  printList(struct     node *node)</p>
+<p>               {</p>
+<p>                   while (node != NULL)</p>
+<p>                   {</p>
+<p>                        printf (&#8220;%d  &#8220;, node-&gt;data);</p>
+<p>                        node = node-&gt;next;</p>
+<p>                    }</p>
+<p>               }</p>
+<p>int main()</p>
+<p>{</p>
+<p>    struct node *start=NULL;</p>
+<p>    push(&amp;start,20);</p>
+<p>    push(&amp;start,4);</p>
+<p>    push(&amp;start,15);</p>
+<p>    push(&amp;start,10);</p>
+<p>    start-&gt;next-&gt;next-&gt;next-&gt;next=start;</p>
+<p>    detectloop(start);</p>
+<p>    printf (&#8220;Linked List after removing loop n&#8221;);</p>
+<p>    printList(start);</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-31083">
+        <div id="dsq-comment-header-31083" class="dsq-comment-header">
+            <cite id="dsq-cite-31083">
+                <span id="dsq-author-user-31083">Arjun Rana</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31083" class="dsq-comment-body">
+            <div id="dsq-comment-message-31083" class="dsq-comment-message"><p>I think when we got the common node using Floyd&#8217;s Algorithm&#8230; then using a variable count , n then using it in loop, we easily remove the node&#8230;</p>
+<p>I post my source code :</p>
+<p>#include</p>
+<p>#include</p>
+<p>int count =0;</p>
+<p>struct node {</p>
+<p>       int data;</p>
+<p>       struct node* link;</p>
+<p>       }node;</p>
+<p>struct node* head = NULL;</p>
+<p>struct node* temp;</p>
+<p>struct node* temp1;</p>
+<p>int insert(int x)</p>
+<p>{</p>
+<p>    temp = (struct node*)malloc(sizeof(node));</p>
+<p>    (*temp).data = x;</p>
+<p>    (*temp).link = NULL;</p>
+<p>    if(head == NULL)</p>
+<p>            head = temp;</p>
+<p>    else</p>
+<p>    {        </p>
+<p>    temp1 = head;</p>
+<p>    while((*temp1).link != NULL)</p>
+<p>    temp1 = (*temp1).link;</p>
+<p>    (*temp1).link = temp;</p>
+<p>    }   </p>
+<p>}</p>
+<p>int detect()</p>
+<p>{</p>
+<p>    struct node* slow = head;</p>
+<p>    struct node* fast = head;</p>
+<p>    while(slow!=NULL &amp;&amp; fast!=NULL &amp;&amp; (*fast).link!=NULL)</p>
+<p>    {</p>
+<p>                     count = count + 1;</p>
+<p>                     slow = slow-&gt;link;</p>
+<p>                     fast = fast-&gt;link-&gt;link;</p>
+<p>                     if(slow == fast)</p>
+<p>                     {</p>
+<p>                             puts(&#8220;Loop Found&#8221;);</p>
+<p>                             printf(&#8220;Count is: %dn&#8221;,count);</p>
+<p>                             break;</p>
+<p>                     }</p>
+<p>    }</p>
+<p>}</p>
+<p>int getout()</p>
+<p>{</p>
+<p>    int i;</p>
+<p>    temp = head;</p>
+<p>    for(i=0;ilink-&gt;link-&gt;link-&gt;link = head;</p>
+<p>    detect();</p>
+<p>    getout();</p>
+<p>    print();</p>
+<p>    getch();</p>
+<p>    return 0;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-31055">
+        <div id="dsq-comment-header-31055" class="dsq-comment-header">
+            <cite id="dsq-cite-31055">
+                <span id="dsq-author-user-31055">shri1729</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31055" class="dsq-comment-body">
+            <div id="dsq-comment-message-31055" class="dsq-comment-message"><p>when u got the last node using Floyd&#8217;s Algorithm .. why dont u make that node to point to the NULL.. instead using void removeLoop(struct node *loop_node, struct node *head) function.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-31054">
+        <div id="dsq-comment-header-31054" class="dsq-comment-header">
+            <cite id="dsq-cite-31054">
+                <span id="dsq-author-user-31054">shri1729</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31054" class="dsq-comment-body">
+            <div id="dsq-comment-message-31054" class="dsq-comment-message"><p>when u got the last node using Floyd&#8217;s Algorithm .. why dont u make that node to point to the NULL.. instead using void removeLoop(struct node *loop_node, struct node *head) function.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-31053">
+        <div id="dsq-comment-header-31053" class="dsq-comment-header">
+            <cite id="dsq-cite-31053">
+                <span id="dsq-author-user-31053">shri1729</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31053" class="dsq-comment-body">
+            <div id="dsq-comment-message-31053" class="dsq-comment-message"><p>when u got the last node using Floyd&#8217;s Algorithm .. why dont u make that node to point to the NULL.. instead using void removeLoop(struct node *loop_node, struct node *head) function.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-30935">
+        <div id="dsq-comment-header-30935" class="dsq-comment-header">
+            <cite id="dsq-cite-30935">
+                <span id="dsq-author-user-30935">Gaurav Reddy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30935" class="dsq-comment-body">
+            <div id="dsq-comment-message-30935" class="dsq-comment-message"><p>Alternative way :<br />
+&#8211; Use floy&#8217;d algo to find the cycle using slow pointer.<br />
+&#8211; At the node where we detect the loop make its next NULL<br />
+    &#8211; we a two list with a intersection point<br />
+&#8211; Find the point of intersection of two lists, which is the head of loop<br />
+&#8211; now revert back to the original list and make the ptr-&gt;next == intersection_node ptr-&gt;next == NULL</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-30960">
+        <div id="dsq-comment-header-30960" class="dsq-comment-header">
+            <cite id="dsq-cite-30960">
+                <span id="dsq-author-user-30960">samsammy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30960" class="dsq-comment-body">
+            <div id="dsq-comment-message-30960" class="dsq-comment-message"><p>Good One&#8230;.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-34472">
+        <div id="dsq-comment-header-34472" class="dsq-comment-header">
+            <cite id="dsq-cite-34472">
+                <span id="dsq-author-user-34472">Rohit Ramsen</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34472" class="dsq-comment-body">
+            <div id="dsq-comment-message-34472" class="dsq-comment-message"><p>I think its better then above mentioned both ways to remove the loop.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-30055">
+        <div id="dsq-comment-header-30055" class="dsq-comment-header">
+            <cite id="dsq-cite-30055">
+                <span id="dsq-author-user-30055">anil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30055" class="dsq-comment-body">
+            <div id="dsq-comment-message-30055" class="dsq-comment-message"><p>void removeLoop(struct node *loop_node, struct node *head)<br />
+{<br />
+    struct node *ptr1 = loop_node;<br />
+    struct node *ptr2 = loop_node;</p>
+<p>    // Count the number of nodes in loop<br />
+    unsigned int k = 0, i;<br />
+    while (ptr1-&gt;next != ptr2)<br />
+    {<br />
+        ptr1 = ptr1-&gt;next;<br />
+        k++;<br />
+    }<br />
+    for(i = 0; i next;</p>
+<p>    ptr2-&gt;next = NULL;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-29657">
+        <div id="dsq-comment-header-29657" class="dsq-comment-header">
+            <cite id="dsq-cite-29657">
+                <span id="dsq-author-user-29657">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29657" class="dsq-comment-body">
+            <div id="dsq-comment-message-29657" class="dsq-comment-message"><p>Not tested it but think it will work<br />
+slow=fast=ptr=head;</p>
+<p>while(ptr!=fast-&gt;next-&gt;next) {</p>
+<p>	while(ptr!=fast-&gt;next-&gt;next) {</p>
+<p>		slow=slow-&gt;next;</p>
+<p>		fast=fast-&gt;next-&gt;next;</p>
+<p>		if(slow==fast)</p>
+<p>			break;</p>
+<p>	}</p>
+<p>	slow=fast=ptr=ptr-&gt;next;</p>
+<p>}</p>
+<p>fast-&gt;next-&gt;next=NULL;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-29658">
+        <div id="dsq-comment-header-29658" class="dsq-comment-header">
+            <cite id="dsq-cite-29658">
+                <span id="dsq-author-user-29658">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29658" class="dsq-comment-body">
+            <div id="dsq-comment-message-29658" class="dsq-comment-message"><p>missed if statement after inner while<br />
+if(ptr==fast-&gt;next-&gt;next)<br />
+      break;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-28491">
+        <div id="dsq-comment-header-28491" class="dsq-comment-header">
+            <cite id="dsq-cite-28491">
+                <span id="dsq-author-user-28491">ravi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28491" class="dsq-comment-body">
+            <div id="dsq-comment-message-28491" class="dsq-comment-message"><p>why 2nd one is efficient?????????????</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-28350">
+        <div id="dsq-comment-header-28350" class="dsq-comment-header">
+            <cite id="dsq-cite-28350">
+                <span id="dsq-author-user-28350">sumit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28350" class="dsq-comment-body">
+            <div id="dsq-comment-message-28350" class="dsq-comment-message"><p>what is time complexity of both method ??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-26926">
+        <div id="dsq-comment-header-26926" class="dsq-comment-header">
+            <cite id="dsq-cite-26926">
+                <span id="dsq-author-user-26926">Swastik Sahu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26926" class="dsq-comment-body">
+            <div id="dsq-comment-message-26926" class="dsq-comment-message"><p>Or maintain a pointer(say *t) to keep track of the node prev to the node pointed to by fast pointer.<br />
+When fast pointer == slow pointer, t-&gt;next = NULL.<br />
+done.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-22383">
+        <div id="dsq-comment-header-22383" class="dsq-comment-header">
+            <cite id="dsq-cite-22383">
+                <span id="dsq-author-user-22383">Kush Pandey</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22383" class="dsq-comment-body">
+            <div id="dsq-comment-message-22383" class="dsq-comment-message"><p>According to me we can apply the logic of circular linked list to detect and remove loop.<br />
+The function is </p>
+<pre> <code language="C">
+node *detectandremove(node *start)
+{
+while(start!=0)
+{
+if(start-&gt;next==start)
+{
+printf(&quot;Loop found&quot;);
+start-&gt;next=0;
+break;
+}
+start=start-&gt;next;
+}
+return(start);
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-ultimate_coder even thread-odd thread-alt depth-1" id="dsq-comment-19237">
+        <div id="dsq-comment-header-19237" class="dsq-comment-header">
+            <cite id="dsq-cite-19237">
+                <span id="dsq-author-user-19237">ultimate_coder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19237" class="dsq-comment-body">
+            <div id="dsq-comment-message-19237" class="dsq-comment-message"><p>Method 2 :<br />
+Why we need to skip one pointer k forward?<br />
+  I think we can find the starting node of the loop using  following pointers.<br />
+1. ptr1=head<br />
+2. ptr2=loop_node // where they coincide</p>
+<p>And then increment both of them one by one.<br />
+Now above step will give us the starting node of the loop.</p>
+<p>So, now we can also find out the ending node of the loop without moving one pointer k node ahead of head of list.</p>
+<p>I think it is more optimized version of Method 2.<br />
+Correct me if i am wrong.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-ultimate_coder odd alt depth-2" id="dsq-comment-19239">
+        <div id="dsq-comment-header-19239" class="dsq-comment-header">
+            <cite id="dsq-cite-19239">
+                <span id="dsq-author-user-19239">ultimate_coder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19239" class="dsq-comment-body">
+            <div id="dsq-comment-message-19239" class="dsq-comment-message"><p>It also don&#8217;t need to find loop length.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-hariprasaadssalem even depth-2" id="dsq-comment-21981">
+        <div id="dsq-comment-header-21981" class="dsq-comment-header">
+            <cite id="dsq-cite-21981">
+                <span id="dsq-author-user-21981">hariprasaadssalem</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21981" class="dsq-comment-body">
+            <div id="dsq-comment-message-21981" class="dsq-comment-message"><p>I thought the same thing. It must work.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-30462">
+        <div id="dsq-comment-header-30462" class="dsq-comment-header">
+            <cite id="dsq-cite-30462">
+                <span id="dsq-author-user-30462">Pratik Shah</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30462" class="dsq-comment-body">
+            <div id="dsq-comment-message-30462" class="dsq-comment-message"><p>This wont work if 1-&gt;2-&gt;(again 1) . It ll end up in a infinite loop. because ptr2 will be on loopnode ie 2. and ptr1 will be on head. ie 1.</p>
+<p>Hence its necessary to go ahead and calculate the no of nodes in the loop and so on</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-18261">
+        <div id="dsq-comment-header-18261" class="dsq-comment-header">
+            <cite id="dsq-cite-18261">
+                <span id="dsq-author-user-18261">Fresher_1</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18261" class="dsq-comment-body">
+            <div id="dsq-comment-message-18261" class="dsq-comment-message"><p>Hello Geeks,<br />
+I use the following case for the checking the answer.<br />
+1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;6-&gt;3&#8230;!<br />
+that is 3 is looping point,<br />
+here k=4.<br />
+ptr1=1 and ptr2= 4 now we move it by one by one so<br />
+but they never meets coz they have diff of one in the loops.<br />
+please correct me if i`m wrong ?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-18268">
+        <div id="dsq-comment-header-18268" class="dsq-comment-header">
+            <cite id="dsq-cite-18268">
+                <span id="dsq-author-user-18268">Sreenivas Doosa</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18268" class="dsq-comment-body">
+            <div id="dsq-comment-message-18268" class="dsq-comment-message"><p>@Fresher_1:</p>
+<p>In your example, kth node from head is 5, (not 4, dont consider the head while counting)</p>
+<p>Please have a closer look at the code <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-abhishek08aug even thread-odd thread-alt depth-1" id="dsq-comment-17924">
+        <div id="dsq-comment-header-17924" class="dsq-comment-header">
+            <cite id="dsq-cite-17924">
+                <span id="dsq-author-user-17924">abhishek08aug</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17924" class="dsq-comment-body">
+            <div id="dsq-comment-message-17924" class="dsq-comment-message"><p>Intelligent <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_biggrin.gif" alt=":D" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-aman1234 odd alt depth-2" id="dsq-comment-19706">
+        <div id="dsq-comment-header-19706" class="dsq-comment-header">
+            <cite id="dsq-cite-19706">
+                <span id="dsq-author-user-19706">aman1234</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19706" class="dsq-comment-body">
+            <div id="dsq-comment-message-19706" class="dsq-comment-message"><p>what happened to you ? why do you reply with intelligent comment on each and every intelligent post ? <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_surprised.gif" alt=":-o" class="wp-smiley" /></p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-16052">
+        <div id="dsq-comment-header-16052" class="dsq-comment-header">
+            <cite id="dsq-cite-16052">
+                <span id="dsq-author-user-16052">Soumya Sengupta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16052" class="dsq-comment-body">
+            <div id="dsq-comment-message-16052" class="dsq-comment-message"><p>@geeksforgeeks&#8230;..cnt we store the address of the node @ which loop starts in a temporary location&#8230;..and den move the pointr @newnode unless it reaches its originally occupied position..which s now stored in the temporary location&#8230;&#8230;&#8230;&#8230;..<br />
+and equate that pointr to null&#8230;</p>
+<p>pls reply???</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-15966">
+        <div id="dsq-comment-header-15966" class="dsq-comment-header">
+            <cite id="dsq-cite-15966">
+                <span id="dsq-author-user-15966">Ankit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15966" class="dsq-comment-body">
+            <div id="dsq-comment-message-15966" class="dsq-comment-message"><p>Why we cannot put NULL after loop_node, I mean if there is a loop that must be by the last element only, so instead of pointing to NULL.. last element is now pointing to some other node..<br />
+So we just have to do this;<br />
+last_node-&gt;next==NULL;</p>
+<p>:-/</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-17849">
+        <div id="dsq-comment-header-17849" class="dsq-comment-header">
+            <cite id="dsq-cite-17849">
+                <span id="dsq-author-user-17849">Sreenivas Doosa</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17849" class="dsq-comment-body">
+            <div id="dsq-comment-message-17849" class="dsq-comment-message"><p>@Ankit,</p>
+<p>The loop_node may not be the last node in the loop. It is one of the nodes in the loop.</p>
+<p>See this example<br />
+1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;6<br />
+Lets say next of node 6 is 3.</p>
+<p>In this example, if you apply floyd`s loop detection algo.. the loop_node will be node 5 (not 6)..</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-32881">
+        <div id="dsq-comment-header-32881" class="dsq-comment-header">
+            <cite id="dsq-cite-32881">
+                <span id="dsq-author-user-32881">Sonal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32881" class="dsq-comment-body">
+            <div id="dsq-comment-message-32881" class="dsq-comment-message"><p>Thanks Sreenivas.. I too had the same doubt</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-15965">
+        <div id="dsq-comment-header-15965" class="dsq-comment-header">
+            <cite id="dsq-cite-15965">
+                <span id="dsq-author-user-15965">Ankit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15965" class="dsq-comment-body">
+            <div id="dsq-comment-message-15965" class="dsq-comment-message"><p>Why we cannot just put null after link_pointer. i mean</p>
+<p>2&#8211;&gt;3&#8211;&gt;4&#8211;&gt;5&#8211;&gt;6&#8211;|</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-15906">
+        <div id="dsq-comment-header-15906" class="dsq-comment-header">
+            <cite id="dsq-cite-15906">
+                <span id="dsq-author-user-15906">Saira</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15906" class="dsq-comment-body">
+            <div id="dsq-comment-message-15906" class="dsq-comment-message"><p>One solution is,<br />
+when u detect the loop using fast and slow pointer, then move the slow pointer to head i.e.<br />
+slow = head.. Then move the slow and fast pointer at the same pace i.e. slow = slow.next and fast = fast.next. they must meet at Loop start.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-16530">
+        <div id="dsq-comment-header-16530" class="dsq-comment-header">
+            <cite id="dsq-cite-16530">
+                <span id="dsq-author-user-16530">Animesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16530" class="dsq-comment-body">
+            <div id="dsq-comment-message-16530" class="dsq-comment-message"><p>Amazing no one appreciated your code..gr8</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-18900">
+        <div id="dsq-comment-header-18900" class="dsq-comment-header">
+            <cite id="dsq-cite-18900">
+                <span id="dsq-author-user-18900">kaushal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18900" class="dsq-comment-body">
+            <div id="dsq-comment-message-18900" class="dsq-comment-message"><p>@saira,<br />
+very good lood logic.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-27445">
+        <div id="dsq-comment-header-27445" class="dsq-comment-header">
+            <cite id="dsq-cite-27445">
+                <span id="dsq-author-user-27445">aditya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27445" class="dsq-comment-body">
+            <div id="dsq-comment-message-27445" class="dsq-comment-message"><p>consider a input 15-&gt;4-&gt;10 with the loop from 10-&gt;15<br />
+.Here the fast and slow pointer will meet at the head which is 15 .The case suggested by saira will fail ,isnt?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-17854">
+        <div id="dsq-comment-header-17854" class="dsq-comment-header">
+            <cite id="dsq-cite-17854">
+                <span id="dsq-author-user-17854">Sreenivas Doosa</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17854" class="dsq-comment-body">
+            <div id="dsq-comment-message-17854" class="dsq-comment-message"><p>@Saira:<br />
+Really Awesome man&#8230;</p>
+<p>@geeksforgeeks:<br />
+The logic given by Saira works fine. Please cross check it and post in the original post. If we use this logic, then we can ignore the following steps.<br />
+2. finding number of nodes in the loop<br />
+3. traversing the list from head to find kth node in the list</p>
+<p>We can directly jump to step 4 after step 1 using this logic.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-koolkeshaw even depth-2" id="dsq-comment-18307">
+        <div id="dsq-comment-header-18307" class="dsq-comment-header">
+            <cite id="dsq-cite-18307">
+                <span id="dsq-author-user-18307">koolkeshaw</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18307" class="dsq-comment-body">
+            <div id="dsq-comment-message-18307" class="dsq-comment-message"><p>@Saira if possible, plz explain the logic behind ur algo</p>
+<p>I have tried on many looped-linked-list. Yet cant understand y ur algo works correctly</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-18806">
+        <div id="dsq-comment-header-18806" class="dsq-comment-header">
+            <cite id="dsq-cite-18806">
+                <span id="dsq-author-user-18806">Sudipto</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18806" class="dsq-comment-body">
+            <div id="dsq-comment-message-18806" class="dsq-comment-message"><p>@koolkeshaw : Let us consider:</p>
+<p>distance from head to start of the loop = n</p>
+<p>distance from start of the loop to the node where both slow and fast pointers meet = p</p>
+<p>distance of the loop = l</p>
+<p>Now, when the slow and fast pointers meet at a point P at a distance of (n + p) from the head, the slow pointer has covered a distance of  (n + p) and the fast pointer has covered a distance of twice of (n + p) and has reached at the meeting point P. So, when the fast pointer covers a distance of (n + p) for the second time, it basically travels the whole loop. So, (n + p) is actually equal to the length of loop (l).</p>
+<p>So, n + p = l<br />
+i.e. n = l &#8211; p</p>
+<p>So, distance from head to the start of the loop is equal to the distance from meeting point(P) to the start of the loop.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-indra2gurjar even depth-4" id="dsq-comment-19855">
+        <div id="dsq-comment-header-19855" class="dsq-comment-header">
+            <cite id="dsq-cite-19855">
+                <span id="dsq-author-user-19855">indra2gurjar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19855" class="dsq-comment-body">
+            <div id="dsq-comment-message-19855" class="dsq-comment-message"><p>@sudipto  PLZ clear a doubt&#8230;.<br />
+consider the case when n>>l,as n=10,l=5&#8230;<br />
+e.g. 1->2->3->4->5->6->7->8->9->10->11->12->13->14->10||<br />
+here n=10,l=5<br />
+so here already n>l so for any value of p ,n can&#8217;t be equal to l-p.<br />
+This is because when n>>l, n+p=N*l,where N is any integer othere than 1.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-5" id="dsq-comment-21476">
+        <div id="dsq-comment-header-21476" class="dsq-comment-header">
+            <cite id="dsq-cite-21476">
+                <span id="dsq-author-user-21476">Sudipto</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21476" class="dsq-comment-body">
+            <div id="dsq-comment-message-21476" class="dsq-comment-message"><p>In this case, the second pointer which starts at the meeting point P will be traversing the whole loop (N-1) times before meeting with the first pointer at the start of the loop.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-19753">
+        <div id="dsq-comment-header-19753" class="dsq-comment-header">
+            <cite id="dsq-cite-19753">
+                <span id="dsq-author-user-19753">NatalCoder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19753" class="dsq-comment-body">
+            <div id="dsq-comment-message-19753" class="dsq-comment-message"><p>This may not work with all the examples!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-indra2gurjar odd alt depth-2" id="dsq-comment-19856">
+        <div id="dsq-comment-header-19856" class="dsq-comment-header">
+            <cite id="dsq-cite-19856">
+                <span id="dsq-author-user-19856">indra2gurjar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19856" class="dsq-comment-body">
+            <div id="dsq-comment-message-19856" class="dsq-comment-message"><p>@Saira :<br />
+IT NOT possible when loop length is << n,where n is distance from header to loop start point.<br />
+plz explain if i&#8217;m wrong or misinterpreted your solution.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-vedverma1 even depth-2" id="dsq-comment-26869">
+        <div id="dsq-comment-header-26869" class="dsq-comment-header">
+            <cite id="dsq-cite-26869">
+                <span id="dsq-author-user-26869">vedverma1</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26869" class="dsq-comment-body">
+            <div id="dsq-comment-message-26869" class="dsq-comment-message"><p>1-2-3-4-5<br />
+  |     |<br />
+  9-8-7-6<br />
+If we consider this linklist den slowpointer and fastpointer will meet at node7. after dat we initialize slowpointer with head and move both pointerswith same pace, den they will never meet, please cross check and let me know.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-ultimate_coder odd alt depth-3" id="dsq-comment-26873">
+        <div id="dsq-comment-header-26873" class="dsq-comment-header">
+            <cite id="dsq-cite-26873">
+                <span id="dsq-author-user-26873">ultimate_coder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26873" class="dsq-comment-body">
+            <div id="dsq-comment-message-26873" class="dsq-comment-message"><pre> <code language="C">
+dude it cant be singly linked list. your node 4 has two next links. Impossible to apply logic here.
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-vedverma1 even depth-4" id="dsq-comment-26887">
+        <div id="dsq-comment-header-26887" class="dsq-comment-header">
+            <cite id="dsq-cite-26887">
+                <span id="dsq-author-user-26887">vedverma1</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26887" class="dsq-comment-body">
+            <div id="dsq-comment-message-26887" class="dsq-comment-message"><p>dude , its display error, my linklist was like 1->2->3->4->5->6->7->8->9 and node 9 points back to node2. now recheck the logic.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-suhas_01 odd alt thread-even depth-1" id="dsq-comment-14561">
+        <div id="dsq-comment-header-14561" class="dsq-comment-header">
+            <cite id="dsq-cite-14561">
+                <span id="dsq-author-user-14561">SUHAS</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14561" class="dsq-comment-body">
+            <div id="dsq-comment-message-14561" class="dsq-comment-message"><p>Is 2nd solution works for the following ?<br />
+e.g.<br />
+1->2->3->4<br />
+consider next ptr of 4 points again 1st node it start of loop is head.<br />
+please correct me is i`m wrong ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-9279">
+        <div id="dsq-comment-header-9279" class="dsq-comment-header">
+            <cite id="dsq-cite-9279">
+                <span id="dsq-author-user-9279">hmmm</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9279" class="dsq-comment-body">
+            <div id="dsq-comment-message-9279" class="dsq-comment-message"><p>To detect and remove the loop we can simply mark the visited nodes by making the data part of node negative.</p>
+<pre> <code language="C">
+int detectandremove(struct node *h)
+{
+struct node *prev,*temp=h;
+while(temp!=NULL&amp;&amp;temp-&gt;data&gt;0)
+{
+temp-&gt;data=-temp-&gt;data;       //marking visited node
+prev=temp;
+temp=temp-&gt;next;
+}
+if(temp-&gt;data&lt;0)
+{
+prev-&gt;next=NULL;        //removing loop
+return 1;
+}
+return 0;           //loop not found
+}
+</code> </pre>
+<p>to restore original linked list we can unmark all nodes starting from first node.Hashing can also be used if linked list can contain negative values.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-14037">
+        <div id="dsq-comment-header-14037" class="dsq-comment-header">
+            <cite id="dsq-cite-14037">
+                <span id="dsq-author-user-14037">List</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14037" class="dsq-comment-body">
+            <div id="dsq-comment-message-14037" class="dsq-comment-message"><p>This is not fair if the list contains combiantion of +ve and -ve number??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8726">
+        <div id="dsq-comment-header-8726" class="dsq-comment-header">
+            <cite id="dsq-cite-8726">
+                <span id="dsq-author-user-8726">saniaz</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8726" class="dsq-comment-body">
+            <div id="dsq-comment-message-8726" class="dsq-comment-message"><p>// Some changes in following functions<br />
+/* This function detects and removes loop in the list<br />
+  If loop was there in the list then it returns 1,<br />
+  otherwise returns 0 */<br />
+int detectAndRemoveLoop(struct node *list)<br />
+{<br />
+    struct node  *slow_p = list, *fast_p = list;<br />
+    struct node  *prev;</p>
+<p>    while (slow_p &amp;&amp; fast_p &amp;&amp; fast_p-&gt;next)<br />
+    {<br />
+        prev   = slow_p;<br />
+        slow_p = slow_p-&gt;next;<br />
+        fast_p = fast_p-&gt;next-&gt;next;</p>
+<p>        /* If slow_p and fast_p meet at some point then there<br />
+           is a loop */<br />
+        if (slow_p == fast_p)<br />
+        {<br />
+           /* If looped at head node */<br />
+           if( slow_p == list)<br />
+              prev-&gt;next = NULL;<br />
+           /* If looped at only end node */<br />
+           else if( slow_p == slow_p-&gt;next )<br />
+              slow_p-&gt;next = NULL;<br />
+           /* If looped at any other inner node*/<br />
+           else<br />
+              removeLoop(slow_p, list);</p>
+<p>            /* Return 1 to indicate that loop is found */<br />
+            return 1;<br />
+        }<br />
+    }</p>
+<p>    /* Return 0 to indeciate that ther is no loop*/<br />
+    return 0;<br />
+}</p>
+<p>/* Function to remove loop.<br />
+ loop_node &#8211;&gt; Pointer to one of the loop nodes<br />
+ head &#8211;&gt;  Pointer to the start node of the linked list */<br />
+void removeLoop(struct node *loop_node, struct node *head)<br />
+{<br />
+    struct node *ptr1 = loop_node;<br />
+    struct node *ptr2 = loop_node;</p>
+<p>    // Count the number of nodes in loop<br />
+    unsigned int k = 1, i;<br />
+    while (ptr1-&gt;next != ptr2)<br />
+    {<br />
+        ptr1 = ptr1-&gt;next;<br />
+        k++;<br />
+    }</p>
+<p>    // Fix one pointer to head<br />
+    ptr1 = head;<br />
+    // And the other pointer to k nodes after head<br />
+    ptr2 = head;</p>
+<p>    for(i = 0; i next;</p>
+<p>    //  Move both pointers at the same pace,<br />
+    //  they will meet at loop starting node </p>
+<p>    struct node *prev; //To keep track prevoius of ptr2</p>
+<p>    while(ptr2 != ptr1)<br />
+    {<br />
+        prev = ptr2;<br />
+        ptr1 = ptr1-&gt;next;<br />
+        ptr2 = ptr2-&gt;next;<br />
+    }</p>
+<p>    // Set the next node of the loop ending node<br />
+    //  to fix the loop<br />
+    prev-&gt;next = NULL;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8723">
+        <div id="dsq-comment-header-8723" class="dsq-comment-header">
+            <cite id="dsq-cite-8723">
+                <span id="dsq-author-user-8723">saniaz</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8723" class="dsq-comment-body">
+            <div id="dsq-comment-message-8723" class="dsq-comment-message"><pre> <code language="C">
+ I have made some modifications in detectAndRemoveLoop and
+ removeLoop functions to remove loop quickly.
+ There are three kind of possible loops in a single linked list
+ 1)  1-&gt;2-&gt;3-&gt;4-&gt;1
+ 2)  1-&gt;2-&gt;3-&gt;4-&gt;4
+ 3)  1-&gt;2-&gt;3-&gt;4-&gt;2/3
+
+ int detectAndRemoveLoop(struct node *list)
+ {
+    struct node  *slow_p = list, *fast_p = list;
+    struct node  *prev;
+ 
+    while (slow_p &amp;&amp; fast_p &amp;&amp; fast_p-&gt;next)
+    {   
+        prev   = slow_p;
+        slow_p = slow_p-&gt;next;
+        fast_p = fast_p-&gt;next-&gt;next;
+ 
+        /* If slow_p and fast_p meet at some point then there
+           is a loop */
+        if (slow_p == fast_p)
+        {
+           /* If looped at head node */
+           if( slow_p == list)
+              prev-&gt;next = NULL;
+           /* If looped at only end node */ 
+           else if( slow_p == slow_p-&gt;next )
+              slow_p-&gt;next = NULL;
+           /* If looped at any other inner node*/
+           else
+              removeLoop(slow_p, list);
+            
+            /* Return 1 to indicate that loop is found */
+            return 1;
+        }
+    }
+ 
+    /* Return 0 to indeciate that ther is no loop*/
+    return 0;
+}
+ 
+/* Function to remove loop.
+ loop_node --&gt; Pointer to one of the loop nodes
+ head --&gt;  Pointer to the start node of the linked list */
+void removeLoop(struct node *loop_node, struct node *head)
+{
+    struct node *ptr1 = loop_node;
+    struct node *ptr2 = loop_node;
+ 
+    // Count the number of nodes in loop
+    unsigned int k = 1, i;
+    while (ptr1-&gt;next != ptr2)
+    {
+        ptr1 = ptr1-&gt;next;
+        k++;
+    }
+ 
+    // Fix one pointer to head
+    ptr1 = head;
+    // And the other pointer to k nodes after head
+    ptr2 = head;
+    
+    for(i = 0; i &lt; k; i++)
+      ptr2 = ptr2-&gt;next;
+ 
+    //  Move both pointers at the same pace,
+    //  they will meet at loop starting node 
+
+    struct node *prev; //To keep track prevoius of ptr2
+
+    while(ptr2 != ptr1)
+    {
+        prev = ptr2;
+        ptr1 = ptr1-&gt;next;
+        ptr2 = ptr2-&gt;next;
+    }
+ 
+    // Set the next node of the loop ending node
+    //  to fix the loop 
+    prev-&gt;next = NULL;
+}
+
+LMK if any issues.
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-7995">
+        <div id="dsq-comment-header-7995" class="dsq-comment-header">
+            <cite id="dsq-cite-7995">
+                <span id="dsq-author-user-7995">Srinivas</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7995" class="dsq-comment-body">
+            <div id="dsq-comment-message-7995" class="dsq-comment-message"><p>Please take below example. And let me know, I think 2nd method will fail.</p>
+<p>a-&gt;b-&gt;c-&gt;a.</p>
+<p>Hesder pointer is at a.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-8598">
+        <div id="dsq-comment-header-8598" class="dsq-comment-header">
+            <cite id="dsq-cite-8598">
+                <span id="dsq-author-user-8598">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8598" class="dsq-comment-body">
+            <div id="dsq-comment-message-8598" class="dsq-comment-message"><p>Take a closer look at the program. It works fine for such cases.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-14560">
+        <div id="dsq-comment-header-14560" class="dsq-comment-header">
+            <cite id="dsq-cite-14560">
+                <span id="dsq-author-user-14560">Suhas</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14560" class="dsq-comment-body">
+            <div id="dsq-comment-message-14560" class="dsq-comment-message"><p>1-&gt;2-&gt;3-&gt;4-&gt;1-&gt;2&#8230;<br />
+Consider like this loop start at the head node.<br />
+I think 2nd solution not working in this case ?<br />
+please correct me if i`m wrong ?<br />
+and also explain how it work if it is correct ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-7699">
+        <div id="dsq-comment-header-7699" class="dsq-comment-header">
+            <cite id="dsq-cite-7699">
+                <span id="dsq-author-user-7699">Avinash</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7699" class="dsq-comment-body">
+            <div id="dsq-comment-message-7699" class="dsq-comment-message"><pre> <code language="C">
+struct node *Removeloop(struct node *head)
+{
+	If (head==NULL) return NULL;
+	struct node *slow=head;
+	struct node *fast=head;
+	while(fast-&gt;next!=NULL)
+	{
+		slow=slow-&gt;next;
+		fast=fast-&gt;next-&gt;next;
+		If(slow==fast) break;
+	}
+	
+	If (fast==NULL) return head;
+	
+	struct node *prev;
+	slow=head;
+	while(slow-&gt;next!=NULL)
+	{
+		prev=fast;
+		slow=slow-&gt;next;
+		fast=fast-&gt;next;
+		If(slow==fast) break;
+	}
+	
+	prev-&gt;next=NULL;
+	return(head);
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-8596">
+        <div id="dsq-comment-header-8596" class="dsq-comment-header">
+            <cite id="dsq-cite-8596">
+                <span id="dsq-author-user-8596">saniaz</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8596" class="dsq-comment-body">
+            <div id="dsq-comment-message-8596" class="dsq-comment-message"><pre> <code language="C">
+@avinash :
+ If &quot;struct node *head&quot; is pointer to header of linked list and the linked list doesn't contain loop ,I think then your code will cause a segmentation fault.
+
+try this 10-&gt;20-&gt;NULL
+
+Correct me if I am wrong. 
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-6596">
+        <div id="dsq-comment-header-6596" class="dsq-comment-header">
+            <cite id="dsq-cite-6596">
+                <span id="dsq-author-user-6596">muks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6596" class="dsq-comment-body">
+            <div id="dsq-comment-message-6596" class="dsq-comment-message"><p>my question is when linked list is in loop then how will u count the no of nodes</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-laddoo even depth-2" id="dsq-comment-7689">
+        <div id="dsq-comment-header-7689" class="dsq-comment-header">
+            <cite id="dsq-cite-7689">
+                <span id="dsq-author-user-7689">laddoo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7689" class="dsq-comment-body">
+            <div id="dsq-comment-message-7689" class="dsq-comment-message"><pre> <code language="C">
+ptr = loop_node;//loop_node is detected by Floyd's Algo
+count=1;
+     while(ptr-&gt;next != loop_node)
+     {
+         ptr = ptr-&gt;next;
+         count++;
+     }
+
+@muks..got it?
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-laddoo odd alt depth-2" id="dsq-comment-7690">
+        <div id="dsq-comment-header-7690" class="dsq-comment-header">
+            <cite id="dsq-cite-7690">
+                <span id="dsq-author-user-7690">laddoo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7690" class="dsq-comment-body">
+            <div id="dsq-comment-message-7690" class="dsq-comment-message"><pre> <code language="C">
+ptr = loop_node;//loop_node is detected by Floyd's Algo
+count=1;
+while(ptr-&gt;next != loop_node)
+{
+         ptr = ptr-&gt;next;
+         count++;
+}
+
+@muks..got it?
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-jalajb2k7 even depth-2" id="dsq-comment-7697">
+        <div id="dsq-comment-header-7697" class="dsq-comment-header">
+            <cite id="dsq-cite-7697">
+                <span id="dsq-author-user-7697">jalajb2k7</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7697" class="dsq-comment-body">
+            <div id="dsq-comment-message-7697" class="dsq-comment-message"><p>@muks .. you just have to count no of nodes in loop</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-saipraneeth odd alt thread-odd thread-alt depth-1" id="dsq-comment-6570">
+        <div id="dsq-comment-header-6570" class="dsq-comment-header">
+            <cite id="dsq-cite-6570">
+                <span id="dsq-author-user-6570">saipraneeth</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6570" class="dsq-comment-body">
+            <div id="dsq-comment-message-6570" class="dsq-comment-message"><pre> <code language="C">
+void removeLoop(struct node *loop_node, struct node *head)
+{
+    struct node *ptr1 = loop_node;
+    struct node *ptr2 = loop_node;
+ 
+    // Count the number of nodes in loop
+    unsigned int k = 1, i;
+    while (ptr1-&gt;next != ptr2)
+    {
+        ptr1 = ptr1-&gt;next;
+        k++;
+    }
+ 
+    // Fix one pointer to head
+    ptr1 = head;
+ 
+    // And the other pointer to k nodes after head
+    ptr2 = head;
+    for(i = 0; i &lt; k-1; i++)
+      ptr2 = ptr2-&gt;next;
+ 
+    /*  Move both pointers at the same pace,
+      they will meet at loop starting node */
+    while(ptr2-&gt;next != ptr1)
+    {
+        ptr1 = ptr1-&gt;next;
+        ptr2 = ptr2-&gt;next;
+    }
+ 
+    // Get pointer to the last node
+    /*ptr2 = ptr2-&gt;next;
+    while(ptr2-&gt;next != ptr1)
+       ptr2 = ptr2-&gt;next;
+ 
+    / * Set the next node of the loop ending node
+      to fix the loop */
+    ptr2-&gt;next = NULL;
+}</code> </pre>
+<p>in this case ptr2 is pointing to the last node of the list.<br />
+by using this we can remove last while loop.</p>
+<p>if i am wrong please correct me&#8230;.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-5182">
+        <div id="dsq-comment-header-5182" class="dsq-comment-header">
+            <cite id="dsq-cite-5182">
+                <span id="dsq-author-user-5182">Shreyansh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5182" class="dsq-comment-body">
+            <div id="dsq-comment-message-5182" class="dsq-comment-message"><pre> <code language="C">
+
+struct node{
+       int data;
+       struct node *ptr;
+       }*start;
+int main()
+{
+    int i=0,j,flag=0;
+    struct node *temp,*q,*prev,*a[10];
+    char ch;
+    start=NULL;
+    do{
+
+   temp=(struct node*)malloc(sizeof(struct node));
+   temp-&gt;ptr=NULL;
+   printf(&quot;Enter the data\n&quot;);
+   scanf(&quot;%d&quot;,&amp;temp-&gt;data);
+   fflush(stdin);
+   if(start==NULL)
+   {
+                   start=temp;
+   }
+   else
+   {
+         for(q=start;q-&gt;ptr!=NULL;q=q-&gt;ptr);
+         q-&gt;ptr=temp;
+   }
+   printf(&quot;Enter your choice&quot;);
+   scanf(&quot;%c&quot;,&amp;ch);
+   }while(ch=='y');
+   for(q=start;q!=NULL;q=q-&gt;ptr)
+   {
+            printf(&quot;%d\n&quot;,q-&gt;data);
+   }
+   temp-&gt;ptr=start-&gt;ptr;
+   for(q=start;q-&gt;ptr!=NULL;prev=q,q=q-&gt;ptr)
+   {
+            a[i]=q;
+            for(j=0;j&lt;i&gt;data);
+                 prev-&gt;ptr=NULL;
+                 for(q=start;q!=NULL;q=q-&gt;ptr)
+                 {
+                                      printf(&quot;%d\n&quot;,q-&gt;data);
+                 }
+      }
+      else
+      {
+          printf(&quot;No loop found\n&quot;);
+      }
+      getch();
+      return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-5170">
+        <div id="dsq-comment-header-5170" class="dsq-comment-header">
+            <cite id="dsq-cite-5170">
+                <span id="dsq-author-user-5170">jiabul(ju)</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5170" class="dsq-comment-body">
+            <div id="dsq-comment-message-5170" class="dsq-comment-message"><p>/*removing  of loop can be done easily by following function in above program*/<br />
+void removeLoop(struct node *loop_node, struct node *head)<br />
+{<br />
+    struct node *ptr1 = head;<br />
+    struct node *ptr2 = loop_node;<br />
+    struct node *prev =ptr2;<br />
+    while(ptr1!=ptr2)<br />
+    {<br />
+       prev=ptr2;<br />
+       ptr1=ptr1-&gt;next;<br />
+       ptr2=ptr2-&gt;next;</p>
+<p>    }<br />
+     prev-&gt;next = NULL;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-5144">
+        <div id="dsq-comment-header-5144" class="dsq-comment-header">
+            <cite id="dsq-cite-5144">
+                <span id="dsq-author-user-5144">sharat</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5144" class="dsq-comment-body">
+            <div id="dsq-comment-message-5144" class="dsq-comment-message"><p>@wgpshashank: in removeloop method, use prev_ptr, to avoid multiple iterations of the linked list. small optimization, but worth it..</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-6633">
+        <div id="dsq-comment-header-6633" class="dsq-comment-header">
+            <cite id="dsq-cite-6633">
+http://shashank7s.blogspot.com                <span id="dsq-author-user-6633">WgpShashank</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6633" class="dsq-comment-body">
+            <div id="dsq-comment-message-6633" class="dsq-comment-message"><p>@sharat .Can you explain whats the role of prev_ptr ? , may be m missing something ?</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-6638">
+        <div id="dsq-comment-header-6638" class="dsq-comment-header">
+            <cite id="dsq-cite-6638">
+                <span id="dsq-author-user-6638">sankalp</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6638" class="dsq-comment-body">
+            <div id="dsq-comment-message-6638" class="dsq-comment-message"><p>@shashank<br />
+the role is just to save the whole effort of finding the last node from first node&#8230;.its really worth it if the loop size is very big.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-4975">
+        <div id="dsq-comment-header-4975" class="dsq-comment-header">
+            <cite id="dsq-cite-4975">
+                <span id="dsq-author-user-4975">Vijay Nag</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4975" class="dsq-comment-body">
+            <div id="dsq-comment-message-4975" class="dsq-comment-message"><p>Why is removeLoop(node) required when we know the looping node. We can directly make loop_node-&gt;next = NULL ?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-sandeep bypostauthor even depth-2" id="dsq-comment-4977">
+        <div id="dsq-comment-header-4977" class="dsq-comment-header">
+            <cite id="dsq-cite-4977">
+http://geeksforgeeks.org/                <span id="dsq-author-user-4977">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4977" class="dsq-comment-body">
+            <div id="dsq-comment-message-4977" class="dsq-comment-message"><p>We don&#8217;t know the looping node before calling the removeLoop(node).  We only know that there is a loop before the call.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-4850">
+        <div id="dsq-comment-header-4850" class="dsq-comment-header">
+            <cite id="dsq-cite-4850">
+                <span id="dsq-author-user-4850">Forrest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4850" class="dsq-comment-body">
+            <div id="dsq-comment-message-4850" class="dsq-comment-message"><p>How about change code below: </p>
+<p>     /*  Move both pointers at the same pace,<br />
+      they will meet at loop starting node */<br />
+    while(ptr2 != ptr1)<br />
+    {<br />
+        ptr1 = ptr1-&gt;next;<br />
+        ptr2 = ptr2-&gt;next;<br />
+    }</p>
+<p>    // Get pointer to the last node<br />
+    ptr2 = ptr2-&gt;next;<br />
+    while(ptr2-&gt;next != ptr1)<br />
+       ptr2 = ptr2-&gt;next;</p>
+<p>    /* Set the next node of the loop ending node<br />
+      to fix the loop */<br />
+    ptr2-&gt;next = NULL;</p>
+<p>to:</p>
+<p>    /*  Move both pointers at the same pace,<br />
+      they will meet at loop starting node */<br />
+    while(ptr2-&gt;next != ptr1)<br />
+    {<br />
+        ptr1 = ptr1-&gt;next;<br />
+        ptr2 = ptr2-&gt;next;<br />
+    }</p>
+<p>    /* Set the next node of the loop ending node<br />
+      to fix the loop */<br />
+    ptr2-&gt;next = NULL;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-venki even thread-odd thread-alt depth-1" id="dsq-comment-4699">
+        <div id="dsq-comment-header-4699" class="dsq-comment-header">
+            <cite id="dsq-cite-4699">
+http://www.linkedin.com/in/ramanawithu                <span id="dsq-author-user-4699">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4699" class="dsq-comment-body">
+            <div id="dsq-comment-message-4699" class="dsq-comment-message"><p>@Sandeep, removeLoop() is not returning any value, its declaration and definitions to be updated in both the solutions.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-sandeep bypostauthor odd alt depth-2" id="dsq-comment-4706">
+        <div id="dsq-comment-header-4706" class="dsq-comment-header">
+            <cite id="dsq-cite-4706">
+http://geeksforgeeks.org/                <span id="dsq-author-user-4706">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4706" class="dsq-comment-body">
+            <div id="dsq-comment-message-4706" class="dsq-comment-message"><p>@Venki: Thanks for pointing this out.  I have updated the post.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-prat2511 even thread-even depth-1" id="dsq-comment-4488">
+        <div id="dsq-comment-header-4488" class="dsq-comment-header">
+            <cite id="dsq-cite-4488">
+                <span id="dsq-author-user-4488">prat2511</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4488" class="dsq-comment-body">
+            <div id="dsq-comment-message-4488" class="dsq-comment-message"><p>method 2 can be optimised.In removeLoop() func. instead of moving ptr2 k times move it k-1 times ahead. after that check condition while(ptr2-&gt;next!=ptr1) . put ptr2-&gt;next=NULL.<br />
+u dont need  to traverse the whole loop again</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-17208">
+        <div id="dsq-comment-header-17208" class="dsq-comment-header">
+            <cite id="dsq-cite-17208">
+                <span id="dsq-author-user-17208">Priyanka</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17208" class="dsq-comment-body">
+            <div id="dsq-comment-message-17208" class="dsq-comment-message"><p>What&#8217;s the use of<br />
+while(ptr2-&gt;next!=ptr1) . put ptr2-&gt;next=NULL.<br />
+We already know the loop node. Can&#8217;t we make it to point to NULL to remove the loop? Please answer this as so many people out here are having this doubt.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-4213">
+        <div id="dsq-comment-header-4213" class="dsq-comment-header">
+            <cite id="dsq-cite-4213">
+                <span id="dsq-author-user-4213">shawel</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4213" class="dsq-comment-body">
+            <div id="dsq-comment-message-4213" class="dsq-comment-message"><p>you could use DFS, simple</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-6639">
+        <div id="dsq-comment-header-6639" class="dsq-comment-header">
+            <cite id="dsq-cite-6639">
+                <span id="dsq-author-user-6639">sankalp</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6639" class="dsq-comment-body">
+            <div id="dsq-comment-message-6639" class="dsq-comment-message"><p>thats O(n2)&#8230;and this solution is O(n)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-4136">
+        <div id="dsq-comment-header-4136" class="dsq-comment-header">
+            <cite id="dsq-cite-4136">
+                <span id="dsq-author-user-4136">ktanay</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4136" class="dsq-comment-body">
+            <div id="dsq-comment-message-4136" class="dsq-comment-message"><p>Hi, I copy-pasted the above code (Method -2) and ran for the                  following input sequence</p>
+<p>    push(&amp;head, 1);<br />
+    push(&amp;head, 2);<br />
+    push(&amp;head, 3);<br />
+    push(&amp;head, 4);<br />
+    push(&amp;head, 5);<br />
+    push(&amp;head, 6);</p>
+<p>    /* Create a loop for testing */<br />
+    head-&gt;next-&gt;next-&gt;next-&gt;next-&gt;next = head-&gt;next-&gt;next;<br />
+The o/p was 6  5  4  3  2<br />
+and for this looping sequence<br />
+head-&gt;next-&gt;next-&gt;next-&gt;next = head-&gt;next;<br />
+6  5  4  3<br />
+It seems the loop is not being removed correctly.<br />
+Please take a look or point me if am mistaken. I&#8217;ll try to find out too.<br />
+Thanks.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik odd alt depth-2" id="dsq-comment-4227">
+        <div id="dsq-comment-header-4227" class="dsq-comment-header">
+            <cite id="dsq-cite-4227">
+                <span id="dsq-author-user-4227">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4227" class="dsq-comment-body">
+            <div id="dsq-comment-message-4227" class="dsq-comment-message"><p>@ktanay: Take a closer look at the linked list that you have created.   In your linked list 6-&gt;5-&gt;4-&gt;3-&gt;2-&gt;1,  when you create a loop using the following statement, the node with value 1 get disconnected.<br />
+head-&gt;next-&gt;next-&gt;next-&gt;next-&gt;next = head-&gt;next-&gt;next; </p>
+<p>And when you create a loop using following statement, the nodes with values 2 and 1 get disconnected.</p>
+<p>head-&gt;next-&gt;next-&gt;next-&gt;next = head-&gt;next;</p>
+<p>So nothing wrong with the programs.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-4110">
+        <div id="dsq-comment-header-4110" class="dsq-comment-header">
+            <cite id="dsq-cite-4110">
+                <span id="dsq-author-user-4110">Mohan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4110" class="dsq-comment-body">
+            <div id="dsq-comment-message-4110" class="dsq-comment-message"><p>I came across another solution. Let&#8217;s say after k nodes from the head, the loop has started. So when we find a loop using the Floyd&#8217;s algo, let the node at which the slow and fast pointer meet be loop_node. Now if we can start from the head and loop_node and traverse through the list whenever both the pointers coincide, that node will be the starting of the loop.<br />
+so, the function &#8220;removeLoop(struct node *loop_node, struct node *head)&#8221; can be modified as,</p>
+<pre> <code language="C">
+removeLoop(struct node *loop_node, struct node *head)
+{
+   while (loop_node-&gt;next != head-&gt;next)
+   {
+      loop_node = loop_node-&gt;next;
+      head = head-&gt;next;
+   }
+   loop_node-&gt;next = NULL;
+}</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-mohangorai odd alt depth-2" id="dsq-comment-4342">
+        <div id="dsq-comment-header-4342" class="dsq-comment-header">
+            <cite id="dsq-cite-4342">
+                <span id="dsq-author-user-4342">Mohan Gorai</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4342" class="dsq-comment-body">
+            <div id="dsq-comment-message-4342" class="dsq-comment-message"><p>The reasoning for the above solution comes from such a nice analytic thinking that i thought i will add it to the solution. So, let us say we have a track of n length and two people are sprinting along the track. If one person is twice as fast as the second person, and if both of them start at the same time, where will they meet? at the beginning ofcourse!! Now, if the faster one had a lead of k when they start, where will they meet? k length, before the beginning.<br />
+If we use same logic for this case, where the faster pointer has a lead of k nodes, we can see the correctness of the solution.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-7532">
+        <div id="dsq-comment-header-7532" class="dsq-comment-header">
+            <cite id="dsq-cite-7532">
+                <span id="dsq-author-user-7532">coder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7532" class="dsq-comment-body">
+            <div id="dsq-comment-message-7532" class="dsq-comment-message"><p>@Mohan &#8211; nice explanation <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_biggrin.gif" alt=":D" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-17876">
+        <div id="dsq-comment-header-17876" class="dsq-comment-header">
+            <cite id="dsq-cite-17876">
+                <span id="dsq-author-user-17876">varun</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17876" class="dsq-comment-body">
+            <div id="dsq-comment-message-17876" class="dsq-comment-message"><p>I never understood why Method 2 is more efficient than method 1.<br />
+The solution suggested by mohan is one of the best here.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-hari6988 even thread-even depth-1" id="dsq-comment-4041">
+        <div id="dsq-comment-header-4041" class="dsq-comment-header">
+            <cite id="dsq-cite-4041">
+                <span id="dsq-author-user-4041">hari6988</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4041" class="dsq-comment-body">
+            <div id="dsq-comment-message-4041" class="dsq-comment-message"><p>Hey , I have a question &#8230; In your method 2, you calculate k to be the length of loop , which turns out to be 4 . So, you keep one pointer at 1 and the other pointer at 4 (for your example figure above). If you move both these pointers by one link simultaneously, you will never get them to meet. Can you explain ?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-hari6988 odd alt depth-2" id="dsq-comment-4042">
+        <div id="dsq-comment-header-4042" class="dsq-comment-header">
+            <cite id="dsq-cite-4042">
+                <span id="dsq-author-user-4042">hari6988</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4042" class="dsq-comment-body">
+            <div id="dsq-comment-message-4042" class="dsq-comment-message"><p>Sorry &#8230; I understood &#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-4032">
+        <div id="dsq-comment-header-4032" class="dsq-comment-header">
+            <cite id="dsq-cite-4032">
+http://Beanengineer.blogspot.com                <span id="dsq-author-user-4032">Sasanka</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4032" class="dsq-comment-body">
+            <div id="dsq-comment-message-4032" class="dsq-comment-message"><p>I think the first solution is incorrect. There are chances of ptr1 entering the loop and there by splitting the linked list at a wrong location</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik odd alt depth-2" id="dsq-comment-4033">
+        <div id="dsq-comment-header-4033" class="dsq-comment-header">
+            <cite id="dsq-cite-4033">
+                <span id="dsq-author-user-4033">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4033" class="dsq-comment-body">
+            <div id="dsq-comment-message-4033" class="dsq-comment-message"><p>@Sasanka: Method 1 is a simple method and I think it works for all the cases. Do you have an example list for which it seems to be failing?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-4035">
+        <div id="dsq-comment-header-4035" class="dsq-comment-header">
+            <cite id="dsq-cite-4035">
+                <span id="dsq-author-user-4035">Sasanka</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4035" class="dsq-comment-body">
+            <div id="dsq-comment-message-4035" class="dsq-comment-message"><p>@karthik.<br />
+My bad. I was reading this on my phone.. and<br />
+&#8220;&amp;&amp; ptr2-&gt;next != ptr1&#8243; this part was kind of messed up.<br />
+So i thought where the check to stop ptr1 to enter into the loop.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-3" id="dsq-comment-4037">
+        <div id="dsq-comment-header-4037" class="dsq-comment-header">
+            <cite id="dsq-cite-4037">
+                <span id="dsq-author-user-4037">ankit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4037" class="dsq-comment-body">
+            <div id="dsq-comment-message-4037" class="dsq-comment-message"><p>@kartik solution1 is incorrect, for the example case you have taken, it will slit the linkedlist in two parts.<br />
+you have to add additional code here, u got the address of node 2, now store the address traverse the loop and find the node whose next points to 2, i.e. 5 and then sets it next = NULL.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik even depth-4" id="dsq-comment-4038">
+        <div id="dsq-comment-header-4038" class="dsq-comment-header">
+            <cite id="dsq-cite-4038">
+                <span id="dsq-author-user-4038">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4038" class="dsq-comment-body">
+            <div id="dsq-comment-message-4038" class="dsq-comment-message"><p>@ankit:</p>
+<p>I tried for the given example by changing main() to following.</p>
+<pre> <code language="C">/* Drier program to test above function*/
+int main()
+{
+    /* Start with the empty list */
+    struct node* head = NULL;
+
+    push(&amp;head, 5);
+    push(&amp;head, 4);
+    push(&amp;head, 3);
+    push(&amp;head, 2);
+    push(&amp;head, 1);
+
+    head-&gt;next-&gt;next-&gt;next-&gt;next-&gt;next = head-&gt;next;
+
+    detectAndRemoveLoop(head);
+
+    printf(&quot;Linked List after removing loop \n&quot;);
+    printList(head);
+
+    getchar();
+    return 0;
+}</code> </pre>
+<p>Take a closer look at the given program, I think it works for all cases.  </p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/detect-and-remove-loop-in-a-linked-list/';
+var disqus_identifier = '12225 http://geeksforgeeks.org/?p=12225';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Detect and Remove Loop in a Linked List";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.250 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:28:26 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

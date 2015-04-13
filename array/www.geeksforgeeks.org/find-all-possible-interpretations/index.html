@@ -1,0 +1,2157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Find all possible interpretations of an array of digits - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/find-all-possible-interpretations/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Find all possible interpretations of an array of digits - GeeksforGeeks" />
+<meta property="og:description" content="Consider a coding system for alphabets to integers where &#8216;a&#8217; is represented as 1, &#8216;b&#8217; as 2, .. &#8216;z&#8217; as 26. Given an array of digits (1 to 9) as input, write a function that prints all valid interpretations of input array. Examples Input: {1, 1} Output: (&quot;aa&quot;, &#039;k&quot;) [2 interpretations: aa(1, 1), k(11)] Input: &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/find-all-possible-interpretations/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Facebook" />
+<meta property="article:section" content="Trees" />
+<meta property="article:published_time" content="2013-05-28T13:32:06+00:00" />
+<meta property="article:modified_time" content="2013-06-05T16:45:35+00:00" />
+<meta property="og:updated_time" content="2013-06-05T16:45:35+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.514 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111217 210.212.53.139 172.19.11.169';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Find all possible interpretations of an array of digits</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Consider a coding system for alphabets to integers where &#8216;a&#8217; is represented as 1, &#8216;b&#8217; as 2, .. &#8216;z&#8217; as 26. Given an array of digits (1 to 9) as input, write a function that prints all valid interpretations of input array. <span id="more-118567"></span></p>
+<p>Examples
+<pre>
+Input: {1, 1}
+Output: ("aa", 'k") 
+[2 interpretations: aa(1, 1), k(11)]
+
+Input: {1, 2, 1}
+Output: ("aba", "au", "la") 
+[3 interpretations: aba(1,2,1), au(1,21), la(12,1)]
+
+Input: {9, 1, 8}
+Output: {"iah", "ir"} 
+[2 interpretations: iah(9,1,8), ir(9,18)]</pre>
+<p>Please note we cannot change order of array. That means {1,2,1} cannot become {2,1,1}<br />
+On first look it looks like a problem of permutation/combination.  But on closer look you will figure out that this is an interesting tree problem.<br />
+The idea here is string can take at-most two paths:<br />
+1.  Proces single digit<br />
+2.  Process two digits<br />
+That means we can use binary tree here.   Processing with single digit will be left child and two digits will be right child.   If value two digits is greater than 26 then our right child will be null as we don’t have alphabet for greater than 26.</p>
+<p>Let’s understand with an example .Array  a = {1,2,1}.  Below diagram shows that how our tree grows.</p>
+<pre>
+                           “” {1,2,1}            Codes used in tree
+                       /             \               "a" --> 1
+                      /               \              "b" --> 2 
+                  "a"{2,1}            "l"{1}         "l" --> 12
+                 /        \          /     \
+                /          \        /       \
+            "ab"{1}        "au"    "la"      null
+             /    \
+            /      \
+         "aba"      null</pre>
+<p>Braces {} contain array still pending for processing.   Note that with every level, our array size decreases.  If you will see carefully, it is not hard to find that tree height is always n (array size)<br />
+How to print all strings (interpretations)?   Output strings are leaf node of tree. i.e for {1,2,1}, output is {aba  au  la}.<br />
+We can conclude that there are mainly two steps to print all interpretations of given integer array. </p>
+<p><strong><em>Step 1:</em> </strong> Create a binary tree with all possible interpretations in leaf nodes.</p>
+<p><strong><em>Step 2:</em></strong>  Print all leaf nodes from the binary tree created in step 1.</p>
+<p>Following is Java implementation of above algorithm.</p>
+<pre class="brush: java; highlight: [23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84]; title: ; notranslate" title="">
+// A Java program to print all interpretations of an integer array
+import java.util.Arrays;
+
+// A Binary Tree node
+class Node {
+
+    String dataString;
+    Node left;
+    Node right;
+
+    Node(String dataString) {
+        this.dataString = dataString;
+        //Be default left and right child are null. 
+    }
+
+    public String getDataString() {
+        return dataString;
+    }
+}
+
+public class arrayToAllInterpretations {
+
+    // Method to create a binary tree which stores all interpretations 
+    // of arr[] in lead nodes
+    public static Node createTree(int data, String pString, int[] arr) {
+
+        // Invalid input as alphabets maps from 1 to 26
+        if (data &gt; 26) 
+            return null;
+
+        // Parent String + String for this node
+        String dataToStr = pString + alphabet[data];
+
+        Node root = new Node(dataToStr);
+
+        // if arr.length is 0 means we are done
+        if (arr.length != 0) {
+            data = arr[0];
+
+            // new array will be from index 1 to end as we are consuming 
+            // first index with this node
+            int newArr[] = Arrays.copyOfRange(arr, 1, arr.length);
+
+            // left child
+            root.left = createTree(data, dataToStr, newArr);
+
+            // right child will be null if size of array is 0 or 1
+            if (arr.length &gt; 1) {
+
+                data = arr[0] * 10 + arr[1];
+
+                // new array will be from index 2 to end as we 
+                // are consuming first two index with this node
+                newArr = Arrays.copyOfRange(arr, 2, arr.length);
+
+                root.right = createTree(data, dataToStr, newArr);
+            }
+        }
+        return root;
+    }
+
+    // To print out leaf nodes
+    public static void printleaf(Node root) {
+        if (root == null) 
+            return;
+
+        if (root.left == null &amp;&amp; root.right == null) 
+            System.out.print(root.getDataString() + &quot;  &quot;);
+        
+        printleaf(root.left);
+        printleaf(root.right);
+    }
+
+    // The main function that prints all interpretations of array
+    static void printAllInterpretations(int[] arr) {
+
+        // Step 1: Create Tree
+        Node root = createTree(0, &quot;&quot;, arr);
+
+        // Step 2: Print Leaf nodes
+        printleaf(root);
+
+        System.out.println();  // Print new line
+    }
+
+    // For simplicity I am taking it as string array. Char Array will save space
+    private static final String[] alphabet = {&quot;&quot;, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;,
+        &quot;f&quot;, &quot;g&quot;, &quot;h&quot;, &quot;i&quot;, &quot;j&quot;, &quot;k&quot;, &quot;l&quot;, &quot;m&quot;, &quot;n&quot;, &quot;o&quot;, &quot;p&quot;, &quot;q&quot;, &quot;r&quot;,
+        &quot;s&quot;, &quot;t&quot;, &quot;u&quot;, &quot;v&quot;, &quot;w&quot;, &quot;x&quot;, &quot;v&quot;, &quot;z&quot;};
+
+    // Driver method to test above methods 
+    public static void main(String args[]) {
+
+        // aacd(1,1,3,4) amd(1,13,4) kcd(11,3,4)
+        // Note : 1,1,34 is not valid as we don't have values corresponding
+        // to 34 in alphabet
+        int[] arr = {1, 1, 3, 4};
+        printAllInterpretations(arr);
+
+        // aaa(1,1,1) ak(1,11) ka(11,1)
+        int[] arr2 = {1, 1, 1};
+        printAllInterpretations(arr2);
+
+        // bf(2,6) z(26)
+        int[] arr3 = {2, 6};
+        printAllInterpretations(arr3);
+
+        // ab(1,2), l(12)  
+        int[] arr4 = {1, 2};
+        printAllInterpretations(arr4);
+
+        // a(1,0} j(10)  
+        int[] arr5 = {1, 0};
+        printAllInterpretations(arr5);
+
+        // &quot;&quot; empty string output as array is empty
+        int[] arr6 = {};
+        printAllInterpretations(arr6);
+
+        // abba abu ava lba lu
+        int[] arr7 = {1, 2, 2, 1};
+        printAllInterpretations(arr7);
+    }
+}
+</pre>
+<p>Output:
+<pre>aacd  amd  kcd  
+aaa  ak  ka  
+bf  z  
+ab  l  
+a  j  
+  
+abba  abu  ava  lba  lu  
+</pre>
+<p><strong>Exercise:</strong><br />
+1.  What is the time complexity of this solution?  [Hint  :  size of tree  +  finding leaf nodes]<br />
+2.  Can we store leaf nodes at the time of tree creation so that no need to run loop again for leaf node fetching?<br />
+3.  How can we reduce extra space? </p>
+<p>This article is compiled by <a href="http://in.linkedin.com/pub/varun-jain/18/748/81a" target="_blank">Varun Jain</a>. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/perfect-binary-tree-specific-level-order-traversal/" title="Perfect Binary Tree Specific Level Order Traversal">Perfect Binary Tree Specific Level Order Traversal</a></li><li><a href="http://www.geeksforgeeks.org/print-nodes-top-view-binary-tree/" title="Print Nodes in Top View of Binary Tree">Print Nodes in Top View of Binary Tree</a></li><li><a href="http://www.geeksforgeeks.org/k-dimensional-tree/" title="K Dimensional Tree">K Dimensional Tree</a></li><li><a href="http://www.geeksforgeeks.org/convert-binary-tree-threaded-binary-tree/" title="Convert a Binary Tree to Threaded binary tree">Convert a Binary Tree to Threaded binary tree</a></li><li><a href="http://www.geeksforgeeks.org/serialize-deserialize-n-ary-tree/" title="Serialize and Deserialize an N-ary Tree">Serialize and Deserialize an N-ary Tree</a></li><li><a href="http://www.geeksforgeeks.org/serialize-deserialize-binary-tree/" title="Serialize and Deserialize a Binary Tree">Serialize and Deserialize a Binary Tree</a></li><li><a href="http://www.geeksforgeeks.org/given-binary-tree-print-nodes-two-given-level-numbers/" title="Print nodes between two given level numbers of a binary tree">Print nodes between two given level numbers of a binary tree</a></li><li><a href="http://www.geeksforgeeks.org/find-height-binary-tree-represented-parent-array/" title="Find Height of Binary Tree represented by Parent array">Find Height of Binary Tree represented by Parent array</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/facebook/" rel="tag">Facebook</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Ffind-all-possible-interpretations%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/find-all-possible-interpretations/" data-text="Find all possible interpretations of an array of digits" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/find-all-possible-interpretations/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-32618">
+        <div id="dsq-comment-header-32618" class="dsq-comment-header">
+            <cite id="dsq-cite-32618">
+                <span id="dsq-author-user-32618">naveenbobbili</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32618" class="dsq-comment-body">
+            <div id="dsq-comment-message-32618" class="dsq-comment-message"><p>Below is my solution using only recursion.</p>
+<p>/*<br />
+ * patterns.cpp<br />
+ *<br />
+ *  Created on: Feb 16, 2014<br />
+ *      Author: naveen1.b<br />
+ */<br />
+#include<br />
+#include<br />
+#include<br />
+#include<br />
+#include</p>
+<p>using namespace std;</p>
+<p>static string alphabets[] = { &#8221; &#8220;,<br />
+&#8220;a&#8221;, &#8220;b&#8221;, &#8220;c&#8221;, &#8220;d&#8221;, &#8220;e&#8221;,  &#8220;f&#8221;, &#8220;g&#8221;, &#8220;h&#8221;, &#8220;i&#8221;,<br />
+&#8220;j&#8221;, &#8220;k&#8221;, &#8220;l&#8221;, &#8220;m&#8221;, &#8220;n&#8221;, &#8220;o&#8221;, &#8220;p&#8221;, &#8220;q&#8221;, &#8220;r&#8221;,<br />
+&#8220;s&#8221;, &#8220;t&#8221;, &#8220;u&#8221;, &#8220;v&#8221;, &#8220;w&#8221;, &#8220;x&#8221;, &#8220;y&#8221;, &#8220;z&#8221;<br />
+};</p>
+<p>list printAllInterpretationsUtil(int* a, int start, int size) {<br />
+    int noOfElementsToProcess = size &#8211; start;<br />
+    list combinations;<br />
+    if (noOfElementsToProcess == 1) {<br />
+        int elem = a[start];<br />
+        if (elem &lt;= 26) {<br />
+            string str = alphabets[elem];<br />
+            //cout &lt;&lt; &quot;Pushing &quot; &lt;&lt; str &lt;&lt; &quot;n&quot;;<br />
+            //cout &lt;&lt; &quot;===========================&quot; &lt; 1) {<br />
+        // Recursive call to same function.<br />
+        int elem = a[start];<br />
+        list results = printAllInterpretationsUtil(a, start + 1, size);<br />
+        list::iterator it;<br />
+        // Perform permuations in a for loop.<br />
+        for (it = results.begin(); it != results.end(); ++it) {<br />
+            string result = *it;<br />
+            // simple append and push<br />
+            string pattern;<br />
+            pattern  = alphabets[elem];<br />
+            //cout &lt;&lt; &quot;Pushing &quot; &lt;&lt; pattern+result &lt;&lt; &quot;n&quot;;<br />
+            combinations.push_back(pattern + result);</p>
+<p>            // mix and check . for eg 1 and 1 as 11 etc<br />
+            int suffix = (result[0] &#8211; &#039;a&#039;) + 1;<br />
+            if (suffix &lt; 10) {<br />
+                int patternInt = (elem * 10) + suffix;<br />
+                if (patternInt  1) {<br />
+                        //cout &lt;&lt; &quot;Pushing &quot; &lt;&lt; pattern + result.substr(1, result.length() &#8211; 1) &lt;&lt; &quot;n&quot;;<br />
+                        combinations.push_back(pattern + result.substr(1, result.length() &#8211; 1));<br />
+                    } else {<br />
+                        //cout &lt;&lt; &quot;Pushing &quot; &lt;&lt; pattern &lt;&lt; &quot;n&quot;;<br />
+                        combinations.push_back(pattern);<br />
+                    }<br />
+                }<br />
+            }<br />
+            // cout &lt;&lt; &quot;===========================&quot; &lt;&lt; &quot;n&quot;;<br />
+        }<br />
+    }<br />
+    return combinations;<br />
+}</p>
+<p>void printAllInterpretations(int* a, int size) {<br />
+    if (NULL == a)<br />
+        return;</p>
+<p>    list result = printAllInterpretationsUtil(a, 0, size);<br />
+    list::iterator it;<br />
+    for (it = result.begin(); it != result.end(); ++it) {<br />
+        cout &lt;&lt; *it &lt;&lt; &quot;,&quot;;<br />
+    }<br />
+    cout &lt;&lt; &quot;n&quot;;<br />
+}</p>
+<p>int main() {<br />
+    int a[] = {1,1,3,4};<br />
+    printAllInterpretations(a, 4);</p>
+<p>    int b[4] = {1,1,1};<br />
+    printAllInterpretations(b, 3);</p>
+<p>    int c[4] = {2,6};<br />
+    printAllInterpretations(c, 2);</p>
+<p>    return 0;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-29597">
+        <div id="dsq-comment-header-29597" class="dsq-comment-header">
+            <cite id="dsq-cite-29597">
+                <span id="dsq-author-user-29597">Shivam</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29597" class="dsq-comment-body">
+            <div id="dsq-comment-message-29597" class="dsq-comment-message"><p>No need to make tree. </p>
+<p>void dfs(int a[],int i,int prev,int n,string s)</p>
+<p>{</p>
+<p>    if(i==n)</p>
+<p>       {</p>
+<p>           s=s+char(prev+&#8217;a&#8217;-1);</p>
+<p>           cout&lt;&lt;s&lt;&lt;endl;</p>
+<p>           return;</p>
+<p>       }</p>
+<p>    dfs(a,i+1,a[i],n,s+char(prev+&#039;a&#039;-1));</p>
+<p>    if(prev*10+a[i]&gt;t;</p>
+<p>while(t&#8211;)</p>
+<p>{</p>
+<p>int n;</p>
+<p>cin&gt;&gt;n;</p>
+<p>int a[n];</p>
+<p>for(int i=0;i&gt;a[i];</p>
+<p>dfs(a,1,a[0],n,&#8221;&#8221;);</p>
+<p>}</p>
+<p>return 0;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-29426">
+        <div id="dsq-comment-header-29426" class="dsq-comment-header">
+            <cite id="dsq-cite-29426">
+                <span id="dsq-author-user-29426">Vijay Apurva</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29426" class="dsq-comment-body">
+            <div id="dsq-comment-message-29426" class="dsq-comment-message"><p>we can do simply with out any extra space &#8230;&#8230;..</p>
+<p>#include</p>
+<p>char arr[] = {&#8216; &#8216;,&#8217;a&#8217;, &#8216;b&#8217;, &#8216;c&#8217;, &#8216;d&#8217;, &#8216;e&#8217;, &#8216;f&#8217;, &#8216;g&#8217;, &#8216;h&#8217;, &#8216;i&#8217;, &#8216;j&#8217;, &#8216;k&#8217;, &#8216;l&#8217;, &#8216;m&#8217;, &#8216;n&#8217;, &#8216;o&#8217;, &#8216;p&#8217;, &#8216;q&#8217;, &#8216;r&#8217;, &#8216;s&#8217;, &#8216;t&#8217;, &#8216;u&#8217;, &#8216;v&#8217;, &#8216;w&#8217;, &#8216;x&#8217;, &#8216;y&#8217;, &#8216;z&#8217;};</p>
+<p>void printc(int x[] , int y , char  c[],int n ,int check ){</p>
+<p>    if(n == y){</p>
+<p>        c[check]=&#8221; ;</p>
+<p>    printf(&#8220;%s n&#8221;,c);</p>
+<p>    return ;</p>
+<p>    }</p>
+<p>    if(y&gt;n){</p>
+<p>    c[check] = arr[x[n]];</p>
+<p>    printc(x,y,c,n+1,check+1);</p>
+<p>    }</p>
+<p>    if(x[n]*10+x[n+1]n){</p>
+<p>    c[check] = arr[x[n]*10+x[n+1]];</p>
+<p>    printc(x,y,c,n+2,check+1);</p>
+<p>    }</p>
+<p>}</p>
+<p>void main(){</p>
+<p>int x[]={2, 6, 2, 6};</p>
+<p>int y=sizeof(x)/sizeof(int) ;</p>
+<p>char c[y+1];</p>
+<p>printc(x,y,c,0,0);</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-25145">
+        <div id="dsq-comment-header-25145" class="dsq-comment-header">
+            <cite id="dsq-cite-25145">
+                <span id="dsq-author-user-25145">Amit Bgl</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-25145" class="dsq-comment-body">
+            <div id="dsq-comment-message-25145" class="dsq-comment-message"><p>wow code <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_biggrin.gif" alt=":D" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-22862">
+        <div id="dsq-comment-header-22862" class="dsq-comment-header">
+            <cite id="dsq-cite-22862">
+                <span id="dsq-author-user-22862">ankur jain</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22862" class="dsq-comment-body">
+            <div id="dsq-comment-message-22862" class="dsq-comment-message"><pre> <code language="C">
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;iostream&gt;
+#include&lt;vector&gt;
+#include&lt;set&gt;
+#include&lt;map&gt;
+#include&lt;string&gt;
+
+#define input freopen(&quot;input.txt&quot;,&quot;r&quot;,stdin)
+#define output freopen(&quot;out.txt&quot;,&quot;w&quot;,stdout)
+//a=a+b-(b=a);
+
+
+using namespace std;
+/*
+struct tree
+{
+	int data;
+	string s;
+	int arr[]
+};*/
+
+	string alpha[] = {&quot;&quot;, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;,
+        &quot;f&quot;, &quot;g&quot;, &quot;h&quot;, &quot;i&quot;, &quot;j&quot;, &quot;k&quot;, &quot;l&quot;, &quot;m&quot;, &quot;n&quot;, &quot;o&quot;, &quot;p&quot;, &quot;q&quot;, &quot;r&quot;,
+        &quot;s&quot;, &quot;t&quot;, &quot;u&quot;, &quot;v&quot;, &quot;w&quot;, &quot;x&quot;, &quot;v&quot;, &quot;z&quot;};
+
+
+
+void create(int d,string s,int arr[],int n)
+{
+	//printf(&quot; %d  %d  &quot;,d,n);cout&lt;&lt;s&lt;&lt;endl;
+	if (n==0)
+	{
+		cout&lt;&lt;s&lt;&lt;endl;
+		return ;
+	}
+	d=arr[0];
+
+	//printf(&quot; 1() %d  %d  &quot;,d,n-1);cout&lt;&lt;s+alpha[d]&lt;&lt;endl;
+	create (d,s+alpha[d],arr+1,n-1);
+
+	if (n &gt; 1)
+	{
+
+		d=arr[0]*10+arr[1];
+		//printf(&quot; 2-&gt;  %d %d &quot;,d,n);cout&lt;&lt;s&lt;&lt;endl;
+		if (d &lt; 27)
+		{
+			//s=s+alpha[d];
+			//printf(&quot; 2() %d  %d  &quot;,d,n);cout&lt;&lt;s+alpha[d]&lt;&lt;endl;
+			create (d,s+alpha[d],arr+2,n-2);
+		}
+
+	}
+}
+
+
+void printAllInterpretations(int arr[],int n)
+{
+   // printf(&quot; -&gt; %d  %d  &quot;,0,n );cout&lt;&lt;&quot; &quot;&lt;&lt;endl;
+	create(0,&quot;&quot;,arr,n);
+
+}
+
+int main()
+{
+	int arr[] = {1, 2, 2, 1};
+	int n=sizeof(arr)/sizeof(arr[0]);
+    printAllInterpretations(arr,n);
+
+}
+
+
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-33886">
+        <div id="dsq-comment-header-33886" class="dsq-comment-header">
+            <cite id="dsq-cite-33886">
+                <span id="dsq-author-user-33886">Umang Mahajan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33886" class="dsq-comment-body">
+            <div id="dsq-comment-message-33886" class="dsq-comment-message"><p>great!! Just one modification&#8230;do you really need to pass &#8216;d&#8217; as a parameter? </p>
+<p>#include<br />
+#include<br />
+#include<br />
+using namespace std;</p>
+<p>string alpha[] = {&#8220;&#8221;, &#8220;a&#8221;, &#8220;b&#8221;, &#8220;c&#8221;, &#8220;d&#8221;, &#8220;e&#8221;,&#8221;f&#8221;, &#8220;g&#8221;, &#8220;h&#8221;, &#8220;i&#8221;, &#8220;j&#8221;, &#8220;k&#8221;, &#8220;l&#8221;, &#8220;m&#8221;, &#8220;n&#8221;, &#8220;o&#8221;, &#8220;p&#8221;, &#8220;q&#8221;, &#8220;r&#8221;, &#8220;s&#8221;, &#8220;t&#8221;, &#8220;u&#8221;, &#8220;v&#8221;, &#8220;w&#8221;, &#8220;x&#8221;, &#8220;v&#8221;, &#8220;z&#8221;};</p>
+<p>void create(int arr[],int n,string res)<br />
+{<br />
+	if (n==0)<br />
+	{<br />
+		cout&lt;&lt;res&lt;1)<br />
+	{<br />
+		d=arr[0]*10+arr[1];<br />
+		if (d &lt; 27)<br />
+			create (arr+2,n-2,res+alpha[d]);<br />
+	}<br />
+}</p>
+<p>void printAllInterpretations(int arr[],int n)<br />
+{<br />
+	create(arr,n,&quot;&quot;);<br />
+}</p>
+<p>int main()<br />
+{<br />
+	int arr[] = {1, 2, 1};<br />
+	int n=sizeof(arr)/sizeof(arr[0]);<br />
+        printAllInterpretations(arr,n);<br />
+        return 0;<br />
+}</p>
+<p>This seems to work fine</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-22860">
+        <div id="dsq-comment-header-22860" class="dsq-comment-header">
+            <cite id="dsq-cite-22860">
+                <span id="dsq-author-user-22860">ankur jain</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22860" class="dsq-comment-body">
+            <div id="dsq-comment-message-22860" class="dsq-comment-message"><p>i have done this only by recursion doesnot make any tree<br />
+then why their is need to build tree ?<br />
+please correct me..if am wrong (or if by taking tree is better apporach then mine )</p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;iostream&gt;
+#include&lt;vector&gt;
+#include&lt;set&gt;
+#include&lt;map&gt;
+#include&lt;string&gt;
+
+#define input freopen(&quot;input.txt&quot;,&quot;r&quot;,stdin)
+#define output freopen(&quot;out.txt&quot;,&quot;w&quot;,stdout)
+//a=a+b-(b=a);
+
+
+using namespace std;
+/*
+struct tree
+{
+	int data;
+	string s;
+	int arr[]
+};*/
+
+	string alpha[] = {&quot;&quot;, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;,
+        &quot;f&quot;, &quot;g&quot;, &quot;h&quot;, &quot;i&quot;, &quot;j&quot;, &quot;k&quot;, &quot;l&quot;, &quot;m&quot;, &quot;n&quot;, &quot;o&quot;, &quot;p&quot;, &quot;q&quot;, &quot;r&quot;,
+        &quot;s&quot;, &quot;t&quot;, &quot;u&quot;, &quot;v&quot;, &quot;w&quot;, &quot;x&quot;, &quot;v&quot;, &quot;z&quot;};
+
+
+
+void create(int d,string s,int arr[],int n)
+{
+	//printf(&quot; %d  %d  &quot;,d,n);cout&lt;&lt;s&lt;&lt;endl;
+	if (n==0)
+	{
+		cout&lt;&lt;s&lt;&lt;endl;
+		return ;
+	}
+	d=arr[0];
+
+	//printf(&quot; 1() %d  %d  &quot;,d,n-1);cout&lt;&lt;s+alpha[d]&lt;&lt;endl;
+	create (d,s+alpha[d],arr+1,n-1);
+
+	if (n &gt; 1)
+	{
+
+		d=arr[0]*10+arr[1];
+		//printf(&quot; 2-&gt;  %d %d &quot;,d,n);cout&lt;&lt;s&lt;&lt;endl;
+		if (d &lt; 27)
+		{
+			//s=s+alpha[d];
+			//printf(&quot; 2() %d  %d  &quot;,d,n);cout&lt;&lt;s+alpha[d]&lt;&lt;endl;
+			create (d,s+alpha[d],arr+2,n-2);
+		}
+
+	}
+}
+
+
+void printAllInterpretations(int arr[],int n)
+{
+   // printf(&quot; -&gt; %d  %d  &quot;,0,n );cout&lt;&lt;&quot; &quot;&lt;&lt;endl;
+	create(0,&quot;&quot;,arr,n);
+
+}
+
+int main()
+{
+	int arr[] = {1, 2, 2, 1};
+	int n=sizeof(arr)/sizeof(arr[0]);
+    printAllInterpretations(arr,n);
+
+}
+
+
+
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-bateesh odd alt thread-even depth-1" id="dsq-comment-22739">
+        <div id="dsq-comment-header-22739" class="dsq-comment-header">
+            <cite id="dsq-cite-22739">
+                <span id="dsq-author-user-22739">bateesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22739" class="dsq-comment-body">
+            <div id="dsq-comment-message-22739" class="dsq-comment-message"><p>A very simple solution which assumes that at a particular index we can put a alphabet which can be formed by max. 2 digits as 26 is max range of alphabets.<br />
+Like for 1,2,1<br />
+for first index we can have 1 or 12<br />
+3 digits combination is not possible.Following is the implementation. </p>
+<pre> <code language="C">
+#include&lt;iostream.h&gt;
+#include&lt;conio.h&gt;
+void permute(int *arr,int s,int e,int idx,char *str);
+int main()
+{
+    int arr[20];
+    char str[20];
+    int n;
+    printf(&quot;\n enter the total digits:&quot;);
+    cin&gt;&gt;n;
+    for(int i=0;i&lt;n;i++)
+    cin&gt;&gt;arr[i];
+     permute(arr,0,n,0,str);
+     getchar();
+     getchar();
+}
+void permute(int *arr,int s,int e,int idx,char *str)
+{
+        if(s==e)
+        {
+          printf(&quot;\n&quot;);
+          str[idx]='&#92;&#48;';
+          puts(str);
+   return;
+        }       
+
+     
+     int temp=0;
+     for(int i=s;i&lt;e&amp;&amp;i&lt;s+2;i++)
+{    
+        temp=(temp*10)+arr[i];    
+        if(temp&lt;=26)
+        {
+        
+        str[idx]=temp+64;
+         permute(arr,i+1,e,idx+1,str);
+         }    
+     
+}
+     
+}   
+   
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-xxmajia even thread-odd thread-alt depth-1" id="dsq-comment-22028">
+        <div id="dsq-comment-header-22028" class="dsq-comment-header">
+            <cite id="dsq-cite-22028">
+                <span id="dsq-author-user-22028">xxmajia</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22028" class="dsq-comment-body">
+            <div id="dsq-comment-message-22028" class="dsq-comment-message"><p>Shall we change &#8220;Given an array of digits (1 to 9) as input&#8221; to<br />
+&#8220;Given an array of digits (0 to 9) as input&#8221;?<br />
+if there is no 0, we can not interpret 10 and 20<br />
+Anyway, the solution is correct and considering 0 as part of the input</p>
+<p>/* Paste your code here (You may delete these lines if not writing code) */<br />
+public static ArrayList&lt;ArrayList&lt;Character&gt;&gt; findAll (int[] A) {<br />
+		ArrayList&lt;ArrayList&lt;Character&gt;&gt; results = new ArrayList&lt;ArrayList&lt;Character&gt;&gt;();<br />
+		if (A == null || A.length == 0) {<br />
+			return results;<br />
+		}</p>
+<p>		doFindAll(A, 0, results, new ArrayList&lt;Character&gt;());<br />
+		return results;<br />
+	}</p>
+<p>	public static void doFindAll (int[] A, int position, ArrayList&lt;ArrayList&lt;Character&gt;&gt; results, ArrayList&lt;Character&gt; result) {<br />
+		if (position == A.length) {<br />
+			results.add((ArrayList&lt;Character&gt;)result.clone());<br />
+			return;<br />
+		}</p>
+<p>		int sum = 0;<br />
+		for (int i = position; i &lt; A.length; i++) {<br />
+			sum = sum*10 + A[position];<br />
+			if (1 &lt;= sum &amp;&amp; sum &lt;= 26) {<br />
+				result.add((char)(&#8216;a&#8217; + sum &#8211; 1));<br />
+				doFindAll(A, i+1, results, result);<br />
+				result.remove(result.size()-1);<br />
+			} else {<br />
+				return;<br />
+			}<br />
+		}<br />
+	}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-xxmajia odd alt thread-even depth-1" id="dsq-comment-22024">
+        <div id="dsq-comment-header-22024" class="dsq-comment-header">
+            <cite id="dsq-cite-22024">
+                <span id="dsq-author-user-22024">xxmajia</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22024" class="dsq-comment-body">
+            <div id="dsq-comment-message-22024" class="dsq-comment-message"><p>Shall we change &#8220;Given an array of digits (1 to 9) as input&#8221; to<br />
+&#8220;Given an array of digits (0 to 9) as input&#8221;?<br />
+if there is no 0, we can not interpret 10 and 20<br />
+Anyway, the solution is correct and considering 0 as part of the input</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-21267">
+        <div id="dsq-comment-header-21267" class="dsq-comment-header">
+            <cite id="dsq-cite-21267">
+                <span id="dsq-author-user-21267">MVN Murthy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21267" class="dsq-comment-body">
+            <div id="dsq-comment-message-21267" class="dsq-comment-message"><p>//It can be easily solved by iteration. no need of recursion and no need of creating binary tree.<br />
+//Space complexity (1)</p>
+<p>x = [int(i) for i in raw_input().split()]<br />
+n = len(x)<br />
+for i in x:<br />
+	print chr(96+i),</p>
+<p>print<br />
+for i in range(n-1):<br />
+	a=int(str(x[i])+str(x[i+1]))<br />
+	if a&gt;26: continue</p>
+<p>	for j in range(i): print chr(x[j]+96),</p>
+<p>	print chr(96+a),</p>
+<p>	for j in range(i+2,n):	print chr(x[j]+96)</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-21322">
+        <div id="dsq-comment-header-21322" class="dsq-comment-header">
+            <cite id="dsq-cite-21322">
+http://mytechdiet.com                <span id="dsq-author-user-21322">Rahul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21322" class="dsq-comment-body">
+            <div id="dsq-comment-message-21322" class="dsq-comment-message"><p>can you please explain your logic?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-bateesh even thread-even depth-1" id="dsq-comment-21134">
+        <div id="dsq-comment-header-21134" class="dsq-comment-header">
+            <cite id="dsq-cite-21134">
+                <span id="dsq-author-user-21134">bateesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21134" class="dsq-comment-body">
+            <div id="dsq-comment-message-21134" class="dsq-comment-message"><p>This can be done easily with recursion and many people  has already submitted this solution.Can anyone tell me the complexity for the recursive solution?I dnt think it will have overlapping subproblems.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-shek8034 odd alt depth-2" id="dsq-comment-21172">
+        <div id="dsq-comment-header-21172" class="dsq-comment-header">
+            <cite id="dsq-cite-21172">
+                <span id="dsq-author-user-21172">shek8034</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21172" class="dsq-comment-body">
+            <div id="dsq-comment-message-21172" class="dsq-comment-message"><p>Complexity is O(n) in worst case, if the tree formed is skewed.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-bateesh even depth-3" id="dsq-comment-21221">
+        <div id="dsq-comment-header-21221" class="dsq-comment-header">
+            <cite id="dsq-cite-21221">
+                <span id="dsq-author-user-21221">bateesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21221" class="dsq-comment-body">
+            <div id="dsq-comment-message-21221" class="dsq-comment-message"><p>@shek8034.<br />
+I think worst case for this would not be 0(n).The complexity for this according to me  is 0(2^n).It can also be deduced from the tree shown in above diagram.plz comment if m getting it wrong.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-shek8034 odd alt depth-4" id="dsq-comment-21224">
+        <div id="dsq-comment-header-21224" class="dsq-comment-header">
+            <cite id="dsq-cite-21224">
+                <span id="dsq-author-user-21224">shek8034</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21224" class="dsq-comment-body">
+            <div id="dsq-comment-message-21224" class="dsq-comment-message"><p>@bateesh : Yes you are right. Complexity is O(2^n) since we are generating all permutations&#8230;</p>
+<p>My bad. <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_razz.gif" alt=":P" class="wp-smiley" /> Please ignore my previous comment.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-shek8034 even thread-odd thread-alt depth-1" id="dsq-comment-20872">
+        <div id="dsq-comment-header-20872" class="dsq-comment-header">
+            <cite id="dsq-cite-20872">
+                <span id="dsq-author-user-20872">shek8034</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20872" class="dsq-comment-body">
+            <div id="dsq-comment-message-20872" class="dsq-comment-message"><p>No need to build Binary tree.Easily done Using recursion.<br />
+Because recursion itself makes the binary tree.</p>
+<p>A very simple recursive code.<br />
+Please comment if you find any problem<br />
+Thanks <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+<pre> <code language="C">
+#include&lt;iostream&gt;
+#include&lt;string&gt;
+#include&lt;stdio.h&gt;
+using namespace std;
+
+int arr[]={1,1,3,4};
+int n = sizeof(arr)/sizeof(arr[0]);
+
+void interpretation(string str,int idx)
+{
+	if(idx == n)
+	{
+		cout&lt;&lt;str&lt;&lt;endl;
+		return;
+	}
+	// add character to string
+	str.push_back(arr[idx]+64);
+	// go to left subtree of recursion 
+	interpretation(str,idx+1); 
+	if(idx+1 &lt;= n-1)
+	{
+		// char formed by 2 digits
+		int num = arr[idx]*10 + arr[idx+1]; 
+		if(num &lt;= 26)
+		{
+			// remove previous element
+			str.erase(str.size()-1,1);
+			// add this 2 digit char 
+			str.push_back(num+64); 
+			// go to right subtree of recursion while incrementing the index by 2
+			interpretation(str,idx+2); 
+		}
+	}
+	else
+		return;
+}
+
+int main()
+{
+	interpretation(&quot;&quot;,0);
+	return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-20798">
+        <div id="dsq-comment-header-20798" class="dsq-comment-header">
+            <cite id="dsq-cite-20798">
+                <span id="dsq-author-user-20798">illuminati</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20798" class="dsq-comment-body">
+            <div id="dsq-comment-message-20798" class="dsq-comment-message"><p>It can be done by recursion easily&#8230; Below is the source code for it.</p>
+<pre> <code language="C">
+#include&lt;iostream&gt;
+#include&lt;cstring&gt;
+#include&lt;sstream&gt;
+using namespace std;
+int n;
+void dig_combs(int arr[],int k,string ans)
+{
+     int r;
+     if(k==n){
+     cout&lt;&lt;ans&lt;&lt;endl;
+     int temp;
+     stringstream s (ans);
+     while(s&gt;&gt; temp){
+     char ch=(char)(temp-1)+'a';
+     //cout&lt;&lt;&quot;temp: &quot;&lt;&lt;temp&lt;&lt;endl;
+     cout&lt;&lt;ch&lt;&lt;&quot; &quot;;
+     }
+     cout&lt;&lt;endl;
+     
+     //cout&lt;&lt;ans&lt;&lt;endl;
+     return;
+     }     
+     if(k&lt;n-1)
+     {
+          string h,xx;
+          r=arr[k]*10+arr[k+1];
+          if(r&gt;=1 &amp;&amp; r&lt;=26){
+          h=ans;
+          stringstream ss;
+          ss &lt;&lt; r;
+          xx = ss.str();
+          h+=xx;
+          h+=&quot; &quot;;
+          dig_combs(arr,k+2,h);
+          }
+     }
+         string h,xx;
+         r=arr[k];
+         if(r&gt;=1 &amp;&amp; r&lt;10){
+          h=ans;
+          stringstream ss;
+          ss &lt;&lt; r;
+          xx = ss.str();
+          h+=xx;
+          h+=&quot; &quot;;
+          dig_combs(arr,k+1,h); 
+          }
+}
+int main()
+{
+    int arr[4]={1,1,3,4};
+    n=4;
+    dig_combs(arr,0,&quot;&quot;);
+    system(&quot;pause&quot;);
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-20710">
+        <div id="dsq-comment-header-20710" class="dsq-comment-header">
+            <cite id="dsq-cite-20710">
+                <span id="dsq-author-user-20710">Rahul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20710" class="dsq-comment-body">
+            <div id="dsq-comment-message-20710" class="dsq-comment-message"><pre> <code language="C">
+/* #include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+
+using namespace std;
+
+char alphabet[] = {' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 
+				   'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+
+typedef struct node
+{
+	string value;
+	struct node *left;
+	struct node *right;
+
+	node()
+	{
+		value = &quot; &quot;;
+		left = NULL;
+		right = NULL;
+	}
+}node_t;
+
+node_t* buildTree(vector&lt;int&gt; vArr, string parentValue, int data);
+void printTree(node_t *root);
+
+node_t* buildTree(vector&lt;int&gt; vArr, string parentValue, int data)
+{
+	if(data &gt; 26)
+		return NULL;
+
+	string nodeValue = parentValue + alphabet[data];
+
+	node_t *root = new node_t;
+	root-&gt;value = nodeValue;
+	root-&gt;left = NULL;
+	root-&gt;right = NULL;
+
+	if(vArr.size() &gt; 0)
+	{
+		data = vArr[0];
+
+		vector&lt;int&gt; vSubArrLeft(vArr.begin() + 1, vArr.end());
+		root-&gt;left = buildTree(vSubArrLeft, nodeValue, vArr[0]);
+
+		if(vArr.size() &gt; 1)
+		{
+			data = vArr[0] * 10 + vArr[1];
+			
+			vector&lt;int&gt; vSubArrRight(vArr.begin() + 2, vArr.end());
+			root-&gt;right = buildTree(vSubArrRight, nodeValue, data);
+		}
+	}
+
+	return root;
+}
+
+void printTree(node_t *root)
+{
+	if(root == NULL)
+		return;
+	printTree(root-&gt;left);
+	if(root-&gt;left == NULL &amp;&amp; root-&gt;right == NULL)
+		cout &lt;&lt; root-&gt;value &lt;&lt; endl;
+	printTree(root-&gt;right);
+}
+
+int main()
+{
+	int arr[] = {1, 2, 1};
+	vector&lt;int&gt; vArr(arr, arr + 3);
+
+	node_t *root = buildTree(vArr, &quot; &quot;, 0);
+
+	printTree(root);
+
+	system(&quot;PAUSE&quot;);
+} */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-eof odd alt thread-even depth-1" id="dsq-comment-20318">
+        <div id="dsq-comment-header-20318" class="dsq-comment-header">
+            <cite id="dsq-cite-20318">
+                <span id="dsq-author-user-20318">EOF</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20318" class="dsq-comment-body">
+            <div id="dsq-comment-message-20318" class="dsq-comment-message"><p>Another way of thinking:</p>
+<p>1) Let toChar(i) denotes the character corresponding to digit i.<br />
+2) Let f(i,j) denotes all the interpretations of the array arr[i..j]. The problem can be recursively defined as:</p>
+<pre> <code language="C">
+f(i,j) = toChar(arr[i]) UNION f(i+1,j);
+	if(10*arr[i]+arr[i+1] &lt;= 26)
+		f(i,j) = f(i,j) UNION tochar(10*arr[i]+arr[i+1]) UNION f(i+2,j);
+</code> </pre>
+<p>For simplicity I didn&#8217;t do the bound checking for array indexes and base cases. <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /><br />
+Can be implemented with O(n) time complexity using Dynamic Programming.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-19928">
+        <div id="dsq-comment-header-19928" class="dsq-comment-header">
+            <cite id="dsq-cite-19928">
+                <span id="dsq-author-user-19928">atul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19928" class="dsq-comment-body">
+            <div id="dsq-comment-message-19928" class="dsq-comment-message"><p>output for below test case is wrong :-</p>
+<pre> <code language="C">
+int arr[]={1, 1, 3,0,0};
+</code> </pre>
+<p>output : aac aac am am kc kc</p>
+<p>expected output : aac am kc</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-20008">
+        <div id="dsq-comment-header-20008" class="dsq-comment-header">
+            <cite id="dsq-cite-20008">
+                <span id="dsq-author-user-20008">coder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20008" class="dsq-comment-body">
+            <div id="dsq-comment-message-20008" class="dsq-comment-message"><p>your input case is wrong since in the question it is clearly given that  &#8220;array of digits (1 to 9) is taken as input&#8221;.<br />
+If you find something unconvincing then do reply to this post.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-20041">
+        <div id="dsq-comment-header-20041" class="dsq-comment-header">
+            <cite id="dsq-cite-20041">
+                <span id="dsq-author-user-20041">atul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20041" class="dsq-comment-body">
+            <div id="dsq-comment-message-20041" class="dsq-comment-message"><p>given code itself have similar test case :-</p>
+<p>// a(1,0} j(10)<br />
+        int[] arr5 = {1, 0};<br />
+        printAllInterpretations(arr5);</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-20079">
+        <div id="dsq-comment-header-20079" class="dsq-comment-header">
+            <cite id="dsq-cite-20079">
+                <span id="dsq-author-user-20079">coder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20079" class="dsq-comment-body">
+            <div id="dsq-comment-message-20079" class="dsq-comment-message"><p>kk..actually my code is written as per the question given and I didn&#8217;t see the code that was there of java so consider the code only when the given array has digits(1 to 9)..although there won&#8217;t be much change in the code to make it valid for test cases involving zero.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-19163">
+        <div id="dsq-comment-header-19163" class="dsq-comment-header">
+            <cite id="dsq-cite-19163">
+                <span id="dsq-author-user-19163">coder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19163" class="dsq-comment-body">
+            <div id="dsq-comment-message-19163" class="dsq-comment-message"><p>I think rather than representing the string as physical tree,it is better to use recursion.</p>
+<p>#include&lt;iostream&gt;<br />
+using namespace std;<br />
+#define MAX 100<br />
+char arr[27];<br />
+int input[MAX];<br />
+int n;<br />
+void permut(char *a,int index,int,int);<br />
+int main()<br />
+{</p>
+<p>    cout&lt;&lt;&quot;enter no. of elements&quot;&lt;&lt;endl;<br />
+    cin&gt;&gt;n;<br />
+    cout&lt;&lt;&quot;enter the elements&quot;&lt;&lt;endl;<br />
+    for(int i=0;i&lt;n;i++)<br />
+            cin&gt;&gt;input[i];<br />
+    for(int i=1;i&lt;=26;i++)<br />
+    arr[i]=&#8217;a&#8217;+i-1;<br />
+    char a[MAX];<br />
+    a[0]=&#8217; &#8216;;<br />
+    permut(a,input[0],0,0);<br />
+    system(&quot;pause&quot;);<br />
+}<br />
+void permut(char a[],int index,int j,int stin)<br />
+{<br />
+       if(j&gt;=n)<br />
+      {<br />
+             a[stin]=&#8217;&#092;&#048;';<br />
+             cout&lt;&lt;a&lt;&lt;endl;<br />
+             return ;<br />
+      }<br />
+       a[stin]=arr[index];<br />
+       permut(a,input[j+1],j+1,stin+1);<br />
+       if(j+1&lt;=n-1)<br />
+       {<br />
+         int in=index*10+input[j+1];<br />
+         if(in&lt;=26)<br />
+         {<br />
+                 a[stin]=arr[in];<br />
+                 permut(a,input[j+2],j+2,stin+1);<br />
+         }<br />
+         else return ;<br />
+       }<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-19162">
+        <div id="dsq-comment-header-19162" class="dsq-comment-header">
+            <cite id="dsq-cite-19162">
+                <span id="dsq-author-user-19162">coder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19162" class="dsq-comment-body">
+            <div id="dsq-comment-message-19162" class="dsq-comment-message"><p>I think recursion will work just fine.No need to represent it as a tree physically.It will be a logical tree by recursion.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-kk-nitrkl even thread-even depth-1" id="dsq-comment-19078">
+        <div id="dsq-comment-header-19078" class="dsq-comment-header">
+            <cite id="dsq-cite-19078">
+                <span id="dsq-author-user-19078">kk.nitrkl</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19078" class="dsq-comment-body">
+            <div id="dsq-comment-message-19078" class="dsq-comment-message"><p>#include &lt;iostream&gt;<br />
+#include &lt;string&gt;</p>
+<p>using namespace std;</p>
+<p>bool is_valid(int a)<br />
+{<br />
+    return a &gt;= 65 &amp;&amp; a &lt;= 90;<br />
+}</p>
+<p>void interpret(int arr[], string str, int curr, int len)<br />
+{<br />
+    if(curr == len)<br />
+	{<br />
+		cout&lt;&lt;str&lt;&lt;endl;<br />
+	}<br />
+	else<br />
+	{<br />
+        for(int i = curr; i &lt; len; )<br />
+		{<br />
+            str.push_back(char(arr[i] + 64));<br />
+			interpret(arr, str, i + 1, len);<br />
+			if(i &lt; len &#8211; 1 &amp;&amp; is_valid(10*arr[i] + arr[i + 1] + 64))<br />
+			{<br />
+                str.erase(str.size() &#8211; 1, 1);<br />
+                str.push_back(char(arr[i]*10 + arr[i + 1] + 64));<br />
+				interpret(arr, str, i + 2, len);<br />
+                i++;<br />
+            }<br />
+            i++;<br />
+		}<br />
+	}</p>
+<p>}</p>
+<p>int main()<br />
+{<br />
+	int arr[] = {1, 2, 3, 4};<br />
+	string str = &quot;&quot;;<br />
+	interpret(arr, str, 0, sizeof(arr)/sizeof(arr[0]));<br />
+    return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-19052">
+        <div id="dsq-comment-header-19052" class="dsq-comment-header">
+            <cite id="dsq-cite-19052">
+http://nitish712.blogspot.com                <span id="dsq-author-user-19052">nitish712</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19052" class="dsq-comment-body">
+            <div id="dsq-comment-message-19052" class="dsq-comment-message"><pre> <code language="C">
+#include &lt;stdio.h&gt;
+int vals[10];
+int vcnt;
+int n=8;
+int arr[]={1,2,3,1,2,3,2,4};
+void compute(int lev, int idx)
+{
+	if(lev==n)
+	{
+		check(idx);
+		return;
+	}
+	vals[idx] = arr[lev];
+	compute(lev+1, idx+1);
+	if(lev&gt;=n-1)
+		return;	
+	vals[idx] = vals[idx]*10 + arr[lev+1];
+	if(vals[idx]&gt;26)
+		return;
+	compute(lev+2, idx+1);
+}
+void check(int no)
+{
+	int i=0;
+	for(; i&lt;no; i++)
+		printf(&quot;%c&quot;, vals[i]+'a');
+	printf(&quot;\n&quot;);
+}
+
+int main()
+{
+	compute(0,0);
+	return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-jainamit0909gmail-com even thread-even depth-1" id="dsq-comment-18876">
+        <div id="dsq-comment-header-18876" class="dsq-comment-header">
+            <cite id="dsq-cite-18876">
+                <span id="dsq-author-user-18876">AMIT</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18876" class="dsq-comment-body">
+            <div id="dsq-comment-message-18876" class="dsq-comment-message"><p>print the output without building the tree</p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+void print1(int a[],char b[],int i1,int n,int i2,int flag)
+{
+    if(i1==n &amp;&amp; flag==1)
+    return;
+    if(i1==n)
+    {
+        b[i2]='&#92;&#48;';
+        printf(&quot;%s\t&quot;,b);
+    }
+    if(flag==0 &amp;&amp; a[i1]==0)
+    return;
+    if(flag==1 &amp;&amp; (a[i1-1]&gt;2 ||(a[i1-1]==2 &amp;&amp; a[i1]&gt;6)))
+    return;
+    if(flag==0)
+    {
+        b[i2]='a'+a[i1]-1;
+        print1(a,b,i1+1,n,i2+1,0);
+        print1(a,b,i1+1,n,i2,1);
+    }
+    else
+    {
+        b[i2]='a'+a[i1]+a[i1-1]*10-1;
+        print1(a,b,i1+1,n,i2+1,0);
+    }
+}
+void print(int a[],int n)
+{
+    char *b=(char *)malloc(sizeof(char)*n+1);
+    print1(a,b,0,n,0,0);
+    free(b);
+}
+int main()
+{
+        int n;
+        int arr[] = {1, 1, 3, 4};
+        n=sizeof(arr)/sizeof(arr[0]);
+        print(arr,n);
+        printf(&quot;\n&quot;);
+        // aaa(1,1,1) ak(1,11) ka(11,1)
+      int arr2[] = {1, 1, 1};
+
+        n=sizeof(arr2)/sizeof(arr2[0]);
+        print(arr2,n);
+
+        printf(&quot;\n&quot;);
+       // bf(2,6) z(26)
+       int arr3[] = {2 ,6};
+        n=sizeof(arr3)/sizeof(arr3[0]);
+        print(arr3,n);
+        printf(&quot;     \n&quot;);
+
+      // ab(1,2), l(12)
+        int arr4[] = {1, 2};
+        n=sizeof(arr4)/sizeof(arr4[0]);
+        print(arr4,n);
+
+        printf(&quot;\n&quot;);
+        // a(1,0} j(10)
+        int arr5[] = {1, 0};
+        n=sizeof(arr5)/sizeof(arr5[0]);
+        print(arr5,n);
+
+        printf(&quot;\n&quot;);
+       // &quot;&quot; empty string output as array is empty
+   /*     int arr6 = {};
+
+        n=sizeof(arr)/sizeof(arr[0]);
+        print(arr6);
+ */
+        // abba abu ava lba lu
+        int arr7[] = {1, 2, 2, 1};
+
+        n=sizeof(arr7)/sizeof(arr7[0]);
+        print(arr7,n);
+        printf(&quot;\n&quot;);
+    return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-ankitjaingc odd alt thread-odd thread-alt depth-1" id="dsq-comment-18810">
+        <div id="dsq-comment-header-18810" class="dsq-comment-header">
+            <cite id="dsq-cite-18810">
+                <span id="dsq-author-user-18810">ankitjaingc</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18810" class="dsq-comment-body">
+            <div id="dsq-comment-message-18810" class="dsq-comment-message"><p>What is the best case complexity ??<br />
+I could come up with O(n2)=O(n square).<br />
+Please suggest better method.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-ankitjaingc even thread-even depth-1" id="dsq-comment-18809">
+        <div id="dsq-comment-header-18809" class="dsq-comment-header">
+            <cite id="dsq-cite-18809">
+                <span id="dsq-author-user-18809">ankitjaingc</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18809" class="dsq-comment-body">
+            <div id="dsq-comment-message-18809" class="dsq-comment-message"><p>#include<stdio .h></p>
+<p>int Possible(int *A,int n)<br />
+{<br />
+	int i=0,j=0;<br />
+	for(i=0;i<n;i++)<br />
+		printf(&#8220;%c&#8221;,A[i]+96);<br />
+	printf(&#8220;\n&#8221;);<br />
+	for(i=0;i<n-1;i++)<br />
+	{<br />
+		if(A[i]*10+A[i+1]<=26)<br />
+		{<br />
+			for(j=0;j<i;j++)<br />
+				printf(&#8220;%c&#8221;,A[j]+96);</p>
+<p>			printf(&#8220;%c&#8221;,A[i]*10+A[i+1]+96);</p>
+<p>			for(j=i+2;j<n;j++)<br />
+				printf(&#8220;%c&#8221;,A[j]+96);</p>
+<p>			printf(&#8220;\n&#8221;);<br />
+		}</p>
+<p>	}</p>
+<p>}</p>
+<p>main()<br />
+{<br />
+	int A[]= {9,1,8};<br />
+	int n=3;<br />
+	Possible(A,n);</p>
+<p>	return 0;<br />
+}</stdio></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-18794">
+        <div id="dsq-comment-header-18794" class="dsq-comment-header">
+            <cite id="dsq-cite-18794">
+                <span id="dsq-author-user-18794">Lam</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18794" class="dsq-comment-body">
+            <div id="dsq-comment-message-18794" class="dsq-comment-message"><p>I think we can use recursion, the pros is that it does not require to store the leaves of the tree. Cons of the recursion is many function calls which maybe inefficient. However, there will be no algorithm that is better than O(2^n) in the worst case since the output in the worst case will be that number.</p>
+<pre> <code language="C">
+#include &lt;stdio.h&gt;
+#include &lt;string&gt;
+#include &lt;iostream&gt;
+using namespace std;
+
+/**
+* return a character corresponding to the digit, e.g. 1-&gt;a, 2-&gt;b, ..., 26 -&gt;z
+*/
+char digitToChar(int d){
+	const string s=&quot;abcdefghijklmnopqrstuvwxyz&quot;;
+	if(d&gt;=27||d&lt;=0)
+		return '#';
+	return s[d-1];
+}
+
+/**
+* recursion solution
+*/
+void interpretation(string prefix, string s){
+	if(s.empty()){
+		if(prefix.find('#')==string::npos)
+			cout&lt;&lt;prefix&lt;&lt;endl;
+		return;
+	}else{
+		interpretation(prefix+&quot; &quot;+digitToChar(atoi(s.substr(0,1).c_str())),s.substr(1,s.length()-1));
+		if(s.length()&gt;=2){
+			char c=digitToChar(atoi(s.substr(0,2).c_str()));
+			if(c!='#'){
+				interpretation(prefix+&quot; &quot;+c,s.substr(2,s.length()-2));				
+			}
+		}
+	}
+}
+
+void main(int argc, char* argv[]){
+	interpretation(&quot;&quot;,&quot;121&quot;);
+	cout&lt;&lt;&quot;**************&quot;&lt;&lt;endl;
+	interpretation(&quot;&quot;,&quot;1134&quot;);
+	cout&lt;&lt;&quot;**************&quot;&lt;&lt;endl;
+	interpretation(&quot;&quot;,&quot;111&quot;);
+	cout&lt;&lt;&quot;**************&quot;&lt;&lt;endl;
+	interpretation(&quot;&quot;,&quot;26&quot;);
+	cout&lt;&lt;&quot;**************&quot;&lt;&lt;endl;
+	interpretation(&quot;&quot;,&quot;10&quot;);
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-nitin35 even thread-even depth-1" id="dsq-comment-18793">
+        <div id="dsq-comment-header-18793" class="dsq-comment-header">
+            <cite id="dsq-cite-18793">
+                <span id="dsq-author-user-18793">nitin35</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18793" class="dsq-comment-body">
+            <div id="dsq-comment-message-18793" class="dsq-comment-message"><p>creating a complete tree is not necessary<br />
+following should work just fine i think</p>
+<p>/* Paste your code here (You may delete these lines if not writing code) */<br />
+#include&lt;iostream&gt;<br />
+#include&lt;vector&gt;<br />
+using namespace std;<br />
+string alpha[27]={&quot; &quot;,&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;,&quot;f&quot;,&quot;g&quot;,&quot;h&quot;,&quot;i&quot;,&quot;j&quot;,&quot;k&quot;,&quot;l&quot;,&quot;m&quot;,&quot;n&quot;,&quot;o&quot;,&quot;p&quot;,&quot;q&quot;,&quot;r&quot;,&quot;s&quot;,&quot;t&quot;,&quot;u&quot;,&quot;v&quot;,&quot;w&quot;,&quot;x&quot;,&quot;y&quot;,&quot;z&quot;};</p>
+<p>void process(string s,vector&lt;int&gt; rem)<br />
+{<br />
+    int a,b,c;<br />
+    if(rem.empty())<br />
+        cout&lt;&lt;s&lt;&lt;endl;</p>
+<p>    else<br />
+    {<br />
+        //process one length<br />
+            a=rem[0];<br />
+            rem.erase(rem.begin());<br />
+            process(s+alpha[a],rem);<br />
+        //process two length<br />
+            if(!rem.empty())<br />
+            {<br />
+                b=rem[0];<br />
+                rem.erase(rem.begin());<br />
+                c=a*10+b;<br />
+                process(s+alpha,rem);<br />
+            }<br />
+    }<br />
+}</p>
+<p>int main()<br />
+{<br />
+    vector&lt;int&gt;a;<br />
+    a.push_back(1);<br />
+    a.push_back(2);<br />
+    a.push_back(2);<br />
+    a.push_back(1);<br />
+    process(&quot;&quot;,a);<br />
+    return 0;<br />
+}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks odd alt depth-2" id="dsq-comment-18797">
+        <div id="dsq-comment-header-18797" class="dsq-comment-header">
+            <cite id="dsq-cite-18797">
+                <span id="dsq-author-user-18797">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18797" class="dsq-comment-body">
+            <div id="dsq-comment-message-18797" class="dsq-comment-message"><p>@nitin35: Could you please post your code again between sourcecode tags?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-nitin35 even depth-3" id="dsq-comment-19327">
+        <div id="dsq-comment-header-19327" class="dsq-comment-header">
+            <cite id="dsq-cite-19327">
+                <span id="dsq-author-user-19327">nitin35</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19327" class="dsq-comment-body">
+            <div id="dsq-comment-message-19327" class="dsq-comment-message"><pre> <code language="C">
+#include&lt;iostream&gt;
+#include&lt;vector&gt;
+using namespace std;
+string alpha[27]={&quot; &quot;,&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;,&quot;f&quot;,&quot;g&quot;,&quot;h&quot;,&quot;i&quot;,&quot;j&quot;,&quot;k&quot;,&quot;l&quot;,&quot;m&quot;,&quot;n&quot;,&quot;o&quot;,&quot;p&quot;,&quot;q&quot;,&quot;r&quot;,&quot;s&quot;,&quot;t&quot;,&quot;u&quot;,&quot;v&quot;,&quot;w&quot;,&quot;x&quot;,&quot;y&quot;,&quot;z&quot;};
+
+
+void process(string s,vector&lt;int&gt; rem)
+{
+    int a,b,c;
+    if(rem.empty())
+        cout&lt;&lt;s&lt;&lt;endl;
+
+    else
+    {
+        //process one length
+            a=rem[0];
+            rem.erase(rem.begin());
+            process(s+alpha[a],rem);
+        //process two length
+            if(!rem.empty())
+            {
+                b=rem[0];
+                rem.erase(rem.begin());
+                c=a*10+b;
+                process(s+alpha,rem);
+            }
+    }
+}
+
+int main()
+{
+    vector&lt;int&gt;a;
+    a.push_back(1);
+    a.push_back(2);
+    a.push_back(2);
+    a.push_back(1);
+    process(&quot;&quot;,a);
+    return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-18782">
+        <div id="dsq-comment-header-18782" class="dsq-comment-header">
+            <cite id="dsq-cite-18782">
+                <span id="dsq-author-user-18782">Dheeraj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18782" class="dsq-comment-body">
+            <div id="dsq-comment-message-18782" class="dsq-comment-message"><p>Total count of interpretations can be written as following:</p>
+<p>count(arr, n) = n if n = 1 or n = 0</p>
+<p>count(arr, n) = count(arr+1, n-1) + count(arr+2, n-2) if n &gt; 2 and arr[0]*10 + arr[1] &gt; 26</p>
+<p>count(arr, n) = count(arr+1, n-1) otherwise</p>
+<p>In ur solution, u have used a Binary Tree to store results of sub-problems because there are overlapping subproblems, let me know if my understanding is correct.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/find-all-possible-interpretations/';
+var disqus_identifier = '118567 http://www.geeksforgeeks.org/?p=118567';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Find all possible interpretations of an array of digits";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushJava.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.218 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:30:18 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

@@ -1,0 +1,1202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Compute the integer absolute value (abs) without branching  - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/compute-the-integer-absolute-value-abs-without-branching/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Compute the integer absolute value (abs) without branching  - GeeksforGeeks" />
+<meta property="og:description" content="We need not to do anything if a number is positive. We want to change only negative numbers. Since negative numbers are stored in 2&#8217;s complement form, to get the absolute value of a negative number we have to toggle bits of the number and add 1 to the result. For example -2 in a &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/compute-the-integer-absolute-value-abs-without-branching/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Bit Magic" />
+<meta property="article:section" content="Bit Magic" />
+<meta property="article:published_time" content="2010-02-26T11:10:21+00:00" />
+<meta property="article:modified_time" content="2010-02-27T03:47:14+00:00" />
+<meta property="og:updated_time" content="2010-02-27T03:47:14+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.519 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111772 210.212.53.139 172.19.11.169';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Compute the integer absolute value (abs) without branching</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>We need not to do anything if a number is positive. We want to change only negative numbers. Since  negative numbers are stored in <a href="http://en.wikipedia.org/wiki/Two%27s_complement">2&#8217;s complement</a> form, to get the absolute value of a negative number we have to toggle bits of the number and add 1 to the result.<span id="more-2648"></span></p>
+<p>For example -2 in a 8 bit system is stored as follows  1 1 1 1 1 1 1 0 where leftmost bit is the sign bit.  To get the absolute value of a negative number, we have to toggle all bits and add 1 to the toggled number  i.e, 0 0 0 0 0 0 0 1 + 1 will give the absolute value of  1 1 1 1 1 1 1 0.  Also remember, we need to do these operations only if the number is negative (sign bit is set).</p>
+<p><strong>Method 1</strong><br />
+1) Set the mask as right shift of integer by 31 (assuming integers are stored using 32 bits). </p>
+<pre> mask = n>>31 </pre>
+<p>2) For negative numbers, above step sets mask as 1 1 1 1 1 1 1 1 and 0 0 0 0 0 0 0 0 for positive numbers. Add the mask to the given number.</p>
+<pre> mask + n </pre>
+<p>3) XOR of mask +n and mask gives the absolute value.       </p>
+<pre> (mask + n)^mask </pre>
+<p>Implementation:</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+#include &lt;stdio.h&gt;
+#define CHAR_BIT 8
+
+/* This function will return absoulte value of n*/
+unsigned int getAbs(int n)
+{
+  int const mask = n &gt;&gt; (sizeof(int) * CHAR_BIT - 1);
+  return ((n + mask) ^ mask);
+}
+
+/* Driver program to test above function */
+int main()
+{
+  int n = -6;
+  printf(&quot;Absoute value of %d is %u&quot;, n, getAbs(n));
+
+  getchar();
+  return 0;
+}
+</pre>
+<p></br><br />
+<strong>Method 2:</strong><br />
+1) Set the mask as right shift of integer by 31 (assuming integers are stored using 32 bits). </p>
+<pre> mask = n>>31 </pre>
+<p>2) XOR the mask with number</p>
+<pre> mask ^ n </pre>
+<p>3) Subtract mask from result of step 2 and return the result.</p>
+<pre> (mask^n) - mask </pre>
+<p>Implementation:</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+/* This function will return absoulte value of n*/
+unsigned int getAbs(int n)
+{
+  int const mask = n &gt;&gt; (sizeof(int) * CHAR_BIT - 1);
+  return ((n ^ mask) - mask);
+}
+</pre>
+<p>On machines where branching is expensive, the above expression can be faster than the obvious approach, r = (v < 0) ? -(unsigned)v : v, even though the number of operations is the same.</p>
+<p>Please see <a href="http://graphics.stanford.edu/~seander/bithacks.html#IntegerAbs">this </a>for more details about the above two methods.</p>
+<p>Please write comments if you find any of the above explanations/algorithms incorrect, or a better ways to solve the same problem.</p>
+<p><strong>References:</strong><br />
+<a href="http://graphics.stanford.edu/~seander/bithacks.html#IntegerAbs">http://graphics.stanford.edu/~seander/bithacks.html#IntegerAbs</a></p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/check-binary-representation-number-palindrome/" title="Check if binary representation of a number is palindrome">Check if binary representation of a number is palindrome</a></li><li><a href="http://www.geeksforgeeks.org/swap-two-nibbles-byte/" title="Swap two nibbles in a byte">Swap two nibbles in a byte</a></li><li><a href="http://www.geeksforgeeks.org/how-to-turn-off-a-particular-bit-in-a-number/" title="How to turn off a particular bit in a number?">How to turn off a particular bit in a number?</a></li><li><a href="http://www.geeksforgeeks.org/divisibility-9-using-bitwise-operators/" title="Check if a number is multiple of 9 using bitwise operators">Check if a number is multiple of 9 using bitwise operators</a></li><li><a href="http://www.geeksforgeeks.org/swap-two-numbers-without-using-temporary-variable/" title="How to swap two numbers without using a temporary variable?">How to swap two numbers without using a temporary variable?</a></li><li><a href="http://www.geeksforgeeks.org/divide-and-conquer-set-2-karatsuba-algorithm-for-fast-multiplication/" title="Divide and Conquer | Set 4 (Karatsuba algorithm for fast multiplication)">Divide and Conquer | Set 4 (Karatsuba algorithm for fast multiplication)</a></li><li><a href="http://www.geeksforgeeks.org/find-position-of-the-only-set-bit/" title="Find position of the only set bit">Find position of the only set bit</a></li><li><a href="http://www.geeksforgeeks.org/swap-all-odd-and-even-bits/" title="Swap all odd and even bits">Swap all odd and even bits</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/bit-magic/" rel="tag">Bit Magic</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fcompute-the-integer-absolute-value-abs-without-branching%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/compute-the-integer-absolute-value-abs-without-branching/" data-text="Compute the integer absolute value (abs) without branching" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/compute-the-integer-absolute-value-abs-without-branching/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-34374">
+        <div id="dsq-comment-header-34374" class="dsq-comment-header">
+            <cite id="dsq-cite-34374">
+                <span id="dsq-author-user-34374">Lohith Ravi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34374" class="dsq-comment-body">
+            <div id="dsq-comment-message-34374" class="dsq-comment-message"><p>return   IntegerMax &amp; n ;  where n is an integer should also do rit ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-25104">
+        <div id="dsq-comment-header-25104" class="dsq-comment-header">
+            <cite id="dsq-cite-25104">
+                <span id="dsq-author-user-25104">Ashish Mishra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-25104" class="dsq-comment-body">
+            <div id="dsq-comment-message-25104" class="dsq-comment-message"><p>int x=-2342;<br />
+cout&lt;&lt;~x+1;</p>
+<p>is it wrong?????</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-21869">
+        <div id="dsq-comment-header-21869" class="dsq-comment-header">
+            <cite id="dsq-cite-21869">
+                <span id="dsq-author-user-21869">okay</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21869" class="dsq-comment-body">
+            <div id="dsq-comment-message-21869" class="dsq-comment-message"><p>int k = n&gt;&gt;31;<br />
+return (n &#8211; (k*2*n));</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-jainamit0909gmail-com odd alt thread-odd thread-alt depth-1" id="dsq-comment-21477">
+        <div id="dsq-comment-header-21477" class="dsq-comment-header">
+            <cite id="dsq-cite-21477">
+                <span id="dsq-author-user-21477">AMIT</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21477" class="dsq-comment-body">
+            <div id="dsq-comment-message-21477" class="dsq-comment-message"><p>a smaller and much easier algo</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+#include&lt;stdio.h&gt;
+int abs(int x)
+{
+    return x*((x&gt;&gt;(sizeof(int)*8-1)) | 1);
+}
+int main()
+{
+    printf(&quot;abs value=%d\n&quot;,abs(5));
+    printf(&quot;abs value=%d\n&quot;,abs(-5));
+    return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-20149">
+        <div id="dsq-comment-header-20149" class="dsq-comment-header">
+            <cite id="dsq-cite-20149">
+                <span id="dsq-author-user-20149">anonymous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20149" class="dsq-comment-body">
+            <div id="dsq-comment-message-20149" class="dsq-comment-message"><p>int fun(int x)<br />
+{//assuming int is 32 bit<br />
+((x&gt;&gt;(sizeof(int)*8-1))&amp;&amp;return (-x))||return (x)<br />
+}</p>
+<p>i think it also work tell me if anythnik goes wrong</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-16217">
+        <div id="dsq-comment-header-16217" class="dsq-comment-header">
+            <cite id="dsq-cite-16217">
+                <span id="dsq-author-user-16217">cooldude</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16217" class="dsq-comment-body">
+            <div id="dsq-comment-message-16217" class="dsq-comment-message"><p>//On 64 bit machine<br />
+//first flip and then add 1 for negative to positive<br />
+public int absVal(int a)<br />
+	{<br />
+		return (((a&gt;&gt;63)^a)+((a&gt;&gt;63)&amp;1));</p>
+<p>	}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-itreallyisme even thread-even depth-1" id="dsq-comment-15254">
+        <div id="dsq-comment-header-15254" class="dsq-comment-header">
+            <cite id="dsq-cite-15254">
+                <span id="dsq-author-user-15254">itreallyismE</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15254" class="dsq-comment-body">
+            <div id="dsq-comment-message-15254" class="dsq-comment-message"><p>How about return (-2*(x&lt;0)+1)*x?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-18143">
+        <div id="dsq-comment-header-18143" class="dsq-comment-header">
+            <cite id="dsq-cite-18143">
+                <span id="dsq-author-user-18143">srinivas</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18143" class="dsq-comment-body">
+            <div id="dsq-comment-message-18143" class="dsq-comment-message"><p>good and simple thinking</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-15059">
+        <div id="dsq-comment-header-15059" class="dsq-comment-header">
+            <cite id="dsq-cite-15059">
+                <span id="dsq-author-user-15059">Jagat</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15059" class="dsq-comment-body">
+            <div id="dsq-comment-message-15059" class="dsq-comment-message"><p>To those looking for an intuitive explanation to why abs(-ve num) = (mask + n)^mask<br />
+Recall that in twos complement notation, a negative number is represented by flipping the bits of it&#8217;s positive counterpart and adding 1 to it. Hence to get the positive counterpart of a negative number, subtract 1 and flip the bits.</p>
+<p>Observe that in case of negative numbers mask = 31 bits set; which is equivalent to 2^32 &#8211; 1.<br />
+Adding 2^32 &#8211; 1 to num is equivalent to subtracting 1 from num, since adding 2^32 has no effect on the number considering the bits has just 32 bits while 2^32 has 33 bits with all 0s except the most significant bit.<br />
+Hence (num + mask) == (num &#8211; 1)<br />
+Doing an xor with the mask is equivalent to flipping the bits.</p>
+<p>I&#8217;m assuming that the positive scenario is obvious to everyone.</p>
+<p>But why go through all these pain?<br />
+Simply because we want a unified way of handling both positive and negative numbers, since we&#8217;re not allowed to use an &#8220;if&#8221; condition.</p>
+<p>Admins, please add this explanation to the article. It&#8217;ll help those who didn&#8217;t really get the logic behind the solution.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-14680">
+        <div id="dsq-comment-header-14680" class="dsq-comment-header">
+            <cite id="dsq-cite-14680">
+                <span id="dsq-author-user-14680">v4group</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14680" class="dsq-comment-body">
+            <div id="dsq-comment-message-14680" class="dsq-comment-message"><p>Referred <a href="http://www.geeksforgeeks.org/add-1-to-a-given-number/" rel="nofollow">http://www.geeksforgeeks.org/add-1-to-a-given-number/</a></p>
+<p>#include<br />
+//#define CHAR_BIT 8</p>
+<p>/* This function will return absoulte value of n*/<br />
+unsigned int getAbs(int n)<br />
+{<br />
+  int a = n;<br />
+ if((n &gt;&gt; 31)&amp; 1)<br />
+  {<br />
+   a = ~n; //toggle all bit of negative number. we will get +(n-1)<br />
+   a = -(~a); // add one to that so n-1 + 1 = n<br />
+  }<br />
+  return a;<br />
+}</p>
+<p>/* Driver program to test above function */<br />
+int main()<br />
+{<br />
+  int n = -14;<br />
+  printf(&#8220;Absoute value of %d is %u&#8221;, n, getAbs(n));</p>
+<p>  getchar();<br />
+  return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-14179">
+        <div id="dsq-comment-header-14179" class="dsq-comment-header">
+            <cite id="dsq-cite-14179">
+                <span id="dsq-author-user-14179">Arindam</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14179" class="dsq-comment-body">
+            <div id="dsq-comment-message-14179" class="dsq-comment-message"><p>#include<br />
+#include<br />
+int abs(int);</p>
+<p>void main(){<br />
+clrscr();<br />
+int  n;<br />
+printf(&#8220;enter a number to get the absolute value\n&#8221;);<br />
+scanf(&#8220;%d&#8221;,&amp;n);<br />
+printf(&#8220;%d&#8221;,abs(n));</p>
+<p>getch();<br />
+}<br />
+int abs(int n){<br />
+if(n&lt;0)<br />
+return (~n+1);<br />
+else<br />
+return n;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-8675">
+        <div id="dsq-comment-header-8675" class="dsq-comment-header">
+            <cite id="dsq-cite-8675">
+                <span id="dsq-author-user-8675">Pranshu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8675" class="dsq-comment-body">
+            <div id="dsq-comment-message-8675" class="dsq-comment-message"><p>n = (mask &amp; -x ) | (~mask &amp; x)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-8674">
+        <div id="dsq-comment-header-8674" class="dsq-comment-header">
+            <cite id="dsq-cite-8674">
+                <span id="dsq-author-user-8674">Pranshu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8674" class="dsq-comment-body">
+            <div id="dsq-comment-message-8674" class="dsq-comment-message"><p>If mask = n&gt;&gt;31<br />
+then n = (mask &amp; -n) | (~mask &amp; n)  Does it solves the problem ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-5012">
+        <div id="dsq-comment-header-5012" class="dsq-comment-header">
+            <cite id="dsq-cite-5012">
+http://geeksforgeeks.org/?p=2648                <span id="dsq-author-user-5012">me</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5012" class="dsq-comment-body">
+            <div id="dsq-comment-message-5012" class="dsq-comment-message"><p># innclude</p>
+<p>int absvalue(int *n)<br />
+{<br />
+       int **k;<br />
+       *n=~*n+1;</p>
+<p>         if(*n&lt;0)<br />
+            return(*n);<br />
+          else<br />
+             return(**k);<br />
+}<br />
+int main()<br />
+{<br />
+      int num;<br />
+      absvalue(&amp;num);<br />
+      printf(&quot;%d&quot;,absvalue(&amp;num));</p>
+<p>       return 0;<br />
+}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-psychocoder even depth-2" id="dsq-comment-6249">
+        <div id="dsq-comment-header-6249" class="dsq-comment-header">
+            <cite id="dsq-cite-6249">
+                <span id="dsq-author-user-6249">PsychoCoder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6249" class="dsq-comment-body">
+            <div id="dsq-comment-message-6249" class="dsq-comment-message"><p>Don&#8217;t you see the question properly!!!!</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-4422">
+        <div id="dsq-comment-header-4422" class="dsq-comment-header">
+            <cite id="dsq-cite-4422">
+                <span id="dsq-author-user-4422">rahul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4422" class="dsq-comment-body">
+            <div id="dsq-comment-message-4422" class="dsq-comment-message"><p>can any one explain me what its not working </p>
+<pre> <code language="C">
+#include &lt;stdio.h&gt;
+#define CHAR_BIT 8
+ 
+/* This function will return absoulte value of n*/
+unsigned int getAbs(int n)
+{
+  return ((n^1)+1);
+}
+ 
+/* Driver program to test above function */
+int main()
+{
+  int n = -6;
+  printf(&quot;Absoute value of %d is %u&quot;, n, getAbs(n));
+ 
+  getchar();
+  return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-5041">
+        <div id="dsq-comment-header-5041" class="dsq-comment-header">
+            <cite id="dsq-cite-5041">
+                <span id="dsq-author-user-5041">Manna</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5041" class="dsq-comment-body">
+            <div id="dsq-comment-message-5041" class="dsq-comment-message"><p>try -14.. it would not work !!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-adityaork odd alt thread-even depth-1" id="dsq-comment-4409">
+        <div id="dsq-comment-header-4409" class="dsq-comment-header">
+            <cite id="dsq-cite-4409">
+                <span id="dsq-author-user-4409">adityaork</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4409" class="dsq-comment-body">
+            <div id="dsq-comment-message-4409" class="dsq-comment-message"><p>n=(n&gt;&gt;31)*(-n)+(!n&gt;&gt;31)*n</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-4254">
+        <div id="dsq-comment-header-4254" class="dsq-comment-header">
+            <cite id="dsq-cite-4254">
+                <span id="dsq-author-user-4254">anonmous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4254" class="dsq-comment-body">
+            <div id="dsq-comment-message-4254" class="dsq-comment-message"><p>how about this 1:</p>
+<pre> <code language="C">
+int absvalue(int n)
+{
+int mask=n&gt;&gt;31;
+if(mask) 
+  return ~n+1;
+else
+  return n;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-4064">
+        <div id="dsq-comment-header-4064" class="dsq-comment-header">
+            <cite id="dsq-cite-4064">
+                <span id="dsq-author-user-4064">alternateSoln</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4064" class="dsq-comment-body">
+            <div id="dsq-comment-message-4064" class="dsq-comment-message"><p>How about:</p>
+<pre> <code language="C">
+/* This function will return absoulte value of n*/
+unsigned int getAbs(int n)
+{
+   int const mask = n &amp;gt;&amp;gt; (sizeof(int) * CHAR_BIT - 1);
+   return (n^mask)+1;
+}
+</code> </pre>
+<p>This also seems easier to derive from the explanation in the blog post</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-26857">
+        <div id="dsq-comment-header-26857" class="dsq-comment-header">
+            <cite id="dsq-cite-26857">
+                <span id="dsq-author-user-26857">Tejas</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26857" class="dsq-comment-body">
+            <div id="dsq-comment-message-26857" class="dsq-comment-message"><p>I thought the same thing. I don&#8217;t know why they didn&#8217;t post this.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-sureshpaldia22 odd alt thread-odd thread-alt depth-1" id="dsq-comment-2549">
+        <div id="dsq-comment-header-2549" class="dsq-comment-header">
+            <cite id="dsq-cite-2549">
+                <span id="dsq-author-user-2549">sureshpaldia22</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2549" class="dsq-comment-body">
+            <div id="dsq-comment-message-2549" class="dsq-comment-message"><p>Since a negative number is always stored as 2&#8217;s compliment.<br />
+And 2&#8217;s compliment is actually<br />
+((1&#8217;s compliment of number) + (1))</p>
+<p>Say, number is 2;</p>
+<p>1&#8217;s compliment of 2:   11111101<br />
+                     + 00000001<br />
+                     &#8212;&#8212;&#8212;&#8211;<br />
+2&#8217;s compliement        11111110<br />
+                     &#8212;&#8212;&#8212;&#8211;</p>
+<p>So, just do 1&#8217;s compliment and add 1 to it.</p>
+<pre> <code language="C">
+void abs(int num)
+{
+     return (num&lt;0) ? (~num+1) : num;
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-venki even depth-2" id="dsq-comment-2556">
+        <div id="dsq-comment-header-2556" class="dsq-comment-header">
+            <cite id="dsq-cite-2556">
+http://math-puzzles-computing.blogspot.com/                <span id="dsq-author-user-2556">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2556" class="dsq-comment-body">
+            <div id="dsq-comment-message-2556" class="dsq-comment-message"><p>@Suresh, your code fails at one place. For example on 32 bit machine, your code generates wrong result,</p>
+<pre> <code language="C">
+int absolute(int num)
+{
+     return (num &lt; 0) ? (~num+1) : num;
+}
+
+int main()
+{
+    int i = 0x80000000;
+    printf(&quot;%d\n&quot;, absolute(-i));
+    return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2463">
+        <div id="dsq-comment-header-2463" class="dsq-comment-header">
+            <cite id="dsq-cite-2463">
+                <span id="dsq-author-user-2463">Abhirup Ghosh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2463" class="dsq-comment-body">
+            <div id="dsq-comment-message-2463" class="dsq-comment-message"><pre> <code language="C">
+
+int absolute (int x)
+{
+  return (-(x&lt;0) &amp; (-x)) | (-(x&gt;0) &amp; x);
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2317">
+        <div id="dsq-comment-header-2317" class="dsq-comment-header">
+            <cite id="dsq-cite-2317">
+                <span id="dsq-author-user-2317">Vinay Kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2317" class="dsq-comment-body">
+            <div id="dsq-comment-message-2317" class="dsq-comment-message"><p>Mask = X &gt;&gt; 31<br />
+Result = (~Mask &amp; X) | (Mask &amp; (-X))</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-4055">
+        <div id="dsq-comment-header-4055" class="dsq-comment-header">
+            <cite id="dsq-cite-4055">
+                <span id="dsq-author-user-4055">kiran</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4055" class="dsq-comment-body">
+            <div id="dsq-comment-message-4055" class="dsq-comment-message"><p>Mask = -(X&gt;&gt;31)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-921">
+        <div id="dsq-comment-header-921" class="dsq-comment-header">
+            <cite id="dsq-cite-921">
+                <span id="dsq-author-user-921">Mayank</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-921" class="dsq-comment-body">
+            <div id="dsq-comment-message-921" class="dsq-comment-message"><p>I think simple logic is to subtract number by its double<br />
+if number is negative and by zero is positive<br />
+so<br />
+(n-((n&lt;&gt;31) ))<br />
+((n&lt;&gt;31)) this part is zero if n&gt;0<br />
+                   and -2n is n&lt;0</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-895">
+        <div id="dsq-comment-header-895" class="dsq-comment-header">
+            <cite id="dsq-cite-895">
+                <span id="dsq-author-user-895">Himanshu Aggarwal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-895" class="dsq-comment-body">
+            <div id="dsq-comment-message-895" class="dsq-comment-message"><p>Hi,</p>
+<p>There is no need to define CHAR_BIT explicitly in the code examples above. This is a #defined constant which is predefined in the limits.h header file. </p>
+<p>Thanks,<br />
+Himanshu</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-894">
+        <div id="dsq-comment-header-894" class="dsq-comment-header">
+            <cite id="dsq-cite-894">
+                <span id="dsq-author-user-894">Himanshu Aggarwal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-894" class="dsq-comment-body">
+            <div id="dsq-comment-message-894" class="dsq-comment-message"><p>Hi,</p>
+<p>I have found another method to calculate the absolute value, though I have not been able to find some mathematical derivation for that.</p>
+<p>The method calculates absolute value as:<br />
+abs(x) = x – (2*x &amp; mask);</p>
+<p>where mask= x &gt;&gt; 31;</p>
+<p>The following is a C program to get it.</p>
+<pre> <code language="C">
+#include &lt;stdio.h&gt;
+#include &lt;limits.h&gt;
+
+/* This function will return absoulte value of n*/
+unsigned int getAbs(int n)
+{
+   int const mask = n &gt;&gt; (sizeof(int) * CHAR_BIT – 1);
+
+   return n – ((2 * n) &amp; mask) ;
+}
+
+/* Driver program to test above function */
+int main()
+{
+  int n = -9;
+  printf(“Absoute value of %d is %u”, n, getAbs(n));
+
+  getchar();
+  return 0;
+}
+
+</code> </pre>
+<p>Thanks and Regards<br />
+Himanshu Aggarwal</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-706">
+        <div id="dsq-comment-header-706" class="dsq-comment-header">
+            <cite id="dsq-cite-706">
+                <span id="dsq-author-user-706">Himanshu Aggarwal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-706" class="dsq-comment-body">
+            <div id="dsq-comment-message-706" class="dsq-comment-message"><p>Hi,</p>
+<p>Thanks for the solution.<br />
+Can someone please explain, how this formula or solution has been derived?</p>
+<p>Thanks,<br />
+Himanshu</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/compute-the-integer-absolute-value-abs-without-branching/';
+var disqus_identifier = '2648 http://geeksforgeeks.org/?p=2648';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Compute the integer absolute value (abs) without branching";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.198 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:39:32 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

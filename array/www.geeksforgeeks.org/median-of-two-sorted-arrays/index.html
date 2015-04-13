@@ -1,0 +1,2869 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Median of two sorted arrays - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Median of two sorted arrays - GeeksforGeeks" />
+<meta property="og:description" content="Question: There are 2 sorted arrays A and B of size n each. Write an algorithm to find the median of the array obtained after merging the above 2 arrays(i.e. array of length 2n). The complexity should be O(log(n)) Median: In probability theory and statistics, a median is described as the number separating the higher &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Divide and Conquer" />
+<meta property="article:section" content="Arrays" />
+<meta property="article:published_time" content="2009-09-28T16:40:26+00:00" />
+<meta property="article:modified_time" content="2013-06-01T22:25:04+00:00" />
+<meta property="og:updated_time" content="2013-06-01T22:25:04+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.398 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417110769 85.25.73.253';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Median of two sorted arrays</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p><em>Question:</em> There are 2 sorted arrays A and B of size n each. Write an algorithm to find the median of the array obtained after merging the above 2 arrays(i.e. array of length 2n). The complexity should be O(log(n))<br />
+<span id="more-2105"></span><br />
+<em>Median:</em> In probability theory and statistics, a median is described as the number separating the higher half of a sample, a population, or a probability distribution, from the lower half.<br />
+The median of a finite list of numbers can be found by arranging all the numbers from lowest value to highest value and picking the middle one. </p>
+<p>For getting the median of input array { 12, 11, 15, 10, 20 }, first sort the array. We get  { 10, 11, 12, 15, 20 } after sorting. Median is the middle element of the sorted array which is 12.</p>
+<p>There are different conventions to take median of an array with even number of elements, one can take the mean of the two middle values, or first middle value, or second middle value.</p>
+<p>Let us see different methods to get the median of two sorted arrays of size n each. Since size of the set for which we are looking for median is even (2n), we are taking average of middle two numbers in all below solutions.</p>
+<p><strong>Method 1 (Simply count while Merging)</strong><br />
+Use merge procedure of merge sort. Keep track of count while comparing elements of two arrays. If count becomes n(For 2n elements), we have reached the median. Take the average of the elements at indexes n-1 and n in the merged array. See the below implementation.</p>
+<p>Implementation:</p>
+<pre class="brush: cpp; highlight: [3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52]; title: ; notranslate" title="">
+#include &lt;stdio.h&gt;
+
+/* This function returns median of ar1[] and ar2[].
+   Assumptions in this function:
+   Both ar1[] and ar2[] are sorted arrays
+   Both have n elements */
+int getMedian(int ar1[], int ar2[], int n)
+{
+    int i = 0;  /* Current index of i/p array ar1[] */
+    int j = 0; /* Current index of i/p array ar2[] */
+    int count;
+    int m1 = -1, m2 = -1;
+
+    /* Since there are 2n elements, median will be average
+     of elements at index n-1 and n in the array obtained after
+     merging ar1 and ar2 */
+    for (count = 0; count &lt;= n; count++)
+    {
+        /*Below is to handle case where all elements of ar1[] are
+          smaller than smallest(or first) element of ar2[]*/
+        if (i == n)
+        {
+            m1 = m2;
+            m2 = ar2[0];
+            break;
+        }
+
+        /*Below is to handle case where all elements of ar2[] are
+          smaller than smallest(or first) element of ar1[]*/
+        else if (j == n)
+        {
+            m1 = m2;
+            m2 = ar1[0];
+            break;
+        }
+
+        if (ar1[i] &lt; ar2[j])
+        {
+            m1 = m2;  /* Store the prev median */
+            m2 = ar1[i];
+            i++;
+        }
+        else
+        {
+            m1 = m2;  /* Store the prev median */
+            m2 = ar2[j];
+            j++;
+        }
+    }
+
+    return (m1 + m2)/2;
+}
+
+/* Driver program to test above function */
+int main()
+{
+    int ar1[] = {1, 12, 15, 26, 38};
+    int ar2[] = {2, 13, 17, 30, 45};
+
+    int n1 = sizeof(ar1)/sizeof(ar1[0]);
+    int n2 = sizeof(ar2)/sizeof(ar2[0]);
+    if (n1 == n2)
+        printf(&quot;Median is %d&quot;, getMedian(ar1, ar2, n1));
+    else
+        printf(&quot;Doesn't work for arrays of unequal size&quot;);
+    getchar();
+    return 0;
+}
+</pre>
+<p>Time Complexity: O(n)</p>
+<p></br><br />
+<strong><br />
+Method 2 (By comparing the medians of two arrays)</strong><br />
+This method works by first getting medians of the two sorted arrays and then comparing them.</p>
+<p>Let ar1 and ar2 be the input arrays. </p>
+<p>Algorithm:</p>
+<pre>
+1) Calculate the medians m1 and m2 of the input arrays ar1[] 
+   and ar2[] respectively.
+2) If m1 and m2 both are equal then we are done.
+     return m1 (or m2)
+3) If m1 is greater than m2, then median is present in one 
+   of the below two subarrays.
+    a)  From first element of ar1 to m1 (ar1[0...|_n/2_|])
+    b)  From m2 to last element of ar2  (ar2[|_n/2_|...n-1])
+4) If m2 is greater than m1, then median is present in one    
+   of the below two subarrays.
+   a)  From m1 to last element of ar1  (ar1[|_n/2_|...n-1])
+   b)  From first element of ar2 to m2 (ar2[0...|_n/2_|])
+5) Repeat the above process until size of both the subarrays 
+   becomes 2.
+6) If size of the two arrays is 2 then use below formula to get 
+  the median.
+    Median = (max(ar1[0], ar2[0]) + min(ar1[1], ar2[1]))/2
+</pre>
+<p>Example:</p>
+<pre>
+   ar1[] = {1, 12, 15, 26, 38}
+   ar2[] = {2, 13, 17, 30, 45}
+</pre>
+<p>For above two arrays m1 =  15 and m2 = 17</p>
+<p>For the above ar1[] and ar2[], m1 is smaller than m2. So median is present in one of the following two subarrays.</p>
+<pre>
+   [15, 26, 38] and [2, 13, 17]
+</pre>
+<p>Let us repeat the process for above two subarrays: </p>
+<pre>
+    m1 = 26 m2 = 13.
+</pre>
+<p>m1 is greater than m2. So the subarrays become</p>
+<pre>
+  [15, 26] and [13, 17]
+Now size is 2, so median = (max(ar1[0], ar2[0]) + min(ar1[1], ar2[1]))/2
+                       = (max(15, 13) + min(26, 17))/2 
+                       = (15 + 17)/2
+                       = 16
+</pre>
+<p>Implementation:</p>
+<pre class="brush: cpp; highlight: [7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50]; title: ; notranslate" title="">
+#include&lt;stdio.h&gt;
+
+int max(int, int); /* to get maximum of two integers */
+int min(int, int); /* to get minimum of two integeres */
+int median(int [], int); /* to get median of a sorted array */
+
+/* This function returns median of ar1[] and ar2[].
+   Assumptions in this function:
+   Both ar1[] and ar2[] are sorted arrays
+   Both have n elements */
+int getMedian(int ar1[], int ar2[], int n)
+{
+    int m1; /* For median of ar1 */
+    int m2; /* For median of ar2 */
+
+    /* return -1  for invalid input */
+    if (n &lt;= 0)
+        return -1;
+
+    if (n == 1)
+        return (ar1[0] + ar2[0])/2;
+
+    if (n == 2)
+        return (max(ar1[0], ar2[0]) + min(ar1[1], ar2[1])) / 2;
+
+    m1 = median(ar1, n); /* get the median of the first array */
+    m2 = median(ar2, n); /* get the median of the second array */
+
+    /* If medians are equal then return either m1 or m2 */
+    if (m1 == m2)
+        return m1;
+
+     /* if m1 &lt; m2 then median must exist in ar1[m1....] and ar2[....m2] */
+    if (m1 &lt; m2)
+    {
+        if (n % 2 == 0)
+            return getMedian(ar1 + n/2 - 1, ar2, n - n/2 +1);
+        else
+            return getMedian(ar1 + n/2, ar2, n - n/2);
+    }
+
+    /* if m1 &gt; m2 then median must exist in ar1[....m1] and ar2[m2...] */
+    else
+    {
+        if (n % 2 == 0)
+            return getMedian(ar2 + n/2 - 1, ar1, n - n/2 + 1);
+        else
+            return getMedian(ar2 + n/2, ar1, n - n/2);
+    }
+}
+
+/* Function to get median of a sorted array */
+int median(int arr[], int n)
+{
+    if (n%2 == 0)
+        return (arr[n/2] + arr[n/2-1])/2;
+    else
+        return arr[n/2];
+}
+
+/* Driver program to test above function */
+int main()
+{
+    int ar1[] = {1, 2, 3, 6};
+    int ar2[] = {4, 6, 8, 10};
+    int n1 = sizeof(ar1)/sizeof(ar1[0]);
+    int n2 = sizeof(ar2)/sizeof(ar2[0]);
+    if (n1 == n2)
+      printf(&quot;Median is %d&quot;, getMedian(ar1, ar2, n1));
+    else
+     printf(&quot;Doesn't work for arrays of unequal size&quot;);
+
+    getchar();
+    return 0;
+}
+
+/* Utility functions */
+int max(int x, int y)
+{
+    return x &gt; y? x : y;
+}
+
+int min(int x, int y)
+{
+    return x &gt; y? y : x;
+}
+</pre>
+<p>Time Complexity: O(logn)<br />
+Algorithmic Paradigm: Divide and Conquer<br />
+<br /></br><br />
+<strong>Method 3 (By doing binary search for the median):</strong><br />
+The basic idea is that if you are given two arrays ar1[] and ar2[] and know the length of each, you can check whether an element ar1[i] is the median in constant time. Suppose that the median is ar1[i]. Since the array is sorted, it is greater than exactly i values in array ar1[]. Then if it is the median, it is also greater than exactly j = n &#8211; i &#8211; 1 elements in ar2[].<br />
+It requires constant time to check if ar2[j] <= ar1[i] <= ar2[j + 1]. If ar1[i] is not the median, then depending on whether ar1[i] is greater or less than ar2[j] and ar2[j + 1], you know that ar1[i] is either greater than or less than the median. Thus you can binary search for median in O(lg n) worst-case time.</p>
+<p>For two arrays ar1 and ar2, first do binary search in ar1[].  If you reach at the end (left or right) of the first array and don't find median, start searching in the second array ar2[].</p>
+<pre>
+1) Get the middle element of ar1[] using array indexes left and right.  
+   Let index of the middle element be i.
+2) Calculate the corresponding index j of ar2[]
+     j = n &#8211; i &#8211; 1 
+3) If ar1[i] >= ar2[j] and ar1[i] <= ar2[j+1] then ar1[i] and ar2[j]
+   are the middle elements.
+     return average of ar2[j] and ar1[i]
+4) If ar1[i] is greater than both ar2[j] and ar2[j+1] then 
+     do binary search in left half  (i.e., arr[left ... i-1])
+5) If ar1[i] is smaller than both ar2[j] and ar2[j+1] then
+     do binary search in right half (i.e., arr[i+1....right])
+6) If you reach at any corner of ar1[] then do binary search in ar2[]
+</pre>
+<p>Example:</p>
+<pre>
+   ar1[] = {1, 5, 7, 10, 13}
+   ar2[] = {11, 15, 23, 30, 45}</pre>
+<p>Middle element of ar1[] is 7. Let us compare 7 with 23 and 30, since 7 smaller than both 23 and 30, move to right in ar1[]. Do binary search in {10, 13}, this step will pick 10. Now compare 10 with 15 and 23.  Since 10 is smaller than both 15 and 23, again move to right. Only 13 is there in right side now. Since 13 is greater than 11 and smaller than 15, terminate here. We have got the median as 12 (average of 11 and 13)</p>
+<p>Implementation:</p>
+<pre class="brush: cpp; highlight: [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46]; title: ; notranslate" title="">
+#include&lt;stdio.h&gt;
+
+int getMedianRec(int ar1[], int ar2[], int left, int right, int n);
+
+/* This function returns median of ar1[] and ar2[].
+   Assumptions in this function:
+   Both ar1[] and ar2[] are sorted arrays
+   Both have n elements */
+int getMedian(int ar1[], int ar2[], int n)
+{
+    return getMedianRec(ar1, ar2, 0, n-1, n);
+}
+
+/* A recursive function to get the median of ar1[] and ar2[]
+   using binary search */
+int getMedianRec(int ar1[], int ar2[], int left, int right, int n)
+{
+    int i, j;
+
+    /* We have reached at the end (left or right) of ar1[] */
+    if (left &gt; right)
+        return getMedianRec(ar2, ar1, 0, n-1, n);
+
+    i = (left + right)/2;
+    j = n - i - 1;  /* Index of ar2[] */
+
+    /* Recursion terminates here.*/
+    if (ar1[i] &gt; ar2[j] &amp;&amp; (j == n-1 || ar1[i] &lt;= ar2[j+1]))
+    {
+        /* ar1[i] is decided as median 2, now select the median 1
+           (element just before ar1[i] in merged array) to get the
+           average of both*/
+        if (i == 0 || ar2[j] &gt; ar1[i-1])
+            return (ar1[i] + ar2[j])/2;
+        else
+            return (ar1[i] + ar1[i-1])/2;
+    }
+
+    /*Search in left half of ar1[]*/
+    else if (ar1[i] &gt; ar2[j] &amp;&amp; j != n-1 &amp;&amp; ar1[i] &gt; ar2[j+1])
+        return getMedianRec(ar1, ar2, left, i-1, n);
+
+    /*Search in right half of ar1[]*/
+    else /* ar1[i] is smaller than both ar2[j] and ar2[j+1]*/
+        return getMedianRec(ar1, ar2, i+1, right, n);
+}
+
+/* Driver program to test above function */
+int main()
+{
+    int ar1[] = {1, 12, 15, 26, 38};
+    int ar2[] = {2, 13, 17, 30, 45};
+    int n1 = sizeof(ar1)/sizeof(ar1[0]);
+    int n2 = sizeof(ar2)/sizeof(ar2[0]);
+    if (n1 == n2)
+        printf(&quot;Median is %d&quot;, getMedian(ar1, ar2, n1));
+    else
+        printf(&quot;Doesn't work for arrays of unequal size&quot;);
+
+    getchar();
+    return 0;
+}
+</pre>
+<p>Time Complexity: O(logn)<br />
+Algorithmic Paradigm: Divide and Conquer</p>
+<p>The above solutions can be optimized for the cases when all elements of one array are smaller than all elements of other array.  For example, in method 3, we can change the getMedian() function to following so that these cases can be handled in O(1) time. Thanks to <a href="http://www.geeksforgeeks.org/archives/2105/comment-page-1#comment-2729">nutcracker </a> for suggesting this optimization.</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+/* This function returns median of ar1[] and ar2[].
+   Assumptions in this function:
+   Both ar1[] and ar2[] are sorted arrays
+   Both have n elements */
+int getMedian(int ar1[], int ar2[], int n)
+{
+   // If all elements of array 1 are smaller then
+   // median is average of last element of ar1 and
+   // first element of ar2
+   if (ar1[n-1] &lt; ar2[0])
+     return (ar1[n-1]+ar2[0])/2;
+
+   // If all elements of array 1 are smaller then
+   // median is average of first element of ar1 and
+   // last element of ar2
+   if (ar2[n-1] &lt; ar1[0])
+     return (ar2[n-1]+ar1[0])/2;
+
+   return getMedianRec(ar1, ar2, 0, n-1, n);
+}
+</pre>
+<p><strong>References:</strong><br />
+<a href="http://en.wikipedia.org/wiki/Median">http://en.wikipedia.org/wiki/Median</a></p>
+<p><a href="http://ocw.alfaisal.edu/NR/rdonlyres/Electrical-Engineering-and-Computer-Science/6-046JFall-2005/30C68118-E436-4FE3-8C79-6BAFBB07D935/0/ps9sol.pdf">http://ocw.alfaisal.edu/NR/rdonlyres/Electrical-Engineering-and-Computer-Science/6-046JFall-2005/30C68118-E436-4FE3-8C79-6BAFBB07D935/0/ps9sol.pdf ds3etph5wn</a></p>
+<p>Asked by Snehal</p>
+<p>Please write comments if you find the above codes/algorithms incorrect, or find other ways to solve the same problem.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array-set-2-expected-linear-time/" title="K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)">K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)</a></li><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array/" title="K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1">K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/time-complexity-insertion-sort-inversions/" title="Time complexity of insertion sort when there are O(n) inversions?">Time complexity of insertion sort when there are O(n) inversions?</a></li><li><a href="http://www.geeksforgeeks.org/check-two-given-sets-disjoint/" title="How to check if two given sets are disjoint?">How to check if two given sets are disjoint?</a></li><li><a href="http://www.geeksforgeeks.org/minimum-number-platforms-required-railwaybus-station/" title="Minimum Number of Platforms Required for a Railway/Bus Station">Minimum Number of Platforms Required for a Railway/Bus Station</a></li><li><a href="http://www.geeksforgeeks.org/given-two-sorted-arrays-number-x-find-pair-whose-sum-closest-x/" title="Find the closest pair from two sorted arrays">Find the closest pair from two sorted arrays</a></li><li><a href="http://www.geeksforgeeks.org/print-elements-sorted-order-row-column-wise-sorted-matrix/" title="Print all elements in sorted order from row and column wise sorted matrix">Print all elements in sorted order from row and column wise sorted matrix</a></li><li><a href="http://www.geeksforgeeks.org/length-largest-subarray-contiguous-elements-set-1/" title="Length of the largest subarray with contiguous elements | Set 1">Length of the largest subarray with contiguous elements | Set 1</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/divide-and-conquer/" rel="tag">Divide and Conquer</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fmedian-of-two-sorted-arrays%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/" data-text="Median of two sorted arrays" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-34011">
+        <div id="dsq-comment-header-34011" class="dsq-comment-header">
+            <cite id="dsq-cite-34011">
+                <span id="dsq-author-user-34011">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34011" class="dsq-comment-body">
+            <div id="dsq-comment-message-34011" class="dsq-comment-message"><p>Please explain how method 3 would work on following input:<br />
+Array1: 1 2 3 4 5<br />
+Array2:  1 2 4 5 6<br />
+Median should be (3+4)/2 but through method 3, it comes out to be (2+4)/2. Am I going wrong somewhere ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-33165">
+        <div id="dsq-comment-header-33165" class="dsq-comment-header">
+            <cite id="dsq-cite-33165">
+                <span id="dsq-author-user-33165">newCoder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33165" class="dsq-comment-body">
+            <div id="dsq-comment-message-33165" class="dsq-comment-message"><p>/**<br />
+     * There are 2 sorted arrays A and B of size n each. Write an algorithm to<br />
+     * find the median of the array obtained after merging the above 2<br />
+     * arrays(i.e. array of length 2n). The complexity should be O(log(n))<br />
+     *<br />
+     * @param a<br />
+     *            {1,3,5,7,9}<br />
+     * @param b<br />
+     *            {2,4,6,8,10}<br />
+     *<br />
+     * @return average of the 2 medians from the merged array of length 2n.<br />
+     */<br />
+    public static int findMedian(int a[], int b[]) {<br />
+        assert a.length == b.length;</p>
+<p>        int n = a.length;</p>
+<p>        int low1 = 0;<br />
+        int low2 = 0;</p>
+<p>        while (n &gt; 2) {<br />
+            if (a[low1 + n &#8211; 1] &lt; b[low2]) {<br />
+                return (a[low1 + n &#8211; 1] + b[low2]) / 2;<br />
+            }</p>
+<p>            if (b[low2 + n &#8211; 1] &lt; a[low1]) {<br />
+                return (b[low2 + n &#8211; 1] + a[low1]) / 2;<br />
+            }</p>
+<p>            int m1 = median(a, n, low1);<br />
+            int m2 = median(b, n, low2);<br />
+            if (m1 == m2) {<br />
+                return m1;<br />
+            }</p>
+<p>            if (m1 &lt; m2) {<br />
+                low1 = low1 + (n &#8211; 1) / 2;<br />
+                n = n / 2 + 1;<br />
+            } else {<br />
+                low2 = low2 + (n &#8211; 1) / 2;<br />
+                n = n / 2 + 1;<br />
+            }<br />
+        }</p>
+<p>        if (n == 2) {<br />
+            return (Math.max(a[low1], b[low2]) + Math.min(a[low1 + 1],<br />
+                    b[low2 + 1])) / 2;<br />
+        }</p>
+<p>        if (n == 1) {<br />
+            return (a[low1] + b[low2]) / 2;<br />
+        }</p>
+<p>        return -1;<br />
+    }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-33001">
+        <div id="dsq-comment-header-33001" class="dsq-comment-header">
+            <cite id="dsq-cite-33001">
+                <span id="dsq-author-user-33001">Allen</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33001" class="dsq-comment-body">
+            <div id="dsq-comment-message-33001" class="dsq-comment-message"><p>How do we know the median of two smaller array is still the median of the two original array in method 3 ?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-33880">
+        <div id="dsq-comment-header-33880" class="dsq-comment-header">
+            <cite id="dsq-cite-33880">
+                <span id="dsq-author-user-33880">Rohit Sharma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33880" class="dsq-comment-body">
+            <div id="dsq-comment-message-33880" class="dsq-comment-message"><p>if distribution is uniform i.e. elements of array have merged alternatively<br />
+.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-32910">
+        <div id="dsq-comment-header-32910" class="dsq-comment-header">
+            <cite id="dsq-cite-32910">
+                <span id="dsq-author-user-32910">james</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32910" class="dsq-comment-body">
+            <div id="dsq-comment-message-32910" class="dsq-comment-message"><p>So what if i want to find the 5th largest number of the two array with out merging the two arrays.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-32622">
+        <div id="dsq-comment-header-32622" class="dsq-comment-header">
+            <cite id="dsq-cite-32622">
+                <span id="dsq-author-user-32622">Timothy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32622" class="dsq-comment-body">
+            <div id="dsq-comment-message-32622" class="dsq-comment-message"><p>What about two different sized lists?<br />
+If you have {1,2,3} and {4,5,6,7,8,9,10} the correct median should be 5 but when you remove {1,7,8,9,10} during the recursive algorithm, the algorithm will try to find the median for {2,3} and {5,6,7,8,9,10} and return that, which is 6.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-31875">
+        <div id="dsq-comment-header-31875" class="dsq-comment-header">
+            <cite id="dsq-cite-31875">
+                <span id="dsq-author-user-31875">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31875" class="dsq-comment-body">
+            <div id="dsq-comment-message-31875" class="dsq-comment-message"><p>How would this work on input<br />
+Array 1:  1, 2, 7, 8<br />
+Array 2:  3, 4, 5, 6</p>
+<p>Median of the two arrays is (4 + 5) / 2, but the algorithm would get rid of either 4 or 5 in first run. Or am i missing something?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-31877">
+        <div id="dsq-comment-header-31877" class="dsq-comment-header">
+            <cite id="dsq-cite-31877">
+                <span id="dsq-author-user-31877">Eric Mengqi Han</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31877" class="dsq-comment-body">
+            <div id="dsq-comment-message-31877" class="dsq-comment-message"><p>Array 1: [1, 2, 8, 9]<br />
+Array 2: [3, 4, 5, 6]</p>
+<p>m1 = 5<br />
+m2 = 4.5<br />
+m1 &gt; m2</p>
+<p>Array 1: [8, 9]<br />
+Array 2: [3, 4]</p>
+<p>&#8230;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-32159">
+        <div id="dsq-comment-header-32159" class="dsq-comment-header">
+            <cite id="dsq-cite-32159">
+                <span id="dsq-author-user-32159">gourav pathak</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32159" class="dsq-comment-body">
+            <div id="dsq-comment-message-32159" class="dsq-comment-message"><p>Here Array 1 would be [2,8,9] and Array 2 would be [3,4,5]&#8230;..Take a closer look at the code</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-32158">
+        <div id="dsq-comment-header-32158" class="dsq-comment-header">
+            <cite id="dsq-cite-32158">
+                <span id="dsq-author-user-32158">gourav pathak</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32158" class="dsq-comment-body">
+            <div id="dsq-comment-message-32158" class="dsq-comment-message"><p>Here repeating elements are also counted&#8230;So the median is (3+4)/2<br />
+as merged array is {1,1,2,2,3,4,5,6,7,8} and not {1,2,3,4,5,6,7,8}(which you are probably referring to in your comment)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-30113">
+        <div id="dsq-comment-header-30113" class="dsq-comment-header">
+            <cite id="dsq-cite-30113">
+                <span id="dsq-author-user-30113">Mangat Rai</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30113" class="dsq-comment-body">
+            <div id="dsq-comment-message-30113" class="dsq-comment-message"><p>You have taken a very big assumptions that both A &amp; B have n elements. But if say they both have unequal elements say m,n respectively which again can be odd or even, the problem will become considerably difficult. There will be huge no. of cases to handle.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-30577">
+        <div id="dsq-comment-header-30577" class="dsq-comment-header">
+            <cite id="dsq-cite-30577">
+                <span id="dsq-author-user-30577">Son L</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30577" class="dsq-comment-body">
+            <div id="dsq-comment-message-30577" class="dsq-comment-message"><p>It&#8217;s actually not much more difficult. 40 lines will be enough.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-30618">
+        <div id="dsq-comment-header-30618" class="dsq-comment-header">
+            <cite id="dsq-cite-30618">
+                <span id="dsq-author-user-30618">Mangat Rai</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30618" class="dsq-comment-body">
+            <div id="dsq-comment-message-30618" class="dsq-comment-message"><p>My point is that the problem is difficult compared to the ones discuss. They are more general case and should be discussed here. By the way &#8211; can you give a brief approach to solve it? I have solved it by following way &#8211;<br />
+######<br />
+1. Compare medians( compare 2 middle elements from each  if even) and get the part which may hold median<br />
+2. remove minimum even no of elements on both side. This way odd and even will maintain their property<br />
+#######</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-30736">
+        <div id="dsq-comment-header-30736" class="dsq-comment-header">
+            <cite id="dsq-cite-30736">
+                <span id="dsq-author-user-30736">anju</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30736" class="dsq-comment-body">
+            <div id="dsq-comment-message-30736" class="dsq-comment-message"><p>i think u must refer this</p>
+<p><a href="http://bit.ly/1biTdXo" rel="nofollow">http://bit.ly/1biTdXo</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-27772">
+        <div id="dsq-comment-header-27772" class="dsq-comment-header">
+            <cite id="dsq-cite-27772">
+                <span id="dsq-author-user-27772">Marsha Donna</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27772" class="dsq-comment-body">
+            <div id="dsq-comment-message-27772" class="dsq-comment-message"><p>in method 2 can someone pls explain..</p>
+<p>if (m1 &lt; m2)<br />
+    {<br />
+        if (n % 2 == 0)<br />
+            return getMedian(ar1 + n/2 &#8211; 1, ar2, n &#8211; n/2 +1);<br />
+        else<br />
+            return getMedian(ar1 + n/2, ar2, n &#8211; n/2);<br />
+    }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-27771">
+        <div id="dsq-comment-header-27771" class="dsq-comment-header">
+            <cite id="dsq-cite-27771">
+                <span id="dsq-author-user-27771">Marsha Donna</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27771" class="dsq-comment-body">
+            <div id="dsq-comment-message-27771" class="dsq-comment-message"><p>in method 2 can sumone  pls explain<br />
+ if (m1 &lt; m2)<br />
+    {<br />
+        if (n % 2 == 0)<br />
+            return getMedian(ar1 + n/2 &#8211; 1, ar2, n &#8211; n/2 +1);<br />
+        else<br />
+            return getMedian(ar1 + n/2, ar2, n &#8211; n/2);<br />
+    }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+<ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-32160">
+        <div id="dsq-comment-header-32160" class="dsq-comment-header">
+            <cite id="dsq-cite-32160">
+                <span id="dsq-author-user-32160">gourav pathak</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32160" class="dsq-comment-body">
+            <div id="dsq-comment-message-32160" class="dsq-comment-message"><p>No m1=(5+7)/2 and m2=(6+8)/2 so arr1={5,7,9,11} and arr2={2,4,6,8}&#8230;.The construction of the solution is such that at each recursive call arr1 and arr2 contain same number of elements&#8230;.There&#8217;s no question of having different number of elements in arr1 and arr2</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-22686">
+        <div id="dsq-comment-header-22686" class="dsq-comment-header">
+            <cite id="dsq-cite-22686">
+                <span id="dsq-author-user-22686">trying</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22686" class="dsq-comment-body">
+            <div id="dsq-comment-message-22686" class="dsq-comment-message"><p>please check method 2<br />
+a1[]={2,10,15}<br />
+a2[] = {4, 12, 20}.</p>
+<p>for the above input median of a1 = 10 and median of a2 is 12 no as the median of a2 &gt; a1 so we will take 15 from a1 and 4 from a2. So the median is 4+15/2 = 9.5 which is incorrect instead of 10+12/2=11. please check. thanks.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-28596">
+        <div id="dsq-comment-header-28596" class="dsq-comment-header">
+            <cite id="dsq-cite-28596">
+                <span id="dsq-author-user-28596">falcon</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28596" class="dsq-comment-body">
+            <div id="dsq-comment-message-28596" class="dsq-comment-message"><p>dude just check condition in 2nd method if a2&gt;a1 you will take 10,15 from a1 and 4,12 from a2. now<br />
+median = (max(a1[0], a2[0]) + min(a1[1], a2[1]))/2</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-19018">
+        <div id="dsq-comment-header-19018" class="dsq-comment-header">
+            <cite id="dsq-cite-19018">
+                <span id="dsq-author-user-19018">Soumya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19018" class="dsq-comment-body">
+            <div id="dsq-comment-message-19018" class="dsq-comment-message"><pre> <code language="C">
+    /* Recursion terminates here.*/
+    if (ar1[i] &gt; ar2[j] &amp;&amp; (j == n-1 || ar1[i] &lt;= ar2[j+1]))
+    {
+        /*ar1[i] is decided as median 2, now select the median 1
+           (element just before ar1[i] in merged array) to get the
+           average of both*/
+        if (ar2[j] &gt; ar1[i-1] || i == 0)
+            return (ar1[i] + ar2[j])/2;
+        else
+            return (ar1[i] + ar1[i-1])/2;
+    }
+</code> </pre>
+<p>if (ar2[j] &gt; ar1[i-1] || i == 0) condition may produce unexpected result if i=0. I think we should check i==0 first.</p>
+<p>Correct me if I am wrong.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even depth-2" id="dsq-comment-19022">
+        <div id="dsq-comment-header-19022" class="dsq-comment-header">
+            <cite id="dsq-cite-19022">
+                <span id="dsq-author-user-19022">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19022" class="dsq-comment-body">
+            <div id="dsq-comment-message-19022" class="dsq-comment-message"><p>Thanks for pointing this out. We have updated the code.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-25129">
+        <div id="dsq-comment-header-25129" class="dsq-comment-header">
+            <cite id="dsq-cite-25129">
+                <span id="dsq-author-user-25129">indra kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-25129" class="dsq-comment-body">
+            <div id="dsq-comment-message-25129" class="dsq-comment-message"><p>please check 2nd method for test case arr1={1,3,5,7,9,11},arr2={2,4,6,8,10,12}, it is giving wrong answer&#8230;..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-18291">
+        <div id="dsq-comment-header-18291" class="dsq-comment-header">
+            <cite id="dsq-cite-18291">
+                <span id="dsq-author-user-18291">Jack</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18291" class="dsq-comment-body">
+            <div id="dsq-comment-message-18291" class="dsq-comment-message"><p>In method 3, it is written that:<br />
+&#8220;The basic idea is that if you are given two arrays ar1[] and ar2[] and know the length of each, you can check whether an element ar1[i] is the median in constant time.&#8221;</p>
+<p>How is this possible in constant time?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor odd alt depth-2" id="dsq-comment-19023">
+        <div id="dsq-comment-header-19023" class="dsq-comment-header">
+            <cite id="dsq-cite-19023">
+                <span id="dsq-author-user-19023">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19023" class="dsq-comment-body">
+            <div id="dsq-comment-message-19023" class="dsq-comment-message"><p>Please see the next lines in post.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-abhishek08aug even thread-even depth-1" id="dsq-comment-17613">
+        <div id="dsq-comment-header-17613" class="dsq-comment-header">
+            <cite id="dsq-cite-17613">
+                <span id="dsq-author-user-17613">abhishek08aug</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17613" class="dsq-comment-body">
+            <div id="dsq-comment-message-17613" class="dsq-comment-message"><p>Intelligent <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-14941">
+        <div id="dsq-comment-header-14941" class="dsq-comment-header">
+            <cite id="dsq-cite-14941">
+                <span id="dsq-author-user-14941">shine</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14941" class="dsq-comment-body">
+            <div id="dsq-comment-message-14941" class="dsq-comment-message"><p>method 3 is not going to work always<br />
+a1={1,4};a2={2,3};it will give 1 and 3 as output..<br />
+correct me if i am wrong&#8230;&#8230;</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-12317">
+        <div id="dsq-comment-header-12317" class="dsq-comment-header">
+            <cite id="dsq-cite-12317">
+                <span id="dsq-author-user-12317">HLS.nirma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12317" class="dsq-comment-body">
+            <div id="dsq-comment-message-12317" class="dsq-comment-message"><p>Incorrect:<br />
+Since the array is sorted, it is greater than exactly i-1 values in array ar1[].</p>
+<pre> <code language="C">
+Correct:
+Since the array is sorted, it is greater than exactly &quot;i&quot; values in array ar1[].
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-12318">
+        <div id="dsq-comment-header-12318" class="dsq-comment-header">
+            <cite id="dsq-cite-12318">
+                <span id="dsq-author-user-12318">HLS.nirma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12318" class="dsq-comment-body">
+            <div id="dsq-comment-message-12318" class="dsq-comment-message"><p>Kindly correct it in method 3 explanation.<br />
+Thank you.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-12319">
+        <div id="dsq-comment-header-12319" class="dsq-comment-header">
+            <cite id="dsq-cite-12319">
+                <span id="dsq-author-user-12319">HLS.nirma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12319" class="dsq-comment-body">
+            <div id="dsq-comment-message-12319" class="dsq-comment-message"><p>One redundancy in method 3:</p>
+<p>else if (ar1[i] &gt; ar2[j] &amp;&amp; j != n-1 &amp;&amp; ar1[i] &gt; ar2[j+1])</p>
+<p>correct should be:<br />
+else if (ar1[i] &gt; ar2[j] &amp;&amp; ar1[i] &gt; ar2[j+1])</p>
+<p>j=n-1 is already handled in the &#8220;if&#8221; above this &#8220;else if&#8221;</p>
+<p>Thank you.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-3" id="dsq-comment-12470">
+        <div id="dsq-comment-header-12470" class="dsq-comment-header">
+            <cite id="dsq-cite-12470">
+                <span id="dsq-author-user-12470">Kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12470" class="dsq-comment-body">
+            <div id="dsq-comment-message-12470" class="dsq-comment-message"><p>Thanks for pointing this out, we have corrected the explanation.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-12261">
+        <div id="dsq-comment-header-12261" class="dsq-comment-header">
+            <cite id="dsq-cite-12261">
+                <span id="dsq-author-user-12261">Ravi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12261" class="dsq-comment-body">
+            <div id="dsq-comment-message-12261" class="dsq-comment-message"><p>Can someone explain how to do this irrespective of length of both arrays. I mean let length of array1 be m and length of array2 be n, find median of 2 sorted arrays. we should not care if m = n or m != n.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-11331">
+        <div id="dsq-comment-header-11331" class="dsq-comment-header">
+            <cite id="dsq-cite-11331">
+                <span id="dsq-author-user-11331">Hary</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11331" class="dsq-comment-body">
+            <div id="dsq-comment-message-11331" class="dsq-comment-message"><p>I am not very sure about this in method 2</p>
+<pre> <code language="C">
+else
+{
+     if (n % 2 == 0)
+        return getMedian(ar2 + n/2 - 1, ar1, n - n/2 + 1);
+     else
+       return getMedian(ar2 + n/2, ar1, n - n/2);
+} 
+</code> </pre>
+<p>Do we really need to interchange the arrays. If so why?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-11474">
+        <div id="dsq-comment-header-11474" class="dsq-comment-header">
+            <cite id="dsq-cite-11474">
+                <span id="dsq-author-user-11474">Karthik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11474" class="dsq-comment-body">
+            <div id="dsq-comment-message-11474" class="dsq-comment-message"><pre> <code language="C">
+/* 
+
+I think the third method does not work if you give similar arrays of odd length.
+
+say a={1,2,3}  and b={1,2,3}
+
+when we call the function for the first time, left=0, right=2
+so i =1, j=3-1-1=1
+
+if (ar1[i] &gt; ar2[j] &amp;&amp; (j == n-1 || ar1[i] &lt;= ar2[j+1])) will be false since a[1]&gt;b[1] is false since both a[1] and b[1] are 2.
+
+so we have to call the function with left=2, right =2
+then i=2, j =3-2-1=0
+
+if (ar1[i] &gt; ar2[j] &amp;&amp; (j == n-1 || ar1[i] &lt;= ar2[j+1]))  will be again false as neither j==2 nor a[2](3)&lt;b[1](2) so left will become 3 and right will be 2 
+then we will change the order of arrays and call the function again .... but both arrays are same so order does not matter and the function will be called forever which results in a seg fault.
+
+correct me if i have missed any point :)
+
+
+
+
+
+
+
+ */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-10650">
+        <div id="dsq-comment-header-10650" class="dsq-comment-header">
+            <cite id="dsq-cite-10650">
+                <span id="dsq-author-user-10650">Smart Pointer</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10650" class="dsq-comment-body">
+            <div id="dsq-comment-message-10650" class="dsq-comment-message"><p>@Geeksforgeeks, regarding method 2, do we really need to handle the case separately for odd &amp; even values of n? Below is my implementation which looks simple &amp; works for all cases( i think ).</p>
+<pre> <code language="C">
+float findMed(int A[], int B[], int n)
+{
+        if( n &lt;= 0 ) return FLT_MIN;
+ 
+        if( n == 1)
+                return (A[0] + B[0]) / 2.0;
+        if( n == 2 )
+                return (max(A[0],B[0]) + min(A[1],B[1])) / 2.0;
+        if( A[n-1] &lt; B[0] )
+                return (A[n-1] + B[0]) / 2.0;
+        if( B[n-1] &lt; A[0] )
+                return (A[0] + B[n-1]) / 2.0;
+ 
+        int medA = A[n/2];
+        int medB = B[n/2];
+ 
+        if(medA == medB)
+                return medA;
+        if( medA &lt; medB )
+                return findMed(A+n/2, B, n-n/2);
+        return findMed(A, B+n/2, n-n/2);
+}
+</code> </pre>
+<p>Check output here: <a href="http://ideone.com/owrHC" rel="nofollow">http://ideone.com/owrHC</a></p>
+<p>Please let me know if i am missing any cases to handle.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-10657">
+        <div id="dsq-comment-header-10657" class="dsq-comment-header">
+            <cite id="dsq-cite-10657">
+                <span id="dsq-author-user-10657">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10657" class="dsq-comment-body">
+            <div id="dsq-comment-message-10657" class="dsq-comment-message"><p>Thanks for suggesting a simple code. The orginal code was modified to handle cases suggested by <a href="http://www.geeksforgeeks.org/archives/2105#comment-576" rel="nofollow">jntl</a>.  Does your code handle these cases?  Please let us know.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-10660">
+        <div id="dsq-comment-header-10660" class="dsq-comment-header">
+            <cite id="dsq-cite-10660">
+                <span id="dsq-author-user-10660">Smart Pointer</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10660" class="dsq-comment-body">
+            <div id="dsq-comment-message-10660" class="dsq-comment-message"><p>@Geeksforgeeks, a little modification in my code.<br />
+Now, it works well for all cases. It also handles the case given by jntl. The below implementation is easy to follow.</p>
+<pre> <code language="C">
+float findMed(int A[], int B[], int n)
+{
+        if( n &lt;= 0 ) return FLT_MIN;
+ 
+        if( n == 1)
+                return (A[0] + B[0]) / 2.0;
+        if( n == 2 )
+                return (max(A[0],B[0]) + min(A[1],B[1])) / 2.0;
+        if( A[n-1] &lt; B[0] )
+                return (A[n-1] + B[0]) / 2.0;
+        if( B[n-1] &lt; A[0] )
+                return (A[0] + B[n-1]) / 2.0;
+ 
+        int medA = A[(n-1)/2];
+        int medB = B[(n-1)/2];
+ 
+        if(medA == medB)
+                return medA;
+        if( medA &lt; medB )
+                return findMed(A+(n-1)/2, B, n/2 + 1);
+        return findMed(A, B+(n-1)/2, n/2 + 1);
+}
+</code> </pre>
+<p>Check output here: <a href="http://ideone.com/3q7O5" rel="nofollow">http://ideone.com/3q7O5</a></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-33164">
+        <div id="dsq-comment-header-33164" class="dsq-comment-header">
+            <cite id="dsq-cite-33164">
+                <span id="dsq-author-user-33164">newCoder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33164" class="dsq-comment-body">
+            <div id="dsq-comment-message-33164" class="dsq-comment-message"><p>Yes this code works:</p>
+<p>I have come up with an iterative version of this :</p>
+<p>/**<br />
+     * There are 2 sorted arrays A and B of size n each. Write an algorithm to<br />
+     * find the median of the array obtained after merging the above 2<br />
+     * arrays(i.e. array of length 2n). The complexity should be O(log(n))<br />
+     *<br />
+     * @param a<br />
+     *            {1,3,5,7,9}<br />
+     * @param b<br />
+     *            {2,4,6,8,10}<br />
+     *<br />
+     * @return average of the 2 medians from the merged array of length 2n.<br />
+     */<br />
+    public static int findMedian(int a[], int b[]) {<br />
+        assert a.length == b.length;</p>
+<p>        int n = a.length;</p>
+<p>        int low1 = 0;<br />
+        int low2 = 0;</p>
+<p>        while (n &gt; 2) {<br />
+            if (a[low1 + n &#8211; 1] &lt; b[low2]) {<br />
+                return (a[low1 + n &#8211; 1] + b[low2]) / 2;<br />
+            }</p>
+<p>            if (b[low2 + n &#8211; 1] &lt; a[low1]) {<br />
+                return (b[low2 + n &#8211; 1] + a[low1]) / 2;<br />
+            }</p>
+<p>            int m1 = median(a, n, low1);<br />
+            int m2 = median(b, n, low2);<br />
+            if (m1 == m2) {<br />
+                return m1;<br />
+            }</p>
+<p>            if (m1 &lt; m2) {<br />
+                low1 = low1 + (n &#8211; 1) / 2;<br />
+                n = n / 2 + 1;<br />
+            } else {<br />
+                low2 = low2 + (n &#8211; 1) / 2;<br />
+                n = n / 2 + 1;<br />
+            }<br />
+        }</p>
+<p>        if (n == 2) {<br />
+            return (Math.max(a[low1], b[low2]) + Math.min(a[low1 + 1],<br />
+                    b[low2 + 1])) / 2;<br />
+        }</p>
+<p>        if (n == 1) {<br />
+            return (a[low1] + b[low2]) / 2;<br />
+        }</p>
+<p>        return -1;<br />
+    }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-10228">
+        <div id="dsq-comment-header-10228" class="dsq-comment-header">
+            <cite id="dsq-cite-10228">
+                <span id="dsq-author-user-10228">tutum</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10228" class="dsq-comment-body">
+            <div id="dsq-comment-message-10228" class="dsq-comment-message"><pre> <code language="C">
+/* 
+#include&lt;stdio.h&gt;
+int size=8;
+
+int bsearch(int B[],int left,int right,int num)
+{
+      if(left==right){
+            return right;
+      }
+      int mid=(left+right)/2;
+      if(B[mid]&lt;=num &amp;&amp; B[mid+1]&gt;num){
+            return mid;
+      }
+      if(B[mid]&lt;num &amp;&amp; B[mid+1]&lt;num){
+            bsearch(B,mid,right,num);
+      }else{
+            bsearch(B,left,mid,num);
+      }
+
+}
+
+int find_median(int A[],int B[],int left,int right)
+{
+      if(left==right){
+            return -1;
+      }
+      int mid=(left+right)/2;
+      int required_index=size-mid-1;
+      int indx=bsearch(B,0,size-1,A[mid]);
+      printf(&quot;%d\n&quot;,indx);
+      if(indx==required_index){
+            return A[mid];
+      }
+      if(indx&lt;required_index){
+            find_median(A,B,mid+1,right);
+      }else{
+            find_median(A,B,left,mid);
+      }
+
+}
+int main()
+{
+      int flag=0;
+      int A[]={2,3,5,7,8,19,23,35};
+      int B[]={36,37,38,39,50,55,56,57};
+      if(A[0]&gt;B[size-1]){
+            printf(&quot;%d&quot;,A[0]);
+            flag=1;
+      }
+      if(B[0]&gt;A[size-1]){
+            printf(&quot;%d&quot;,B[0]);
+            flag=1;
+      }
+      if(flag!=1){
+            int indx;
+            indx=find_median(A,B,0,size-1);
+            if(indx==-1){
+                  indx=find_median(B,A,0,size-1);
+                  printf(&quot;%d\n&quot;,indx);
+            }else{
+                  printf(&quot;%d\n&quot;,indx);
+            }
+      }
+
+return 0;
+}
+ */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-10145">
+        <div id="dsq-comment-header-10145" class="dsq-comment-header">
+            <cite id="dsq-cite-10145">
+                <span id="dsq-author-user-10145">adarsh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10145" class="dsq-comment-body">
+            <div id="dsq-comment-message-10145" class="dsq-comment-message"><p>#include<br />
+#include<br />
+using namespace std;<br />
+void med(int a[],int b[],int lena,int lenb);<br />
+int main()<br />
+{<br />
+int a[10],b[10],lena,lenb,i;<br />
+cout&lt;&gt;lena;<br />
+for(i=0;i&gt;a[i];<br />
+cout&lt;&gt;lenb;<br />
+for(i=0;i&gt;b[i];<br />
+med(a,b,lena,lenb);<br />
+getch();<br />
+return 0;<br />
+}<br />
+void med(int a[],int b[],int lena,int lenb)<br />
+{<br />
+int i,j,temp,cas,mid;<br />
+float mide;<br />
+for(i=0;i&lt;lenb;i++)<br />
+for(j=0;j&lt;lena;j++)<br />
+{<br />
+                  if(b[i]&lt;a[j])<br />
+                  {<br />
+                  temp=a[j];<br />
+                  a[j]=b[i];<br />
+                  b[i]=temp;<br />
+                  }</p>
+<p>}<br />
+for(i=0;i&lt;lenb;i++)<br />
+for(j=i+1;jb[j])<br />
+{<br />
+temp=b[j];<br />
+b[j]=b[i];<br />
+b[i]=temp;<br />
+}<br />
+cout&lt;&lt;&quot;\narray a is\n&quot;;</p>
+<p>for(i=0;i&lt;lena;i++)<br />
+cout&lt;&lt;&quot;\t&quot;&lt;&lt;a[i];<br />
+cout&lt;&lt;&quot;\narray b is\n&quot;;<br />
+for(i=0;i&lt;lenb;i++)<br />
+cout&lt;&lt;&quot;\t&quot;&lt;<b>temp)<br />
+       mid=a[temp];<br />
+       else<br />
+       {<br />
+       temp=temp-lena;<br />
+       mid=b[temp];<br />
+       }<br />
+case 1:if(lena&gt;temp)<br />
+       mide=float((a[temp]+a[temp-1])/2.0);<br />
+       else<br />
+       if(lena==temp)<br />
+       mide=float((a[temp-1]+b[0])/2.0);<br />
+       else<br />
+        {<br />
+        temp=temp-lena;<br />
+        mide=float((b[temp-1]+b[temp])/2.0);<br />
+        }</p>
+<p>}<br />
+if(cas==2)<br />
+cout&lt;&lt;&quot;\nthe median is &quot;&lt;&lt;mid;<br />
+else<br />
+cout&lt;&lt;&quot;\nthe median is &quot;&lt;&lt;mide;</p>
+<p>}<br />
+advantage: 2 array differ in size</b></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-9874">
+        <div id="dsq-comment-header-9874" class="dsq-comment-header">
+            <cite id="dsq-cite-9874">
+                <span id="dsq-author-user-9874">Ankit Gupta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9874" class="dsq-comment-body">
+            <div id="dsq-comment-message-9874" class="dsq-comment-message"><p>On similar lines. O(n) solution can be simplified to :</p>
+<pre> <code language="C">
+int getMedian(int s1[], int n, int s2[], int m)
+{
+    int m1, m2, total = m+n;
+
+    int i = 0, j = 0;
+    for(int k = 0; k &lt;= total&gt;&gt;1; k++) {
+        m1 = m2;
+        if (i == n) {
+            m2 = s2[j++];
+        } else if (j == m) {
+            m2 = s1[i++];
+        } else {
+            m2 = (s1[i] &lt; s2[j]) ? s1[i++] : s2[j++];
+        }
+    }
+
+    return (total&amp;1) ? m2 : (m1+m2)/2;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-8913">
+        <div id="dsq-comment-header-8913" class="dsq-comment-header">
+            <cite id="dsq-cite-8913">
+                <span id="dsq-author-user-8913">kg</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8913" class="dsq-comment-body">
+            <div id="dsq-comment-message-8913" class="dsq-comment-message"><pre> <code language="C">
+#include&lt;iostream&gt;
+using namespace std;
+int median1(int *ar1,int n1,int *ar2,int n2)  // Time - O(n)  Space -  O(1)
+{
+    int total = n1+n2;
+    int count = total/2;
+    int i=0;
+    int el1,el2;
+    int index1 = 0,index2=0;
+    for(;i&lt;=count&amp;&amp;index1&lt;n1&amp;&amp;index2&lt;n2;i++)
+    {
+        el1 = el2;
+        if(ar1[index1] &lt; ar2[index2])
+            el2 = ar1[index1++];
+        else
+            el2 = ar2[index2++];
+    }
+    while(i&lt;=count)
+    {
+        el1 = el2;
+        if(index1&lt;n1)
+            el2 = ar1[index1++];
+        else if(index2&lt;n2)
+            el2 = ar2[index2++];
+        i++;
+    }
+
+    if(total&amp;1)
+         return el2;
+    else
+        return (el2+el1)/2;
+
+}
+int main()
+{
+    int ar1[] =  {2,4,6,8};
+    int ar2[] = {1,3,6,9};
+
+
+    int n1 = sizeof(ar1)/sizeof(ar1[0]);
+    int n2 = sizeof(ar2)/sizeof(ar2[0]);
+    cout&lt;&lt;median1(ar1,n1,ar2,n2);
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-8914">
+        <div id="dsq-comment-header-8914" class="dsq-comment-header">
+            <cite id="dsq-cite-8914">
+                <span id="dsq-author-user-8914">kg</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8914" class="dsq-comment-body">
+            <div id="dsq-comment-message-8914" class="dsq-comment-message"><p>This works for different size array&#8230;. &amp; iterative process.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8343">
+        <div id="dsq-comment-header-8343" class="dsq-comment-header">
+            <cite id="dsq-cite-8343">
+                <span id="dsq-author-user-8343">yc</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8343" class="dsq-comment-body">
+            <div id="dsq-comment-message-8343" class="dsq-comment-message"><p>different lenght, iteration</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+int cent(int a, int b, int c){
+  //a and b must be in order from small to large
+  return min(max(a,c),b);
+}
+
+
+double findmedian(int a1[],int n1, int a2[],int n2){
+
+  int *p1, *p2;
+  if(n1 &lt; n2) {
+    p1=a1;
+    p2=a2;
+  }else{
+    p1=a2;
+    p2=a1;
+    int tmp=n2;
+    n2=n1;
+    n1=tmp;
+  }
+  
+  if(n1 == 1){
+    if(n2 == 1) 
+      return 0.5*(p1[0]+p2[0]); 
+    if(n2 == 2) 
+      return cent(p2[0],p2[1],p1[0]);
+    //n2 &gt;=3 ;
+    int mid1=(n2-1)/2;
+    int mid2= n2/2;
+    if(mid1==mid2) 
+      return 0.5*(p2[mid1]+cent(p2[mid1-1],p2[mid1+1],p1[0]));
+    return cent(p2[mid1],p2[mid2],p1[0]);
+  }
+  while(n1 &gt; 0){
+    if(n1 == 2){
+      if(n2 == 2) 
+	return 0.5*(max(p1[0],p2[0]) + min(p1[1],p2[1]));
+      
+      int mid1=(n2-1)/2;
+      int mid2= n2/2;
+      
+      return 0.5*( cent(p2[mid1-1],p2[mid1+1],cent(p1[0],p1[1],p2[mid1])) 
+		   + cent(p2[mid2-1],p2[mid2+1],cent(p1[0],p1[1],p2[mid2]))); 
+      
+    }
+    
+    int mid11=(n1-1)/2;
+    int mid12=n1/2;
+    int mid21=(n2-1)/2;
+    int mid22=n2/2;
+    
+    if((mid11+mid12) == (mid21+mid22)) 
+      return 0.5*(mid11+mid12);
+    else if((mid11+mid12) &lt; (mid21+mid22)){
+      n1-=mid11;
+      p1=&amp;p1[mid11];
+      n2=n2-mid11;
+    }else{
+      int trim=n1-mid12-1;
+      n1=mid12+1;
+      n2-=trim;
+      p2=&amp;p2[trim];
+    }
+    continue; 
+  }
+}
+
+int main(int argc, char** argv){
+
+  int a[]={-1,1,2,3,3,7,9,11,33};
+  int b[]={2,4};
+
+  int n1=sizeof(a)/sizeof(int);
+  int n2=sizeof(b)/sizeof(int);
+
+  printf(&quot;Median is %f\n&quot;,findmedian(a,n1,b,n2));
+
+
+}
+
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-7785">
+        <div id="dsq-comment-header-7785" class="dsq-comment-header">
+            <cite id="dsq-cite-7785">
+                <span id="dsq-author-user-7785">Ajinkya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7785" class="dsq-comment-body">
+            <div id="dsq-comment-message-7785" class="dsq-comment-message"><p>Rascala different length arrays. Do this. Mind it.</p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+#include&lt;conio.h&gt;
+#include&lt;iostream.h&gt;
+
+int max(int a,int b)
+{
+    return((a&gt;b)?a:b);
+}
+
+int min(int a,int b)
+{
+    return((a&lt;b)?a:b);
+}
+
+int median(int arr1[],int arr2[],int n1,int n2,int m1,int m2)
+{
+    //Base case - Recursion end case
+    if((n2-n1)&lt;=1 &amp;&amp; (m2-m1)&lt;=1)
+    {
+       if((n2-n1)==1 &amp;&amp; (m2-m1)==1) //2 elements in both sublists
+          return(max(max(arr1[n1],arr2[m1]),min(arr1[n2],arr2[m2])));
+       else if((n2-n1)==0) //1st sublist just 1 element
+          return(min(arr2[m1],arr2[m2]));
+       else //2nd sublist contains just 1 element
+          return(min(arr1[n1],arr1[n2]));
+    }
+    
+    //Recursion step
+    int mid1=(n1+n2)/2;
+    int mid2=(m1+m2)/2;
+    if(arr1[mid1]&lt;arr2[mid2])
+       return(median(arr1,arr2,mid1,n2,m1,mid2));
+    else if(arr2[mid2]&lt;arr1[mid1])
+       return(median(arr1,arr2,n1,mid1,mid2,m2));
+    else if(arr1[mid1]==arr2[mid2])
+    {
+         if((n2-n1)&gt;(m2-m1)) //more elements in arr1
+            return(arr1[mid1+1]);
+         else if((n2-n1)&lt;(m2-m1)) //more elements in arr2
+            return(arr2[mid2+1]);
+         else
+            return(arr1[mid1]);
+    }
+}
+int main()
+{
+    int arr1[]={4,21,34,56,78};
+    int arr2[]={2,34,56,57,67,89};
+    int n=sizeof(arr1)/sizeof(arr1[0]);
+    int m=sizeof(arr2)/sizeof(arr2[0]);
+    cout&lt;&lt;&quot;\nMedian of merged arrays is: &quot;&lt;&lt;median(arr1,arr2,0,n-1,0,m-1);
+    getch();
+    return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-8199">
+        <div id="dsq-comment-header-8199" class="dsq-comment-header">
+            <cite id="dsq-cite-8199">
+                <span id="dsq-author-user-8199">Jelum</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8199" class="dsq-comment-body">
+            <div id="dsq-comment-message-8199" class="dsq-comment-message"><p>@Ajinkya:<br />
+Your solution is wrong. Try:</p>
+<p>arr1:<br />
+41 42 43 74 83<br />
+arr2:<br />
+3 6 10 25 53 76 78 84 95</p>
+<p>Your answer is 25</p>
+<p>Right is number between 43 and 53</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-gautam5669 odd alt thread-even depth-1" id="dsq-comment-7669">
+        <div id="dsq-comment-header-7669" class="dsq-comment-header">
+            <cite id="dsq-cite-7669">
+                <span id="dsq-author-user-7669">Gautam</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7669" class="dsq-comment-body">
+            <div id="dsq-comment-message-7669" class="dsq-comment-message"><pre> <code language="C">
+
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#define MIN -32767
+#define MAX  32767
+
+/*
+  this can be used to find the median of two sorted array
+*/
+
+int findK(int A[], int m, int B[], int n, int k)
+
+{
+ if(m&lt;0 || n&lt;0 || k&lt;0 || k &gt;(m+n))
+	return -1;
+
+  int i = (int)((double)m / (m+n) * (k-1));
+  int j = (k-1) - i;
+
+  // invariant: i + j = k-1
+  // Note: A[-1] = -INF and A[m] = +INF to maintain invariant
+  int Ai_1 = ((i == 0) ? MIN : A[i-1]);
+  int Bj_1 = ((j == 0) ? MIN : B[j-1]);
+  int Ai   = ((i == m) ? MAX : A[i]);
+  int Bj   = ((j == n) ? MAX : B[j]);
+
+  if (Bj_1 &lt; Ai &amp;&amp; Ai &lt; Bj)
+	 return Ai;
+  else if (Ai_1 &lt; Bj &amp;&amp; Bj &lt; Ai)
+	 return Bj;
+
+  // if none of the cases above, then it is either:
+  if (Ai &lt; Bj)
+	 // exclude Ai and below portion
+	 // exclude Bj and above portion
+	 return findK(A+i+1, m-i-1, B, j, k-i-1);
+  else /* Bj &lt; Ai */
+	 // exclude Ai and above portion
+	 // exclude Bj and below portion
+	 return findK(A, i, B+j+1, n-j-1, k-j-1);
+}
+int main()
+{
+int m,n;
+
+
+int a[3]= {1,3,5};
+int b[4]= {2,4,6,8};
+
+m=3;
+n=4;
+
+ if((m+n)%2==0) 
+  {
+	 int y1=findK(a,m,b,n,(m+n)/2);
+	 int y2=findK(a,m,b,n,((m+n)/2+1));
+	 printf(&quot;Median %f&quot;,(float)(y1+y2)/(float)(2.0));
+  }
+ else
+  printf(&quot;Median %d&quot;,findK(a,m,b,n,(m+n)/2+1));
+return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even thread-odd thread-alt depth-1" id="dsq-comment-7331">
+        <div id="dsq-comment-header-7331" class="dsq-comment-header">
+            <cite id="dsq-cite-7331">
+                <span id="dsq-author-user-7331">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7331" class="dsq-comment-body">
+            <div id="dsq-comment-message-7331" class="dsq-comment-message"><p>@All: Updates on this post have been in queue from a long time. Apologies for the long delay. We have updated the post now. </p>
+<p>@nutcracker:  Thanks for suggesting the optimization. We have added a point for your suggested optimization. </p>
+<p>@jntl:  Thanks for suggesting the fix. We have incorporated your suggested changes, method 2 is now bug free.</p>
+<p>@Anonymous and @spandan: We will soon be publishing another post for arrays of unequal size.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-5175">
+        <div id="dsq-comment-header-5175" class="dsq-comment-header">
+            <cite id="dsq-cite-5175">
+                <span id="dsq-author-user-5175">Anonymous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5175" class="dsq-comment-body">
+            <div id="dsq-comment-message-5175" class="dsq-comment-message"><p>second solution might fail for cases where arrays are not of equal size.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik even depth-2" id="dsq-comment-7327">
+        <div id="dsq-comment-header-7327" class="dsq-comment-header">
+            <cite id="dsq-cite-7327">
+                <span id="dsq-author-user-7327">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7327" class="dsq-comment-body">
+            <div id="dsq-comment-message-7327" class="dsq-comment-message"><p>The above solutions are only for two sorted arrays of equal size.  We will soon be publishing another post for unequal size.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-4631">
+        <div id="dsq-comment-header-4631" class="dsq-comment-header">
+            <cite id="dsq-cite-4631">
+                <span id="dsq-author-user-4631">Nishant</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4631" class="dsq-comment-body">
+            <div id="dsq-comment-message-4631" class="dsq-comment-message"><p>I think method -1 will fail in following case<br />
+arr1 &#8211; {1,2,3,4,5,6,7,8,9,10,14,156}<br />
+arr2 = { 2002, 2004,&#8230;.}</p>
+<p>Can you explain if it would not fail</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik even depth-2" id="dsq-comment-7326">
+        <div id="dsq-comment-header-7326" class="dsq-comment-header">
+            <cite id="dsq-cite-7326">
+                <span id="dsq-author-user-7326">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7326" class="dsq-comment-body">
+            <div id="dsq-comment-message-7326" class="dsq-comment-message"><p>@Nishant: You could try running the program before commenting here.  Anyways, I did this for you and it worked fine.  See the following program.  It gives output as 1079 which is average of 156 and 2002.</p>
+<pre> <code language="C">
+#include &lt;stdio.h&gt;
+
+/* This function returns median of ar1[] and ar2[].
+   Assumptions in this function:
+   Both ar1[] and ar2[] are sorted arrays
+   Both have n elements */
+int getMedian(int ar1[], int ar2[], int n)
+{
+  int i = 0;  /* Current index of i/p array ar1[] */
+  int j = 0; /* Current index of i/p array ar2[] */
+  int count;
+  int m1 = -1, m2 = -1;
+
+  /* Since there are 2n elements, median will be average
+   of elements at index n-1 and n in the array obtained after
+   merging ar1 and ar2 */
+  for(count = 0; count &lt;= n; count++)
+  {
+    /*Below is to handle case where all elements of ar1[] are
+      smaller than smallest(or first) element of ar2[]*/
+    if(i == n)
+    {
+      m1 = m2;
+      m2 = ar2[0];
+      break;
+    }
+
+    /*Below is to handle case where all elements of ar2[] are
+      smaller than smallest(or first) element of ar1[]*/
+    else if(j == n)
+    {
+      m1 = m2;
+      m2 = ar1[0];
+      break;
+    }
+
+    if(ar1[i] &lt; ar2[j])
+    {
+      m1 = m2;  /* Store the prev median */
+      m2 = ar1[i];
+      i++;
+    }
+    else
+    {
+      m1 = m2;  /* Store the prev median */
+      m2 = ar2[j];
+      j++;
+    }
+  }
+
+  return (m1 + m2)/2;
+}
+
+/* Driver program to test above function */
+int main()
+{
+   int ar1[] = {1,2,3,4,5,6,7,8,9,10,14,156};
+   int ar2[] = {2002, 2004, 2006, 2008,2010, 2012, 2014, 2016,2018, 2020, 2022, 2024};
+   int n = sizeof(ar1)/sizeof(ar1[0]);
+   printf(&quot;%d&quot;, getMedian(ar1, ar2, n)) ;
+
+   getchar();
+   return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-4423">
+        <div id="dsq-comment-header-4423" class="dsq-comment-header">
+            <cite id="dsq-cite-4423">
+                <span id="dsq-author-user-4423">Anand</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4423" class="dsq-comment-body">
+            <div id="dsq-comment-message-4423" class="dsq-comment-message"><p><a href="http://anandtechblog.blogspot.com/2011/06/google-interview-find-kth-smallest-from.html" rel="nofollow">http://anandtechblog.blogspot.com/2011/06/google-interview-find-kth-smallest-from.html</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-4181">
+        <div id="dsq-comment-header-4181" class="dsq-comment-header">
+            <cite id="dsq-cite-4181">
+http://codeinterview.blogspot.com/                <span id="dsq-author-user-4181">John</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4181" class="dsq-comment-body">
+            <div id="dsq-comment-message-4181" class="dsq-comment-message"><p>Nice code!</p>
+<p>Can you walk me through the following case:<br />
+int ar1[] = {1, 3, 5, 7};<br />
+int ar2[] = {2, 8, 10};<br />
+It seems could be find the right median.Thank you.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3995">
+        <div id="dsq-comment-header-3995" class="dsq-comment-header">
+            <cite id="dsq-cite-3995">
+                <span id="dsq-author-user-3995">Zero</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3995" class="dsq-comment-body">
+            <div id="dsq-comment-message-3995" class="dsq-comment-message"><p>Hey Guys,</p>
+<p>Curious if this would work. Tested it on a few samples n looks fine. </p>
+<p>let A and B be the two sorted arrays.</p>
+<p>m = length(A) n=length(B)</p>
+<p>have two pointers ptrA and ptrB pointing to the first element of A and B respectively. if A[ptrA]&lt;= B[ptrB], increment ptrA. else increment ptrB. stop when the number of increments is equal to (m+n)/2.</p>
+<p>if m+n is odd, the median is the minimum( A[ptrA] and B[ptrB] ). if even take mean of the min number and next greater number.</p>
+<p>Kindly let me know if this works!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik even depth-2" id="dsq-comment-4373">
+        <div id="dsq-comment-header-4373" class="dsq-comment-header">
+            <cite id="dsq-cite-4373">
+                <span id="dsq-author-user-4373">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4373" class="dsq-comment-body">
+            <div id="dsq-comment-message-4373" class="dsq-comment-message"><p>@Zero: This method looks same as method 1.  Correct me if I am wrong.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-ravinder odd alt thread-odd thread-alt depth-1" id="dsq-comment-3860">
+        <div id="dsq-comment-header-3860" class="dsq-comment-header">
+            <cite id="dsq-cite-3860">
+                <span id="dsq-author-user-3860">ravi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3860" class="dsq-comment-body">
+            <div id="dsq-comment-message-3860" class="dsq-comment-message"><p>just check for ar1[0] &amp; ar2[0]<br />
+if ar1[0] is smaller then call getMedianRec  for ar1<br />
+else call getMedianRec for ar2.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2729">
+        <div id="dsq-comment-header-2729" class="dsq-comment-header">
+            <cite id="dsq-cite-2729">
+                <span id="dsq-author-user-2729">nutcracker</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2729" class="dsq-comment-body">
+            <div id="dsq-comment-message-2729" class="dsq-comment-message"><pre> <code language="C"> 
+
+int getMedian(int ar1[], int ar2[], int n)
+{
+if (ar1[n-1] &lt; ar2[0]) return (ar1[n-1]+ar2[0])/2;
+if (ar2[n-1] &lt; ar1[0]) return (ar2[n-1]+ar1[0])/2;
+return getMedianRec(ar1, ar2, 0, n-1, n);
+}</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-2731">
+        <div id="dsq-comment-header-2731" class="dsq-comment-header">
+            <cite id="dsq-cite-2731">
+                <span id="dsq-author-user-2731">nutcracker</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2731" class="dsq-comment-body">
+            <div id="dsq-comment-message-2731" class="dsq-comment-message"><pre> <code language="C">
+/* this code looks more clean */
+
+int getMedian(int ar1[], int ar2[], int n)
+{
+if (ar1[n-1] &lt; ar2[0]) return (ar1[n-1]+ar2[0])/2;
+if (ar2[n-1] &lt; ar1[0]) return (ar2[n-1]+ar1[0])/2;
+return getMedianRec(ar1, ar2, 0, n-1, n);
+}
+
+int getMedianRec(int ar1[], int ar2[], int left, int right, int n)
+{
+  int i, j;  
+ 
+  /* We have reached at the end (left or right) of ar1[] */
+  if(left &gt; right)
+    return getMedianRec(ar2, ar1, 0, n-1, n);
+ 
+  i = (left + right)/2;
+  j = n - i - 1;  /* Index of ar2[] */
+  if (i==0 || j==0) return (ar1[i]+ar2[j])/2;
+ 
+ /* Recursion terminates here.*/
+  if(ar1[i] &gt; ar2[j] &amp;&amp; (ar1[i] &lt;= ar2[j+1]))
+  {
+     return (ar1[i] + ar1[i-1])/2;
+  }  
+ 
+  /*Search in left half of ar1[]*/
+  else if (ar1[i] &gt; ar2[j] &amp;&amp; ar1[i] &gt; ar2[j+1])
+    return getMedianRec(ar1, ar2, left, i-1, n);              
+ 
+  /*Search in right half of ar1[]*/
+  else /* ar1[i] is smaller than both ar2[j] and ar2[j+1]*/
+    return getMedianRec(ar1, ar2, i+1, right, n);
+}
+ 
+/* Driver program to test above function */
+int main()
+{
+//  int ar1[] = {1, 12, 15, 26, 38};
+//  int ar2[] = {2, 13, 17, 30, 45};
+  int ar1[] = {1,3,5,7,11};
+  int ar2[] = {9,13,15,17,19};
+  int ar1[] = {1,3,5,7,9};
+  int ar2[] = {11,13,15,17,19};
+
+  printf(&quot;%d&quot;, getMedian(ar1, ar2, 5)) ;
+ 
+  getchar();
+  return 0;
+}</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-soundbalaji even depth-2" id="dsq-comment-2740">
+        <div id="dsq-comment-header-2740" class="dsq-comment-header">
+            <cite id="dsq-cite-2740">
+                <span id="dsq-author-user-2740">bala</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2740" class="dsq-comment-body">
+            <div id="dsq-comment-message-2740" class="dsq-comment-message"><p>Yes, this check would induce another best case run of O(1). Nice !</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2727">
+        <div id="dsq-comment-header-2727" class="dsq-comment-header">
+            <cite id="dsq-cite-2727">
+                <span id="dsq-author-user-2727">nutcracker</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2727" class="dsq-comment-body">
+            <div id="dsq-comment-message-2727" class="dsq-comment-message"><p>shouldn&#8217;t we first check if all elements of one array are smaller or greater than other array?<br />
+int getMedian(int ar1[], int ar2[], int n)<br />
+{<br />
+  if (a[n-1] <b>b[n-1]) return ((b[n-1]+a[0])/2);<br />
+  return getMedianRec(ar1, ar2, 0, n-1, n);<br />
+}</b></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2726">
+        <div id="dsq-comment-header-2726" class="dsq-comment-header">
+            <cite id="dsq-cite-2726">
+                <span id="dsq-author-user-2726">nutcracker</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2726" class="dsq-comment-body">
+            <div id="dsq-comment-message-2726" class="dsq-comment-message"><p>an O(2n) algo would be</p>
+<pre> <code language="C">
+int median (int a[], int b[], int n)
+{
+  int i=n-1;int j=i;
+  While (j&gt;=0)
+  {
+    if (a[i]&gt;b[j]) { swap(a[i],b[j]);}
+      j--;
+  }
+  return ((a[n-1] + b[0])/2);
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2425">
+        <div id="dsq-comment-header-2425" class="dsq-comment-header">
+            <cite id="dsq-cite-2425">
+                <span id="dsq-author-user-2425">Crime_Master_GoGo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2425" class="dsq-comment-body">
+            <div id="dsq-comment-message-2425" class="dsq-comment-message"><p>that was good explanation, </p>
+<p>I would like to know your approach when the two array have the different length.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2124">
+        <div id="dsq-comment-header-2124" class="dsq-comment-header">
+            <cite id="dsq-cite-2124">
+                <span id="dsq-author-user-2124">spandan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2124" class="dsq-comment-body">
+            <div id="dsq-comment-message-2124" class="dsq-comment-message"><p>how about doing this for sorted arrays with unequal elements.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2029">
+        <div id="dsq-comment-header-2029" class="dsq-comment-header">
+            <cite id="dsq-cite-2029">
+                <span id="dsq-author-user-2029">Rahul jain</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2029" class="dsq-comment-body">
+            <div id="dsq-comment-message-2029" class="dsq-comment-message"><p>heyy, really a very nice article!!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1918">
+        <div id="dsq-comment-header-1918" class="dsq-comment-header">
+            <cite id="dsq-cite-1918">
+                <span id="dsq-author-user-1918">marius</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1918" class="dsq-comment-body">
+            <div id="dsq-comment-message-1918" class="dsq-comment-message"><p>very nice article.<br />
+great algorithms, elegant solutions and very good explanations!</p>
+<p>Thanks!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1267">
+        <div id="dsq-comment-header-1267" class="dsq-comment-header">
+            <cite id="dsq-cite-1267">
+                <span id="dsq-author-user-1267">Abhinav Raghunandan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1267" class="dsq-comment-body">
+            <div id="dsq-comment-message-1267" class="dsq-comment-message"><p>Good work . Thanks for sharing your knowledge . The way your explained was simple great !!!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-jntl even thread-even depth-1" id="dsq-comment-577">
+        <div id="dsq-comment-header-577" class="dsq-comment-header">
+            <cite id="dsq-cite-577">
+                <span id="dsq-author-user-577">jntl</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-577" class="dsq-comment-body">
+            <div id="dsq-comment-message-577" class="dsq-comment-message"><p>IMHO, the code of Method 2 should be modified as:</p>
+<pre> <code language="C">
+if (m1 &lt; m2)  
+{
+    if (n % 2 == 0)    
+        return getMedian(ar1 + n/2 - 1, ar2, n - n/2 +1);
+    else
+        return getMedian(ar1 + n/2, ar2, n - n/2);
+}
+
+if (n % 2 == 0)
+    return getMedian(ar2 + n/2 - 1, ar1, n - n/2 + 1);  
+else
+    return getMedian(ar2 + n/2, ar1, n - n/2);
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-jntl odd alt thread-odd thread-alt depth-1" id="dsq-comment-576">
+        <div id="dsq-comment-header-576" class="dsq-comment-header">
+            <cite id="dsq-cite-576">
+                <span id="dsq-author-user-576">jntl</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-576" class="dsq-comment-body">
+            <div id="dsq-comment-message-576" class="dsq-comment-message"><p>In Method 2, consider the following test case:<br />
+arr1[]={2, 4, 6, 10}<br />
+arr2[]={1, 3, 9, 12}<br />
+Method 1 returns (4 + 6 ) / 2 = 5, which is correct.<br />
+Method 2 returns (3 + 6) / 2 = 4, which is wrong!<br />
+This is because Method 2 picks {6, 10} from arr1 and {1, 3} from arr2, which will lost the correct pair {4, 6}.<br />
+We should pick {4, 6, 10} from arr1 and {1, 3, 9} from arr2 instead.<br />
+The algorithm of Method 2 should be modified as below:<br />
+if (m1  m2 case.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-1518">
+        <div id="dsq-comment-header-1518" class="dsq-comment-header">
+            <cite id="dsq-cite-1518">
+                <span id="dsq-author-user-1518">sourabhjakhar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1518" class="dsq-comment-body">
+            <div id="dsq-comment-message-1518" class="dsq-comment-message"><p>if we take array a[(n/2-1)&#8230;..],a[&#8230;&#8230;.(n/2+1)]<br />
+if n is even than it gives correct answer for this case also</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-jntl odd alt thread-even depth-1" id="dsq-comment-575">
+        <div id="dsq-comment-header-575" class="dsq-comment-header">
+            <cite id="dsq-cite-575">
+                <span id="dsq-author-user-575">jntl</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-575" class="dsq-comment-body">
+            <div id="dsq-comment-message-575" class="dsq-comment-message"><p>In the code, interger division is used, so the median of 1 and 4 is (1 + 4) / 2 = 2<br />
+I think it is better to use float division so that the median is 2.5, which is more precise.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-sandeep even thread-odd thread-alt depth-1" id="dsq-comment-466">
+        <div id="dsq-comment-header-466" class="dsq-comment-header">
+            <cite id="dsq-cite-466">
+                <span id="dsq-author-user-466">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-466" class="dsq-comment-body">
+            <div id="dsq-comment-message-466" class="dsq-comment-message"><p>@Rohini: In the above algorithms/codes, it is assumed that arrays are of equal size, but can be easily modified for the arrays of different sizes.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-465">
+        <div id="dsq-comment-header-465" class="dsq-comment-header">
+            <cite id="dsq-cite-465">
+                <span id="dsq-author-user-465">Rohini</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-465" class="dsq-comment-body">
+            <div id="dsq-comment-message-465" class="dsq-comment-message"><p>Does this work for 2 different sizes of the sorted array?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even thread-odd thread-alt depth-1" id="dsq-comment-424">
+        <div id="dsq-comment-header-424" class="dsq-comment-header">
+            <cite id="dsq-cite-424">
+                <span id="dsq-author-user-424">geeksforgeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-424" class="dsq-comment-body">
+            <div id="dsq-comment-message-424" class="dsq-comment-message"><p>@rv_10987: Thanks very much for pointing out this case.  We have made changes to handle it. For median of a single array arr[], we have added a function median() that returns appropriate median.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-rv_10987 odd alt thread-even depth-1" id="dsq-comment-419">
+        <div id="dsq-comment-header-419" class="dsq-comment-header">
+            <cite id="dsq-cite-419">
+                <span id="dsq-author-user-419">rv_10987</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-419" class="dsq-comment-body">
+            <div id="dsq-comment-message-419" class="dsq-comment-message"><p>In method 2:<br />
+Test case: arr1[]={2,4,6,8}<br />
+           arr2[]={1,3,6,9}<br />
+           n=4<br />
+As m1=arr1[n/2]=6 and m2=arr2[n/2]=6 so the o/p would be 6. But the median should be (4+6)/2=5.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-409">
+        <div id="dsq-comment-header-409" class="dsq-comment-header">
+            <cite id="dsq-cite-409">
+                <span id="dsq-author-user-409">TJ</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-409" class="dsq-comment-body">
+            <div id="dsq-comment-message-409" class="dsq-comment-message"><p>@Ved, instead of passing the reduced array, you may use the lower index and higher index that bound the reduced array.<br />
+So, instead of just passing the Array1, Array2<br />
+Pass low1, high1 and low2 and high2 along with Array1 and Array2.<br />
+So, mid1 = (low1+high1)/2 and mid2=(low2+high2)/2</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-390">
+        <div id="dsq-comment-header-390" class="dsq-comment-header">
+            <cite id="dsq-cite-390">
+http://techpuzzl.wordpress.com/                <span id="dsq-author-user-390">Ved</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-390" class="dsq-comment-body">
+            <div id="dsq-comment-message-390" class="dsq-comment-message"><p>The method 2 (Median of Median) using recursion is very good for languages where we can pass an array with an offset.<br />
+I am not able to translate the same logic in Java where I can not pass the reduced array for each recursive call.<br />
+Any ideas ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even thread-odd thread-alt depth-1" id="dsq-comment-319">
+        <div id="dsq-comment-header-319" class="dsq-comment-header">
+            <cite id="dsq-cite-319">
+                <span id="dsq-author-user-319">geeksforgeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-319" class="dsq-comment-body">
+            <div id="dsq-comment-message-319" class="dsq-comment-message"><p>@sachin midha: Thanks very much for pointing out the bug. We have included the suggested changes to the original post.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-316">
+        <div id="dsq-comment-header-316" class="dsq-comment-header">
+            <cite id="dsq-cite-316">
+                <span id="dsq-author-user-316">sachin midha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-316" class="dsq-comment-body">
+            <div id="dsq-comment-message-316" class="dsq-comment-message"><p>I didnot run the program so i dont know whether it gives correct result or not but what i thought was this :<br />
+for the ex. that you have given with<br />
+ar1[] = {1, 2, 3, 4, 6}<br />
+count &amp; i in the called function are each 0 initially<br />
+after pass 1 : i=1 &amp; count=1<br />
+after pass 2 : i=2 &amp; count=2<br />
+after pass 3 : i=3 &amp; count=3<br />
+after pass 4 : i=4 &amp; count=4<br />
+after pass 5 : i=5 &amp; count=5<br />
+now since count=5 the loop will run again and will compare<br />
+ar1[5] with ar2[0] but since ar1[5] is not a legitimate element, it is conceptually wrong.(Its a WARNING:ARRAY bounds crossed but not an error but it runs)<br />
+In your case, you might be getting the correct answer because the random element ar1[5] was by chance greater than ar2[0].<br />
+Although it is a very small bug but i thought to bring it up so that i may get to know if there is some problem in my evaluation.<br />
+and this problem can be eradicated by putting an if at the start of the loop before comparison of<br />
+ar1[i] &amp; ar2[j].</p>
+<pre> <code language="C">
+if(i==n)
+{ 
+   m1=m2;
+   m2=ar2[0]; 
+   break; 
+}
+else if(j==n)
+{
+   m1=m2; 
+   m2=ar1[0]; 
+   break; 
+}
+</code> </pre>
+<p>I hope im clear enough this time.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even thread-odd thread-alt depth-1" id="dsq-comment-305">
+        <div id="dsq-comment-header-305" class="dsq-comment-header">
+            <cite id="dsq-cite-305">
+                <span id="dsq-author-user-305">geeksforgeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-305" class="dsq-comment-body">
+            <div id="dsq-comment-message-305" class="dsq-comment-message"><p>@sachin midha: Could you please provide example arrays for which the method 1 didn&#8217;t work.  We tried below for method 1 and got the correct answer.</p>
+<pre> <code language="C">
+/* Driver program to test method 1 */
+int main()
+{
+   int ar1[] = {1, 2, 3, 4, 6};
+   int ar2[] = {10, 13, 17, 30, 45};
+
+   printf(&quot;%d&quot;, getMedian(ar1, ar2, 5)) ;
+
+   getchar();
+   return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-284">
+        <div id="dsq-comment-header-284" class="dsq-comment-header">
+            <cite id="dsq-cite-284">
+                <span id="dsq-author-user-284">sachin midha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-284" class="dsq-comment-body">
+            <div id="dsq-comment-message-284" class="dsq-comment-message"><p>In method 1, one case has not been taken care of,i.e.,<br />
+if all the elements of one array are smaller than all the elements of the oher array.<br />
+In this case suppose elements of arr1 are less than the first element of arr2, then when count = n index of arr1 which will be accessed, will be arr1[n] which is not an existing element, hence generating an error.<br />
+Similarly when all arr2 elements are smaller arr2[n] would be accessed which is again an error condition.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even thread-odd thread-alt depth-1" id="dsq-comment-187">
+        <div id="dsq-comment-header-187" class="dsq-comment-header">
+            <cite id="dsq-cite-187">
+                <span id="dsq-author-user-187">geeksforgeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-187" class="dsq-comment-body">
+            <div id="dsq-comment-message-187" class="dsq-comment-message"><p>@Minjie Zha: Thanks very much for pointing out the typo. We have corrected it.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-186">
+        <div id="dsq-comment-header-186" class="dsq-comment-header">
+            <cite id="dsq-cite-186">
+                <span id="dsq-author-user-186">Minjie Zha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-186" class="dsq-comment-body">
+            <div id="dsq-comment-message-186" class="dsq-comment-message"><p>Step (5) in method 3, there is a typo. I think it should be &#8220;smaller&#8221; instead of &#8220;greater&#8221;.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-138">
+        <div id="dsq-comment-header-138" class="dsq-comment-header">
+            <cite id="dsq-cite-138">
+                <span id="dsq-author-user-138">Rachel</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-138" class="dsq-comment-body">
+            <div id="dsq-comment-message-138" class="dsq-comment-message"><p>I think this article made some interesting points, I read a textbook directly related to this topic, its called Probability: Theory and Examples by Richard Durrett , I found my used copy for less than the bookstores at <a href="http://www.belabooks.com/books/9780534424411.htm" rel="nofollow">http://www.belabooks.com/books/9780534424411.htm</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-126">
+        <div id="dsq-comment-header-126" class="dsq-comment-header">
+            <cite id="dsq-cite-126">
+                <span id="dsq-author-user-126">Snehal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-126" class="dsq-comment-body">
+            <div id="dsq-comment-message-126" class="dsq-comment-message"><p>Thanks a lot &#8230;The Best part of the solution is the way of explaining &#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/median-of-two-sorted-arrays/';
+var disqus_identifier = '2105 http://geeksforgeeks.org/?p=2105';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Median of two sorted arrays";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.257 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:22:49 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

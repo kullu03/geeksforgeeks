@@ -1,0 +1,1564 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Implement Queue using Stacks - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/queue-using-stacks/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Implement Queue using Stacks - GeeksforGeeks" />
+<meta property="og:description" content="A queue can be implemented using two stacks. Let queue to be implemented be q and stacks used to implement q be stack1 and stack2. q can be implemented in two ways: Method 1 (By making enQueue operation costly) This method makes sure that newly entered element is always at the top of stack 1, &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/queue-using-stacks/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:section" content="Misc" />
+<meta property="article:published_time" content="2010-03-13T19:13:56+00:00" />
+<meta property="article:modified_time" content="2011-01-29T09:57:19+00:00" />
+<meta property="og:updated_time" content="2011-01-29T09:57:19+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.470 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417110845 121.242.198.2';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Implement Queue using Stacks</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>A queue can be implemented using two stacks. Let queue to be implemented be q and stacks used to implement q be stack1 and stack2.  q can be implemented in two ways: <span id="more-5009"></span></p>
+<p><strong>Method 1 (By making enQueue operation costly)</strong><br />
+This method makes sure that newly entered element is always at the top of stack 1, so that deQueue operation just pops from stack1.  To put the element at top of stack1, stack2 is used.</p>
+<pre>
+enQueue(q, x)
+  1) While stack1 is not empty, push everything from satck1 to stack2.
+  2) Push x to stack1 (assuming size of stacks is unlimited).
+  3) Push everything back to stack1.
+
+dnQueue(q)
+  1) If stack1 is empty then error
+  2) Pop an item from stack1 and return it
+</pre>
+<p><strong>Method 2 (By making deQueue operation costly)</strong><br />
+In this method, in en-queue operation, the new element is entered at the top of stack1.  In de-queue operation, if stack2 is empty then all the elements are moved to stack2 and finally top of stack2 is returned.</p>
+<pre>
+enQueue(q,  x)
+  1) Push x to stack1 (assuming size of stacks is unlimited).
+
+deQueue(q)
+  1) If both stacks are empty then error.
+  2) If stack2 is empty
+       While stack1 is not empty, push everything from satck1 to stack2.
+  3) Pop the element from stack2 and return it.
+</pre>
+<p>Method 2 is definitely better than method 1.  Method 1 moves all the elements twice in enQueue operation, while method 2 (in deQueue operation) moves the elements once and moves elements only if stack2 empty.  </p>
+<p>Implementation of method 2:</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+/* Program to implement a queue using two stacks */
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+
+/* structure of a stack node */
+struct sNode
+{
+   int data;
+   struct sNode *next;
+};
+ 
+/* Function to push an item to stack*/
+void push(struct sNode** top_ref, int new_data);
+ 
+/* Function to pop an item from stack*/
+int pop(struct sNode** top_ref);
+ 
+/* structure of queue having two stacks */
+struct queue
+{
+   struct sNode *stack1;
+   struct sNode *stack2;
+};
+ 
+/* Function to enqueue an item to queue */
+void enQueue(struct queue *q, int x)
+{
+   push(&amp;q-&gt;stack1, x);
+}
+ 
+/* Function to dequeue an item from queue */
+int deQueue(struct queue *q)
+{
+   int x; 
+ 
+   /* If both stacks are empty then error */
+   if(q-&gt;stack1 == NULL &amp;&amp; q-&gt;stack2 == NULL)
+   {
+      printf(&quot;Q is empty&quot;);
+      getchar();
+      exit(0);
+   }
+
+   /* Move elements from satck1 to stack 2 only if 
+       stack2 is empty */
+   if(q-&gt;stack2 == NULL)
+   {
+     while(q-&gt;stack1 != NULL)
+     {
+        x = pop(&amp;q-&gt;stack1);
+        push(&amp;q-&gt;stack2, x);
+     }
+   } 
+
+   x = pop(&amp;q-&gt;stack2);
+   return x;
+}
+ 
+/* Function to push an item to stack*/
+void push(struct sNode** top_ref, int new_data)
+{
+  /* allocate node */
+  struct sNode* new_node =
+            (struct sNode*) malloc(sizeof(struct sNode));
+ 
+  if(new_node == NULL)
+  {
+     printf(&quot;Stack overflow \n&quot;);
+     getchar();
+     exit(0);
+  }            
+ 
+  /* put in the data  */
+  new_node-&gt;data  = new_data;
+ 
+  /* link the old list off the new node */
+  new_node-&gt;next = (*top_ref);   
+ 
+  /* move the head to point to the new node */
+  (*top_ref)    = new_node;
+}
+ 
+/* Function to pop an item from stack*/
+int pop(struct sNode** top_ref)
+{
+  int res;
+  struct sNode *top;
+ 
+  /*If stack is empty then error */
+  if(*top_ref == NULL)
+  {
+     printf(&quot;Stack overflow \n&quot;);
+     getchar();
+     exit(0);
+  }
+  else
+  {
+     top = *top_ref;
+     res = top-&gt;data;
+     *top_ref = top-&gt;next;
+     free(top);
+     return res;
+  }
+}
+ 
+/* Driver function to test anove functions */
+int main()
+{
+   /* Create a queue with items 1 2 3*/
+   struct queue *q = (struct queue*)malloc(sizeof(struct queue));
+   q-&gt;stack1 = NULL;
+   q-&gt;stack2 = NULL;
+   enQueue(q, 1);
+   enQueue(q, 2);
+   enQueue(q, 3);    
+ 
+   /* Dequeue items */
+   printf(&quot;%d  &quot;, deQueue(q));
+   printf(&quot;%d  &quot;, deQueue(q));
+   printf(&quot;%d  &quot;, deQueue(q));  
+ 
+   getchar();
+}
+</pre>
+<p><strong>Queue can also be implemented using one user stack and one Function Call Stack.  </strong><br />
+Below is modified Method 2 where recursion (or Function Call Stack) is used to implement queue using only one user defined stack.</p>
+<pre>
+<em>enQueue(x)</em>
+  1) Push <em>x </em>to <em>stack1</em>.
+
+<em>deQueue:</em>
+  1) If <em>stack1 </em>is empty then error.
+  2) If <em>stack1 </em>has only one element then return it.
+  3) Recursively pop everything from the stack1, store the popped item 
+    in a variable <em>res</em>,  push the <em>res</em> back to stack1 and return <em>res</em>
+</pre>
+<p>The step 3 makes sure that the last popped item is always returned and since the recursion stops when there is only one item in <em>stack1</em> (step 2), we get the last element of <em>stack1 </em>in dequeue() and all other items are pushed back in step 3.</p>
+<p>Implementation of method 2 using Function Call Stack:</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+/* Program to implement a queue using one user defined stack and one Function Call Stack */
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+ 
+/* structure of a stack node */
+struct sNode
+{
+   int data;
+   struct sNode *next;
+};
+ 
+/* structure of queue having two stacks */
+struct queue
+{
+  struct sNode *stack1;
+};
+ 
+/* Function to push an item to stack*/
+void push(struct sNode** top_ref, int new_data);
+ 
+/* Function to pop an item from stack*/
+int pop(struct sNode** top_ref);
+ 
+/* Function to enqueue an item to queue */
+void enQueue(struct queue *q, int x)
+{
+  push(&amp;q-&gt;stack1, x);
+}
+ 
+/* Function to dequeue an item from queue */
+int deQueue(struct queue *q)
+{
+   int x, res; 
+ 
+   /* If both stacks are empty then error */
+   if(q-&gt;stack1 == NULL)
+   {
+     printf(&quot;Q is empty&quot;);
+     getchar();
+     exit(0);
+   }
+   else if(q-&gt;stack1-&gt;next == NULL)
+   {
+      return pop(&amp;q-&gt;stack1);
+   }
+   else
+   {
+      /* pop an item from the stack1 */
+      x = pop(&amp;q-&gt;stack1);
+ 
+      /* store the last dequeued item */
+      res = deQueue(q);
+ 
+      /* push everything back to stack1 */
+      push(&amp;q-&gt;stack1, x);
+ 
+      return res;
+   }
+}
+ 
+/* Function to push an item to stack*/
+void push(struct sNode** top_ref, int new_data)
+{
+  /* allocate node */
+  struct sNode* new_node =
+            (struct sNode*) malloc(sizeof(struct sNode));
+ 
+  if(new_node == NULL)
+  {
+     printf(&quot;Stack overflow \n&quot;);
+     getchar();
+     exit(0);
+  }           
+ 
+  /* put in the data  */
+  new_node-&gt;data  = new_data;
+ 
+  /* link the old list off the new node */
+  new_node-&gt;next = (*top_ref);  
+ 
+  /* move the head to point to the new node */
+  (*top_ref)    = new_node;
+}
+ 
+/* Function to pop an item from stack*/
+int pop(struct sNode** top_ref)
+{
+  int res;
+  struct sNode *top;
+ 
+  /*If stack is empty then error */
+  if(*top_ref == NULL)
+  {
+     printf(&quot;Stack overflow \n&quot;);
+     getchar();
+     exit(0);
+  }
+  else
+  {
+     top = *top_ref;
+     res = top-&gt;data;
+     *top_ref = top-&gt;next;
+     free(top);
+     return res;
+  }
+} 
+ 
+/* Driver function to test above functions */
+int main()
+{
+  /* Create a queue with items 1 2 3*/
+  struct queue *q = (struct queue*)malloc(sizeof(struct queue));
+  q-&gt;stack1 = NULL;
+ 
+  enQueue(q, 1);
+  enQueue(q, 2);
+  enQueue(q, 3);    
+ 
+  /* Dequeue items */
+  printf(&quot;%d  &quot;, deQueue(q));
+  printf(&quot;%d  &quot;, deQueue(q));
+  printf(&quot;%d  &quot;, deQueue(q));  
+ 
+  getchar();
+}
+</pre>
+<p></br><br />
+Please write comments if you find any of the above codes/algorithms incorrect, or find better ways to solve the same problem.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/job-sequencing-problem-set-1-greedy-algorithm/" title="Job Sequencing Problem | Set 1 (Greedy Algorithm)">Job Sequencing Problem | Set 1 (Greedy Algorithm)</a></li><li><a href="http://www.geeksforgeeks.org/multiply-two-polynomials-2/" title="Multiply two polynomials">Multiply two polynomials</a></li><li><a href="http://www.geeksforgeeks.org/algorithm-practice-question-beginners-set-1/" title="Algorithm Practice Question for Beginners | Set 1">Algorithm Practice Question for Beginners | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/count-distinct-non-negative-pairs-x-y-satisfy-inequality-xx-yy-n-2/" title="Count Distinct Non-Negative Integer Pairs (x, y) that Satisfy the Inequality x*x + y*y &lt; n">Count Distinct Non-Negative Integer Pairs (x, y) that Satisfy the Inequality x*x + y*y < n</a></li><li><a href="http://www.geeksforgeeks.org/binomial-heap-2/" title="Binomial Heap">Binomial Heap</a></li><li><a href="http://www.geeksforgeeks.org/print-increasing-sequences-length-k-first-n-natural-numbers/" title="Print all increasing sequences of length k from first n natural numbers">Print all increasing sequences of length k from first n natural numbers</a></li><li><a href="http://www.geeksforgeeks.org/find-nth-number-number-system-3-4/" title="Find n&#8217;th number in a number system with only 3 and 4">Find n&#8217;th number in a number system with only 3 and 4</a></li><li><a href="http://www.geeksforgeeks.org/minimum-cost-polygon-triangulation/" title="Minimum Cost Polygon Triangulation">Minimum Cost Polygon Triangulation</a></li></ul>
+<p></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fqueue-using-stacks%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/queue-using-stacks/" data-text="Implement Queue using Stacks" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/queue-using-stacks/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-32732">
+        <div id="dsq-comment-header-32732" class="dsq-comment-header">
+            <cite id="dsq-cite-32732">
+                <span id="dsq-author-user-32732">gaurav_sharma_17</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32732" class="dsq-comment-body">
+            <div id="dsq-comment-message-32732" class="dsq-comment-message"><p>/*<br />
+Queue can also be implemented using one user stack and one Function Call Stack.<br />
+Below<br />
+ is modified Method 2 where recursion (or Function Call Stack) is used<br />
+to implement queue using only one user defined stack.</p>
+<p>enQueue(x)<br />
+  1) Push x to stack1.</p>
+<p>deQueue:<br />
+  1) If stack1 is empty then error.<br />
+  2) If stack1 has only one element then return it.<br />
+  3) Recursively pop everything from the stack1, store the popped item </p>
+<p>    in a variable res,  push the res back to stack1 and return res</p>
+<p>The<br />
+ step 3 makes sure that the last popped item is always returned and<br />
+since the recursion stops when there is only one item in stack1 (step<br />
+2), we get the last element of stack1 in dequeue() and all other items<br />
+are pushed back in step 3.</p>
+<p>*/</p>
+<p>#include<br />
+#include<br />
+#include<br />
+#include<br />
+#include<br />
+#include </p>
+<p>class Q<br />
+{<br />
+      public :</p>
+<p>      void enQueue(std::stack&amp;s1, int x)<br />
+      {<br />
+         s1.push(x);<br />
+      }</p>
+<p>     int deQueue(std::stack &amp;d)<br />
+     {<br />
+         int x, res;<br />
+         if(d.empty())</p>
+<p>         {<br />
+            printf(&#8220;Q is empty&#8221;);<br />
+            getchar();<br />
+            exit(0);<br />
+          }<br />
+          else if(d.size() == 1)<br />
+          {<br />
+             x=d.top();<br />
+             d.pop();</p>
+<p>             return  x;<br />
+          }<br />
+          else<br />
+          {<br />
+               /* pop an item from the stack1 */<br />
+               x=d.top();<br />
+               d.pop();</p>
+<p>               /* store the last dequeued item */</p>
+<p>               res = deQueue(d);</p>
+<p>               /* push everything back to stack1 */<br />
+               d.push(x);<br />
+               return res;<br />
+          }<br />
+       }<br />
+};  </p>
+<p>int main()<br />
+{</p>
+<p>   std::stack s1;<br />
+   Q  d;<br />
+   d.enQueue(s1,7);<br />
+   d.enQueue(s1,71);<br />
+   d.enQueue(s1,17);<br />
+   d.enQueue(s1,47);<br />
+   d.enQueue(s1,74);<br />
+   d.enQueue(s1,741);<br />
+   cout&lt;&lt;d.deQueue(s1);<br />
+  cout&lt;&lt;endl&lt;&lt;&quot;rest of the queue :n&quot;;<br />
+while (!s1.empty())<br />
+{<br />
+     std::cout&lt;&lt;&#039; &#039;&lt;&lt; s1.top();<br />
+     s1.pop();<br />
+   }<br />
+   getchar();<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-32619">
+        <div id="dsq-comment-header-32619" class="dsq-comment-header">
+            <cite id="dsq-cite-32619">
+                <span id="dsq-author-user-32619">Chad</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32619" class="dsq-comment-body">
+            <div id="dsq-comment-message-32619" class="dsq-comment-message"><p>How would you implement a copy constructor for Queue?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-31471">
+        <div id="dsq-comment-header-31471" class="dsq-comment-header">
+            <cite id="dsq-cite-31471">
+                <span id="dsq-author-user-31471">Aditya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31471" class="dsq-comment-body">
+            <div id="dsq-comment-message-31471" class="dsq-comment-message"><p>What is the practical use case for such a problem? (obviously except that there are only stacks available and no queues)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-27181">
+        <div id="dsq-comment-header-27181" class="dsq-comment-header">
+            <cite id="dsq-cite-27181">
+                <span id="dsq-author-user-27181">Piyush</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27181" class="dsq-comment-body">
+            <div id="dsq-comment-message-27181" class="dsq-comment-message"><p>My method.</p>
+<p>In this approach, enqueue operation is o(1) and dequeue is avg o(2).<br />
+<code></p>
+<p>#include<br />
+#include</p>
+<p>#define ERROR 0xFFFFFFFF<br />
+using namespace std;</p>
+<p>template<br />
+class Queue {<br />
+        private:<br />
+                stack A,B;<br />
+        public:<br />
+                int enqueue(T element)<br />
+                {<br />
+                        A.push(element);<br />
+                        return 1;<br />
+                }<br />
+                int dequeue(T *element)<br />
+                {<br />
+                        if(B.empty())<br />
+                        {<br />
+                                if(A.empty())<br />
+                                {<br />
+                                        *element = ERROR;<br />
+                                        return -1;<br />
+                                }<br />
+                                while(!A.empty())<br />
+                                {<br />
+                                        B.push(A.top());<br />
+                                        A.pop();<br />
+                                }<br />
+                        }<br />
+                        *element = B.top();<br />
+                        B.pop();<br />
+                        return 1;<br />
+                }<br />
+                void traverse()<br />
+                {<br />
+                        while(!B.empty())<br />
+                        {<br />
+                                cout &lt;&lt; &quot; &quot; &lt;&lt;B.top();<br />
+                                B.pop();<br />
+                        }<br />
+                        while(!A.empty())<br />
+                        {<br />
+                                B.push(A.top());<br />
+                                A.pop();<br />
+                        }<br />
+                        while(!B.empty())<br />
+                        {<br />
+                                cout &lt;&lt; &quot; &quot; &lt;&lt;B.top();<br />
+                                B.pop();<br />
+                        }<br />
+                }<br />
+};</p>
+<p>int main()<br />
+{<br />
+        int ptr;<br />
+        Queue q;<br />
+        q.enqueue(5);<br />
+        q.enqueue(10);<br />
+        q.enqueue(15);<br />
+        q.enqueue(20);<br />
+        q.dequeue(&amp;ptr);<br />
+        q.dequeue(&amp;ptr);<br />
+        q.enqueue(25);<br />
+        q.enqueue(30);<br />
+        q.enqueue(35);<br />
+        q.enqueue(40);<br />
+        q.dequeue(&amp;ptr);<br />
+        q.dequeue(&amp;ptr);<br />
+        q.enqueue(45);<br />
+        q.enqueue(50);<br />
+        q.dequeue(&amp;ptr);<br />
+        q.traverse();<br />
+        return 0;<br />
+}<br />
+</code></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-27182">
+        <div id="dsq-comment-header-27182" class="dsq-comment-header">
+            <cite id="dsq-cite-27182">
+                <span id="dsq-author-user-27182">Piyush</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27182" class="dsq-comment-body">
+            <div id="dsq-comment-message-27182" class="dsq-comment-message"><p>Damn !! The newer interface of geeksforgeeks is not beautifying the code properly. It messed my code.</p>
+<p>Please consider the code till dequeue only. Imagine that the class ended after that.</p>
+<p>I tried to write traverse func, but it got messed up here with main().</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-rengasami21 odd alt thread-even depth-1" id="dsq-comment-25174">
+        <div id="dsq-comment-header-25174" class="dsq-comment-header">
+            <cite id="dsq-cite-25174">
+                <span id="dsq-author-user-25174">rengasami21</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-25174" class="dsq-comment-body">
+            <div id="dsq-comment-message-25174" class="dsq-comment-message"><p>In method 2 (using two stacks), don&#8217;t we need to push all the elements back from stack 2 to stack 1? Because when we pop out for deque stack 1 becomes empty. </p>
+<p>Am I missing something? Can somebody help me?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-27046">
+        <div id="dsq-comment-header-27046" class="dsq-comment-header">
+            <cite id="dsq-cite-27046">
+                <span id="dsq-author-user-27046">Abhishek Choudhery</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27046" class="dsq-comment-body">
+            <div id="dsq-comment-message-27046" class="dsq-comment-message"><p>No, the next element that you would want on the next pop operation is now at the top of Stack 2. See the Algo for Pop again!<br />
+    Even I had the same doubt previously</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-rengasami21 odd alt thread-odd thread-alt depth-1" id="dsq-comment-25170">
+        <div id="dsq-comment-header-25170" class="dsq-comment-header">
+            <cite id="dsq-cite-25170">
+                <span id="dsq-author-user-25170">rengasami21</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-25170" class="dsq-comment-body">
+            <div id="dsq-comment-message-25170" class="dsq-comment-message"><p>Hi,</p>
+<p>As per method 2 of using 2 stacks, we are popping every element of stack 1 and pushing it to stack 2 when we dequeue. So after this step, the stack 1 is empty. Now we are enqueuing an element, it will get added to stack 1. Now if we would like to dequeue an element, that one element will be popped out and pushed to stack 2, now if I pop from stack 2, it will give me only the element that was enqueued just now.</p>
+<p>Don&#8217;t we need to push all the elements from Stack 2 to Stack 1 after dequeue?</p>
+<p>Am I missing something here? Can somebody help me?</p>
+<p>regards,<br />
+Rengasami R</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-28307">
+        <div id="dsq-comment-header-28307" class="dsq-comment-header">
+            <cite id="dsq-cite-28307">
+                <span id="dsq-author-user-28307">yyk</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28307" class="dsq-comment-body">
+            <div id="dsq-comment-message-28307" class="dsq-comment-message"><p>yah&#8230;you r missing&#8230;point that&#8230;.<br />
+&#8220;While dequeuing, when there are no elements in stack 2 u r pushing all elements in stack 1 to stack 2 not everytime,,,,,,when there are elements in stack 2, u dequeue directly from stack 2&#8230;.without pushing elements from stack 1&#8243;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-spheroid odd alt thread-even depth-1" id="dsq-comment-20898">
+        <div id="dsq-comment-header-20898" class="dsq-comment-header">
+            <cite id="dsq-cite-20898">
+                <span id="dsq-author-user-20898">spheroid</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20898" class="dsq-comment-body">
+            <div id="dsq-comment-message-20898" class="dsq-comment-message"><pre> <code language="C">
+#include&lt;iostream&gt;
+#include&lt;stack&gt;
+using namespace std;
+int main()
+{
+	stack&lt;int&gt; s,p,temp;
+	int opt;
+	int size;
+	int element;
+	do
+	{
+
+		cout&lt;&lt;&quot; Enter 1 for Push \n Enter 2 for Pop \n Enter 3 to exit : &quot;;
+		cin&gt;&gt;opt;
+		switch(opt)
+		{
+		case 1:
+			
+			cout&lt;&lt;&quot; Enter Element :&quot;&lt;&lt;endl;
+			cin&gt;&gt;element;
+			s.push(element);
+			break;
+
+		case 2:
+		
+		
+			size=s.size();
+			
+			while(size&gt;1)
+			{
+				 p.push(s.top());
+				 s.pop();
+				 size--;
+			}
+			if(s.size()==0)
+			{
+				cout&lt;&lt;&quot; Element cant be Popped Out \n&quot;;
+			}
+			
+			else
+			{
+			cout&lt;&lt;&quot; Popped element is :&quot;&lt;&lt;s.top()&lt;&lt;endl;
+			s.pop();
+			while(!p.empty())
+			{
+				 s.push(p.top());
+				 p.pop();
+				 
+			}
+			}
+			break;
+
+		default:
+			cout&lt;&lt;&quot; Enter Valid Option \n&quot;;
+
+
+		}
+	}while(opt!=3);
+
+
+	   getchar();
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-16351">
+        <div id="dsq-comment-header-16351" class="dsq-comment-header">
+            <cite id="dsq-cite-16351">
+                <span id="dsq-author-user-16351">BackBencher</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16351" class="dsq-comment-body">
+            <div id="dsq-comment-message-16351" class="dsq-comment-message"><p>@all:<br />
+   If we make stack using link-list then there is need to check the overflow condition in PUSH function. I think there is no limit on size of stack.Let me know if i am wrong.</p>
+<p>Thanks&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-12542">
+        <div id="dsq-comment-header-12542" class="dsq-comment-header">
+            <cite id="dsq-cite-12542">
+                <span id="dsq-author-user-12542">Palash</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12542" class="dsq-comment-body">
+            <div id="dsq-comment-message-12542" class="dsq-comment-message"><p>One point that we all should note is that method one is amortized O(n), while method 2 is amortized O(1).</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-8161">
+        <div id="dsq-comment-header-8161" class="dsq-comment-header">
+            <cite id="dsq-cite-8161">
+                <span id="dsq-author-user-8161">Joe Schulte</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8161" class="dsq-comment-body">
+            <div id="dsq-comment-message-8161" class="dsq-comment-message"><p>I think you can optimize this by only moving data from one stack to the other when needed.  If you are en-queuing first make sure all the data is on stack 1, then push the new item on the top of 1.  If you are de-queuing first make sure that all the data is on stack 2 then pop the top item from stack 2.  This method doesn&#8217;t make one operation faster than the other.  It favors doing more than one push or pop at a time, worst case is no worst than the previously stated methods.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-7781">
+        <div id="dsq-comment-header-7781" class="dsq-comment-header">
+            <cite id="dsq-cite-7781">
+                <span id="dsq-author-user-7781">Ajinkya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7781" class="dsq-comment-body">
+            <div id="dsq-comment-message-7781" class="dsq-comment-message"><p>Method 2 idea, free of rascala pointers &#8211; Rajnikanth</p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+#include&lt;conio.h&gt;
+#include&lt;iostream.h&gt;
+
+class stack
+{
+   int *data; int size; int top;
+   public:
+   stack() { size=50; top=-1; data=new int[size]; }
+   stack(int size) {this-&gt;size=50; top=-1; data=new int[size]; }
+   int isempty() {if(top==-1) return 1; return 0; }
+   void push(int x) { data[++top]=x; }
+   int pop() { return(data[top--]); }
+};
+
+class Q
+{
+      stack s1,s2;
+      public:
+      Q() {}
+      void enqueue(int x) { s1.push(x); }
+      int dequeue();
+      int isempty() { if(s1.isempty() &amp;&amp; s2.isempty()) return 1; return 0; }
+};
+
+int Q::dequeue()
+{
+    if(s1.isempty() &amp;&amp; s2.isempty()) {cout&lt;&lt;&quot;\nUnderflow&quot;; getch(); exit(0); }
+    if(s2.isempty())
+    {
+       while(!s1.isempty())
+          s2.push(s1.pop());
+    }
+    return(s2.pop());
+}
+
+int main()
+{
+    Q q1;
+    q1.enqueue(1);
+    q1.enqueue(2);
+    q1.enqueue(3);
+    q1.enqueue(4);
+    while(!q1.isempty())
+       cout&lt;&lt;q1.dequeue()&lt;&lt;&quot; &quot;;
+    cout&lt;&lt;q1.dequeue();
+    getch();
+    return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-7780">
+        <div id="dsq-comment-header-7780" class="dsq-comment-header">
+            <cite id="dsq-cite-7780">
+                <span id="dsq-author-user-7780">Ajinkya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7780" class="dsq-comment-body">
+            <div id="dsq-comment-message-7780" class="dsq-comment-message"><p>We have a right to live. Why should rascala pointers fuck our brains? So this is the same idea as method 2, without rascals (pointers)&#8230;<br />
+-Rajnikant</p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+#include&lt;conio.h&gt;
+#include&lt;iostream.h&gt;
+
+class stack
+{
+   int *data; int size; int top;
+   public:
+   stack() { size=50; top=-1; data=new int[size]; }
+   stack(int size) {this-&gt;size=50; top=-1; data=new int[size]; }
+   int isempty() {if(top==-1) return 1; return 0; }
+   void push(int x) { data[++top]=x; }
+   int pop() { return(data[top--]); }
+};
+
+class Q
+{
+      stack s1,s2;
+      public:
+      Q() {}
+      void enqueue(int x) { s1.push(x); }
+      int dequeue();
+      int isempty() { if(s1.isempty() &amp;&amp; s2.isempty()) return 1; return 0; }
+};
+
+int Q::dequeue()
+{
+    if(s1.isempty() &amp;&amp; s2.isempty()) {cout&lt;&lt;&quot;\nUnderflow&quot;; getch(); exit(0); }
+    if(s2.isempty())
+    {
+       while(!s1.isempty())
+          s2.push(s1.pop());
+    }
+    return(s2.pop());
+}
+
+int main()
+{
+    Q q1;
+    q1.enqueue(1);
+    q1.enqueue(2);
+    q1.enqueue(3);
+    q1.enqueue(4);
+    while(!q1.isempty())
+       cout&lt;&lt;q1.dequeue()&lt;&lt;&quot; &quot;;
+    cout&lt;&lt;q1.dequeue();
+    getch();
+    return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-5791">
+        <div id="dsq-comment-header-5791" class="dsq-comment-header">
+            <cite id="dsq-cite-5791">
+http://thekalinga.blogspot.com                <span id="dsq-author-user-5791">Ashok</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5791" class="dsq-comment-body">
+            <div id="dsq-comment-message-5791" class="dsq-comment-message"><p>The method 2 is certainly not going to work properly if the scenario is like this</p>
+<p>PUSH A,B,C // Stack 1 (top to bottom)&#8211;&gt;(C, B, A), STACK 2&#8211;&gt;()<br />
+POP // returns C ,Stack 1 (top to bottom)&#8211;&gt;(), STACK 2&#8211;&gt;(C, B)<br />
+PUSH D // Stack 1 (top to bottom)&#8211;&gt; (D), STACK 2&#8211;&gt;(C, B)<br />
+POP // returns D, Stack 1 (top to bottom)&#8211;&gt; (), STACK 2&#8211;&gt;(C, B)</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even depth-2" id="dsq-comment-5796">
+        <div id="dsq-comment-header-5796" class="dsq-comment-header">
+            <cite id="dsq-cite-5796">
+                <span id="dsq-author-user-5796">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5796" class="dsq-comment-body">
+            <div id="dsq-comment-message-5796" class="dsq-comment-message"><p>@Ashok:  Please take a closer look at the algorithm.  Your last POP step doesn&#8217;t seem to follow the algorithm.  As per the algo, B will be returned in last step.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-5538">
+        <div id="dsq-comment-header-5538" class="dsq-comment-header">
+            <cite id="dsq-cite-5538">
+                <span id="dsq-author-user-5538">rahul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5538" class="dsq-comment-body">
+            <div id="dsq-comment-message-5538" class="dsq-comment-message"><p>plz tell in method 2 if i enqueue 123 den dequeue it willl dequeue 123 but suppose i called dequeue 2 times so stack 1 will have 123 and stack2 will have 3 and nw i enqueue in stack1 4 and then dequeue first 3 will be poped&#8230;.but den dequeue called stack empty it will push 1234 in stack but 123 are of no use nw???plz xplain</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-6698">
+        <div id="dsq-comment-header-6698" class="dsq-comment-header">
+            <cite id="dsq-cite-6698">
+                <span id="dsq-author-user-6698">WhatTheFuckAreYouSaying</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6698" class="dsq-comment-body">
+            <div id="dsq-comment-message-6698" class="dsq-comment-message"><p>LYK DIS F YU CRY EVRYTYME</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3392">
+        <div id="dsq-comment-header-3392" class="dsq-comment-header">
+            <cite id="dsq-cite-3392">
+                <span id="dsq-author-user-3392">Water</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3392" class="dsq-comment-body">
+            <div id="dsq-comment-message-3392" class="dsq-comment-message"><p>Awesome&#8230;. i was asked by this question in interview and this point cleared me many points.. thanks !!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-3393">
+        <div id="dsq-comment-header-3393" class="dsq-comment-header">
+            <cite id="dsq-cite-3393">
+                <span id="dsq-author-user-3393">Water</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3393" class="dsq-comment-body">
+            <div id="dsq-comment-message-3393" class="dsq-comment-message"><p>this post* cleared many points</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-8426">
+        <div id="dsq-comment-header-8426" class="dsq-comment-header">
+            <cite id="dsq-cite-8426">
+                <span id="dsq-author-user-8426">srinivas</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8426" class="dsq-comment-body">
+            <div id="dsq-comment-message-8426" class="dsq-comment-message"><p>this is godd</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2562">
+        <div id="dsq-comment-header-2562" class="dsq-comment-header">
+            <cite id="dsq-cite-2562">
+                <span id="dsq-author-user-2562">Sharat</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2562" class="dsq-comment-body">
+            <div id="dsq-comment-message-2562" class="dsq-comment-message"><p>In the Dequeue function of Method2(Queue can also be implemented using one user stack and one Function Call Stack.) I sense there is a Bug.<br />
+Step 3(copy paste from above algo):  3) Recursively pop everything from the stack1, store the last dequeued item and return it</p>
+<p>You don&#8217;t need to store the last de-queued element, as this condition will be met by step2. When you have popped all but the last element. Let me know if I missed something.</p>
+<p>Thanks,<br />
+Sharat.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-sandeep odd alt depth-2" id="dsq-comment-3047">
+        <div id="dsq-comment-header-3047" class="dsq-comment-header">
+            <cite id="dsq-cite-3047">
+                <span id="dsq-author-user-3047">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3047" class="dsq-comment-body">
+            <div id="dsq-comment-message-3047" class="dsq-comment-message"><p>@Sharat: Your point is valid. I have modified the algorithm and added few more words about step3. The program was correct, so no modifications in program.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-4589">
+        <div id="dsq-comment-header-4589" class="dsq-comment-header">
+            <cite id="dsq-cite-4589">
+                <span id="dsq-author-user-4589">mrn</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4589" class="dsq-comment-body">
+            <div id="dsq-comment-message-4589" class="dsq-comment-message"><p>hi sandeep&#8230;.<br />
+i dint get why are u using pointer to pointer while passing control from enqueue/dequeue to push/pop functions. Can&#8217;t it be implemented using single pointer reference. Moreover at each point u are dereferencing the pointer to update its value which would not be the case if u wud have used single pointer to both functions push() and pop(). Tell me if i am wrong..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-3" id="dsq-comment-4590">
+        <div id="dsq-comment-header-4590" class="dsq-comment-header">
+            <cite id="dsq-cite-4590">
+                <span id="dsq-author-user-4590">mrn</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4590" class="dsq-comment-body">
+            <div id="dsq-comment-message-4590" class="dsq-comment-message"><p>@ sandeep<br />
+i dint get why are u using pointer to pointer while passing control from enqueue/dequeue to push/pop functions. Can&#8217;t it be implemented using single pointer reference. Moreover at each point u are dereferencing the pointer to update its value which would not be the case if u wud have used single pointer to both functions push() and pop(). Tell me if i am wrong..</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-4593">
+        <div id="dsq-comment-header-4593" class="dsq-comment-header">
+            <cite id="dsq-cite-4593">
+                <span id="dsq-author-user-4593">mrn</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4593" class="dsq-comment-body">
+            <div id="dsq-comment-message-4593" class="dsq-comment-message"><p>sorry :)&#8230;<br />
+i was out of my mind. Got the point . If we pass single pointer variable then a copy of that pointer is created in called function.The changes are done at dereferenced locations but pointers in the calling function are not updated. For this reason we need pointer to pointer.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2248">
+        <div id="dsq-comment-header-2248" class="dsq-comment-header">
+            <cite id="dsq-cite-2248">
+                <span id="dsq-author-user-2248">windwaker</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2248" class="dsq-comment-body">
+            <div id="dsq-comment-message-2248" class="dsq-comment-message"><p>Wow coooooooool</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/queue-using-stacks/';
+var disqus_identifier = '5009 http://geeksforgeeks.org/?p=5009';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Implement Queue using Stacks";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.200 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:24:05 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

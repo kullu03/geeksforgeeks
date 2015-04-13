@@ -1,0 +1,1904 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Print ancestors of a given binary tree node without recursion - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/print-ancestors-of-a-given-binary-tree-node-without-recursion/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Print ancestors of a given binary tree node without recursion - GeeksforGeeks" />
+<meta property="og:description" content="Given a Binary Tree and a key, write a function that prints all the ancestors of the key in the given binary tree. For example, consider the following Binary Tree 1 / \ 2 3 / \ / \ 4 5 6 7 / \ / 8 9 10 Following are different input keys and &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/print-ancestors-of-a-given-binary-tree-node-without-recursion/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="stack" />
+<meta property="article:tag" content="StackAndQueue" />
+<meta property="article:section" content="Trees" />
+<meta property="article:published_time" content="2013-06-30T19:37:15+00:00" />
+<meta property="article:modified_time" content="2014-08-05T10:06:59+00:00" />
+<meta property="og:updated_time" content="2014-08-05T10:06:59+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.627 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111233 210.212.53.139 172.19.11.169';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Print ancestors of a given binary tree node without recursion</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given a Binary Tree and a key, write a function that prints all the ancestors of the key in the given binary tree.<span id="more-119933"></span></p>
+<p>For example, consider the following Binary Tree</p>
+<pre>
+            1
+        /       \
+       2         3
+     /   \     /   \
+    4     5    6    7 
+   /       \       /
+  8         9     10  </pre>
+<p>Following are different input keys and their ancestors in the above tree
+<pre>
+Input Key    List of Ancestors 
+-------------------------
+ 1            <Empty>
+ 2            1
+ 3            1
+ 4            2 1
+ 5            2 1
+ 6            3 1
+ 7            3 1
+ 8            4 2 1
+ 9            5 2 1
+10            7 3 1
+</pre>
+<p>Recursive solution for this problem is discussed <a href="http://www.geeksforgeeks.org/print-ancestors-of-a-given-node-in-binary-tree/" target="_blank">here</a>.<br />
+It is clear that we need to use a stack based iterative traversal of the Binary Tree.  The idea is to have all ancestors in stack when we reach the node with given key.  Once we reach the key, all we have to do is, print contents of stack.<br />
+How to get all ancestors in stack when we reach the given node?  We can traverse all nodes in Postorder way. If we take a closer look at the recursive postorder traversal, we can easily observe that, when recursive function is called for a node, the recursion call stack contains ancestors of the node. So idea is do iterative Postorder traversal and stop the traversal when we reach the desired node.  </p>
+<p>Following is C implementation of the above approach.</p>
+<pre class="brush: cpp; highlight: [70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126]; title: ; notranslate" title="">
+// C program to print all ancestors of a given key
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+// Maximum stack size
+#define MAX_SIZE 100
+
+// Structure for a tree node
+struct Node
+{
+    int data;
+    struct Node *left, *right;
+};
+
+// Structure for Stack
+struct Stack
+{
+    int size;
+    int top;
+    struct Node* *array;
+};
+
+// A utility function to create a new tree node
+struct Node* newNode(int data)
+{
+    struct Node* node = (struct Node*) malloc(sizeof(struct Node));
+    node-&gt;data = data;
+    node-&gt;left = node-&gt;right = NULL;
+    return node;
+}
+
+// A utility function to create a stack of given size
+struct Stack* createStack(int size)
+{
+    struct Stack* stack = (struct Stack*) malloc(sizeof(struct Stack));
+    stack-&gt;size = size;
+    stack-&gt;top = -1;
+    stack-&gt;array = (struct Node**) malloc(stack-&gt;size * sizeof(struct Node*));
+    return stack;
+}
+
+// BASIC OPERATIONS OF STACK
+int isFull(struct Stack* stack)
+{
+    return ((stack-&gt;top + 1) == stack-&gt;size);
+}
+int isEmpty(struct Stack* stack)
+{
+    return stack-&gt;top == -1;
+}
+void push(struct Stack* stack, struct Node* node)
+{
+    if (isFull(stack))
+        return;
+    stack-&gt;array[++stack-&gt;top] = node;
+}
+struct Node* pop(struct Stack* stack)
+{
+    if (isEmpty(stack))
+        return NULL;
+    return stack-&gt;array[stack-&gt;top--];
+}
+struct Node* peek(struct Stack* stack)
+{
+    if (isEmpty(stack))
+        return NULL;
+    return stack-&gt;array[stack-&gt;top];
+}
+
+// Iterative Function to print all ancestors of a given key
+void printAncestors(struct Node *root, int key)
+{
+    if (root == NULL) return;
+
+    // Create a stack to hold ancestors
+    struct Stack* stack = createStack(MAX_SIZE);
+
+    // Traverse the complete tree in postorder way till we find the key
+    while (1)
+    {
+        // Traverse the left side. While traversing, push the nodes into
+        // the stack so that their right subtrees can be traversed later
+        while (root &amp;&amp; root-&gt;data != key)
+        {
+            push(stack, root);   // push current node
+            root = root-&gt;left;  // move to next node
+        }
+
+        // If the node whose ancestors are to be printed is found,
+        // then break the while loop.
+        if (root &amp;&amp; root-&gt;data == key)
+            break;
+
+        // Check if right sub-tree exists for the node at top
+        // If not then pop that node because we don't need this
+        // node any more.
+        if (peek(stack)-&gt;right == NULL)
+        {
+            root = pop(stack);
+
+            // If the popped node is right child of top, then remove the top
+            // as well. Left child of the top must have processed before.
+            // Consider the following tree for example and key = 3.  If we
+            // remove the following loop, the program will go in an
+            // infinite loop after reaching 5.
+            //          1
+            //        /   \
+            //       2     3
+            //         \
+            //           4
+            //             \
+            //              5
+            while (!isEmpty(stack) &amp;&amp; peek(stack)-&gt;right == root)
+               root = pop(stack);
+        }
+
+        // if stack is not empty then simply set the root as right child
+        // of top and start traversing right sub-tree.
+        root = isEmpty(stack)? NULL: peek(stack)-&gt;right;
+    }
+
+    // If stack is not empty, print contents of stack
+    // Here assumption is that the key is there in tree
+    while (!isEmpty(stack))
+        printf(&quot;%d &quot;, pop(stack)-&gt;data);
+}
+
+// Driver program to test above functions
+int main()
+{
+    // Let us construct a binary tree
+    struct Node* root = newNode(1);
+    root-&gt;left = newNode(2);
+    root-&gt;right = newNode(3);
+    root-&gt;left-&gt;left = newNode(4);
+    root-&gt;left-&gt;right = newNode(5);
+    root-&gt;right-&gt;left = newNode(6);
+    root-&gt;right-&gt;right = newNode(7);
+    root-&gt;left-&gt;left-&gt;left = newNode(8);
+    root-&gt;left-&gt;right-&gt;right = newNode(9);
+    root-&gt;right-&gt;right-&gt;left = newNode(10);
+
+    printf(&quot;Following are all keys and their ancestors\n&quot;);
+    for (int key = 1; key &lt;= 10; key++)
+    {
+        printf(&quot;%d: &quot;, key);
+        printAncestors(root, key);
+        printf(&quot;\n&quot;);
+    }
+
+    getchar();
+    return 0;
+}
+</pre>
+<p>Output:
+<pre>Following are all keys and their ancestors
+1:
+2: 1
+3: 1
+4: 2 1
+5: 2 1
+6: 3 1
+7: 3 1
+8: 4 2 1
+9: 5 2 1
+10: 7 3 1</pre>
+<p><strong>Exercise</strong><br />
+Note that the above solution assumes that the given key is present in the given Binary Tree.  It may go in infinite loop if key is not present. Extend the above solution to work even when the key is not present in tree.</p>
+<p>This article is contrubuted by<a href="https://www.facebook.com/chandra.prakash.52643?fref=ts" target="_blank"> <strong>Chandra Prakash</strong></a>.  Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/perfect-binary-tree-specific-level-order-traversal/" title="Perfect Binary Tree Specific Level Order Traversal">Perfect Binary Tree Specific Level Order Traversal</a></li><li><a href="http://www.geeksforgeeks.org/print-nodes-top-view-binary-tree/" title="Print Nodes in Top View of Binary Tree">Print Nodes in Top View of Binary Tree</a></li><li><a href="http://www.geeksforgeeks.org/k-dimensional-tree/" title="K Dimensional Tree">K Dimensional Tree</a></li><li><a href="http://www.geeksforgeeks.org/convert-binary-tree-threaded-binary-tree/" title="Convert a Binary Tree to Threaded binary tree">Convert a Binary Tree to Threaded binary tree</a></li><li><a href="http://www.geeksforgeeks.org/serialize-deserialize-n-ary-tree/" title="Serialize and Deserialize an N-ary Tree">Serialize and Deserialize an N-ary Tree</a></li><li><a href="http://www.geeksforgeeks.org/serialize-deserialize-binary-tree/" title="Serialize and Deserialize a Binary Tree">Serialize and Deserialize a Binary Tree</a></li><li><a href="http://www.geeksforgeeks.org/given-binary-tree-print-nodes-two-given-level-numbers/" title="Print nodes between two given level numbers of a binary tree">Print nodes between two given level numbers of a binary tree</a></li><li><a href="http://www.geeksforgeeks.org/find-height-binary-tree-represented-parent-array/" title="Find Height of Binary Tree represented by Parent array">Find Height of Binary Tree represented by Parent array</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/stack/" rel="tag">stack</a>, <a href="http://www.geeksforgeeks.org/tag/stackandqueue/" rel="tag">StackAndQueue</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fprint-ancestors-of-a-given-binary-tree-node-without-recursion%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/print-ancestors-of-a-given-binary-tree-node-without-recursion/" data-text="Print ancestors of a given binary tree node without recursion" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/print-ancestors-of-a-given-binary-tree-node-without-recursion/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-31479">
+        <div id="dsq-comment-header-31479" class="dsq-comment-header">
+            <cite id="dsq-cite-31479">
+                <span id="dsq-author-user-31479">gatorboy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31479" class="dsq-comment-body">
+            <div id="dsq-comment-message-31479" class="dsq-comment-message"><p>This can be done in simple way using recursion.</p>
+<p>PrintAncestors(Node root, int key){<br />
+   if(root==null)<br />
+      return false;<br />
+   if(root.value == key)<br />
+     return true;<br />
+   if(PrintAncestors(root.left, key) || PrintAncestors(root.right, key)){<br />
+     System.out.print(root.value)<br />
+     return true;<br />
+    }<br />
+  return false;<br />
+}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-31901">
+        <div id="dsq-comment-header-31901" class="dsq-comment-header">
+            <cite id="dsq-cite-31901">
+                <span id="dsq-author-user-31901">p</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31901" class="dsq-comment-body">
+            <div id="dsq-comment-message-31901" class="dsq-comment-message"><p>? ??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-31455">
+        <div id="dsq-comment-header-31455" class="dsq-comment-header">
+            <cite id="dsq-cite-31455">
+                <span id="dsq-author-user-31455">zealfire</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31455" class="dsq-comment-body">
+            <div id="dsq-comment-message-31455" class="dsq-comment-message"><p>just wanted to verify whether this method will work or not :we can do level order traversal by keeping the nodes in queue,but not remove top nodes while inserting  there child node,then picking parent elements of particular node from array by using formula for parent node which is (i-1)/2.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-31192">
+        <div id="dsq-comment-header-31192" class="dsq-comment-header">
+            <cite id="dsq-cite-31192">
+                <span id="dsq-author-user-31192">sriahsrha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31192" class="dsq-comment-body">
+            <div id="dsq-comment-message-31192" class="dsq-comment-message"><p>i think ths works</p>
+<p>1:do inorder traversal without recurssion<br />
+2: once u find the target node<br />
+ print the stack ,traverse the stack from top  to bottom and print only elements of height lesser than height of target till u reach the root.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-29881">
+        <div id="dsq-comment-header-29881" class="dsq-comment-header">
+            <cite id="dsq-cite-29881">
+http://www.cyukang.com/                <span id="dsq-author-user-29881">Yukang</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29881" class="dsq-comment-body">
+            <div id="dsq-comment-message-29881" class="dsq-comment-message"><p>using two stack, and code is very simple!</p>
+<p>void PrintAncesters(struct Node* root, int target) {</p>
+<p>    if(root == NULL) return;</p>
+<p>    stack st;</p>
+<p>    stack out;</p>
+<p>    st.push(root);</p>
+<p>    bool found  = false;</p>
+<p>    while(!st.empty()) {</p>
+<p>        struct Node* cur = st.top();</p>
+<p>        out.push(cur);</p>
+<p>        if(cur-&gt;data == target) {</p>
+<p>            found = true;</p>
+<p>            break;</p>
+<p>        }</p>
+<p>        st.pop();</p>
+<p>        if(cur-&gt;left)</p>
+<p>            st.push(cur-&gt;left);</p>
+<p>        if(cur-&gt;right)</p>
+<p>            st.push(cur-&gt;right);</p>
+<p>    }</p>
+<p>    printf(&#8220;%-2d: &#8220;, target);</p>
+<p>    struct Node* prev = out.top();</p>
+<p>    out.pop();</p>
+<p>    while(found &amp;&amp; !out.empty()) {</p>
+<p>        struct Node* cur = out.top();</p>
+<p>        if(prev == NULL || cur-&gt;left == prev || cur-&gt;right == prev) {</p>
+<p>            printf(&#8221; %-2d &#8220;, cur-&gt;data);</p>
+<p>            prev = cur;</p>
+<p>        }</p>
+<p>        out.pop();</p>
+<p>    }</p>
+<p>    printf(&#8220;n&#8221;);</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-29745">
+        <div id="dsq-comment-header-29745" class="dsq-comment-header">
+            <cite id="dsq-cite-29745">
+                <span id="dsq-author-user-29745">sh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29745" class="dsq-comment-body">
+            <div id="dsq-comment-message-29745" class="dsq-comment-message"><p>One catch in this code though..if the element is not present in the tree, this code will crash at peek(stack)-&gt;right</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-29497">
+        <div id="dsq-comment-header-29497" class="dsq-comment-header">
+            <cite id="dsq-cite-29497">
+                <span id="dsq-author-user-29497">rahul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29497" class="dsq-comment-body">
+            <div id="dsq-comment-message-29497" class="dsq-comment-message"><p>we can do it by preorder traversal also . am i right?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-29022">
+        <div id="dsq-comment-header-29022" class="dsq-comment-header">
+            <cite id="dsq-cite-29022">
+                <span id="dsq-author-user-29022">Suryabhan Singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29022" class="dsq-comment-body">
+            <div id="dsq-comment-message-29022" class="dsq-comment-message"><p><code></p>
+<p>void printanst(struct node *s)<br />
+{<br />
+    struct node *temp=s,*pre=NULL;<br />
+    queue q,parent;<br />
+    q.push(temp);<br />
+    while(!q.empty())<br />
+    {<br />
+        temp=q.front();<br />
+        q.pop();<br />
+        if(temp==s)<br />
+        {<br />
+            cout&lt;data&lt;&lt;&quot; no parent&quot;&lt;&lt;endl;<br />
+        }<br />
+        else<br />
+        {<br />
+            cout&lt;data&lt;&lt;&quot; &quot;&lt;data&lt;l)<br />
+        {<br />
+            q.push(temp-&gt;l);<br />
+            parent.push(temp);<br />
+        }<br />
+        if(temp-&gt;r)<br />
+        {<br />
+            q.push(temp-&gt;r);<br />
+            parent.push(temp);<br />
+        }</p>
+<p>    }<br />
+}</p>
+<p></code></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-28584">
+        <div id="dsq-comment-header-28584" class="dsq-comment-header">
+            <cite id="dsq-cite-28584">
+                <span id="dsq-author-user-28584">pavansrinivas</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28584" class="dsq-comment-body">
+            <div id="dsq-comment-message-28584" class="dsq-comment-message"><p>Iterative Version using Queue in JAVA&#8230;</p>
+<p><code><br />
+void allAncestors(int key){<br />
+        Node temp = root;<br />
+        Queue q = new LinkedList();<br />
+        String path = root.iData+"";<br />
+        q.add(temp);<br />
+        q.add(path);<br />
+        while(!q.isEmpty()){<br />
+            temp = (Node)q.remove();<br />
+            path = (String)q.remove();<br />
+            if(temp.leftChild!=null){<br />
+                String leftstr  = path+"-"+temp.leftChild.iData;<br />
+                q.add(temp.leftChild);<br />
+                q.add(leftstr);<br />
+                if(temp.leftChild.iData==key){<br />
+                    System.out.print(path);<br />
+                          return;<br />
+                }<br />
+            }<br />
+            if(temp.rightChild!=null){<br />
+                String rightstr  = path+ "-"+temp.rightChild.iData;<br />
+                q.add(temp.rightChild);<br />
+                q.add(rightstr);<br />
+                if(temp.rightChild.iData==key){<br />
+                    System.out.print(path);<br />
+                        return;<br />
+                }<br />
+            }<br />
+        }<br />
+    }<br />
+</code></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-28394">
+        <div id="dsq-comment-header-28394" class="dsq-comment-header">
+            <cite id="dsq-cite-28394">
+                <span id="dsq-author-user-28394">grab</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28394" class="dsq-comment-body">
+            <div id="dsq-comment-message-28394" class="dsq-comment-message"><p>while(1)<br />
+{<br />
+while(root)<br />
+{<br />
+if(root == element to be found)<br />
+return  /// prnt the content of stack<br />
+push(root)<br />
+root = root -&gt;left<br />
+}<br />
+if(!empty(S))<br />
+{<br />
+root=s.top();<br />
+while(! root-&gt;right)<br />
+{<br />
+pop();<br />
+root =top();<br />
+}<br />
+root=root-&gt;right;<br />
+}<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-28011">
+        <div id="dsq-comment-header-28011" class="dsq-comment-header">
+            <cite id="dsq-cite-28011">
+                <span id="dsq-author-user-28011">Meraj Ahmed</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28011" class="dsq-comment-body">
+            <div id="dsq-comment-message-28011" class="dsq-comment-message"><p>The followinig code solves the problem of infinite run and implements STACK:</p>
+<p>#include </p>
+<p>#include </p>
+<p>struct node </p>
+<p>{</p>
+<p>    int val;</p>
+<p>    struct node *left;</p>
+<p>    struct node *right;</p>
+<p>};</p>
+<p>struct node_stack</p>
+<p>{</p>
+<p>    struct node *temp;</p>
+<p>    struct node_stack *next;</p>
+<p>};</p>
+<p>struct node_stack *stack_push(struct node * temp, struct node_stack *head);</p>
+<p>struct node_stack *stack_pop(struct node_stack *head);</p>
+<p>int print_stack(struct node_stack *temp);</p>
+<p>struct node *create(int ch);</p>
+<p>struct node *create(int ch)</p>
+<p>{</p>
+<p>    struct node *temp=(struct node *)(malloc(sizeof(struct node)));</p>
+<p>    temp-&gt;val=ch;</p>
+<p>    temp-&gt;right=NULL;</p>
+<p>    temp-&gt;left=NULL;</p>
+<p>    return temp;</p>
+<p>}</p>
+<p>int main()</p>
+<p>{</p>
+<p>    int s;</p>
+<p>    struct node *root;</p>
+<p>    root=create(1);</p>
+<p>    root-&gt;left=create(2);</p>
+<p>    root-&gt;left-&gt;left=create(4);</p>
+<p>    root-&gt;left-&gt;left-&gt;left=create(8);</p>
+<p>    root-&gt;left-&gt;right=create(5);</p>
+<p>    root-&gt;left-&gt;right-&gt;right=create(9);</p>
+<p>    root-&gt;right=create(3);</p>
+<p>    root-&gt;right-&gt;right=create(7);</p>
+<p>    root-&gt;right-&gt;right-&gt;left=create(10);</p>
+<p>    root-&gt;right-&gt;left=create(6);</p>
+<p>    printf(&#8220;Enter the node to searchn&#8221;);</p>
+<p>    scanf(&#8220;%d&#8221;, &amp;s);</p>
+<p>    func(root, s);</p>
+<p>    printf(&#8220;Not found!n&#8221;);</p>
+<p>    return 0;</p>
+<p>}</p>
+<p>int func(struct node *temp, int s)</p>
+<p>{</p>
+<p>    static struct node_stack * head;</p>
+<p>    if (temp==NULL)</p>
+<p>    {</p>
+<p>        return ;</p>
+<p>    }</p>
+<p>    head=stack_push(temp, head);</p>
+<p>    if (temp-&gt;val==s) </p>
+<p>    {</p>
+<p>        printf(&#8220;Found!! &#8220;);</p>
+<p>        print_stack(head);</p>
+<p>        exit(0);</p>
+<p>    }</p>
+<p>    func(temp-&gt;left, s);</p>
+<p>    func(temp-&gt;right, s);</p>
+<p>    head=stack_pop(head);</p>
+<p>}</p>
+<p>struct node_stack *stack_push(struct node * temp, struct node_stack *head)</p>
+<p>{</p>
+<p>    struct node_stack *temp1=(struct node_stack *)malloc(sizeof(struct node_stack));</p>
+<p>    temp1-&gt;temp=temp;</p>
+<p>    temp1-&gt;next=NULL;</p>
+<p>    temp1-&gt;next=head;</p>
+<p>    head=temp1;</p>
+<p>    printf(&#8220;Inside the push function %dn&#8221;, head-&gt;temp-&gt;val);</p>
+<p>    return head;</p>
+<p>}</p>
+<p>struct node_stack *stack_pop(struct node_stack *head)</p>
+<p>{</p>
+<p>    printf(&#8220;Inside the pop function: %dn&#8221;, head-&gt;temp-&gt;val);</p>
+<p>    struct node_stack *temp;</p>
+<p>    temp=head;</p>
+<p>    head=head-&gt;next;</p>
+<p>    free(temp);</p>
+<p>    return head;</p>
+<p>}</p>
+<p>int print_stack(struct node_stack *temp)</p>
+<p>{</p>
+<p>    temp=temp-&gt;next;</p>
+<p>    while (temp!=NULL)</p>
+<p>    {</p>
+<p>        printf(&#8220;%d &#8220;, temp-&gt;temp-&gt;val);</p>
+<p>        temp=temp-&gt;next;</p>
+<p>    }</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-27850">
+        <div id="dsq-comment-header-27850" class="dsq-comment-header">
+            <cite id="dsq-cite-27850">
+                <span id="dsq-author-user-27850">din</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27850" class="dsq-comment-body">
+            <div id="dsq-comment-message-27850" class="dsq-comment-message"><p>i still didnt get the algorithm ..pls help me&#8230;tnx&#8230;.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-atiqwhiz even thread-odd thread-alt depth-1" id="dsq-comment-26850">
+        <div id="dsq-comment-header-26850" class="dsq-comment-header">
+            <cite id="dsq-cite-26850">
+                <span id="dsq-author-user-26850">atiqwhiz</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26850" class="dsq-comment-body">
+            <div id="dsq-comment-message-26850" class="dsq-comment-message"><p>//It&#8217;s same like Non recursive Postorder except key matching case<br />
+see my simple implementation<br />
+void NRPrintAncestors(Tree *Root,int key)<br />
+{<br />
+    if(!Root)return;<br />
+    Stack *S=Create_Stack();<br />
+    Tree *temp=NULL;<br />
+    while(1)<br />
+    {<br />
+        while(Root->data!=key&#038;&#038;Root->left)<br />
+        {<br />
+            Push(&#038;S,Root);<br />
+            Root=Root->left;<br />
+        }<br />
+        if(Root->data!=key&#038;&#038;Root->right)<br />
+        {<br />
+            Push(&#038;S,Root);<br />
+            Root=Root->data;<br />
+        }<br />
+        else if(Root->data==key)<br />
+        {<br />
+            while(!isEmptyStack(S))<br />
+            {<br />
+                Root=Pop(&#038;S);<br />
+                printf(&#8220;%d &#8220;,Root->data);<br />
+            }<br />
+            return;<br />
+        }<br />
+        else<br />
+        {<br />
+            while(Root->right==NULL||Root->right==temp)<br />
+            {<br />
+                temp=Root;<br />
+                if(isEmptyStack(S))return;<br />
+                Root=Pop(&#038;S);<br />
+            }<br />
+            if(Root->right!=temp)<br />
+            {<br />
+                Push(&#038;S,Root);<br />
+                Root=Root->right;<br />
+            }<br />
+        }<br />
+    }<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-atiqwhiz odd alt thread-even depth-1" id="dsq-comment-26849">
+        <div id="dsq-comment-header-26849" class="dsq-comment-header">
+            <cite id="dsq-cite-26849">
+                <span id="dsq-author-user-26849">atiqwhiz</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26849" class="dsq-comment-body">
+            <div id="dsq-comment-message-26849" class="dsq-comment-message"><pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+void NRPrintAncestors(Tree *Root,int key)
+{
+    if(!Root)return;
+    Stack *S=Create_Stack();
+    Tree *temp=NULL;
+    while(1)
+    {
+        while(Root-&gt;data!=key&amp;&amp;Root-&gt;left)
+        {
+            Push(&amp;S,Root);
+            Root=Root-&gt;left;
+        }
+        if(Root-&gt;data!=key&amp;&amp;Root-&gt;right)
+        {
+            Push(&amp;S,Root);
+            Root=Root-&gt;data;
+        }
+        else if(Root-&gt;data==key)
+        {
+            while(!isEmptyStack(S))
+            {
+                Root=Pop(&amp;S);
+                printf(&quot;%d &quot;,Root-&gt;data);
+            }
+            return;
+        }
+        else
+        {
+            while(Root-&gt;right==NULL||Root-&gt;right==temp)
+            {
+                temp=Root;
+                if(isEmptyStack(S))return;
+                Root=Pop(&amp;S);
+            }
+            if(Root-&gt;right!=temp)
+            {  
+                Push(&amp;S,Root);
+                Root=Root-&gt;right;
+            }
+        }
+    }
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-25146">
+        <div id="dsq-comment-header-25146" class="dsq-comment-header">
+            <cite id="dsq-cite-25146">
+                <span id="dsq-author-user-25146">Amit Bgl</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-25146" class="dsq-comment-body">
+            <div id="dsq-comment-message-25146" class="dsq-comment-message"><p>wow code <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_biggrin.gif" alt=":D" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-rudra odd alt thread-even depth-1" id="dsq-comment-25018">
+        <div id="dsq-comment-header-25018" class="dsq-comment-header">
+            <cite id="dsq-cite-25018">
+                <span id="dsq-author-user-25018">Rudra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-25018" class="dsq-comment-body">
+            <div id="dsq-comment-message-25018" class="dsq-comment-message"><p>Implementation follo same logic described, only handel the condition when the key is not present in the tree.</p>
+<pre> <code language="C">
+void TreeOperation::postOrderTraversalRecursive(TreeNode* root, int ele){
+	TreeNodeStack stack(100);
+	TreeNode* node = root;
+	while(1){
+		while(node  &amp;&amp; (node-&gt;data != ele)){
+			stack.push(node);
+			node = node-&gt;getLeftChild();
+		}
+		if(node != NULL &amp;&amp; (node-&gt;data = ele)){
+			break;
+		}
+		
+		if(stack.peek()-&gt;rightChild == NULL){
+			node = stack.pop();
+			while( !stack.isEmpty() &amp;&amp; (stack.peek()-&gt;rightChild == node))
+				node = stack.pop();
+		}
+		if(stack.isEmpty()){
+			cout&lt;&lt;&quot;Element not exist in tree&quot;;
+			break;
+		}
+		
+		node = stack.isEmpty() ? NULL:stack.peek()-&gt;rightChild;
+	
+	}
+	while(!stack.isEmpty())
+		cout&lt;&lt;endl&lt;&lt;stack.pop()-&gt;data&lt;&lt;&quot; &quot;;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-rudra even thread-odd thread-alt depth-1" id="dsq-comment-25017">
+        <div id="dsq-comment-header-25017" class="dsq-comment-header">
+            <cite id="dsq-cite-25017">
+                <span id="dsq-author-user-25017">Rudra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-25017" class="dsq-comment-body">
+            <div id="dsq-comment-message-25017" class="dsq-comment-message"><p>The implementation follows the logic as described only handling the condition when key element is not present in the tree.</p>
+<p>void TreeOperation::postOrderTraversalRecursive(TreeNode* root, int ele){<br />
+    TreeNodeStack stack(100);<br />
+    TreeNode* node = root;<br />
+    while(1){<br />
+	while(node  &amp;&amp; (node-&gt;data != ele)){<br />
+   	    stack.push(node);<br />
+	    node = node-&gt;getLeftChild();<br />
+	}<br />
+	if(node != NULL &amp;&amp; (node-&gt;data = ele)){<br />
+	    break;<br />
+	}<br />
+        if(stack.peek()-&gt;rightChild == NULL){<br />
+	    node = stack.pop();<br />
+	    while( !stack.isEmpty() &amp;&amp;<br />
+                   (stack.peek()-&gt;rightChild == node))<br />
+	    node = stack.pop();<br />
+	}<br />
+	if(stack.isEmpty()){<br />
+	    cout&lt;&lt;&quot;Element not exist in tree&quot;;<br />
+	    break;<br />
+	}<br />
+	node = stack.isEmpty() ? NULL:stack.peek()-&gt;rightChild;<br />
+    }<br />
+    while(!stack.isEmpty())<br />
+        cout&lt;&lt;endl&lt;&lt;stack.pop()-&gt;data&lt;&lt;&quot; &quot;;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-25012">
+        <div id="dsq-comment-header-25012" class="dsq-comment-header">
+            <cite id="dsq-cite-25012">
+                <span id="dsq-author-user-25012">dark_night</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-25012" class="dsq-comment-body">
+            <div id="dsq-comment-message-25012" class="dsq-comment-message"><p>the given method is not working for the following case(key 3) :</p>
+<p>   1<br />
+ 2  3<br />
+4<br />
+ 5<br />
+  6<br />
+root=1<br />
+root-&gt;left=2<br />
+root-&gt;right=3<br />
+root-&gt;left-&gt;left=4<br />
+root-&gt;left-&gt;left-&gt;right=5<br />
+root-&gt;left-&gt;left-&gt;right-&gt;right=6</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-24628">
+        <div id="dsq-comment-header-24628" class="dsq-comment-header">
+            <cite id="dsq-cite-24628">
+                <span id="dsq-author-user-24628">ubiquitous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24628" class="dsq-comment-body">
+            <div id="dsq-comment-message-24628" class="dsq-comment-message"><p>it can achieved iterative postorder traversal and when u find the expected node print the stack elements. For iterative postorder traversal see the <a href="http://en.wikipedia.org/wiki/Tree_traversal#Post-order" rel="nofollow">http://en.wikipedia.org/wiki/Tree_traversal#Post-order</a>. If further assistance is needed please let me know. Thanks.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-24447">
+        <div id="dsq-comment-header-24447" class="dsq-comment-header">
+            <cite id="dsq-cite-24447">
+                <span id="dsq-author-user-24447">trying</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24447" class="dsq-comment-body">
+            <div id="dsq-comment-message-24447" class="dsq-comment-message"><p>do a simple DFS and once you find the expected number just print the stack content. Thanks.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-prama12 even thread-odd thread-alt depth-1" id="dsq-comment-23749">
+        <div id="dsq-comment-header-23749" class="dsq-comment-header">
+            <cite id="dsq-cite-23749">
+                <span id="dsq-author-user-23749">12rad</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-23749" class="dsq-comment-body">
+            <div id="dsq-comment-message-23749" class="dsq-comment-message"><p>It isn&#8217;t a Binary Search tree&#8230; it&#8217;s just a plain binary tree. So, you can&#8217;t compare values.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-22736">
+        <div id="dsq-comment-header-22736" class="dsq-comment-header">
+            <cite id="dsq-cite-22736">
+                <span id="dsq-author-user-22736">sudhansu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22736" class="dsq-comment-body">
+            <div id="dsq-comment-message-22736" class="dsq-comment-message"><p>Here is my java code..</p>
+<pre> <code language="C">
+private boolean printAncestorsIteeratively(TreeNode root,int target) throws StackFullException, StackEmptyException{
+		if(root==null)
+			return false;
+		TreeNode t;
+		ArrayStack stack=new ArrayStack(20);
+		while(root!=null &amp;&amp; root.data!=target){
+			if(target&gt;=root.data){
+				stack.push(root);
+				root=root.right;
+			}
+			if(target&lt;=root.data){
+				stack.push(root);
+				root=root.left;
+			}
+			 if(root.data==target)
+				break;
+		}
+		t=(TreeNode) stack.pop();
+		while(t!=null){
+			System.out.print(t.data);
+			t=(TreeNode) stack.pop();
+		}
+		return true;
+	}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-prama12 even depth-2" id="dsq-comment-23748">
+        <div id="dsq-comment-header-23748" class="dsq-comment-header">
+            <cite id="dsq-cite-23748">
+                <span id="dsq-author-user-23748">12rad</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-23748" class="dsq-comment-body">
+            <div id="dsq-comment-message-23748" class="dsq-comment-message"><p>It isn&#8217;t a Binary Search tree&#8230; it&#8217;s just a plain binary tree. So, you can&#8217;t compare values.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-prama12 odd alt depth-2" id="dsq-comment-23750">
+        <div id="dsq-comment-header-23750" class="dsq-comment-header">
+            <cite id="dsq-cite-23750">
+                <span id="dsq-author-user-23750">12rad</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-23750" class="dsq-comment-body">
+            <div id="dsq-comment-message-23750" class="dsq-comment-message"><p>Isn&#8217;t a Binary Search tree.. it&#8217;s just a plain binary tree. So, you can&#8217;t compare values.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-22507">
+        <div id="dsq-comment-header-22507" class="dsq-comment-header">
+            <cite id="dsq-cite-22507">
+                <span id="dsq-author-user-22507">Akshay Jindal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22507" class="dsq-comment-body">
+            <div id="dsq-comment-message-22507" class="dsq-comment-message"><p>The following is a simpler implementation of the question.What we need to do is search that particular node, and then traverse till the root. Suppose we have x as the node whose ancestors are to be printed out.</p>
+<pre> <code language="C">
+y=x-&gt;parent;
+while(y!=NULL)
+{
+ printf(&quot;%d &quot;,y-&gt;data);
+ x=y;
+ y=y-&gt;parent;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-22494">
+        <div id="dsq-comment-header-22494" class="dsq-comment-header">
+            <cite id="dsq-cite-22494">
+                <span id="dsq-author-user-22494">vdraceil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22494" class="dsq-comment-body">
+            <div id="dsq-comment-message-22494" class="dsq-comment-message"><pre> <code language="C">
+if (root &amp;&amp; root-&gt;data == key)
+   break;
+</code> </pre>
+<p>The above can be replaced with </p>
+<pre> <code language="C">
+if (root) break;
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-22316">
+        <div id="dsq-comment-header-22316" class="dsq-comment-header">
+            <cite id="dsq-cite-22316">
+                <span id="dsq-author-user-22316">Kumar Vikram</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22316" class="dsq-comment-body">
+            <div id="dsq-comment-message-22316" class="dsq-comment-message"><p>The following is a simpler implementation of above problem using c++.</p>
+<p>#include&lt;iostream&gt;<br />
+#include&lt;stack&gt;<br />
+#include&lt;stdlib.h&gt;</p>
+<p>using namespace std;</p>
+<p>struct node<br />
+{<br />
+	int data;<br />
+	struct node *left,*right;<br />
+};</p>
+<p>node * newNode(int num)<br />
+{<br />
+	node *temp=(node *)malloc(sizeof(node));<br />
+	temp-&gt;data=num;<br />
+	temp-&gt;left=temp-&gt;right=NULL;<br />
+	return temp;<br />
+}</p>
+<p>void print_ancestor(node *root,int key)<br />
+{<br />
+	stack&lt;node *&gt; mystack;<br />
+	if(root==NULL)<br />
+		return;</p>
+<p>	node *temp=root;<br />
+	while(true)<br />
+	{<br />
+		while(temp &amp;&amp; temp-&gt;data != key)<br />
+		{<br />
+			mystack.push(temp);<br />
+			temp=temp-&gt;left;<br />
+		}<br />
+		if(temp &amp;&amp; temp-&gt;data==key)<br />
+			break;</p>
+<p>		if(mystack.top()-&gt;right == NULL)<br />
+		{<br />
+			temp=mystack.top();<br />
+			mystack.pop();<br />
+			while(!mystack.empty() &amp;&amp; mystack.top()-&gt;right==temp)<br />
+				{<br />
+					temp=mystack.top();<br />
+					mystack.pop();<br />
+				}<br />
+		}<br />
+		temp= mystack.empty() ? NULL:mystack.top()-&gt;right;<br />
+	}<br />
+	while(!mystack.empty())<br />
+	{<br />
+		cout&lt;&lt;mystack.top()-&gt;data&lt;&lt;&quot;\t&quot;;<br />
+		mystack.pop();<br />
+	}<br />
+}</p>
+<p>int main()<br />
+{<br />
+    // Let us construct a binary tree<br />
+    node* root = newNode(1);<br />
+    root-&gt;left = newNode(2);<br />
+    root-&gt;right = newNode(3);<br />
+    root-&gt;left-&gt;left = newNode(4);<br />
+    root-&gt;left-&gt;right = newNode(5);<br />
+    root-&gt;right-&gt;left = newNode(6);<br />
+    root-&gt;right-&gt;right = newNode(7);<br />
+    root-&gt;left-&gt;left-&gt;left = newNode(8);<br />
+    root-&gt;left-&gt;right-&gt;right = newNode(9);<br />
+    root-&gt;right-&gt;right-&gt;left = newNode(10);</p>
+<p>    cout&lt;&lt;&quot;Following are all keys and their ancestors\n&quot;;<br />
+    for (int key = 1; key &lt;= 10; key++)<br />
+    {<br />
+        cout&lt;&lt;key&lt;&lt;&quot;: &quot; ;<br />
+        print_ancestor(root, key);<br />
+        cout&lt;&lt;endl;<br />
+    }<br />
+    return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-sijayaraman odd alt thread-even depth-1" id="dsq-comment-21132">
+        <div id="dsq-comment-header-21132" class="dsq-comment-header">
+            <cite id="dsq-cite-21132">
+                <span id="dsq-author-user-21132">sijayaraman</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21132" class="dsq-comment-body">
+            <div id="dsq-comment-message-21132" class="dsq-comment-message"><p>using stack</p>
+<p>void ancestor(struct node* root, int key)<br />
+{<br />
+    stack<int> stack1;<br />
+    if(root->data == key)<br />
+    {<br />
+        cout< <"This is Root Node, No Ansces"<<endl;<br />
+        return;<br />
+    }</p>
+<p>    while(1)<br />
+    {<br />
+        if(root->data > key &#038;&#038; (root->left != NULL))<br />
+        {<br />
+            stack1.push(root->data);<br />
+            root = root->left;<br />
+        }<br />
+        else if(root->data < key &#038;&#038; (root->right != NULL))<br />
+        {<br />
+            stack1.push(root->data);<br />
+            root = root->right;<br />
+        }<br />
+        else<br />
+        {<br />
+            cout< <"["<<root->data< <"]";<br />
+            break;<br />
+        }<br />
+    }</p>
+<p>    while(!stack1.empty())<br />
+    {<br />
+        int temp = stack1.top();<br />
+        cout<<temp<<"-->&#8220;;<br />
+        stack1.pop();<br />
+    }<br />
+}</p>
+<p>Output:<br />
+[20] 30&#8211;><br />
+[40] 30&#8211;><br />
+[15] 20&#8211;>30&#8211;><br />
+[25] 20&#8211;>30&#8211;><br />
+[48] 50&#8211;>40&#8211;>30&#8211;><br />
+[50] 40&#8211;>30&#8211;><br />
+[48] 50&#8211;>40&#8211;>30&#8211;><br />
+[49] 48&#8211;>50&#8211;>40&#8211;>30&#8211;></int></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-minoz even thread-odd thread-alt depth-1" id="dsq-comment-21017">
+        <div id="dsq-comment-header-21017" class="dsq-comment-header">
+            <cite id="dsq-cite-21017">
+                <span id="dsq-author-user-21017">minoz</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21017" class="dsq-comment-body">
+            <div id="dsq-comment-message-21017" class="dsq-comment-message"><p>1. Push the nodes in a stack while doing level order traversal until we get the specified node.<br />
+2. Now check if the given node is left or right child of the top of stack. If yes, print the data and change the node at the top to the given node.<br />
+3. Pop the stack.<br />
+4. Repeat steps 2 &#038; 3 until stack is empty.</p>
+<p>Complexity: O(n)</p>
+<p>Please comment if the approach has errors.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-minoz odd alt depth-2" id="dsq-comment-21018">
+        <div id="dsq-comment-header-21018" class="dsq-comment-header">
+            <cite id="dsq-cite-21018">
+                <span id="dsq-author-user-21018">minoz</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21018" class="dsq-comment-body">
+            <div id="dsq-comment-message-21018" class="dsq-comment-message"><p>In step 2, I meant, assign the node at the top to the given node.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-21042">
+        <div id="dsq-comment-header-21042" class="dsq-comment-header">
+            <cite id="dsq-cite-21042">
+                <span id="dsq-author-user-21042">minoz</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21042" class="dsq-comment-body">
+            <div id="dsq-comment-message-21042" class="dsq-comment-message"><p>Got it. O(n) extra space.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-20991">
+        <div id="dsq-comment-header-20991" class="dsq-comment-header">
+            <cite id="dsq-cite-20991">
+                <span id="dsq-author-user-20991">Geek86</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20991" class="dsq-comment-body">
+            <div id="dsq-comment-message-20991" class="dsq-comment-message"><p>Kindly validate my recursive solution.</p>
+<p>import java.util.Stack;</p>
+<p>public class BTUtil {</p>
+<p>	public static void getAncestors(BTNode root, int key, Stack&lt;BTNode&gt; nodes) {</p>
+<p>		if ( isPresentInSubTree ( root.getLeft (), key, nodes )<br />
+				|| isPresentInSubTree ( root.getRight (), key, nodes ) ) {<br />
+			nodes.push ( root );<br />
+		}<br />
+		else {<br />
+			if ( ! nodes.isEmpty () ) {<br />
+				nodes.pop ();<br />
+			}<br />
+		}<br />
+	}</p>
+<p>	private static boolean isPresentInSubTree(BTNode node, int key, Stack&lt;BTNode&gt; nodes) {</p>
+<p>		if ( node == null )<br />
+			return false;<br />
+		if ( node.getData () == key ) {<br />
+			return true;<br />
+		}<br />
+		else if ( isPresentInSubTree ( node.getLeft (), key, nodes )<br />
+				|| isPresentInSubTree ( node.getRight (), key, nodes ) ) {<br />
+			nodes.push ( node );<br />
+			return true;<br />
+		}<br />
+		return false;<br />
+	}</p>
+<p>	public static void main(String [] args) {</p>
+<p>		BTNode one = new BTNode ( 1 );<br />
+		BTNode two = new BTNode ( 2 );<br />
+		BTNode three = new BTNode ( 3 );<br />
+		BTNode four = new BTNode ( 4 );<br />
+		BTNode five = new BTNode ( 5 );<br />
+		BTNode six = new BTNode ( 6 );<br />
+		BTNode seven = new BTNode ( 7 );<br />
+		one.setLeft ( two );<br />
+		one.setRight ( three );<br />
+		two.setLeft ( four );<br />
+		two.setRight ( five );<br />
+		three.setLeft ( six );<br />
+		three.setRight ( seven );<br />
+		seven.setRight ( new BTNode ( 8 ) );</p>
+<p>		Stack&lt;BTNode&gt; ancestors = new Stack&lt;BTNode&gt; ();</p>
+<p>		for ( int i = 1; i &lt;= 8; i++ ) {</p>
+<p>			ancestors = new Stack&lt;BTNode&gt; ();</p>
+<p>			BTUtil.getAncestors ( one, i, ancestors );</p>
+<p>			System.out.println ( &quot;Ancestor&#8217;s of &quot; + i + &quot; : &quot; + ancestors );<br />
+		}<br />
+	}<br />
+}</p>
+<p>Output :</p>
+<p>Ancestor&#8217;s of 1 : []<br />
+Ancestor&#8217;s of 2 : [1]<br />
+Ancestor&#8217;s of 3 : [1]<br />
+Ancestor&#8217;s of 4 : [2, 1]<br />
+Ancestor&#8217;s of 5 : [2, 1]<br />
+Ancestor&#8217;s of 6 : [3, 1]<br />
+Ancestor&#8217;s of 7 : [3, 1]<br />
+Ancestor&#8217;s of 8 : [7, 3, 1]</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-21009">
+        <div id="dsq-comment-header-21009" class="dsq-comment-header">
+            <cite id="dsq-cite-21009">
+                <span id="dsq-author-user-21009">idexter</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21009" class="dsq-comment-body">
+            <div id="dsq-comment-message-21009" class="dsq-comment-message"><p>You are calling isPresentInSubTree recursively and the first call to that function is made from getAncestors. This employes recursive at some part in the solution. This won&#8217;t help in reducing the complexity because of recursive elimination.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-21014">
+        <div id="dsq-comment-header-21014" class="dsq-comment-header">
+            <cite id="dsq-cite-21014">
+                <span id="dsq-author-user-21014">Geek86</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21014" class="dsq-comment-body">
+            <div id="dsq-comment-message-21014" class="dsq-comment-message"><p>Thank You for your reply. But one advantage I see here is, it eliminates visiting all nodes except for the deepest ones.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-20988">
+        <div id="dsq-comment-header-20988" class="dsq-comment-header">
+            <cite id="dsq-cite-20988">
+                <span id="dsq-author-user-20988">Silent</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20988" class="dsq-comment-body">
+            <div id="dsq-comment-message-20988" class="dsq-comment-message"><p>what is the problem in this code??</p>
+<p>void printAncestors(struct tree *root,int x)<br />
+{<br />
+      struct stack st;<br />
+      st.top=-1;</p>
+<p>      while(1)<br />
+      {<br />
+          while(root &amp;&amp; root-&gt;info!=x)<br />
+          {<br />
+             push(&amp;st,root);<br />
+             root=root-&gt;left;<br />
+          }</p>
+<p>          if(root &amp;&amp; root-&gt;info==x)<br />
+             break;</p>
+<p>          root=topElement(&amp;st);<br />
+          root=root-&gt;right;</p>
+<p>          while(st.top!=-1 &amp;&amp; !root &amp;&amp; root-&gt;info!=x)<br />
+          {<br />
+             root=pop(&amp;st);<br />
+             while(st.top!=-1 &amp;&amp; topElement(&amp;st)-&gt;right==root)<br />
+             {<br />
+                root=pop(&amp;st);<br />
+             }<br />
+             root=topElement(&amp;st)-&gt;right;<br />
+          }</p>
+<p>          if(st.top==-1)<br />
+          {<br />
+            printf(&#8220;Node not present in the tree&#8221;);<br />
+            break;<br />
+          }<br />
+      }</p>
+<p>      while(st.top!=-1)<br />
+      {<br />
+         root=pop(&amp;st);<br />
+         printf(&#8220;%d\t&#8221;,root-&gt;info);<br />
+      }<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-sambasiva odd alt thread-even depth-1" id="dsq-comment-20987">
+        <div id="dsq-comment-header-20987" class="dsq-comment-header">
+            <cite id="dsq-cite-20987">
+http://effprog.blogspot.com                <span id="dsq-author-user-20987">Sambasiva</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20987" class="dsq-comment-body">
+            <div id="dsq-comment-message-20987" class="dsq-comment-message"><p><a href="http://effprog.wordpress.com/2013/07/01/print-ancestors-of-a-given-binary-tree-node-without-recursion/" rel="nofollow">http://effprog.wordpress.com/2013/07/01/print-ancestors-of-a-given-binary-tree-node-without-recursion/</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-20984">
+        <div id="dsq-comment-header-20984" class="dsq-comment-header">
+            <cite id="dsq-cite-20984">
+                <span id="dsq-author-user-20984">SELVAMANI</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20984" class="dsq-comment-body">
+            <div id="dsq-comment-message-20984" class="dsq-comment-message"><pre> <code language="C">
+The answer is very simple. Use a post-order iterative traversal using stack.
+While pushing or poping the element from the stack verify whether the element matches the search element.
+If so, all the element that are in the stack are it's parent.
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-jainamit0909gmail-com odd alt thread-even depth-1" id="dsq-comment-20951">
+        <div id="dsq-comment-header-20951" class="dsq-comment-header">
+            <cite id="dsq-cite-20951">
+                <span id="dsq-author-user-20951">AMIT</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20951" class="dsq-comment-body">
+            <div id="dsq-comment-message-20951" class="dsq-comment-message"><p>For exercise part</p>
+<p>We should keep track of the root</p>
+<p>Struct Node *root1=root;<br />
+inside the for loop whenever you find root on top of the stack you must break<br />
+Outside the loop check if required node is in the top?if not print error</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-jainamit0909gmail-com even depth-2" id="dsq-comment-20952">
+        <div id="dsq-comment-header-20952" class="dsq-comment-header">
+            <cite id="dsq-cite-20952">
+                <span id="dsq-author-user-20952">AMIT</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20952" class="dsq-comment-body">
+            <div id="dsq-comment-message-20952" class="dsq-comment-message"><p>I mean root is on the top of the stack and its right is already visited</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-21226">
+        <div id="dsq-comment-header-21226" class="dsq-comment-header">
+            <cite id="dsq-cite-21226">
+                <span id="dsq-author-user-21226">bateesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21226" class="dsq-comment-body">
+            <div id="dsq-comment-message-21226" class="dsq-comment-message"><p>Instead of using extra variable we can check for stack empty,as stack is holding ancestors.So when stack is empty means no ancestors for current node.It must be for root only.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/print-ancestors-of-a-given-binary-tree-node-without-recursion/';
+var disqus_identifier = '119933 http://www.geeksforgeeks.org/?p=119933';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Print ancestors of a given binary tree node without recursion";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.234 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:30:33 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

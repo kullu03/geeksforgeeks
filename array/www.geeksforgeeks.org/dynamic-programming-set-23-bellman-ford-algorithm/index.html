@@ -1,0 +1,1262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Dynamic Programming | Set 23 (Bellman–Ford Algorithm) - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/dynamic-programming-set-23-bellman-ford-algorithm/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Dynamic Programming | Set 23 (Bellman–Ford Algorithm) - GeeksforGeeks" />
+<meta property="og:description" content="Given a graph and a source vertex src in graph, find shortest paths from src to all vertices in the given graph. The graph may contain negative weight edges. We have discussed Dijkstra&#8217;s algorithm for this problem. Dijksra&#8217;s algorithm is a Greedy algorithm and time complexity is O(VLogV) (with the use of Fibonacci heap). Dijkstra &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/dynamic-programming-set-23-bellman-ford-algorithm/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Dynamic Programming" />
+<meta property="article:tag" content="Graph" />
+<meta property="article:section" content="Graph" />
+<meta property="article:published_time" content="2012-12-01T18:32:02+00:00" />
+<meta property="article:modified_time" content="2014-09-22T14:27:57+00:00" />
+<meta property="og:updated_time" content="2014-09-22T14:27:57+00:00" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/bellman2.png" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/After1stIteration.png" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/seconditeration2.png" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.498 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417110919 148.204.66.80';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Dynamic Programming | Set 23 (Bellman–Ford Algorithm)</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given a graph and a source vertex <em>src </em>in graph, find shortest paths from <em>src </em>to all vertices in the given graph. The graph may contain negative weight edges.<span id="more-27914"></span><br />
+We have discussed <a href="http://www.geeksforgeeks.org/archives/27697">Dijkstra&#8217;s algorithm</a> for this problem. Dijksra&#8217;s algorithm is a Greedy algorithm and time complexity is O(VLogV) (with the use of Fibonacci heap). <em>Dijkstra doesn&#8217;t work for Graphs with negative weight edges, Bellman-Ford works for such graphs. Bellman-Ford is also simpler than Dijkstra and suites well for distributed systems.  But time complexity of Bellman-Ford is O(VE), which is more than Dijkstra.</em></p>
+<p><strong>Algorithm</strong><br />
+Following are the detailed steps.</p>
+<p><em>Input:</em> Graph and a source vertex <em>src</em><br />
+<em>Output:</em> Shortest distance to all vertices from <em>src</em>. If there is a negative weight cycle, then shortest distances are not calculated, negative weight cycle is reported.</p>
+<p><strong>1)</strong> This step initializes distances from source to all vertices as infinite and distance to source itself as 0. Create an array dist[] of size |V| with all values as infinite except dist[src] where src is source vertex.</p>
+<p><strong>2)</strong> This step calculates shortest distances. Do following |V|-1 times where |V| is the number of vertices in given graph.<br />
+&#8230;..<strong>a)</strong> Do following for each edge u-v<br />
+&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;If dist[v] &gt; dist[u] + weight of edge uv, then update dist[v]<br />
+&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;.dist[v] = dist[u] + weight of edge uv</p>
+<p><strong>3)</strong> This step reports if there is a negative weight cycle in graph. Do following for each edge u-v<br />
+&#8230;&#8230;If dist[v] &gt; dist[u] + weight of edge uv, then &#8220;Graph contains negative weight cycle&#8221;<br />
+The idea of step 3 is, step 2 guarantees shortest distances if graph doesn&#8217;t contain negative weight cycle. If we iterate through all edges one more time and get a shorter path for any vertex, then there is a negative weight cycle</p>
+<p><em><strong>How does this work?</strong></em> Like other Dynamic Programming Problems, the algorithm calculate shortest paths in bottom-up manner.  It first calculates the shortest distances for the shortest paths which have at-most one edge in the path. Then, it calculates shortest paths with at-nost 2 edges, and so on.  After the ith iteration of outer loop, the shortest paths with at most i edges are calculated.  There can be  maximum |V| &#8211; 1 edges in any simple path, that is why the outer loop runs |v| &#8211; 1 times.  The idea is, assuming that there is no negative weight cycle, if we have calculated shortest paths with at most i edges, then an iteration over all edges guarantees to give shortest path with at-most (i+1) edges (Proof is simple, you can refer <a href="http://courses.csail.mit.edu/6.006/spring11/lectures/lec15.pdf">this</a> or <a href="http://www.youtube.com/watch?v=Ttezuzs39nk">MIT Video Lecture</a>)</p>
+<p><strong>Example</strong><br />
+Let us understand the algorithm with following example graph. The images are taken from <a href="http://www.cs.arizona.edu/classes/cs445/spring07/ShortestPath2.prn.pdf">this </a>source.</p>
+<p>Let the given source vertex be 0. Initialize all distances as infinite, except the distance to source itself. Total number of vertices in the graph is 5, so <em>all edges must be processed 4 times.</em></p>
+<p><a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/bellman2.png"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/bellman2.png" alt="Example Graph" title="bellman2" width="400" height="140" class="aligncenter size-full wp-image-27932" /></a></p>
+<p>Let all edges are processed in following order: (B,E), (D,B), (B,D), (A,B), (A,C), (D,C), (B,C), (E,D).  We get following distances when all edges are processed first time. The first row in shows initial distances. The second row shows distances when edges (B,E), (D,B), (B,D) and (A,B) are processed. The third row shows distances when (A,C) is processed. The fourth row shows when (D,C), (B,C) and (E,D) are processed.<br />
+<a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/After1stIteration.png"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/After1stIteration.png" alt="" title="After1stIteration" width="400" height="150" class="aligncenter size-full wp-image-28019" /></a></p>
+<p>The first iteration guarantees to give all shortest paths which are at most 1 edge long. We get following distances when all edges are processed second time (The last row shows final values). </p>
+<p><a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/seconditeration2.png"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/seconditeration2.png" alt="" title="seconditeration" width="400" height="160" class="aligncenter size-full wp-image-28035" /></a></p>
+<p>The second iteration guarantees to give all shortest paths which are at most 2 edges long. The algorithm processes all edges 2 more times. The distances are minimized after the second iteration, so third and fourth iterations don&#8217;t update the distances.</p>
+<p><strong>Implementation:</strong></p>
+<pre class="brush: java; highlight: [44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87]; title: ; notranslate" title="">
+// A C / C++ program for Bellman-Ford's single source shortest path algorithm.
+
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;limits.h&gt;
+
+// a structure to represent a weighted edge in graph
+struct Edge
+{
+    int src, dest, weight;
+};
+
+// a structure to represent a connected, directed and weighted graph
+struct Graph
+{
+    // V-&gt; Number of vertices, E-&gt; Number of edges
+    int V, E;
+
+    // graph is represented as an array of edges.
+    struct Edge* edge;
+};
+
+// Creates a graph with V vertices and E edges
+struct Graph* createGraph(int V, int E)
+{
+    struct Graph* graph = (struct Graph*) malloc( sizeof(struct Graph) );
+    graph-&gt;V = V;
+    graph-&gt;E = E;
+
+    graph-&gt;edge = (struct Edge*) malloc( graph-&gt;E * sizeof( struct Edge ) );
+
+    return graph;
+}
+
+// A utility function used to print the solution
+void printArr(int dist[], int n)
+{
+    printf(&quot;Vertex   Distance from Source\n&quot;);
+    for (int i = 0; i &lt; n; ++i)
+        printf(&quot;%d \t\t %d\n&quot;, i, dist[i]);
+}
+
+// The main function that finds shortest distances from src to all other
+// vertices using Bellman-Ford algorithm.  The function also detects negative
+// weight cycle
+void BellmanFord(struct Graph* graph, int src)
+{
+    int V = graph-&gt;V;
+    int E = graph-&gt;E;
+    int dist[V];
+
+    // Step 1: Initialize distances from src to all other vertices as INFINITE
+    for (int i = 0; i &lt; V; i++)
+        dist[i]   = INT_MAX;
+    dist[src] = 0;
+
+    // Step 2: Relax all edges |V| - 1 times. A simple shortest path from src
+    // to any other vertex can have at-most |V| - 1 edges
+    for (int i = 1; i &lt;= V-1; i++)
+    {
+        for (int j = 0; j &lt; E; j++)
+        {
+            int u = graph-&gt;edge[j].src;
+            int v = graph-&gt;edge[j].dest;
+            int weight = graph-&gt;edge[j].weight;
+            if (dist[u] != INT_MAX &amp;&amp; dist[u] + weight &lt; dist[v])
+                dist[v] = dist[u] + weight;
+        }
+    }
+
+    // Step 3: check for negative-weight cycles.  The above step guarantees
+    // shortest distances if graph doesn't contain negative weight cycle.
+    // If we get a shorter path, then there is a cycle.
+    for (int i = 0; i &lt; E; i++)
+    {
+        int u = graph-&gt;edge[i].src;
+        int v = graph-&gt;edge[i].dest;
+        int weight = graph-&gt;edge[i].weight;
+        if (dist[u] != INT_MAX &amp;&amp; dist[u] + weight &lt; dist[v])
+            printf(&quot;Graph contains negative weight cycle&quot;);
+    }
+
+    printArr(dist, V);
+
+    return;
+}
+
+// Driver program to test above functions
+int main()
+{
+    /* Let us create the graph given in above example */
+    int V = 5;  // Number of vertices in graph
+    int E = 8;  // Number of edges in graph
+    struct Graph* graph = createGraph(V, E);
+
+    // add edge 0-1 (or A-B in above figure)
+    graph-&gt;edge[0].src = 0;
+    graph-&gt;edge[0].dest = 1;
+    graph-&gt;edge[0].weight = -1;
+
+    // add edge 0-2 (or A-C in above figure)
+    graph-&gt;edge[1].src = 0;
+    graph-&gt;edge[1].dest = 2;
+    graph-&gt;edge[1].weight = 4;
+
+    // add edge 1-2 (or B-C in above figure)
+    graph-&gt;edge[2].src = 1;
+    graph-&gt;edge[2].dest = 2;
+    graph-&gt;edge[2].weight = 3;
+
+    // add edge 1-3 (or B-D in above figure)
+    graph-&gt;edge[3].src = 1;
+    graph-&gt;edge[3].dest = 3;
+    graph-&gt;edge[3].weight = 2;
+
+    // add edge 1-4 (or A-E in above figure)
+    graph-&gt;edge[4].src = 1;
+    graph-&gt;edge[4].dest = 4;
+    graph-&gt;edge[4].weight = 2;
+
+    // add edge 3-2 (or D-C in above figure)
+    graph-&gt;edge[5].src = 3;
+    graph-&gt;edge[5].dest = 2;
+    graph-&gt;edge[5].weight = 5;
+
+    // add edge 3-1 (or D-B in above figure)
+    graph-&gt;edge[6].src = 3;
+    graph-&gt;edge[6].dest = 1;
+    graph-&gt;edge[6].weight = 1;
+
+    // add edge 4-3 (or E-D in above figure)
+    graph-&gt;edge[7].src = 4;
+    graph-&gt;edge[7].dest = 3;
+    graph-&gt;edge[7].weight = -3;
+
+    BellmanFord(graph, 0);
+
+    return 0;
+}
+</pre>
+<p>Output:
+<pre>Vertex   Distance from Source
+0                0
+1                -1
+2                2
+3                -2
+4                1</pre>
+<p><strong>Notes</strong><br />
+<strong>1) </strong> Negative weights are found in various applications of graphs. For example, instead of paying cost for a path, we may get some advantage if we follow the path.</p>
+<p><strong>2)</strong> Bellman-Ford works better (better than Dijksra&#8217;s) for distributed systems. Unlike Dijksra&#8217;s where we need to find minimum value of all vertices, in Bellman-Ford, edges are considered one by one.</p>
+<p><strong>Exercise</strong><br />
+<strong>1) </strong>The standard Bellman-Ford algorithm reports shortest path only if there is no negative weight cycles. Modify it so that it reports minimum distances even if there is a negative weight cycle.</p>
+<p><strong>2)</strong> Can we use Dijksra&#8217;s algorithm for shortest paths for graphs with negative weights &#8211; one idea can be, calculate the minimum weight value, add a positive value (equal to absolute value of minimum weight value) to all weights and run the Dijksra&#8217;s algorithm for the modified graph. Will this algorithm work?</p>
+<p><strong>References:</strong><br />
+<a href="http://www.youtube.com/watch?v=Ttezuzs39nk">http://www.youtube.com/watch?v=Ttezuzs39nk</a><br />
+<a href="http://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm">http://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm</a><br />
+<a href="http://www.cs.arizona.edu/classes/cs445/spring07/ShortestPath2.prn.pdf">http://www.cs.arizona.edu/classes/cs445/spring07/ShortestPath2.prn.pdf</a></p>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/vertex-cover-problem-set-1-introduction-approximate-algorithm-2/" title="Vertex Cover Problem | Set 1 (Introduction and Approximate Algorithm)">Vertex Cover Problem | Set 1 (Introduction and Approximate Algorithm)</a></li><li><a href="http://www.geeksforgeeks.org/snake-ladder-problem-2/" title="Snake and Ladder Problem">Snake and Ladder Problem</a></li><li><a href="http://www.geeksforgeeks.org/tarjan-algorithm-find-strongly-connected-components/" title="Tarjan&#8217;s Algorithm to find Strongly Connected Components">Tarjan&#8217;s Algorithm to find Strongly Connected Components</a></li><li><a href="http://www.geeksforgeeks.org/shortest-path-exactly-k-edges-directed-weighted-graph/" title="Shortest path with exactly k edges in a directed and weighted graph">Shortest path with exactly k edges in a directed and weighted graph</a></li><li><a href="http://www.geeksforgeeks.org/count-possible-paths-source-destination-exactly-k-edges/" title="Count all possible walks from a source to a destination with exactly k edges">Count all possible walks from a source to a destination with exactly k edges</a></li><li><a href="http://www.geeksforgeeks.org/euler-circuit-directed-graph/" title="Euler Circuit in a Directed Graph">Euler Circuit in a Directed Graph</a></li><li><a href="http://www.geeksforgeeks.org/given-array-strings-find-strings-can-chained-form-circle/" title="Given an array of strings, find if the strings can be chained to form a circle">Given an array of strings, find if the strings can be chained to form a circle</a></li><li><a href="http://www.geeksforgeeks.org/given-sorted-dictionary-find-precedence-characters/" title="Given a sorted dictionary of an alien language, find order of characters">Given a sorted dictionary of an alien language, find order of characters</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/dynamic-programming/" rel="tag">Dynamic Programming</a>, <a href="http://www.geeksforgeeks.org/tag/graph/" rel="tag">Graph</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fdynamic-programming-set-23-bellman-ford-algorithm%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/dynamic-programming-set-23-bellman-ford-algorithm/" data-text="Dynamic Programming | Set 23 (Bellman–Ford Algorithm)" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/dynamic-programming-set-23-bellman-ford-algorithm/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-30384">
+        <div id="dsq-comment-header-30384" class="dsq-comment-header">
+            <cite id="dsq-cite-30384">
+                <span id="dsq-author-user-30384">tokes</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30384" class="dsq-comment-body">
+            <div id="dsq-comment-message-30384" class="dsq-comment-message"><p>There is a problem where if you change the source node to something different from &#8220;a&#8221; which is &#8220;0&#8221; you will get wrong answers.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-28927">
+        <div id="dsq-comment-header-28927" class="dsq-comment-header">
+            <cite id="dsq-cite-28927">
+                <span id="dsq-author-user-28927">viki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28927" class="dsq-comment-body">
+            <div id="dsq-comment-message-28927" class="dsq-comment-message"><p>Hi Sir,</p>
+<p>Replace the code &#8220;dist[u] + weight &lt; dist[v]&quot;<br />
+by &quot;dist[u]  &lt; dist[v] &#8211; weight&quot; to overcome integer overflow.</p>
+<p>BTW excellent post.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-28178">
+        <div id="dsq-comment-header-28178" class="dsq-comment-header">
+            <cite id="dsq-cite-28178">
+                <span id="dsq-author-user-28178">Krishna Prasad</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28178" class="dsq-comment-body">
+            <div id="dsq-comment-message-28178" class="dsq-comment-message"><p>For step 2:<br />
+what if i use&#8230;.</p>
+<p>int flag=1;<br />
+while(flag)<br />
+    {<br />
+flag=0;<br />
+        for (int j = 0; j edge[j].src;<br />
+            int v = graph-&gt;edge[j].dest;<br />
+            int weight = graph-&gt;edge[j].weight;<br />
+            if (dist[u] + weight &lt; dist[v])<br />
+                   { dist[v] = dist[u] + weight;<br />
+                        flag=1;<br />
+}<br />
+        }<br />
+    }</p>
+<p>instead of&#8230;..</p>
+<p>for (int i = 1; i &lt;= V-1; i++)<br />
+    {<br />
+        for (int j = 0; j edge[j].src;<br />
+            int v = graph-&gt;edge[j].dest;<br />
+            int weight = graph-&gt;edge[j].weight;<br />
+            if (dist[u] + weight &lt; dist[v])<br />
+                dist[v] = dist[u] + weight;<br />
+        }<br />
+    }<br />
+&#8230;..<br />
+It may improve performance breaking out unnecessary iterations<br />
+am i right?????<br />
+and what is the need of step3 ?&#8230;. i dint understand it&#8230;&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-20997">
+        <div id="dsq-comment-header-20997" class="dsq-comment-header">
+            <cite id="dsq-cite-20997">
+                <span id="dsq-author-user-20997">coder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20997" class="dsq-comment-body">
+            <div id="dsq-comment-message-20997" class="dsq-comment-message"><p>the corresponding mit video lecture is great</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-20059">
+        <div id="dsq-comment-header-20059" class="dsq-comment-header">
+            <cite id="dsq-cite-20059">
+                <span id="dsq-author-user-20059">Kumar Vikram</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20059" class="dsq-comment-body">
+            <div id="dsq-comment-message-20059" class="dsq-comment-message"><p>Another implementation of the above problem using adjacency list.. </p>
+<p>#include&lt;iostream&gt;<br />
+#include &lt;list&gt;<br />
+#include &lt;stack&gt;<br />
+#include &lt;limits.h&gt;</p>
+<p>using namespace std;</p>
+<p>class AdjListNode<br />
+{<br />
+    int v;<br />
+    int weight;<br />
+public:<br />
+    AdjListNode(int _v, int _w)  { v = _v;  weight = _w;}<br />
+    int getV()       {  return v;  }<br />
+    int getWeight()  {  return weight; }<br />
+};</p>
+<p>class Graph<br />
+{<br />
+    int V;    // No. of vertices&#8217;<br />
+    // Pointer to an array containing adjacency lists<br />
+    list&lt;AdjListNode&gt; *adj;</p>
+<p>    public:<br />
+    Graph(int V);   // Constructor</p>
+<p>    // function to add an edge to graph<br />
+    void addEdge(int u, int v, int weight);<br />
+    void bell_ford(int src);</p>
+<p>};</p>
+<p>Graph::Graph(int V)<br />
+{<br />
+    this-&gt;V = V;<br />
+    adj = new list&lt;AdjListNode&gt;[V];<br />
+}</p>
+<p>void Graph::addEdge(int u, int v, int weight)<br />
+{<br />
+    AdjListNode node(v, weight);<br />
+    adj[u].push_back(node); // Add v to u&#8217;s list<br />
+}</p>
+<p>void Graph::bell_ford(int src)<br />
+{<br />
+	int dist[V];<br />
+	for (int i = 0; i &lt; V; i++)<br />
+      	dist[i]   = INT_MAX;</p>
+<p>      dist[src] = 0;<br />
+	 for (int u = 0; u &lt; V; u++)<br />
+        {<br />
+        	list&lt;AdjListNode&gt;::iterator i;<br />
+		if (dist[u] != INT_MAX)<br />
+        		{<br />
+            		for (i = adj[u].begin(); i != adj[u].end(); ++i)<br />
+             			if (dist[i-&gt;getV()] &gt; dist[u] + i-&gt;getWeight())<br />
+					{<br />
+               				 dist[i-&gt;getV()] = dist[u] + i-&gt;getWeight();</p>
+<p>					}<br />
+        		}<br />
+        } </p>
+<p>cout&lt;&lt;&quot;Vertex\t\tDistance&quot;&lt;&lt;endl;<br />
+for(int i=0;i&lt;V;i++)<br />
+{<br />
+	cout&lt;&lt;i&lt;&lt;&quot;\t\t&quot;&lt;&lt;dist[i]&lt;&lt;&quot;\t\t&quot;;<br />
+	cout&lt;&lt;endl;<br />
+}</p>
+<p>}</p>
+<p>int main()<br />
+{</p>
+<p>    Graph g(5);<br />
+    g.addEdge(0, 1, -1);<br />
+    g.addEdge(0, 2, 4);<br />
+    g.addEdge(1, 2, 3);<br />
+    g.addEdge(1, 3, 2);<br />
+    g.addEdge(1, 4, 2);<br />
+    g.addEdge(3, 2, 5);<br />
+    g.addEdge(3, 1, 1);<br />
+    g.addEdge(4, 3, -3);</p>
+<p>    int s = 1;<br />
+    cout &lt;&lt; &quot;Following are shortest distances from source &quot; &lt;&lt; s &lt;&lt;&quot; \n&quot;;<br />
+    g.bell_ford(s);</p>
+<p>    return 0;<br />
+} </p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-28076">
+        <div id="dsq-comment-header-28076" class="dsq-comment-header">
+            <cite id="dsq-cite-28076">
+                <span id="dsq-author-user-28076">sumit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28076" class="dsq-comment-body">
+            <div id="dsq-comment-message-28076" class="dsq-comment-message"><p>@252d1d6f4d5c2d9381e4ac9c48ff36cf:disqus , there is one major issue with your approach above , the algo talks about iterating through each edge V-1 times . what you have done in bell_ford() is to iterate through all edges as per the adj list just once . may be you need to change the logic a bit to accommodate this &#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-19957">
+        <div id="dsq-comment-header-19957" class="dsq-comment-header">
+            <cite id="dsq-cite-19957">
+                <span id="dsq-author-user-19957">raghson</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19957" class="dsq-comment-body">
+            <div id="dsq-comment-message-19957" class="dsq-comment-message"><p>In the if condition<br />
+if(dist[u] + weight &lt; dist[v]) :</p>
+<p>the dist[v] is updated even in the case when dist[u] is INT_MAX, dist[v] is INT_MAX and weight is negative as the condition is satisfied. So, the if-condition should be modified to<br />
+if(dist[u] + weight &lt; dist[v] &amp;&amp; (dist[u]!=INT_MAX)). It will save time which is spent calculating dist[v] in the cases which are of type mentioned above. Please correct me if I am wrong.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-16433">
+        <div id="dsq-comment-header-16433" class="dsq-comment-header">
+            <cite id="dsq-cite-16433">
+                <span id="dsq-author-user-16433">Kumar Vikram</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16433" class="dsq-comment-body">
+            <div id="dsq-comment-message-16433" class="dsq-comment-message"><p>this is an implementation of the given program with the addition that it also calculates the minimum path along with the minimum path length.</p>
+<pre> <code language="C">
+/*// A C / C++ program for Bellman-Ford's single source shortest path algorithm.
+ 
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;limits.h&gt;
+ 
+
+struct Edge
+{
+    int src, dest, weight;
+};
+ 
+
+struct Graph
+{
+   
+    int V, E;
+ 
+    
+    struct Edge* edge;
+};
+ 
+
+struct Graph* createGraph(int V, int E)
+{
+    struct Graph* graph = (struct Graph*) malloc( sizeof(struct Graph) );
+    graph-&gt;V = V;
+    graph-&gt;E = E;
+ 
+    graph-&gt;edge = (struct Edge*) malloc( graph-&gt;E * sizeof( struct Edge ) );
+ 
+    return graph;
+}
+ 
+int pred[10];
+void print_path(int s,int v)
+{
+int i,u;
+int path[10];
+int count=0;
+while(v != s)
+{
+	count++;
+	path[count]=v;
+	u=pred[v];
+	v=u;
+}
+count++;
+path[count]=s;
+printf(&quot;the shortest path is : &quot;);
+for(i=count;i&gt;=1;i--)
+{
+	printf(&quot;%d\t&quot;,path[i]);
+}
+}
+ 
+void printArr(int dist[], int n, int src)
+{
+    printf(&quot;Vertex       Distance:\n&quot;);
+    for (int i = 0; i &lt; n; ++i)
+	{
+        printf(&quot;%d \t\t %d\t&quot;,i,dist[i]);
+	print_path(src,i);
+	printf(&quot;\n&quot;);
+	}
+}
+
+
+void BellmanFord(struct Graph* graph, int src)
+{
+    int V = graph-&gt;V;
+    int E = graph-&gt;E;
+    int dist[V];
+    char path[V][V];
+    int i,j;
+    
+    for (int i = 0; i &lt; V; i++)
+        dist[i]   = INT_MAX;
+    dist[src] = 0;
+ 
+   
+    for (int i = 1; i &lt;= V-1; i++)
+    {
+        for (int j = 0; j &lt; E; j++)
+        {
+            int u = graph-&gt;edge[j].src;
+            int v = graph-&gt;edge[j].dest;
+            int weight = graph-&gt;edge[j].weight;
+            if (dist[u] + weight &lt; dist[v])
+		{
+                dist[v] = dist[u] + weight;
+		pred[v]=u;
+		}
+        }
+    }
+ 
+    
+    for (int i = 0; i &lt; E; i++)
+    {
+        int u = graph-&gt;edge[i].src;
+        int v = graph-&gt;edge[i].dest;
+        int weight = graph-&gt;edge[i].weight;
+        if (dist[u] + weight &lt; dist[v])
+            printf(&quot;Graph contains negative weight cycle&quot;);
+    }
+
+    printArr(dist, V, src);
+ 
+    return;
+}
+ 
+
+int main()
+{
+    
+    int V = 5;  // Number of vertices in graph
+    int E = 8;  // Number of edges in graph
+    struct Graph* graph = createGraph(V, E);
+ 
+    
+    graph-&gt;edge[0].src = 0;
+    graph-&gt;edge[0].dest = 1;
+    graph-&gt;edge[0].weight = -1;
+ 
+   
+    graph-&gt;edge[1].src = 0;
+    graph-&gt;edge[1].dest = 2;
+    graph-&gt;edge[1].weight = 4;
+ 
+  
+    graph-&gt;edge[2].src = 1;
+    graph-&gt;edge[2].dest = 2;
+    graph-&gt;edge[2].weight = 3;
+ 
+   
+    graph-&gt;edge[3].src = 1;
+    graph-&gt;edge[3].dest = 3;
+    graph-&gt;edge[3].weight = 2;
+ 
+   
+    graph-&gt;edge[4].src = 1;
+    graph-&gt;edge[4].dest = 4;
+    graph-&gt;edge[4].weight = 2;
+ 
+   
+    graph-&gt;edge[5].src = 3;
+    graph-&gt;edge[5].dest = 2;
+    graph-&gt;edge[5].weight = 5;
+ 
+   
+    graph-&gt;edge[6].src = 3;
+    graph-&gt;edge[6].dest = 1;
+    graph-&gt;edge[6].weight = 1;
+ 
+   
+    graph-&gt;edge[7].src = 4;
+    graph-&gt;edge[7].dest = 3;
+    graph-&gt;edge[7].weight = -3;
+ 
+    BellmanFord(graph, 0);
+    return 0;
+}
+     */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-16432">
+        <div id="dsq-comment-header-16432" class="dsq-comment-header">
+            <cite id="dsq-cite-16432">
+                <span id="dsq-author-user-16432">Kumar Vikram</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16432" class="dsq-comment-body">
+            <div id="dsq-comment-message-16432" class="dsq-comment-message"><pre> <code language="C">this is an implementation of above program that also calculates the shortest path along with the minimum cost
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+<p>// A C / C++ program for Bellman-Ford&#8217;s single source shortest path algorithm.</p>
+<p>#include<br />
+#include<br />
+#include<br />
+#include </p>
+<p>struct Edge<br />
+{<br />
+    int src, dest, weight;<br />
+};</p>
+<p>struct Graph<br />
+{</p>
+<p>    int V, E;</p>
+<p>    struct Edge* edge;<br />
+};</p>
+<p>struct Graph* createGraph(int V, int E)<br />
+{<br />
+    struct Graph* graph = (struct Graph*) malloc( sizeof(struct Graph) );<br />
+    graph-&gt;V = V;<br />
+    graph-&gt;E = E;</p>
+<p>    graph-&gt;edge = (struct Edge*) malloc( graph-&gt;E * sizeof( struct Edge ) );</p>
+<p>    return graph;<br />
+}</p>
+<p>int pred[10];<br />
+void print_path(int s,int v)<br />
+{<br />
+int i,u;<br />
+int path[10];<br />
+int count=0;<br />
+while(v != s)<br />
+{<br />
+	count++;<br />
+	path[count]=v;<br />
+	u=pred[v];<br />
+	v=u;<br />
+}<br />
+count++;<br />
+path[count]=s;<br />
+printf(&#8220;the shortest path is : &#8220;);<br />
+for(i=count;i&gt;=1;i&#8211;)<br />
+{<br />
+	printf(&#8220;%d\t&#8221;,path[i]);<br />
+}<br />
+}</p>
+<p>void printArr(int dist[], int n, int src)<br />
+{<br />
+    printf(&#8220;Vertex       Distance:\n&#8221;);<br />
+    for (int i = 0; i V;<br />
+    int E = graph-&gt;E;<br />
+    int dist[V];<br />
+    char path[V][V];<br />
+    int i,j;</p>
+<p>    for (int i = 0; i &lt; V; i++)<br />
+        dist[i]   = INT_MAX;<br />
+    dist[src] = 0;</p>
+<p>    for (int i = 1; i &lt;= V-1; i++)<br />
+    {<br />
+        for (int j = 0; j edge[j].src;<br />
+            int v = graph-&gt;edge[j].dest;<br />
+            int weight = graph-&gt;edge[j].weight;<br />
+            if (dist[u] + weight &lt; dist[v])<br />
+		{<br />
+                dist[v] = dist[u] + weight;<br />
+		pred[v]=u;<br />
+		}<br />
+        }<br />
+    }</p>
+<p>    for (int i = 0; i edge[i].src;<br />
+        int v = graph-&gt;edge[i].dest;<br />
+        int weight = graph-&gt;edge[i].weight;<br />
+        if (dist[u] + weight edge[0].src = 0;<br />
+    graph-&gt;edge[0].dest = 1;<br />
+    graph-&gt;edge[0].weight = -1;</p>
+<p>    graph-&gt;edge[1].src = 0;<br />
+    graph-&gt;edge[1].dest = 2;<br />
+    graph-&gt;edge[1].weight = 4;</p>
+<p>    graph-&gt;edge[2].src = 1;<br />
+    graph-&gt;edge[2].dest = 2;<br />
+    graph-&gt;edge[2].weight = 3;</p>
+<p>    graph-&gt;edge[3].src = 1;<br />
+    graph-&gt;edge[3].dest = 3;<br />
+    graph-&gt;edge[3].weight = 2;</p>
+<p>    graph-&gt;edge[4].src = 1;<br />
+    graph-&gt;edge[4].dest = 4;<br />
+    graph-&gt;edge[4].weight = 2;</p>
+<p>    graph-&gt;edge[5].src = 3;<br />
+    graph-&gt;edge[5].dest = 2;<br />
+    graph-&gt;edge[5].weight = 5;</p>
+<p>    graph-&gt;edge[6].src = 3;<br />
+    graph-&gt;edge[6].dest = 1;<br />
+    graph-&gt;edge[6].weight = 1;</p>
+<p>    graph-&gt;edge[7].src = 4;<br />
+    graph-&gt;edge[7].dest = 3;<br />
+    graph-&gt;edge[7].weight = -3;</p>
+<p>    BellmanFord(graph, 0);<br />
+    return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-15625">
+        <div id="dsq-comment-header-15625" class="dsq-comment-header">
+            <cite id="dsq-cite-15625">
+                <span id="dsq-author-user-15625">Shashank</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15625" class="dsq-comment-body">
+            <div id="dsq-comment-message-15625" class="dsq-comment-message"><p>The algorithm is correct but there is a small glitch in the explanation.</p>
+<p>*The idea is, if we have calculated shortest paths with at most i edges, then an iteration over all edges guarantees to give shortest path with at-most (i+1) edges*</p>
+<p>My Point:<br />
+After &#8216;i&#8217; iterations every node does not hold a value for shortest path with at most i edges.</p>
+<p>It holds a value which is &#8216;at-most&#8217; the value for the shortest path with at most i edges. But it definitely holds a value for some path. It is just that after &#8216;i&#8217; iterations it may hold a value for a path with greater than &#8216;i&#8217; edges. </p>
+<p>This can also be seen in the example cited above where &#8211;<br />
+Node C holds the matrix value 2 after 1st iteration when the value 2 for Node C is for a path with 2 edges. This happens because of the sequence in which the nodes are considered.</p>
+<p>Just a minor correction in the description <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/dynamic-programming-set-23-bellman-ford-algorithm/';
+var disqus_identifier = '27914 http://www.geeksforgeeks.org/?p=27914';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Dynamic Programming | Set 23 (Bellman–Ford Algorithm)";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushJava.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.201 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:25:19 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

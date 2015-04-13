@@ -1,0 +1,1721 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Memory Layout of C Programs - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/memory-layout-of-c-program/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Memory Layout of C Programs - GeeksforGeeks" />
+<meta property="og:description" content="A typical memory representation of C program consists of following sections. 1. Text segment 2. Initialized data segment 3. Uninitialized data segment 4. Stack 5. Heap A typical memory layout of a running process 1. Text Segment: A text segment , also known as a code segment or simply as text, is one of the &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/memory-layout-of-c-program/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Memory Layout Of C Program" />
+<meta property="article:section" content="Articles" />
+<meta property="article:section" content="C/C++ Puzzles" />
+<meta property="article:published_time" content="2011-09-12T22:29:10+00:00" />
+<meta property="article:modified_time" content="2011-11-29T13:19:48+00:00" />
+<meta property="og:updated_time" content="2011-11-29T13:19:48+00:00" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Memory-Layout-300x255.gif" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.383 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1419359819 49.204.15.220';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Memory Layout of C Programs</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>A typical memory representation of C program consists of following sections.<span id="more-14268"></span></p>
+<p>1. Text segment<br />
+2. Initialized data segment<br />
+3. Uninitialized data segment<br />
+4. Stack<br />
+5. Heap</p>
+<p><a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Memory-Layout.gif"><img class="aligncenter size-medium wp-image-14281" title="Memory-Layout" src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Memory-Layout-300x255.gif" alt="" width="400" height="335" /></a><br />
+A typical memory layout of a running process</p>
+<p><strong>1. Text Segment:</strong><br />
+A text segment , also known as a code segment or simply as text, is one of the sections of a program in an object file or in memory, which contains executable instructions.</p>
+<p>As a memory region, a text segment may be placed below the heap or stack in order to prevent heaps and stack overflows from overwriting it.</p>
+<p>Usually, the text segment is sharable so that only a single copy needs to be in memory for frequently executed programs, such as text editors, the C compiler, the shells, and so on. Also, the text segment is often read-only, to prevent a program from accidentally modifying its instructions.</p>
+<p><strong>2. Initialized Data Segment:</strong><br />
+Initialized data segment, usually called simply the Data Segment. A data segment is a portion of virtual address space of a program, which contains the global variables and static variables that are initialized by the programmer.</p>
+<p>Note that, data segment is not read-only, since the values of the variables can be altered at run time.</p>
+<p>This segment can be further classified into initialized read-only area and initialized read-write area.</p>
+<p>For instance the global string defined by char s[] = “hello world” in C and a C statement like int debug=1 outside the main (i.e. global) would be stored in initialized read-write area. And a global C statement like const char* string = “hello world” makes the string literal “hello world” to be stored in initialized read-only area and the character pointer variable string in initialized read-write area.</p>
+<p>Ex: static int i = 10 will be stored in data segment and global int i = 10 will also be stored in data segment</p>
+<p><strong>3. Uninitialized Data Segment:</strong><br />
+Uninitialized data segment, often called the “bss” segment, named after an ancient assembler operator that stood for “block started by symbol.” Data in this segment is initialized by the kernel to arithmetic 0 before the program starts executing</p>
+<p>uninitialized data starts at the end of the data segment and contains all global variables and static variables that are initialized to zero or do not have explicit initialization in source code.</p>
+<p>For instance a variable declared static int i; would be contained in the BSS segment.<br />
+For instance a global variable declared int j; would be contained in the BSS segment.</p>
+<p><strong>4. Stack:</strong><br />
+The stack area traditionally adjoined the heap area and grew the opposite direction; when the stack pointer met the heap pointer, free memory was exhausted. (With modern large address spaces and virtual memory techniques they may be placed almost anywhere, but they still typically grow opposite directions.)</p>
+<p>The stack area contains the program stack, a LIFO structure, typically located in the higher parts of memory. On the standard PC x86 computer architecture it grows toward address zero; on some other architectures it grows the opposite direction. A “stack pointer” register tracks the top of the stack; it is adjusted each time a value is “pushed” onto the stack. The set of values pushed for one function call is termed a “stack frame”; A stack frame consists at minimum of a return address.</p>
+<p>Stack, where automatic variables are stored, along with information that is saved each time a function is called. Each time a function is called, the address of where to return to and certain information about the caller’s environment, such as some of the machine registers, are saved on the stack. The newly called function then allocates room on the stack for its automatic and temporary variables. This is how recursive functions in C can work. Each time a recursive function calls itself, a new stack frame is used, so one set of variables doesn’t interfere with the variables from another instance of the function.</p>
+<p><strong>5. Heap:</strong><br />
+Heap is the segment where dynamic memory allocation usually takes place.</p>
+<p>The heap area begins at the end of the BSS segment and grows to larger addresses from there.The Heap area is managed by malloc, realloc, and free, which may use the brk and sbrk system calls to adjust its size (note that the use of brk/sbrk and a single “heap area” is not required to fulfill the contract of malloc/realloc/free; they may also be implemented using mmap to reserve potentially non-contiguous regions of virtual memory into the process’ virtual address space). The Heap area is shared by all shared libraries and dynamically loaded modules in a process.</p>
+<p>Examples.</p>
+<p>The size(1) command reports the sizes (in bytes) of the text, data, and bss segments. ( for more details please refer man page of size(1) )</p>
+<p>1. Check the following simple C program</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+#include &lt;stdio.h&gt;
+
+int main(void)
+{
+    return 0;
+}
+</pre>
+<pre>
+[narendra@CentOS]$ gcc memory-layout.c -o memory-layout
+[narendra@CentOS]$ size memory-layout
+text       data        bss        dec        hex    filename
+960        248          8       1216        4c0    memory-layout</pre>
+<p>2. Let us add one global variable in program, now check the size of bss (highlighted in red color).</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+#include &lt;stdio.h&gt;
+
+int global; /* Uninitialized variable stored in bss*/
+
+int main(void)
+{
+    return 0;
+}
+</pre>
+<pre>
+[narendra@CentOS]$ gcc memory-layout.c -o memory-layout
+[narendra@CentOS]$ size memory-layout
+text       data        bss        dec        hex    filename
+ 960        248         <strong><span style="color: red;">12</span></strong>       1220        4c4    memory-layout</pre>
+<p>3. Let us add one static variable which is also stored in bss.</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+#include &lt;stdio.h&gt;
+
+int global; /* Uninitialized variable stored in bss*/
+
+int main(void)
+{
+    static int i; /* Uninitialized static variable stored in bss */
+    return 0;
+}
+</pre>
+<pre>
+[narendra@CentOS]$ gcc memory-layout.c -o memory-layout
+[narendra@CentOS]$ size memory-layout
+text       data        bss        dec        hex    filename
+ 960        248         <strong><span style="color: red;">16</span></strong>       1224        4c8    memory-layout</pre>
+<p>4. Let us initialize the static variable which will then be stored in Data Segment (DS)</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+#include &lt;stdio.h&gt;
+
+int global; /* Uninitialized variable stored in bss*/
+
+int main(void)
+{
+    static int i = 100; /* Initialized static variable stored in DS*/
+    return 0;
+}
+</pre>
+<pre>
+[narendra@CentOS]$ gcc memory-layout.c -o memory-layout
+[narendra@CentOS]$ size memory-layout
+text       data        bss        dec        hex    filename
+960         <strong><span style="color: red;">252         12</span></strong>       1224        4c8    memory-layout</pre>
+<p>5. Let us initialize the global variable which will then be stored in Data Segment (DS)</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+#include &lt;stdio.h&gt;
+
+int global = 10; /* initialized global variable stored in DS*/
+
+int main(void)
+{
+    static int i = 100; /* Initialized static variable stored in DS*/
+    return 0;
+}
+</pre>
+<pre>
+[narendra@CentOS]$ gcc memory-layout.c -o memory-layout
+[narendra@CentOS]$ size memory-layout
+text       data        bss        dec        hex    filename
+960         <strong><span style="color: red;">256          8</span></strong>       1224        4c8    memory-layout</pre>
+<p>This article is compiled by <strong>Narendra Kangralkar</strong>. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+<p><strong>Source:</strong><br />
+<a href="http://en.wikipedia.org/wiki/Data_segment">http://en.wikipedia.org/wiki/Data_segment</a><br />
+<a href="http://en.wikipedia.org/wiki/Code_segment">http://en.wikipedia.org/wiki/Code_segment</a><br />
+<a href="http://en.wikipedia.org/wiki/.bss">http://en.wikipedia.org/wiki/.bss</a><br />
+<a href="http://www.amazon.com/Advanced-Programming-UNIX-Environment-2nd/dp/0201433079">http://www.amazon.com/Advanced-Programming-UNIX-Environment-2nd/dp/0201433079</a></p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/problem-binary-search-implementations/" title="A Problem in Many Binary Search Implementations">A Problem in Many Binary Search Implementations</a></li><li><a href="http://www.geeksforgeeks.org/analysis-of-algorithms-set-4-analysis-of-loops/" title="Analysis of Algorithms | Set 4 (Analysis of Loops)">Analysis of Algorithms | Set 4 (Analysis of Loops)</a></li><li><a href="http://www.geeksforgeeks.org/analysis-of-algorithms-set-3asymptotic-notations/" title="Analysis of Algorithms | Set 3 (Asymptotic Notations)">Analysis of Algorithms | Set 3 (Asymptotic Notations)</a></li><li><a href="http://www.geeksforgeeks.org/np-completeness-set-1/" title="NP-Completeness | Set 1 (Introduction)">NP-Completeness | Set 1 (Introduction)</a></li><li><a href="http://www.geeksforgeeks.org/static-vs-dynamic-libraries/" title="Static and Dynamic Libraries | Set 1">Static and Dynamic Libraries | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/the-ubiquitous-binary-search-set-1/" title="The Ubiquitous Binary Search | Set 1">The Ubiquitous Binary Search | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/reservoir-sampling/" title="Reservoir Sampling">Reservoir Sampling</a></li><li><a href="http://www.geeksforgeeks.org/analysis-of-algorithms-set-2-asymptotic-analysis/" title="Analysis of Algorithms | Set 2 (Worst, Average and Best Cases)">Analysis of Algorithms | Set 2 (Worst, Average and Best Cases)</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/memory-layout-of-c-program/" rel="tag">Memory Layout Of C Program</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fmemory-layout-of-c-program%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/memory-layout-of-c-program/" data-text="Memory Layout of C Programs" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-34620">
+        <div id="dsq-comment-header-34620" class="dsq-comment-header">
+            <cite id="dsq-cite-34620">
+                <span id="dsq-author-user-34620">pavan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34620" class="dsq-comment-body">
+            <div id="dsq-comment-message-34620" class="dsq-comment-message"><p>hi the article was good.<br />
+where do constant variable stored in ???</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-34244">
+        <div id="dsq-comment-header-34244" class="dsq-comment-header">
+            <cite id="dsq-cite-34244">
+                <span id="dsq-author-user-34244">Kannan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34244" class="dsq-comment-body">
+            <div id="dsq-comment-message-34244" class="dsq-comment-message"><p>Very nice article.. It helped me lot. Thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-34243">
+        <div id="dsq-comment-header-34243" class="dsq-comment-header">
+            <cite id="dsq-cite-34243">
+                <span id="dsq-author-user-34243">Kannan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34243" class="dsq-comment-body">
+            <div id="dsq-comment-message-34243" class="dsq-comment-message"><p>Very nice article.. It helped me lot. Thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-34016">
+        <div id="dsq-comment-header-34016" class="dsq-comment-header">
+            <cite id="dsq-cite-34016">
+                <span id="dsq-author-user-34016">sanjeev</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34016" class="dsq-comment-body">
+            <div id="dsq-comment-message-34016" class="dsq-comment-message"><p>Hi Narendra,<br />
+I like your explaination.<br />
+I have few doubts if you can explain it: What do you mean by &#8220;Read from program file by exec&#8221; And &#8220;initialized to zero by exec&#8221; ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-34001">
+        <div id="dsq-comment-header-34001" class="dsq-comment-header">
+            <cite id="dsq-cite-34001">
+                <span id="dsq-author-user-34001">Rohit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34001" class="dsq-comment-body">
+            <div id="dsq-comment-message-34001" class="dsq-comment-message"><p>hay hi<br />
+can anyone explain if i want to create matrix of size greater than the physical memory is it possible?and yes then how?and show with example.<br />
+please help me..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-33409">
+        <div id="dsq-comment-header-33409" class="dsq-comment-header">
+            <cite id="dsq-cite-33409">
+                <span id="dsq-author-user-33409">Naveen KUMAR BN</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33409" class="dsq-comment-body">
+            <div id="dsq-comment-message-33409" class="dsq-comment-message"><p>Hi ,In Example 1 ,the size of BSS segment is 8bytes .Can you explain how BSS has 8bytes?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-33876">
+        <div id="dsq-comment-header-33876" class="dsq-comment-header">
+            <cite id="dsq-cite-33876">
+                <span id="dsq-author-user-33876">Shrinidhi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33876" class="dsq-comment-body">
+            <div id="dsq-comment-message-33876" class="dsq-comment-message"><p>Because there are most likely 2 uninitiliazed variables in the header file stdio.h which he has included.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-33249">
+        <div id="dsq-comment-header-33249" class="dsq-comment-header">
+            <cite id="dsq-cite-33249">
+                <span id="dsq-author-user-33249">Smith East</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33249" class="dsq-comment-body">
+            <div id="dsq-comment-message-33249" class="dsq-comment-message"><p>Thanks a lot. I highly appreciate your work.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-32505">
+        <div id="dsq-comment-header-32505" class="dsq-comment-header">
+            <cite id="dsq-cite-32505">
+                <span id="dsq-author-user-32505">Shapath</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32505" class="dsq-comment-body">
+            <div id="dsq-comment-message-32505" class="dsq-comment-message"><p>Thanks &#8230; the best article available for emory layout on Net&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-32178">
+        <div id="dsq-comment-header-32178" class="dsq-comment-header">
+            <cite id="dsq-cite-32178">
+                <span id="dsq-author-user-32178">Rakesh Sehgal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32178" class="dsq-comment-body">
+            <div id="dsq-comment-message-32178" class="dsq-comment-message"><p>very nice explanation Mr. Narendra, also making your points substantiated by the real memory stats is marvellous. Please continue this beautiful practice to teach others through learning by doing.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-32057">
+        <div id="dsq-comment-header-32057" class="dsq-comment-header">
+            <cite id="dsq-cite-32057">
+                <span id="dsq-author-user-32057">Laliteshwar Yadav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32057" class="dsq-comment-body">
+            <div id="dsq-comment-message-32057" class="dsq-comment-message"><p>very good.. hats off</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-31757">
+        <div id="dsq-comment-header-31757" class="dsq-comment-header">
+            <cite id="dsq-cite-31757">
+                <span id="dsq-author-user-31757">shalini</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31757" class="dsq-comment-body">
+            <div id="dsq-comment-message-31757" class="dsq-comment-message"><p>in the above program if i add a structure and assign value to its members, it is not reflected in the memory layout. Can anybody explain ?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-33384">
+        <div id="dsq-comment-header-33384" class="dsq-comment-header">
+            <cite id="dsq-cite-33384">
+                <span id="dsq-author-user-33384">monotosh mondal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33384" class="dsq-comment-body">
+            <div id="dsq-comment-message-33384" class="dsq-comment-message"><p>Its being added to the stack&#8230;.<br />
+the same thing if you try with a integer ( not a static or global but a normal one ..also called automatic or stack variables)<br />
+the stack grows and shrinks ..and so is the heap during the execution of programme&#8230;size command doest show it</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-31755">
+        <div id="dsq-comment-header-31755" class="dsq-comment-header">
+            <cite id="dsq-cite-31755">
+                <span id="dsq-author-user-31755">shalini</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31755" class="dsq-comment-body">
+            <div id="dsq-comment-message-31755" class="dsq-comment-message"><p>Very Good Explaination&#8230;. !!! Simple and well explained</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-31749">
+        <div id="dsq-comment-header-31749" class="dsq-comment-header">
+            <cite id="dsq-cite-31749">
+                <span id="dsq-author-user-31749">Ansari Azad</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31749" class="dsq-comment-body">
+            <div id="dsq-comment-message-31749" class="dsq-comment-message"><p>Excellent!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-31665">
+        <div id="dsq-comment-header-31665" class="dsq-comment-header">
+            <cite id="dsq-cite-31665">
+                <span id="dsq-author-user-31665">Anto</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31665" class="dsq-comment-body">
+            <div id="dsq-comment-message-31665" class="dsq-comment-message"><p>Nice explanation&#8230;</p>
+<p>But i get a different result(as follows) , am i missing something  ?</p>
+<p>int a[5];<br />
+main()<br />
+{}<br />
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;-<br />
+bash-3.2$ gcc -c 1.c</p>
+<p>bash-3.2$ size 1.o</p>
+<p>   text    data     bss     dec     hex filename</p>
+<p>     62     0     0    62   3e   1.o</p>
+<p>&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;<br />
+Why the data and bss segment shows zero here ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-31494">
+        <div id="dsq-comment-header-31494" class="dsq-comment-header">
+            <cite id="dsq-cite-31494">
+                <span id="dsq-author-user-31494">manuel</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31494" class="dsq-comment-body">
+            <div id="dsq-comment-message-31494" class="dsq-comment-message"><p>Where is the memory-mapping-segment, where shared memory, memory mapped I/O,&#8230; is hold???</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-31098">
+        <div id="dsq-comment-header-31098" class="dsq-comment-header">
+            <cite id="dsq-cite-31098">
+                <span id="dsq-author-user-31098">Murali Nimmala</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31098" class="dsq-comment-body">
+            <div id="dsq-comment-message-31098" class="dsq-comment-message"><p>it&#8217;s very useful, thank you for providing.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-30758">
+        <div id="dsq-comment-header-30758" class="dsq-comment-header">
+            <cite id="dsq-cite-30758">
+                <span id="dsq-author-user-30758">anil kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30758" class="dsq-comment-body">
+            <div id="dsq-comment-message-30758" class="dsq-comment-message"><p>Excellent information. Adding small finding the static/global variables that are initialized to non zero will reside in data segment(Initialized data segment). The other static/global variables not initialized or initialized to zero will reside in BSS.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-30583">
+        <div id="dsq-comment-header-30583" class="dsq-comment-header">
+            <cite id="dsq-cite-30583">
+                <span id="dsq-author-user-30583">Kumar Gaurav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30583" class="dsq-comment-body">
+            <div id="dsq-comment-message-30583" class="dsq-comment-message"><p>Nice Explanation indeed <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-30506">
+        <div id="dsq-comment-header-30506" class="dsq-comment-header">
+            <cite id="dsq-cite-30506">
+                <span id="dsq-author-user-30506">Sindhura</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30506" class="dsq-comment-body">
+            <div id="dsq-comment-message-30506" class="dsq-comment-message"><p>Thanks for explanation.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-30419">
+        <div id="dsq-comment-header-30419" class="dsq-comment-header">
+            <cite id="dsq-cite-30419">
+                <span id="dsq-author-user-30419">Mitu Verma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30419" class="dsq-comment-body">
+            <div id="dsq-comment-message-30419" class="dsq-comment-message"><p>nice explanation</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-30381">
+        <div id="dsq-comment-header-30381" class="dsq-comment-header">
+            <cite id="dsq-cite-30381">
+                <span id="dsq-author-user-30381">Anil kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30381" class="dsq-comment-body">
+            <div id="dsq-comment-message-30381" class="dsq-comment-message"><p>awesome,excellent explanation sir than k u so much for posting this.If you dont mind can you post any article about virtual destructors and why cant we have virtual constructors in c++..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-30053">
+        <div id="dsq-comment-header-30053" class="dsq-comment-header">
+            <cite id="dsq-cite-30053">
+                <span id="dsq-author-user-30053">brahmaji</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30053" class="dsq-comment-body">
+            <div id="dsq-comment-message-30053" class="dsq-comment-message"><p>awesome explanatation</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-30017">
+        <div id="dsq-comment-header-30017" class="dsq-comment-header">
+            <cite id="dsq-cite-30017">
+                <span id="dsq-author-user-30017">av</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30017" class="dsq-comment-body">
+            <div id="dsq-comment-message-30017" class="dsq-comment-message"><p>sir i want to know that   what is the maximum size of a heap for any process</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-29801">
+        <div id="dsq-comment-header-29801" class="dsq-comment-header">
+            <cite id="dsq-cite-29801">
+                <span id="dsq-author-user-29801">groom</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29801" class="dsq-comment-body">
+            <div id="dsq-comment-message-29801" class="dsq-comment-message"><p>Good tutorial. Output would be different depends on compiler you use, but the thought introduced here is excellent.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-29315">
+        <div id="dsq-comment-header-29315" class="dsq-comment-header">
+            <cite id="dsq-cite-29315">
+                <span id="dsq-author-user-29315">sanket</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29315" class="dsq-comment-body">
+            <div id="dsq-comment-message-29315" class="dsq-comment-message"><p>may I know the above examples are on which IDE . I want to check it . I am using eclipse. please help me&#8230;&#8230;.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-30933">
+        <div id="dsq-comment-header-30933" class="dsq-comment-header">
+            <cite id="dsq-cite-30933">
+                <span id="dsq-author-user-30933">Padmabushan Reddy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30933" class="dsq-comment-body">
+            <div id="dsq-comment-message-30933" class="dsq-comment-message"><p>it is not a ide.<br />
+he did it on terminal of &#8220;centOS&#8221;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-29236">
+        <div id="dsq-comment-header-29236" class="dsq-comment-header">
+            <cite id="dsq-cite-29236">
+                <span id="dsq-author-user-29236">goku</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29236" class="dsq-comment-body">
+            <div id="dsq-comment-message-29236" class="dsq-comment-message"><p>in my program the starting address and size are as follows:</p>
+<p>code end: 90a00000<br />
+data start:90b00000 size 3mb<br />
+bss start: 91200000 size 1mb</p>
+<p>but when i am declaring a global variable..its address is:910bead0<br />
+can anyone tell me what is going on?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-28912">
+        <div id="dsq-comment-header-28912" class="dsq-comment-header">
+            <cite id="dsq-cite-28912">
+                <span id="dsq-author-user-28912">Rakesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28912" class="dsq-comment-body">
+            <div id="dsq-comment-message-28912" class="dsq-comment-message"><p>Here in the above Programming example. when the global and static variables are intialized then it increased memory size in data segment (fine). </p>
+<p>but why it did not reduce the size in unintialized data segment. </p>
+<p>please reply ASAP</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-29298">
+        <div id="dsq-comment-header-29298" class="dsq-comment-header">
+            <cite id="dsq-cite-29298">
+                <span id="dsq-author-user-29298">Anu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29298" class="dsq-comment-body">
+            <div id="dsq-comment-message-29298" class="dsq-comment-message"><p>If you see the flow of the post, initially without any global and static variables, the bss had a size of 8. After 1st global added, it became 12. After static added, it became 16. When static is initialized, it moved from bss to data segment. So 4 bytes decreased from bss, hence, bss became 12 and data became 252. Same with global</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-28574">
+        <div id="dsq-comment-header-28574" class="dsq-comment-header">
+            <cite id="dsq-cite-28574">
+                <span id="dsq-author-user-28574">hari</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28574" class="dsq-comment-body">
+            <div id="dsq-comment-message-28574" class="dsq-comment-message"><p>In which segment static variable declared in function goes,and why?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-33385">
+        <div id="dsq-comment-header-33385" class="dsq-comment-header">
+            <cite id="dsq-cite-33385">
+                <span id="dsq-author-user-33385">monotosh mondal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33385" class="dsq-comment-body">
+            <div id="dsq-comment-message-33385" class="dsq-comment-message"><p>bss and data&#8230;and not in stack&#8230;<br />
+however the size command on the executable will not show this<br />
+if the function is in a library&#8230;then the library object file will have these static variable in bss or data&#8230;.and size command on this object file will show &#8230;.<br />
+static inside function or anywhere is always in data or bss..<br />
+however if static is inside a function&#8230;when the execution reaches the function then only the memory is given to this static variable</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-28267">
+        <div id="dsq-comment-header-28267" class="dsq-comment-header">
+            <cite id="dsq-cite-28267">
+                <span id="dsq-author-user-28267">Ajit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28267" class="dsq-comment-body">
+            <div id="dsq-comment-message-28267" class="dsq-comment-message"><p>We say, global variables are stored on heap (BSS) but here we can see that initialized global variable goes into DS. What shall we say about this ? Is it still on the heap or has it gone into stack.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-33386">
+        <div id="dsq-comment-header-33386" class="dsq-comment-header">
+            <cite id="dsq-cite-33386">
+                <span id="dsq-author-user-33386">monotosh mondal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33386" class="dsq-comment-body">
+            <div id="dsq-comment-message-33386" class="dsq-comment-message"><p>heap ( BSS ) ..incorrect..<br />
+heap and bss 2 different things&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-27290">
+        <div id="dsq-comment-header-27290" class="dsq-comment-header">
+            <cite id="dsq-cite-27290">
+                <span id="dsq-author-user-27290">Anil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27290" class="dsq-comment-body">
+            <div id="dsq-comment-message-27290" class="dsq-comment-message"><p>hello sir,<br />
+why integer value is increase with compiler(32 bit, 64 bit) , other wise all are some (float,char etc.) ?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-27425">
+        <div id="dsq-comment-header-27425" class="dsq-comment-header">
+            <cite id="dsq-cite-27425">
+                <span id="dsq-author-user-27425">Jagannath Suhit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27425" class="dsq-comment-body">
+            <div id="dsq-comment-message-27425" class="dsq-comment-message"><p>The size of an int is equal to the size of the accumulator register. So as the machine varies, the size of int also changes with the change in the hardware of the machine.. I think this reason answered ur question @c196b63e8fe42846f477ea18b131ebd9:disqus</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-27160">
+        <div id="dsq-comment-header-27160" class="dsq-comment-header">
+            <cite id="dsq-cite-27160">
+                <span id="dsq-author-user-27160">notime</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27160" class="dsq-comment-body">
+            <div id="dsq-comment-message-27160" class="dsq-comment-message"><p>thanks .. even the foll tutorial is real nice</p>
+<p><a href="http://www.ualberta.ca/CNS/RESEARCH/LinuxClusters/mem.html" rel="nofollow">http://www.ualberta.ca/CNS/RESEARCH/LinuxClusters/mem.html</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-gaurav-pruthi88 even thread-odd thread-alt depth-1" id="dsq-comment-21819">
+        <div id="dsq-comment-header-21819" class="dsq-comment-header">
+            <cite id="dsq-cite-21819">
+                <span id="dsq-author-user-21819">gaurav.pruthi88</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21819" class="dsq-comment-body">
+            <div id="dsq-comment-message-21819" class="dsq-comment-message"><p>I had compiled a 3 line program</p>
+<pre> <code language="C">
+int main(){
+return 0;
+}
+
+</code> </pre>
+<p>and got the following:<br />
+gaurav@pruthi-linux:~$ size a.out<br />
+   text    data     bss     dec     hex filename<br />
+   1053     276       4    1333     535 a.out</p>
+<p>Since there is no data, no include files why its showing bss value as 4 and data as 276.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-33387">
+        <div id="dsq-comment-header-33387" class="dsq-comment-header">
+            <cite id="dsq-cite-33387">
+                <span id="dsq-author-user-33387">monotosh mondal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33387" class="dsq-comment-body">
+            <div id="dsq-comment-message-33387" class="dsq-comment-message"><p>a.out is compiled using gcc , xlc or some c compilers..<br />
+which include many static and global variables of their own&#8230;.inshort these are given by the gcc or the c compiler&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-16216">
+        <div id="dsq-comment-header-16216" class="dsq-comment-header">
+            <cite id="dsq-cite-16216">
+                <span id="dsq-author-user-16216">Arun</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16216" class="dsq-comment-body">
+            <div id="dsq-comment-message-16216" class="dsq-comment-message"><p>interesting article though it would be good if the underlying assumptions are made explicit<br />
+a) that the underlying machine is x86 and OS as Linux.</p>
+<p>Not every OS has a per process heap like Linux. viz Vxworks has a common system vide heap for all processes.</p>
+<p>Also note that bss is not initialized to zero by kernel rather its the preparatory code that gets called before invocation of main in every c Program. true it gets invoked in the context of execve but technically its not kernel that is clearing this rather the preamble code of __main.</p>
+<p>The Stack section too deserves some mention. for ARM, the return address and input parameters to a subroutine are in registers itself namely R13-LR, r14 as SP and r0-r3 for input parameters. its different on CISC machines though.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-21046">
+        <div id="dsq-comment-header-21046" class="dsq-comment-header">
+            <cite id="dsq-cite-21046">
+                <span id="dsq-author-user-21046">Mushabbar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21046" class="dsq-comment-body">
+            <div id="dsq-comment-message-21046" class="dsq-comment-message"><p>Upon adding an unitialized variable (intpo) to the program the BSS goes up by 16 bytes &#8211; was expecting it go up by 4 bytes instead. Any idea why this behavior?</p>
+<p>Platform: Windows XP, MinGW compiler</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-minoz even thread-odd thread-alt depth-1" id="dsq-comment-15820">
+        <div id="dsq-comment-header-15820" class="dsq-comment-header">
+            <cite id="dsq-cite-15820">
+                <span id="dsq-author-user-15820">minoz</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15820" class="dsq-comment-body">
+            <div id="dsq-comment-message-15820" class="dsq-comment-message"><p>Thanks for the information. Simply awesome!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-15797">
+        <div id="dsq-comment-header-15797" class="dsq-comment-header">
+            <cite id="dsq-cite-15797">
+                <span id="dsq-author-user-15797">ghanish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15797" class="dsq-comment-body">
+            <div id="dsq-comment-message-15797" class="dsq-comment-message"><p>Also, can someone explain whether stack always grow downwards ??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-15796">
+        <div id="dsq-comment-header-15796" class="dsq-comment-header">
+            <cite id="dsq-cite-15796">
+                <span id="dsq-author-user-15796">ghanish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15796" class="dsq-comment-body">
+            <div id="dsq-comment-message-15796" class="dsq-comment-message"><p>Really an awsm explanation.<br />
+Can you please also explain that where are the pointers stored ??</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-15478">
+        <div id="dsq-comment-header-15478" class="dsq-comment-header">
+            <cite id="dsq-cite-15478">
+                <span id="dsq-author-user-15478">Praveen</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15478" class="dsq-comment-body">
+            <div id="dsq-comment-message-15478" class="dsq-comment-message"><p>Nice Article<br />
+I have one doubt.<br />
+data size in the BSS is getting rounding off to meet address (x86 or x64) architecture<br />
+but in (initialized)data segment size is not getting rounding off </p>
+<p>Can you explain why?</p>
+<p>Eg: my machine is x64 (64 bit  )<br />
+if i have a int variable in BSS it is taking 8 bytes  </p>
+<p>Before:</p>
+<p>#include</p>
+<p>int main()<br />
+{<br />
+return 0;<br />
+}</p>
+<p>text    data     bss     dec     hex filename<br />
+1044     496      16    1556     614 a.out</p>
+<p>After:</p>
+<p>#include</p>
+<p>int a;<br />
+int main()<br />
+{<br />
+return 0;<br />
+}</p>
+<p>text    data     bss     dec     hex filename<br />
+1044     496      24    1564     61c a.out</p>
+<p>As u can see  8 bytes increased even-though size of int is 4 bytes in my machine</p>
+<p>#include</p>
+<p>int a=9;  //since initialized it goes to Data segment<br />
+int main()<br />
+{<br />
+return 0;<br />
+}</p>
+<p>text    data     bss     dec     hex filename<br />
+1044     500      16    1560     618 a.out</p>
+<p>but if i have int in data segment it is taking only 4 bytes as u can see data segment changed from 496 to 500</p>
+<p>Y rounding off in BSS according to machine architecture (64bit-8 bytes) and Y not in data segment&#8230;..?<br />
+Can you explain&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-14717">
+        <div id="dsq-comment-header-14717" class="dsq-comment-header">
+            <cite id="dsq-cite-14717">
+                <span id="dsq-author-user-14717">ramu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14717" class="dsq-comment-body">
+            <div id="dsq-comment-message-14717" class="dsq-comment-message"><pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-14713">
+        <div id="dsq-comment-header-14713" class="dsq-comment-header">
+            <cite id="dsq-cite-14713">
+                <span id="dsq-author-user-14713">prashant</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14713" class="dsq-comment-body">
+            <div id="dsq-comment-message-14713" class="dsq-comment-message"><p>How a structure will be stored in memory in c. For example<br />
+struct node<br />
+{<br />
+int a;<br />
+char *p;<br />
+}var;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-13816">
+        <div id="dsq-comment-header-13816" class="dsq-comment-header">
+            <cite id="dsq-cite-13816">
+                <span id="dsq-author-user-13816">vikramjit singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13816" class="dsq-comment-body">
+            <div id="dsq-comment-message-13816" class="dsq-comment-message"><p>is there a way to do the same on windows </p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-13372">
+        <div id="dsq-comment-header-13372" class="dsq-comment-header">
+            <cite id="dsq-cite-13372">
+                <span id="dsq-author-user-13372">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13372" class="dsq-comment-body">
+            <div id="dsq-comment-message-13372" class="dsq-comment-message"><p>Why the bss size is 8 bytes by default?.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-13083">
+        <div id="dsq-comment-header-13083" class="dsq-comment-header">
+            <cite id="dsq-cite-13083">
+                <span id="dsq-author-user-13083">Amit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13083" class="dsq-comment-body">
+            <div id="dsq-comment-message-13083" class="dsq-comment-message"><p>very informative code <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-12950">
+        <div id="dsq-comment-header-12950" class="dsq-comment-header">
+            <cite id="dsq-cite-12950">
+                <span id="dsq-author-user-12950">Shammy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12950" class="dsq-comment-body">
+            <div id="dsq-comment-message-12950" class="dsq-comment-message"><p>In which part of the memory locally declared constant variable and globally declared constant variable will store?. Whether  both  the variable will store in data segment(initialized read only area )?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-28754">
+        <div id="dsq-comment-header-28754" class="dsq-comment-header">
+            <cite id="dsq-cite-28754">
+                <span id="dsq-author-user-28754">Subbu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28754" class="dsq-comment-body">
+            <div id="dsq-comment-message-28754" class="dsq-comment-message"><p>locally declared const variable would be stored in the stack and globally declared const variable would be stored in the read-only data segment</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-9544">
+        <div id="dsq-comment-header-9544" class="dsq-comment-header">
+            <cite id="dsq-cite-9544">
+                <span id="dsq-author-user-9544">Dileep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9544" class="dsq-comment-body">
+            <div id="dsq-comment-message-9544" class="dsq-comment-message"><p>How to see total stack and heap size?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-9529">
+        <div id="dsq-comment-header-9529" class="dsq-comment-header">
+            <cite id="dsq-cite-9529">
+                <span id="dsq-author-user-9529">suresh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9529" class="dsq-comment-body">
+            <div id="dsq-comment-message-9529" class="dsq-comment-message"><p>thank you,for giving such an information&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-9496">
+        <div id="dsq-comment-header-9496" class="dsq-comment-header">
+            <cite id="dsq-cite-9496">
+                <span id="dsq-author-user-9496">Ricky13</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9496" class="dsq-comment-body">
+            <div id="dsq-comment-message-9496" class="dsq-comment-message"><p>Nice article, very informative.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8298">
+        <div id="dsq-comment-header-8298" class="dsq-comment-header">
+            <cite id="dsq-cite-8298">
+                <span id="dsq-author-user-8298">Jordan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8298" class="dsq-comment-body">
+            <div id="dsq-comment-message-8298" class="dsq-comment-message"><p>Nice and informative for beginners and advanced .</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-7711">
+        <div id="dsq-comment-header-7711" class="dsq-comment-header">
+            <cite id="dsq-cite-7711">
+                <span id="dsq-author-user-7711">nicks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7711" class="dsq-comment-body">
+            <div id="dsq-comment-message-7711" class="dsq-comment-message"><p>nice post&#8230;figures very helpful&#8230;thnx <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-7710">
+        <div id="dsq-comment-header-7710" class="dsq-comment-header">
+            <cite id="dsq-cite-7710">
+                <span id="dsq-author-user-7710">nicks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7710" class="dsq-comment-body">
+            <div id="dsq-comment-message-7710" class="dsq-comment-message"><p>nice post&#8230;very helpful</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-6496">
+        <div id="dsq-comment-header-6496" class="dsq-comment-header">
+            <cite id="dsq-cite-6496">
+                <span id="dsq-author-user-6496">sahil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6496" class="dsq-comment-body">
+            <div id="dsq-comment-message-6496" class="dsq-comment-message"><p>Awesome &#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-devan even thread-even depth-1" id="dsq-comment-5839">
+        <div id="dsq-comment-header-5839" class="dsq-comment-header">
+            <cite id="dsq-cite-5839">
+http://www.devanexpresses.blogspot.com                <span id="dsq-author-user-5839">devan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5839" class="dsq-comment-body">
+            <div id="dsq-comment-message-5839" class="dsq-comment-message"><p>hey. I tried the exact same code in a gcc compiler. I am not getting any difference in the bss value for int global;(outside main) and for int local;(inside the main). Nor am I getting any difference in bss for int global=0 and int local =0. Is this example meant to be compiler dependent?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik odd alt depth-2" id="dsq-comment-5849">
+        <div id="dsq-comment-header-5849" class="dsq-comment-header">
+            <cite id="dsq-cite-5849">
+                <span id="dsq-author-user-5849">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5849" class="dsq-comment-body">
+            <div id="dsq-comment-message-5849" class="dsq-comment-message"><p>Looks like you are missing something.  Can you please try on <a href="http://ideone.com" rel="nofollow">ideone.com</a> and paste the link here?  ideone also uses gcc compiler.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-5825">
+        <div id="dsq-comment-header-5825" class="dsq-comment-header">
+            <cite id="dsq-cite-5825">
+                <span id="dsq-author-user-5825">kamlesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5825" class="dsq-comment-body">
+            <div id="dsq-comment-message-5825" class="dsq-comment-message"><p>char* string = “hello world” ;<br />
+const int a=5;</p>
+<p>according to the post both string and a are stored in initialized read-only area.<br />
+so  when we write<br />
+a=6 // modifaication of a   gives compilation error  and</p>
+<p>string[0]=&#8217;m&#8217; // or *string=&#8217;m&#8217; gives segementation fault why.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-12118">
+        <div id="dsq-comment-header-12118" class="dsq-comment-header">
+            <cite id="dsq-cite-12118">
+                <span id="dsq-author-user-12118">GuruSimhe</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12118" class="dsq-comment-body">
+            <div id="dsq-comment-message-12118" class="dsq-comment-message"><p>First of all for char* string = “hello world” ; &#8216;string&#8217; will not be stored on initialized read only DS.It will be a part of initialized W/R DS. If you are referring to the given program then for </p>
+<p>const char* string = “hello world” ;<br />
+const int a=5; </p>
+<p> a will be part of initialized read only DS but string still is a part of initialized W/R DS.<br />
+for the question the reason could be that if we do a=6 we are directly modifying the const but for string[0]=&#8217;m&#8217; we are modifying a constant using a nonconst.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-5486">
+        <div id="dsq-comment-header-5486" class="dsq-comment-header">
+            <cite id="dsq-cite-5486">
+                <span id="dsq-author-user-5486">sekhar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5486" class="dsq-comment-body">
+            <div id="dsq-comment-message-5486" class="dsq-comment-message"><p>super , awesome</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-5328">
+        <div id="dsq-comment-header-5328" class="dsq-comment-header">
+            <cite id="dsq-cite-5328">
+                <span id="dsq-author-user-5328">uday</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5328" class="dsq-comment-body">
+            <div id="dsq-comment-message-5328" class="dsq-comment-message"><p>char s[] = “hello world”  will not be stored on data segement if it&#8217;s local to function. It will be stored on stack.<br />
+In case of global, yes it will be on data segment.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-venki even depth-2" id="dsq-comment-5331">
+        <div id="dsq-comment-header-5331" class="dsq-comment-header">
+            <cite id="dsq-cite-5331">
+http://geeksforgeeks.org/?page_id=2                <span id="dsq-author-user-5331">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5331" class="dsq-comment-body">
+            <div id="dsq-comment-message-5331" class="dsq-comment-message"><p>char s[] = &#8220;hello world&#8221; &#8211; compiler is free to place the string literal. If it is local to function, &#8220;hello world&#8221; will be copied from &#8220;read only&#8221; data section to stack of the function.</p>
+<p>Hence it is good practice to make big tables or strings <strong>static</strong> to the function (No copy is required).</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-geeksforgeeks odd alt depth-2" id="dsq-comment-5333">
+        <div id="dsq-comment-header-5333" class="dsq-comment-header">
+            <cite id="dsq-cite-5333">
+                <span id="dsq-author-user-5333">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5333" class="dsq-comment-body">
+            <div id="dsq-comment-message-5333" class="dsq-comment-message"><p>@uday: The examples given in post are for global strings only.  We have modified the sentence to be more clear.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-venki even thread-even depth-1" id="dsq-comment-5304">
+        <div id="dsq-comment-header-5304" class="dsq-comment-header">
+            <cite id="dsq-cite-5304">
+http://geeksforgeeks.org/?page_id=2                <span id="dsq-author-user-5304">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5304" class="dsq-comment-body">
+            <div id="dsq-comment-message-5304" class="dsq-comment-message"><p>Good content. Adding further, the following example increases TEXT section size</p>
+<pre> <code language="C">
+/* TEXT - As good as integer literal */
+static const int read_only_global = 10;
+
+/* Initialized DATA */
+int read_write_global = 100;
+
+int main(int argc, char *argv[], char *evn[])
+{
+	/* BSS */
+	int static localized_global;
+	
+	return 0;
+}
+</code> </pre>
+<pre>
+<strong>
+   text	   data	    bss	    dec	    hex	filename
+    804	    256	     12	   1072	    430	mem_layout
+</strong>
+</pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-5314">
+        <div id="dsq-comment-header-5314" class="dsq-comment-header">
+            <cite id="dsq-cite-5314">
+                <span id="dsq-author-user-5314">Narendra Kangralkar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5314" class="dsq-comment-body">
+            <div id="dsq-comment-message-5314" class="dsq-comment-message"><p>Thank you for your valuable comments.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-27780">
+        <div id="dsq-comment-header-27780" class="dsq-comment-header">
+            <cite id="dsq-cite-27780">
+                <span id="dsq-author-user-27780">arun kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27780" class="dsq-comment-body">
+            <div id="dsq-comment-message-27780" class="dsq-comment-message"><p>very informative article thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/memory-layout-of-c-program/';
+var disqus_identifier = '14268 http://www.geeksforgeeks.org/?p=14268';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Memory Layout of C Programs";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.225 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-12-24 00:06:59 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

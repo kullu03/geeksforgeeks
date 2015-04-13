@@ -1,0 +1,1490 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Find if there is a path between two vertices in a directed graph - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/find-if-there-is-a-path-between-two-vertices-in-a-given-graph/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Find if there is a path between two vertices in a directed graph - GeeksforGeeks" />
+<meta property="og:description" content="Given a Directed Graph and two vertices in it, check whether there is a path from the first given vertex to second. For example, in the following graph, there is a path from vertex 1 to 3. As another example, there is no path from 3 to 0. We can either use Breadth First Search &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/find-if-there-is-a-path-between-two-vertices-in-a-given-graph/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Graph" />
+<meta property="article:section" content="Graph" />
+<meta property="article:published_time" content="2012-04-10T10:22:31+00:00" />
+<meta property="article:modified_time" content="2014-02-09T19:30:25+00:00" />
+<meta property="og:updated_time" content="2014-02-09T19:30:25+00:00" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/BFS.jpg" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.518 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417110902 132.161.240.80';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Find if there is a path between two vertices in a directed graph</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given a Directed Graph and two vertices in it, check whether there is a path from the first given vertex to second. <span id="more-18750"></span> For example, in the following graph, there is a path from vertex 1 to 3. As another example, there is no path from 3 to 0.</p>
+<p><a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/BFS.jpg"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/BFS.jpg" alt="" title="BFS" width="228" height="181" class="aligncenter size-full wp-image-18398" /></a></p>
+<p>We can either use <a href="http://www.geeksforgeeks.org/archives/18382">Breadth First Search (BFS)</a> or <a href="http://www.geeksforgeeks.org/archives/18212">Depth First Search (DFS)</a> to find path between two vertices. Take the first vertex as source in BFS (or DFS), follow the standard BFS (or DFS). If we see the second vertex in our traversal, then return true.  Else return false.</p>
+<p>Following is C++ code that uses BFS for finding reachability of second vertex from first vertex.</p>
+<pre class="brush: cpp; highlight: [29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76]; title: ; notranslate" title="">
+// Program to check if there is exist a path between two vertices of a graph.
+#include&lt;iostream&gt;
+#include &lt;list&gt;
+
+using namespace std;
+
+// This class represents a directed graph using adjacency list representation
+class Graph
+{
+    int V;    // No. of vertices
+    list&lt;int&gt; *adj;    // Pointer to an array containing adjacency lists
+public:
+    Graph(int V);  // Constructor
+    void addEdge(int v, int w); // function to add an edge to graph
+    bool isReachable(int s, int d);  // returns true if there is a path from s to d
+};
+
+Graph::Graph(int V)
+{
+    this-&gt;V = V;
+    adj = new list&lt;int&gt;[V];
+}
+
+void Graph::addEdge(int v, int w)
+{
+    adj[v].push_back(w); // Add w to v’s list.
+}
+
+// A BFS based function to check whether d is reachable from s.
+bool Graph::isReachable(int s, int d)
+{
+    // Base case
+    if (s == d)
+      return true;
+
+    // Mark all the vertices as not visited
+    bool *visited = new bool[V];
+    for (int i = 0; i &lt; V; i++)
+        visited[i] = false;
+
+    // Create a queue for BFS
+    list&lt;int&gt; queue;
+
+    // Mark the current node as visited and enqueue it
+    visited[s] = true;
+    queue.push_back(s);
+
+    // it will be used to get all adjacent vertices of a vertex
+    list&lt;int&gt;::iterator i;
+
+    while (!queue.empty())
+    {
+        // Dequeue a vertex from queue and print it
+        s = queue.front();
+        queue.pop_front();
+
+        // Get all adjacent vertices of the dequeued vertex s
+        // If a adjacent has not been visited, then mark it visited
+        // and enqueue it
+        for (i = adj[s].begin(); i != adj[s].end(); ++i)
+        {
+            // If this adjacent node is the destination node, then return true
+            if (*i == d)
+                return true;
+
+            // Else, continue to do BFS
+            if (!visited[*i])
+            {
+                visited[*i] = true;
+                queue.push_back(*i);
+            }
+        }
+    }
+
+    return false;
+}
+
+// Driver program to test methods of graph class
+int main()
+{
+    // Create a graph given in the above diagram
+    Graph g(4);
+    g.addEdge(0, 1);
+    g.addEdge(0, 2);
+    g.addEdge(1, 2);
+    g.addEdge(2, 0);
+    g.addEdge(2, 3);
+    g.addEdge(3, 3);
+
+    int u = 1, v = 3;
+    if(g.isReachable(u, v))
+        cout&lt;&lt; &quot;\n There is a path from &quot; &lt;&lt; u &lt;&lt; &quot; to &quot; &lt;&lt; v;
+    else
+        cout&lt;&lt; &quot;\n There is no path from &quot; &lt;&lt; u &lt;&lt; &quot; to &quot; &lt;&lt; v;
+
+    u = 3, v = 1;
+    if(g.isReachable(u, v))
+        cout&lt;&lt; &quot;\n There is a path from &quot; &lt;&lt; u &lt;&lt; &quot; to &quot; &lt;&lt; v;
+    else
+        cout&lt;&lt; &quot;\n There is no path from &quot; &lt;&lt; u &lt;&lt; &quot; to &quot; &lt;&lt; v;
+
+    return 0;
+}
+</pre>
+<p>Output:</p>
+<pre>
+ There is a path from 1 to 3
+ There is no path from 3 to 1
+</pre>
+<p>As an exercise, try an extended version of the problem where the complete path between two vertices is also needed.</p>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/vertex-cover-problem-set-1-introduction-approximate-algorithm-2/" title="Vertex Cover Problem | Set 1 (Introduction and Approximate Algorithm)">Vertex Cover Problem | Set 1 (Introduction and Approximate Algorithm)</a></li><li><a href="http://www.geeksforgeeks.org/snake-ladder-problem-2/" title="Snake and Ladder Problem">Snake and Ladder Problem</a></li><li><a href="http://www.geeksforgeeks.org/tarjan-algorithm-find-strongly-connected-components/" title="Tarjan&#8217;s Algorithm to find Strongly Connected Components">Tarjan&#8217;s Algorithm to find Strongly Connected Components</a></li><li><a href="http://www.geeksforgeeks.org/shortest-path-exactly-k-edges-directed-weighted-graph/" title="Shortest path with exactly k edges in a directed and weighted graph">Shortest path with exactly k edges in a directed and weighted graph</a></li><li><a href="http://www.geeksforgeeks.org/count-possible-paths-source-destination-exactly-k-edges/" title="Count all possible walks from a source to a destination with exactly k edges">Count all possible walks from a source to a destination with exactly k edges</a></li><li><a href="http://www.geeksforgeeks.org/euler-circuit-directed-graph/" title="Euler Circuit in a Directed Graph">Euler Circuit in a Directed Graph</a></li><li><a href="http://www.geeksforgeeks.org/given-array-strings-find-strings-can-chained-form-circle/" title="Given an array of strings, find if the strings can be chained to form a circle">Given an array of strings, find if the strings can be chained to form a circle</a></li><li><a href="http://www.geeksforgeeks.org/given-sorted-dictionary-find-precedence-characters/" title="Given a sorted dictionary of an alien language, find order of characters">Given a sorted dictionary of an alien language, find order of characters</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/graph/" rel="tag">Graph</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Ffind-if-there-is-a-path-between-two-vertices-in-a-given-graph%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/find-if-there-is-a-path-between-two-vertices-in-a-given-graph/" data-text="Find if there is a path between two vertices in a directed graph" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/find-if-there-is-a-path-between-two-vertices-in-a-given-graph/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-33245">
+        <div id="dsq-comment-header-33245" class="dsq-comment-header">
+            <cite id="dsq-cite-33245">
+                <span id="dsq-author-user-33245">hxgxs1</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33245" class="dsq-comment-body">
+            <div id="dsq-comment-message-33245" class="dsq-comment-message"><p>following is what i came up with&#8230;i have not used queue or a stack..a simple DFS would be enough&#8230;</p>
+<p><a href="https://ideone.com/6F3wrK" rel="nofollow">https://ideone.com/6F3wrK</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-28206">
+        <div id="dsq-comment-header-28206" class="dsq-comment-header">
+            <cite id="dsq-cite-28206">
+                <span id="dsq-author-user-28206">Anubhav Balodhi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28206" class="dsq-comment-body">
+            <div id="dsq-comment-message-28206" class="dsq-comment-message"><p>can U please tell a way to check whether a vertex exists which can be reached from any other two points, case is unidirected graph&#8230; i learnt Sparse matrix and tried adjacency list but don&#8217;t know hats Bfs of Gfs of Dfs&#8230;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-29014">
+        <div id="dsq-comment-header-29014" class="dsq-comment-header">
+            <cite id="dsq-cite-29014">
+                <span id="dsq-author-user-29014">pavansrinivas</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29014" class="dsq-comment-body">
+            <div id="dsq-comment-message-29014" class="dsq-comment-message"><p>Are the 2 points given beforehand?<br />
+If so, u can use the union find algorithm and check whether all the 3 vertices are in the same set&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-sudhanshuanand odd alt thread-even depth-1" id="dsq-comment-24680">
+        <div id="dsq-comment-header-24680" class="dsq-comment-header">
+            <cite id="dsq-cite-24680">
+                <span id="dsq-author-user-24680">SudhanshuAnand</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24680" class="dsq-comment-body">
+            <div id="dsq-comment-message-24680" class="dsq-comment-message"><p>Could you please point out the mistake in the following program for finding if path exists or not</p>
+<pre> <code language="C">
+#include&lt;iostream&gt;
+#include&lt;list&gt;
+
+using namespace std;
+
+class Graph{
+	int V;
+	list&lt;int&gt; *adj;
+	bool path_found(int s, int d, bool visited[]);
+	public:
+		Graph(int V);
+		void addEdge(int v, int w);
+		bool path(int v, int w);
+};
+
+Graph:: Graph(int V){
+	this-&gt;V = V;
+	adj = new list&lt;int&gt;[V];
+}
+
+void Graph::addEdge(int v, int w){
+	adj[v].push_back(w);
+}
+
+bool Graph::path_found(int v, int w, bool visited[]){
+	visited[v] = true;
+	
+	for(list&lt;int&gt;::iterator i = adj[v].begin(); i!= adj[v].end(); i++){
+		if(*i == w) return true;
+		else{
+			if(visited[*i]== false){
+				if(path_found(*i, w, visited) == true){
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
+
+bool Graph::path(int v , int w){
+	
+	bool *visited = new bool[V];
+	for(int i=0;i&lt;V;i++)
+		visited[i] = false;
+	
+	return(path_found(v, w, visited));
+}
+
+int main(){
+	Graph g(6);
+g.addEdge(1, 2);
+g.addEdge(1, 3);
+g.addEdge(1, 5);
+g.addEdge(2, 4);
+g.addEdge(2, 6);
+g.addEdge(3, 2);
+g.addEdge(3, 4);
+g.addEdge(3, 5);
+g.addEdge(4, 6);
+g.addEdge(5, 4);
+g.addEdge(5, 6);
+
+int u = 3, v = 5;
+if( g.path(u, v) )
+{
+cout&lt;&lt; &quot;\n There is a path from &quot; &lt;&lt; u &lt;&lt; &quot; to &quot; &lt;&lt; v &lt;&lt; endl;
+}
+else
+cout&lt;&lt; &quot;\n There is no path from &quot; &lt;&lt; u &lt;&lt; &quot; to &quot; &lt;&lt; v;
+ 
+    return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-sudhanshuanand even thread-odd thread-alt depth-1" id="dsq-comment-24641">
+        <div id="dsq-comment-header-24641" class="dsq-comment-header">
+            <cite id="dsq-cite-24641">
+                <span id="dsq-author-user-24641">SudhanshuAnand</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24641" class="dsq-comment-body">
+            <div id="dsq-comment-message-24641" class="dsq-comment-message"><p>Could anyone please point out the mistake in the code for the above problem. Thank you</p>
+<pre> <code language="C">
+#include&lt;iostream&gt;
+#include&lt;list&gt;
+
+using namespace std;
+
+class Graph{
+	int V;
+	list&lt;int&gt; *adj;
+	bool path_found(int s, int d, bool visited[]);
+	public:
+		Graph(int V);
+		void addEdge(int v, int w);
+		bool path(int v, int w);
+};
+
+Graph:: Graph(int V){
+	this-&gt;V = V;
+	adj = new list&lt;int&gt;[V];
+}
+
+void Graph::addEdge(int v, int w){
+	adj[v].push_back(w);
+}
+
+bool Graph::path_found(int v, int w, bool visited[]){
+	visited[v] = true;
+	
+	for(list&lt;int&gt;::iterator i = adj[v].begin(); i!= adj[v].end(); i++){
+		if(*i == w) return true;
+		else{
+			if(visited[*i]== false){
+				if(path_found(*i, w, visited) == true){
+					return true;
+				}
+				else{
+					return false;
+				}
+			}
+		}
+	}
+	
+	cout&lt;&lt;&quot;This is were I think the problem is\n&quot;;
+	return false;
+}
+
+bool Graph::path(int v , int w){
+	
+	bool *visited = new bool[V];
+	for(int i=0;i&lt;V;i++)
+		visited[i] = false;
+	
+	return(path_found(v, w, visited));
+}
+
+int main(){
+	Graph g(6);
+g.addEdge(1, 2);
+g.addEdge(1, 3);
+g.addEdge(1, 5);
+g.addEdge(2, 4);
+g.addEdge(2, 6);
+g.addEdge(3, 2);
+g.addEdge(3, 4);
+g.addEdge(3, 5);
+g.addEdge(4, 6);
+g.addEdge(5, 4);
+g.addEdge(5, 6);
+
+int u = 3, v = 5;
+if( g.path(u, v) )
+{
+cout&lt;&lt; &quot;\n There is a path from &quot; &lt;&lt; u &lt;&lt; &quot; to &quot; &lt;&lt; v &lt;&lt; endl;
+}
+else
+cout&lt;&lt; &quot;\n There is no path from &quot; &lt;&lt; u &lt;&lt; &quot; to &quot; &lt;&lt; v;
+ 
+    return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-19679">
+        <div id="dsq-comment-header-19679" class="dsq-comment-header">
+            <cite id="dsq-cite-19679">
+                <span id="dsq-author-user-19679">Shrishty</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19679" class="dsq-comment-body">
+            <div id="dsq-comment-message-19679" class="dsq-comment-message"><p>Can we print the path from the source vertex to the destination??</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-29015">
+        <div id="dsq-comment-header-29015" class="dsq-comment-header">
+            <cite id="dsq-cite-29015">
+                <span id="dsq-author-user-29015">pavansrinivas</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29015" class="dsq-comment-body">
+            <div id="dsq-comment-message-29015" class="dsq-comment-message"><p>if u solve the above problem using DFS and once u find the destination vertex,the path is nothing but the contents of the stack..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-18681">
+        <div id="dsq-comment-header-18681" class="dsq-comment-header">
+            <cite id="dsq-cite-18681">
+                <span id="dsq-author-user-18681">Winner 993</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18681" class="dsq-comment-body">
+            <div id="dsq-comment-message-18681" class="dsq-comment-message"><p>Plz I Need Help<br />
+I want this c++ program but using an adjcency MATRIX not list<br />
+can anybody help me ??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-9086">
+        <div id="dsq-comment-header-9086" class="dsq-comment-header">
+            <cite id="dsq-cite-9086">
+                <span id="dsq-author-user-9086">Guddu sharma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9086" class="dsq-comment-body">
+            <div id="dsq-comment-message-9086" class="dsq-comment-message"><p>@Venki, Can we print the path between two vertices using BFS[as we cannot backtrack in this case]?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-28672">
+        <div id="dsq-comment-header-28672" class="dsq-comment-header">
+            <cite id="dsq-cite-28672">
+                <span id="dsq-author-user-28672">Ninja</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28672" class="dsq-comment-body">
+            <div id="dsq-comment-message-28672" class="dsq-comment-message"><p>We can keep track of path from source to current index and print it later if this is the destination.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-8252">
+        <div id="dsq-comment-header-8252" class="dsq-comment-header">
+            <cite id="dsq-cite-8252">
+http://www.linkedin.com/in/ramanawithu                <span id="dsq-author-user-8252">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8252" class="dsq-comment-body">
+            <div id="dsq-comment-message-8252" class="dsq-comment-message"><p>I have used DFS as it explores longest possible node. BFS explores all the nodes in the vicinity of source node which can terminate early when graph is dense.</p>
+<pre> <code language="C">
+// Program to check if there is exist a path between two vertices of a graph
+// and to print it
+#include&lt;iostream&gt;
+#include &lt;list&gt;
+#include &lt;stack&gt;
+
+using namespace std;
+
+// This class represents a directed graph
+// using adjacency list representation
+class Graph
+{
+    // No. of vertices
+    int V;
+    // Source vertex
+    int S;
+    // Destination vertex
+    int D;
+    // Visited nodes marker
+    bool *visited;
+    // Stores parenet nodes
+    int *BackwardVector;
+    // Pointer to an array containing adjacency lists
+    list&lt;int&gt; *adj;
+
+    // helper function (DFS)
+    void exploreNodes(int s);
+
+public:
+    Graph(int V);
+    
+    ~Graph();
+
+    // function to add an edge to graph
+    void AddEdge(int v, int w);
+    // returns true if there is a path from s to d
+    bool Reachable(int s, int d);
+    // Prints the path if found
+    void PrintPath(void);
+};
+
+Graph::Graph(int V)
+{
+    this-&gt;V = V;
+    adj = new list&lt;int&gt;[V];
+    S = -1;
+    D = -1;
+
+    // Create vectors
+    visited = new bool[V];
+    BackwardVector = new int[V];
+}
+
+Graph::~Graph()
+{
+    if( visited ) delete[] visited;
+    if( BackwardVector ) delete[] BackwardVector;
+
+    if( adj )
+    {
+        for(int i = 0; i &lt; V; i++)
+            adj[i].clear();
+
+        delete[] adj;
+    }
+
+}
+
+void Graph::AddEdge(int v, int w) { adj[v].push_back(w); }
+
+bool Graph::Reachable(int s, int d)
+{
+    // Base case
+    if (s == d)
+      return true;
+
+    S = s;
+    D = d;
+
+    // Initialize vectors
+    memset(visited, false, V);
+    memset(BackwardVector, -1, V);
+
+    // Mark exploring vertex as visited
+    visited[s] = true;
+    exploreNodes(s);
+   
+    return visited[d];
+}
+
+// A DFS based algorithm
+void Graph::exploreNodes(int s)
+{
+    // Mark exploring vertex as visited
+    visited[s] = true;
+
+    // s's adjacent nodes
+    list&lt;int&gt; &amp;l = adj[s];
+
+    // iterator to get all adjacent vertices of d
+    list&lt;int&gt;::iterator i = l.begin();
+
+    while( i != l.end() )
+    {
+        int x = *i;
+
+        if( !visited[x] )
+        {
+            // store it's parent
+            BackwardVector[x] = s;
+            exploreNodes(x);
+        }
+
+        i++;
+    }
+}
+
+void Graph::PrintPath(void)
+{
+    if( visited[D] )
+    {
+        // even system stack can be used
+        stack&lt;int&gt; st;
+
+        // Collect the nodes in backward
+        for( int i = D; i != S; i = BackwardVector[i] )
+            st.push(i);
+
+        st.push(S);
+
+        while( !st.empty() )
+        {
+            cout &lt;&lt; st.top() &lt;&lt; &quot;\t&quot;;
+            st.pop();
+        }
+    }
+}
+
+// Driver program to test methods of graph class
+int main()
+{
+    // Create a graph given in the above diagram
+    Graph g(4);
+    g.AddEdge(0, 1);
+    g.AddEdge(0, 2);
+    g.AddEdge(1, 2);
+    g.AddEdge(2, 0);
+    g.AddEdge(2, 3);
+    g.AddEdge(3, 3);
+
+    int u = 1, v = 3;
+    if( g.Reachable(u, v) )
+    {
+        cout&lt;&lt; &quot;\n There is a path from &quot; &lt;&lt; u &lt;&lt; &quot; to &quot; &lt;&lt; v &lt;&lt; endl;
+
+        g.PrintPath();
+    }
+    else
+        cout&lt;&lt; &quot;\n There is no path from &quot; &lt;&lt; u &lt;&lt; &quot; to &quot; &lt;&lt; v;
+
+    u = 3, v = 1;
+    if(g.Reachable(u, v))
+    {
+        cout&lt;&lt; &quot;\n There is a path from &quot; &lt;&lt; u &lt;&lt; &quot; to &quot; &lt;&lt; v;
+        g.PrintPath();
+    }
+    else
+        cout&lt;&lt; &quot;\n There is no path from &quot; &lt;&lt; u &lt;&lt; &quot; to &quot; &lt;&lt; v;
+
+    return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-8505">
+        <div id="dsq-comment-header-8505" class="dsq-comment-header">
+            <cite id="dsq-cite-8505">
+                <span id="dsq-author-user-8505">eren</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8505" class="dsq-comment-body">
+            <div id="dsq-comment-message-8505" class="dsq-comment-message"><p>Your code is not working with 6 vertices. Check here.</p>
+<p>// Program to check if there is exist a path between two vertices of a graph<br />
+// and to print it<br />
+#include<br />
+#include<br />
+#include </p>
+<p>using namespace std;</p>
+<p>// This class represents a directed graph<br />
+// using adjacency list representation<br />
+class Graph<br />
+{<br />
+    // No. of vertices<br />
+    int V;<br />
+    // Source vertex<br />
+    int S;<br />
+    // Destination vertex<br />
+    int D;<br />
+    // Visited nodes marker<br />
+    bool *visited;<br />
+    // Stores parenet nodes<br />
+    int *BackwardVector;<br />
+    // Pointer to an array containing adjacency lists<br />
+    list *adj;</p>
+<p>    // helper function (DFS)<br />
+    void exploreNodes(int s);</p>
+<p>public:<br />
+    Graph(int V);</p>
+<p>    ~Graph();</p>
+<p>    // function to add an edge to graph<br />
+    void AddEdge(int v, int w);<br />
+    // returns true if there is a path from s to d<br />
+    bool Reachable(int s, int d);<br />
+    // Prints the path if found<br />
+    void PrintPath(void);<br />
+};</p>
+<p>Graph::Graph(int V)<br />
+{<br />
+    this-&gt;V = V;<br />
+    adj = new list[V];<br />
+    S = -1;<br />
+    D = -1;</p>
+<p>    // Create vectors<br />
+    visited = new bool[V];<br />
+    BackwardVector = new int[V];<br />
+}</p>
+<p>Graph::~Graph()<br />
+{<br />
+    if( visited ) delete[] visited;<br />
+    if( BackwardVector ) delete[] BackwardVector;</p>
+<p>    if( adj )<br />
+    {<br />
+        for(int i = 0; i &lt; V; i++)<br />
+            adj[i].clear();</p>
+<p>        delete[] adj;<br />
+    }</p>
+<p>}</p>
+<p>void Graph::AddEdge(int v, int w) { adj[v].push_back(w); }</p>
+<p>bool Graph::Reachable(int s, int d)<br />
+{<br />
+    // Base case<br />
+    if (s == d)<br />
+      return true;</p>
+<p>    S = s;<br />
+    D = d;</p>
+<p>    // Initialize vectors<br />
+    memset(visited, false, V);<br />
+    memset(BackwardVector, -1, V);</p>
+<p>    // Mark exploring vertex as visited<br />
+    visited[s] = true;<br />
+    exploreNodes(s);</p>
+<p>    return visited[d];<br />
+}</p>
+<p>// A DFS based algorithm<br />
+void Graph::exploreNodes(int s)<br />
+{<br />
+    // Mark exploring vertex as visited<br />
+    visited[s] = true;</p>
+<p>    // s&#039;s adjacent nodes<br />
+    list &amp;l = adj[s];</p>
+<p>    // iterator to get all adjacent vertices of d<br />
+    list::iterator i = l.begin();</p>
+<p>    while( i != l.end() )<br />
+    {<br />
+        int x = *i;</p>
+<p>        if( !visited[x] )<br />
+        {<br />
+            // store it&#8217;s parent<br />
+            BackwardVector[x] = s;<br />
+            exploreNodes(x);<br />
+        }</p>
+<p>        i++;<br />
+    }<br />
+}</p>
+<p>void Graph::PrintPath(void)<br />
+{<br />
+    if( visited[D] )<br />
+    {<br />
+        // even system stack can be used<br />
+        stack st;</p>
+<p>        // Collect the nodes in backward<br />
+        for( int i = D; i != S; i = BackwardVector[i] )<br />
+            st.push(i);</p>
+<p>        st.push(S);</p>
+<p>        while( !st.empty() )<br />
+        {<br />
+            cout &lt;&lt; st.top() &lt;&lt; &quot;\t&quot;;<br />
+            st.pop();<br />
+        }<br />
+    }<br />
+}</p>
+<p>// Driver program to test methods of graph class<br />
+int main()<br />
+{<br />
+    // Create a graph given in the above diagram<br />
+    Graph g(6);<br />
+    g.AddEdge(1, 2);<br />
+    g.AddEdge(1, 3);<br />
+    g.AddEdge(1, 5);<br />
+    g.AddEdge(2, 4);<br />
+    g.AddEdge(2, 6);<br />
+    g.AddEdge(3, 2);<br />
+    g.AddEdge(3, 4);<br />
+    g.AddEdge(3, 5);<br />
+    g.AddEdge(4, 6);<br />
+    g.AddEdge(5, 4);<br />
+    g.AddEdge(5, 6);</p>
+<p>    int u = 1, v = 6;<br />
+    if( g.Reachable(u, v) )<br />
+    {<br />
+        cout&lt;&lt; &quot;\n There is a path from &quot; &lt;&lt; u &lt;&lt; &quot; to &quot; &lt;&lt; v &lt;&lt; endl;</p>
+<p>        g.PrintPath();<br />
+    }<br />
+    else<br />
+        cout&lt;&lt; &quot;\n There is no path from &quot; &lt;&lt; u &lt;&lt; &quot; to &quot; &lt;&lt; v;</p>
+<p>        system(&quot;pause&quot;);<br />
+    return 0;<br />
+}</p>
+<p>/*#include<br />
+#include<br />
+#include </p>
+<p>//Basic Definitions<br />
+#define WHITE 0<br />
+#define GRAY 1<br />
+#define BLACK 2<br />
+#define MAX_NODES 1000<br />
+#define oo 1000000000</p>
+<p>using namespace std;<br />
+//Declarations<br />
+int n;  // number of nodes<br />
+int e;  // number of edges<br />
+int capacity[MAX_NODES][MAX_NODES]; // capacity matrix<br />
+int flow[MAX_NODES][MAX_NODES];     // flow matrix<br />
+int color[MAX_NODES]; // needed for breadth-first search<br />
+int pred[MAX_NODES];  // array to store augmenting path</p>
+<p>int min (int x, int y) {<br />
+    return x&lt;y ? x : y;  // returns minimum of x and y<br />
+}<br />
+//A Queue for Breadth-First Search<br />
+int head,tail;<br />
+int q[MAX_NODES+2];</p>
+<p>void enqueue (int x) {<br />
+    q[tail] = x;<br />
+    tail++;<br />
+    color[x] = GRAY;<br />
+}</p>
+<p>int dequeue () {<br />
+    int x = q[head];<br />
+    head++;<br />
+    color[x] = BLACK;<br />
+    return x;<br />
+}<br />
+//Breadth-First Search for an augmenting path<br />
+int bfs (int start, int target) {<br />
+    int u,v;<br />
+    for (u=0; u&lt;n; u++) {<br />
+	color[u] = WHITE;<br />
+    }<br />
+    head = tail = 0;<br />
+    enqueue(start);<br />
+    pred[start] = -1;<br />
+    while (head!=tail) {<br />
+	u = dequeue();<br />
+        // Search all adjacent white nodes v. If the capacity<br />
+        // from u to v in the residual network is positive,<br />
+        // enqueue v.<br />
+	for (v=0; v0) {<br />
+		enqueue(v);<br />
+		pred[v] = u;<br />
+	    }<br />
+	}<br />
+    }<br />
+    // If the color of the target node is black now,<br />
+    // it means that we reached it.<br />
+    return color[target]==BLACK;<br />
+}<br />
+//Ford-Fulkerson Algorithm<br />
+int max_flow (int source, int sink) {<br />
+    int i,j,u;<br />
+    // Initialize empty flow.<br />
+    int max_flow = 0;<br />
+    for (i=0; i&lt;n; i++) {<br />
+	for (j=0; j=0; u=pred[u]) {<br />
+	    increment = min(increment,capacity[pred[u]][u]-flow[pred[u]][u]);<br />
+	}<br />
+        // Now increment the flow.<br />
+	for (u=n-1; pred[u]&gt;=0; u=pred[u]) {<br />
+	    flow[pred[u]][u] += increment;<br />
+	    flow[u][pred[u]] -= increment;<br />
+	}<br />
+	max_flow += increment;<br />
+    }<br />
+    // No augmenting path anymore. We are done.<br />
+    return max_flow;<br />
+}<br />
+//Reading the input file and the main program<br />
+void read_input_file() {<br />
+    int a,b,c,i,j;<br />
+    ifstream testfile (&#8220;capacity.txt&#8221;);<br />
+  if (testfile.is_open())<br />
+  {<br />
+    // read number of nodes and edges<br />
+    testfile &gt;&gt; n &gt;&gt; e;<br />
+    // initialize empty capacity matrix<br />
+    for (i=0; i&lt;n; i++) {<br />
+	for (j=0; j&lt;n; j++) {<br />
+	    capacity[i][j] = 0;<br />
+	}<br />
+    }<br />
+    // read edge capacities<br />
+    for (i=0; i&gt; a &gt;&gt; b &gt;&gt; c;<br />
+	capacity[a][b] = c;<br />
+    }<br />
+}<br />
+    testfile.close();<br />
+}</p>
+<p>int main () {<br />
+    read_input_file();<br />
+    cout&lt;&lt;max_flow(1,6)&lt;&lt;endl;<br />
+    //printf(&quot;%d\n&quot;,max_flow(0,n-1));<br />
+    system(&quot;pause&quot;);<br />
+    return 0;<br />
+}*/</p>
+<p>/*#include<br />
+#include<br />
+#include<br />
+using namespace std;<br />
+int cost[10][10],i,j,k,n,qu[10],front,rare,v,visit[10],visited[10];</p>
+<p>int main()<br />
+{<br />
+int m;<br />
+cout &lt;&gt; n;<br />
+cout &lt;&gt; m;<br />
+cout &lt;&lt;&quot;\nEDGES \n&quot;;<br />
+for(k=1;k&gt;i&gt;&gt;j;<br />
+cost[i][j]=1;<br />
+}</p>
+<p>cout &lt;&gt;v;<br />
+cout &lt;&lt;&quot;Visitied vertices\n&quot;;<br />
+cout &lt;&lt; v;</p>
+<p>visited[v]=1;<br />
+k=1;</p>
+<p>while(k&lt;n)<br />
+{</p>
+<p>for(j=1;j&lt;=n;j++)<br />
+if(cost[v][j]!=0 &amp;&amp; visited[j]!=1 &amp;&amp; visit[j]!=1)<br />
+{<br />
+visit[j]=1;</p>
+<p>qu[rare++]=j;<br />
+}</p>
+<p>v=qu[front++];</p>
+<p>cout&lt;&lt;v &lt;&lt; &quot; &quot;;</p>
+<p>k++;<br />
+visit[v]=0; visited[v]=1;<br />
+}</p>
+<p>system(&quot;pause&quot;);<br />
+}<br />
+*/</p>
+<p>/*#include<br />
+#include<br />
+#include<br />
+#include </p>
+<p>using namespace std;</p>
+<p>class Agency{<br />
+int name;<br />
+}</p>
+<p>int main(){</p>
+<p>int neighbour[20][20];<br />
+int last=0;<br />
+int first=1;</p>
+<p>Agency agency[20];</p>
+<p>Agency A;</p>
+<p>//emptying the array<br />
+for(int i=0;i&lt;20;i++){<br />
+	for(int j=0;j&gt; a &gt;&gt; b &gt;&gt; c){</p>
+<p>		//finding first and last element<br />
+		if(a&gt;b &amp;&amp; a&gt;=last)<br />
+			last=a;<br />
+		else if (b&gt;a &amp;&amp; b&gt;=last)<br />
+			last=b;</p>
+<p>		if(a&lt;b &amp;&amp; a&lt;=first)<br />
+			first = a;<br />
+		else if(b&lt;a &amp;&amp; b&lt;=first)<br />
+			first =b;<br />
+		//&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8211;</p>
+<p>		neighbour[a][b]=c;</p>
+<p>		cout&lt;&lt;first&lt;&lt;last&lt;&lt;endl;</p>
+<p>	}</p>
+<p>}<br />
+  system(&quot;pause&quot;);<br />
+		return 0;<br />
+}*/</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-31213">
+        <div id="dsq-comment-header-31213" class="dsq-comment-header">
+            <cite id="dsq-cite-31213">
+                <span id="dsq-author-user-31213">hemant</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31213" class="dsq-comment-body">
+            <div id="dsq-comment-message-31213" class="dsq-comment-message"><p>Can DFS be extended to print all the paths from one source to different destinations in O(V+E)?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/find-if-there-is-a-path-between-two-vertices-in-a-given-graph/';
+var disqus_identifier = '18750 http://www.geeksforgeeks.org/?p=18750';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Find if there is a path between two vertices in a directed graph";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.202 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:25:02 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

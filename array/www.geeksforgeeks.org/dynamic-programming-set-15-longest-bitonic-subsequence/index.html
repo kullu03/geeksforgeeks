@@ -1,0 +1,1337 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Dynamic Programming | Set 15 (Longest Bitonic Subsequence) - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/dynamic-programming-set-15-longest-bitonic-subsequence/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Dynamic Programming | Set 15 (Longest Bitonic Subsequence) - GeeksforGeeks" />
+<meta property="og:description" content="Given an array arr[0 &#8230; n-1] containing n positive integers, a subsequence of arr[] is called Bitonic if it is first increasing, then decreasing. Write a function that takes an array as argument and returns the length of the longest bitonic subsequence. A sequence, sorted in increasing order is considered Bitonic with the decreasing part &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/dynamic-programming-set-15-longest-bitonic-subsequence/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Dynamic Programming" />
+<meta property="article:section" content="Arrays" />
+<meta property="article:published_time" content="2012-06-06T08:12:00+00:00" />
+<meta property="article:modified_time" content="2012-06-07T10:35:20+00:00" />
+<meta property="og:updated_time" content="2012-06-07T10:35:20+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.509 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111514 210.212.53.139 172.19.11.169';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Dynamic Programming | Set 15 (Longest Bitonic Subsequence)</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given an array arr[0 &#8230; n-1] containing n positive integers, a <a href="http://en.wikipedia.org/wiki/Subsequence">subsequence </a>of arr[] is called Bitonic if it is first increasing, then decreasing. Write a function that takes an array as argument and returns the length of the longest bitonic subsequence.<span id="more-19729"></span><br />
+A sequence, sorted in increasing order is considered Bitonic with the decreasing part as empty. Similarly, decreasing order sequence is considered Bitonic with the increasing part as empty. </p>
+<p><strong>Examples:</strong>
+<pre>
+Input arr[] = {1, 11, 2, 10, 4, 5, 2, 1};
+Output: 6 (A Longest Bitonic Subsequence of length 6 is 1, 2, 10, 4, 2, 1)
+
+Input arr[] = {12, 11, 40, 5, 3, 1}
+Output: 5 (A Longest Bitonic Subsequence of length 5 is 12, 11, 5, 3, 1)
+
+Input arr[] = {80, 60, 30, 40, 20, 10}
+Output: 5 (A Longest Bitonic Subsequence of length 5 is 80, 60, 30, 20, 10)
+</pre>
+<p>Source:<a href="http://geeksforgeeks.org/forum/topic/ms-interview-ques"> Microsoft Interview Question</a></p>
+<p><strong>Solution</strong><br />
+This problem is a variation of standard <a href="http://www.geeksforgeeks.org/archives/12832">Longest Increasing Subsequence (LIS) problem</a>. Let the input array be arr[] of length n. We need to construct two arrays lis[] and lds[] using Dynamic Programming solution of <a href="http://www.geeksforgeeks.org/archives/12832">LIS problem</a>.  lis[i] stores the length of the Longest Increasing subsequence ending with arr[i].  lds[i] stores the length of the longest Decreasing subsequence starting from arr[i]. Finally, we need to return the max value of lis[i] + lds[i] &#8211; 1 where i is from 0 to n-1.</p>
+<p>Following is C++ implementation of the above Dynamic Programming solution.</p>
+<pre class="brush: cpp; highlight: [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46]; title: ; notranslate" title="">
+/* Dynamic Programming implementation of longest bitonic subsequence problem */
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+
+/* lbs() returns the length of the Longest Bitonic Subsequence in
+    arr[] of size n. The function mainly creates two temporary arrays
+    lis[] and lds[] and returns the maximum lis[i] + lds[i] - 1.
+
+    lis[i] ==&gt; Longest Increasing subsequence ending with arr[i]
+    lds[i] ==&gt; Longest decreasing subsequence starting with arr[i]
+*/
+int lbs( int arr[], int n )
+{
+   int i, j;
+
+   /* Allocate memory for LIS[] and initialize LIS values as 1 for
+      all indexes */
+   int *lis = new int[n];
+   for ( i = 0; i &lt; n; i++ )
+      lis[i] = 1;
+
+   /* Compute LIS values from left to right */
+   for ( i = 1; i &lt; n; i++ )
+      for ( j = 0; j &lt; i; j++ )
+         if ( arr[i] &gt; arr[j] &amp;&amp; lis[i] &lt; lis[j] + 1)
+            lis[i] = lis[j] + 1;
+
+   /* Allocate memory for lds and initialize LDS values for
+      all indexes */
+   int *lds = new int [n];
+   for ( i = 0; i &lt; n; i++ )
+      lds[i] = 1;
+
+   /* Compute LDS values from right to left */
+   for ( i = n-2; i &gt;= 0; i-- )
+      for ( j = n-1; j &gt; i; j-- )
+         if ( arr[i] &gt; arr[j] &amp;&amp; lds[i] &lt; lds[j] + 1)
+            lds[i] = lds[j] + 1;
+
+
+   /* Return the maximum value of lis[i] + lds[i] - 1*/
+   int max = lis[0] + lds[0] - 1;
+   for (i = 1; i &lt; n; i++)
+     if (lis[i] + lds[i] - 1 &gt; max)
+         max = lis[i] + lds[i] - 1;
+   return max;
+}
+
+/* Driver program to test above function */
+int main()
+{
+  int arr[] = {0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15};
+  int n = sizeof(arr)/sizeof(arr[0]);
+  printf(&quot;Length of LBS is %d\n&quot;, lbs( arr, n ) );
+
+  getchar();
+  return 0;
+}
+</pre>
+<p>Output:
+<pre> Length of LBS is 7
+</pre>
+<p>Time Complexity: O(n^2)<br />
+Auxiliary Space: O(n)</p>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array-set-2-expected-linear-time/" title="K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)">K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)</a></li><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array/" title="K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1">K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/time-complexity-insertion-sort-inversions/" title="Time complexity of insertion sort when there are O(n) inversions?">Time complexity of insertion sort when there are O(n) inversions?</a></li><li><a href="http://www.geeksforgeeks.org/check-two-given-sets-disjoint/" title="How to check if two given sets are disjoint?">How to check if two given sets are disjoint?</a></li><li><a href="http://www.geeksforgeeks.org/minimum-number-platforms-required-railwaybus-station/" title="Minimum Number of Platforms Required for a Railway/Bus Station">Minimum Number of Platforms Required for a Railway/Bus Station</a></li><li><a href="http://www.geeksforgeeks.org/given-two-sorted-arrays-number-x-find-pair-whose-sum-closest-x/" title="Find the closest pair from two sorted arrays">Find the closest pair from two sorted arrays</a></li><li><a href="http://www.geeksforgeeks.org/print-elements-sorted-order-row-column-wise-sorted-matrix/" title="Print all elements in sorted order from row and column wise sorted matrix">Print all elements in sorted order from row and column wise sorted matrix</a></li><li><a href="http://www.geeksforgeeks.org/length-largest-subarray-contiguous-elements-set-1/" title="Length of the largest subarray with contiguous elements | Set 1">Length of the largest subarray with contiguous elements | Set 1</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/dynamic-programming/" rel="tag">Dynamic Programming</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fdynamic-programming-set-15-longest-bitonic-subsequence%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/dynamic-programming-set-15-longest-bitonic-subsequence/" data-text="Dynamic Programming | Set 15 (Longest Bitonic Subsequence)" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/dynamic-programming-set-15-longest-bitonic-subsequence/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-22284">
+        <div id="dsq-comment-header-22284" class="dsq-comment-header">
+            <cite id="dsq-cite-22284">
+                <span id="dsq-author-user-22284">Ujjwal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22284" class="dsq-comment-body">
+            <div id="dsq-comment-message-22284" class="dsq-comment-message"><pre> <code language="C">
+For the example :-
+arr = { 3,1,2,4,7,8,6}
+longest sequence should be 6 (1,2,4,7,8,6)
+But above algo gives maximum length as 5..!!
+How did this happen.??
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-21664">
+        <div id="dsq-comment-header-21664" class="dsq-comment-header">
+            <cite id="dsq-cite-21664">
+                <span id="dsq-author-user-21664">namit maheshwari</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21664" class="dsq-comment-body">
+            <div id="dsq-comment-message-21664" class="dsq-comment-message"><pre> <code language="Java">
+class longest_bitonic{
+	public static void main(String args[]){
+		int a[] = {0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15};
+		int i,j;
+		int max[] = new int[a.length];
+		max[0] = 1;
+		
+		boolean inc[] = new boolean[a.length];
+		inc[0] = true;
+		
+		for(i=0;i&lt;a.length;i++){
+			for(j=0;j&lt;i;j++){
+				if(((inc[j] &amp;&amp; a[i]&gt;a[j])||(!inc[j] &amp;&amp; a[i]&lt;a[j]))&amp;&amp; max[i]&lt;max[j]+1){
+					max[i] = max[j]+1;
+					inc[i] = inc[j];
+				}
+				else if(inc[j] &amp;&amp; a[i]&lt;a[j] &amp;&amp; max[i]&lt;max[j]+1){
+					inc[i] = false;
+					max[i] = max[j]+1;
+				}
+					
+			}
+			
+		}
+			int m=0;
+			for(i=0;i&lt;a.length;i++){
+				if(m&lt;max[i])
+					m = max[i];
+			}
+			
+		System.out.println(m);
+	}
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-21682">
+        <div id="dsq-comment-header-21682" class="dsq-comment-header">
+            <cite id="dsq-cite-21682">
+                <span id="dsq-author-user-21682">Kapil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21682" class="dsq-comment-body">
+            <div id="dsq-comment-message-21682" class="dsq-comment-message"><p>You can save the O(n) space for array<br />
+by using inc and dec</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) 
+*/
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;iostream&gt;
+#include&lt;limits.h&gt;
+using namespace std;
+#define n 6
+int main(void)
+{
+	int A[n]={80,60,30,40,20,10};
+	int i,j,maxi=INT_MIN,dec,inc,L[n];
+	for(i=0;i&lt;n;i++)
+	{
+	L[i]=1;
+	}
+	inc=1;dec=0;
+	for(i=0;i&lt;n;i++)
+	{
+	
+	
+		for(j=0;j&lt;i;j++)
+		{
+			if(A[i]&gt;A[j])
+			{
+				if(inc &amp;&amp; L[j]+1&gt;L[i])
+					{
+						L[i]=L[j]+1;
+						inc=1;dec=0;
+					}
+			}
+			else
+			{
+				if(L[j]+1&gt;L[i])
+				{
+				
+				{
+					dec=1;
+					inc=0;
+					L[i]=L[j]+1;
+				}
+				}
+			}
+		}
+	}
+	for(i=0;i&lt;n;i++)
+maxi=max(maxi,L[i]);
+
+	printf(&quot;%d&quot;,maxi);
+}
+
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-jainamit0909gmail-com odd alt thread-even depth-1" id="dsq-comment-19330">
+        <div id="dsq-comment-header-19330" class="dsq-comment-header">
+            <cite id="dsq-cite-19330">
+                <span id="dsq-author-user-19330">AMIT</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19330" class="dsq-comment-body">
+            <div id="dsq-comment-message-19330" class="dsq-comment-message"><p>why din&#8217;t you use nlogn LIS to make it o(nlogn)???</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-32091">
+        <div id="dsq-comment-header-32091" class="dsq-comment-header">
+            <cite id="dsq-cite-32091">
+                <span id="dsq-author-user-32091">xxmajia</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32091" class="dsq-comment-body">
+            <div id="dsq-comment-message-32091" class="dsq-comment-message"><p>because the BFS way to archive nlogn may not end with the A[i] element, so it has to be this way</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-16356">
+        <div id="dsq-comment-header-16356" class="dsq-comment-header">
+            <cite id="dsq-cite-16356">
+                <span id="dsq-author-user-16356">Nikhil Gupta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16356" class="dsq-comment-body">
+            <div id="dsq-comment-message-16356" class="dsq-comment-message"><p>In this Method you don&#8217;t need to traverse the sequence two times<br />
+We are storing two things in dp&#8230; first is the length of the bitonic sequence ending at index i and also what is the current phase of bitonic sequence i.e. whether it&#8217;s still increasing or it is now in decreasing phase</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+
+
+#include&lt;stdio.h&gt;
+#include&lt;iostream&gt;
+#include&lt;vector&gt;
+#define F first
+#define S second
+using namespace std;
+
+vector&lt;pair&lt;int,int&gt; &gt;dp;
+int arr[100];
+int main()
+{
+	int i,j,n;
+	int max=0;
+	cin&gt;&gt;n;
+	dp.resize(n+1);
+	for(i=0;i&lt;n;i++)
+	{
+	     cin&gt;&gt;arr[i];
+	     dp[i]=make_pair(1,1);	//initialisation, first element tells the size of sequence while second element tells whether seq is increasing or decreasing		
+	}
+	max=0;
+        for(i=1;i&lt;n;i++)
+	{
+		for(j=0;j&lt;i;j++)
+		{
+		        if((dp[j].S==0 &amp;&amp; arr[i]&lt;=arr[j]) &amp;&amp; dp[i].F&lt;dp[j].F+1 )
+		       {
+			   dp[i].F=dp[j].F+1;
+			   dp[i].S=0;		
+		       }
+	               else if(dp[j].S==1  &amp;&amp; dp[i].F&lt;dp[j].F+1)
+		       {
+			    if(arr[i]&gt;=arr[j])
+			          dp[i].S=1;
+			    else
+				dp[i].S=0;
+			    dp[i].F=dp[j].F+1;
+		        }	
+	        }
+	        if(max&lt;dp[i].F)
+	        max=dp[i].F;
+	}
+	cout&lt;&lt;&quot;Ans:\t&quot;&lt;&lt;max&lt;&lt;endl;		
+
+	return 0;
+	
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-16355">
+        <div id="dsq-comment-header-16355" class="dsq-comment-header">
+            <cite id="dsq-cite-16355">
+                <span id="dsq-author-user-16355">Nikhil Gupta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16355" class="dsq-comment-body">
+            <div id="dsq-comment-message-16355" class="dsq-comment-message"><p>In this Method you don&#8217;t need to traverse the sequence two times<br />
+We are storing two things in dp&#8230; first is the length of the bitonic sequence ending at index i and also what is the current phase of bitonic sequence i.e. whether it&#8217;s still increasing or it is now in decreasing phase</p>
+<p>#include<br />
+#include<br />
+#include<br />
+#define F first<br />
+#define S second<br />
+using namespace std;</p>
+<p>vector&lt;pair &gt;dp;<br />
+int arr[100];<br />
+int main()<br />
+{<br />
+	int i,j,n;<br />
+	int max=0;<br />
+	cin&gt;&gt;n;<br />
+	dp.resize(n+1);<br />
+	for(i=0;i&gt;arr[i];<br />
+	     dp[i]=make_pair(1,1);	//initialisation, first element tells the size of sequence while second element tells whether seq is increasing or decreasing<br />
+	}<br />
+	max=0;<br />
+        for(i=1;i&lt;n;i++)<br />
+	{<br />
+		for(j=0;j&lt;i;j++)<br />
+		{<br />
+		        if((dp[j].S==0 &amp;&amp; arr[i]&lt;=arr[j]) &amp;&amp; dp[i].F&lt;dp[j].F+1 )<br />
+		       {<br />
+			   dp[i].F=dp[j].F+1;<br />
+			   dp[i].S=0;<br />
+		       }<br />
+	               else if(dp[j].S==1  &amp;&amp; dp[i].F=arr[j])<br />
+			          dp[i].S=1;<br />
+			    else<br />
+				dp[i].S=0;<br />
+			    dp[i].F=dp[j].F+1;<br />
+		        }<br />
+	        }<br />
+	        if(max&lt;dp[i].F)<br />
+	        max=dp[i].F;<br />
+	}<br />
+	cout&lt;&lt;&quot;Ans:\t&quot;&lt;&lt;max&lt;&lt;endl;		</p>
+<p>	return 0;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-15130">
+        <div id="dsq-comment-header-15130" class="dsq-comment-header">
+            <cite id="dsq-cite-15130">
+                <span id="dsq-author-user-15130">rajat rastogi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15130" class="dsq-comment-body">
+            <div id="dsq-comment-message-15130" class="dsq-comment-message"><p>This should be solved in O(nlogn) time now it is question which is combination of longest increasing subsequence and longest decreasing subsequence. </p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-10038">
+        <div id="dsq-comment-header-10038" class="dsq-comment-header">
+            <cite id="dsq-cite-10038">
+                <span id="dsq-author-user-10038">algobard</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10038" class="dsq-comment-body">
+            <div id="dsq-comment-message-10038" class="dsq-comment-message"><p>Just a minor edit &#8211; you guys haven&#8217;t freed lis and lds before returning max.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-9958">
+        <div id="dsq-comment-header-9958" class="dsq-comment-header">
+            <cite id="dsq-cite-9958">
+                <span id="dsq-author-user-9958">Akash</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9958" class="dsq-comment-body">
+            <div id="dsq-comment-message-9958" class="dsq-comment-message"><p>No need to allocate separate memory for both lis and lds. We could manage in one. Let me know in case of any issues.</p>
+<pre> <code language="C">
+int longestBitonic(int a[], int size) {
+	int dp[size], i, j, max = 1;
+	dp[0] = 1;
+	for(i=1;i&lt;size;i++) {
+		dp[i] = 1;
+		for(j=i-1;j&gt;=0;j--) {
+			if((dp[i]&lt;dp[j]+1) &amp;&amp; a[i]&gt;a[j]) {
+				dp[i] = dp[j]+1;
+			}
+		}
+		if(dp[i]&gt;max) {
+			max = dp[i];
+		}
+	}
+	dp[size-1] = 1;
+	for(i=size-2;i&gt;=0;i--) {
+		int prev = dp[i];
+		dp[i] = 1;
+		for(j=i+1;j&lt;size;j++) {
+			if((dp[i]&lt;dp[j]+1) &amp;&amp; a[i]&gt;a[j]) {
+				dp[i] = dp[j]+1;
+			}
+		}
+		if(prev+dp[i]-1&gt;max) {
+			max = prev+dp[i]-1;
+		}
+	}
+	return max;
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-15032">
+        <div id="dsq-comment-header-15032" class="dsq-comment-header">
+            <cite id="dsq-cite-15032">
+                <span id="dsq-author-user-15032">Jagat</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15032" class="dsq-comment-body">
+            <div id="dsq-comment-message-15032" class="dsq-comment-message"><p>Brilliant!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-15033">
+        <div id="dsq-comment-header-15033" class="dsq-comment-header">
+            <cite id="dsq-cite-15033">
+                <span id="dsq-author-user-15033">Jagat</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15033" class="dsq-comment-body">
+            <div id="dsq-comment-message-15033" class="dsq-comment-message"><p>On a closer looks, I&#8217;m afraid I don&#8217;t think it works. You&#8217;ll end up adding LIS with the LBS of the next element, which in the following case will fail.</p>
+<p>1, 5, 2, 4, 3</p>
+<p>You&#8217;ll end up finding a mountain range when all you need to find is a hill.<br />
+Expected answer: 3<br />
+Your solution: 6 (Erroneous stmt: LBS[1] = LBS[3] + LIS[1] &#8211; 1)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-9277">
+        <div id="dsq-comment-header-9277" class="dsq-comment-header">
+            <cite id="dsq-cite-9277">
+                <span id="dsq-author-user-9277">Manish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9277" class="dsq-comment-body">
+            <div id="dsq-comment-message-9277" class="dsq-comment-message"><p>I dont think below statements are requirement while computing the LIS and LDS in the if statement because in any case for any index if we get the number which in increasing (from left) or decreasing (fron right) and in the lis or lds the below statements is always true so need to check it again. Am I right?<br />
+lis[i] &lt; lis[j] + 1<br />
+lds[i] &lt; lds[j] + 1</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-9264">
+        <div id="dsq-comment-header-9264" class="dsq-comment-header">
+            <cite id="dsq-cite-9264">
+                <span id="dsq-author-user-9264">lohith</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9264" class="dsq-comment-body">
+            <div id="dsq-comment-message-9264" class="dsq-comment-message"><pre> <code language="C">
+
+public class longestBiotonicSubsequence {
+	
+	public static void main(String str[]){
+		
+		int array[] = {1, 11, 2, 10, 4, 5, 2, 1};
+		
+		BiotonicObj b =calculateLongest(array,0,array.length-1);
+	    System.out.println(b.length);
+		
+		
+	}
+	
+	public static BiotonicObj calculateLongest(int[] array,int start,int end){
+		
+		
+		if(start&lt;end){
+			int i=start;
+			int count=0;
+			while(array[i]&lt;array[i+1]){
+				i++;
+				count++;
+			}
+			int negativecount = 0;
+			while(array[i]&gt;array[i+1] &amp;&amp; negativecount&lt;count ){
+				i++;
+				negativecount++;
+			}
+			
+			if(negativecount==0 &amp;&amp; count==0)
+			{
+				return calculateLongest(array, start+1,end);
+				
+			}else{
+				
+				int startingIndex=start+(count-negativecount);
+				int endint = i;
+				
+				BiotonicObj obj=	calculateLongest(array, i,end);
+				if(obj.length &gt; endint-startingIndex+1) return obj;
+				else{
+					BiotonicObj ret = new BiotonicObj();
+					ret.start=startingIndex;
+					ret.end=endint;
+					ret.length = endint-startingIndex+1;
+					
+					return ret;
+				
+			}
+			
+			
+			}
+		}else{
+			BiotonicObj ret = new BiotonicObj();
+			ret.start=start;
+			ret.end=end;
+			ret.length =1;
+			
+			return ret;
+		}
+		
+
+	}
+	
+
+}
+
+
+class BiotonicObj{
+	public int start;
+	public int end;
+	public int length;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-9062">
+        <div id="dsq-comment-header-9062" class="dsq-comment-header">
+            <cite id="dsq-cite-9062">
+                <span id="dsq-author-user-9062">The King</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9062" class="dsq-comment-body">
+            <div id="dsq-comment-message-9062" class="dsq-comment-message"><p>This can also be solved simply by using longest increasing sub sequence and longest decreasing sub sequence ..<br />
+Store longest_increasing[i] stores values of longest increasing sub sequence till i.<br />
+Store longest_decreasing[i] stores values of longest decreasing sub sequence till i.<br />
+Longest_bitonic[i]=longest_decreasing[i] + longest_decreasing[i]<br />
+then find max in Longest_bitonic</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-9063">
+        <div id="dsq-comment-header-9063" class="dsq-comment-header">
+            <cite id="dsq-cite-9063">
+                <span id="dsq-author-user-9063">The King</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9063" class="dsq-comment-body">
+            <div id="dsq-comment-message-9063" class="dsq-comment-message"><p>Longest_bitonic[i]=longest_decreasing[i] + longest_decreasing[i] -1 </p>
+<p>Looks like the owner has used the same method <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_sad.gif" alt=":(" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-9051">
+        <div id="dsq-comment-header-9051" class="dsq-comment-header">
+            <cite id="dsq-cite-9051">
+                <span id="dsq-author-user-9051">Aseem</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9051" class="dsq-comment-body">
+            <div id="dsq-comment-message-9051" class="dsq-comment-message"><p>The examples are wrong. In 2nd and 3rd example, Outputs shown are strictly decreasing sequences.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-9053">
+        <div id="dsq-comment-header-9053" class="dsq-comment-header">
+            <cite id="dsq-cite-9053">
+                <span id="dsq-author-user-9053">Aseem</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9053" class="dsq-comment-body">
+            <div id="dsq-comment-message-9053" class="dsq-comment-message"><p>Please take a closer look at the problem statement. Especially the following part:<br />
+&#8220;A sequence, sorted in increasing order is considered Bitonic with the decreasing part as empty. Similarly, decreasing order sequence is considered Bitonic with the increasing part as empty.&#8221;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8930">
+        <div id="dsq-comment-header-8930" class="dsq-comment-header">
+            <cite id="dsq-cite-8930">
+                <span id="dsq-author-user-8930">Gang</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8930" class="dsq-comment-body">
+            <div id="dsq-comment-message-8930" class="dsq-comment-message"><p>LIS has an O(n*log(n)) solution. So I think this one should be solveble in O(n*log(n)) time and O(n) space, as demonstrated in the following code.</p>
+<pre> <code language="C">
+template&lt;typename citer&gt;
+void LIS(citer begin, citer end, function&lt;void (typename citer::value_type)&gt; fn)
+{
+  typedef vector&lt;typename citer::value_type&gt; lut_t;
+  lut_t lut;
+  
+  for (citer i = begin; i != end; ++i)
+  {
+    lut_t::iterator p = upper_bound(lut.begin(), lut.end(), *i);
+    if (p == lut.end())
+    {
+      fn(lut.size());
+      lut.push_back(*i);
+    }
+    else
+    {
+      fn(p - lut.begin());
+      *p = min(*p, *i);
+    }  
+  }
+}
+
+template&lt;typename T&gt;
+int LongestBitonicSequence(const vector&lt;T&gt;&amp; A)
+{
+  stack&lt;T&gt; tmp;
+  LIS(A.begin(), A.end(), [&amp;tmp](T n){ tmp.push(n); });
+  
+  T result = T();
+  LIS(A.rbegin(), A.rend(), [&amp;tmp, &amp;result](T n){ result = max(result, n+tmp.top()); tmp.pop(); });
+  
+  return result+1; 
+}
+
+void testLongestBitonicSequence()
+{
+  int const a[] = {1, 11, 2, 10, 4, 5, 2, 1};
+  assert(6 == LongestBitonicSequence(vector&lt;int&gt;(a, a+ARRAY_LENGTH(a))));
+
+  int const b[] = {12, 11, 40, 5, 3, 1};
+  assert(5 == LongestBitonicSequence(vector&lt;int&gt;(b, b+ARRAY_LENGTH(b))));
+
+  int const c[] = {80, 60, 30, 40, 20, 10};
+  assert(5 == LongestBitonicSequence(vector&lt;int&gt;(c, c+ARRAY_LENGTH(c))));
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8871">
+        <div id="dsq-comment-header-8871" class="dsq-comment-header">
+            <cite id="dsq-cite-8871">
+                <span id="dsq-author-user-8871">Ratan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8871" class="dsq-comment-body">
+            <div id="dsq-comment-message-8871" class="dsq-comment-message"><p>Does the question says that the sequence first need to increase and then decrease or vice versa but the algo presented here does not seems to do so&#8230;&#8230; correct me if i am wrong.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-8872">
+        <div id="dsq-comment-header-8872" class="dsq-comment-header">
+            <cite id="dsq-cite-8872">
+                <span id="dsq-author-user-8872">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8872" class="dsq-comment-body">
+            <div id="dsq-comment-message-8872" class="dsq-comment-message"><p>Please take a closer look at the problem statement and solution. It says that the sequence should be first increasing, then decreasing. Not vice versa.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-8866">
+        <div id="dsq-comment-header-8866" class="dsq-comment-header">
+            <cite id="dsq-cite-8866">
+                <span id="dsq-author-user-8866">Duke</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8866" class="dsq-comment-body">
+            <div id="dsq-comment-message-8866" class="dsq-comment-message"><p>simply rocking <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-8850">
+        <div id="dsq-comment-header-8850" class="dsq-comment-header">
+            <cite id="dsq-cite-8850">
+                <span id="dsq-author-user-8850">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8850" class="dsq-comment-body">
+            <div id="dsq-comment-message-8850" class="dsq-comment-message"><p>Second loop should start from (n-2), as it saves one extra iteration.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-8852">
+        <div id="dsq-comment-header-8852" class="dsq-comment-header">
+            <cite id="dsq-cite-8852">
+                <span id="dsq-author-user-8852">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8852" class="dsq-comment-body">
+            <div id="dsq-comment-message-8852" class="dsq-comment-message"><p>Thanks for suggesting the optimization. We have changed it to start from n-2.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8848">
+        <div id="dsq-comment-header-8848" class="dsq-comment-header">
+            <cite id="dsq-cite-8848">
+                <span id="dsq-author-user-8848">learner</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8848" class="dsq-comment-body">
+            <div id="dsq-comment-message-8848" class="dsq-comment-message"><p>Super!</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8847">
+        <div id="dsq-comment-header-8847" class="dsq-comment-header">
+            <cite id="dsq-cite-8847">
+                <span id="dsq-author-user-8847">rajeev</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8847" class="dsq-comment-body">
+            <div id="dsq-comment-message-8847" class="dsq-comment-message"><p>Awesome <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/dynamic-programming-set-15-longest-bitonic-subsequence/';
+var disqus_identifier = '19729 http://www.geeksforgeeks.org/?p=19729';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Dynamic Programming | Set 15 (Longest Bitonic Subsequence)";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.194 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:35:14 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

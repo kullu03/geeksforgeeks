@@ -1,0 +1,1377 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Flatten a multilevel linked list - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/flatten-a-linked-list-with-next-and-child-pointers/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Flatten a multilevel linked list - GeeksforGeeks" />
+<meta property="og:description" content="Given a linked list where in addition to the next pointer, each node has a child pointer, which may or may not point to a separate list. These child lists may have one or more children of their own, and so on, to produce a multilevel data structure, as shown in below figure.You are given &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/flatten-a-linked-list-with-next-and-child-pointers/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:section" content="Linked Lists" />
+<meta property="article:published_time" content="2013-02-22T18:53:41+00:00" />
+<meta property="article:modified_time" content="2013-02-25T13:21:29+00:00" />
+<meta property="og:updated_time" content="2013-02-25T13:21:29+00:00" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/flattenList.png" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.504 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111122 210.212.53.139 172.19.11.169';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Flatten a multilevel linked list</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given a linked list where in addition to the next pointer, each node has a child pointer, which may or may not point to a separate list. These child lists may have one or more children of their own, and so on, to produce a multilevel data structure, as shown in below figure.<span id="more-114576"></span>You are given the head of the first level of the list. Flatten the list so that all the nodes appear in a single-level linked list. You need to flatten the list in way that all nodes at first level should come first, then nodes of second level, and so on.</p>
+<p>Each node is a C struct with the following definition.</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+struct list
+{
+    int data;
+    struct list *next;
+    struct list *child;
+};
+</pre>
+<p><a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/flattenList.png"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/flattenList.png" alt="" title="flattenList" width="460" height="161" class="aligncenter size-full wp-image-114773" /></a></p>
+<p><strong>The above list should be converted to 10->5->12->7->11->4->20->13->17->6->2->16->9->8->3->19->15<br />
+</strong></p>
+<p>The problem clearly say that we need to flatten level by level.  The idea of solution is, we start from first level, process all nodes one by one, if a node has a child, then we append the child at the end of list, otherwise we don&#8217;t do anything. After the first level is processed, all next level nodes will be appended after first level.  Same process is followed for the appended nodes. </p>
+<pre>
+1) Take "cur" pointer, which will point to head of the fist level of the list
+2) Take "tail" pointer, which will point to end of the first level of the list
+3) Repeat the below procedure while "curr" is not NULL.
+    I) if current node has a child then
+	a) append this new child list to the "tail"
+		tail->next = cur->child
+	b) find the last node of new child list and update "tail"
+		tmp = cur->child;
+		while (tmp->next != NULL)
+			tmp = tmp->next;
+		tail = tmp;
+    II) move to the next node. i.e. cur = cur->next </pre>
+<p>Following is C implementation of the above algorithm.</p>
+<pre class="brush: cpp; highlight: [86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121]; title: ; notranslate" title="">
+// Program to flatten list with next and child pointers
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+// Macro to find number of elements in array
+#define SIZE(arr) (sizeof(arr)/sizeof(arr[0]))
+
+// A linked list node has data, next pointer and child pointer
+struct node
+{
+    int data;
+    struct node *next;
+    struct node *child;
+};
+
+// A utility function to create a linked list with n nodes. The data
+// of nodes is taken from arr[].  All child pointers are set as NULL
+struct node *createList(int *arr, int n)
+{
+    struct node *head = NULL;
+    struct node *p;
+
+    int i;
+    for (i = 0; i &lt; n; ++i) {
+        if (head == NULL)
+            head = p = (struct node *)malloc(sizeof(*p));
+        else {
+            p-&gt;next = (struct node *)malloc(sizeof(*p));
+            p = p-&gt;next;
+        }
+        p-&gt;data = arr[i];
+        p-&gt;next = p-&gt;child = NULL;
+    }
+    return head;
+}
+
+// A utility function to print all nodes of a linked list
+void printList(struct node *head)
+{
+    while (head != NULL) {
+        printf(&quot;%d &quot;, head-&gt;data);
+        head = head-&gt;next;
+    }
+    printf(&quot;\n&quot;);
+}
+
+// This function creates the input list.  The created list is same
+// as shown in the above figure
+struct node *createList(void)
+{
+    int arr1[] = {10, 5, 12, 7, 11};
+    int arr2[] = {4, 20, 13};
+    int arr3[] = {17, 6};
+    int arr4[] = {9, 8};
+    int arr5[] = {19, 15};
+    int arr6[] = {2};
+    int arr7[] = {16};
+    int arr8[] = {3};
+
+    /* create 8 linked lists */
+    struct node *head1 = createList(arr1, SIZE(arr1));
+    struct node *head2 = createList(arr2, SIZE(arr2));
+    struct node *head3 = createList(arr3, SIZE(arr3));
+    struct node *head4 = createList(arr4, SIZE(arr4));
+    struct node *head5 = createList(arr5, SIZE(arr5));
+    struct node *head6 = createList(arr6, SIZE(arr6));
+    struct node *head7 = createList(arr7, SIZE(arr7));
+    struct node *head8 = createList(arr8, SIZE(arr8));
+
+
+    /* modify child pointers to create the list shown above */
+    head1-&gt;child = head2;
+    head1-&gt;next-&gt;next-&gt;next-&gt;child = head3;
+    head3-&gt;child = head4;
+    head4-&gt;child = head5;
+    head2-&gt;next-&gt;child = head6;
+    head2-&gt;next-&gt;next-&gt;child = head7;
+    head7-&gt;child = head8;
+
+
+    /* Return head pointer of first linked list.  Note that all nodes are
+       reachable from head1 */
+    return head1;
+}
+
+/* The main function that flattens a multilevel linked list */
+void flattenList(struct node *head)
+{
+    /*Base case*/
+    if (head == NULL)
+       return;
+
+    struct node *tmp;
+
+    /* Find tail node of first level linked list */
+    struct node *tail = head;
+    while (tail-&gt;next != NULL)
+        tail = tail-&gt;next;
+
+    // One by one traverse through all nodes of first level
+    // linked list till we reach the tail node
+    struct node *cur = head;
+    while (cur != tail)
+    {
+        // If current node has a child
+        if (cur-&gt;child)
+        {
+            // then append the child at the end of current list
+            tail-&gt;next = cur-&gt;child;
+
+            // and update the tail to new last node
+            tmp = cur-&gt;child;
+            while (tmp-&gt;next)
+                tmp = tmp-&gt;next;
+            tail = tmp;
+        }
+
+        // Change current node
+        cur = cur-&gt;next;
+    }
+}
+
+// A driver program to test above functions
+int main(void)
+{
+    struct node *head = NULL;
+    head = createList();
+    flattenList(head);
+    printList(head);
+    return 0;
+}
+</pre>
+<p>Output:
+<pre>10 5 12 7 11 4 20 13 17 6 2 16 9 8 3 19 15</pre>
+<p>Time Complexity: Since every node is visited at most twice, the time complexity is O(n) where n is the number of nodes in given linked list.</p>
+<p>This article is compiled by <strong>Narendra Kangralkar</strong>. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/given-linked-list-reverse-alternate-nodes-append-end/" title="Given a linked list, reverse alternate nodes and append at the end">Given a linked list, reverse alternate nodes and append at the end</a></li><li><a href="http://www.geeksforgeeks.org/pairwise-swap-elements-of-a-given-linked-list-by-changing-links/" title="Pairwise swap elements of a given linked list by changing links">Pairwise swap elements of a given linked list by changing links</a></li><li><a href="http://www.geeksforgeeks.org/self-organizing-list-set-1-introduction/" title="Self Organizing List | Set 1 (Introduction)">Self Organizing List | Set 1 (Introduction)</a></li><li><a href="http://www.geeksforgeeks.org/merge-a-linked-list-into-another-linked-list-at-alternate-positions/" title="Merge a linked list into another linked list at alternate positions">Merge a linked list into another linked list at alternate positions</a></li><li><a href="http://www.geeksforgeeks.org/quicksort-on-singly-linked-list/" title="QuickSort on Singly Linked List">QuickSort on Singly Linked List</a></li><li><a href="http://www.geeksforgeeks.org/delete-n-nodes-after-m-nodes-of-a-linked-list/" title="Delete N nodes after M nodes of a linked list">Delete N nodes after M nodes of a linked list</a></li><li><a href="http://www.geeksforgeeks.org/design-a-stack-with-find-middle-operation/" title="Design a stack with operations on middle element">Design a stack with operations on middle element</a></li><li><a href="http://www.geeksforgeeks.org/swap-kth-node-from-beginning-with-kth-node-from-end-in-a-linked-list/" title="Swap Kth node from beginning with Kth node from end in a Linked List">Swap Kth node from beginning with Kth node from end in a Linked List</a></li></ul>
+<p></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fflatten-a-linked-list-with-next-and-child-pointers%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/flatten-a-linked-list-with-next-and-child-pointers/" data-text="Flatten a multilevel linked list" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/flatten-a-linked-list-with-next-and-child-pointers/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-33248">
+        <div id="dsq-comment-header-33248" class="dsq-comment-header">
+            <cite id="dsq-cite-33248">
+                <span id="dsq-author-user-33248">Vishal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33248" class="dsq-comment-body">
+            <div id="dsq-comment-message-33248" class="dsq-comment-message"><p>class Queue childList;<br />
+/* The main function that flattens a multilevel linked list */<br />
+node* flattenList( node *head)<br />
+{<br />
+    if (head == NULL)<br />
+       return 0;</p>
+<p>    node *temp = head;<br />
+    while(temp-&gt;next)<br />
+    {<br />
+        if(temp-&gt;child)<br />
+        {<br />
+            childList.Enqueue(temp-&gt;child);<br />
+        }<br />
+        temp = temp-&gt;next;<br />
+    }<br />
+    temp-&gt;next = childList.Dqueue();<br />
+    flattenList(temp-&gt;next);</p>
+<p>    return head;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-31578">
+        <div id="dsq-comment-header-31578" class="dsq-comment-header">
+            <cite id="dsq-cite-31578">
+                <span id="dsq-author-user-31578">xxmajia</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31578" class="dsq-comment-body">
+            <div id="dsq-comment-message-31578" class="dsq-comment-message"><p>according to &#8220;which may or may not point to a separate list&#8221;</p>
+<p>i think its easier to use a queue structure to solve this puzzle</p>
+<p>public static ListNode flattern(ListNode head) {</p>
+<p>		if (head == null) {</p>
+<p>			return head;</p>
+<p>		}</p>
+<p>		Queue queue = new LinkedList();</p>
+<p>		ListNode newHead = new ListNode();</p>
+<p>		ListNode cur = newHead;</p>
+<p>		queue.add(head);</p>
+<p>		while (!queue.isEmpty()) {</p>
+<p>			ListNode node = queue.poll();</p>
+<p>			while (node.next != null) {</p>
+<p>				cur.next = node;</p>
+<p>				cur = cur.next;</p>
+<p>				if (node.random != null) {</p>
+<p>					queue.add(node.random);</p>
+<p>				}</p>
+<p>				node = node.next;</p>
+<p>			}</p>
+<p>		}</p>
+<p>		return newHead.next;</p>
+<p>	}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-31484">
+        <div id="dsq-comment-header-31484" class="dsq-comment-header">
+            <cite id="dsq-cite-31484">
+                <span id="dsq-author-user-31484">Anil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31484" class="dsq-comment-body">
+            <div id="dsq-comment-message-31484" class="dsq-comment-message"><p>Queue can be use to solve this problem</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-27455">
+        <div id="dsq-comment-header-27455" class="dsq-comment-header">
+            <cite id="dsq-cite-27455">
+                <span id="dsq-author-user-27455">Mohan Kishor</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27455" class="dsq-comment-body">
+            <div id="dsq-comment-message-27455" class="dsq-comment-message"><p>Hey, Your code will not work in the case where all nodes have both the NEXT and CHILD nodes except for the last node in the list whose NEXT pointer is NULL but with a CHILD pointer.This is because the end finder while loop traverses only considering the NEXT pointer but not the other nodes CHILD pointer.Please check your code.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-22366">
+        <div id="dsq-comment-header-22366" class="dsq-comment-header">
+            <cite id="dsq-cite-22366">
+                <span id="dsq-author-user-22366">Ishita</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22366" class="dsq-comment-body">
+            <div id="dsq-comment-message-22366" class="dsq-comment-message"><p>Your code works incorrectly if the tail has a child. Ex if in your test case 15 were to have a child, that child wont get included in the flattened list. Instead you should change<br />
+while(cur!=tail) to while(cur)</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-19572">
+        <div id="dsq-comment-header-19572" class="dsq-comment-header">
+            <cite id="dsq-cite-19572">
+                <span id="dsq-author-user-19572">Hanish Bansal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19572" class="dsq-comment-body">
+            <div id="dsq-comment-message-19572" class="dsq-comment-message"><p>There is a bug in the program.<br />
+In the flattenList function,<br />
+while(cur != tail) should be replaced with<br />
+while(cur != NULL)</p>
+<p>For the input list :<br />
+1-2-3-4<br />
+      |<br />
+      5<br />
+      |<br />
+      6<br />
+the answer should be 1-2-3-4-5-6<br />
+but the program is giving the output 1-2-3-4.</p>
+<p>Also, the child pointers of all nodes should be reset to NULL later or on the fly.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-19573">
+        <div id="dsq-comment-header-19573" class="dsq-comment-header">
+            <cite id="dsq-cite-19573">
+                <span id="dsq-author-user-19573">Hanish Bansal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19573" class="dsq-comment-body">
+            <div id="dsq-comment-message-19573" class="dsq-comment-message"><p>Sorry,in the input list :<br />
+5 is the child pointer of 4 (not 1) and 6 is the child pointer of 5</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-ultimate_coder odd alt thread-even depth-1" id="dsq-comment-19268">
+        <div id="dsq-comment-header-19268" class="dsq-comment-header">
+            <cite id="dsq-cite-19268">
+                <span id="dsq-author-user-19268">ultimate_coder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19268" class="dsq-comment-body">
+            <div id="dsq-comment-message-19268" class="dsq-comment-message"><p>createList function is defined twice here. I don&#8217;t think it gonna work.<br />
+C doesn&#8217;t support function overloading.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-abhishek08aug even thread-odd thread-alt depth-1" id="dsq-comment-17933">
+        <div id="dsq-comment-header-17933" class="dsq-comment-header">
+            <cite id="dsq-cite-17933">
+                <span id="dsq-author-user-17933">abhishek08aug</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17933" class="dsq-comment-body">
+            <div id="dsq-comment-message-17933" class="dsq-comment-message"><p>Intelligent <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_biggrin.gif" alt=":D" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-rka143 odd alt thread-even depth-1" id="dsq-comment-17804">
+        <div id="dsq-comment-header-17804" class="dsq-comment-header">
+            <cite id="dsq-cite-17804">
+                <span id="dsq-author-user-17804">rka143</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17804" class="dsq-comment-body">
+            <div id="dsq-comment-message-17804" class="dsq-comment-message"><p>Also we should make cur->child = NULL; before cur = cur->next; otherwise the main list is still pointing to their earlier child node.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-16691">
+        <div id="dsq-comment-header-16691" class="dsq-comment-header">
+            <cite id="dsq-cite-16691">
+                <span id="dsq-author-user-16691">Hanish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16691" class="dsq-comment-body">
+            <div id="dsq-comment-message-16691" class="dsq-comment-message"><p>Here is a code using queue in O(n) time complexity</p>
+<p>cur = head<br />
+while(1)<br />
+   if(cur==NULL)<br />
+      break;<br />
+   if cur has a child, enqueue(child).<br />
+   if(cur-&gt;next == NULL)<br />
+      cur-&gt;next = dequeue(q);<br />
+   cur = cur-&gt;next;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-17538">
+        <div id="dsq-comment-header-17538" class="dsq-comment-header">
+            <cite id="dsq-cite-17538">
+                <span id="dsq-author-user-17538">CODER_1</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17538" class="dsq-comment-body">
+            <div id="dsq-comment-message-17538" class="dsq-comment-message"><p>@Hanish<br />
+I think you miss one condition of checking the empty queue,we will stop the execution when queue has no elements.<br />
+else your nice approach ..!</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-17607">
+        <div id="dsq-comment-header-17607" class="dsq-comment-header">
+            <cite id="dsq-cite-17607">
+                <span id="dsq-author-user-17607">Hanish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17607" class="dsq-comment-body">
+            <div id="dsq-comment-message-17607" class="dsq-comment-message"><p>When queue becomes empty, dequeue(q) will return NULL;<br />
+=&gt; current-&gt;next = NULL;<br />
+current = current-&gt;next (= NULL);<br />
+if(current == NULL)<br />
+    break;<br />
+since initially queue is empty, we cant break if queue is NULL.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-16411">
+        <div id="dsq-comment-header-16411" class="dsq-comment-header">
+            <cite id="dsq-cite-16411">
+                <span id="dsq-author-user-16411">ebcdic666</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16411" class="dsq-comment-body">
+            <div id="dsq-comment-message-16411" class="dsq-comment-message"><p>Complete working code using queues. Enjoy <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+<pre> <code language="C">
+// Program to flatten list with next and child pointers
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include&lt;iostream&gt;
+#include&lt;queue&gt;
+using namespace std;
+// Macro to find number of elements in array
+#define SIZE(arr) (sizeof(arr)/sizeof(arr[0]))
+ 
+// A linked list node has data, next pointer and child pointer
+struct node
+{
+    int data;
+    struct node *next;
+    struct node *child;
+};
+
+queue&lt;struct node*&gt;myqueue;
+// A utility function to create a linked list with n nodes. The data
+// of nodes is taken from arr[].  All child pointers are set as NULL
+struct node *createList(int *arr, int n)
+{
+    struct node *head = NULL;
+    struct node *p;
+ 
+    int i;
+    for (i = 0; i &lt; n; ++i) {
+        if (head == NULL)
+            head = p = (struct node *)malloc(sizeof(*p));
+        else {
+            p-&gt;next = (struct node *)malloc(sizeof(*p));
+            p = p-&gt;next;
+        }
+        p-&gt;data = arr[i];
+        p-&gt;next = p-&gt;child = NULL;
+    }
+    return head;
+}
+ 
+// A utility function to print all nodes of a linked list
+void printList(struct node *head)
+{
+    while (head != NULL) 
+	{
+        printf(&quot;%d &quot;, head-&gt;data);
+        head = head-&gt;next;
+    }
+    printf(&quot;\n&quot;);
+}
+ 
+// This function creates the input list.  The created list is same
+// as shown in the above figure
+struct node *createlist(void)
+{
+    int arr1[] = {10, 5, 12, 7, 11};
+    int arr2[] = {4, 20, 13};
+    int arr3[] = {17, 6};
+    int arr4[] = {9, 8};
+    int arr5[] = {19, 15};
+    int arr6[] = {2};
+    int arr7[] = {16};
+    int arr8[] = {3};
+ 
+    /* create 8 linked lists */
+    struct node *head1 = createList(arr1, SIZE(arr1));
+    struct node *head2 = createList(arr2, SIZE(arr2));
+    struct node *head3 = createList(arr3, SIZE(arr3));
+    struct node *head4 = createList(arr4, SIZE(arr4));
+    struct node *head5 = createList(arr5, SIZE(arr5));
+    struct node *head6 = createList(arr6, SIZE(arr6));
+    struct node *head7 = createList(arr7, SIZE(arr7));
+    struct node *head8 = createList(arr8, SIZE(arr8));
+ 
+ 
+    /* modify child pointers to create the list shown above */
+    head1-&gt;child = head2;
+    head1-&gt;next-&gt;next-&gt;next-&gt;child = head3;
+    head3-&gt;child = head4;
+    head4-&gt;child = head5;
+    head2-&gt;next-&gt;child = head6;
+    head2-&gt;next-&gt;next-&gt;child = head7;
+    head7-&gt;child = head8;
+ 
+ 
+    /* Return head pointer of first linked list.  Note that all nodes are
+       reachable from head1 */
+    return head1;
+}
+ 
+/* The main function that flattens a multilevel linked list */
+void flattenList(struct node *head)
+{
+	/*Base case*/
+	if (head == NULL)
+		return;
+
+	struct node *tmp=head;
+	myqueue.push(head);
+		while(!myqueue.empty())
+		{
+			struct node *cur=myqueue.front();
+			myqueue.pop();
+			while(cur!=NULL)
+			{
+				cout&lt;&lt;cur-&gt;data&lt;&lt;&quot; &quot;;
+				if(cur-&gt;child!=NULL)
+					myqueue.push(cur-&gt;child);
+				cur=cur-&gt;next;
+			}
+		}
+	return;
+}
+ 
+// A driver program to test above functions
+int main(void)
+{
+    struct node *head = NULL;
+    head = createlist();
+    flattenList(head);
+	cout&lt;&lt;endl;
+    //printList(head);
+    return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-16380">
+        <div id="dsq-comment-header-16380" class="dsq-comment-header">
+            <cite id="dsq-cite-16380">
+                <span id="dsq-author-user-16380">Sreenivas Doosa</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16380" class="dsq-comment-body">
+            <div id="dsq-comment-message-16380" class="dsq-comment-message"><p>In the given example what happens if I made 2 connections like</p>
+<p>child of 12 is 13<br />
+    AND<br />
+13 next is 17</p>
+<p>In this case as per the given algorithm, some part of the list will be added more than once&#8230; what do you say..?</p>
+<p>Please correct me if I am wrong..!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-16285">
+        <div id="dsq-comment-header-16285" class="dsq-comment-header">
+            <cite id="dsq-cite-16285">
+                <span id="dsq-author-user-16285">Michael</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16285" class="dsq-comment-body">
+            <div id="dsq-comment-message-16285" class="dsq-comment-message"><pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) 
+Node* flatten(Node* head){
+	if(!head)
+		return head;
+	
+	Node* prev = NULL;
+	Node* result = NULL;
+	Queue* Q = createQueue();
+	Q-&gt;enqueue(head);
+
+	while(Q-&gt;isEmpty == false)
+	{
+		Node* temp = Q-&gt;dequeue();
+		
+		if(prev)
+			prev-&gt;next = temp;
+		
+		if(!result)
+			result = temp;
+		
+		while(temp-&gt;next)
+		{
+			if(temp-&gt;child)
+				Q-&gt;enqueue(temp-&gt;child);
+			temp = temp-&gt;next;
+		}
+		
+		prev = temp;
+	}
+
+	return result;
+}
+*/
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-16286">
+        <div id="dsq-comment-header-16286" class="dsq-comment-header">
+            <cite id="dsq-cite-16286">
+                <span id="dsq-author-user-16286">Nikhil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16286" class="dsq-comment-body">
+            <div id="dsq-comment-message-16286" class="dsq-comment-message"><pre> <code language="C">
+/* Ultimate code */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-16287">
+        <div id="dsq-comment-header-16287" class="dsq-comment-header">
+            <cite id="dsq-cite-16287">
+                <span id="dsq-author-user-16287">Shan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16287" class="dsq-comment-body">
+            <div id="dsq-comment-message-16287" class="dsq-comment-message"><p>This is the simplest method (of using queues) rather than using the pointers.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-16288">
+        <div id="dsq-comment-header-16288" class="dsq-comment-header">
+            <cite id="dsq-cite-16288">
+                <span id="dsq-author-user-16288">Michael</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16288" class="dsq-comment-body">
+            <div id="dsq-comment-message-16288" class="dsq-comment-message"><p>This is a working code:</p>
+<p><a href="http://codepad.org/yd52skUK" rel="nofollow">http://codepad.org/yd52skUK</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-17322">
+        <div id="dsq-comment-header-17322" class="dsq-comment-header">
+            <cite id="dsq-cite-17322">
+                <span id="dsq-author-user-17322">Ankit Chaudhary</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17322" class="dsq-comment-body">
+            <div id="dsq-comment-message-17322" class="dsq-comment-message"><p>I think it will not work if last node of a level has child<br />
+because<br />
+while(temp-&gt;next)<br />
+will be false if temp is last node of level,<br />
+and if it has child, then this child will not be pushed into queue.<br />
+Correct me, if I am wrong.<br />
+test case: 12<br />
+           |<br />
+           13</p>
+<p>Only 2 nodes: 13 is child of 12</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-16059">
+        <div id="dsq-comment-header-16059" class="dsq-comment-header">
+            <cite id="dsq-cite-16059">
+                <span id="dsq-author-user-16059">Raj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16059" class="dsq-comment-body">
+            <div id="dsq-comment-message-16059" class="dsq-comment-message"><p>What if it forms a cycle?for instance  7 11 4 20 13 17 7</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-16846">
+        <div id="dsq-comment-header-16846" class="dsq-comment-header">
+            <cite id="dsq-cite-16846">
+                <span id="dsq-author-user-16846">Shivani Gupta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16846" class="dsq-comment-body">
+            <div id="dsq-comment-message-16846" class="dsq-comment-message"><p>pls reply admin</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-15771">
+        <div id="dsq-comment-header-15771" class="dsq-comment-header">
+            <cite id="dsq-cite-15771">
+                <span id="dsq-author-user-15771">aayushkumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15771" class="dsq-comment-body">
+            <div id="dsq-comment-message-15771" class="dsq-comment-message"><p>i have doubt what if child pointer not point to head of next level??<br />
+how can u obtain head of next level in that case??</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-15772">
+        <div id="dsq-comment-header-15772" class="dsq-comment-header">
+            <cite id="dsq-cite-15772">
+                <span id="dsq-author-user-15772">aayushkumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15772" class="dsq-comment-body">
+            <div id="dsq-comment-message-15772" class="dsq-comment-message"><p>@admin plzz reply ASAP</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-16012">
+        <div id="dsq-comment-header-16012" class="dsq-comment-header">
+            <cite id="dsq-cite-16012">
+                <span id="dsq-author-user-16012">Star_Trek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16012" class="dsq-comment-body">
+            <div id="dsq-comment-message-16012" class="dsq-comment-message"><p>@ aayushkumar&#8230;&#8230;..its simple..<br />
+suppose 10 points to 20 as its child node&#8230;<br />
+then we can specify it by writing&#8230;<br />
+head1-&gt;child=head2-&gt;next;</p>
+<p><img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-16839">
+        <div id="dsq-comment-header-16839" class="dsq-comment-header">
+            <cite id="dsq-cite-16839">
+                <span id="dsq-author-user-16839">Shivani Gupta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16839" class="dsq-comment-body">
+            <div id="dsq-comment-message-16839" class="dsq-comment-message"><p>but this you r telling to create the list but how to flatten such a list ?</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-15564">
+        <div id="dsq-comment-header-15564" class="dsq-comment-header">
+            <cite id="dsq-cite-15564">
+                <span id="dsq-author-user-15564">spiderman</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15564" class="dsq-comment-body">
+            <div id="dsq-comment-message-15564" class="dsq-comment-message"><p>The function for flattening linked list using Queue is as follows:</p>
+<pre> <code language="Java">
+
+private static NodeNovel flattenLinkedList(NodeNovel head){
+		LinkedList&lt;NodeNovel&gt; queue=new LinkedList&lt;NodeNovel&gt;();
+		queue.addLast(head);
+		NodeNovel headAns=null, headAnsCur=null;
+		NodeNovel curNode;
+		headAns=new NodeNovel(head.val);
+		headAnsCur=headAns;
+		while(queue.size()&gt;0){
+			curNode=queue.removeFirst();
+			while(curNode!=null){
+				if(curNode.val!=headAns.val){
+					headAnsCur.next=new NodeNovel(curNode.val);
+					headAnsCur=headAnsCur.next;
+				}	
+				queue.addLast(curNode.child);
+				curNode=curNode.next;
+			}
+		}
+		return headAns;
+	}
+
+class NodeNovel{
+	int val;
+	NodeNovel child, next;
+	public NodeNovel(int val){
+		this.val=val;
+		this.child=null;
+		this.next=null;
+	}
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/flatten-a-linked-list-with-next-and-child-pointers/';
+var disqus_identifier = '114576 http://www.geeksforgeeks.org/?p=114576';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Flatten a multilevel linked list";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.195 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:28:42 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

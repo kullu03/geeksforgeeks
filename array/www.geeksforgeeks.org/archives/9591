@@ -1,0 +1,2249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Longest Monotonically Increasing Subsequence Size (N log N) - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/longest-monotonically-increasing-subsequence-size-n-log-n/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Longest Monotonically Increasing Subsequence Size (N log N) - GeeksforGeeks" />
+<meta property="og:description" content="After few months of gap posting an algo. The current post is pending from long time, and many readers (e.g. here, here, here may be few more, I am not keeping track of all) are posting requests for explanation of the below problem. Given an array of random numbers. Find longest monotonically increasing subsequence (LIS) in the array. &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/longest-monotonically-increasing-subsequence-size-n-log-n/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:section" content="Arrays" />
+<meta property="article:published_time" content="2012-05-18T09:42:57+00:00" />
+<meta property="article:modified_time" content="2013-05-16T09:19:43+00:00" />
+<meta property="og:updated_time" content="2013-05-16T09:19:43+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/google-captcha/js/script.js?ver=4.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.517 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1422855158 202.164.25.5';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right">   <a href="https://play.google.com/store/apps/details?id=free.programming.programming"> Android App </a>
+<a href="http://geeksquiz.com/">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login/Register</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Longest Monotonically Increasing Subsequence Size (N log N)</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>After few months of gap posting an algo. The current post is pending from long time, and many readers (e.g. <a href="http://geeksforgeeks.org/forum/topic/microsoft-interview-question-for-software-engineerdeveloper-about-algorithms-arrays-4" target="_blank">here</a>, <a href="http://geeksforgeeks.org/forum/topic/finding-the-longest-increasing-sub-sequence-in-an-array" target="_blank">here</a>, <a href="http://geeksforgeeks.org/forum/topic/longest-increasing-subsequence-onlogn" target="_blank">here</a> may be few more, I am not keeping track of all) are posting requests for explanation of the below problem.<span id="more-9591"></span></p>
+<p><strong>Given an array of random numbers. Find <em>longest monotonically increasing <a href="http://en.wikipedia.org/wiki/Substring" target="_blank">subsequence</a></em> (LIS) in the array. I know many of you might have read <a href="http://www.geeksforgeeks.org/archives/12832" target="_blank">recursive and dynamic programming</a> (DP) solutions. There are few requests for <a href="http://en.wikipedia.org/wiki/Longest_increasing_subsequence#Efficient_algorithms" target="_blank">O(N log N)</a> algo in the forum posts.</strong></p>
+<p>For the time being, forget about recursive and DP solutions. Let us take small samples and extend the solution to large instances. Even though it may look complex at first time, once if we understood the logic, coding is simple.</p>
+<p>Consider an input array A = {2, 5, 3}. I will extend the array during explanation.</p>
+<p>By observation we know that the LIS is either {2, 3} or {2, 5}. <em><strong>Note that I am considering only strictly increasing monotone sequences</strong></em>.</p>
+<p>Let us add two more elements, say 7, 11 to the array. These elements will extend the existing sequences. Now the increasing sequences are {2, 3, 7, 11} and {2, 5, 7, 11} for the input array {2, 5, 3, 7, 11}.</p>
+<p>Further, we add one more element, say 8 to the array i.e. input array becomes {2, 5, 3, 7, 11, 8}. Note that the latest element 8 is greater than smallest element of any active sequence (<em>will discuss shortly about active sequences</em>). How can we extend the existing sequences with 8? First of all, can 8 be part of LIS? If yes, how? If we want to add 8, it should come after 7 (by replacing 11).</p>
+<p>Since the approach is <em>offline (what we mean by <a href="http://www.geeksforgeeks.org/archives/14873" target="_blank">offline</a>?)</em>, we are not sure whether adding 8 will extend the series or not. Assume there is 9 in the input array, say {2, 5, 3, 7, 11, 8, 7, 9 &#8230;}. We can replace 11 with 8, as there is potentially <em>best</em> candidate (9) that can extend the new series {2, 3, 7, 8} or {2, 5, 7, 8}.</p>
+<p>Our observation is, assume that the end element of largest sequence is E. We can add (replace) current element A[i] to the existing sequence if there is an element A[j] (j &gt; i) such that E &lt; A[i] &lt; A[j] or (E &gt; A[i] &lt; A[j] &#8211; for replace). In the above example, E = 11, A[i] = 8 and A[j] = 9.</p>
+<p>In case of our original array {2, 5, 3}, note that we face same situation when we are adding 3 to increasing sequence {2, 5}. I just created two increasing sequences to make explanation simple. Instead of two sequences, 3 can replace 5 in the sequence {2, 5}.</p>
+<p>I know it will be confusing, I will clear it shortly!</p>
+<p><em>The question is, when will it be safe to add or replace an element in the existing sequence?</em></p>
+<p>Let us consider another sample A = {2, 5, 3}. Say, the next element is 1. How can it extend the current sequences {2,3} or {2, 5}. Obviously, it can&#8217;t extend either. Yet, there is a potential that the new smallest element can be start of an LIS. To make it clear, consider the array is {2, 5, 3, 1, 2, 3, 4, 5, 6}. Making 1 as new sequence will create new sequence which is largest.</p>
+<p><em>The observation is, when we encounter new smallest element in the array, it can be a potential candidate to start new sequence.</em></p>
+<p>From the observations, we need to maintain lists of increasing sequences.</p>
+<p>In general, we have set of <strong>active lists</strong> of varying length. We are adding an element A[i] to these lists. We scan the lists (for end elements) in decreasing order of their length. We will verify the end elements of all the lists to find a list whose end element is smaller than A[i] (<em>floor</em> value).</p>
+<p>Our strategy determined by the following conditions,</p>
+<p><strong>1. If A[i] is smallest among all <em>end</em> candidates of active lists, we will <em>start</em> new active list of length 1.</strong></p>
+<p><strong>2. If A[i] is largest among all <em>end</em> candidates of active lists, we will clone the <em>largest</em> active list, and extend it by A[i].</strong></p>
+<p><strong>3. If A[i] is in between, we will find a list with <em>largest end element that is smaller than</em> A[i]. Clone and extend this list by A[i]. We will discard all other lists of same length as that of this modified list.</strong></p>
+<p>Note that at any instance during our construction of active lists, the following condition is maintained.</p>
+<p><em>&#8220;end element of smaller list is smaller than end elements of larger lists&#8221;</em>.</p>
+<p>It will be clear with an example, let us take example from <a href="http://en.wikipedia.org/wiki/Longest_increasing_subsequence" target="_blank">wiki</a> {0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15}.</p>
+<pre>A[0] = 0. Case 1. There are no active lists, create one.
+0.
+-----------------------------------------------------------------------------
+A[1] = 8. Case 2. Clone and extend.
+0.
+0, 8.
+-----------------------------------------------------------------------------
+A[2] = 4. Case 3. Clone, extend and discard.
+0.
+0, 4.
+<span style="text-decoration: line-through">0, 8</span>. Discarded
+-----------------------------------------------------------------------------
+A[3] = 12. Case 2. Clone and extend.
+0.
+0, 4.
+0, 4, 12.
+-----------------------------------------------------------------------------
+A[4] = 2. Case 3. Clone, extend and discard.
+0.
+0, 2.
+<span style="text-decoration: line-through">0, 4</span>. Discarded.
+0, 4, 12.
+-----------------------------------------------------------------------------
+A[5] = 10. Case 3. Clone, extend and discard.
+0.
+0, 2.
+0, 2, 10.
+<span style="text-decoration: line-through">0, 4, 12</span>. Discarded.
+-----------------------------------------------------------------------------
+A[6] = 6. Case 3. Clone, extend and discard.
+0.
+0, 2.
+0, 2, 6.
+<span style="text-decoration: line-through">0, 2, 10</span>. Discarded.
+-----------------------------------------------------------------------------
+A[7] = 14. Case 2. Clone and extend.
+0.
+0, 2.
+0, 2, 6.
+0, 2, 6, 14.
+-----------------------------------------------------------------------------
+A[8] = 1. Case 3. Clone, extend and discard.
+0.
+0, 1.
+<span style="text-decoration: line-through">0, 2</span>. Discarded.
+0, 2, 6.
+0, 2, 6, 14.
+-----------------------------------------------------------------------------
+A[9] = 9. Case 3. Clone, extend and discard.
+0.
+0, 1.
+0, 2, 6.
+0, 2, 6, 9.
+<span style="text-decoration: line-through">0, 2, 6, 14</span>. Discarded.
+-----------------------------------------------------------------------------
+A[10] = 5. Case 3. Clone, extend and discard.
+0.
+0, 1.
+0, 1, 5.
+<span style="text-decoration: line-through">0, 2, 6</span>. Discarded.
+0, 2, 6, 9.
+-----------------------------------------------------------------------------
+A[11] = 13. Case 2. Clone and extend.
+0.
+0, 1.
+0, 1, 5.
+0, 2, 6, 9.
+0, 2, 6, 9, 13.
+-----------------------------------------------------------------------------
+A[12] = 3. Case 3. Clone, extend and discard.
+0.
+0, 1.
+0, 1, 3.
+<span style="text-decoration: line-through">0, 1, 5</span>. Discarded.
+0, 2, 6, 9.
+0, 2, 6, 9, 13.
+-----------------------------------------------------------------------------
+A[13] = 11. Case 3. Clone, extend and discard.
+0.
+0, 1.
+0, 1, 3.
+0, 2, 6, 9.
+0, 2, 6, 9, 11.
+<span style="text-decoration: line-through">0, 2, 6, 9, 13</span>. Discarded.
+-----------------------------------------------------------------------------
+A[14] = 7. Case 3. Clone, extend and discard.
+0.
+0, 1.
+0, 1, 3.
+0, 1, 3, 7.
+<span style="text-decoration: line-through">0, 2, 6, 9</span>. Discarded.
+0, 2, 6, 9, 11.
+----------------------------------------------------------------------------
+A[15] = 15. Case 2. Clone and extend.
+0.
+0, 1.
+0, 1, 3.
+0, 1, 3, 7.
+0, 2, 6, 9, 11.
+<strong>0, 2, 6, 9, 11, 15. &lt;-- LIS List</strong>
+----------------------------------------------------------------------------</pre>
+<p>It is required to understand above strategy to devise an algorithm. Also, ensure we have maintained the condition, &#8220;<em>end element of smaller list is smaller than end elements of larger lists</em>&#8220;. Try with few other examples, before reading further. It is important to understand what happening to end elements.</p>
+<p><strong>Algorithm:</strong></p>
+<p>Querying length of longest is fairly easy. Note that we are dealing with end elements only. We need not to maintain all the lists. We can store the end elements in an array. Discarding operation can be simulated with replacement, and extending a list is analogous to adding more elements to array.</p>
+<p>We will use an auxiliary array to keep end elements. The maximum length of this array is that of input. In the worst case the array divided into N lists of size one (<em>note that it does&#8217;t lead to worst case complexity</em>). To discard an element, we will trace ceil value of A[i] in auxiliary array (again observe the end elements in your rough work), and replace ceil value with A[i]. We extend a list by adding element to auxiliary array. We also maintain a counter to keep track of auxiliary array length.</p>
+<p><strong>Bonus:</strong> You have learnt <a href="http://en.wikipedia.org/wiki/Patience_sorting" target="_blank">Patience Sorting</a> technique partially :).</p>
+<p>Here is a proverb, &#8220;<em>Tell me and I will forget. Show me and I will remember. Involve me and I will understand</em>.&#8221; So, pick a suit from deck of cards. Find the longest increasing sub-sequence of cards from the shuffled suit. You will never forget the approach. <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+<p>Given below is code to find length of LIS,</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+#include &lt;iostream&gt;
+#include &lt;string.h&gt;
+#include &lt;stdio.h&gt;
+
+using namespace std;
+
+#define ARRAY_SIZE(A) sizeof(A)/sizeof(A[0])
+// Binary search (note boundaries in the caller)
+// A[] is ceilIndex in the caller
+int CeilIndex(int A[], int l, int r, int key) {
+    int m;
+
+    while( r - l &gt; 1 ) {
+        m = l + (r - l)/2;
+        (A[m] &gt;= key ? r : l) = m; // ternary expression returns an l-value
+    }
+
+    return r;
+}
+
+int LongestIncreasingSubsequenceLength(int A[], int size) {
+    // Add boundary case, when array size is one
+
+    int *tailTable   = new int[size];
+    int len; // always points empty slot
+
+    memset(tailTable, 0, sizeof(tailTable[0])*size);
+
+    tailTable[0] = A[0];
+    len = 1;
+    for( int i = 1; i &lt; size; i++ ) {
+        if( A[i] &lt; tailTable[0] )
+            // new smallest value
+            tailTable[0] = A[i];
+        else if( A[i] &gt; tailTable[len-1] )
+            // A[i] wants to extend largest subsequence
+            tailTable[len++] = A[i];
+        else
+            // A[i] wants to be current end candidate of an existing subsequence
+            // It will replace ceil value in tailTable
+            tailTable[CeilIndex(tailTable, -1, len-1, A[i])] = A[i];
+    }
+
+    delete[] tailTable;
+
+    return len;
+}
+
+int main() {
+    int A[] = { 2, 5, 3, 7, 11, 8, 10, 13, 6 };
+    int n = ARRAY_SIZE(A);
+
+    printf(&quot;Length of Longest Increasing Subsequence is %d\n&quot;,
+            LongestIncreasingSubsequenceLength(A, n));
+
+    return 0;
+}
+</pre>
+<p><strong>Complexity:</strong></p>
+<p>The loop runs for N elements. In the worst case (what is worst case input?), we may end up querying ceil value using binary search (log <em>i</em>) for many A[i].</p>
+<p>Therefore, T(n) &lt; O( log N! )  = O(N log N). Analyse to ensure that the upper and lower bounds are also O( N log N ). The complexity is THETA (N log N).</p>
+<p><strong>Exercises:</strong></p>
+<p>1. <a href="http://www.geeksforgeeks.org/archives/27614" target="_blank">Design an algorithm to construct the longest increasing list</a>. Also, model your solution using DAGs.</p>
+<p>2. Design an algorithm to construct <strong>all</strong> monotonically increasing list<strong>s of equal longest size</strong>.</p>
+<p>3. Is the above algorithm an <em>online</em> algorithm?</p>
+<p>4. Design an algorithm to construct the longest <em>decreasing</em> list..</p>
+<p>&#8212; <a href="http://www.linkedin.com/in/ramanawithu" target="_blank">Venki</a>. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/can-quicksort-implemented-onlogn-worst-case-time-complexity/" title="Can QuickSort be implemented in O(nLogn) worst case time complexity?">Can QuickSort be implemented in O(nLogn) worst case time complexity?</a></li><li><a href="http://www.geeksforgeeks.org/fill-two-instances-numbers-1-n-specific-way/" title="Fill two instances of all numbers from 1 to n in a specific way">Fill two instances of all numbers from 1 to n in a specific way</a></li><li><a href="http://www.geeksforgeeks.org/weighted-job-scheduling/" title="Weighted Job Scheduling">Weighted Job Scheduling</a></li><li><a href="http://www.geeksforgeeks.org/factorial-large-number/" title="Factorial of a large number">Factorial of a large number</a></li><li><a href="http://www.geeksforgeeks.org/find-missing-number-arithmetic-progression/" title="Find the missing number in Arithmetic Progression">Find the missing number in Arithmetic Progression</a></li><li><a href="http://www.geeksforgeeks.org/given-matrix-o-x-replace-o-x-surrounded-x/" title="Given a matrix of ‘O’ and ‘X’,  replace &#8216;O&#8217; with &#8216;X&#8217; if surrounded by &#8216;X&#8217;">Given a matrix of ‘O’ and ‘X’,  replace &#8216;O&#8217; with &#8216;X&#8217; if surrounded by &#8216;X&#8217;</a></li><li><a href="http://www.geeksforgeeks.org/check-given-array-contains-duplicate-elements-within-k-distance/" title="Check if a given array contains duplicate elements within k distance from each other">Check if a given array contains duplicate elements within k distance from each other</a></li><li><a href="http://www.geeksforgeeks.org/given-binary-string-count-number-substrings-start-end-1/" title="Given a binary string, count number of substrings that start and end with 1.">Given a binary string, count number of substrings that start and end with 1.</a></li></ul>
+<p></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Flongest-monotonically-increasing-subsequence-size-n-log-n%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/longest-monotonically-increasing-subsequence-size-n-log-n/" data-text="Longest Monotonically Increasing Subsequence Size (N log N)" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/longest-monotonically-increasing-subsequence-size-n-log-n/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-34885">
+        <div id="dsq-comment-header-34885" class="dsq-comment-header">
+            <cite id="dsq-cite-34885">
+                <span id="dsq-author-user-34885">lol</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34885" class="dsq-comment-body">
+            <div id="dsq-comment-message-34885" class="dsq-comment-message"><p>I stopped reading after the invalid statement<br />
+1. If A[i] is smallest among all end candidates of active lists, we will start new active list of length 1.</p>
+<p>Why should it being less than all end candidates mean it is also less than the first elements of all lists?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-33157">
+        <div id="dsq-comment-header-33157" class="dsq-comment-header">
+            <cite id="dsq-cite-33157">
+                <span id="dsq-author-user-33157">Prateek Jain</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33157" class="dsq-comment-body">
+            <div id="dsq-comment-message-33157" class="dsq-comment-message"><p>Have made it very Simple , Think of above implementing like a Binary<br />
+Tree (Not Binary Search Tree) and the implementation becomes very simple<br />
+ and keep discarding the child nodes with larger value and same depth in<br />
+ tree.</p>
+<p>Root is an empty container to hold the reference values, as there can be more than two child nodes.</p>
+<p>Below is the Java code implementation.</p>
+<p><a href="http://ideone.com/e.js/W1rcXp" rel="nofollow">http://ideone.com/e.js/W1rcXp</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-33156">
+        <div id="dsq-comment-header-33156" class="dsq-comment-header">
+            <cite id="dsq-cite-33156">
+                <span id="dsq-author-user-33156">Prateek Jain</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33156" class="dsq-comment-body">
+            <div id="dsq-comment-message-33156" class="dsq-comment-message"><p>Have made it very Simple , Think of above implementing like a Binary Tree (Not Binary Search Tree) and the implementation becomes very simple and keep discarding the child nodes with larger value and same depth in tree.</p>
+<p>Root is an empty container to hold the reference values, as there can be more than two child nodes..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-31606">
+        <div id="dsq-comment-header-31606" class="dsq-comment-header">
+            <cite id="dsq-cite-31606">
+                <span id="dsq-author-user-31606">kraken</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31606" class="dsq-comment-body">
+            <div id="dsq-comment-message-31606" class="dsq-comment-message"><p>Will we get all the longest subsequence?<br />
+Because if we take the example {2 5 3}</p>
+<p>Then</p>
+<p>2 : Clone =&gt;<br />
+2</p>
+<p>5 : Clone and Extend =&gt;<br />
+2<br />
+2 5</p>
+<p>3 : Clone Extend Discard<br />
+2<br />
+2 3</p>
+<p>We dont get 2 and 5 using this approach?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-32389">
+        <div id="dsq-comment-header-32389" class="dsq-comment-header">
+            <cite id="dsq-cite-32389">
+                <span id="dsq-author-user-32389">Robin Keskisärkkä</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32389" class="dsq-comment-body">
+            <div id="dsq-comment-message-32389" class="dsq-comment-message"><p>That&#8217;s right, we don&#8217;t get [2,5] because any continuation sequence that is possible from [2,5] is also reachable from [2,3]. For example: 3, 4, 1, 2, 3 is solved as:<br />
+3<br />
+&#8212;<br />
+3<br />
+3, 4<br />
+&#8212;<br />
+1 (more &#8220;potential&#8221; than 3)<br />
+3, 4<br />
+&#8212;<br />
+1<br />
+1, 2 (more &#8220;potential&#8221; than 3, 4)<br />
+&#8212;<br />
+1<br />
+1, 2<br />
+1, 2, 3</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-29868">
+        <div id="dsq-comment-header-29868" class="dsq-comment-header">
+            <cite id="dsq-cite-29868">
+                <span id="dsq-author-user-29868">Vivekz</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29868" class="dsq-comment-body">
+            <div id="dsq-comment-message-29868" class="dsq-comment-message"><p>I dont think the implementation is correct, because everytime we encounter a new element, if it is smaller than the smallest element, we are  NOT creating a new list but modifying existing tailTable to store it. </p>
+<p>check out this link .. <a href="http://ideone.com/8Qoi5i" rel="nofollow">http://ideone.com/8Qoi5i</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-29275">
+        <div id="dsq-comment-header-29275" class="dsq-comment-header">
+            <cite id="dsq-cite-29275">
+                <span id="dsq-author-user-29275">Neha Garg</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29275" class="dsq-comment-body">
+            <div id="dsq-comment-message-29275" class="dsq-comment-message"><p>in third step we are finding the ceilindex and replacing a[i] over there &#8230;. plz tell me then y we are not modifing the len?????</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-31029">
+        <div id="dsq-comment-header-31029" class="dsq-comment-header">
+            <cite id="dsq-cite-31029">
+                <span id="dsq-author-user-31029">OP</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31029" class="dsq-comment-body">
+            <div id="dsq-comment-message-31029" class="dsq-comment-message"><p>Because len is always equals to the maximum length of monotonic sub sequence we have found so far.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-28938">
+        <div id="dsq-comment-header-28938" class="dsq-comment-header">
+            <cite id="dsq-cite-28938">
+                <span id="dsq-author-user-28938">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28938" class="dsq-comment-body">
+            <div id="dsq-comment-message-28938" class="dsq-comment-message"><p>its very well explained ,i understood the method but can someone explain me about its complexity!!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-31030">
+        <div id="dsq-comment-header-31030" class="dsq-comment-header">
+            <cite id="dsq-cite-31030">
+                <span id="dsq-author-user-31030">OP</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31030" class="dsq-comment-body">
+            <div id="dsq-comment-message-31030" class="dsq-comment-message"><p>Time complexity = O(nlogn)<br />
+for each element we are doing one binary searh, so for total n elements it will be O(nlogn)</p>
+<p>Space complexity = O(n)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-28550">
+        <div id="dsq-comment-header-28550" class="dsq-comment-header">
+            <cite id="dsq-cite-28550">
+                <span id="dsq-author-user-28550">googlybhai</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28550" class="dsq-comment-body">
+            <div id="dsq-comment-message-28550" class="dsq-comment-message"><p><code></p>
+<p>#include<br />
+#include<br />
+#include<br />
+using namespace std;</p>
+<p>#define ARRAY_SIZE(A) sizeof(A)/sizeof(A[0])</p>
+<p>// Binary search (note boundaries in the caller)</p>
+<p>// A[] is ceilIndex in the caller</p>
+<p>int CeilIndex(int *A, int *table, int l, int r, int key) {<br />
+int m;<br />
+while( r-l &gt; 1 ) {<br />
+m = l + (r-l)/2;<br />
+(A[table[m]] &gt;= A[key] ? r : l) = m; // ternary expression returns an l-value<br />
+}<br />
+return r;<br />
+}</p>
+<p>int LongestIncreasingSubsequenceLength(int A[], int size, int *result) {<br />
+// Add boundary case, when array size is one<br />
+int *tailTable   = new int[size];<br />
+int *parentIndex = new int[size];<br />
+int len, pos; // always points empty slot<br />
+int i;</p>
+<p>    memset(tailTable, 0, sizeof(tailTable[0])*size);<br />
+memset(parentIndex, -1, sizeof(parentIndex[0])*size);<br />
+tailTable[0] = 0;<br />
+len = 1;<br />
+for(i = 1; i &lt; size; i++ ) {<br />
+if( A[i] <a>=2 &amp;&amp; (A[i] </a><a> A[tailTable[len-2]])){<br />
+tailTable[len-1] = i;<br />
+parentIndex[i]=tailTable[len-2];<br />
+}<br />
+else if( A[i] &gt; A[tailTable[len-1]] )<br />
+// A[i] wants to extend largest subsequence<br />
+{<br />
+tailTable[len] = i;<br />
+parentIndex[i]=tailTable[len-1];<br />
+len++;<br />
+}<br />
+else<br />
+// A[i] wants to be current end candidate of an existing subsequence<br />
+// It will replace ceil value in tailTable<br />
+{<br />
+pos= CeilIndex(A, tailTable, -1, len-1, i);<br />
+tailTable[pos] = i;<br />
+parentIndex[i]=tailTable[pos-1];<br />
+}<br />
+}<br />
+i=tailTable[len-1];<br />
+for (int j=len-1;j&gt;=0 &amp;&amp; i!=-1;j--){<br />
+result[j]=A[i];<br />
+i=parentIndex[i];<br />
+}<br />
+delete[] tailTable;<br />
+delete[] parentIndex;<br />
+return len;<br />
+}</p>
+<p>int main() {<br />
+//int A[] = { 2, 5, 3, 7, 11, 8, 10, 13, 6 };<br />
+int A[] = {5,2,6,3,4,1,9,8,9,5,6,7};<br />
+int n = ARRAY_SIZE(A);<br />
+int x;<br />
+int *result= new int[n];<br />
+printf("Length of Longest Increasing Subsequence is %dn",<br />
+x=LongestIncreasingSubsequenceLength(A, n, result));<br />
+cout&lt;&lt;&quot;result&quot;&lt;&lt;endl;<br />
+for(int i=0;i&lt;x;i++)<br />
+cout&lt;&lt;result[i]&lt;&lt;&quot; &quot;;<br />
+cout&lt;&lt;endl;<br />
+return 0;<br />
+}</p>
+<p></a></code></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-28549">
+        <div id="dsq-comment-header-28549" class="dsq-comment-header">
+            <cite id="dsq-cite-28549">
+                <span id="dsq-author-user-28549">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28549" class="dsq-comment-body">
+            <div id="dsq-comment-message-28549" class="dsq-comment-message"><p><code></p>
+<p>/* Modified the code to return longest increasing subsequence */</p>
+<p>#include </p>
+<p>#include </p>
+<p>#include </p>
+<p>using namespace std;</p>
+<p>#define ARRAY_SIZE(A) sizeof(A)/sizeof(A[0])</p>
+<p>// Binary search (note boundaries in the caller)</p>
+<p>// A[] is ceilIndex in the caller</p>
+<p>int CeilIndex(int *A, int *table, int l, int r, int key) {</p>
+<p>    int m;</p>
+<p>    while( r-l &gt; 1 ) {</p>
+<p>        m = l + (r-l)/2;</p>
+<p>        (A[table[m]] &gt;= A[key] ? r : l) = m; // ternary expression returns an l-value</p>
+<p>    }</p>
+<p>    return r;</p>
+<p>}</p>
+<p>int LongestIncreasingSubsequenceLength(int A[], int size, int *result) {</p>
+<p>    // Add boundary case, when array size is one</p>
+<p>    int *tailTable   = new int[size];</p>
+<p>    int *parentIndex = new int[size];</p>
+<p>    int len, pos; // always points empty slot</p>
+<p> 	int i;</p>
+<p>    memset(tailTable, 0, sizeof(tailTable[0])*size);</p>
+<p>    memset(parentIndex, -1, sizeof(parentIndex[0])*size);</p>
+<p>    tailTable[0] = 0;</p>
+<p>    len = 1;</p>
+<p>    for(i = 1; i &lt; size; i++ ) {</p>
+<p>        if( A[i] <a>=2 &amp;&amp; (A[i] </a><a> A[tailTable[len-2]])){</p>
+<p> 		   	 	tailTable[len-1] = i;</p>
+<p>				parentIndex[i]=tailTable[len-2];  </p>
+<p>	 	   	}	</p>
+<p>        else if( A[i] &gt; A[tailTable[len-1]] )</p>
+<p>            // A[i] wants to extend largest subsequence</p>
+<p>            {</p>
+<p>			   		tailTable[len] = i;</p>
+<p>			   		parentIndex[i]=tailTable[len-1];</p>
+<p>					len++;   	</p>
+<p>			}</p>
+<p>        else</p>
+<p>            // A[i] wants to be current end candidate of an existing subsequence</p>
+<p>            // It will replace ceil value in tailTable</p>
+<p>            {</p>
+<p>			   	  pos= CeilIndex(A, tailTable, -1, len-1, i);</p>
+<p>			   	  tailTable[pos] = i;</p>
+<p>				  parentIndex[i]=tailTable[pos-1];</p>
+<p>		    }</p>
+<p>    }</p>
+<p> 	i=tailTable[len-1];</p>
+<p> 	for (int j=len-1;j&gt;=0 &amp;&amp; i!=-1;j--){</p>
+<p>		result[j]=A[i];</p>
+<p>		i=parentIndex[i];</p>
+<p>	}</p>
+<p>    delete[] tailTable;</p>
+<p>    delete[] parentIndex;</p>
+<p>    return len;</p>
+<p>}</p>
+<p>int main() {</p>
+<p>    //int A[] = { 2, 5, 3, 7, 11, 8, 10, 13, 6 };</p>
+<p>    int A[] = {5,2,6,3,4,1,9,8,9,5,6,7};</p>
+<p>    int n = ARRAY_SIZE(A);</p>
+<p>    int x;</p>
+<p>    int *result= new int[100]; </p>
+<p>    printf("Length of Longest Increasing Subsequence is %dn",</p>
+<p>            x=LongestIncreasingSubsequenceLength(A, n, result));</p>
+<p>   	cout&lt;&lt;&quot;result&quot;&lt;&lt;endl;</p>
+<p>	for(int i=0;i&lt;x;i++)</p>
+<p>	  cout&lt;&lt;result[i]&lt;&lt;&quot; &quot;;</p>
+<p>    cout&lt;&lt;endl;    </p>
+<p>    scanf(&quot;%d&quot;, &amp;x);</p>
+<p>    return 0;</p>
+<p>}</p>
+<p></a></code></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-27939">
+        <div id="dsq-comment-header-27939" class="dsq-comment-header">
+            <cite id="dsq-cite-27939">
+                <span id="dsq-author-user-27939">Surya Baghrecha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27939" class="dsq-comment-body">
+            <div id="dsq-comment-message-27939" class="dsq-comment-message"><p>tailTable wont be having result sub sequence can you tell me what changes to make for this to print right sub sequence in nlogn<br />
+2, 5, 3, 7, 11, 8, 10, 13, 6,1</p>
+<p>1 3 6 8 10 13  it will give this as output</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-28552">
+        <div id="dsq-comment-header-28552" class="dsq-comment-header">
+            <cite id="dsq-cite-28552">
+                <span id="dsq-author-user-28552">Kellogs</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28552" class="dsq-comment-body">
+            <div id="dsq-comment-message-28552" class="dsq-comment-message"><p>No. </p>
+<p>(For 2) </p>
+<p>2</p>
+<p>********************************************************<br />
+(For 5)</p>
+<p>2</p>
+<p>       2,5</p>
+<p>*******************************************************<br />
+(For 3)</p>
+<p>2</p>
+<p>       2,3</p>
+<p>       2,5 (Discard)</p>
+<p>*******************************************************<br />
+(for 7)<br />
+2</p>
+<p>       2,3</p>
+<p>       2,3,7</p>
+<p>********************************************************<br />
+(for 11)<br />
+2</p>
+<p>         2,3</p>
+<p>         2,3,7</p>
+<p>         2,3,7,11<br />
+**************************************************************<br />
+(for 8)<br />
+2</p>
+<p>       2,3</p>
+<p>       2,3,7</p>
+<p>       2,3,7,8</p>
+<p>       2,3,7,11 (Discard)</p>
+<p>****************************************<br />
+(for 10)<br />
+2</p>
+<p>         2,3</p>
+<p>         2,3,7</p>
+<p>         2,3,7,8</p>
+<p>         2,3,7,8,10<br />
+********************************************************<br />
+(for 13)<br />
+2</p>
+<p>         2,3</p>
+<p>         2,3,7</p>
+<p>         2,3,7,8</p>
+<p>         2,3,7,8,10</p>
+<p>         2,3,7,8,10,13<br />
+**************************************************<br />
+(For 6)<br />
+2</p>
+<p>       2,3</p>
+<p>       2,3,6</p>
+<p>       2,3,7(Discard)</p>
+<p>       2,3,7,8</p>
+<p>       2,3,7,8,10</p>
+<p>       2,3,7,8,10,13<br />
+*****************************************************<br />
+(For 1)</p>
+<p>1</p>
+<p>       2 (Discard)</p>
+<p>       2,3,6</p>
+<p>       2,3,7,8</p>
+<p>       2,3,7,8,10</p>
+<p>       2,3,7,8,10,13</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-28563">
+        <div id="dsq-comment-header-28563" class="dsq-comment-header">
+            <cite id="dsq-cite-28563">
+                <span id="dsq-author-user-28563">Surya Baghrecha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28563" class="dsq-comment-body">
+            <div id="dsq-comment-message-28563" class="dsq-comment-message"><p>if( A[i] &lt; tailTable[0] )<br />
+            // new smallest value<br />
+            tailTable[0] = A[i];<br />
+wont it go into this?? how is it discarded?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-26894">
+        <div id="dsq-comment-header-26894" class="dsq-comment-header">
+            <cite id="dsq-cite-26894">
+                <span id="dsq-author-user-26894">Sudipto</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26894" class="dsq-comment-body">
+            <div id="dsq-comment-message-26894" class="dsq-comment-message"><p>@Venki: Suppose we have an array of pairs, like: (a, b) instead of integers, where a pair (c, d) can come after (a, b) if b &lt; c.<br />
+Let the array be : {{1, 3}, {5, 9}, {5, 7}, {8, 23}}. Here how are we going to compare {5, 9} and {5, 7} as none of these 2 pairs can succeed the other pair. If we replace {5, 9} with    {5, 7} following the given approach, then LIS length will be 3, else it will be 2. So, how can we handle this situation?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-26921">
+        <div id="dsq-comment-header-26921" class="dsq-comment-header">
+            <cite id="dsq-cite-26921">
+                <span id="dsq-author-user-26921">Sudipto</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26921" class="dsq-comment-body">
+            <div id="dsq-comment-message-26921" class="dsq-comment-message"><p>I think this approach will work only if the elements of array are &#8220;totally ordered&#8221;, any 2 elements must be comparable.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-22935">
+        <div id="dsq-comment-header-22935" class="dsq-comment-header">
+            <cite id="dsq-cite-22935">
+                <span id="dsq-author-user-22935">Rajkiran</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22935" class="dsq-comment-body">
+            <div id="dsq-comment-message-22935" class="dsq-comment-message"><p>What is meant by discard all other lists of the same length? At any given point, there can be only 1 list of a given length, right? Can you please clarify?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-22937">
+        <div id="dsq-comment-header-22937" class="dsq-comment-header">
+            <cite id="dsq-cite-22937">
+                <span id="dsq-author-user-22937">Rajkiran</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22937" class="dsq-comment-body">
+            <div id="dsq-comment-message-22937" class="dsq-comment-message"><p>It is also not clear why the binary search function is called with the left argument as -1 ( I do understand that you want to position it before the start of the array ). But it seems unnecessary. Making it 0 would be logical, I guess.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-22474">
+        <div id="dsq-comment-header-22474" class="dsq-comment-header">
+            <cite id="dsq-cite-22474">
+                <span id="dsq-author-user-22474">SS</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22474" class="dsq-comment-body">
+            <div id="dsq-comment-message-22474" class="dsq-comment-message"><p>Great Tutorial !!!!!!!!!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-22350">
+        <div id="dsq-comment-header-22350" class="dsq-comment-header">
+            <cite id="dsq-cite-22350">
+                <span id="dsq-author-user-22350">Asap</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22350" class="dsq-comment-body">
+            <div id="dsq-comment-message-22350" class="dsq-comment-message"><p>Can we use this approach for this questions?<br />
+<a href="http://www.geeksforgeeks.org/dynamic-programming-set-14-variations-of-lis/" rel="nofollow">http://www.geeksforgeeks.org/dynamic-programming-set-14-variations-of-lis/</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-18760">
+        <div id="dsq-comment-header-18760" class="dsq-comment-header">
+            <cite id="dsq-cite-18760">
+                <span id="dsq-author-user-18760">Dj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18760" class="dsq-comment-body">
+            <div id="dsq-comment-message-18760" class="dsq-comment-message"><p>why this code is not working ?? Please help&#8230;</p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+int main()
+{
+    int n,a[10],A[10],len,low,high,mid;
+    scanf(&quot;%d %d&quot;,&amp;n,&amp;a[0]);
+    A[0]=a[0];
+    len=1;
+    for(int i=1;i&lt;n;i++)
+    {
+            scanf(&quot;%d&quot;,&amp;a[i]);
+            if(a[i]&gt;A[len-1])
+                             A[len++]=a[i];
+            else if(a[i]&lt;A[0])
+                 A[0]=a[i];
+            else 
+            {
+                low=0;
+                high=len-1;
+                while(low&lt;high)
+                {
+                                 mid=(low+high)/2;
+                                 if(A[mid]==a[i])
+                                 {
+                                                 high=mid;
+                                                 break;
+                                 }
+                                 if(A[mid]&lt;a[i])
+                                                low=mid+1;
+                                 else
+                                     high=mid-1;
+                }
+                A[high]=a[i];
+            }
+    }
+    printf(&quot;%d&quot;,len);
+    return 0;
+    }
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-18213">
+        <div id="dsq-comment-header-18213" class="dsq-comment-header">
+            <cite id="dsq-cite-18213">
+                <span id="dsq-author-user-18213">Swapnil R Mehta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18213" class="dsq-comment-body">
+            <div id="dsq-comment-message-18213" class="dsq-comment-message"><p>Can&#8217;t we just write a binary search function in place of CeilIndex and find the index of smallest value larger than A[i] in tailTable and replace it with A[i].As tailTable is always sorted&#8212;-&gt;&#8221;end element of smaller list is smaller than end elements of larger lists&#8221;.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-venki bypostauthor odd alt depth-2" id="dsq-comment-18215">
+        <div id="dsq-comment-header-18215" class="dsq-comment-header">
+            <cite id="dsq-cite-18215">
+http://www.linkedin.com/in/ramanawithu                <span id="dsq-author-user-18215">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18215" class="dsq-comment-body">
+            <div id="dsq-comment-message-18215" class="dsq-comment-message"><p>CeilIndex is binary search function only. Observe it carefully. It returns ceil index of A[i], and it is always guaranteed (Why?).</p>
+<p>Am I missing anything to understand?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-18220">
+        <div id="dsq-comment-header-18220" class="dsq-comment-header">
+            <cite id="dsq-cite-18220">
+                <span id="dsq-author-user-18220">Swapnil R Mehta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18220" class="dsq-comment-body">
+            <div id="dsq-comment-message-18220" class="dsq-comment-message"><p>Sir, pls make the parameter received in ceilIndex() from int A[] to int tailTable[].It was tailTable which was been sent as parameter.It will help remove confusions.<br />
+Rest alls correct. Thanks for reply <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-venki bypostauthor odd alt depth-4" id="dsq-comment-18257">
+        <div id="dsq-comment-header-18257" class="dsq-comment-header">
+            <cite id="dsq-cite-18257">
+http://www.linkedin.com/in/ramanawithu                <span id="dsq-author-user-18257">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18257" class="dsq-comment-body">
+            <div id="dsq-comment-message-18257" class="dsq-comment-message"><p>I am not sir.</p>
+<p>I follow some coding convention. A for array, I have added comment to avoid confusion.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-5" id="dsq-comment-18258">
+        <div id="dsq-comment-header-18258" class="dsq-comment-header">
+            <cite id="dsq-cite-18258">
+                <span id="dsq-author-user-18258">Swapnil R Mehta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18258" class="dsq-comment-body">
+            <div id="dsq-comment-message-18258" class="dsq-comment-message"><p>thanks for your valuable time&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-abhishek08aug odd alt thread-even depth-1" id="dsq-comment-17673">
+        <div id="dsq-comment-header-17673" class="dsq-comment-header">
+            <cite id="dsq-cite-17673">
+                <span id="dsq-author-user-17673">abhishek08aug</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17673" class="dsq-comment-body">
+            <div id="dsq-comment-message-17673" class="dsq-comment-message"><p>Intelligent <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_biggrin.gif" alt=":D" class="wp-smiley" /></p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-17518">
+        <div id="dsq-comment-header-17518" class="dsq-comment-header">
+            <cite id="dsq-cite-17518">
+                <span id="dsq-author-user-17518">Qiao</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17518" class="dsq-comment-body">
+            <div id="dsq-comment-message-17518" class="dsq-comment-message"><p>Will the CeilIndex function return the smallest element in A[] that is larger than key??  I thought the function should return the largest element in A[] that is smaller than key..  Am I wrong??</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-17520">
+        <div id="dsq-comment-header-17520" class="dsq-comment-header">
+            <cite id="dsq-cite-17520">
+                <span id="dsq-author-user-17520">Qiao</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17520" class="dsq-comment-body">
+            <div id="dsq-comment-message-17520" class="dsq-comment-message"><p>hmm..  I got it. Thanks~</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-coderace even thread-even depth-1" id="dsq-comment-16698">
+        <div id="dsq-comment-header-16698" class="dsq-comment-header">
+            <cite id="dsq-cite-16698">
+                <span id="dsq-author-user-16698">coderAce</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16698" class="dsq-comment-body">
+            <div id="dsq-comment-message-16698" class="dsq-comment-message"><p>A small observation: The above procedure will find that LIS with the minimum sum. </p>
+<p>To elaborate a little, there can be multiple LISs for a given array. The above procedure, by rule 3 finds out an active list with end element smaller than A[i], clones the list and adds A[i] to it and finally discards other lists of equal length.</p>
+<p>Now the discarded list obviously had its end element greater than A[i] and hence finally we will end up with a list having the minimum sum. </p>
+<p>Please correct me if I am wrong</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-venki bypostauthor odd alt depth-2" id="dsq-comment-17026">
+        <div id="dsq-comment-header-17026" class="dsq-comment-header">
+            <cite id="dsq-cite-17026">
+http://www.linkedin.com/in/ramanawithu                <span id="dsq-author-user-17026">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17026" class="dsq-comment-body">
+            <div id="dsq-comment-message-17026" class="dsq-comment-message"><p>Good observation. The algorithm is greedy in nature, yet, yields smallest sum largest increasing monotonic subsequence.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-16148">
+        <div id="dsq-comment-header-16148" class="dsq-comment-header">
+            <cite id="dsq-cite-16148">
+                <span id="dsq-author-user-16148">ravi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16148" class="dsq-comment-body">
+            <div id="dsq-comment-message-16148" class="dsq-comment-message"><p>Code for longest sub sequences in O(nlog(n)) </p>
+<pre> <code language="C">
+#include &lt;stdio.h&gt;
+#define MX 16
+int main()
+{
+	int array[MX]={0,8,4,12,2,10,6,14,1,9,5,13,3,11,7,15};
+	int index;
+	int k,j;
+	int table[6][6];
+	int m,n;
+	for(m=0;m&lt;6;m++)
+	{
+		for(n=0;n&lt;6;n++)
+		{
+			table[m][n]=-1;
+		}
+	}
+	
+	table[0][0]= array[0];
+	
+	for(index=1;index&lt;MX;index++)
+	{
+		k=0,j=0;
+		while(table[k][0] != -1)
+		{
+				if(array[index] &gt; table[k][j])
+				{
+					k++;
+					j++;
+				}
+				else
+				{
+					n =0;
+					while(table[k-1][n] != -1)
+					{
+						table[k][n] = table[k-1][n];
+						n++;
+					}
+					table[k][n]=array[index];
+					break;
+				}
+			if(table[k][0] == -1)
+			{
+				n=0;
+				while(table[k-1][n] != -1)
+				{
+					table[k][n] = table[k-1][n];
+					n++;
+				}
+				table[k][n] = array[index];
+				break;
+			}
+			
+		}
+	
+	}
+	for(m =0; m &lt; 6; m++)
+	{
+		for(n =0; n &lt; 6; n++)
+		{
+			if(table[m][n] != -1)
+			{
+				printf(&quot;%d&quot;,table[m][n]);
+			}
+		}
+		printf(&quot;\n&quot;);
+	}
+	return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-15677">
+        <div id="dsq-comment-header-15677" class="dsq-comment-header">
+            <cite id="dsq-cite-15677">
+                <span id="dsq-author-user-15677">anirudh beria</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15677" class="dsq-comment-body">
+            <div id="dsq-comment-message-15677" class="dsq-comment-message"><p>i dont think this solution is nlogn due to check for min and max elements. A maximum finding segment tree will be nlogn sol.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-15661">
+        <div id="dsq-comment-header-15661" class="dsq-comment-header">
+            <cite id="dsq-cite-15661">
+                <span id="dsq-author-user-15661">cooldude</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15661" class="dsq-comment-body">
+            <div id="dsq-comment-message-15661" class="dsq-comment-message"><p>44,1,21,41,90,65,82,72,50,16<br />
+For this example,output should be 1,21,41,65,82<br />
+but the above algo gives output as 4<br />
+with table as follows(end=length)<br />
+[1=1, 44=1]<br />
+[1=1, 21=2, 44=1]<br />
+[1=1, 21=2, 41=3, 44=1]<br />
+[1=1, 21=2, 41=3, 44=1, 90=4]<br />
+[1=1, 65=2, 41=3, 44=1, 90=4]<br />
+[1=1, 65=2, 82=3, 44=1, 90=4]<br />
+[1=1, 65=2, 72=3, 44=1, 90=4]<br />
+[50=2, 1=1, 72=3, 44=1, 90=4]<br />
+[16=2, 1=1, 72=3, 44=1, 90=4]</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-venki bypostauthor odd alt depth-2" id="dsq-comment-15731">
+        <div id="dsq-comment-header-15731" class="dsq-comment-header">
+            <cite id="dsq-cite-15731">
+http://www.linkedin.com/in/ramanawithu                <span id="dsq-author-user-15731">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15731" class="dsq-comment-body">
+            <div id="dsq-comment-message-15731" class="dsq-comment-message"><p><a href="http://ideone.com/dgEymU" rel="nofollow">http://ideone.com/dgEymU</a></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-15746">
+        <div id="dsq-comment-header-15746" class="dsq-comment-header">
+            <cite id="dsq-cite-15746">
+                <span id="dsq-author-user-15746">cooldude</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15746" class="dsq-comment-body">
+            <div id="dsq-comment-message-15746" class="dsq-comment-message"><p>but still it doesnt work for this example and some other which i can post</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-venki bypostauthor odd alt depth-4" id="dsq-comment-15759">
+        <div id="dsq-comment-header-15759" class="dsq-comment-header">
+            <cite id="dsq-cite-15759">
+http://www.linkedin.com/in/ramanawithu                <span id="dsq-author-user-15759">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15759" class="dsq-comment-body">
+            <div id="dsq-comment-message-15759" class="dsq-comment-message"><p>Please be specific. I got the following output to your input,</p>
+<p>1 21 41 65 72</p>
+<p>The only difference your expected output and actual output is last number. We always choose best possible next higher number to find largest sequence. We are not concerned with what elements constituted in the sequence, we only concern whether the outcome is largest sequence or not. I have left your expected output in my exercises.</p>
+<p>I would encourage you read all comments as this discussion happened with one reader.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-_maverick even thread-even depth-1" id="dsq-comment-15628">
+        <div id="dsq-comment-header-15628" class="dsq-comment-header">
+            <cite id="dsq-cite-15628">
+                <span id="dsq-author-user-15628">_maverick</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15628" class="dsq-comment-body">
+            <div id="dsq-comment-message-15628" class="dsq-comment-message"><p>hello Venki a grt one!<br />
+I thank you frst for making things easy to understand.</p>
+<p>may i have ur blog to get regular updates from u.</p>
+<p>Once again thanks for this one.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-venki bypostauthor odd alt depth-2" id="dsq-comment-15732">
+        <div id="dsq-comment-header-15732" class="dsq-comment-header">
+            <cite id="dsq-cite-15732">
+http://www.linkedin.com/in/ramanawithu                <span id="dsq-author-user-15732">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15732" class="dsq-comment-body">
+            <div id="dsq-comment-message-15732" class="dsq-comment-message"><p>@Maverick, I am not active on personal blog. You can keep visiting Geeksforgeeks, I post here occasionally.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-15430">
+        <div id="dsq-comment-header-15430" class="dsq-comment-header">
+            <cite id="dsq-cite-15430">
+                <span id="dsq-author-user-15430">viswanath</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15430" class="dsq-comment-body">
+            <div id="dsq-comment-message-15430" class="dsq-comment-message"><p>love it</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-15291">
+        <div id="dsq-comment-header-15291" class="dsq-comment-header">
+            <cite id="dsq-cite-15291">
+                <span id="dsq-author-user-15291">cherry</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15291" class="dsq-comment-body">
+            <div id="dsq-comment-message-15291" class="dsq-comment-message"><p>What is the out put for the given array<br />
+A[] = { 10,22,9,33,21,21,21,21,21 }; ?</p>
+<p>yours is returning just 3. which is ( 10,22,33). isnt this wrong?</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-venki bypostauthor even depth-2" id="dsq-comment-15729">
+        <div id="dsq-comment-header-15729" class="dsq-comment-header">
+            <cite id="dsq-cite-15729">
+http://www.linkedin.com/in/ramanawithu                <span id="dsq-author-user-15729">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15729" class="dsq-comment-body">
+            <div id="dsq-comment-message-15729" class="dsq-comment-message"><p>Thanks for bringing it into attention. I have only considered strictly increasing monotone subsequence. For increasing monotone subsequence, it needs content and code modification.</p>
+<p>Rather I would retain the content as it is, and mention your note.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-14933">
+        <div id="dsq-comment-header-14933" class="dsq-comment-header">
+            <cite id="dsq-cite-14933">
+                <span id="dsq-author-user-14933">Ravi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14933" class="dsq-comment-body">
+            <div id="dsq-comment-message-14933" class="dsq-comment-message"><p>In the above explanation (as explained in boxes), we can find longest increasing sequence, but if we go through code, we are only able to find length of LIS not LIS exactly (in all possible cases).</p>
+<p>Let&#8217;s take an example of {3, 4, 1}&#8230; according to code, final output (LIS) comes out to be {1, 4}&#8230;but LIS should be {3, 4}.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-venki bypostauthor even depth-2" id="dsq-comment-14934">
+        <div id="dsq-comment-header-14934" class="dsq-comment-header">
+            <cite id="dsq-cite-14934">
+http://www.linkedin.com/in/ramanawithu                <span id="dsq-author-user-14934">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14934" class="dsq-comment-body">
+            <div id="dsq-comment-message-14934" class="dsq-comment-message"><p>@Ravi, I have mentioned in the content that the code is meant to find size of LIS. I have left construction of LIS as an exercise, and later added code also.</p>
+<p>I got correct oupput for the sequence {3, 4, 1}</p>
+<p>LIS &#8211; <a href="http://ideone.com/9odmXL" rel="nofollow">http://ideone.com/9odmXL</a></p>
+<p>Note that I have mentioned that the sequence will be printed in reverse order.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-14374">
+        <div id="dsq-comment-header-14374" class="dsq-comment-header">
+            <cite id="dsq-cite-14374">
+                <span id="dsq-author-user-14374">Sakshi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14374" class="dsq-comment-body">
+            <div id="dsq-comment-message-14374" class="dsq-comment-message"><p>Hi Venki,<br />
+Awesome explanation.<br />
+Just a small doubt, while calling CeilIndex function, why not initialize &#8220;l&#8221; as 0, rather than -1. Any particular reason for it to be -1?<br />
+Wont it be better to start the search with the middle element, rather than middle-1? Please correct me if I am wrong.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-14379">
+        <div id="dsq-comment-header-14379" class="dsq-comment-header">
+            <cite id="dsq-cite-14379">
+http://www.linkedin.com/in/ramanawithu                <span id="dsq-author-user-14379">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14379" class="dsq-comment-body">
+            <div id="dsq-comment-message-14379" class="dsq-comment-message"><p>@Sakshi,</p>
+<p>Given a sorted array, I would recommend you to write bug free code for finding floor and ceil values of given key. All your questions will be clarified.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-14306">
+        <div id="dsq-comment-header-14306" class="dsq-comment-header">
+            <cite id="dsq-cite-14306">
+                <span id="dsq-author-user-14306">Bala</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14306" class="dsq-comment-body">
+            <div id="dsq-comment-message-14306" class="dsq-comment-message"><p>I have a doubt in 3rd case  i.e discarding the other lists which is of the same length as the newly cloned list . Say after the LIS &#8220;0, 2, 6, 9, 11, 15&#8243; , there is another number 13. Now there will be another LIS &#8220;0, 2, 6, 9, 11, 13&#8243;. My question is why we have to discard the previous LIS , in this case doesnt the previous one also a LIS ? I think there can be many LIS for a sequence and I guess by discarding, we are eliminating other sub sequences which are also a solution. Please correct if I am wrong</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-14328">
+        <div id="dsq-comment-header-14328" class="dsq-comment-header">
+            <cite id="dsq-cite-14328">
+http://www.google.com/profiles/ramanawithu                <span id="dsq-author-user-14328">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14328" class="dsq-comment-body">
+            <div id="dsq-comment-message-14328" class="dsq-comment-message"><p>Partially, yes.</p>
+<p>The objective is to find &#8220;longest increasing sub-sequence&#8221;. We are not concerning about discarded lists here. We need largest such list. It doesn&#8217;t matter what value it ends with.</p>
+<p>For example, even excluding your extension by 13, we have two LIS in the wiki example. They are,</p>
+<p>0, 2, 6, 9, 13, 15</p>
+<p>0, 4, 6, 9, 11, 15</p>
+<p>However, we found a different list all together, but of same size.</p>
+<p>0, 2, 6, 9, 11, 15</p>
+<p>Replacing 13 with 11 can make the current effective list a potential candidate for extension by future elements. As an example you have mentioned, let us assume there is 13 after the last element of above sequence. The LIS becomes,</p>
+<p>0, 2, 6, 9, 11, 13</p>
+<p>Making it to accommodate any values past the current last element (i.e. 13). Even, any discarded list that it extends can&#8217;t be more than this list.</p>
+<p>I expected this dilemma by the reader. And, I have also provided an exercise for the same. See the second exercise. Though coding is little complex to maintain all increasing lists, it would be interesting to discuss.</p>
+<p>Perhaps you can discuss with your friends for more thought. If you are still not clear, or if I am missing anything, let me know.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-12831">
+        <div id="dsq-comment-header-12831" class="dsq-comment-header">
+            <cite id="dsq-cite-12831">
+                <span id="dsq-author-user-12831">duckling</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12831" class="dsq-comment-body">
+            <div id="dsq-comment-message-12831" class="dsq-comment-message"><p>nice post,very clear explanation!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-12519">
+        <div id="dsq-comment-header-12519" class="dsq-comment-header">
+            <cite id="dsq-cite-12519">
+                <span id="dsq-author-user-12519">Ayush</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12519" class="dsq-comment-body">
+            <div id="dsq-comment-message-12519" class="dsq-comment-message"><p>In third point<br />
+&#8221; 3. If A[i] is in between, we will find a list with largest end element that is smaller than A[i] &#8221; </p>
+<p>should this not be</p>
+<p>If A[i] is in between, we will find a list with smallest element that is larger than A[i]</p>
+<p>example :<br />
+A[4]= 2<br />
+0 4 12     // these are already in array and we want to insert A[[4]=2 </p>
+<p>now we will search element that is smallest but largest than 2 and that is 4 so replace 4 with 2</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-12693">
+        <div id="dsq-comment-header-12693" class="dsq-comment-header">
+            <cite id="dsq-cite-12693">
+                <span id="dsq-author-user-12693">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12693" class="dsq-comment-body">
+            <div id="dsq-comment-message-12693" class="dsq-comment-message"><p>@Ayush, I expected this dilemma. Just check the rough work, you will get why we need ceil value. Even in the code I have used meaningful names to functions.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-21698">
+        <div id="dsq-comment-header-21698" class="dsq-comment-header">
+            <cite id="dsq-cite-21698">
+                <span id="dsq-author-user-21698">bhanu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21698" class="dsq-comment-body">
+            <div id="dsq-comment-message-21698" class="dsq-comment-message"><p>venki the code is correct and its using the ceil function but the 3rd rule should be modified as following the rule makes us replace the a[i] with floor value of a[i]</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-12499">
+        <div id="dsq-comment-header-12499" class="dsq-comment-header">
+            <cite id="dsq-cite-12499">
+                <span id="dsq-author-user-12499">X</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12499" class="dsq-comment-body">
+            <div id="dsq-comment-message-12499" class="dsq-comment-message"><p>Holy crap, that was 1 of the best explanations ever. Thanks Mr. Venki.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-12694">
+        <div id="dsq-comment-header-12694" class="dsq-comment-header">
+            <cite id="dsq-cite-12694">
+                <span id="dsq-author-user-12694">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12694" class="dsq-comment-body">
+            <div id="dsq-comment-message-12694" class="dsq-comment-message"><p>Thanks.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-11998">
+        <div id="dsq-comment-header-11998" class="dsq-comment-header">
+            <cite id="dsq-cite-11998">
+                <span id="dsq-author-user-11998">nikita</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11998" class="dsq-comment-body">
+            <div id="dsq-comment-message-11998" class="dsq-comment-message"><p>wonderful explanation&#8230; <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-11064">
+        <div id="dsq-comment-header-11064" class="dsq-comment-header">
+            <cite id="dsq-cite-11064">
+                <span id="dsq-author-user-11064">leet</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11064" class="dsq-comment-body">
+            <div id="dsq-comment-message-11064" class="dsq-comment-message"><p>@Venki,<br />
+Very good explaination.<br />
+For exercise problem.Question 1,We can have another array with the previous index.<br />
+For DAG,We can have an edge from i to j if a[i] &lt;a[j].and then we can find the longest path.But i am not able to completely formutate it .Can you please guide me ?<br />
+For exercise 2,We can also use graph.</p>
+<p>/* Paste your code here (You may delete these lines if not writing code) */</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-12695">
+        <div id="dsq-comment-header-12695" class="dsq-comment-header">
+            <cite id="dsq-cite-12695">
+                <span id="dsq-author-user-12695">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12695" class="dsq-comment-body">
+            <div id="dsq-comment-message-12695" class="dsq-comment-message"><p>Thanks. Sorry for late reply.</p>
+<p>1. Yes, we need to keep track of prev index to construct the array. I guess the logic is easy, so not providing code here. May be content for another post. For excellent explanation using DAG, refer Algorithms by Dasgupta.</p>
+<p>2. Yes, graph is one way. I prefer graphs when the solution demands all possibilities.</p>
+<p>3. Yes, the algorithm is online algorithm. At any point, we can print the longest increasing sub sequence till that input.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-10479">
+        <div id="dsq-comment-header-10479" class="dsq-comment-header">
+            <cite id="dsq-cite-10479">
+                <span id="dsq-author-user-10479">algoEnthusiast</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10479" class="dsq-comment-body">
+            <div id="dsq-comment-message-10479" class="dsq-comment-message"><p>@venki : great post. loved it !!</p>
+<p>I have a concern. I understand that at any step of the algorithm, only one list of a particular length is present (this &#8216;particular length&#8217; is constrained by the number of elements processed so far) and this allows us to model the problem as a 1D array. When we are creating a new list, shouldn&#8217;t it be checked against the already existing list of length 1 (if existent) to see which has the greater element. The list with the greater element should be removed. Your thoughts?</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-12001">
+        <div id="dsq-comment-header-12001" class="dsq-comment-header">
+            <cite id="dsq-cite-12001">
+                <span id="dsq-author-user-12001">nikita</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12001" class="dsq-comment-body">
+            <div id="dsq-comment-message-12001" class="dsq-comment-message"><p>a new list is created only if its smaller than the very first element of the tailtable[].consider the following points about the tailtable[] that may help:</p>
+<p>1.there is only one active list corresponding to a particular length.<br />
+2.for each 1&lt;=length&lt;len there is only one unique active list.<br />
+3.tailtable[] is sorted in non decreasing order.<br />
+4.the active list represented by each element in the tailtable[] is of length= its index+1.</p>
+<p>by keeping in view the above points checking the value of a[i] against  the first element itself is self sufficient that its value has been checked against the only available active list of length 1 and since it is smaller than that thus the prev one is discarded.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-12002">
+        <div id="dsq-comment-header-12002" class="dsq-comment-header">
+            <cite id="dsq-cite-12002">
+                <span id="dsq-author-user-12002">nikita</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12002" class="dsq-comment-body">
+            <div id="dsq-comment-message-12002" class="dsq-comment-message"><p>its my observation&#8230;.correct me if m wrong&#8230; <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-10477">
+        <div id="dsq-comment-header-10477" class="dsq-comment-header">
+            <cite id="dsq-cite-10477">
+                <span id="dsq-author-user-10477">algoEnthusiast</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10477" class="dsq-comment-body">
+            <div id="dsq-comment-message-10477" class="dsq-comment-message"><p>One thing I observe is that we are only keeping one activity list of a particular length at a time and this allows us to model the problem using an array. So when we create a new list (consisting of a single element), shouldn&#8217;t it be compared with the already existing &#8216;list of length one&#8217; and be discarded if its value exceeds that of the &#8216;list of length one&#8217;?  </p>
+<p>P.S : Is this an example of a greedy strategy?<br />
+Thanks  </p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-10427">
+        <div id="dsq-comment-header-10427" class="dsq-comment-header">
+            <cite id="dsq-cite-10427">
+                <span id="dsq-author-user-10427">Nishant Mishra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10427" class="dsq-comment-body">
+            <div id="dsq-comment-message-10427" class="dsq-comment-message"><p>The worst case can be: (that&#8217;s what I think, it may be wrong)</p>
+<pre> <code language="C">
+
+0 8 4 12 14 13 20 17 24...
+
+</code> </pre>
+<p>i.e.<br />
+The elements at odd positions are in increasing order &amp; also the elements at even positions..<br />
+However, the consecutive elements at &#8220;even&#8221; &amp; then &#8220;odd&#8221; positions form decreasing sequence&#8230;</p>
+<p>What I want to say is:</p>
+<p>Odd Pos Elems:   0       4        11        13        17<br />
+Even Pos Elems:      8       12        14        20       24</p>
+<p>However,             8 &gt; 4 ; 12 &gt; 11 ; 14 &gt; 13 ; 20 &gt; 17;</p>
+<p>This will cause alternating Extend &amp; Discard phases, with binary search to go on for max time, as the element to be replaced will always be last one&#8230;</p>
+<p>@Venki: Please give some hint to correct solution if I am wrong&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-10424">
+        <div id="dsq-comment-header-10424" class="dsq-comment-header">
+            <cite id="dsq-cite-10424">
+                <span id="dsq-author-user-10424">Nishant Mishra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10424" class="dsq-comment-body">
+            <div id="dsq-comment-message-10424" class="dsq-comment-message"><p>A pound of likes..!!<br />
+I think its the best explanation existing on <a href="http://WWW." rel="nofollow">http://WWW.</a>. <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":-)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-9835">
+        <div id="dsq-comment-header-9835" class="dsq-comment-header">
+            <cite id="dsq-cite-9835">
+                <span id="dsq-author-user-9835">MdR</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9835" class="dsq-comment-body">
+            <div id="dsq-comment-message-9835" class="dsq-comment-message"><p>Awesome post ! Loved it ! You rock !<br />
+(P.S:I even clicked on the ads shown a couple of times to thank you. Let me know if it will help you.)</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-10000">
+        <div id="dsq-comment-header-10000" class="dsq-comment-header">
+            <cite id="dsq-cite-10000">
+                <span id="dsq-author-user-10000">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10000" class="dsq-comment-body">
+            <div id="dsq-comment-message-10000" class="dsq-comment-message"><p>@MdR, thank you.</p>
+<p>Thanks for proactively clicking the ad links.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-9073">
+        <div id="dsq-comment-header-9073" class="dsq-comment-header">
+            <cite id="dsq-cite-9073">
+                <span id="dsq-author-user-9073">autoAlgorithmist</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9073" class="dsq-comment-body">
+            <div id="dsq-comment-message-9073" class="dsq-comment-message"><p>@Venki, suppose we also want to print the longest increasing subsequence. I think we must also do something more.<br />
+Consider the example, 7,8,9,4.<br />
+In the algorithm, when we encounter 4 we replace it with 7.<br />
+So, i think it will be a problem.<br />
+Please comment what do you think.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-9080">
+        <div id="dsq-comment-header-9080" class="dsq-comment-header">
+            <cite id="dsq-cite-9080">
+                <span id="dsq-author-user-9080">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9080" class="dsq-comment-body">
+            <div id="dsq-comment-message-9080" class="dsq-comment-message"><p>Please work with few more examples. In your case, 4 will create new list.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-9008">
+        <div id="dsq-comment-header-9008" class="dsq-comment-header">
+            <cite id="dsq-cite-9008">
+                <span id="dsq-author-user-9008">Anand Kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9008" class="dsq-comment-body">
+            <div id="dsq-comment-message-9008" class="dsq-comment-message"><p>For exercise 2, my approach is to make a new list in place of replacement. So, i think a 2D array would be better.<br />
+Please comment whether i am proceeding in the right direction.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-9018">
+        <div id="dsq-comment-header-9018" class="dsq-comment-header">
+            <cite id="dsq-cite-9018">
+                <span id="dsq-author-user-9018">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9018" class="dsq-comment-body">
+            <div id="dsq-comment-message-9018" class="dsq-comment-message"><p>@Anand, Good, atleast one or more readers attempting exercises.</p>
+<p>In the above explanation too, I am making new list by replacement or extending an existing list.</p>
+<p>In case if we need all those monotonically increasing subsequences, we need to maintain sets of lists. Group these into sets with similar length. Still the binary search approach holds good.</p>
+<p>Try with sample examples. You may get better data structures for maintaining these lists.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8907">
+        <div id="dsq-comment-header-8907" class="dsq-comment-header">
+            <cite id="dsq-cite-8907">
+                <span id="dsq-author-user-8907">bhavesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8907" class="dsq-comment-body">
+            <div id="dsq-comment-message-8907" class="dsq-comment-message"><p>very good approach</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8569">
+        <div id="dsq-comment-header-8569" class="dsq-comment-header">
+            <cite id="dsq-cite-8569">
+                <span id="dsq-author-user-8569">ewwewe</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8569" class="dsq-comment-body">
+            <div id="dsq-comment-message-8569" class="dsq-comment-message"><p>working on an Android app</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8537">
+        <div id="dsq-comment-header-8537" class="dsq-comment-header">
+            <cite id="dsq-cite-8537">
+http://n/a                <span id="dsq-author-user-8537">abhishek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8537" class="dsq-comment-body">
+            <div id="dsq-comment-message-8537" class="dsq-comment-message"><p>May I know where Can I find old archives.<br />
+or all archives already available under different category. like array .string etc</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8534">
+        <div id="dsq-comment-header-8534" class="dsq-comment-header">
+            <cite id="dsq-cite-8534">
+                <span id="dsq-author-user-8534">veera</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8534" class="dsq-comment-body">
+            <div id="dsq-comment-message-8534" class="dsq-comment-message"><p>Great Explanation .. Thanks venki</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8486">
+        <div id="dsq-comment-header-8486" class="dsq-comment-header">
+            <cite id="dsq-cite-8486">
+http://www.geeksforgeeks.org/archives/9591                <span id="dsq-author-user-8486">kavish dwivedi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8486" class="dsq-comment-body">
+            <div id="dsq-comment-message-8486" class="dsq-comment-message"><p>wonderful post&#8230;.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8485">
+        <div id="dsq-comment-header-8485" class="dsq-comment-header">
+            <cite id="dsq-cite-8485">
+                <span id="dsq-author-user-8485">Akhil Sikri</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8485" class="dsq-comment-body">
+            <div id="dsq-comment-message-8485" class="dsq-comment-message"><p>Nicely done <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /><br />
+Very well explained, what do you mean when you ask &#8211; &#8216;Is the above algorithm an online algorithm?&#8217;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-8500">
+        <div id="dsq-comment-header-8500" class="dsq-comment-header">
+            <cite id="dsq-cite-8500">
+                <span id="dsq-author-user-8500">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8500" class="dsq-comment-body">
+            <div id="dsq-comment-message-8500" class="dsq-comment-message"><p>I have given definition in the following post,</p>
+<p><a href="http://www.geeksforgeeks.org/archives/14873" rel="nofollow">http://www.geeksforgeeks.org/archives/14873</a></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-30870">
+        <div id="dsq-comment-header-30870" class="dsq-comment-header">
+            <cite id="dsq-cite-30870">
+                <span id="dsq-author-user-30870">Rahul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30870" class="dsq-comment-body">
+            <div id="dsq-comment-message-30870" class="dsq-comment-message"><p>Java solution for this is here : <a href="http://ideone.com/CwlFq3" rel="nofollow">http://ideone.com/CwlFq3</a> .</p>
+<p>for case 3: I am not sure why we need to do the binary search, Can&#8217;t we just place the element in the &#8220;len&#8221; position of the tailtable. </p>
+<p>If A[i] wants to be current end candidate of an existing subsequence It will replace last value in the len table.</p>
+<p>This can be done by tailTable[len] = A[i]. </p>
+<p>Complexity can be O(n) in that case right? Am I missing something?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/longest-monotonically-increasing-subsequence-size-n-log-n/';
+var disqus_identifier = '9591 http://geeksforgeeks.org/?p=9591';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Longest Monotonically Increasing Subsequence Size (N log N)";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.256 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2015-02-02 11:02:38 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

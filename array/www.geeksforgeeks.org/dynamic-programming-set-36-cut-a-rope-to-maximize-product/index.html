@@ -1,0 +1,1392 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Dynamic Programming | Set 36 (Maximum Product Cutting) - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/dynamic-programming-set-36-cut-a-rope-to-maximize-product/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Dynamic Programming | Set 36 (Maximum Product Cutting) - GeeksforGeeks" />
+<meta property="og:description" content="Given a rope of length n meters, cut the rope in different parts of integer lengths in a way that maximizes product of lengths of all parts. You must make at least one cut. Assume that the length of rope is more than 2 meters. Examples: Input: n = 2 Output: 1 (Maximum obtainable product &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/dynamic-programming-set-36-cut-a-rope-to-maximize-product/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Dynamic Programming" />
+<meta property="article:section" content="Misc" />
+<meta property="article:published_time" content="2013-09-05T14:37:13+00:00" />
+<meta property="article:modified_time" content="2013-09-07T12:34:43+00:00" />
+<meta property="og:updated_time" content="2013-09-07T12:34:43+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.496 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417112948 210.212.53.139 172.19.11.169';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Dynamic Programming | Set 36 (Maximum Product Cutting)</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given a rope of length n meters, cut the rope in different parts of integer lengths in a way that maximizes product of lengths of all parts. You must make at least one cut. Assume that the length of rope is more than 2 meters. <span id="more-121922"></span></p>
+<p>Examples:
+<pre>
+Input: n = 2
+Output: 1 (Maximum obtainable product is 1*1)
+
+Input: n = 3
+Output: 2 (Maximum obtainable product is 1*2)
+
+Input: n = 4
+Output: 4 (Maximum obtainable product is 2*2)
+
+Input: n = 5
+Output: 6 (Maximum obtainable product is 2*3)
+
+Input: n = 10
+Output: 36 (Maximum obtainable product is 3*3*4)</pre>
+<p><strong>1) Optimal Substructure: </strong><br />
+This problem is similar to <a href="http://www.geeksforgeeks.org/dynamic-programming-set-13-cutting-a-rod/" target="_blank">Rod Cutting Problem.</a> We can get the maximum product by making a cut at different positions and comparing the values obtained after a cut. We can recursively call the same function for a piece obtained after a cut.</p>
+<p>Let maxProd(n) be the maximum product for a rope of length n. maxProd(n) can be written as following.</p>
+<p>maxProd(n) = max(i*(n-i), maxProdRec(n-i)*i) for all i in {1, 2, 3 .. n}</p>
+<p><strong>2) Overlapping Subproblems</strong><br />
+Following is simple recursive C++ implementation of the problem. The implementation simply follows the recursive structure mentioned above.</p>
+<pre class="brush: cpp; highlight: [9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]; title: ; notranslate" title="">
+// A Naive Recursive method to find maxium product
+#include &lt;iostream&gt;
+using namespace std;
+
+// Utility function to get the maximum of two and three integers
+int max(int a, int b) { return (a &gt; b)? a : b;}
+int max(int a, int b, int c) { return max(a, max(b, c));}
+
+// The main function that returns maximum product obtainable
+// from a rope of length n
+int maxProd(int n)
+{
+    // Base cases
+    if (n == 0 || n == 1) return 0;
+
+    // Make a cut at different places and take the maximum of all
+    int max_val = 0;
+    for (int i = 1; i &lt; n; i++)
+      max_val = max(max_val, i*(n-i), maxProd(n-i)*i);
+
+    // Return the maximum of all values
+    return max_val;
+}
+
+/* Driver program to test above functions */
+int main()
+{
+    cout &lt;&lt; &quot;Maximum Product is &quot; &lt;&lt; maxProd(10);
+    return 0;
+}
+</pre>
+<p>Output:
+<pre>Maximum Product is 36</pre>
+<p>Considering the above implementation, following is recursion tree for a Rope of length 5.</p>
+<pre>
+mP() ---> maxProd() 
+
+                            mP(5)
+                 /        /      \     \
+                /        /        \      \
+            mP(4)       mP(3)     mP(2)   mP(1)
+           /  |  \       /  \       |
+          /   |   \     /    \      |  
+     mP(3) mP(2) mP(1) mP(2) mP(1) mP(1)
+    / \       |          |
+   /   \      |          |   
+ mP(2) mP(1) mP(1)      mP(1)</pre>
+<p>In the above partial recursion tree, mP(3) is being solved twice. We can see that there are many subproblems which are solved again and again. Since same suproblems are called again, this problem has Overlapping Subprolems property. So the problem has both properties (see <a href="http://www.geeksforgeeks.org/dynamic-programming-set-2-optimal-substructure-property/" target="_blank">this </a>and <a href="http://www.geeksforgeeks.org/dynamic-programming-set-1/" target="_blank">this</a>) of a dynamic programming problem. Like other typical <a href="http://www.geeksforgeeks.org/tag/dynamic-programming/" target="_blank">Dynamic Programming(DP) problems</a>, recomputations of same subproblems can be avoided by constructing a temporary array val[] in bottom up manner.</p>
+<pre class="brush: cpp; highlight: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]; title: ; notranslate" title="">
+// A Dynamic Programming solution for Max Product Problem
+int maxProd(int n)
+{
+   int val[n+1];
+   val[0] = val[1] = 0;
+ 
+   // Build the table val[] in bottom up manner and return
+   // the last entry from the table
+   for (int i = 1; i &lt;= n; i++)
+   {
+      int max_val = 0;
+      for (int j = 1; j &lt;= i/2; j++)
+         max_val = max(max_val, (i-j)*j, j*val[i-j]);
+      val[i] = max_val;
+   }
+   return val[n];
+}</pre>
+<p>Time Complexity of the Dynamic Programming solution is O(n^2) and it requires O(n) extra space.</p>
+<p><strong>A Tricky Solution:</strong><br />
+If we see some examples of this problems, we can easily observe following pattern.<br />
+The maximum product can be obtained be repeatedly cutting parts of size 3 while size is greater than 4, keeping the last part as size of 2 or 3 or 4.  For example, n = 10, the maximum product is obtained by 3, 3, 4.  For n = 11, the maximum product is obtained by 3, 3, 3, 2.  Following is C++ implementation of this approach.</p>
+<pre class="brush: cpp; highlight: [4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]; title: ; notranslate" title="">
+#include &lt;iostream&gt;
+using namespace std;
+
+/* The main function that teturns the max possible product */
+int maxProd(int n)
+{
+   // n equals to 2 or 3 must be handled explicitly
+   if (n == 2 || n == 3) return (n-1);
+
+   // Keep removing parts of size 3 while n is greater than 4
+   int res = 1;
+   while (n &gt; 4)
+   {
+       n -= 3;
+       res *= 3; // Keep multiplying 3 to res
+   }
+   return (n * res); // The last part multiplied by previous parts
+}
+
+/* Driver program to test above functions */
+int main()
+{
+    cout &lt;&lt; &quot;Maximum Product is &quot; &lt;&lt; maxProd(10);
+    return 0;
+}
+</pre>
+<p>Output:
+<pre>Maximum Product is 36</pre>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/job-sequencing-problem-set-1-greedy-algorithm/" title="Job Sequencing Problem | Set 1 (Greedy Algorithm)">Job Sequencing Problem | Set 1 (Greedy Algorithm)</a></li><li><a href="http://www.geeksforgeeks.org/multiply-two-polynomials-2/" title="Multiply two polynomials">Multiply two polynomials</a></li><li><a href="http://www.geeksforgeeks.org/algorithm-practice-question-beginners-set-1/" title="Algorithm Practice Question for Beginners | Set 1">Algorithm Practice Question for Beginners | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/count-distinct-non-negative-pairs-x-y-satisfy-inequality-xx-yy-n-2/" title="Count Distinct Non-Negative Integer Pairs (x, y) that Satisfy the Inequality x*x + y*y &lt; n">Count Distinct Non-Negative Integer Pairs (x, y) that Satisfy the Inequality x*x + y*y < n</a></li><li><a href="http://www.geeksforgeeks.org/binomial-heap-2/" title="Binomial Heap">Binomial Heap</a></li><li><a href="http://www.geeksforgeeks.org/print-increasing-sequences-length-k-first-n-natural-numbers/" title="Print all increasing sequences of length k from first n natural numbers">Print all increasing sequences of length k from first n natural numbers</a></li><li><a href="http://www.geeksforgeeks.org/find-nth-number-number-system-3-4/" title="Find n&#8217;th number in a number system with only 3 and 4">Find n&#8217;th number in a number system with only 3 and 4</a></li><li><a href="http://www.geeksforgeeks.org/minimum-cost-polygon-triangulation/" title="Minimum Cost Polygon Triangulation">Minimum Cost Polygon Triangulation</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/dynamic-programming/" rel="tag">Dynamic Programming</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fdynamic-programming-set-36-cut-a-rope-to-maximize-product%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/dynamic-programming-set-36-cut-a-rope-to-maximize-product/" data-text="Dynamic Programming | Set 36 (Maximum Product Cutting)" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/dynamic-programming-set-36-cut-a-rope-to-maximize-product/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-34825">
+        <div id="dsq-comment-header-34825" class="dsq-comment-header">
+            <cite id="dsq-cite-34825">
+                <span id="dsq-author-user-34825">sujeet singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34825" class="dsq-comment-body">
+            <div id="dsq-comment-message-34825" class="dsq-comment-message"><p>this problem can be solved by maximaize &amp; minimize of calculus = for any n the max product can be easily achieved of formula =&gt; if n is even it will be n/2 if n is odd n+1/2 n-1/2..we can see number is odd and even and decide accordingly. this is for one cut we have to do .. missed that we can have multiple cut too ..<br />
+it can be further extended &#8211; let say for n we get max product at n/2 or n+1/2 depending upon even and odd .again we have to do the same thing for n/2 or n+1/2 until we have 1 . </p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-34067">
+        <div id="dsq-comment-header-34067" class="dsq-comment-header">
+            <cite id="dsq-cite-34067">
+                <span id="dsq-author-user-34067">Abhinav Choudhury</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34067" class="dsq-comment-body">
+            <div id="dsq-comment-message-34067" class="dsq-comment-message"><p>If we need to make atleast one cut, shouldn&#8217;t the recursive logic be:<br />
+maxProd(n) = max(i*(n-i), maxProdRec(n-i)*i) for all i in {1, 2, 3 .. n-1}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-34066">
+        <div id="dsq-comment-header-34066" class="dsq-comment-header">
+            <cite id="dsq-cite-34066">
+                <span id="dsq-author-user-34066">Abhinav Choudhury</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34066" class="dsq-comment-body">
+            <div id="dsq-comment-message-34066" class="dsq-comment-message"><p>If we need to make atleast one cut, shouldn&#8217;t the recursive logic be:<br />
+maxProd(n) = max(i*(n-i), maxProdRec(n-i)*i) for all i in {1, 2, 3 .. n-1}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-33670">
+        <div id="dsq-comment-header-33670" class="dsq-comment-header">
+            <cite id="dsq-cite-33670">
+http://geeksforgeeks.com                <span id="dsq-author-user-33670">geek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33670" class="dsq-comment-body">
+            <div id="dsq-comment-message-33670" class="dsq-comment-message"><p>In second solution<br />
+max_val = max(max_val, i*(n-i), maxProd(n-i)*i);</p>
+<p>If we cut at any point then maxproduct(to cut at that point) will be from below 4 cases :<br />
+1) i*(n-i)<br />
+2)maxProd(n-i)*i<br />
+3)maxProd(i)*(n-i)<br />
+4) maxProd(i)*maxProd(n-i)</p>
+<p>Here we know 3rd case will be covered when i iterates till end to take value as n-i. But we are not considering 4th case.</p>
+<p>Please someone explain me this logic.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-32390">
+        <div id="dsq-comment-header-32390" class="dsq-comment-header">
+            <cite id="dsq-cite-32390">
+                <span id="dsq-author-user-32390">v2v4</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32390" class="dsq-comment-body">
+            <div id="dsq-comment-message-32390" class="dsq-comment-message"><p>O(1) solution<br />
+if something is wrong please correct</p>
+<p>#include<br />
+#include<br />
+#define ll long long</p>
+<p>using namespace std;</p>
+<p>ll maxproduct(ll n)<br />
+{<br />
+    if(n==0 || n==1)<br />
+         return 0;    </p>
+<p>    if(n==2)<br />
+         return 1;</p>
+<p>    if(n==3)<br />
+        return 2;</p>
+<p>    if(n%3==0)<br />
+        return pow(3.0,n/3);</p>
+<p>    if(n%3==1)<br />
+        return pow(3.0,(n-4)/3)*4;</p>
+<p>    if(n%3==2)<br />
+        return pow(3.0,(n-2)/3)*2;</p>
+<p>}</p>
+<p>/* Driver program to test above functions */<br />
+int main()<br />
+{<br />
+    ll n;<br />
+    cin&gt;&gt;n;<br />
+    cout &lt;&lt; &quot;Maximum Product is &quot; &lt;&lt; maxproduct(n);<br />
+    return 0;<br />
+}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-32934">
+        <div id="dsq-comment-header-32934" class="dsq-comment-header">
+            <cite id="dsq-cite-32934">
+                <span id="dsq-author-user-32934">Ronny</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32934" class="dsq-comment-body">
+            <div id="dsq-comment-message-32934" class="dsq-comment-message"><p>@v2v4:disqus I guess the solution is correct. But your analysis of complexity isn&#8217;t. power function doesn&#8217;t run in O(1). However by implementing it optimally we can do it in O( lg n ).</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-32935">
+        <div id="dsq-comment-header-32935" class="dsq-comment-header">
+            <cite id="dsq-cite-32935">
+                <span id="dsq-author-user-32935">v2v4</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32935" class="dsq-comment-body">
+            <div id="dsq-comment-message-32935" class="dsq-comment-message"><p>@disqus_4QqC9ikGi2:disqus<br />
+yes u r right<br />
+we can find power exponentially in O(lg n)<br />
+thanx for ur reply <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-30901">
+        <div id="dsq-comment-header-30901" class="dsq-comment-header">
+            <cite id="dsq-cite-30901">
+                <span id="dsq-author-user-30901">mojo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30901" class="dsq-comment-body">
+            <div id="dsq-comment-message-30901" class="dsq-comment-message"><p>public int maxProduct3(int length) {</p>
+<p>        int[] memo = new int[length + 1];</p>
+<p>        Arrays.fill(memo, -1);</p>
+<p>        memo[0] = 0;</p>
+<p>        memo[1] = 0;</p>
+<p>        for (int i = 2; i &lt;= length; ++i) {</p>
+<p>            int max = 1;</p>
+<p>            for (int k = 1; k <i> max) max = localMax;</p>
+<p>            }</p>
+<p>            memo[i] = max;</p>
+<p>        }</p>
+<p>        return memo[length];</p>
+<p>    }</i></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-30527">
+        <div id="dsq-comment-header-30527" class="dsq-comment-header">
+            <cite id="dsq-cite-30527">
+                <span id="dsq-author-user-30527">Kaushik Srinivasan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30527" class="dsq-comment-body">
+            <div id="dsq-comment-message-30527" class="dsq-comment-message"><p>Is there a proof for the tricky solution?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-30210">
+        <div id="dsq-comment-header-30210" class="dsq-comment-header">
+            <cite id="dsq-cite-30210">
+                <span id="dsq-author-user-30210">Chetna Gupta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30210" class="dsq-comment-body">
+            <div id="dsq-comment-message-30210" class="dsq-comment-message"><p>For the tricky solution<br />
+Answer returned for 8 would be 3*3*2 = 12 while 4*4 = 16. This would not work in general for many cases. Correct me if i am wrong</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-30212">
+        <div id="dsq-comment-header-30212" class="dsq-comment-header">
+            <cite id="dsq-cite-30212">
+                <span id="dsq-author-user-30212">Chetna Gupta is not my name</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30212" class="dsq-comment-body">
+            <div id="dsq-comment-message-30212" class="dsq-comment-message"><p>Can you please explain how &#8220;3*3*2=12&#8243; ? I mean in which world is that statement even true?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-30281">
+        <div id="dsq-comment-header-30281" class="dsq-comment-header">
+            <cite id="dsq-cite-30281">
+                <span id="dsq-author-user-30281">Rfun</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30281" class="dsq-comment-body">
+            <div id="dsq-comment-message-30281" class="dsq-comment-message"><p>the answer for 8 in the tricky solution would be 2*2*2*2=16!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-30325">
+        <div id="dsq-comment-header-30325" class="dsq-comment-header">
+            <cite id="dsq-cite-30325">
+                <span id="dsq-author-user-30325">zain</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30325" class="dsq-comment-body">
+            <div id="dsq-comment-message-30325" class="dsq-comment-message"><p>first understand the logic of the tricky solution</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-30530">
+        <div id="dsq-comment-header-30530" class="dsq-comment-header">
+            <cite id="dsq-cite-30530">
+                <span id="dsq-author-user-30530">foolish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30530" class="dsq-comment-body">
+            <div id="dsq-comment-message-30530" class="dsq-comment-message"><p>3*3*2 is not 12&#8230; lol it&#8217;s 18<br />
+and it is greater than 12 and 16 <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_biggrin.gif" alt=":D" class="wp-smiley" /> <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_biggrin.gif" alt=":D" class="wp-smiley" /><br />
+at least run before u comment!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-29505">
+        <div id="dsq-comment-header-29505" class="dsq-comment-header">
+            <cite id="dsq-cite-29505">
+                <span id="dsq-author-user-29505">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29505" class="dsq-comment-body">
+            <div id="dsq-comment-message-29505" class="dsq-comment-message"><p>The recursive solution fails for values as the product goes on increasing exponentially. for eg 10 will 9*1 then 8*2 then 7*3 that means we are recursively calling maxProd(16) then max_prod(21) which in turn will increase. Please correct me if I am mistaken,</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-29761">
+        <div id="dsq-comment-header-29761" class="dsq-comment-header">
+            <cite id="dsq-cite-29761">
+                <span id="dsq-author-user-29761">Guest2</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29761" class="dsq-comment-body">
+            <div id="dsq-comment-message-29761" class="dsq-comment-message"><p>It&#8217;s maxProd(n-i) * i, not maxProd((n-i)*i)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-30525">
+        <div id="dsq-comment-header-30525" class="dsq-comment-header">
+            <cite id="dsq-cite-30525">
+                <span id="dsq-author-user-30525">Kaushik Srinivasan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30525" class="dsq-comment-body">
+            <div id="dsq-comment-message-30525" class="dsq-comment-message"><p>Check the while loop. It is while(n &gt; 4). Which means the algo will return 3*3*4=36.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-28973">
+        <div id="dsq-comment-header-28973" class="dsq-comment-header">
+            <cite id="dsq-cite-28973">
+                <span id="dsq-author-user-28973">racks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28973" class="dsq-comment-body">
+            <div id="dsq-comment-message-28973" class="dsq-comment-message"><p>What is the Time complexity of the Tricky solution</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-30029">
+        <div id="dsq-comment-header-30029" class="dsq-comment-header">
+            <cite id="dsq-cite-30029">
+                <span id="dsq-author-user-30029">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30029" class="dsq-comment-body">
+            <div id="dsq-comment-message-30029" class="dsq-comment-message"><p>Theoretically , time complexity is O(n)&#8230;..actually ,it will be O(n/3).</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-30030">
+        <div id="dsq-comment-header-30030" class="dsq-comment-header">
+            <cite id="dsq-cite-30030">
+                <span id="dsq-author-user-30030">pavansrinivas</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30030" class="dsq-comment-body">
+            <div id="dsq-comment-message-30030" class="dsq-comment-message"><p>O(n/3) which is nothing but O(n)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-28409">
+        <div id="dsq-comment-header-28409" class="dsq-comment-header">
+            <cite id="dsq-cite-28409">
+                <span id="dsq-author-user-28409">mstepan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28409" class="dsq-comment-body">
+            <div id="dsq-comment-message-28409" class="dsq-comment-message"><p>What is the result for  N = 153. From your code I receive 2136675824, but should be 2145130834. Correct if I&#8217;m not right.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-27487">
+        <div id="dsq-comment-header-27487" class="dsq-comment-header">
+            <cite id="dsq-cite-27487">
+                <span id="dsq-author-user-27487">Vikram Ojha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27487" class="dsq-comment-body">
+            <div id="dsq-comment-message-27487" class="dsq-comment-message"><p>Another approach to solve dis prob with dynamic programming</p>
+<p>#include<br />
+#include</p>
+<p>int max(int a,int b){ return(a&gt;b?a:b);}<br />
+int max(int a,int b,int c){ return max(a,max(b,c));}</p>
+<p>int *mem=new int[15];</p>
+<p>int no_of_cal=1;</p>
+<p>int maxProDY(int n,int mem[]);</p>
+<p>void main()<br />
+{</p>
+<p>  for(int i=0;i&lt;=15;i++)<br />
+  {<br />
+      mem[i]=-1;<br />
+  }</p>
+<p>printf(&quot;Maximum Proiduct is:%d&quot;,maxProDY(15,mem));</p>
+<p>	printf(&quot;Total No of cals:%d&quot;,no_of_cal);</p>
+<p>}</p>
+<p>int maxProDY(int n,int mem[])<br />
+{<br />
+      int max_val=0;<br />
+      if(n==0||n==1)<br />
+             return 0;<br />
+     else<br />
+    {<br />
+        for(int i=1;i&lt;=n;i++)<br />
+        {<br />
+              if(mem[n-i]!=-1){<br />
+                 max_val=max(max_val,i*(n-i),mem[n-i]*i);<br />
+              }<br />
+              else{<br />
+                 printf(&quot;Calling maxPro with n=%dn&quot;,n-i);<br />
+                 no_of_cal++;<br />
+                  mem[n-i]=maxProDY(n-i,mem);<br />
+                  max_val=max(max_val,i*(n-i),mem[n-i]*i);<br />
+              }<br />
+         }<br />
+    }</p>
+<p>	return max_val;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-27440">
+        <div id="dsq-comment-header-27440" class="dsq-comment-header">
+            <cite id="dsq-cite-27440">
+                <span id="dsq-author-user-27440">Deepak</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27440" class="dsq-comment-body">
+            <div id="dsq-comment-message-27440" class="dsq-comment-message"><p>#include<br />
+#include<br />
+#include<br />
+#include</p>
+<p>using namespace std;</p>
+<p>int main()<br />
+{<br />
+cout&lt;&lt;&quot;Enter the number&quot;&lt;&gt;n;<br />
+m=n;<br />
+std::queue myqueue;</p>
+<p>int a= n/2;<br />
+int b= n-a;</p>
+<p>myqueue.push(a);<br />
+myqueue.push(b);</p>
+<p>long int prod=1;</p>
+<p>while(myqueue.empty()==false)<br />
+{<br />
+    a=myqueue.front();<br />
+    myqueue.pop();<br />
+    if(a&lt;=3)<br />
+        prod*=a;<br />
+    else<br />
+    {<br />
+        n=a;<br />
+        a=n/2;<br />
+        b=n-a;<br />
+        myqueue.push(a);<br />
+        myqueue.push(b);<br />
+    }<br />
+}</p>
+<p>//cout&lt;&lt;&quot;Prod=&quot;&lt;&lt;prod&lt;&lt;endl;</p>
+<p>long int prod1;</p>
+<p>prod1=pow(3,(m/3))*((m%3)?(m%3):1);</p>
+<p>//cout&lt;&lt;&quot;Prod1=&quot;&lt;&lt;prod1&lt;prod)<br />
+cout&lt;&lt;&quot;Answer=&quot;&lt;&lt;prod1&lt;&lt;endl;<br />
+else<br />
+cout&lt;&lt;&quot;Answer=&quot;&lt;&lt;prod&lt;&lt;endl;</p>
+<p>return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-27397">
+        <div id="dsq-comment-header-27397" class="dsq-comment-header">
+            <cite id="dsq-cite-27397">
+                <span id="dsq-author-user-27397">sanjay</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27397" class="dsq-comment-body">
+            <div id="dsq-comment-message-27397" class="dsq-comment-message"><p>// A Dynamic Programming solution for Max Product Problem<br />
+int maxProd(int n)<br />
+{<br />
+   int val[n+1];<br />
+   val[0] = val[1] = 0;</p>
+<p>   // Build the table val[] in bottom up manner and return<br />
+   // the last entry from the table<br />
+   for (int i = 1; i &lt;= n; i++)<br />
+   {<br />
+      int max_val = 0;<br />
+      for (int j = 2; j &lt;= i/2; j++)<br />
+         max_val = max(max_val, (i-j)*j, j*val[i-j]);<br />
+      val[i] = max_val;<br />
+   }<br />
+   return val[n];<br />
+}</p>
+<p>In second for loop j should be intialize with 1 rather than 2, then only it will produce result for n=2, result is 1;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-27408">
+        <div id="dsq-comment-header-27408" class="dsq-comment-header">
+            <cite id="dsq-cite-27408">
+                <span id="dsq-author-user-27408">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27408" class="dsq-comment-body">
+            <div id="dsq-comment-message-27408" class="dsq-comment-message"><p>Thanks for pointing this out. We have updated the code.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-28998">
+        <div id="dsq-comment-header-28998" class="dsq-comment-header">
+            <cite id="dsq-cite-28998">
+                <span id="dsq-author-user-28998">Amit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28998" class="dsq-comment-body">
+            <div id="dsq-comment-message-28998" class="dsq-comment-message"><p>You Have not updated !!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-27396">
+        <div id="dsq-comment-header-27396" class="dsq-comment-header">
+            <cite id="dsq-cite-27396">
+                <span id="dsq-author-user-27396">DRAGONWARRIOR</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27396" class="dsq-comment-body">
+            <div id="dsq-comment-message-27396" class="dsq-comment-message"><p>In  A Tricky Solution<br />
+                         wats  the output  if  n==4</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-27400">
+        <div id="dsq-comment-header-27400" class="dsq-comment-header">
+            <cite id="dsq-cite-27400">
+                <span id="dsq-author-user-27400">sanjay</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27400" class="dsq-comment-body">
+            <div id="dsq-comment-message-27400" class="dsq-comment-message"><p>ans is 4<br />
+return res*n;<br />
+here res=1 and n=4<br />
+so result is 4</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-27378">
+        <div id="dsq-comment-header-27378" class="dsq-comment-header">
+            <cite id="dsq-cite-27378">
+                <span id="dsq-author-user-27378">Sabelan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27378" class="dsq-comment-body">
+            <div id="dsq-comment-message-27378" class="dsq-comment-message"><p>Proof of the Third Method:</p>
+<p>Consider cutting a section of the rope with length greater than or equal to 2.<br />
+Let that section&#8217;s length be N, where N&gt;=2.<br />
+That section COULD be cut as N-2 and another section of length 2, which would contribute as follows, to the product sum:</p>
+<p>(N-2)*2</p>
+<p>(N-2)*2 &gt;= N, as long as N&gt;=4. That is to say ANY rope section of length greater than or equal to 4 will contribute more, or equal, to the product sum by cutting that section into 2 sections, one of length 2. This is true for all integers except 2 and 3.</p>
+<p>Thus we know that ALL of the rope sections can be optimally written as a partition of 2&#8217;s and 3&#8217;s, so long as N&gt;=4.</p>
+<p>Now consider any rope of length 6, the LCM of 2 and 3.</p>
+<p>This segment of length 6 can be either:<br />
+2*2*2 OR 3*3.<br />
+2*2*2 = 8<br />
+3*3 = 9</p>
+<p>Therefore any section of rope that is of length 6, should be done as 2 segments of 3, as it will contribute more to the product sum.</p>
+<p>By induction any segment of length &gt;= 6 can be done as 3*3*go(n-6).</p>
+<p>If you consider the case where N=5, it happens that using 3 and 2 is still optimal, therefore you can generalize the solution to just be removing 3 so long as N&gt;4. If N=4 the solution is equivalent to N=2*2, so a partition of 2s and 3s still works.</p>
+<p>I hope that is clear, please let me know if some part is not understood.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-27377">
+        <div id="dsq-comment-header-27377" class="dsq-comment-header">
+            <cite id="dsq-cite-27377">
+                <span id="dsq-author-user-27377">Souradip</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27377" class="dsq-comment-body">
+            <div id="dsq-comment-message-27377" class="dsq-comment-message"><p>The proof:<br />
+<a href="http://math.stackexchange.com/questions/125065/partitioning-a-natural-number-n-in-order-to-get-the-maximum-product-sequence-o" rel="nofollow">http://math.stackexchange.com/questions/125065/partitioning-a-natural-number-n-in-order-to-get-the-maximum-product-sequence-o</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-27376">
+        <div id="dsq-comment-header-27376" class="dsq-comment-header">
+            <cite id="dsq-cite-27376">
+                <span id="dsq-author-user-27376">GeeksFollower</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27376" class="dsq-comment-body">
+            <div id="dsq-comment-message-27376" class="dsq-comment-message"><p>O(1) solution:</p>
+<p><code><br />
+double maxProd_mySoln(int n)<br />
+{<br />
+    if(n==2)<br />
+    return 1;</p>
+<p>    if(n==3)<br />
+    return 2;</p>
+<p>    if(n%3==1)<br />
+    {<br />
+        return pow(3.0,(n-4)/3)*4;<br />
+    }</p>
+<p>    return n%3==0? pow(3.0,n/3): pow(3.0,n/3)*2;</p>
+<p>}<br />
+</code></p>
+<p>Explanation:</p>
+<p>    Base case:<br />
+        if n=2, v hv 2 cut atleast once. so 1*1=1 is max product<br />
+        if n=3, v hv 2 cut atleast once, so 2*1=2 is max product</p>
+<p>        Logic: x+y= than the number (except base cases).</p>
+<p>        so,<br />
+        if n=4, its better to cut 2*2, rather 3*1<br />
+        if n=5, its better to cut 3*2, rather 2*2*1 or 4*1<br />
+        if n is multiple of 3, make all cuts of 3.<br />
+        so try to have as much 3 as possible.</p>
+<p>        so, if n%3==1, leave 4, so that it becomes multiple of 3. i.e n=3*k+4.<br />
+             Max prod = (3^k)*4.<br />
+             else:<br />
+                 make cut of size 3. it will leave u either 0 or 2 size.<br />
+                 if it leaves 2, just multiply 2 with rest cuts products.<br />
+                 i.e (3^(n/3))*2 if remainder=2<br />
+                      (3^n/3) if remainder =0<br />
+        Reason:<br />
+            3*k+4 = 3*(k+1) + 1<br />
+            both LHS n RHS can be written as 3*k + 3 + 1.<br />
+            which means: (1) find max cut for 3*k and max cut for 3 and max cut for 1<br />
+                         (2) find max cut for 3*k and max cut for 4(3+1).<br />
+                         in above two cases, obviously (2) gives larger no.<br />
+            So, its better to make cut of size 3, but try to leave 4 at the end. coz 3*1&lt;4</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-27407">
+        <div id="dsq-comment-header-27407" class="dsq-comment-header">
+            <cite id="dsq-cite-27407">
+                <span id="dsq-author-user-27407">ERYOYO</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27407" class="dsq-comment-body">
+            <div id="dsq-comment-message-27407" class="dsq-comment-message"><p>you have missed the case when n==0 or n==1. In both cases, answer should be zero but your code is gonna to give some another answer rather than this one&#8230;.???</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-28764">
+        <div id="dsq-comment-header-28764" class="dsq-comment-header">
+            <cite id="dsq-cite-28764">
+                <span id="dsq-author-user-28764">amit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28764" class="dsq-comment-body">
+            <div id="dsq-comment-message-28764" class="dsq-comment-message"><p>this is wrong .. check for 100??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-27369">
+        <div id="dsq-comment-header-27369" class="dsq-comment-header">
+            <cite id="dsq-cite-27369">
+                <span id="dsq-author-user-27369">eric</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27369" class="dsq-comment-body">
+            <div id="dsq-comment-message-27369" class="dsq-comment-message"><p>Is there any proof of last solution (repeatedly cutting parts of size 3)?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-27368">
+        <div id="dsq-comment-header-27368" class="dsq-comment-header">
+            <cite id="dsq-cite-27368">
+                <span id="dsq-author-user-27368">rahul23</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27368" class="dsq-comment-body">
+            <div id="dsq-comment-message-27368" class="dsq-comment-message"><p>@GFG</p>
+<p>Can you plz give some explanation of 3rd method.Although it is working for every case,but how can we think of this kind of approach?I mean give some explanation that what is the mathematical logic behind this that the pattern is coming like this.</p>
+<p>thnx</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-27367">
+        <div id="dsq-comment-header-27367" class="dsq-comment-header">
+            <cite id="dsq-cite-27367">
+                <span id="dsq-author-user-27367">rahul23</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27367" class="dsq-comment-body">
+            <div id="dsq-comment-message-27367" class="dsq-comment-message"><p>@2ad9ba2217f2eefbc782ac1d70ecdc34:disqus<br />
+Can you plz give some explanation of 3rd method.Although it is working for every case,but how can we think of this kind of approach?I mean give some explanation that what is the mathematical logic behind this that the pattern is coming like this.</p>
+<p>thnx</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-27358">
+        <div id="dsq-comment-header-27358" class="dsq-comment-header">
+            <cite id="dsq-cite-27358">
+                <span id="dsq-author-user-27358">Jaini</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27358" class="dsq-comment-body">
+            <div id="dsq-comment-message-27358" class="dsq-comment-message"><p>I think there is typo, DP solution has time complexity of O(n^2).</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-27360">
+        <div id="dsq-comment-header-27360" class="dsq-comment-header">
+            <cite id="dsq-cite-27360">
+                <span id="dsq-author-user-27360">geeksforgeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27360" class="dsq-comment-body">
+            <div id="dsq-comment-message-27360" class="dsq-comment-message"><p>Thanks for pointing this out.  We have updated the time complexity.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-28972">
+        <div id="dsq-comment-header-28972" class="dsq-comment-header">
+            <cite id="dsq-cite-28972">
+                <span id="dsq-author-user-28972">racks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28972" class="dsq-comment-body">
+            <div id="dsq-comment-message-28972" class="dsq-comment-message"><p>What is the Time complexity of the Tricky solution</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/dynamic-programming-set-36-cut-a-rope-to-maximize-product/';
+var disqus_identifier = '121922 http://www.geeksforgeeks.org/?p=121922';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Dynamic Programming | Set 36 (Maximum Product Cutting)";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.206 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:59:08 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

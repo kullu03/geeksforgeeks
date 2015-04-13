@@ -1,0 +1,1676 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Dynamic Programming | Set 32 (Word Break Problem) - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/dynamic-programming-set-32-word-break-problem/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Dynamic Programming | Set 32 (Word Break Problem) - GeeksforGeeks" />
+<meta property="og:description" content="Given an input string and a dictionary of words, find out if the input string can be segmented into a space-separated sequence of dictionary words. See following examples for more details. This is a famous Google interview question, also being asked by many other companies now a days. Consider the following dictionary { i, like, &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/dynamic-programming-set-32-word-break-problem/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Dynamic Programming" />
+<meta property="article:section" content="Misc" />
+<meta property="article:published_time" content="2013-06-16T22:38:00+00:00" />
+<meta property="article:modified_time" content="2013-06-20T16:02:50+00:00" />
+<meta property="og:updated_time" content="2013-06-20T16:02:50+00:00" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/wordBreak1.png" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.671 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417110777 106.51.131.61';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Dynamic Programming | Set 32 (Word Break Problem)</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given an input string and a dictionary of words, find out if the input string can be segmented into a space-separated sequence of dictionary words. See following examples for more details.<span id="more-119449"></span><br />
+This is a famous Google interview question, also being asked by many other companies now a days.</p>
+<pre>
+Consider the following dictionary 
+{ i, like, sam, sung, samsung, mobile, ice, 
+  cream, icecream, man, go, mango}
+
+Input:  ilike
+Output: Yes 
+The string can be segmented as "i like".
+
+Input:  ilikesamsung
+Output: Yes
+The string can be segmented as "i like samsung" or "i like sam sung".
+</pre>
+<p><strong>Recursive implementation:</strong><br />
+The idea is simple, we consider each prefix and search it in dictionary.  If the prefix is present in dictionary,  we recur for rest of the string (or suffix).  If the recursive call for suffix returns true, we return true, otherwise we try next prefix. If we have tried all prefixes and none of them resulted in a solution, we return false.</p>
+<p>We strongly recommend to see <strong><a href="http://www.cplusplus.com/reference/string/string/substr/" target="_blank">substr </a></strong>function which is used extensively in following implementations.</p>
+<pre class="brush: cpp; highlight: [21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45]; title: ; notranslate" title="">
+// A recursive program to test whether a given string can be segmented into
+// space separated words in dictionary
+#include &lt;iostream&gt;
+using namespace std;
+
+/* A utility function to check whether a word is present in dictionary or not.
+  An array of strings is used for dictionary.  Using array of strings for
+  dictionary is definitely not a good idea. We have used for simplicity of
+  the program*/
+int dictionaryContains(string word)
+{
+    string dictionary[] = {&quot;mobile&quot;,&quot;samsung&quot;,&quot;sam&quot;,&quot;sung&quot;,&quot;man&quot;,&quot;mango&quot;,
+                           &quot;icecream&quot;,&quot;and&quot;,&quot;go&quot;,&quot;i&quot;,&quot;like&quot;,&quot;ice&quot;,&quot;cream&quot;};
+    int size = sizeof(dictionary)/sizeof(dictionary[0]);
+    for (int i = 0; i &lt; size; i++)
+        if (dictionary[i].compare(word) == 0)
+           return true;
+    return false;
+}
+
+// returns true if string can be segmented into space separated
+// words, otherwise returns false
+bool wordBreak(string str)
+{
+    int size = str.size();
+
+    // Base case
+    if (size == 0)  return true;
+
+    // Try all prefixes of lengths from 1 to size
+    for (int i=1; i&lt;=size; i++)
+    {
+        // The parameter for dictionaryContains is str.substr(0, i)
+        // str.substr(0, i) which is prefix (of input string) of
+        // length 'i'. We first check whether current prefix is in
+        // dictionary. Then we recursively check for remaining string
+        // str.substr(i, size-i) which is suffix of length size-i
+        if (dictionaryContains( str.substr(0, i) ) &amp;&amp;
+            wordBreak( str.substr(i, size-i) ))
+            return true;
+    }
+
+    // If we have tried all prefixes and none of them worked
+    return false;
+}
+
+// Driver program to test above functions
+int main()
+{
+    wordBreak(&quot;ilikesamsung&quot;)? cout &lt;&lt;&quot;Yes\n&quot;: cout &lt;&lt; &quot;No\n&quot;;
+    wordBreak(&quot;iiiiiiii&quot;)? cout &lt;&lt;&quot;Yes\n&quot;: cout &lt;&lt; &quot;No\n&quot;;
+    wordBreak(&quot;&quot;)? cout &lt;&lt;&quot;Yes\n&quot;: cout &lt;&lt; &quot;No\n&quot;;
+    wordBreak(&quot;ilikelikeimangoiii&quot;)? cout &lt;&lt;&quot;Yes\n&quot;: cout &lt;&lt; &quot;No\n&quot;;
+    wordBreak(&quot;samsungandmango&quot;)? cout &lt;&lt;&quot;Yes\n&quot;: cout &lt;&lt; &quot;No\n&quot;;
+    wordBreak(&quot;samsungandmangok&quot;)? cout &lt;&lt;&quot;Yes\n&quot;: cout &lt;&lt; &quot;No\n&quot;;
+    return 0;
+}
+</pre>
+<p>Output:
+<pre>Yes
+Yes
+Yes
+Yes
+Yes
+No</pre>
+<p><strong>Dynamic Programming</strong><br />
+Why Dynamic Programming?  The above problem exhibits overlapping sub-problems. For example, see the following partial recursion tree for string &#8220;abcde&#8221; in worst case.</p>
+<p><a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/wordBreak1.png"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/wordBreak1.png" alt="wordBreak" width="600" height="225" class="aligncenter size-full wp-image-119461" /></a></p>
+<pre class="brush: cpp; highlight: [22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71]; title: ; notranslate" title="">
+// A Dynamic Programming based program to test whether a given string can
+// be segmented into space separated words in dictionary
+#include &lt;iostream&gt;
+#include &lt;string.h&gt;
+using namespace std;
+
+/* A utility function to check whether a word is present in dictionary or not.
+  An array of strings is used for dictionary.  Using array of strings for
+  dictionary is definitely not a good idea. We have used for simplicity of
+  the program*/
+int dictionaryContains(string word)
+{
+    string dictionary[] = {&quot;mobile&quot;,&quot;samsung&quot;,&quot;sam&quot;,&quot;sung&quot;,&quot;man&quot;,&quot;mango&quot;,
+                           &quot;icecream&quot;,&quot;and&quot;,&quot;go&quot;,&quot;i&quot;,&quot;like&quot;,&quot;ice&quot;,&quot;cream&quot;};
+    int size = sizeof(dictionary)/sizeof(dictionary[0]);
+    for (int i = 0; i &lt; size; i++)
+        if (dictionary[i].compare(word) == 0)
+           return true;
+    return false;
+}
+
+// Returns true if string can be segmented into space separated
+// words, otherwise returns false
+bool wordBreak(string str)
+{
+    int size = str.size();
+    if (size == 0)   return true;
+
+    // Create the DP table to store results of subroblems. The value wb[i]
+    // will be true if str[0..i-1] can be segmented into dictionary words,
+    // otherwise false.
+    bool wb[size+1];
+    memset(wb, 0, sizeof(wb)); // Initialize all values as false.
+
+    for (int i=1; i&lt;=size; i++)
+    {
+        // if wb[i] is false, then check if current prefix can make it true.
+        // Current prefix is &quot;str.substr(0, i)&quot;
+        if (wb[i] == false &amp;&amp; dictionaryContains( str.substr(0, i) ))
+            wb[i] = true;
+
+        // wb[i] is true, then check for all substrings starting from
+        // (i+1)th character and store their results.
+        if (wb[i] == true)
+        {
+            // If we reached the last prefix
+            if (i == size)
+                return true;
+
+            for (int j = i+1; j &lt;= size; j++)
+            {
+                // Update wb[j] if it is false and can be updated
+                // Note the parameter passed to dictionaryContains() is
+                // substring starting from index 'i' and length 'j-i'
+                if (wb[j] == false &amp;&amp; dictionaryContains( str.substr(i, j-i) ))
+                    wb[j] = true;
+
+                // If we reached the last character
+                if (j == size &amp;&amp; wb[j] == true)
+                    return true;
+            }
+        }
+    }
+
+    /* Uncomment these lines to print DP table &quot;wb[]&quot;
+     for (int i = 1; i &lt;= size; i++)
+        cout &lt;&lt; &quot; &quot; &lt;&lt; wb[i]; */
+
+    // If we have tried all prefixes and none of them worked
+    return false;
+}
+
+// Driver program to test above functions
+int main()
+{
+    wordBreak(&quot;ilikesamsung&quot;)? cout &lt;&lt;&quot;Yes\n&quot;: cout &lt;&lt; &quot;No\n&quot;;
+    wordBreak(&quot;iiiiiiii&quot;)? cout &lt;&lt;&quot;Yes\n&quot;: cout &lt;&lt; &quot;No\n&quot;;
+    wordBreak(&quot;&quot;)? cout &lt;&lt;&quot;Yes\n&quot;: cout &lt;&lt; &quot;No\n&quot;;
+    wordBreak(&quot;ilikelikeimangoiii&quot;)? cout &lt;&lt;&quot;Yes\n&quot;: cout &lt;&lt; &quot;No\n&quot;;
+    wordBreak(&quot;samsungandmango&quot;)? cout &lt;&lt;&quot;Yes\n&quot;: cout &lt;&lt; &quot;No\n&quot;;
+    wordBreak(&quot;samsungandmangok&quot;)? cout &lt;&lt;&quot;Yes\n&quot;: cout &lt;&lt; &quot;No\n&quot;;
+    return 0;
+}
+</pre>
+<p>Output:
+<pre>
+Yes
+Yes
+Yes
+Yes
+Yes
+No</pre>
+<p><strong>Exercise:</strong><br />
+The above solutions only finds out whether a given string can be segmented or not.  Extend the above Dynamic Programming solution to print all possible partitions of input string. See <a href="http://ideone.com/53LMkr" target="_blank">extended recursive solution</a> for reference.</p>
+<p>Examples:
+<pre>
+Input: ilikeicecreamandmango
+Output: 
+i like ice cream and man go
+i like ice cream and mango
+i like icecream and man go
+i like icecream and mango
+
+Input: ilikesamsungmobile
+Output:
+i like sam sung mobile
+i like samsung mobile</pre>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/job-sequencing-problem-set-1-greedy-algorithm/" title="Job Sequencing Problem | Set 1 (Greedy Algorithm)">Job Sequencing Problem | Set 1 (Greedy Algorithm)</a></li><li><a href="http://www.geeksforgeeks.org/multiply-two-polynomials-2/" title="Multiply two polynomials">Multiply two polynomials</a></li><li><a href="http://www.geeksforgeeks.org/algorithm-practice-question-beginners-set-1/" title="Algorithm Practice Question for Beginners | Set 1">Algorithm Practice Question for Beginners | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/count-distinct-non-negative-pairs-x-y-satisfy-inequality-xx-yy-n-2/" title="Count Distinct Non-Negative Integer Pairs (x, y) that Satisfy the Inequality x*x + y*y &lt; n">Count Distinct Non-Negative Integer Pairs (x, y) that Satisfy the Inequality x*x + y*y < n</a></li><li><a href="http://www.geeksforgeeks.org/binomial-heap-2/" title="Binomial Heap">Binomial Heap</a></li><li><a href="http://www.geeksforgeeks.org/print-increasing-sequences-length-k-first-n-natural-numbers/" title="Print all increasing sequences of length k from first n natural numbers">Print all increasing sequences of length k from first n natural numbers</a></li><li><a href="http://www.geeksforgeeks.org/find-nth-number-number-system-3-4/" title="Find n&#8217;th number in a number system with only 3 and 4">Find n&#8217;th number in a number system with only 3 and 4</a></li><li><a href="http://www.geeksforgeeks.org/minimum-cost-polygon-triangulation/" title="Minimum Cost Polygon Triangulation">Minimum Cost Polygon Triangulation</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/dynamic-programming/" rel="tag">Dynamic Programming</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fdynamic-programming-set-32-word-break-problem%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/dynamic-programming-set-32-word-break-problem/" data-text="Dynamic Programming | Set 32 (Word Break Problem)" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/dynamic-programming-set-32-word-break-problem/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-34650">
+        <div id="dsq-comment-header-34650" class="dsq-comment-header">
+            <cite id="dsq-cite-34650">
+                <span id="dsq-author-user-34650">dmr</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34650" class="dsq-comment-body">
+            <div id="dsq-comment-message-34650" class="dsq-comment-message"><p>Hi<br />
+I was searching for other solutions for this problem on net and found this(<a href="http://thenoisychannel.com/2011/08/08/retiring-a-great-interview-problem/#comment-10155" rel="nofollow">http://thenoisychannel.com/2011/08/08/retiring-a-great-interview-problem/#comment-10155</a>) particular approach in a comment:<br />
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;<br />
+Build a directed graph consisting of vertices labeled 0, 1, 2, …, n,<br />
+where n is the length of the string, where there is an edge from k to j<br />
+if and only if there is a dictionary word of length j-k starting at<br />
+position k in the string.<br />
+This can be done in O(n^2).<br />
+Solutions to the problem then correspond to paths through the graph<br />
+from 0 to n. Use something like Dijkstra’s algorithm to find a minimal<br />
+path in O(n^2), which corresponds to a solution that uses the smallest<br />
+number of dictionary words to exactly cover the string.<br />
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;<br />
+Now, that comment is very old, so not sure if someone will reply there. But does anyone here think this approach will work? I am particularly doubtful about being able to create that graph in O(n^2). Any comments ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-34632">
+        <div id="dsq-comment-header-34632" class="dsq-comment-header">
+            <cite id="dsq-cite-34632">
+                <span id="dsq-author-user-34632">CodeCode54</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34632" class="dsq-comment-body">
+            <div id="dsq-comment-message-34632" class="dsq-comment-message"><p>I saw a lot of comments about people trying to see sub optimal structure for DP or the need for memoization. I was also skeptical about it first but after some try I have some clarity.</p>
+<p>Suppose the string is: &#8220;ilovesamsung&#8221;</p>
+<p>Dict: [i, love, loves, samsung]</p>
+<p>String size is 12 so boolean[13]</p>
+<p>First iteration i:1<br />
+str.substr(0, i) = i present in dictionary so the array is</p>
+<p>b[1] = t all false</p>
+<p>no we iterate with j from i+1 (2) to 13</p>
+<p>l not in dict</p>
+<p>li not in dict </p>
+<p>lik not in dict</p>
+<p>like in dictionary here j = 5</p>
+<p>  so now the array is </p>
+<p>  b[1] = T b[5] = T rest all false</p>
+<p>likes in dictionary here j = 6<br />
+  so now the array is </p>
+<p>  b[1] = T b[5] = T b[6] = T rest all false</p>
+<p>likesa not in dictionary </p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>likesamsung not in dictionary </p>
+<p>j loop finishes</p>
+<p>i  becomes 2 &#8220;il&#8221;<br />
+things happen<br />
+i becomes 3 &#8220;ili&#8221;<br />
+things happen<br />
+i becomes 4 &#8220;ilk&#8221;<br />
+things happen<br />
+i becomes 5 &#8220;ilke&#8221;</p>
+<p>We see b[5] is true so even &#8220;ilike&#8221; is not in dictionary we know that we have seen this before and there was a way to split it is valid word i.e. i like from earlier iterations so now go ahead and see if we can find right side word to be valid. </p>
+<p>Hope this helps.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-34449">
+        <div id="dsq-comment-header-34449" class="dsq-comment-header">
+            <cite id="dsq-cite-34449">
+                <span id="dsq-author-user-34449">Ali Nahid</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34449" class="dsq-comment-body">
+            <div id="dsq-comment-message-34449" class="dsq-comment-message"><p>I&#8217;m sorry .. But I am seeing how the recursion method is causes overlapping ? can someone please explain ?</p>
+<p>As far as I could understand .. because I am doing a return after the recursive call .. I will never overlap. If I did not do a &#8220;return&#8221; then for loop will iterate after the recursive call.</p>
+<p>For Example:<br />
+&#8220;applepie&#8221; for dict {&#8220;apple&#8221;,&#8221;pie&#8221;} .. in the no recursion will be called unless i find apple. once i find apple then there will a recursion with pie. After that, I find prefix &#8220;pie&#8221; another recursion will be called with empty &#8220;&#8221; (well, yes, this is unnecessary call and with an if statement this can be avoided.. but it wont make any difference in the Big-O analysis cause cost of that if statement and cost of recursion is the same.. right ?[please correct me if i am wrong] ).<br />
+So, where&#8217;s the overlapping ?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-34502">
+        <div id="dsq-comment-header-34502" class="dsq-comment-header">
+            <cite id="dsq-cite-34502">
+                <span id="dsq-author-user-34502">pm</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34502" class="dsq-comment-body">
+            <div id="dsq-comment-message-34502" class="dsq-comment-message"><p>I will try to explain. The provided picture doesn&#8217;t show the full recursion tree for a specific example. It shows all the possibilities for two nodes and as you can see there are some possibilities overlapping.</p>
+<p>This probably didn&#8217;t really help so here is something more specific. Let&#8217;s use your example, but add the words a, p, ap.</p>
+<p>applepie = a+pplepie OR ap+plepie OR apple+pie</p>
+<p>The substring pplepie will be analyzed first. Obviously it will eventually return false. But one of the calls (the first one) will be for the substring plepie. Which overlaps with the second option ap+plepie.</p>
+<p>Hope this makes at least a little sense.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-34575">
+        <div id="dsq-comment-header-34575" class="dsq-comment-header">
+            <cite id="dsq-cite-34575">
+                <span id="dsq-author-user-34575">Ali Nahid</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34575" class="dsq-comment-body">
+            <div id="dsq-comment-message-34575" class="dsq-comment-message"><p>Thanks for the explanation. However, I am still not convinced. I understand what you&#8217;re saying. But There&#8217;s only 1 directed recursion going on. So I&#8217;m pretty confident that there&#8217;s no overlapping.<br />
+Recursion like fibonacci or BST can have overlapping subproblems because of their tree structured traversal where one child can be visited multiple times.<br />
+For example : 1 recursion for left and 1 recursion on right.</p>
+<p>BUT in this case it&#8217;s a linear subproblem and i dont think there&#8217;s any way they will be overlapping.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-33114">
+        <div id="dsq-comment-header-33114" class="dsq-comment-header">
+            <cite id="dsq-cite-33114">
+                <span id="dsq-author-user-33114">Paparao Veeragandham</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33114" class="dsq-comment-body">
+            <div id="dsq-comment-message-33114" class="dsq-comment-message"><p>I think this problem not using the  small problems results to find out Bigger problems also. Means it was not constructing the small solutions followed by Bigger solutions. (It was not following some hierarchy)</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-33115">
+        <div id="dsq-comment-header-33115" class="dsq-comment-header">
+            <cite id="dsq-cite-33115">
+                <span id="dsq-author-user-33115">Paparao Veeragandham</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33115" class="dsq-comment-body">
+            <div id="dsq-comment-message-33115" class="dsq-comment-message"><p>// Sample code in DP<br />
+int i = 0<br />
+for(; i  i; j++){<br />
+       if(T[j] &amp;&amp; dictionary.contains(s.substring(j + 1, i)){<br />
+             T[i] = true;<br />
+             break;<br />
+       }<br />
+    }<br />
+    if(dictionary.contains(s.substring(0, i + 1)){<br />
+         T[i] = true;<br />
+    }<br />
+}<br />
+Create a table T[N] which says that T[i] is true if the substring S[0&#8230;i)<br />
+can be broken into a sequence of valid words. T[i] is true iff i = 0 OR<br />
+(there exists a j, 0&lt;=j&lt;i, where T[j] is true AND S[j&#8230;i) is a valid word).</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-33117">
+        <div id="dsq-comment-header-33117" class="dsq-comment-header">
+            <cite id="dsq-cite-33117">
+                <span id="dsq-author-user-33117">Paparao Veeragandham</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33117" class="dsq-comment-body">
+            <div id="dsq-comment-message-33117" class="dsq-comment-message"><p>Sorry Above solution does not work for input string : samxyzsam.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-33113">
+        <div id="dsq-comment-header-33113" class="dsq-comment-header">
+            <cite id="dsq-cite-33113">
+                <span id="dsq-author-user-33113">Paparao Veeragandham</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33113" class="dsq-comment-body">
+            <div id="dsq-comment-message-33113" class="dsq-comment-message"><p>I think this problem not using the  small problems results to find out Bigger problems also. Means it was not constructing the small solutions followed by Bigger solutions. (It was not following some hierarchy)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-31123">
+        <div id="dsq-comment-header-31123" class="dsq-comment-header">
+            <cite id="dsq-cite-31123">
+                <span id="dsq-author-user-31123">Jeremy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31123" class="dsq-comment-body">
+            <div id="dsq-comment-message-31123" class="dsq-comment-message"><p>You Memoization part just simply doesn&#8217;t take effect! what&#8217;s the point of using wb[i] since it&#8217;s top-bottom recursion.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-30117">
+        <div id="dsq-comment-header-30117" class="dsq-comment-header">
+            <cite id="dsq-cite-30117">
+                <span id="dsq-author-user-30117">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30117" class="dsq-comment-body">
+            <div id="dsq-comment-message-30117" class="dsq-comment-message"><p><code><br />
+#include<br />
+#include<br />
+using namespace std;</p>
+<p>bool isDict(string str)<br />
+{<br />
+    string Dict[] = {"mobile","samsung","sam","sung","man","mango","icecream","and","go","i","like","ice","cream"};<br />
+    int size = sizeof(Dict)/sizeof(Dict[0]);<br />
+    for(int i = 0 ; i &lt; size; i++)<br />
+    {<br />
+        if(Dict[i].compare(str) == 0)<br />
+            return true;<br />
+    }<br />
+    return false;<br />
+}</p>
+<p>bool wordBreak(string str)<br />
+{<br />
+    int size = (int)str.size();<br />
+    if(size == 0)<br />
+        return true;<br />
+    bool L[size];<br />
+    memset(L,0,sizeof(L));</p>
+<p>    if(isDict(str.substr(0,1)))<br />
+        L[0] = true;<br />
+    else<br />
+        L[0] = false;</p>
+<p>    for(int i = 1; i&lt;size; i++)<br />
+    {<br />
+        if(L[i] == false &amp;&amp; isDict(str.substr(0,(i+1))))<br />
+        {<br />
+            L[i] = true;<br />
+        }</p>
+<p>        else<br />
+        {<br />
+            for(int j = 0; j&lt;i; j++)<br />
+            {<br />
+                if(L[j] == true &amp;&amp; isDict(str.substr(j+1,(i-j))))<br />
+                   L[i] = true;<br />
+            }<br />
+        }<br />
+    }<br />
+    return L[size-1];<br />
+}</p>
+<p>int main(int argc, const char * argv[])<br />
+{<br />
+    wordBreak(&quot;ilikesamsung&quot;)? cout &lt;&lt;&quot;Yesn&quot;: cout &lt;&lt; &quot;Non&quot;;<br />
+    wordBreak(&quot;iiiiiiii&quot;)? cout &lt;&lt;&quot;Yesn&quot;: cout &lt;&lt; &quot;Non&quot;;<br />
+    wordBreak(&quot;&quot;)? cout &lt;&lt;&quot;Yesn&quot;: cout &lt;&lt; &quot;Non&quot;;<br />
+    wordBreak(&quot;ilikelikeimangoiii&quot;)? cout &lt;&lt;&quot;Yesn&quot;: cout &lt;&lt; &quot;Non&quot;;<br />
+    wordBreak(&quot;samsungandmango&quot;)? cout &lt;&lt;&quot;Yesn&quot;: cout &lt;&lt; &quot;Non&quot;;<br />
+    wordBreak(&quot;samsungandmangok&quot;)? cout &lt;&lt;&quot;Yesn&quot;: cout &lt;&lt; &quot;Non&quot;;</p>
+<p>    return 0;<br />
+}<br />
+</code></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-29734">
+        <div id="dsq-comment-header-29734" class="dsq-comment-header">
+            <cite id="dsq-cite-29734">
+                <span id="dsq-author-user-29734">Ivan Voroshilin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29734" class="dsq-comment-body">
+            <div id="dsq-comment-message-29734" class="dsq-comment-message"><p>Authors of geeksforgeeks, please give explanation of an approach in addition to the code. In this concrete problem it&#8217;s not obvious how DP works. You only described overlapping subproblems. But I don&#8217;t understand the actual idea!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-29598">
+        <div id="dsq-comment-header-29598" class="dsq-comment-header">
+            <cite id="dsq-cite-29598">
+                <span id="dsq-author-user-29598">Vijay Daultani</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29598" class="dsq-comment-body">
+            <div id="dsq-comment-message-29598" class="dsq-comment-message"><p><code><br />
+#include<br />
+#include<br />
+#include<br />
+using namespace std;<br />
+#define ALPHABET 26<br />
+#define CHAR_TO_INDEX(c) (int)((int)c - (int)'a')<br />
+#define INDEX_TO_CHAR(i) (char)(i + (int)'a')</p>
+<p>struct TrieNode<br />
+{<br />
+    TrieNode* children[ALPHABET];<br />
+    bool isLeaf;<br />
+};</p>
+<p>struct TrieTree<br />
+{<br />
+    struct TrieNode* root;<br />
+};</p>
+<p>struct TrieNode* newNode()<br />
+{<br />
+    struct TrieNode* nPtr = (struct TrieNode*)malloc(sizeof(struct TrieNode));<br />
+    nPtr-&gt;isLeaf = false;<br />
+    for(int i=0; ichildren[i] = NULL;<br />
+    }<br />
+    return nPtr;<br />
+}</p>
+<p>struct TrieTree* createTree()<br />
+{<br />
+    struct TrieTree* tree = (struct TrieTree*)malloc(sizeof(struct TrieTree));<br />
+    tree-&gt;root = newNode();<br />
+    return tree;<br />
+}</p>
+<p>void insert(struct TrieTree* tree, string key)<br />
+{<br />
+    int index;<br />
+    int length = key.size();<br />
+    struct TrieNode* current = tree-&gt;root;<br />
+    for(int level=0; levelchildren[index] == NULL)<br />
+            current-&gt;children[index] = newNode();<br />
+        current = current-&gt;children[index];<br />
+    }<br />
+    current-&gt;isLeaf = true;<br />
+}</p>
+<p>bool search(struct TrieTree* tree, string key)<br />
+{<br />
+    int index;<br />
+    int length = key.size();<br />
+    struct TrieNode* current = tree-&gt;root;<br />
+    for(int level=0; levelchildren[index] == NULL)<br />
+            return false;<br />
+        current = current-&gt;children[index];<br />
+    }<br />
+    return current-&gt;isLeaf;<br />
+}</p>
+<p>void createDictinary(struct TrieTree* tree)<br />
+{<br />
+    string dictionary[] = {"mobile","samsung","sam","sung","man","mango",<br />
+        "icecream","and","go","i","like","ice","cream"};<br />
+    for(int i=0; i&lt;((sizeof(dictionary)/sizeof(dictionary[0]))); i++)<br />
+    {<br />
+        insert(tree, dictionary[i]);<br />
+    }<br />
+//cout &lt;&lt; &quot;Dictionary Created&quot; &lt;&lt; endl;<br />
+}</p>
+<p>bool wordBreak(struct TrieTree* tree, string str)<br />
+{<br />
+    int size = str.size();<br />
+    if(size == 0)<br />
+        return true;<br />
+    else<br />
+    {<br />
+        for(int i=1; i&lt;=size; i++)<br />
+        {<br />
+            if(search(tree, str.substr(0, i)) &amp;&amp;<br />
+               wordBreak(tree, str.substr(i, size-i)))<br />
+                return true;<br />
+        }<br />
+    }<br />
+    return false;<br />
+}</p>
+<p>int main()<br />
+{<br />
+    struct TrieTree* tree = createTree();<br />
+    createDictinary(tree);<br />
+    wordBreak(tree, &quot;ilikesamsung&quot;)? cout &lt;&lt;&quot;Yesn&quot;: cout &lt;&lt; &quot;Non&quot;;<br />
+    wordBreak(tree, &quot;iiiiiiii&quot;)? cout &lt;&lt;&quot;Yesn&quot;: cout &lt;&lt; &quot;Non&quot;;<br />
+    wordBreak(tree, &quot;&quot;)? cout &lt;&lt;&quot;Yesn&quot;: cout &lt;&lt; &quot;Non&quot;;<br />
+    wordBreak(tree, &quot;ilikelikeimangoiii&quot;)? cout &lt;&lt;&quot;Yesn&quot;: cout &lt;&lt; &quot;Non&quot;;<br />
+    wordBreak(tree, &quot;samsungandmango&quot;)? cout &lt;&lt;&quot;Yesn&quot;: cout &lt;&lt; &quot;Non&quot;;<br />
+    wordBreak(tree, &quot;samsungandmangok&quot;)? cout &lt;&lt;&quot;Yesn&quot;: cout &lt;&lt; &quot;Non&quot;;<br />
+    return 0;<br />
+}</p>
+<p></code></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-28849">
+        <div id="dsq-comment-header-28849" class="dsq-comment-header">
+            <cite id="dsq-cite-28849">
+                <span id="dsq-author-user-28849">SAGAR JHOBALIA</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28849" class="dsq-comment-body">
+            <div id="dsq-comment-message-28849" class="dsq-comment-message"><p>The problem can be memoized with a Mat[n][n] matrix.<br />
+Mat[i][j] = max(a[i-1][i-1]+dict(Word[i-j]), a[i-1][j]) ; j&gt;=i<br />
+Mat[n][n] will hold the max number of words possible (therefore samsung will always be return sam sung). This can be backtracked in O(n) to retrieve the splits.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-28298">
+        <div id="dsq-comment-header-28298" class="dsq-comment-header">
+            <cite id="dsq-cite-28298">
+                <span id="dsq-author-user-28298">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28298" class="dsq-comment-body">
+            <div id="dsq-comment-message-28298" class="dsq-comment-message"><p>The solution will not work for,<br />
+Diction {a, ajax}<br />
+Input: aajax<br />
+Here for this input outer for loop finds &#8216;a&#8217; w[1] = true<br />
+then inner for loop finds second &#8216;a&#8217; w[2]= true<br />
+Then it comes out of inner forloop as &#8216;jax&#8217; is not in diction.<br />
+Now outer forloop with i as 2 checks w[2] is true so it enters inner forloop and which anyways return false and this keeps repeating till end.<br />
+Apologize that I haven&#8217;t tried running the program with inputs and could be wrong <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":-)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-29068">
+        <div id="dsq-comment-header-29068" class="dsq-comment-header">
+            <cite id="dsq-cite-29068">
+                <span id="dsq-author-user-29068">its_dark</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29068" class="dsq-comment-body">
+            <div id="dsq-comment-message-29068" class="dsq-comment-message"><p>You are wrong !<br />
+See the examples for which the output is shown.<br />
+Print their W[] arrays.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-27803">
+        <div id="dsq-comment-header-27803" class="dsq-comment-header">
+            <cite id="dsq-cite-27803">
+                <span id="dsq-author-user-27803">sesame</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27803" class="dsq-comment-body">
+            <div id="dsq-comment-message-27803" class="dsq-comment-message"><p>what is the complexity of both there situations ??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-26821">
+        <div id="dsq-comment-header-26821" class="dsq-comment-header">
+            <cite id="dsq-cite-26821">
+                <span id="dsq-author-user-26821">Ashish Kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26821" class="dsq-comment-body">
+            <div id="dsq-comment-message-26821" class="dsq-comment-message"><p>/* #include &lt;iostream&gt;<br />
+#include &lt;string.h&gt;<br />
+#include&lt;stdlib.h&gt;<br />
+using namespace std;</p>
+<p>  string substr(int i,int j,string str)<br />
+  {<br />
+          str=str.substr(i,j-i);</p>
+<p>         return str;<br />
+         }<br />
+int dictionaryContains(string word)<br />
+{<br />
+    string dictionary[] = {&quot;mobile&quot;,&quot;samsung&quot;,&quot;sam&quot;,&quot;sung&quot;,&quot;man&quot;,&quot;mango&quot;,<br />
+                           &quot;icecream&quot;,&quot;and&quot;,&quot;go&quot;,&quot;i&quot;,&quot;like&quot;,&quot;ice&quot;,&quot;cream&quot;};<br />
+    int size = sizeof(dictionary)/sizeof(dictionary[0]);<br />
+    for (int i = 0; i &lt; size; i++)<br />
+        if (dictionary[i].compare(word) == 0)<br />
+           return true;<br />
+    return false;<br />
+}</p>
+<p>bool wordBreak(string str)<br />
+{<br />
+    int size = str.size();<br />
+    if (size == 0)   return true;</p>
+<p>    int wb[size+1];<br />
+    int wc[size+1];<br />
+    memset(wb, 0, sizeof(wb));<br />
+ memset(wc, 0, sizeof(wc));<br />
+    for (int i=1; i&lt;=size; i++)<br />
+    {</p>
+<p>        if(wb[i-1]==1)<br />
+        {</p>
+<p>                              wc[i]=i-1;<br />
+                              }<br />
+                         else<br />
+                         {<br />
+                             wc[i]=wc[i-1];<br />
+                         }<br />
+        if (dictionaryContains( substr(wc[i], i,str )))<br />
+            {</p>
+<p>                                wb[i] = 1;<br />
+                                if(i==size)<br />
+                                return 1;</p>
+<p>}<br />
+else<br />
+{<br />
+    wb[i]=0;<br />
+}</p>
+<p>    }</p>
+<p>    return 0;<br />
+}</p>
+<p>int main()<br />
+{<br />
+    wordBreak(&quot;ilikesamsung&quot;)? cout &lt;&lt;&quot;Yes\n&quot;: cout &lt;&lt; &quot;No\n&quot;;<br />
+    wordBreak(&quot;like&quot;)? cout &lt;&lt;&quot;Yes\n&quot;: cout &lt;&lt; &quot;No\n&quot;;<br />
+    wordBreak(&quot;&quot;)? cout &lt;&lt;&quot;Yes\n&quot;: cout &lt;&lt; &quot;No\n&quot;;<br />
+    wordBreak(&quot;ilikelikeimangoiii&quot;)? cout &lt;&lt;&quot;Yes\n&quot;: cout &lt;&lt; &quot;No\n&quot;;<br />
+    wordBreak(&quot;samsunsdgandmango&quot;)? cout &lt;&lt;&quot;Yes\n&quot;: cout &lt;&lt; &quot;No\n&quot;;<br />
+    wordBreak(&quot;samsungandmangok&quot;)? cout &lt;&lt;&quot;Yes\n&quot;: cout &lt;&lt; &quot;No\n&quot;;<br />
+    system(&quot;pause&quot;);<br />
+    return 0;<br />
+}<br />
+ */</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-26823">
+        <div id="dsq-comment-header-26823" class="dsq-comment-header">
+            <cite id="dsq-cite-26823">
+                <span id="dsq-author-user-26823">Ashish Kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26823" class="dsq-comment-body">
+            <div id="dsq-comment-message-26823" class="dsq-comment-message"><p>This code works in O(n) time complexity . Please tell  me if I am wrong.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-28294">
+        <div id="dsq-comment-header-28294" class="dsq-comment-header">
+            <cite id="dsq-cite-28294">
+                <span id="dsq-author-user-28294">Nathan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28294" class="dsq-comment-body">
+            <div id="dsq-comment-message-28294" class="dsq-comment-message"><p>check dic={&#8220;i&#8221;,&#8221;like&#8221;,&#8221;likeabc&#8221;}<br />
+ex: ilikeabc<br />
+in your solution, it will false;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-3" id="dsq-comment-29596">
+        <div id="dsq-comment-header-29596" class="dsq-comment-header">
+            <cite id="dsq-cite-29596">
+                <span id="dsq-author-user-29596">Vijay Daultani</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29596" class="dsq-comment-body">
+            <div id="dsq-comment-message-29596" class="dsq-comment-message"><p>Code Works in O(n^2). Not in O(n) you can find this by inserting the following line in the for loop with j as variable (inside loop)</p>
+<p>cout &lt;&lt; &quot;Now comparing &quot; &lt;&lt; str.substr(i,j-1) &lt;&lt; endl;</p>
+<p>you can yourself see the number of comparisons made.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-23038">
+        <div id="dsq-comment-header-23038" class="dsq-comment-header">
+            <cite id="dsq-cite-23038">
+                <span id="dsq-author-user-23038">Mukit Chowdhury</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-23038" class="dsq-comment-body">
+            <div id="dsq-comment-message-23038" class="dsq-comment-message"><p>Nice explanation&#8230; But it would be better if some problems related to the post from different websites can be given too. <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-20504">
+        <div id="dsq-comment-header-20504" class="dsq-comment-header">
+            <cite id="dsq-cite-20504">
+                <span id="dsq-author-user-20504">Sambuddha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20504" class="dsq-comment-body">
+            <div id="dsq-comment-message-20504" class="dsq-comment-message"><p>I am using a normal recursive approach. I am storing all possible word permutation in the List.</p>
+<pre> <code language="Java">
+public class WordBreak {
+
+	
+	public static List&lt;String&gt; words = null;
+	
+	public static void main(String args[]){
+		words = new ArrayList&lt;String&gt;();
+		List &lt;String&gt; list = new ArrayList&lt;String&gt;();
+		words.add(&quot;mobile&quot;);
+		words.add(&quot;samsung&quot;);
+		words.add(&quot;sam&quot;);
+		words.add(&quot;sung&quot;);
+		words.add(&quot;man&quot;);
+		words.add(&quot;mango&quot;);
+		words.add(&quot;mobile&quot;);
+		words.add(&quot;icecream&quot;);
+		words.add(&quot;and&quot;);
+		words.add(&quot;go&quot;);
+		words.add(&quot;i&quot;);
+		words.add(&quot;like&quot;);
+		words.add(&quot;ice&quot;);
+		words.add(&quot;cream&quot;);
+		wBreak(&quot;ilikeicecreamandmango&quot;,list,&quot;&quot;);
+		System.out.println(&quot;The list is &quot; + list.toString());
+		
+	}
+	
+	
+
+	public static boolean  wBreak(String str, List&lt;String&gt; wlist,String addWord ) {
+		String temp=&quot;&quot;;
+		boolean isTrue= false;
+		if(str.length()&lt;=0) {
+			wlist.add(addWord);
+			return true;
+		}
+		
+		for(int i=1; i&lt;=str.length();i++) {
+			temp=str.substring(0, i);
+			if(checkWord(temp)) {
+				wBreak(str.substring(i),wlist,addWord + &quot; &quot; + temp);
+				isTrue = true;
+			}
+		}
+	
+		
+		return 	 isTrue;
+	}
+	
+	
+	public static boolean checkWord(String wrd) {
+		if(words.contains(wrd.toLowerCase())){
+			return true;
+		}
+		else 
+			return false;
+	}
+	
+	
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-20403">
+        <div id="dsq-comment-header-20403" class="dsq-comment-header">
+            <cite id="dsq-cite-20403">
+                <span id="dsq-author-user-20403">Manish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20403" class="dsq-comment-body">
+            <div id="dsq-comment-message-20403" class="dsq-comment-message"><p>we can make use of SUFFIX TREE</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-jainamit0909gmail-com even thread-even depth-1" id="dsq-comment-20193">
+        <div id="dsq-comment-header-20193" class="dsq-comment-header">
+            <cite id="dsq-cite-20193">
+                <span id="dsq-author-user-20193">AMIT</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20193" class="dsq-comment-body">
+            <div id="dsq-comment-message-20193" class="dsq-comment-message"><p>We can use trie search while comparing substring with words of dictionary. That will reduce the time taken to search the word in dictionary</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-20160">
+        <div id="dsq-comment-header-20160" class="dsq-comment-header">
+            <cite id="dsq-cite-20160">
+                <span id="dsq-author-user-20160">sumanth232</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20160" class="dsq-comment-body">
+            <div id="dsq-comment-message-20160" class="dsq-comment-message"><p>It looks like the worst case complexity of the DP solution is n^3.<br />
+Am I right? If not, what is its complexity?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-20111">
+        <div id="dsq-comment-header-20111" class="dsq-comment-header">
+            <cite id="dsq-cite-20111">
+                <span id="dsq-author-user-20111">Saurabh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20111" class="dsq-comment-body">
+            <div id="dsq-comment-message-20111" class="dsq-comment-message"><p>The output of the below given Trie solution is</p>
+<p>Input = ilikemango<br />
+Matched: YES : Matched Result = i like man go </p>
+<p>Input = ilikesamsung<br />
+Matched: YES : Matched Result = i like sam sung </p>
+<p>Input = iliketest<br />
+The input did not match any combination of dictionary word</p>
+<p>With a small change in the matchmultiple method (added comment there) we should be able to match mutiple dictionary words. For example Input = ilikesamsung output: i like samsung and i like sam sung</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-20109">
+        <div id="dsq-comment-header-20109" class="dsq-comment-header">
+            <cite id="dsq-cite-20109">
+                <span id="dsq-author-user-20109">Saurabh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20109" class="dsq-comment-body">
+            <div id="dsq-comment-message-20109" class="dsq-comment-message"><p>I would like to suggest a Trie based approach for this solution &#8211; complexity O (m * n) m= longest length word in dictionary , n = longest input string length.</p>
+<p>import java.util.HashMap;<br />
+import java.util.Map;</p>
+<p>public class WordBreakProblem {</p>
+<p>	public static void main(String[] args) {<br />
+		String[] dictionary = { &quot;i&quot;, &quot;like&quot;, &quot;sam&quot;, &quot;sung&quot;, &quot;samsung&quot;, &quot;mobile&quot;, &quot;ice&quot;,<br />
+							   &quot;cream&quot;, &quot;icecream&quot;, &quot;man&quot;, &quot;go&quot;, &quot;mango&quot;};</p>
+<p>		//construct Trie<br />
+		TrieStruct root = new TrieStruct();<br />
+		for(String input:dictionary){<br />
+			root.insert(input);<br />
+		}</p>
+<p>		//Match input String<br />
+		System.out.println(&quot;Input = ilikemango&quot;);<br />
+		root.matchMultiple(&quot;ilikemango&quot;);</p>
+<p>		System.out.println(&quot;Input = ilikesamsung&quot;);<br />
+		root.matchMultiple(&quot;ilikesamsung&quot;);</p>
+<p>		System.out.println(&quot;Input = iliketest&quot;);<br />
+		root.matchMultiple(&quot;iliketest&quot;);</p>
+<p>	}</p>
+<p>}</p>
+<p>class TrieNodeStruct{<br />
+	private char key;<br />
+	private Map&lt;Character,TrieNodeStruct&gt; children;<br />
+	private boolean isEnd;</p>
+<p>	TrieNodeStruct(char key){<br />
+		this.key = key;<br />
+		children = new HashMap&lt;Character, TrieNodeStruct&gt;();<br />
+		isEnd = false;<br />
+	}</p>
+<p>	public Map&lt;Character, TrieNodeStruct&gt; getChildren() {<br />
+		return children;<br />
+	}</p>
+<p>	public boolean isEnd() {<br />
+		return isEnd;<br />
+	}</p>
+<p>	public void setEnd(boolean isEnd) {<br />
+		this.isEnd = isEnd;<br />
+	}<br />
+}</p>
+<p>class TrieStruct{<br />
+	private TrieNodeStruct root;</p>
+<p>	TrieStruct(){<br />
+		root  = new TrieNodeStruct(&#8216;0&#8242;);<br />
+	}</p>
+<p>	public void insert(String input){</p>
+<p>		TrieNodeStruct childTrie = root;</p>
+<p>		for(int i = 0; i&lt;input.length(); i++){</p>
+<p>			Map&lt;Character, TrieNodeStruct&gt; child = childTrie.getChildren();<br />
+			char currentChar = input.charAt(i);</p>
+<p>			if(child.containsKey(currentChar)){<br />
+				childTrie = child.get(currentChar);<br />
+			}<br />
+			else{<br />
+				TrieNodeStruct newChild = new TrieNodeStruct(currentChar);<br />
+				child.put(currentChar, newChild);<br />
+				childTrie = newChild;<br />
+			}<br />
+		}</p>
+<p>		childTrie.setEnd(true);<br />
+	}</p>
+<p>	public boolean matchMultiple(String input){<br />
+		TrieNodeStruct childTrie = root;</p>
+<p>		String result =&quot;&quot;;</p>
+<p>		for(int i=0; i&lt; input.length(); i++){<br />
+			char currentChar = input.charAt(i);</p>
+<p>			Map &lt;Character, TrieNodeStruct&gt; child = childTrie.getChildren();</p>
+<p>			if(child.containsKey(currentChar)){<br />
+				childTrie = child.get(currentChar);<br />
+				result = result + currentChar;<br />
+				//check if this key is the end of the dictionary word. If yes, add it to the result<br />
+				if(childTrie.isEnd()){<br />
+					result = result + &quot; &quot;;<br />
+					childTrie = root;<br />
+					//instead of going back to the root of the trie, check if next character in the string matches next character under current trie node.<br />
+					//this will help match &quot;i like samsung&quot; along with &quot;i like sam sung&quot;<br />
+				}<br />
+			}<br />
+			else{<br />
+				System.out.println(&quot;The input did not match any combination of dictionary word&quot;);<br />
+				return false;<br />
+			}<br />
+		}</p>
+<p>		System.out.println(&quot;Matched: YES : Matched Result = &quot; + result);<br />
+		System.out.println();<br />
+		return true;<br />
+	}</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-20039">
+        <div id="dsq-comment-header-20039" class="dsq-comment-header">
+            <cite id="dsq-cite-20039">
+                <span id="dsq-author-user-20039">sat</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20039" class="dsq-comment-body">
+            <div id="dsq-comment-message-20039" class="dsq-comment-message"><p>I think you meant memoization and not dynamic programming. You have overlapping subproblems but where is the optimal substructure property in this problem ?</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-19921">
+        <div id="dsq-comment-header-19921" class="dsq-comment-header">
+            <cite id="dsq-cite-19921">
+                <span id="dsq-author-user-19921">siva krishna</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19921" class="dsq-comment-body">
+            <div id="dsq-comment-message-19921" class="dsq-comment-message"><p>I think the exercise problem can be done by using the &#8216;wb&#8217; array by breaking the given string at the true values&#8230; </p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-19897">
+        <div id="dsq-comment-header-19897" class="dsq-comment-header">
+            <cite id="dsq-cite-19897">
+                <span id="dsq-author-user-19897">Code2Win</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19897" class="dsq-comment-body">
+            <div id="dsq-comment-message-19897" class="dsq-comment-message"><p>Is complexity of first recursive solution : O(n^3) ???</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik odd alt depth-2" id="dsq-comment-19899">
+        <div id="dsq-comment-header-19899" class="dsq-comment-header">
+            <cite id="dsq-cite-19899">
+                <span id="dsq-author-user-19899">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19899" class="dsq-comment-body">
+            <div id="dsq-comment-message-19899" class="dsq-comment-message"><p>The recurrence relation for worst case seems to be following</p>
+<p>T(n) = T(n-1) + T(n-2) + &#8230; + T(1) + T(0)</p>
+<p>Solution of above recurrence will be exponential.  That is why DP is best here.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-30406">
+        <div id="dsq-comment-header-30406" class="dsq-comment-header">
+            <cite id="dsq-cite-30406">
+                <span id="dsq-author-user-30406">manjesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30406" class="dsq-comment-body">
+            <div id="dsq-comment-message-30406" class="dsq-comment-message"><p>you are missing constant factor</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-30407">
+        <div id="dsq-comment-header-30407" class="dsq-comment-header">
+            <cite id="dsq-cite-30407">
+                <span id="dsq-author-user-30407">manjesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30407" class="dsq-comment-body">
+            <div id="dsq-comment-message-30407" class="dsq-comment-message"><p>manjesh</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-5" id="dsq-comment-30408">
+        <div id="dsq-comment-header-30408" class="dsq-comment-header">
+            <cite id="dsq-cite-30408">
+                <span id="dsq-author-user-30408">manjesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30408" class="dsq-comment-body">
+            <div id="dsq-comment-message-30408" class="dsq-comment-message"><p>kumar Ojha</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-19895">
+        <div id="dsq-comment-header-19895" class="dsq-comment-header">
+            <cite id="dsq-cite-19895">
+                <span id="dsq-author-user-19895">Jayash</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19895" class="dsq-comment-body">
+            <div id="dsq-comment-message-19895" class="dsq-comment-message"><p>Well done man!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/dynamic-programming-set-32-word-break-problem/';
+var disqus_identifier = '119449 http://www.geeksforgeeks.org/?p=119449';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Dynamic Programming | Set 32 (Word Break Problem)";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.225 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:22:57 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

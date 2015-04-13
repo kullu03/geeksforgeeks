@@ -1,0 +1,1534 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Backtracking | Set 3 (N Queen Problem) - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/backtracking-set-3-n-queen-problem/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Backtracking | Set 3 (N Queen Problem) - GeeksforGeeks" />
+<meta property="og:description" content="We have discussed Knight’s tour and Rat in a Maze problems in Set 1 and Set 2 respectively. Let us discuss N Queen as another example problem that can be solved using Backtracking. The N Queen is the problem of placing N chess queens on an N×N chessboard so that no two queens attack each &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/backtracking-set-3-n-queen-problem/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Backtracking" />
+<meta property="article:section" content="Misc" />
+<meta property="article:published_time" content="2011-07-21T17:36:13+00:00" />
+<meta property="article:modified_time" content="2012-05-01T12:42:43+00:00" />
+<meta property="og:updated_time" content="2012-05-01T12:42:43+00:00" />
+<meta property="og:image" content="http://geeksforgeeks.org/wp-content/uploads/NQueen.png" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.502 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111450 117.229.195.137';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Backtracking | Set 3 (N Queen Problem)</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>We have discussed Knight’s tour and Rat in a Maze problems in <a href="http://geeksforgeeks.org/?p=12916">Set 1</a> and <a href="http://geeksforgeeks.org/?p=13376">Set 2</a> respectively.  Let us discuss N Queen as another example problem that can be solved using Backtracking. <span id="more-13387"></span></p>
+<p>The N Queen is the problem of placing N chess queens on an N×N chessboard so that no two queens attack each other.  For example, following is a solution for 4 Queen problem.</p>
+<p><a href="http://geeksforgeeks.org/wp-content/uploads/NQueen.png"><img src="http://geeksforgeeks.org/wp-content/uploads/NQueen.png" alt="" title="NQueen" width="183" height="183" class="aligncenter size-full wp-image-13468" /></a></p>
+<p>The expected output is a binary matrix which has 1s for the blocks where queens are placed.  For example following is the output matrix for above 4 queen solution.</p>
+<pre>              { 0,  1,  0,  0}
+              { 0,  0,  0,  1}
+              { 1,  0,  0,  0}
+              { 0,  0,  1,  0}</pre>
+<p><strong>Naive Algorithm</strong><br />
+Generate all possible configurations of queens on board and print a configuration that satisfies the given constraints.</p>
+<pre>while there are untried conflagrations
+{
+   generate the next configuration
+   if queens don't attack in this configuration then
+   {
+      print this configuration;
+   }
+}</pre>
+<p><strong>Backtracking Algorithm</strong><br />
+The idea is to place queens one by one in different columns, starting from the leftmost column. When we place a queen in a column, we check for clashes with already placed queens.  In the current column, if we find a row for which there is no clash, we mark this row and column as part of the solution.  If we do not find such a row due to clashes then we backtrack and return false.</p>
+<pre>1) Start in the leftmost column
+2) If all queens are placed
+    return true
+3) Try all rows in the current column.  Do following for every tried row.
+    a) If the queen can be placed safely in this row then mark this [row, 
+        column] as part of the solution and recursively check if placing  
+        queen here leads to a solution.
+    b) If placing queen in [row, column] leads to a solution then return 
+        true.
+    c) If placing queen doesn't lead to a solution then umark this [row, 
+        column] (Backtrack) and go to step (a) to try other rows.
+3) If all rows have been tried and nothing worked, return false to trigger 
+    backtracking.</pre>
+<p><strong>Implementation of Backtracking solution</strong></p>
+<pre class="brush: cpp; title: ; notranslate" title="">#define N 4
+#include&lt;stdio.h&gt;
+
+/* A utility function to print solution */
+void printSolution(int board[N][N])
+{
+    for (int i = 0; i &lt; N; i++)
+    {
+        for (int j = 0; j &lt; N; j++)
+            printf(&quot; %d &quot;, board[i][j]);
+        printf(&quot;\n&quot;);
+    }
+}
+
+/* A utility function to check if a queen can be placed on board[row][col]
+   Note that this function is called when &quot;col&quot; queens are already placeed
+   in columns from 0 to col -1. So we need to check only left side for
+   attacking queens */
+bool isSafe(int board[N][N], int row, int col)
+{
+    int i, j;
+
+    /* Check this row on left side */
+    for (i = 0; i &lt; col; i++)
+    {
+        if (board[row][i])
+            return false;
+    }
+
+    /* Check upper diagonal on left side */
+    for (i = row, j = col; i &gt;= 0 &amp;&amp; j &gt;= 0; i--, j--)
+    {
+        if (board[i][j])
+            return false;
+    }
+
+    /* Check lower diagonal on left side */
+    for (i = row, j = col; j &gt;= 0 &amp;&amp; i &lt; N; i++, j--)
+    {
+        if (board[i][j])
+            return false;
+    }
+
+    return true;
+}
+
+/* A recursive utility function to solve N Queen problem */
+bool solveNQUtil(int board[N][N], int col)
+{
+    /* base case: If all queens are placed then return true */
+    if (col &gt;= N)
+        return true;
+
+    /* Consider this column and try placing this queen in all rows
+       one by one */
+    for (int i = 0; i &lt; N; i++)
+    {
+        /* Check if queen can be placed on board[i][col] */
+        if ( isSafe(board, i, col) )
+        {
+            /* Place this queen in board[i][col] */
+            board[i][col] = 1;
+
+            /* recur to place rest of the queens */
+            if ( solveNQUtil(board, col + 1) == true )
+                return true;
+
+            /* If placing queen in board[i][col] doesn't lead to a solution
+               then remove queen from board[i][col] */
+            board[i][col] = 0; // BACKTRACK
+        }
+    }
+
+     /* If queen can not be place in any row in this colum col
+        then return false */
+    return false;
+}
+
+/* This function solves the N Queen problem using Backtracking.  It mainly uses
+solveNQUtil() to solve the problem. It returns false if queens cannot be placed,
+otherwise return true and prints placement of queens in the form of 1s. Please
+note that there may be more than one solutions, this function prints one of the
+feasible solutions.*/
+bool solveNQ()
+{
+    int board[N][N] = { {0, 0, 0, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0}
+    };
+
+    if ( solveNQUtil(board, 0) == false )
+    {
+      printf(&quot;Solution does not exist&quot;);
+      return false;
+    }
+
+    printSolution(board);
+    return true;
+}
+
+// driver program to test above function
+int main()
+{
+    solveNQ();
+
+    getchar();
+    return 0;
+}
+</pre>
+<p><strong>Sources:</strong><br />
+<a href="http://see.stanford.edu/materials/icspacs106b/H19-RecBacktrackExamples.pdf">http://see.stanford.edu/materials/icspacs106b/H19-RecBacktrackExamples.pdf</a><br />
+<a href="http://en.literateprograms.org/Eight_queens_puzzle_%28C%29">http://en.literateprograms.org/Eight_queens_puzzle_%28C%29</a><br />
+<a href="http://en.wikipedia.org/wiki/Eight_queens_puzzle">http://en.wikipedia.org/wiki/Eight_queens_puzzle</a></p>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/job-sequencing-problem-set-1-greedy-algorithm/" title="Job Sequencing Problem | Set 1 (Greedy Algorithm)">Job Sequencing Problem | Set 1 (Greedy Algorithm)</a></li><li><a href="http://www.geeksforgeeks.org/multiply-two-polynomials-2/" title="Multiply two polynomials">Multiply two polynomials</a></li><li><a href="http://www.geeksforgeeks.org/algorithm-practice-question-beginners-set-1/" title="Algorithm Practice Question for Beginners | Set 1">Algorithm Practice Question for Beginners | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/count-distinct-non-negative-pairs-x-y-satisfy-inequality-xx-yy-n-2/" title="Count Distinct Non-Negative Integer Pairs (x, y) that Satisfy the Inequality x*x + y*y &lt; n">Count Distinct Non-Negative Integer Pairs (x, y) that Satisfy the Inequality x*x + y*y < n</a></li><li><a href="http://www.geeksforgeeks.org/binomial-heap-2/" title="Binomial Heap">Binomial Heap</a></li><li><a href="http://www.geeksforgeeks.org/print-increasing-sequences-length-k-first-n-natural-numbers/" title="Print all increasing sequences of length k from first n natural numbers">Print all increasing sequences of length k from first n natural numbers</a></li><li><a href="http://www.geeksforgeeks.org/find-nth-number-number-system-3-4/" title="Find n&#8217;th number in a number system with only 3 and 4">Find n&#8217;th number in a number system with only 3 and 4</a></li><li><a href="http://www.geeksforgeeks.org/minimum-cost-polygon-triangulation/" title="Minimum Cost Polygon Triangulation">Minimum Cost Polygon Triangulation</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/backtracking/" rel="tag">Backtracking</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fbacktracking-set-3-n-queen-problem%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/backtracking-set-3-n-queen-problem/" data-text="Backtracking | Set 3 (N Queen Problem)" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/backtracking-set-3-n-queen-problem/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-34151">
+        <div id="dsq-comment-header-34151" class="dsq-comment-header">
+            <cite id="dsq-cite-34151">
+                <span id="dsq-author-user-34151">HeyM</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34151" class="dsq-comment-body">
+            <div id="dsq-comment-message-34151" class="dsq-comment-message"><p>0 0 1 0<br />
+1 0 0 0<br />
+0 0 0 1<br />
+0 1 0 0</p>
+<p>what is wrong with this solution. And this would come before given one. (I am beginner.)</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-34808">
+        <div id="dsq-comment-header-34808" class="dsq-comment-header">
+            <cite id="dsq-cite-34808">
+                <span id="dsq-author-user-34808">Darshak Mehta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34808" class="dsq-comment-body">
+            <div id="dsq-comment-message-34808" class="dsq-comment-message"><p>This is right solution</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-31361">
+        <div id="dsq-comment-header-31361" class="dsq-comment-header">
+            <cite id="dsq-cite-31361">
+                <span id="dsq-author-user-31361">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31361" class="dsq-comment-body">
+            <div id="dsq-comment-message-31361" class="dsq-comment-message"><p>How about this code:- <a href="http://atiqwhiz.blogspot.in/2014/01/the-n-queens-problem-simple-approach.html" rel="nofollow">http://atiqwhiz.blogspot.in/2014/01/the-n-queens-problem-simple-approach.html</a></p>
+<p>   #include </p>
+<p>#define N 8</p>
+<p>using namespace std;</p>
+<p>bool nQueens(int solve[],int n)</p>
+<p>{</p>
+<p> int j,r1,r2,c1,c2;</p>
+<p>  if(n==N)</p>
+<p>  return true;</p>
+<p>  for(int i=0;i&lt;N;i++)</p>
+<p>  {</p>
+<p>      r2=n;</p>
+<p>      c2=i;</p>
+<p>      for(j=0;j&lt;n;j++)</p>
+<p>      {   r1=j;</p>
+<p>          c1=solve[j];</p>
+<p>        if(r1==r2||c1==c2||abs(r1-r2)==abs(c1-c2))</p>
+<p>         break;</p>
+<p>      }</p>
+<p>    if(j==n)</p>
+<p>    {</p>
+<p>        solve[n]=i;</p>
+<p>        if(nQueens(solve,n+1))</p>
+<p>         return true;</p>
+<p>    }   </p>
+<p>  }<br />
+return false;<br />
+}<br />
+int main()<br />
+{<br />
+   int solve[N];<br />
+   if(nQueens(solve,0))<br />
+   {   cout&lt;&lt;&quot;Row     Columnn&quot;;<br />
+       for(int j=0;j&lt;N;j++)<br />
+       {<br />
+           cout&lt;&lt;j&lt;&lt;&quot;          &quot;&lt;&lt;solve[j]&lt;&lt;endl;<br />
+       }<br />
+   }<br />
+   else<br />
+   {<br />
+       cout&lt;&lt;&quot;nnNo such combination is possible&quot;;<br />
+   }<br />
+   return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-31358">
+        <div id="dsq-comment-header-31358" class="dsq-comment-header">
+            <cite id="dsq-cite-31358">
+                <span id="dsq-author-user-31358">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31358" class="dsq-comment-body">
+            <div id="dsq-comment-message-31358" class="dsq-comment-message"><p>How about this code:- <a href="http://atiqwhiz.blogspot.in/2014/01/the-n-queens-problem-simple-approach.html" rel="nofollow">http://atiqwhiz.blogspot.in/2014/01/the-n-queens-problem-simple-approach.html</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-31357">
+        <div id="dsq-comment-header-31357" class="dsq-comment-header">
+            <cite id="dsq-cite-31357">
+                <span id="dsq-author-user-31357">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31357" class="dsq-comment-body">
+            <div id="dsq-comment-message-31357" class="dsq-comment-message"><p>How about this code:- <a href="http://atiqwhiz.blogspot.in/2014/01/the-n-queens-problem-simple-approach.html" rel="nofollow">http://atiqwhiz.blogspot.in/2014/01/the-n-queens-problem-simple-approach.html</a></p>
+<p>#define N 8<br />
+using namespace std;<br />
+bool nQueens(int solve[],int n)<br />
+{<br />
+ int j,r1,r2,c1,c2;<br />
+  if(n==N)<br />
+  return true;<br />
+  for(int i=0;i&lt;N;i++)<br />
+  {<br />
+      r2=n;<br />
+      c2=i;<br />
+      for(j=0;j&lt;n;j++)<br />
+      {   r1=j;<br />
+          c1=solve[j];<br />
+        if(r1==r2||c1==c2||abs(r1-r2)==abs(c1-c2))<br />
+         break;<br />
+      }<br />
+    if(j==n)<br />
+    {<br />
+        solve[n]=i;<br />
+        if(nQueens(solve,n+1))<br />
+         return true;<br />
+    }<br />
+  }</p>
+<p>return false;<br />
+}</p>
+<p>int main()<br />
+{<br />
+   int solve[N];<br />
+   if(nQueens(solve,0))<br />
+   {   cout&lt;&lt;&quot;Row     Columnn&quot;;<br />
+       for(int j=0;j&lt;N;j++)<br />
+       {<br />
+           cout&lt;&lt;j&lt;&lt;&quot;          &quot;&lt;&lt;solve[j]&lt;&lt;endl;<br />
+       }<br />
+   }<br />
+   else<br />
+   {<br />
+       cout&lt;&lt;&quot;nnNo such combination is possible&quot;;<br />
+   }</p>
+<p>   return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-30685">
+        <div id="dsq-comment-header-30685" class="dsq-comment-header">
+            <cite id="dsq-cite-30685">
+                <span id="dsq-author-user-30685">Byanjati</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30685" class="dsq-comment-body">
+            <div id="dsq-comment-message-30685" class="dsq-comment-message"><p>for the higher queen problem , we could use 2-Swap Operator for the best Complexity , and it implement the backtracking method too</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-28683">
+        <div id="dsq-comment-header-28683" class="dsq-comment-header">
+            <cite id="dsq-cite-28683">
+                <span id="dsq-author-user-28683">virat</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28683" class="dsq-comment-body">
+            <div id="dsq-comment-message-28683" class="dsq-comment-message"><p>this will only print only one feasible solution&#8230;.what about other combinations</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-27373">
+        <div id="dsq-comment-header-27373" class="dsq-comment-header">
+            <cite id="dsq-cite-27373">
+                <span id="dsq-author-user-27373">Guduru Siva Reddy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27373" class="dsq-comment-body">
+            <div id="dsq-comment-message-27373" class="dsq-comment-message"><p>public class Nqueens {<br />
+    public static void nqueens(int k, int n, int[] a) {<br />
+        for (int i = 1; i &lt;= n; i++) {<br />
+            if (place(k, i, a) == true) {<br />
+                a[k] = i;<br />
+                if (k == n) {<br />
+                    System.out.println();<br />
+                    for (int f = 1; f &lt; a.length; f++) {<br />
+                        System.out.println(a[f]);<br />
+                    }</p>
+<p>                } else {<br />
+                    nqueens(k + 1, n, a);<br />
+                }<br />
+            }<br />
+        }<br />
+    }</p>
+<p>    public static boolean place(int k, int i, int[] a) {// helper function to<br />
+                                                        // check the cell is<br />
+                                                        // valid or not<br />
+        for (int j = 1; j &lt;= k &#8211; 1; j++) {<br />
+            if (a[j] == i)// checking whether in same column<br />
+                return false;<br />
+            if (Math.abs(j &#8211; k) == Math.abs(a[j] &#8211; i))// for checking diagonally<br />
+                return false;<br />
+        }<br />
+        return true;</p>
+<p>    }</p>
+<p>    public static void main(String[] args) {</p>
+<p>        int[] a = new int[4 + 1];// We can replace 4 with n, and 5 with n+1 for<br />
+                                    // nqueens<br />
+        nqueens(1, 4, a);// array a is for solution space</p>
+<p>    }</p>
+<p>}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-29821">
+        <div id="dsq-comment-header-29821" class="dsq-comment-header">
+            <cite id="dsq-cite-29821">
+                <span id="dsq-author-user-29821">Guduru Siva Reddy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29821" class="dsq-comment-body">
+            <div id="dsq-comment-message-29821" class="dsq-comment-message"><p>This solution prints all possible solutions.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-21135">
+        <div id="dsq-comment-header-21135" class="dsq-comment-header">
+            <cite id="dsq-cite-21135">
+                <span id="dsq-author-user-21135">hh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21135" class="dsq-comment-body">
+            <div id="dsq-comment-message-21135" class="dsq-comment-message"><p>What is complexity of your soln?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-19322">
+        <div id="dsq-comment-header-19322" class="dsq-comment-header">
+            <cite id="dsq-cite-19322">
+                <span id="dsq-author-user-19322">Nikunj Bhartia</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19322" class="dsq-comment-body">
+            <div id="dsq-comment-message-19322" class="dsq-comment-message"><pre> <code language="C">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+void swap(int *,int*);
+int checklist(int *,int );
+void display(int *,int );
+int count=0,ans=1;
+
+permute(int list[],int i,int n)
+{   int j;
+    if(i==n){
+        if(checklist(list,n))
+          {printf(&quot;\n soltion no. %d\n\n&quot;,count);display(list,n);}
+    }
+    for(j=i ; j&lt;=n ; j++){
+        swap(&amp;list[i],&amp;list[j]);
+        permute(list,i+1,n);
+        swap(&amp;list[i],&amp;list[j]);
+      }
+}
+
+inline void swap(int *a,int*b){
+    int temp;
+    temp=*a;
+    *a=*b;
+    *b=temp;
+}
+
+int checklist(int list[],int n){
+    int j,k,rd,ld;
+    for(j=n ; j&gt;=0 ; j--){
+        rd=list[j]+1;
+        ld=list[j]-1;
+      for(k=j-1 ; k&gt;=0 ; k--){
+            if(list[k]==list[j] || list[k]==rd || list[k]==ld)
+              return 0;
+            else{
+              rd++;
+              ld--;
+            }
+        }
+    }
+    count++;
+    return 1;
+}
+
+void display(int list[],int n){
+    int i,j;
+    for(i=0;i&lt;=n;i++){
+        for(j=0;j&lt;=n;j++){
+            if(list[j]==i) printf(&quot;%3d&quot;,i+1);
+            else printf(&quot;  .&quot;);
+        }
+        printf(&quot;\n\n&quot;);
+    }
+   if(ans==1){
+    printf(&quot;\n\n  Display next solution ? 1 : 0  &lt;::&gt;  Display all soltions ? 2 : 0  ---&gt; &quot;);
+    scanf(&quot;%d&quot;,&amp;ans);
+    }
+    else if(ans==0) exit(0);
+   printf(&quot;\n\n\n&quot;);
+}
+
+void main(){
+    int n,*list,i;
+  while(n){
+    printf(&quot;\n \n Enter the value of n : &quot;);
+    scanf(&quot;%d&quot;,&amp;n);
+    printf(&quot;\n&quot;);
+    list=(int *)malloc(n*sizeof(int));
+    for(i=0 ; i&lt;n ; i++)
+      list[i]=i;
+    permute(list,0,n-1);
+    printf(&quot; Total number of possible solutions (displayed above) = %d\n\n&quot;,count);
+    count=0;
+  }
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-16762">
+        <div id="dsq-comment-header-16762" class="dsq-comment-header">
+            <cite id="dsq-cite-16762">
+                <span id="dsq-author-user-16762">Kavish Dwivedi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16762" class="dsq-comment-body">
+            <div id="dsq-comment-message-16762" class="dsq-comment-message"><p>Here is my solution for 16 queen problem</p>
+<pre> <code language="C">
+#include&amp;lt;stdio.h&amp;gt;
+#define N 16
+int sol[N][N];
+int check(int row,int col)
+{
+	int i,j;
+	for(i=0;i&amp;lt;col;i++)
+		if(sol[row][i]==1)
+		{
+			//printf(&amp;quot;False
+&amp;quot;);
+			return 0;
+		}
+	for(i=row,j=col ; i&amp;gt;= 0 &amp;amp;&amp;amp; j&amp;gt;=0 ; i--,j--)
+	{
+		if(sol[i][j]==1)
+			return 0;
+	}
+	for(i=row,j=col;i&amp;lt;N&amp;amp;&amp;amp;j&amp;gt;=0;i++,j--)
+	{
+		if(sol[i][j]==1)
+			return 0;
+	}
+	return 1;
+}
+int solve(int col)
+{
+	int i;
+	if(col==N)
+	return 1;
+	else
+	{
+		for(i=0;i&amp;lt;N;i++)
+		{
+			if(check(i,col)==1)
+			{
+				sol[i][col]=1;
+				if(solve(col+1)==1)
+				{
+					//printf(&amp;quot;i=%d
+&amp;quot;,i);
+					return 1;
+				}
+				else
+					sol[i][col]=0;
+			}
+		}
+	}
+	return 0;
+}
+int main()
+{
+	int i,j;
+	for(i=0;i&amp;lt;N;i++)
+	for(j=0;j&amp;lt;N;j++)
+	sol[i][j]=0;
+	if(solve(0)==1)
+	{
+		for(i=0;i&amp;lt;N;i++)
+		{
+			for(j=0;j&amp;lt;N;j++)
+			printf(&amp;quot;%d&amp;quot;,sol[i][j]);
+			printf(&amp;quot;
+&amp;quot;);
+		}
+	}
+	else
+	{
+		printf(&amp;quot;Not possible
+&amp;quot;);
+	}
+	return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-16763">
+        <div id="dsq-comment-header-16763" class="dsq-comment-header">
+            <cite id="dsq-cite-16763">
+                <span id="dsq-author-user-16763">Kavish Dwivedi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16763" class="dsq-comment-body">
+            <div id="dsq-comment-message-16763" class="dsq-comment-message"><p>Sorry , some typo error came unnoticed.</p>
+<p>#include&lt;stdio.h&gt;<br />
+#define N 8<br />
+int sol[N][N];<br />
+int check(int row,int col)<br />
+{<br />
+	int i,j;<br />
+	for(i=0;i&lt;col;i++)<br />
+		if(sol[row][i]==1)<br />
+		{<br />
+			//printf(&quot;False\n&quot;);<br />
+			return 0;<br />
+		}<br />
+	for(i=row,j=col ; i&gt;= 0 &amp;&amp; j&gt;=0 ; i&#8211;,j&#8211;)<br />
+	{<br />
+		if(sol[i][j]==1)<br />
+			return 0;<br />
+	}<br />
+	for(i=row,j=col;i&lt;N&amp;&amp;j&gt;=0;i++,j&#8211;)<br />
+	{<br />
+		if(sol[i][j]==1)<br />
+			return 0;<br />
+	}<br />
+	return 1;<br />
+}<br />
+int solve(int col)<br />
+{<br />
+	int i;<br />
+	if(col==N)<br />
+	return 1;<br />
+	else<br />
+	{<br />
+		for(i=0;i&lt;N;i++)<br />
+		{<br />
+			if(check(i,col)==1)<br />
+			{<br />
+				sol[i][col]=1;<br />
+				if(solve(col+1)==1)<br />
+				{<br />
+					//printf(&quot;i=%d\n&quot;,i);<br />
+					return 1;<br />
+				}<br />
+				else<br />
+					sol[i][col]=0;<br />
+			}<br />
+		}<br />
+	}<br />
+	return 0;<br />
+}<br />
+int main()<br />
+{<br />
+	int i,j;<br />
+	for(i=0;i&lt;N;i++)<br />
+	for(j=0;j&lt;N;j++)<br />
+	sol[i][j]=0;<br />
+	if(solve(0)==1)<br />
+	{<br />
+		for(i=0;i&lt;N;i++)<br />
+		{<br />
+			for(j=0;j&lt;N;j++)<br />
+			printf(&quot;%d&quot;,sol[i][j]);<br />
+			printf(&quot;\n&quot;);<br />
+		}<br />
+	}<br />
+	else<br />
+	{<br />
+		printf(&quot;Not possible\n&quot;);<br />
+	}<br />
+	return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-14756">
+        <div id="dsq-comment-header-14756" class="dsq-comment-header">
+            <cite id="dsq-cite-14756">
+                <span id="dsq-author-user-14756">Zeenat Islam</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14756" class="dsq-comment-body">
+            <div id="dsq-comment-message-14756" class="dsq-comment-message"><p>this solution is getting hanged when N is 16&#8230; what changes to make to get this code to work for large values of N??</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks even depth-2" id="dsq-comment-14760">
+        <div id="dsq-comment-header-14760" class="dsq-comment-header">
+            <cite id="dsq-cite-14760">
+                <span id="dsq-author-user-14760">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14760" class="dsq-comment-body">
+            <div id="dsq-comment-message-14760" class="dsq-comment-message"><p>Could you please post the code that you tried?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-7873">
+        <div id="dsq-comment-header-7873" class="dsq-comment-header">
+            <cite id="dsq-cite-7873">
+                <span id="dsq-author-user-7873">Ajinkya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7873" class="dsq-comment-body">
+            <div id="dsq-comment-message-7873" class="dsq-comment-message"><p>What is the time complexity of this approach? and of backtracking in general&#8230; someone pointed out that it is exponential&#8230; cna someone work out the time complexity in detail?<br />
+Thanks</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-7186">
+        <div id="dsq-comment-header-7186" class="dsq-comment-header">
+            <cite id="dsq-cite-7186">
+                <span id="dsq-author-user-7186">sk007</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7186" class="dsq-comment-body">
+            <div id="dsq-comment-message-7186" class="dsq-comment-message"><p>Here is another solution for 8&#215;8 board using the backtracking principle:</p>
+<pre> <code language="C">
+int column[8];
+
+void NQueen(int row){
+if(row==8){
+printBoard();
+return;
+}
+for(i=0;i&lt;8;i++){
+   column[row]=i;
+   if(check(row))
+       NQueen(row+1);
+}
+
+}
+
+
+int check(int row){
+//There will be attacking queens if columns are same for two rows or difference in columns are same as the rows
+
+for(i=0;i&lt;row;i++){
+    if((column[i]==column[j])||(column[i] - column[j])== abs(i-j))
+        return 0;
+
+}
+
+return 1;
+
+}
+
+} 
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-4783">
+        <div id="dsq-comment-header-4783" class="dsq-comment-header">
+            <cite id="dsq-cite-4783">
+                <span id="dsq-author-user-4783">Anand</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4783" class="dsq-comment-body">
+            <div id="dsq-comment-message-4783" class="dsq-comment-message"><p><a href="http://anandtechblog.blogspot.com/" rel="nofollow">http://anandtechblog.blogspot.com/</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-4782">
+        <div id="dsq-comment-header-4782" class="dsq-comment-header">
+            <cite id="dsq-cite-4782">
+                <span id="dsq-author-user-4782">Anand</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4782" class="dsq-comment-body">
+            <div id="dsq-comment-message-4782" class="dsq-comment-message"><p><a href="http://anandtechblog.blogspot.com/2011/08/8-queen-problem.html" rel="nofollow">http://anandtechblog.blogspot.com/2011/08/8-queen-problem.html</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-dumanshu odd alt thread-odd thread-alt depth-1" id="dsq-comment-4695">
+        <div id="dsq-comment-header-4695" class="dsq-comment-header">
+            <cite id="dsq-cite-4695">
+                <span id="dsq-author-user-4695">Doom</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4695" class="dsq-comment-body">
+            <div id="dsq-comment-message-4695" class="dsq-comment-message"><p>heres the code to solve sudoku using same technique</p>
+<p><a href="http://ideone.com/vQ7Ej" rel="nofollow">http://ideone.com/vQ7Ej</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-4684">
+        <div id="dsq-comment-header-4684" class="dsq-comment-header">
+            <cite id="dsq-cite-4684">
+                <span id="dsq-author-user-4684">Nitish Garg</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4684" class="dsq-comment-body">
+            <div id="dsq-comment-message-4684" class="dsq-comment-message"><p>What update will be required to print all the possible ways to place N queens on an N X N chessboard, like for 8 queens, we have 92 different solutions?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik odd alt depth-2" id="dsq-comment-4685">
+        <div id="dsq-comment-header-4685" class="dsq-comment-header">
+            <cite id="dsq-cite-4685">
+                <span id="dsq-author-user-4685">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4685" class="dsq-comment-body">
+            <div id="dsq-comment-message-4685" class="dsq-comment-message"><p>See the following modified code.</p>
+<pre> <code language="C">#define N 4
+#include&lt;stdio.h&gt;
+
+/* A utility function to print solution */
+void printSolution(int board[N][N])
+{
+    for (int i = 0; i &lt; N; i++)
+    {
+        for (int j = 0; j &lt; N; j++)
+            printf(&quot; %d &quot;, board[i][j]);
+        printf(&quot;\n&quot;);
+    }
+    printf(&quot;\n&quot;);
+}
+
+/* A utility function to check if a queen can be placed on board[row][col]
+   Note that this function is called when &quot;col&quot; queens are already placeed
+   in columns from 0 to col -1. So we need to check only left side for
+   attacking queens */
+bool isSafe(int board[N][N], int row, int col)
+{
+    int i, j;
+
+    /* Check this row on left side */
+    for (i = 0; i &lt; col; i++)
+    {
+        if (board[row][i])
+            return false;
+    }
+
+    /* Check upper diagonal on left side */
+    for (i = row, j = col; i &gt;= 0 &amp;&amp; j &gt;= 0; i--, j--)
+    {
+        if (board[i][j])
+            return false;
+    }
+
+    /* Check lower diagonal on left side */
+    for (i = row, j = col; j &gt;= 0 &amp;&amp; i &lt; N; i++, j--)
+    {
+        if (board[i][j])
+            return false;
+    }
+
+    return true;
+}
+
+/* A recursive utility function to solve N Queen problem */
+bool solveNQUtil(int board[N][N], int col)
+{
+    /* base case: If all queens are placed then return true */
+    if (col &gt;= N)
+    {
+        printSolution(board);
+        return true;
+    }
+
+
+    bool res = false;
+
+    /* Consider this column and try placing this queen in all rows
+       one by one */
+    for (int i = 0; i &lt; N; i++)
+    {
+        /* Check if queen can be placed on board[i][col] */
+        if ( isSafe(board, i, col) )
+        {
+            /* Place this queen in board[i][col] */
+            board[i][col] = 1;
+
+            /* recur to place rest of the queens */
+            if ( solveNQUtil(board, col + 1) == true )
+            {
+                res = true;
+            }
+
+            /* If placing queen in board[i][col] doesn't lead to a solution
+               then remove queen from board[i][col] */
+            board[i][col] = 0; // BACKTRACK
+        }
+    }
+
+     /* If queen can not be place in any row in this colum col
+        then return false */
+    return res;
+}
+
+/* This function solves the Maze problem using Backtracking.  It mainly uses
+solveNQUtil() to solve the problem. It returns false if queens cannot be placed,
+otherwise return true and prints placement of queens in the form of 1s. Please
+note that there may be more than one solutions, this function prints one of the
+feasible solutions.*/
+bool solveNQ()
+{
+    int board[N][N] = { {0, 0, 0, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0}
+    };
+
+    if ( solveNQUtil(board, 0) == false )
+    {
+      printf(&quot;Solution does not exist&quot;);
+      return false;
+    }
+
+    return true;
+}
+
+// driver program to test above function
+int main()
+{
+    solveNQ();
+
+    getchar();
+    return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-5099">
+        <div id="dsq-comment-header-5099" class="dsq-comment-header">
+            <cite id="dsq-cite-5099">
+                <span id="dsq-author-user-5099">reema</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5099" class="dsq-comment-body">
+            <div id="dsq-comment-message-5099" class="dsq-comment-message"><p>@GeeksForGeeks Please Don&#8217;t Forgot to Analyze and mention Time,Space Complexity</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik odd alt depth-4" id="dsq-comment-5664">
+        <div id="dsq-comment-header-5664" class="dsq-comment-header">
+            <cite id="dsq-cite-5664">
+                <span id="dsq-author-user-5664">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5664" class="dsq-comment-body">
+            <div id="dsq-comment-message-5664" class="dsq-comment-message"><p>@rahul: Time complexity is exponential in worst case. Same is the case with all other Backtracking algos like Rat in a Mzae, Knight Tour, Subseet Sum.. etc</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-5" id="dsq-comment-21130">
+        <div id="dsq-comment-header-21130" class="dsq-comment-header">
+            <cite id="dsq-cite-21130">
+                <span id="dsq-author-user-21130">hh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21130" class="dsq-comment-body">
+            <div id="dsq-comment-message-21130" class="dsq-comment-message"><p>how come exponential for this ..I thought it should be O(nxn)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/backtracking-set-3-n-queen-problem/';
+var disqus_identifier = '13387 http://geeksforgeeks.org/?p=13387';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Backtracking | Set 3 (N Queen Problem)";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.200 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:34:10 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

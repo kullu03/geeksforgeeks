@@ -1,0 +1,3928 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Largest Sum Contiguous Subarray - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/largest-sum-contiguous-subarray/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Largest Sum Contiguous Subarray - GeeksforGeeks" />
+<meta property="og:description" content="Write an efficient C program to find the sum of contiguous subarray within a one-dimensional array of numbers which has the largest sum. Kadane&#8217;s Algorithm: Initialize: max_so_far = 0 max_ending_here = 0 Loop for each element of the array (a) max_ending_here = max_ending_here + a[i] (b) if(max_ending_here &lt; 0) max_ending_here = 0 (c) if(max_so_far &lt; &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/largest-sum-contiguous-subarray/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Dynamic Programming" />
+<meta property="article:section" content="Arrays" />
+<meta property="article:published_time" content="2009-06-22T10:40:58+00:00" />
+<meta property="article:modified_time" content="2013-06-21T03:02:25+00:00" />
+<meta property="og:updated_time" content="2013-06-21T03:02:25+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.495 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111156 14.139.160.234';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Largest Sum Contiguous Subarray</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Write an efficient C program to find the sum of contiguous subarray within a one-dimensional array of numbers which has the largest sum.</p>
+<p><strong>Kadane&#8217;s Algorithm:</strong><br />
+<span id="more-576"></span></p>
+<pre>
+Initialize:
+    max_so_far = 0
+    max_ending_here = 0
+
+Loop for each element of the array
+  (a) max_ending_here = max_ending_here + a[i]
+  (b) if(max_ending_here < 0)
+            max_ending_here = 0
+  (c) if(max_so_far < max_ending_here)
+            max_so_far = max_ending_here
+return max_so_far
+</pre>
+<p><strong>Explanation:</strong><br />
+Simple idea of the Kadane's algorithm is to look for all positive contiguous segments of the array (max_ending_here is used for this).  And keep track of maximum sum contiguous segment  among all positive segments (max_so_far is used for this).  Each time we get a positive sum compare it with max_so_far and update max_so_far if it is greater than max_so_far</p>
+<p>    Lets take the example:<br />
+    {-2, -3, 4, -1, -2, 1, 5, -3}</p>
+<p>    max_so_far = max_ending_here = 0</p>
+<p>    for i=0,  a[0] =  -2<br />
+    max_ending_here = max_ending_here + (-2)<br />
+    Set max_ending_here = 0 because max_ending_here < 0</p>
+<p>    for i=1,  a[1] =  -3<br />
+    max_ending_here = max_ending_here + (-3)<br />
+    Set max_ending_here = 0 because max_ending_here < 0</p>
+<p>    for i=2,  a[2] =  4<br />
+    max_ending_here = max_ending_here + (4)<br />
+    max_ending_here = 4<br />
+    max_so_far is updated to 4 because max_ending_here greater than max_so_far which was 0 till now</p>
+<p>    for i=3,  a[3] =  -1<br />
+    max_ending_here = max_ending_here + (-1)<br />
+    max_ending_here = 3</p>
+<p>    for i=4,  a[4] =  -2<br />
+    max_ending_here = max_ending_here + (-2)<br />
+    max_ending_here = 1</p>
+<p>    for i=5,  a[5] =  1<br />
+    max_ending_here = max_ending_here + (1)<br />
+    max_ending_here = 2</p>
+<p>    for i=6,  a[6] =  5<br />
+    max_ending_here = max_ending_here + (5)<br />
+    max_ending_here = 7<br />
+    max_so_far is updated to 7 because max_ending_here is greater than max_so_far</p>
+<p>    for i=7,  a[7] =  -3<br />
+    max_ending_here = max_ending_here + (-3)<br />
+    max_ending_here = 4</p>
+<p><strong>Program:</strong></p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+    #include&lt;stdio.h&gt;
+    int maxSubArraySum(int a[], int size)
+    {
+       int max_so_far = 0, max_ending_here = 0;
+       int i;
+       for(i = 0; i &lt; size; i++)
+       {
+         max_ending_here = max_ending_here + a[i];
+         if(max_ending_here &lt; 0)
+            max_ending_here = 0;
+         if(max_so_far &lt; max_ending_here)
+            max_so_far = max_ending_here;
+        }
+        return max_so_far;
+    } 
+
+    /*Driver program to test maxSubArraySum*/
+    int main()
+    {
+       int a[] = {-2, -3, 4, -1, -2, 1, 5, -3};
+       int n = sizeof(a)/sizeof(a[0]);
+       int max_sum = maxSubArraySum(a, n);
+       printf(&quot;Maximum contiguous sum is %d\n&quot;, max_sum);
+       getchar();
+       return 0;
+    }
+</pre>
+<p><strong>Notes:</strong><br />
+Algorithm doesn't work for all negative numbers. It simply returns 0 if all numbers are negative. For handling this we can add an extra phase before actual implementation. The phase will look if all numbers are negative,  if they are it will return maximum of them (or smallest in terms of absolute value).  There may be other ways to handle it though.</p>
+<p>Above program can be optimized further, if we compare max_so_far with max_ending_here only if max_ending_here is greater than 0.</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+    int maxSubArraySum(int a[], int size)
+    {
+       int max_so_far = 0, max_ending_here = 0;
+       int i;
+       for(i = 0; i &lt; size; i++)
+       {
+         max_ending_here = max_ending_here + a[i];
+         if(max_ending_here &lt; 0)
+             max_ending_here = 0;
+
+         /* Do not compare for all elements. Compare only   
+            when  max_ending_here &gt; 0 */
+         else if (max_so_far &lt; max_ending_here)
+             max_so_far = max_ending_here;
+       }
+       return max_so_far;
+    }
+</pre>
+<p><strong>Time Complexity:       </strong> O(n)<br />
+<strong>Algorithmic Paradigm: </strong>Dynamic Programming</p>
+<p>Following is another simple implementation suggested by <strong>Mohit Kumar</strong>. The implementation handles the case when all numbers in array are negative. </p>
+<pre class="brush: cpp; highlight: [6,7,8,9,10,11,12,13,14,15,16,17]; title: ; notranslate" title="">
+#include&lt;stdio.h&gt;
+
+int max(int x, int y)
+{ return (y &gt; x)? y : x; }
+
+int maxSubArraySum(int a[], int size)
+{
+   int max_so_far = a[0], i;
+   int curr_max = a[0];
+
+   for (i = 1; i &lt; size; i++)
+   {
+        curr_max = max(a[i], curr_max+a[i]);
+        max_so_far = max(max_so_far, curr_max);
+   }
+   return max_so_far;
+}
+
+/* Driver program to test maxSubArraySum */
+int main()
+{
+   int a[] =  {-2, -3, 4, -1, -2, 1, 5, -3};
+   int n = sizeof(a)/sizeof(a[0]);
+   int max_sum = maxSubArraySum(a, n);
+   printf(&quot;Maximum contiguous sum is %d\n&quot;, max_sum);
+   return 0;
+}
+</pre>
+<p>Now try below question<br />
+Given an array of integers (possibly some of the elements negative), write a C program to  find out the *maximum product* possible by adding 'n' consecutive integers in the array, n <= ARRAY_SIZE. Also give where in the array this sequence of n integers starts.</p>
+<p><strong>References:</strong><br />
+<a href = "http://en.wikipedia.org/wiki/Kadane%27s_Algorithm"> http://en.wikipedia.org/wiki/Kadane%27s_Algorithm</a></p>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array-set-2-expected-linear-time/" title="K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)">K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)</a></li><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array/" title="K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1">K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/time-complexity-insertion-sort-inversions/" title="Time complexity of insertion sort when there are O(n) inversions?">Time complexity of insertion sort when there are O(n) inversions?</a></li><li><a href="http://www.geeksforgeeks.org/check-two-given-sets-disjoint/" title="How to check if two given sets are disjoint?">How to check if two given sets are disjoint?</a></li><li><a href="http://www.geeksforgeeks.org/minimum-number-platforms-required-railwaybus-station/" title="Minimum Number of Platforms Required for a Railway/Bus Station">Minimum Number of Platforms Required for a Railway/Bus Station</a></li><li><a href="http://www.geeksforgeeks.org/given-two-sorted-arrays-number-x-find-pair-whose-sum-closest-x/" title="Find the closest pair from two sorted arrays">Find the closest pair from two sorted arrays</a></li><li><a href="http://www.geeksforgeeks.org/print-elements-sorted-order-row-column-wise-sorted-matrix/" title="Print all elements in sorted order from row and column wise sorted matrix">Print all elements in sorted order from row and column wise sorted matrix</a></li><li><a href="http://www.geeksforgeeks.org/length-largest-subarray-contiguous-elements-set-1/" title="Length of the largest subarray with contiguous elements | Set 1">Length of the largest subarray with contiguous elements | Set 1</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/dynamic-programming/" rel="tag">Dynamic Programming</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Flargest-sum-contiguous-subarray%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/largest-sum-contiguous-subarray/" data-text="Largest Sum Contiguous Subarray" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/largest-sum-contiguous-subarray/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-34714">
+        <div id="dsq-comment-header-34714" class="dsq-comment-header">
+            <cite id="dsq-cite-34714">
+                <span id="dsq-author-user-34714">sujeet singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34714" class="dsq-comment-body">
+            <div id="dsq-comment-message-34714" class="dsq-comment-message"><p>I have tried in this way &#8211; // not all number are -ve </p>
+<p>int get_sum_array(int * arr,int start_index,int end_index)<br />
+{<br />
+   int sum = 0;<br />
+   for(;start_index &lt;= end_index;start_index++)<br />
+    sum = sum+(*(arr+start_index));<br />
+    return sum;<br />
+}</p>
+<p>int max_sum_subarray(int *arr,int array_size)<br />
+{<br />
+int start_index =0;<br />
+int end_index =0;<br />
+int max_sum = *(arr+start_index);<br />
+for(int i = start_index;i &lt; array_size-1;i++)<br />
+{<br />
+     if(max_sum  max_sum)<br />
+        max_sum = current_sum;<br />
+   }<br />
+}<br />
+return max_sum &gt; 0 ? max_sum : 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-34597">
+        <div id="dsq-comment-header-34597" class="dsq-comment-header">
+            <cite id="dsq-cite-34597">
+                <span id="dsq-author-user-34597">Venu Gopal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34597" class="dsq-comment-body">
+            <div id="dsq-comment-message-34597" class="dsq-comment-message"><p><a href="http://ideone.com/NruDUY" rel="nofollow">http://ideone.com/NruDUY</a><br />
+very short function, better than first version and works for all negative elements without any special arrangement..<br />
+Edit: I just wrote this code after reading the first method only, but later when I read the method-2, I found out that my method is same as 2nd method.. sorry for that <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_razz.gif" alt=":P" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-34529">
+        <div id="dsq-comment-header-34529" class="dsq-comment-header">
+            <cite id="dsq-cite-34529">
+                <span id="dsq-author-user-34529">Rohit Kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34529" class="dsq-comment-body">
+            <div id="dsq-comment-message-34529" class="dsq-comment-message"><p>#include </p>
+<p>#include </p>
+<p>int cnt=0,cnt2;</p>
+<p>int maxSubArraySum(int a[], int size)</p>
+<p>{</p>
+<p>   int max_so_far = 0, max_ending_here = 0;</p>
+<p>   int i;</p>
+<p>   for(i = 0; i &lt; size; i++)</p>
+<p>   {</p>
+<p>     max_ending_here = max_ending_here + a[i];</p>
+<p>     if(max_ending_here &lt; 0)</p>
+<p>        { max_ending_here = 0; cnt=i+1;}</p>
+<p>     if(max_so_far &lt; max_ending_here)</p>
+<p>        { max_so_far = max_ending_here; cnt2=i;}</p>
+<p>    }</p>
+<p>    return max_so_far;</p>
+<p>}</p>
+<p>/*Driver program to test maxSubArraySum*/</p>
+<p>int main()</p>
+<p>{</p>
+<p>    int i;</p>
+<p>   int a[] = {-2, -3, 4, -1, -2, 1, 5, -3};</p>
+<p>   int n = sizeof(a)/sizeof(a[0]);</p>
+<p>   int max_sum = maxSubArraySum(a, n);</p>
+<p>   printf(&quot;Maximum contiguous sum is %dn&quot;, max_sum);</p>
+<p>   for(i=cnt;i&lt;=cnt2;i++)</p>
+<p>   {</p>
+<p>       printf(&quot; %d &quot;,a[i]);</p>
+<p>   }</p>
+<p>   getchar();</p>
+<p>   return 0;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-33568">
+        <div id="dsq-comment-header-33568" class="dsq-comment-header">
+            <cite id="dsq-cite-33568">
+                <span id="dsq-author-user-33568">Karthic</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33568" class="dsq-comment-body">
+            <div id="dsq-comment-message-33568" class="dsq-comment-message"><p>For implementation of above program in java, please check the below page:</p>
+<p><a href="http://myvedham.blogspot.in/2014/02/blog-post.html" rel="nofollow">http://myvedham.blogspot.in/2014/02/blog-post.html</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-33123">
+        <div id="dsq-comment-header-33123" class="dsq-comment-header">
+            <cite id="dsq-cite-33123">
+                <span id="dsq-author-user-33123">NewCoder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33123" class="dsq-comment-body">
+            <div id="dsq-comment-message-33123" class="dsq-comment-message"><p>Java code to print the subarray along with the maxSum:</p>
+<p>public static void findMaxSumContiguousSubArray(int a[]) {</p>
+<p>		int maxSum = a[0];<br />
+		int currentMaxSum = a[0];<br />
+		int maxStart = 0;<br />
+		int maxEnd = 0;<br />
+		int start = 0;<br />
+		int end = 0;<br />
+		for (int i = 1; i <a>= a[i] + currentMaxSum) {<br />
+				start = i;<br />
+				end = i;<br />
+				currentMaxSum = a[i];<br />
+			} else {<br />
+				end = i;<br />
+				currentMaxSum = a[i] + currentMaxSum;<br />
+			}</p>
+<p>			if (currentMaxSum &gt; maxSum) {<br />
+				maxSum = currentMaxSum;<br />
+				maxStart = start;<br />
+				maxEnd = end;<br />
+			}<br />
+		}</p>
+<p>		for (int i = maxStart; i &lt;= maxEnd; i++) {<br />
+			System.out.print(a[i] + &quot; &quot;);<br />
+		}<br />
+		System.out.println();<br />
+		System.out.println(maxSum);<br />
+	}</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-31801">
+        <div id="dsq-comment-header-31801" class="dsq-comment-header">
+            <cite id="dsq-cite-31801">
+                <span id="dsq-author-user-31801">nitin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31801" class="dsq-comment-body">
+            <div id="dsq-comment-message-31801" class="dsq-comment-message"><p>Hi,</p>
+<p>Could you please let me know,  how to print the indexes also for the max sub array ie start and end..</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-33124">
+        <div id="dsq-comment-header-33124" class="dsq-comment-header">
+            <cite id="dsq-cite-33124">
+                <span id="dsq-author-user-33124">NewCoder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33124" class="dsq-comment-body">
+            <div id="dsq-comment-message-33124" class="dsq-comment-message"><p>public static void findMaxSumContiguousSubArray(int a[]) {</p>
+<p>        int maxSum = a[0];<br />
+        int currentMaxSum = a[0];<br />
+        int maxStart = 0;<br />
+        int maxEnd = 0;<br />
+        int start = 0;<br />
+        int end = 0;<br />
+        for (int i = 1; i <a>= a[i] + currentMaxSum) {<br />
+                start = i;<br />
+                end = i;<br />
+                currentMaxSum = a[i];<br />
+            } else {<br />
+                end = i;<br />
+                currentMaxSum = a[i] + currentMaxSum;<br />
+            }</p>
+<p>            if (currentMaxSum &gt; maxSum) {<br />
+                maxSum = currentMaxSum;<br />
+                maxStart = start;<br />
+                maxEnd = end;<br />
+            }<br />
+        }</p>
+<p>        for (int i = maxStart; i &lt;= maxEnd; i++) {<br />
+            System.out.print(a[i] + &quot; &quot;);<br />
+        }<br />
+        System.out.println();<br />
+        System.out.println(maxSum);<br />
+    }</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-31546">
+        <div id="dsq-comment-header-31546" class="dsq-comment-header">
+            <cite id="dsq-cite-31546">
+                <span id="dsq-author-user-31546">prashant</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31546" class="dsq-comment-body">
+            <div id="dsq-comment-message-31546" class="dsq-comment-message"><p>/*</p>
+<p>#include</p>
+<p>using namespace std;</p>
+<p>int max(int a,int b)</p>
+<p>{</p>
+<p>	return a&gt;b?a:b;</p>
+<p>}</p>
+<p>int max(int a,int b,int c)</p>
+<p>{</p>
+<p>	return (max((max(a,b)),c));</p>
+<p>}</p>
+<p>int fun(int arr[],int low,int high,int sum)</p>
+<p>{</p>
+<p>	if(low==high)</p>
+<p>	    return arr[low]&gt;0?sum+arr[low]:sum;</p>
+<p>	if((arr[low]0)</p>
+<p>		return (fun(arr,low+1,high,sum+arr[low])); </p>
+<p>	else</p>
+<p>	    return max(sum,fun(arr,low+1,high,sum+arr[low]),fun(arr,low+1,high,0));</p>
+<p>}</p>
+<p>int main()</p>
+<p>{</p>
+<p>	int arr[]={-2, -3, 4, -1, -2, 1, 5, -3};</p>
+<p>	int n=sizeof(arr)/sizeof(arr[0]);</p>
+<p>	cout&lt;&lt;fun(arr,0,n-1,0)&lt;&lt;&quot; is the max contiguos sum.n&quot;;</p>
+<p>	return 0;</p>
+<p>}</p>
+<p>*/</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-31415">
+        <div id="dsq-comment-header-31415" class="dsq-comment-header">
+            <cite id="dsq-cite-31415">
+                <span id="dsq-author-user-31415">Prateek Kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31415" class="dsq-comment-body">
+            <div id="dsq-comment-message-31415" class="dsq-comment-message"><p>I suppose the line curr_max = max(a[i], curr_max+a[i]) should be replaced by curr_max = max(curr_max, curr_max+a[i]).</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-31258">
+        <div id="dsq-comment-header-31258" class="dsq-comment-header">
+            <cite id="dsq-cite-31258">
+                <span id="dsq-author-user-31258">J</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31258" class="dsq-comment-body">
+            <div id="dsq-comment-message-31258" class="dsq-comment-message"><p>The above code line &#8216;max_ending_here = max_ending_here + arr[i] &#8216; should be &#8216;max_ending_here = max_so_far + arr[i];&#8217;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-31259">
+        <div id="dsq-comment-header-31259" class="dsq-comment-header">
+            <cite id="dsq-cite-31259">
+                <span id="dsq-author-user-31259">J</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31259" class="dsq-comment-body">
+            <div id="dsq-comment-message-31259" class="dsq-comment-message"><p>Revoke my previous comment&#8230;thats a different algo altogether</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-31159">
+        <div id="dsq-comment-header-31159" class="dsq-comment-header">
+            <cite id="dsq-cite-31159">
+                <span id="dsq-author-user-31159">sriram</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31159" class="dsq-comment-body">
+            <div id="dsq-comment-message-31159" class="dsq-comment-message"><p>Solution two for the case of {1,2,-1,1,3};<br />
+Shouldnt the answer be 4, instead it shows up as 6. Correct me if am wrong here</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-33111">
+        <div id="dsq-comment-header-33111" class="dsq-comment-header">
+            <cite id="dsq-cite-33111">
+                <span id="dsq-author-user-33111">pankaj joshi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33111" class="dsq-comment-body">
+            <div id="dsq-comment-message-33111" class="dsq-comment-message"><p>the ans is 6 because from 1 till 3 all selected will give you max sum of  6 (you can select continiously no matter negative number comes in between)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-30867">
+        <div id="dsq-comment-header-30867" class="dsq-comment-header">
+            <cite id="dsq-cite-30867">
+                <span id="dsq-author-user-30867">Wing</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30867" class="dsq-comment-body">
+            <div id="dsq-comment-message-30867" class="dsq-comment-message"><p>The second problem seems not working as expected</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-30809">
+        <div id="dsq-comment-header-30809" class="dsq-comment-header">
+            <cite id="dsq-cite-30809">
+                <span id="dsq-author-user-30809">Om Prakash Gupta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30809" class="dsq-comment-body">
+            <div id="dsq-comment-message-30809" class="dsq-comment-message"><p>Input:[-1]<br />
+Output:0<br />
+Expected:-1</p>
+<p>algorithm fails for the above case</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-30990">
+        <div id="dsq-comment-header-30990" class="dsq-comment-header">
+            <cite id="dsq-cite-30990">
+                <span id="dsq-author-user-30990">Dhruv</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30990" class="dsq-comment-body">
+            <div id="dsq-comment-message-30990" class="dsq-comment-message"><p>The second algo is working just fine. The original kadane&#8217;s algo does not work in the case of an array with all the numbers negative. (it is already mentioned).</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-30389">
+        <div id="dsq-comment-header-30389" class="dsq-comment-header">
+            <cite id="dsq-cite-30389">
+                <span id="dsq-author-user-30389">7jan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30389" class="dsq-comment-body">
+            <div id="dsq-comment-message-30389" class="dsq-comment-message"><p>Hi regarding the solution provided by Mohit kumar, Is it correct for the case :</p>
+<p>{-40,1,40,-50,1,50,-20,1,20,0,0}</p>
+<p>Please let me know if I am missing some point.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-30642">
+        <div id="dsq-comment-header-30642" class="dsq-comment-header">
+            <cite id="dsq-cite-30642">
+                <span id="dsq-author-user-30642">akash</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30642" class="dsq-comment-body">
+            <div id="dsq-comment-message-30642" class="dsq-comment-message"><p>yeah the max subarray is 1+50+(-20)+1+20 = 52</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-30083">
+        <div id="dsq-comment-header-30083" class="dsq-comment-header">
+            <cite id="dsq-cite-30083">
+                <span id="dsq-author-user-30083">Amit Baghel</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30083" class="dsq-comment-body">
+            <div id="dsq-comment-message-30083" class="dsq-comment-message"><p>Interesting <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_biggrin.gif" alt=":D" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-29976">
+        <div id="dsq-comment-header-29976" class="dsq-comment-header">
+            <cite id="dsq-cite-29976">
+                <span id="dsq-author-user-29976">pinkfloyda</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29976" class="dsq-comment-body">
+            <div id="dsq-comment-message-29976" class="dsq-comment-message"><p>Actually, this is one algorithm that is very simple but hard to understand, can check up my block for more discussions <a href="http://comtechstash.wordpress.com/2013/11/19/intuitive-thinking-for-counter-intuitive-algorithms/" rel="nofollow">http://comtechstash.wordpress.com/2013/11/19/intuitive-thinking-for-counter-intuitive-algorithms/</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-29701">
+        <div id="dsq-comment-header-29701" class="dsq-comment-header">
+            <cite id="dsq-cite-29701">
+                <span id="dsq-author-user-29701">Amit Kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29701" class="dsq-comment-body">
+            <div id="dsq-comment-message-29701" class="dsq-comment-message"><p>I broke my head  a lot  to understand how it has to be implemented using Dynamic algo. But it  has  a very easy solution: </p>
+<p>public class MaxSum {</p>
+<p>	public static int sum=0;</p>
+<p>	public static void main(String[] args) {</p>
+<p>		int super_max =0;</p>
+<p>		int array[]={-2,-3,4,-1,-2,1,5,-3,-9,-10,-4,-5,-8,-6};</p>
+<p>                      for (int i=0; i= min){</p>
+<p>			return max;</p>
+<p>		}</p>
+<p>		else{</p>
+<p>		return min;</p>
+<p>		}</p>
+<p>	}</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-28941">
+        <div id="dsq-comment-header-28941" class="dsq-comment-header">
+            <cite id="dsq-cite-28941">
+                <span id="dsq-author-user-28941">mayank verma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28941" class="dsq-comment-body">
+            <div id="dsq-comment-message-28941" class="dsq-comment-message"><p>The algorithm paradigm should be &#8220;greedy&#8221; why it is considered as &#8220;Dynamic programming&#8221;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-29260">
+        <div id="dsq-comment-header-29260" class="dsq-comment-header">
+            <cite id="dsq-cite-29260">
+                <span id="dsq-author-user-29260">Swagat</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29260" class="dsq-comment-body">
+            <div id="dsq-comment-message-29260" class="dsq-comment-message"><p>Because each step in the algorithm is making use of optimal solutions for the sub problems calculated before that step.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-32776">
+        <div id="dsq-comment-header-32776" class="dsq-comment-header">
+            <cite id="dsq-cite-32776">
+                <span id="dsq-author-user-32776">thinklazy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32776" class="dsq-comment-body">
+            <div id="dsq-comment-message-32776" class="dsq-comment-message"><p>But there is no memorisation, just sub problem alone should not qualify for DP.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-32777">
+        <div id="dsq-comment-header-32777" class="dsq-comment-header">
+            <cite id="dsq-cite-32777">
+                <span id="dsq-author-user-32777">thinklazy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32777" class="dsq-comment-body">
+            <div id="dsq-comment-message-32777" class="dsq-comment-message"><p>My bad.. you are right. It qualifies for DP.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-28826">
+        <div id="dsq-comment-header-28826" class="dsq-comment-header">
+            <cite id="dsq-cite-28826">
+                <span id="dsq-author-user-28826">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28826" class="dsq-comment-body">
+            <div id="dsq-comment-message-28826" class="dsq-comment-message"><p>#include<br />
+main(){<br />
+       int i, n, a[100], max = 0, sum = 0;<br />
+       scanf(&#8220;%d&#8221;,&amp;n);<br />
+       for(i = 0; i &lt;n ; i++)<br />
+            scanf(&quot;%d&quot;,&amp;a[i]);<br />
+       max = a[0];<br />
+       for(i = 1; i &lt; n; i++)<br />
+       {<br />
+             sum+=a[i];<br />
+             if(max &lt; sum)<br />
+                  max = sum;<br />
+             if(sum &lt; 0)<br />
+                  sum = 0;<br />
+       }<br />
+       printf(&quot;%d&quot;, max);<br />
+       return 0;<br />
+}<br />
+This will work for all cases.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-28149">
+        <div id="dsq-comment-header-28149" class="dsq-comment-header">
+            <cite id="dsq-cite-28149">
+                <span id="dsq-author-user-28149">timus</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28149" class="dsq-comment-body">
+            <div id="dsq-comment-message-28149" class="dsq-comment-message"><p>thank you..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-shashi_kr odd alt thread-odd thread-alt depth-1" id="dsq-comment-26772">
+        <div id="dsq-comment-header-26772" class="dsq-comment-header">
+            <cite id="dsq-cite-26772">
+                <span id="dsq-author-user-26772">shashi_kr</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26772" class="dsq-comment-body">
+            <div id="dsq-comment-message-26772" class="dsq-comment-message"><p>public static void main(String[] args){</p>
+<p>		int []A={2, 8, -3, 6, -13, 4, 7, 2, -18, 19, -17, 8, -16, 10};<br />
+		int b=maxSum(A);<br />
+		System.out.print(b);<br />
+	}</p>
+<p>	static int maxSum(int [] A){<br />
+		int maxS=A[0], sum=0;<br />
+		int n=A.length;<br />
+		for(int i=0; i<n ; i++){<br />
+			sum=sum+A[i];<br />
+			if(sum&lt;0){<br />
+				sum=0;<br />
+			} else{<br />
+				if(sum>maxS){<br />
+					maxS=sum;<br />
+				}<br />
+			}<br />
+		}<br />
+		return maxS;<br />
+	}<br />
+}</n></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-21731">
+        <div id="dsq-comment-header-21731" class="dsq-comment-header">
+            <cite id="dsq-cite-21731">
+                <span id="dsq-author-user-21731">Born Actor</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21731" class="dsq-comment-body">
+            <div id="dsq-comment-message-21731" class="dsq-comment-message"><pre> <code language="C">
+#include &lt;iostream&gt;
+#include&lt;string&gt;
+#include&lt;sstream&gt;
+#include&lt;iomanip&gt;
+# include &lt;stdio.h&gt;
+# include &lt;math.h&gt;
+#include &lt;vector&gt;
+#include &lt;stdlib.h&gt;
+using namespace std;
+int n;
+pair &lt; int , pair &lt; int , int &gt; &gt; function(int i, int j);
+pair &lt; int , pair &lt; int , int &gt; &gt; function2(int i, int m, int j);
+pair &lt; int , pair &lt; int , int &gt; &gt; max(pair &lt; int , pair &lt; int , int &gt;  &gt; a,pair &lt; int , pair &lt; int , int &gt;  &gt; b ,pair &lt; int , pair &lt; int , int &gt;  &gt; c);
+int a[50];
+int main()
+{
+	int i,j;
+	cout&lt;&lt;&quot;etner the size of the arraay&quot;;
+	cin&gt;&gt;n;
+	for(i=0;i&lt;n;i++)
+		cin&gt;&gt;a[i];
+	pair &lt; int , pair &lt; int , int &gt;  &gt; temp;
+	temp=function(0,n-1);
+	cout&lt;&lt;temp.first&lt;&lt;&quot;  &quot;&lt;&lt; temp.second.first&lt;&lt;&quot;  &quot; &lt;&lt;temp.second.second&lt;&lt;endl;
+}
+ pair &lt; int , pair &lt; int ,int &gt; &gt;function(int l, int r)
+{
+	//base case
+	if(l==r)
+		return make_pair (a[l] , make_pair (l,l ) );
+	if(r==l+1)
+	{
+		if(a[r]&gt;0 &amp;&amp; a[l]&gt;0)
+			return make_pair (a[l]+a[r] , make_pair (l,r ) );
+		if(a[r]==0 &amp;&amp; a[l]&gt;0)
+			return make_pair (a[l] , make_pair (l,l ) );
+		if(a[r]&lt;0 &amp;&amp; a[l]&gt;0)
+			return make_pair (a[l] , make_pair (l,l ) );
+		if(a[r]&gt;0 &amp;&amp; a[l]&lt;0)
+			return make_pair (a[r] , make_pair (r,r ) );
+		if(a[r]==0 &amp;&amp; a[l]&lt;0)
+			return make_pair (a[r] , make_pair (r,r ) );
+		if(a[r]&lt;0 &amp;&amp; a[l]&lt;0 &amp;&amp; a[r] &gt; a[l])
+			return make_pair (a[r] , make_pair (r,r ) );
+		if(a[r]&lt;0 &amp;&amp; a[l]&lt;0 &amp;&amp; a[r]&lt;a[l])
+			return make_pair (a[l] , make_pair (l,l ) );
+		if(a[r]&gt;0 &amp;&amp; a[l]==0)
+			return make_pair (a[r] , make_pair (r,r ) );
+		if(a[r]==0 &amp;&amp; a[l]==0)
+			return make_pair (a[l] , make_pair (l,l ) );
+		if(a[r]&lt;0 &amp;&amp; a[l]==0)
+			return make_pair (a[l] , make_pair (l,l ) );
+	}
+
+	int m =( l+r)/2;
+	pair &lt; int , pair &lt; int , int &gt;  &gt; temp;
+		
+	pair &lt; int , pair &lt; int , int &gt;  &gt; temp1;
+
+	pair &lt; int , pair &lt; int , int &gt;  &gt; temp2;
+	pair &lt; int , pair &lt; int , int &gt;  &gt; temp3;
+	temp1= function(l,m);
+	temp2=function(m,r);
+	temp3=function2(l,m,r);
+	temp= max(temp1,temp2,temp3);
+	return temp;
+
+
+}
+pair &lt; int , pair &lt; int ,int &gt; &gt; function2(int l ,int m, int r )
+{
+	//base case;
+	pair &lt; int , pair &lt; int , int &gt;  &gt; temp;
+	int max_l=-9999;
+	int sum_l=0;
+	int max_r=-9999;
+	int sum_r=0;
+	int right=m;
+	int left=m;
+	int temp2=0;
+	int i,j;
+	for(i=m;i&lt;=r;i++)
+	{
+		sum_r=sum_r+a[i];
+		if(sum_r&gt;max_r)
+		{
+			max_r=sum_r;
+			right = i;	
+		}
+	}
+	for(i=m-1;i&gt;=l;i--)
+	{
+		sum_l=sum_l+a[i];
+		if(sum_l&gt;max_l)
+		{
+			max_l=sum_l;
+			left = i;	
+		}
+	}
+	return make_pair( (max_r+max_l) , make_pair(left,right));
+}
+pair &lt; int , pair &lt; int , int &gt;  &gt; max (pair &lt; int , pair &lt; int , int &gt;  &gt; a , pair &lt; int , pair &lt; int , int &gt;  &gt; b,   pair &lt; int , pair &lt; int , int &gt;  &gt; c)
+{
+	pair &lt; int , pair &lt; int , int &gt;  &gt; max1;
+	max1 = a;
+	if(b.first&gt;max1.first)
+		max1=b;
+	if(c.first&gt;max1.first)
+		max1=c;
+	return max1;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-20261">
+        <div id="dsq-comment-header-20261" class="dsq-comment-header">
+            <cite id="dsq-cite-20261">
+                <span id="dsq-author-user-20261">kanhaiya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20261" class="dsq-comment-body">
+            <div id="dsq-comment-message-20261" class="dsq-comment-message"><p>here is a simple program working for all negative and positive no. give me feedback if anything wrong</p>
+<p>/* Paste your code here (You may delete these lines if not writing co */<br />
+[#include<br />
+#include<br />
+using namespace std;<br />
+int main()<br />
+{int cases;<br />
+cin&gt;&gt;cases;//enter the no. of cases you want to check<br />
+while(cases&#8211;)<br />
+{int n;<br />
+cin&gt;&gt;n;//enter the no. of element in the array<br />
+int arr[n];<br />
+for(int i=0;i&gt;arr[i];//enter the elements<br />
+int dp[n];<br />
+dp[0]=arr[0];<br />
+int max=dp[0];<br />
+for(int i=1;i&lt;n;i++)<br />
+{dp[i-1]dp[i]?(max):max=dp[i];<br />
+}<br />
+cout&lt;&lt;max&lt;&lt;endl;<br />
+}<br />
+}]</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-ultimate_coder even thread-even depth-1" id="dsq-comment-19359">
+        <div id="dsq-comment-header-19359" class="dsq-comment-header">
+            <cite id="dsq-cite-19359">
+                <span id="dsq-author-user-19359">ultimate_coder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19359" class="dsq-comment-body">
+            <div id="dsq-comment-message-19359" class="dsq-comment-message"><p>Also working for all negative numbers.</p>
+<pre> <code language="C">
+void kadane(int a[],int size)
+{
+    int max_here=0,max_end=0,flag=0,cpy=a[0];
+    for(int i=0;i&lt;size;i++)
+    {
+        if(a[i]&gt;0) flag=1;
+        max_here+=a[i];
+        if(max_here&lt;0)
+        {
+            if(cpy&lt;a[i])
+            cpy=a[i];
+            max_here=0;
+
+        }
+        if(max_here&gt;max_end)
+        max_end=max_here;
+    }
+    if(!flag) cout&lt;&lt;&quot;MAX IS : &quot;&lt;&lt;cpy;
+    else
+    cout&lt;&lt;&quot;MAX IS : &quot;&lt;&lt;max_end;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-19179">
+        <div id="dsq-comment-header-19179" class="dsq-comment-header">
+            <cite id="dsq-cite-19179">
+                <span id="dsq-author-user-19179">Pratyay</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19179" class="dsq-comment-body">
+            <div id="dsq-comment-message-19179" class="dsq-comment-message"><p>#include<br />
+#include<br />
+int maxSubArraySum(int *);<br />
+int maxSubArraySum(int *arr)<br />
+{<br />
+	int *sum = (int *)calloc(sizeof(int),8);<br />
+	int i,large = arr[0];<br />
+	sum[0] = arr[0];<br />
+	for (i=1;i= 0)<br />
+			{<br />
+				if (sum[i-1] &lt; 0)<br />
+					sum[i] = arr[i];<br />
+				else<br />
+					sum[i] = sum[i-1] + arr[i];<br />
+			}<br />
+		if (arr[i] = 0))<br />
+			{<br />
+				sum[i] = sum[i-1] + arr[i];<br />
+			}<br />
+		else if(arr[i] &lt; 0 &amp;&amp; (arr[i]+sum[i-1]  large)<br />
+			large = sum[i];<br />
+	}<br />
+	return large;<br />
+}</p>
+<p>int main()<br />
+{<br />
+	int arr[] = {-2,-3,4,-1,-2,1,5,-3};<br />
+	printf(&#8220;Maximum sum &#8211; %d&#8221;,maxSubArraySum(arr));<br />
+	getchar();<br />
+	return;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+<ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-30100">
+        <div id="dsq-comment-header-30100" class="dsq-comment-header">
+            <cite id="dsq-cite-30100">
+                <span id="dsq-author-user-30100">test</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30100" class="dsq-comment-body">
+            <div id="dsq-comment-message-30100" class="dsq-comment-message"><p>i corrected it <a href="http://ideone.com/36TKYL" rel="nofollow">http://ideone.com/36TKYL</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-18340">
+        <div id="dsq-comment-header-18340" class="dsq-comment-header">
+            <cite id="dsq-cite-18340">
+                <span id="dsq-author-user-18340">Achawla</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18340" class="dsq-comment-body">
+            <div id="dsq-comment-message-18340" class="dsq-comment-message"><p>Given an array of integers (possibly some of the elements negative), write a C program to find out the *maximum product* possible by adding &#8216;n&#8217; consecutive integers in the array, n &lt;= ARRAY_SIZE. </p>
+<p>#include &lt;iostream&gt;<br />
+#include &lt;conio.h&gt;<br />
+using namespace std;<br />
+int main(){<br />
+int prev=-999,sum=1,cur_pos=1,prev_pos,Max=-99;<br />
+int a[]={9, -7, 3, 0, 2, 4, 0, -5, 0, -8};<br />
+for(int i=0; i&lt;8; i++){<br />
+        sum*=a[i];<br />
+        if(sum&lt;0 &amp;&amp; prev &gt;0){<br />
+                 prev_pos=prev;<br />
+        }<br />
+        else if (sum&lt;0){<br />
+                 if(i!=0)<br />
+                         cur_pos*=a[i];<br />
+        }<br />
+        else if(sum&gt;0){<br />
+                 Max=Max&gt;sum?Max:sum;<br />
+                 prev_pos=sum;<br />
+        }<br />
+        else if(sum == 0){<br />
+                 Max= Max&gt;prev_pos? Max:prev_pos;<br />
+                 Max= Max&gt;cur_pos? Max:cur_pos;<br />
+                 cur_pos=1;<br />
+                 sum=1;<br />
+        }<br />
+        prev=sum;<br />
+}<br />
+cout&lt;&lt;&quot;\nMaximum product: &quot;&lt;&lt;Max;<br />
+getch();<br />
+return 0;<br />
+}    </p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-18262">
+        <div id="dsq-comment-header-18262" class="dsq-comment-header">
+            <cite id="dsq-cite-18262">
+                <span id="dsq-author-user-18262">Nishank</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18262" class="dsq-comment-body">
+            <div id="dsq-comment-message-18262" class="dsq-comment-message"><p>If an array consists of all negative number then what should be the answer 0 or the smallest negative in array.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-17441">
+        <div id="dsq-comment-header-17441" class="dsq-comment-header">
+            <cite id="dsq-cite-17441">
+                <span id="dsq-author-user-17441">startre</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17441" class="dsq-comment-body">
+            <div id="dsq-comment-message-17441" class="dsq-comment-message"><pre> <code language="C">
+//another possible solution may be this(working for -ve numbers)
+
+void max_subarray()
+{
+    int arr[]={-1,2,-3,4,-5,6,-7,9,-8};
+    int size=9;
+     //kedan's solution modified..
+     
+     int max_here=arr[0],max_far=0;
+     for(int i=0;i&lt;size;i++)
+     {
+             
+             if(max_here &lt; 0 &amp;&amp; arr[i] &gt;=max_here)
+                         max_here=arr[i];
+             else if( max_here &gt; 0)
+                         max_here+=arr[i];
+             if(max_here &gt; max_far)
+                         max_far=max_here;
+              
+     }
+     if(max_far==0)
+               cout&lt;&lt;&quot;max:&quot;&lt;&lt;max_here;               
+     else
+               cout&lt;&lt;&quot;max:&quot;&lt;&lt;max_far;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-lokeshguddu even thread-odd thread-alt depth-1" id="dsq-comment-16837">
+        <div id="dsq-comment-header-16837" class="dsq-comment-header">
+            <cite id="dsq-cite-16837">
+http://instagram.com/lokeshguddu/                <span id="dsq-author-user-16837">Invictus</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16837" class="dsq-comment-body">
+            <div id="dsq-comment-message-16837" class="dsq-comment-message"><p>If we use memoization than we do not need to consider extra case of all numbers being egative.</p>
+<p>#include &lt;algorithm&gt;<br />
+#include &lt;iostream&gt;<br />
+#include &lt;limits&gt;</p>
+<p>using namespace std;</p>
+<p>int maxSubsequenceSum(int arr[], int n)<br />
+{<br />
+	if(n==1)<br />
+		return arr[0];<br />
+	int sum[n];<br />
+	sum[0] = arr[0];<br />
+	int maxSum = numeric_limits&lt;int&gt;::min();<br />
+	for (int i = 1; i &lt; n; ++i)<br />
+	{<br />
+		sum[i] = max(sum[i-1]+arr[i], arr[i]);<br />
+		if(sum[i] &gt; maxSum)<br />
+			maxSum = sum[i];<br />
+	}<br />
+	return maxSum;<br />
+}</p>
+<p>int main()<br />
+{<br />
+	int arr[] = {-2,-3,-4,-1,-2,-1,-5,-3};<br />
+	int n = sizeof(arr)/sizeof(arr[0]);<br />
+	cout &lt;&lt; maxSubsequenceSum(arr, n) &lt;&lt; endl;<br />
+	return 0;<br />
+}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-21939">
+        <div id="dsq-comment-header-21939" class="dsq-comment-header">
+            <cite id="dsq-cite-21939">
+                <span id="dsq-author-user-21939">alien</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21939" class="dsq-comment-body">
+            <div id="dsq-comment-message-21939" class="dsq-comment-message"><p>if memoization is used, space complexity is increased from o(1) to o(n). I think Mohit&#8217;s algorithm is the optimal solution.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-16315">
+        <div id="dsq-comment-header-16315" class="dsq-comment-header">
+            <cite id="dsq-cite-16315">
+                <span id="dsq-author-user-16315">sid</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16315" class="dsq-comment-body">
+            <div id="dsq-comment-message-16315" class="dsq-comment-message"><pre> <code language="C">
+/* 
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+int main()
+{
+    int *a, n, maxsum, sum=0, i, b, c, d;
+    printf(&quot;enter no of elements:&quot;);
+    scanf(&quot;%d&quot;,&amp;n);
+    a=(int *)malloc(sizeof(int)*n);
+    printf(&quot;enter elements\n&quot;);
+    for(i=0;i&lt;n;i++)
+        scanf(&quot;%d&quot;,(a+i));
+    maxsum=a[0];
+    d=0;
+    for(i=0;i&lt;n;i++)
+    {
+        sum += a[i];
+        if(sum &gt; maxsum)
+        {
+            b=d;
+            maxsum = sum;
+            c=i;
+        }
+        if(sum &lt; 0)
+        {
+            sum=0;
+            d=i+1;
+        }
+    }
+    printf(&quot;maximum sum is %d\n&quot;,maxsum);
+    if(maxsum == 0)
+        printf(&quot;all elements are 0\n&quot;);
+    else if(maxsum &lt; 0)
+    {
+        sum=0;
+        for(i=1;i&lt;n;i++)
+            if(a[sum] &lt; a[i])
+                sum=i;
+        printf(&quot;max sum is from %d to %d\n&quot;, sum, sum);
+    }
+    else
+    printf(&quot;maximum sum is from %d to %d\n&quot;,b+1, c+1);
+    return 0;
+}
+
+ */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-atulb_dce odd alt thread-odd thread-alt depth-1" id="dsq-comment-16115">
+        <div id="dsq-comment-header-16115" class="dsq-comment-header">
+            <cite id="dsq-cite-16115">
+                <span id="dsq-author-user-16115">atulb_dce</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16115" class="dsq-comment-body">
+            <div id="dsq-comment-message-16115" class="dsq-comment-message"><p>For taking care of cases where number are not positive&#8230; do this..<br />
+If a represents current max. sum, and b represents max. sum so far<br />
+then at each element arr[i] do following : </p>
+<p>while (i<arr.len-1)<br />
+{a=max(a+arr[i],arr[i]);<br />
+b=max(a,b);<br />
+i++;}<br />
+initially a=b=arr[0];<br />
+at end b will give you max. contiguous sum.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-15742">
+        <div id="dsq-comment-header-15742" class="dsq-comment-header">
+            <cite id="dsq-cite-15742">
+                <span id="dsq-author-user-15742">cooldude</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15742" class="dsq-comment-body">
+            <div id="dsq-comment-message-15742" class="dsq-comment-message"><p>/* public int kadaneAlgorithm(int[] input)<br />
+	{<br />
+		int maxSum=input[0];<br />
+		int sum=0;<br />
+		for(int i=0;i&lt;input.length;i++)<br />
+		{<br />
+			sum=sum+input[i];<br />
+			if(sum&gt;maxSum)<br />
+				maxSum=sum;<br />
+			if(sum&lt;0)<br />
+				sum=0;</p>
+<p>		}<br />
+		return maxSum;<br />
+	} */</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-mohitk odd alt thread-odd thread-alt depth-1" id="dsq-comment-15709">
+        <div id="dsq-comment-header-15709" class="dsq-comment-header">
+            <cite id="dsq-cite-15709">
+                <span id="dsq-author-user-15709">mohitk</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15709" class="dsq-comment-body">
+            <div id="dsq-comment-message-15709" class="dsq-comment-message"><p>A much better and shorter approach:<br />
+Also the same can easily be modified to keep track of the sub-array indices.</p>
+<pre> <code language="Java">
+public static kadane(int[] array) {
+	int max = array[0], currMax = array[0];
+	
+	for (int i = 1; i &lt; array.length; i++) {
+		currMax = Math.max(array[i], currMax + array[i]);
+		max = Math.max(max, currMax);
+	}
+	
+	return max;
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-mohitk even depth-2" id="dsq-comment-15710">
+        <div id="dsq-comment-header-15710" class="dsq-comment-header">
+            <cite id="dsq-cite-15710">
+                <span id="dsq-author-user-15710">mohitk</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15710" class="dsq-comment-body">
+            <div id="dsq-comment-message-15710" class="dsq-comment-message"><p>The above one can be used for any type of input.<br />
++ve, -ve and a mix.</p>
+<p>Also to handle the edge cases the following can be the start of the method :</p>
+<p>public int kadane (int[] array) {<br />
+		if (array == null || array.length == 0) return Integer.MIN_VALUE;<br />
+		if (array.length == 1) return array[0];<br />
+		..<br />
+}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-aygul odd alt depth-3" id="dsq-comment-15749">
+        <div id="dsq-comment-header-15749" class="dsq-comment-header">
+            <cite id="dsq-cite-15749">
+                <span id="dsq-author-user-15749">aygul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15749" class="dsq-comment-body">
+            <div id="dsq-comment-message-15749" class="dsq-comment-message"><p>Very nice and short one. thanks&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-3" id="dsq-comment-16058">
+        <div id="dsq-comment-header-16058" class="dsq-comment-header">
+            <cite id="dsq-cite-16058">
+                <span id="dsq-author-user-16058">Pavi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16058" class="dsq-comment-body">
+            <div id="dsq-comment-message-16058" class="dsq-comment-message"><p>@geeksforgeeks: solution by mohitk looks elegant, simple, covers all cases (as far as I can see) and seems to be providing optimal sol. for all cases. My request to you is to mention the above solution in your main article (as an alternate sol. or otherwise),if possible, so that other will also believe on the correctness of this sol. If you think otherwise about the correctness of this sol. then please let me your comments.</p>
+<p>@Mohitk: Thanks buddy for sharing this sol.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-17069">
+        <div id="dsq-comment-header-17069" class="dsq-comment-header">
+            <cite id="dsq-cite-17069">
+                <span id="dsq-author-user-17069">mohitk</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17069" class="dsq-comment-body">
+            <div id="dsq-comment-message-17069" class="dsq-comment-message"><p>@Pavi,<br />
+thanks.<br />
+Yups, submitted a request for the same to the moderators.<br />
+Lets see whether they also feel that my solution is correct.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even depth-3" id="dsq-comment-16852">
+        <div id="dsq-comment-header-16852" class="dsq-comment-header">
+            <cite id="dsq-cite-16852">
+                <span id="dsq-author-user-16852">Code123</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16852" class="dsq-comment-body">
+            <div id="dsq-comment-message-16852" class="dsq-comment-message"><p>Nope, ds s actually wrong. For the present case, your code will give the answer 9 which is very clear. For reference, just see: <a href="http://ideone.com/mredxe" rel="nofollow">http://ideone.com/mredxe</a></p>
+<p>Hope it helps! <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-16872">
+        <div id="dsq-comment-header-16872" class="dsq-comment-header">
+            <cite id="dsq-cite-16872">
+                <span id="dsq-author-user-16872">pavi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16872" class="dsq-comment-body">
+            <div id="dsq-comment-message-16872" class="dsq-comment-message"><p>@code123<br />
+For the link u pasted and the instance for which its solved, I see 9 as the only max solution for input {-2,-3,4,-1,-2,5,3}.<br />
+How is it wrong? and what max do u expect it to give ?</p>
+<p>I think you got it wrong. The input considered here at geeksforgeeks is this: {-2, -3, 4, -1, -2, 1, 5, -3}<br />
+and its diff from the one at ideone.</p>
+<p>Hope it helps now <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-5" id="dsq-comment-20081">
+        <div id="dsq-comment-header-20081" class="dsq-comment-header">
+            <cite id="dsq-cite-20081">
+                <span id="dsq-author-user-20081">code1234</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20081" class="dsq-comment-body">
+            <div id="dsq-comment-message-20081" class="dsq-comment-message"><p>oops my bad! thnxs dude! it surely helps! <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_biggrin.gif" alt=":D" class="wp-smiley" /></p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt depth-3" id="dsq-comment-16853">
+        <div id="dsq-comment-header-16853" class="dsq-comment-header">
+            <cite id="dsq-cite-16853">
+                <span id="dsq-author-user-16853">code1234</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16853" class="dsq-comment-body">
+            <div id="dsq-comment-message-16853" class="dsq-comment-message"><p>Nope, ds s actually wrong. For the present case, your code will give the answer 9 which is very clear. For reference, just see: <a href="http://ideone.com/mredxe" rel="nofollow">http://ideone.com/mredxe</a></p>
+<p>Hope it helps!:)</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-finalmusic5 even thread-even depth-1" id="dsq-comment-15498">
+        <div id="dsq-comment-header-15498" class="dsq-comment-header">
+            <cite id="dsq-cite-15498">
+                <span id="dsq-author-user-15498">finalmusic5</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15498" class="dsq-comment-body">
+            <div id="dsq-comment-message-15498" class="dsq-comment-message"><p>A little bit modification on Kadane&#8217;s algo will work</p>
+<pre> <code language="C">
+class Solution {     //DP,but with less memory
+public:
+    int maxSubArray(int A[], int n) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int maxendinghere=0,maxsofar=-9999;
+        for(int i=0;i&lt;n;i++){
+            if(maxendinghere&lt;=0)maxendinghere=A[i];
+            else maxendinghere+=A[i];
+            if(maxendinghere&gt;maxsofar)maxsofar=maxendinghere;
+        }
+        return maxsofar;
+    }
+};
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-14603">
+        <div id="dsq-comment-header-14603" class="dsq-comment-header">
+            <cite id="dsq-cite-14603">
+                <span id="dsq-author-user-14603">Prince</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14603" class="dsq-comment-body">
+            <div id="dsq-comment-message-14603" class="dsq-comment-message"><pre> <code language="C">
+#include&lt;stdio.h&gt;
+int main () {
+	
+	int a[] = {-2, -13, 4, -1, -2, 1, 5, -3}; // All working including start and end index
+	// int a[] = {-1, 0, -12}; // All working
+	// int a[] = {-2, -13, 4, -3, -2, 1, 5, -3}; - // For this particular case, all working except wrong start index
+	int size = sizeof(a) / sizeof(a[0]);
+	int sum = a[0], maxsum = a[0];
+	int start = 0, end = 0;
+
+	for(int i=1; i&lt;size ;i++) {
+		if(sum + a[i] &lt;= 0){
+			// -ve +ve, sum = a[i]
+			// +ve -ve, sum = a[i]
+			// -ve -ve, sum = a[i]
+			sum = a[i];
+			start = i;
+		} else	{
+			// -ve +ve, sum = a[i]
+			// +ve -ve, add
+			// +ve +ve, add
+			if(sum &lt; 0) {
+				sum = a[i];
+				start = i;
+			} else {
+				sum = sum + a[i];
+			}
+		}
+
+		if(maxsum &lt; sum) {
+			maxsum = sum;
+			end = i;
+		}
+
+		// Resetting start and end index for -ve numbers
+		if(start &gt; end) {
+			start = end;
+		}
+	}
+
+	printf(&quot;Max sum = %d, start index = %d, end index = %d\n&quot;, maxsum, start, end);
+	return 0;
+}</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-13718">
+        <div id="dsq-comment-header-13718" class="dsq-comment-header">
+            <cite id="dsq-cite-13718">
+                <span id="dsq-author-user-13718">Ankit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13718" class="dsq-comment-body">
+            <div id="dsq-comment-message-13718" class="dsq-comment-message"><p>// A perfect code, it also take into count if all numbers are negative<br />
+#include<br />
+#include<br />
+#include<br />
+using namespace std;<br />
+int main()<br />
+{<br />
+    int n;<br />
+    printf(&#8220;Enter size of array : &#8220;);<br />
+    scanf(&#8220;%d&#8221;,&amp;n);<br />
+    int a[n],i;<br />
+    printf(&#8220;Enter elements of array : &#8220;);<br />
+    for(i=0;i&lt;n;i++)<br />
+        scanf(&quot;%d&quot;,a+i);</p>
+<p>    int start,end,sum,maxsum,ind;<br />
+    sum=start=ind=0;<br />
+    maxsum=INT_MIN;<br />
+    for(i=0;isum)<br />
+        {<br />
+            sum=a[i];<br />
+            ind=i;<br />
+        }<br />
+        if(sum&gt;maxsum)<br />
+        {<br />
+            start=ind;<br />
+            maxsum=sum;<br />
+            end=i;<br />
+        }<br />
+    }<br />
+    printf(&#8220;sum=%d, start=%d,   end=%d\n&#8221;,maxsum,start+1,end+1);<br />
+    return 0;<br />
+}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-14258">
+        <div id="dsq-comment-header-14258" class="dsq-comment-header">
+            <cite id="dsq-cite-14258">
+                <span id="dsq-author-user-14258">ashish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14258" class="dsq-comment-body">
+            <div id="dsq-comment-message-14258" class="dsq-comment-message"><p>int max_add(int ary[])<br />
+ {<br />
+     int i,cur_max=0,max_value=0,c=0,min=INT_MIN;</p>
+<p>     for(i=0;i&lt;5;i++)<br />
+     {<br />
+         cur_max+=ary[i];<br />
+         if(ary[i]&lt;0)<br />
+         {<br />
+             c++;<br />
+             if(min&lt;ary[i])<br />
+             min=ary[i];<br />
+         }</p>
+<p>         if(cur_max&lt;0)<br />
+         cur_max=0;<br />
+         else<br />
+         if(max_value&lt;cur_max)<br />
+          max_value=cur_max;</p>
+<p>          if(c==5)<br />
+          max_value=min;<br />
+     }<br />
+     return max_value;<br />
+ }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-31051">
+        <div id="dsq-comment-header-31051" class="dsq-comment-header">
+            <cite id="dsq-cite-31051">
+                <span id="dsq-author-user-31051">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31051" class="dsq-comment-body">
+            <div id="dsq-comment-message-31051" class="dsq-comment-message"><p>Handle all negatives:<br />
+1. Scan for all elements to find out if all are negative (O(n))</p>
+<p>2. if yes, then find the largest element in the array (O(n)).<br />
+3. else,</p>
+<p>int sum=0; int max=0; int start=-1, end=-1;<br />
+for(int i=0; i&lt;n; i++)<br />
+{<br />
+sum=sum+a[i];<br />
+if(summax) {<br />
+    max=sum;<br />
+    if(a[i]==max) {<br />
+        start=i; end=i;</p>
+<p>    } else {<br />
+        end=i;</p>
+<p>    }</p>
+<p>}</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-12104">
+        <div id="dsq-comment-header-12104" class="dsq-comment-header">
+            <cite id="dsq-cite-12104">
+http://shashank7s.blogspot.com                <span id="dsq-author-user-12104">Shashank</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12104" class="dsq-comment-body">
+            <div id="dsq-comment-message-12104" class="dsq-comment-message"><p>@All shouldn&#8217;t be when all no are -ive , maximum of them will be largest subarray thats nothing but only of length or i am missing something ??</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-11257">
+        <div id="dsq-comment-header-11257" class="dsq-comment-header">
+            <cite id="dsq-cite-11257">
+                <span id="dsq-author-user-11257">bin01</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11257" class="dsq-comment-body">
+            <div id="dsq-comment-message-11257" class="dsq-comment-message"><p>Solution for max product. The idea is to precompute the number of negative numbers after a given index. If there is 0 is between, we restart the count. </p>
+<pre> <code language="C">
+	int maxProduct(int[] a) {
+		int global_max = 0;
+		int local_max = 0;
+		int[] x = numNegatives(a);
+		for (int i = 0; i &lt; a.length; ++i) {
+			if (a[i] &gt; 0 || (a[i] &lt; 0 &amp;&amp; x[i] &gt;= 1) || (local_max &lt; 0 &amp;&amp; a[i] &lt; 0)) {
+				local_max = (local_max == 0) ? a[i] : local_max * a[i];
+			} else {
+				local_max = 0;
+			}
+
+			if (global_max &lt; local_max) {
+				global_max = local_max;
+			}
+		}
+		return global_max;
+	}
+
+	int[] numNegatives(int[] a) {
+		int[] x = new int[a.length];
+		int count = 0;
+		for (int n = (a.length - 1); n &gt;= 0; --n) {
+			x[n] = count;
+			if (a[n] == 0) {
+				count = 0;
+			}
+			if (a[n] &lt; 0) {
+				count++;
+			}
+		}
+		return x;
+	}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-15107">
+        <div id="dsq-comment-header-15107" class="dsq-comment-header">
+            <cite id="dsq-cite-15107">
+                <span id="dsq-author-user-15107">kvmahesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15107" class="dsq-comment-body">
+            <div id="dsq-comment-message-15107" class="dsq-comment-message"><p>I think it does not work if one of the elements in array is 0</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-15108">
+        <div id="dsq-comment-header-15108" class="dsq-comment-header">
+            <cite id="dsq-cite-15108">
+                <span id="dsq-author-user-15108">kvmahesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15108" class="dsq-comment-body">
+            <div id="dsq-comment-message-15108" class="dsq-comment-message"><p>sorry yaar,it works</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-16340">
+        <div id="dsq-comment-header-16340" class="dsq-comment-header">
+            <cite id="dsq-cite-16340">
+                <span id="dsq-author-user-16340">Nikin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16340" class="dsq-comment-body">
+            <div id="dsq-comment-message-16340" class="dsq-comment-message"><p>This doesn&#8217;t work for input 2, -1, 3, 4,-5,-6,0,1,3,-2,-1.    </p>
+<p>It gives 120 as output. But the solution is 360</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-5" id="dsq-comment-18233">
+        <div id="dsq-comment-header-18233" class="dsq-comment-header">
+            <cite id="dsq-cite-18233">
+                <span id="dsq-author-user-18233">himanshu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18233" class="dsq-comment-body">
+            <div id="dsq-comment-message-18233" class="dsq-comment-message"><p>infact it is giving the correct answer because we have to find &#8220;maxProduct subArray&#8221; not the maximum product of the array..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-18319">
+        <div id="dsq-comment-header-18319" class="dsq-comment-header">
+            <cite id="dsq-cite-18319">
+                <span id="dsq-author-user-18319">KP</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18319" class="dsq-comment-body">
+            <div id="dsq-comment-message-18319" class="dsq-comment-message"><p>I don&#8217;t think the code works for following example,<br />
+{-2, 1, 1, -5, -15, 5}<br />
+The solution should be -5*-15 = 75, but the output is 10</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-10152">
+        <div id="dsq-comment-header-10152" class="dsq-comment-header">
+            <cite id="dsq-cite-10152">
+                <span id="dsq-author-user-10152">manish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10152" class="dsq-comment-body">
+            <div id="dsq-comment-message-10152" class="dsq-comment-message"><p>class MaxSubarray {<br />
+	 public static void main(String[] args) {</p>
+<p>	        int[] intArr = {-2, -3, 4, -1, -2, 1, 5, -3};<br />
+	        //int[] intArr = {3,1,2,-4,5,9,-11,6,7};<br />
+	        //int[] intArr = {-1,-2,-3,-4,-5,-99};<br />
+	        //int[] intArr = {-1,0,0,0,0,0};<br />
+	        int maxSubArraySum = printMaxSumArr(intArr,intArr.length);<br />
+	        System.out.println(&#8220;maxSubArraySum-&gt;&#8221;+maxSubArraySum);<br />
+	    }</p>
+<p>	    public static int printMaxSumArr(int[] a, int n) {<br />
+	        int maxSum=0;<br />
+	        int minNeg=0;<br />
+	        boolean allNegative=true;<br />
+	        int[] saveSum = new int[n];<br />
+	        saveSum[0]=a[0];<br />
+	        if(a[0]&gt;0){<br />
+	        	allNegative =false;<br />
+	        }<br />
+	        else {<br />
+	        	minNeg=a[0];<br />
+	        }<br />
+	        for(int i = 1; i <a>=0){<br />
+	        		allNegative=false;<br />
+	        	}<br />
+	        	else {<br />
+	        		minNeg=(minNeg&gt;a[i]?minNeg:a[i]);<br />
+	        	}<br />
+	        	saveSum[i]=max(saveSum[i-1]+a[i],a[i]);<br />
+	        	if(saveSum[i]&gt;maxSum) {<br />
+	        		maxSum=saveSum[i];<br />
+	        	}</p>
+<p>	        }<br />
+	        if(allNegative){<br />
+	        	return minNeg;<br />
+	        }<br />
+	        return maxSum;<br />
+	    }</p>
+<p>		private static int max(int i, int j) {<br />
+			return (i&gt;j?i:j);<br />
+		}<br />
+	}</a></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-10158">
+        <div id="dsq-comment-header-10158" class="dsq-comment-header">
+            <cite id="dsq-cite-10158">
+                <span id="dsq-author-user-10158">manish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10158" class="dsq-comment-body">
+            <div id="dsq-comment-message-10158" class="dsq-comment-message"><pre> <code language="C">
+class MaxSubarray {
+	 public static void main(String[] args) {
+		 
+	        int[] intArr = {-2, -3, 4, -1, -2, 1, 5, -3};
+	        //int[] intArr = {3,1,2,-4,5,9,-11,6,7};
+	        //int[] intArr = {-1,-2,-3,-4,-5,-99};
+	        //int[] intArr = {-1,0,0,0,0,0};
+	        int maxSubArraySum = printMaxSumArr(intArr,intArr.length);
+	        System.out.println(&quot;maxSubArraySum-&gt;&quot;+maxSubArraySum);
+	    }
+	 
+	    public static int printMaxSumArr(int[] a, int n) {
+	        int maxSum=0;
+	        int minNeg=0;
+	        boolean allNegative=true;
+	        int[] saveSum = new int[n];
+	        saveSum[0]=a[0];
+	        if(a[0]&gt;0){
+	        	allNegative =false;
+	        }
+	        else {
+	        	minNeg=a[0];
+	        }
+	        for(int i = 1; i &lt; a.length; i++) {
+	        	if(a[i]&gt;=0){
+	        		allNegative=false;
+	        	}
+	        	else {
+	        		minNeg=(minNeg&gt;a[i]?minNeg:a[i]);
+	        	}
+	        	saveSum[i]=max(saveSum[i-1]+a[i],a[i]);
+	        	if(saveSum[i]&gt;maxSum) {
+	        		maxSum=saveSum[i];
+	        	}
+	        	
+	        }
+	        if(allNegative){
+	        	return minNeg;
+	        }
+	        return maxSum;
+	    }
+
+		private static int max(int i, int j) {
+			return (i&gt;j?i:j);
+		}
+	}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-10159">
+        <div id="dsq-comment-header-10159" class="dsq-comment-header">
+            <cite id="dsq-cite-10159">
+                <span id="dsq-author-user-10159">manish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10159" class="dsq-comment-body">
+            <div id="dsq-comment-message-10159" class="dsq-comment-message"><p>This is the correct one..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-9771">
+        <div id="dsq-comment-header-9771" class="dsq-comment-header">
+            <cite id="dsq-cite-9771">
+                <span id="dsq-author-user-9771">Ankit Gupta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9771" class="dsq-comment-body">
+            <div id="dsq-comment-message-9771" class="dsq-comment-message"><p>No cases required.</p>
+<pre> <code language="C">
+#define forn(i, n) for(int i = 0; i &lt; (int)(n); i++)
+#define maX(a,b) ((a &gt; b) ? a : b)
+
+// minend is max till here (-ve or +ve)
+// max total max
+int maxsumcont(vector&lt;int&gt; a)
+{
+    int max = -INF, minend = 0;
+    forn(i, a.size()) {
+        max = maX(maX(a[i], minend+a[i]), max);
+        minend = maX(minend+a[i], a[i]);
+    }
+
+    return max;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-9590">
+        <div id="dsq-comment-header-9590" class="dsq-comment-header">
+            <cite id="dsq-cite-9590">
+                <span id="dsq-author-user-9590">supercooluku</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9590" class="dsq-comment-body">
+            <div id="dsq-comment-message-9590" class="dsq-comment-message"><p>What if I want to print the elements from which the Largest Sum is formed&#8230;</p>
+<p>For ex: int a[]={2,4,-4,-1,2,8,-30,3,8};<br />
+        should print<br />
+        2,4,-4,-1,2,8<br />
+        AND<br />
+        3,8</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-8780">
+        <div id="dsq-comment-header-8780" class="dsq-comment-header">
+            <cite id="dsq-cite-8780">
+                <span id="dsq-author-user-8780">kapil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8780" class="dsq-comment-body">
+            <div id="dsq-comment-message-8780" class="dsq-comment-message"><pre> <code language="C">
+    void findMaxSubArray(int *ar,int n,int &amp;maxSum,int &amp; startIndex, int &amp; startIndex)
+    {
+        int maxSum = INT_MIN; // minimum integer value use #include&lt;climits&gt;
+        int sum = ar[0];
+        for(int i = 1;i&lt;n;i++)
+        {
+            sum+=ar[i];
+            if( ar[i] &gt; sum)
+            {   startIndex = i;    sum = ar[i];      }
+            if(sum&gt;maxSum)
+            {   maxSum = sum;      endIndex = i;    }
+        }
+    }
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-8781">
+        <div id="dsq-comment-header-8781" class="dsq-comment-header">
+            <cite id="dsq-cite-8781">
+                <span id="dsq-author-user-8781">kapil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8781" class="dsq-comment-body">
+            <div id="dsq-comment-message-8781" class="dsq-comment-message"><p>its working for all the cases&#8230; as I have  checked&#8230; if any mistake then plse let me know..</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-8929">
+        <div id="dsq-comment-header-8929" class="dsq-comment-header">
+            <cite id="dsq-cite-8929">
+                <span id="dsq-author-user-8929">krazykoder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8929" class="dsq-comment-body">
+            <div id="dsq-comment-message-8929" class="dsq-comment-message"><p>hey nice, this looks the most optimized version</p>
+<p>I think 1 correction should be there to update endindex=i when updating startindex=i;<br />
+consider last index a[n-1]&gt;sum . then startindex=n-1; while endindex &lt;n-1</p>
+<p>or to remove unwanted extra condition that may be needed when printing sol.</p>
+<p>/* Paste your code here (You may delete these lines if not writing code) */</p>
+<p>void findMaxSubArray(int *ar,int n,int &amp;maxSum,int &amp; startIndex, int &amp; endIndex)<br />
+{<br />
+    int maxSum = INT_MIN; // minimum integer value use #include&lt;climits&gt;<br />
+    int sum = ar[0];<br />
+    for(int i = 1;i&lt;n;i++)<br />
+    {<br />
+        sum+=ar[i];<br />
+        if( ar[i] &gt; sum)<br />
+        {   startIndex = i;<br />
+            sum = ar[i];<br />
+            endIndex = i;<br />
+        }<br />
+        if(sum&gt;maxSum)<br />
+        {<br />
+            maxSum = sum;<br />
+            endIndex = i;    }<br />
+        }<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-13716">
+        <div id="dsq-comment-header-13716" class="dsq-comment-header">
+            <cite id="dsq-cite-13716">
+                <span id="dsq-author-user-13716">Ankit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13716" class="dsq-comment-body">
+            <div id="dsq-comment-message-13716" class="dsq-comment-message"><p>your code will give incorrect answer.<br />
+test case : 4 5 -15 1 2</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8200">
+        <div id="dsq-comment-header-8200" class="dsq-comment-header">
+            <cite id="dsq-cite-8200">
+                <span id="dsq-author-user-8200">bikash sharma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8200" class="dsq-comment-body">
+            <div id="dsq-comment-message-8200" class="dsq-comment-message"><p>nice and amazing</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8033">
+        <div id="dsq-comment-header-8033" class="dsq-comment-header">
+            <cite id="dsq-cite-8033">
+                <span id="dsq-author-user-8033">sparco</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8033" class="dsq-comment-body">
+            <div id="dsq-comment-message-8033" class="dsq-comment-message"><p>@geeksforgeeks</p>
+<p>If all elements are negative the function will return zero ,<br />
+interchanging the if and elseif should work.<br />
+Correct me if i am wrong</p>
+<p>if (max_so_far &lt; max_ending_here)<br />
+         max_so_far = max_ending_here;<br />
+else if(max_ending_here &lt; 0)<br />
+         max_ending_here = 0;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-10039">
+        <div id="dsq-comment-header-10039" class="dsq-comment-header">
+            <cite id="dsq-cite-10039">
+                <span id="dsq-author-user-10039">shri</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10039" class="dsq-comment-body">
+            <div id="dsq-comment-message-10039" class="dsq-comment-message"><p>It&#8217;s not if/else-if, rather if/if.<br />
+if(condition)<br />
+..<br />
+if(condition)<br />
+..</p>
+<p>and I don&#8217;t think interchanging them will affect the working of program.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-7561">
+        <div id="dsq-comment-header-7561" class="dsq-comment-header">
+            <cite id="dsq-cite-7561">
+                <span id="dsq-author-user-7561">pranav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7561" class="dsq-comment-body">
+            <div id="dsq-comment-message-7561" class="dsq-comment-message"><pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+//Fully working C code
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main()
+{   int n=0;
+    printf(&quot;enter the number of elements in the array\n&quot;);
+    scanf(&quot;%d&quot;,&amp;n);
+    int a[100],start=0,end=0;
+    printf(&quot;\n enter the elements in the array \n&quot;);
+    int i=0;
+    for(i=0;i&lt;n;i++)
+     scanf(&quot;%d&quot;,&amp;a[i]);
+
+    int max=0 , current=0;
+    //For handling all negative numbers
+  /*  for(j=0;j&lt;n;j++){
+          if(a[j] &lt;0)
+            sum = max(a[j]);
+
+         }*/
+    for(i=0;i&lt;n;i++)
+     {
+
+        current += a[i];
+
+        if(current &lt; 0)
+         { current =0;
+           start =i+1;
+         }
+        if( max &lt; current)
+         { max = current;
+           end = i;
+         }
+
+     }
+
+    printf(&quot;MAX SUM between indexes a[%d]=%d and a[%d]=%d = %d&quot;,start,a[start],end,a[end],max);
+    return 0;;
+}
+
+
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-6976">
+        <div id="dsq-comment-header-6976" class="dsq-comment-header">
+            <cite id="dsq-cite-6976">
+http://www.groupme.in                <span id="dsq-author-user-6976">Nikin Kumar Jain</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6976" class="dsq-comment-body">
+            <div id="dsq-comment-message-6976" class="dsq-comment-message"><p>Code Can Work for Negative Numbers by placing a simple flag.</p>
+<p>Check out the Code below.</p>
+<pre> <code language="C">
+// MaxSubArray1.cpp : Defines the entry point for the console application.
+//
+
+#include &quot;stdafx.h&quot;
+#include &lt;iostream&gt;
+using namespace std;
+
+int maxSumArray(int a[], int len)
+{
+	int max_sum = -32768;
+	int max_here = 0;
+	int flag = 0;
+	for(int i=0;i&lt;len;i++)
+	{
+		max_here += a[i];
+		if(max_here &lt; 0)
+		{
+			max_here = 0;
+			if(!flag)
+			{
+				if(max_sum &lt; a[i])
+					max_sum = a[i];
+			}
+		}
+		else if(max_sum &lt; max_here) {
+			max_sum = max_here;
+			flag = 1;
+		}
+	}
+	return max_sum;
+}
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	int a[] = {-2, -3, -4, -1, -2, -1, -5, -3};
+	cout&lt;&lt;maxSumArray(a,8);
+	return 0;
+}
+
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-6858">
+        <div id="dsq-comment-header-6858" class="dsq-comment-header">
+            <cite id="dsq-cite-6858">
+                <span id="dsq-author-user-6858">VJVALOR</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6858" class="dsq-comment-body">
+            <div id="dsq-comment-message-6858" class="dsq-comment-message"><pre> <code language="C">
+void max_sum_sub_array(int *a, int n, int *start, int *end, int *max_sum)
+{
+    int m_sum = 0x80000000; // min32
+    int sum = 0;
+    int i_start = 0;
+    int i_end = 0;
+    int s = 0;
+    int i = 0;
+    
+    for(i = 0; i &lt; n; i++)
+    {
+        sum += a[i];
+        
+        if(sum &gt; m_sum)
+        {
+            m_sum = sum;
+            i_start = s;
+            i_end = i;
+        }
+        
+        if(sum &lt; 0)
+        {
+            sum = 0;
+            s = i + 1;
+        }
+    }
+    
+    *start = i_start;
+    *end = i_end;
+    *max_sum = m_sum;
+    
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-6753">
+        <div id="dsq-comment-header-6753" class="dsq-comment-header">
+            <cite id="dsq-cite-6753">
+                <span id="dsq-author-user-6753">Asquare</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6753" class="dsq-comment-body">
+            <div id="dsq-comment-message-6753" class="dsq-comment-message"><p>I guess there is better way to handle all negative numbers.<br />
+The following algo will take in account negative as well as positive numbers.</p>
+<p>Initialize:<br />
+    max_so_far = a[0]<br />
+    max_ending_here = 0</p>
+<p>Loop for each element of the array<br />
+  (a) max_ending_here = max_ending_here + a[i]<br />
+  (b) if(max_ending_here &lt; a[i])<br />
+            max_ending_here = a[i]<br />
+  (c) if(max_so_far &lt; max_ending_here)<br />
+            max_so_far = max_ending_here<br />
+return max_so_far</p>
+<p>And so subsequently the code would change automatically.. What say??</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-7127">
+        <div id="dsq-comment-header-7127" class="dsq-comment-header">
+            <cite id="dsq-cite-7127">
+                <span id="dsq-author-user-7127">prakhar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7127" class="dsq-comment-body">
+            <div id="dsq-comment-message-7127" class="dsq-comment-message"><p>yupp,&#8230;perfect</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-8081">
+        <div id="dsq-comment-header-8081" class="dsq-comment-header">
+            <cite id="dsq-cite-8081">
+                <span id="dsq-author-user-8081">novice.c</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8081" class="dsq-comment-body">
+            <div id="dsq-comment-message-8081" class="dsq-comment-message"><p>Agree.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-6667">
+        <div id="dsq-comment-header-6667" class="dsq-comment-header">
+            <cite id="dsq-cite-6667">
+                <span id="dsq-author-user-6667">fred</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6667" class="dsq-comment-body">
+            <div id="dsq-comment-message-6667" class="dsq-comment-message"><p>Is it possible to get the starting and end index of the subarray?</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-aggarwald2002 odd alt depth-2" id="dsq-comment-6669">
+        <div id="dsq-comment-header-6669" class="dsq-comment-header">
+            <cite id="dsq-cite-6669">
+                <span id="dsq-author-user-6669">aggarwald2002</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6669" class="dsq-comment-body">
+            <div id="dsq-comment-message-6669" class="dsq-comment-message"><p>Look at the code in one of my comments below. It returns a MaxSubArrayVO which also includes the sub-array-range along with the sum.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-8054">
+        <div id="dsq-comment-header-8054" class="dsq-comment-header">
+            <cite id="dsq-cite-8054">
+                <span id="dsq-author-user-8054">manas</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8054" class="dsq-comment-body">
+            <div id="dsq-comment-message-8054" class="dsq-comment-message"><pre> <code language="Java">
+public class MaxSubArray {
+
+	public static void main(String[] args) {
+
+		int[] intArr = toIntArray(args);
+		printMaxSumArr(intArr);
+	}
+
+	public static void printMaxSumArr(int[] in) {
+
+		int subStart = -1;
+		int subEnd = -1;
+
+		int subStartCurr = -1;
+
+		int sumHere = 0;
+		int sumMax = 0;
+
+		boolean isChangeSubStart = false;
+
+		for(int i = 0; i &lt; in.length; i++) {
+
+			if(sumHere == 0) {
+				subStartCurr = -1;
+			}
+
+			sumHere = sumHere + in[i];
+			if(sumHere &lt; 0) {
+				sumHere = 0;
+			}
+
+			if(subStartCurr == -1 &amp;&amp; sumHere &gt; 0) {
+				subStartCurr = i;
+			}
+
+			if(sumHere &gt; sumMax) {
+				sumMax = sumHere;
+				subEnd = i;
+				isChangeSubStart = true;
+			}
+
+			if(isChangeSubStart) {
+				subStart = subStartCurr;
+			}
+
+		}
+
+		System.out.println(&quot;MaxSum = &quot; + sumMax);
+		String subArr = &quot;&quot;;
+		for(int i = subStart; i &lt;= subEnd; i++) {
+			subArr = subArr + &quot; &quot; + in[i];
+		}
+		System.out.println(&quot;SubArray =&quot; + subArr);
+	}
+
+	public static int[] toIntArray(String[] strArr) {
+
+		int[] intArr = new int[strArr.length];
+		for(int i = 0; i &lt; strArr.length; i++) {
+			intArr[i] = Integer.parseInt(strArr[i]);
+		}
+
+		return intArr;
+	}
+
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-8055">
+        <div id="dsq-comment-header-8055" class="dsq-comment-header">
+            <cite id="dsq-cite-8055">
+                <span id="dsq-author-user-8055">manas</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8055" class="dsq-comment-body">
+            <div id="dsq-comment-message-8055" class="dsq-comment-message"><p>Edited code with some comments:</p>
+<pre> <code language="C">
+public class MaxSubArray {
+
+	public static void main(String[] args) {
+
+		/* Modify string array to int array */
+		int[] intArr = toIntArray(args);
+
+		/* Print max sum and corresponding sub array */
+		printMaxSumArr(intArr);
+	}
+
+	public static void printMaxSumArr(int[] in) {
+
+		int subStart = -1;
+		int subEnd = -1;
+
+		int subStartCurr = -1;
+
+		int sumHere = 0;
+		int sumMax = 0;
+
+		for(int i = 0; i &lt; in.length; i++) {
+
+			/* If corresponding to last element was 0, the sub array with a positive sum has not started yet */
+			if(sumHere == 0) {
+				subStartCurr = -1;
+			}
+
+			sumHere = sumHere + in[i];
+			if(sumHere &lt; 0) {
+				sumHere = 0;
+			}
+
+			/* If sum is positive and the sub array has not yet started, start it */
+			if(subStartCurr == -1 &amp;&amp; sumHere &gt; 0) {
+				subStartCurr = i;
+			}
+
+			if(sumHere &gt; sumMax) {
+				sumMax = sumHere;
+				/* New max sum found. Time to change start and end index of sub array */
+				subEnd = i;
+				subStart = subStartCurr;
+			}
+
+		}
+
+		System.out.println(&quot;MaxSum = &quot; + sumMax);
+		String subArr = &quot;&quot;;
+		for(int i = subStart; i &lt;= subEnd; i++) {
+			subArr = subArr + &quot; &quot; + in[i];
+		}
+		System.out.println(&quot;SubArray =&quot; + subArr);
+	}
+
+	public static int[] toIntArray(String[] strArr) {
+
+		int[] intArr = new int[strArr.length];
+		for(int i = 0; i &lt; strArr.length; i++) {
+			intArr[i] = Integer.parseInt(strArr[i]);
+		}
+
+		return intArr;
+	}
+
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-6641">
+        <div id="dsq-comment-header-6641" class="dsq-comment-header">
+            <cite id="dsq-cite-6641">
+                <span id="dsq-author-user-6641">var</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6641" class="dsq-comment-body">
+            <div id="dsq-comment-message-6641" class="dsq-comment-message"><p>It should run for both positive and negative inputs.</p>
+<pre> <code language="C">
+
+int maxSubArraySum(int []a, int size)
+        {
+           int max_so_far = 0, max_ending_here = 0;
+
+           if (size &gt; 0)
+           {
+               max_so_far = a[0];
+               max_ending_here = a[0];
+           }
+
+           int i;
+           for(i = 1; i &lt; size; i++)
+           {
+               if (a[i - 1] &lt; 0 &amp;&amp; max_ending_here&lt; 0)
+               {
+                   max_ending_here = a[i];
+               }
+               else
+               {
+                   max_ending_here += a[i];
+               }
+
+             /* Do not compare for all elements. Compare only
+                when  max_ending_here &gt; 0 */
+             //else
+               if (max_so_far &lt; max_ending_here)
+                 max_so_far = max_ending_here;
+           }
+           return max_so_far;
+        }
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-6756">
+        <div id="dsq-comment-header-6756" class="dsq-comment-header">
+            <cite id="dsq-cite-6756">
+                <span id="dsq-author-user-6756">var</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6756" class="dsq-comment-body">
+            <div id="dsq-comment-message-6756" class="dsq-comment-message"><p>Sorry,I forgot to remove comments as comments mentioned in post is irrelevant.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-psychocoder even thread-odd thread-alt depth-1" id="dsq-comment-5999">
+        <div id="dsq-comment-header-5999" class="dsq-comment-header">
+            <cite id="dsq-cite-5999">
+                <span id="dsq-author-user-5999">PsychoCoder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5999" class="dsq-comment-body">
+            <div id="dsq-comment-message-5999" class="dsq-comment-message"><p>This code is working for negative numbers also. The array containing all negative numbers.</p>
+<pre> <code language="C">
+int getLargestSumContiguousSubarray (int *arr, int size ) {
+  int i, max_so_far = *arr , max_end_here = *arr;
+  for ( i = 1 ; i &lt; size ; i ++ ) {
+    max_end_here += arr[i] ;
+    if ( max_end_here &gt; max_so_far )
+      max_so_far = max_end_here ;
+    if ( max_end_here &lt; 0 ) 
+      max_end_here = 0 ;
+  }
+  return max_so_far ;
+}</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-8716">
+        <div id="dsq-comment-header-8716" class="dsq-comment-header">
+            <cite id="dsq-cite-8716">
+                <span id="dsq-author-user-8716">Prashant Gupta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8716" class="dsq-comment-body">
+            <div id="dsq-comment-message-8716" class="dsq-comment-message"><p>How to handle this case.. i want the starting and end position both&#8230;.<br />
+-1 -2 -3 0 0 0 -4 -5 0 0 0 -9</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-5292">
+        <div id="dsq-comment-header-5292" class="dsq-comment-header">
+            <cite id="dsq-cite-5292">
+                <span id="dsq-author-user-5292">donbosio</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5292" class="dsq-comment-body">
+            <div id="dsq-comment-message-5292" class="dsq-comment-message"><p>a little modification to find start and end index of the subarray:</p>
+<p>int max_sum(int *a,int n)<br />
+{<br />
+int max_so_far=0;<br />
+int max_ending_here=0;<br />
+int s,e;<br />
+s=e=-1;<br />
+for(i=0;i&lt;=n-1;i++)<br />
+{<br />
+max_ending_here=max_ending_here+a[i];<br />
+if(max_ending_here&lt;0)<br />
+{<br />
+max_ending_here=0;<br />
+s=i+1;<br />
+}<br />
+else if(max_so_far&lt;max_ending_here)<br />
+{<br />
+max_so_far=max_ending_here;<br />
+e=i;<br />
+}<br />
+}<br />
+if(max_so_far==0)<br />
+{<br />
+s=-1;<br />
+e=-1;<br />
+}<br />
+}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-5449">
+        <div id="dsq-comment-header-5449" class="dsq-comment-header">
+            <cite id="dsq-cite-5449">
+                <span id="dsq-author-user-5449">Shadi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5449" class="dsq-comment-body">
+            <div id="dsq-comment-message-5449" class="dsq-comment-message"><p>This is not working for {1, 2}, start will be -1.<br />
+This solution will be ok:<br />
+int max_sum(int[] a, int n) {<br />
+        int max_so_far = 0;<br />
+        int max_ending_here = 0;<br />
+        int s, e, largest;<br />
+        s = e = largest = 0;<br />
+        for (int i = 0; i  a[largest]) largest = i;<br />
+            max_ending_here = max_ending_here + a[i];<br />
+            if (max_ending_here &lt; 0) {<br />
+                max_ending_here = 0;<br />
+                s = i + 1;<br />
+            } else if (max_so_far &lt; max_ending_here) {<br />
+                max_so_far = max_ending_here;<br />
+                e = i;<br />
+            }<br />
+        }<br />
+        if (a[largest]  0) ? max_so_far : a[largest];<br />
+    }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-4096">
+        <div id="dsq-comment-header-4096" class="dsq-comment-header">
+            <cite id="dsq-cite-4096">
+                <span id="dsq-author-user-4096">Anand</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4096" class="dsq-comment-body">
+            <div id="dsq-comment-message-4096" class="dsq-comment-message"><p>DP approach to above problem:<br />
+<a href="http://anandtechblog.blogspot.com/2010/07/maximum-increasing-subsequence.html" rel="nofollow">http://anandtechblog.blogspot.com/2010/07/maximum-increasing-subsequence.html</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3315">
+        <div id="dsq-comment-header-3315" class="dsq-comment-header">
+            <cite id="dsq-cite-3315">
+                <span id="dsq-author-user-3315">Hill</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3315" class="dsq-comment-body">
+            <div id="dsq-comment-message-3315" class="dsq-comment-message"><p>The program is not working for {1,2,-1,3,4}</p>
+<p>its returning 9 which is the sum of entire array. the expected result is 7</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even depth-2" id="dsq-comment-3316">
+        <div id="dsq-comment-header-3316" class="dsq-comment-header">
+            <cite id="dsq-cite-3316">
+                <span id="dsq-author-user-3316">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3316" class="dsq-comment-body">
+            <div id="dsq-comment-message-3316" class="dsq-comment-message"><p>@Hill. 9 is the correct answer for your input array. The array itself is considered one of the subarrays of the array.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2458">
+        <div id="dsq-comment-header-2458" class="dsq-comment-header">
+            <cite id="dsq-cite-2458">
+                <span id="dsq-author-user-2458">m2010ok</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2458" class="dsq-comment-body">
+            <div id="dsq-comment-message-2458" class="dsq-comment-message"><p>Input:<br />
+5 -2 8  3 -11 13 2  1  -1 0  3  8 -30    31 -4 3  -12<br />
+Max Ending Here:<br />
+5  3 11 14  3 16 18 19 18 18 21 29 -1(0) 31 27 30 18<br />
+Max_SoFar<br />
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8211;29&#8212;&#8212;-30 26 29 17</p>
+<p>So is the answer 31 or 30 or 29?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-2471">
+        <div id="dsq-comment-header-2471" class="dsq-comment-header">
+            <cite id="dsq-cite-2471">
+                <span id="dsq-author-user-2471">Tracy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2471" class="dsq-comment-body">
+            <div id="dsq-comment-message-2471" class="dsq-comment-message"><p>It is 31.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2413">
+        <div id="dsq-comment-header-2413" class="dsq-comment-header">
+            <cite id="dsq-cite-2413">
+                <span id="dsq-author-user-2413">Tracy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2413" class="dsq-comment-body">
+            <div id="dsq-comment-message-2413" class="dsq-comment-message"><p>This should work for all negatives case,without iterating the array more than once,so please verify it.</p>
+<pre> <code language="C">
+int maxSubArraySum(int a[],int size)
+{ 
+  //note this algorithm does not work for all negative numbers
+  int max_ending_here = 0,max_sum = 0;
+  int i =0 ;
+  int largest_num = 0x80000000; //the smallest integer if int's size is 4 bytes
+
+  for(; i&lt; size;i++)
+  {
+    if(a[i]&gt;largest_num) largest_num = a[i];
+
+    max_ending_here += a[i];
+    //if is negative,recount the max_ending_here
+    if(max_ending_here &lt; 0) 
+     max_ending_here =0;
+   
+    else if(max_sum &lt; max_ending_here) 
+        max_sum = max_ending_here;
+  }//for
+  return (largest_num &gt; 0)?max_sum:largest_num;
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-2414">
+        <div id="dsq-comment-header-2414" class="dsq-comment-header">
+            <cite id="dsq-cite-2414">
+                <span id="dsq-author-user-2414">Tracy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2414" class="dsq-comment-body">
+            <div id="dsq-comment-message-2414" class="dsq-comment-message"><p><strong>sorry,the first comment line should be removed.</strong></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2112">
+        <div id="dsq-comment-header-2112" class="dsq-comment-header">
+            <cite id="dsq-cite-2112">
+                <span id="dsq-author-user-2112">hari babu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2112" class="dsq-comment-body">
+            <div id="dsq-comment-message-2112" class="dsq-comment-message"><pre>
+def max_subarray(A):
+    max_so_far = max_ending_here = 0
+    for x in A:
+        max_ending_here = max(0, max_ending_here + x)
+        max_so_far = max(max_so_far, max_ending_here)
+    return max_so_far
+</pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1949">
+        <div id="dsq-comment-header-1949" class="dsq-comment-header">
+            <cite id="dsq-cite-1949">
+                <span id="dsq-author-user-1949">ravikant</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1949" class="dsq-comment-body">
+            <div id="dsq-comment-message-1949" class="dsq-comment-message"><p>Can somebody explain to me how is this algo DYNMAMIC PROGRAMMING ???????????<br />
+this is nothing except smart thinking<br />
+also can somebody give a dynamic programming solution for the problem ???<br />
+or even a recursive relation would do</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik odd alt depth-2" id="dsq-comment-1950">
+        <div id="dsq-comment-header-1950" class="dsq-comment-header">
+            <cite id="dsq-cite-1950">
+                <span id="dsq-author-user-1950">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1950" class="dsq-comment-body">
+            <div id="dsq-comment-message-1950" class="dsq-comment-message"><p>@ravikant:<br />
+Refer to the below lines @http://en.wikipedia.org/wiki/Maximum_subarray_problem<br />
+&#8220;Because of the way this algorithm uses optimal substructures (the maximum subarray ending at each position is calculated in a simple way from a related but smaller and overlapping subproblem, the maximum subarray ending at the previous position) this algorithm can be viewed as a simple example of dynamic programming&#8221;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-aggarwald2002 even depth-2" id="dsq-comment-6631">
+        <div id="dsq-comment-header-6631" class="dsq-comment-header">
+            <cite id="dsq-cite-6631">
+                <span id="dsq-author-user-6631">aggarwald2002</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6631" class="dsq-comment-body">
+            <div id="dsq-comment-message-6631" class="dsq-comment-message"><p>The below code is an example of top-down algorithm using recursion. It returns a value object that encapsulates (max-sum, lowerIndexOfSubArray, upperIndexOfSubArray).</p>
+<pre> <code language="Java">
+public class MaximalSubArray {
+
+	public static class MaxSubArrayVO {
+		public int sum;
+		public int lowerIndex;
+		public int upperIndex;
+
+		public MaxSubArrayVO(int sum, int lower, int upper) {
+			this.sum = sum;
+			this.lowerIndex = lower;
+			this.upperIndex = upper;
+		}
+
+		public int range() {
+			return upperIndex - lowerIndex;
+		}
+	}
+
+	/**
+	 * Finds maximal-sub-array (sub-array whose sum is maximum) within the given input array of 
+	 * +ve and -ve integers. It uses recursion and caches intermediate recursion results in a table (2-D array)
+	 * 
+	 * @param array input array of +ve and -ve integers
+	 * @param startIndex lower index of the range of numbers to consider in the array
+	 * @param endIndex upper index of the range of numbers to consider in the array
+	 * @param maxSubArrayTable 2-D array that stores intermediate recursion results.
+	 * 
+	 * @return maximal-sub-array-Value-Object that encapsulates (sum, lowerIndexOfSubArray, upperIndexOfSubArray).
+	 */
+	private static MaxSubArrayVO findMaximalSubArray(int[] array,
+			int startIndex, int endIndex, MaxSubArrayVO[][] maxSubArrayTable) {
+		if (endIndex &lt; 0 || endIndex &gt; array.length - 1 || startIndex &lt; 0
+				|| startIndex &gt; array.length - 1) {
+			return null;
+		}
+		// sub-array length = 1
+		if (endIndex == startIndex) {
+			if (array[endIndex] &gt; 0) {
+				return new MaxSubArrayVO(array[startIndex], startIndex,
+						startIndex);
+			} else {
+				// return 0 for a -ve number
+				return new MaxSubArrayVO(0, startIndex, startIndex);
+			}
+		}
+
+		// find maximal subarray in array-subset[startIndex, endIndex -1]
+		if (maxSubArrayTable[startIndex][endIndex - 1] == null) {
+			maxSubArrayTable[startIndex][endIndex - 1] = findMaximalSubArray(
+					array, startIndex, endIndex - 1, maxSubArrayTable);
+		}
+		MaxSubArrayVO maxSubArrInSubsetOfArray = maxSubArrayTable[startIndex][endIndex - 1];
+
+		if (maxSubArrInSubsetOfArray != null
+				&amp;&amp; endIndex == (maxSubArrInSubsetOfArray.upperIndex + 1)) {
+			// current element is contiguous to maxsubarray found in
+			// array-subset[startIndex, endIndex -1]
+			if (maxSubArrInSubsetOfArray.sum &gt; 0) {
+				int newSum = array[endIndex] + maxSubArrInSubsetOfArray.sum;
+
+				if (newSum &gt; 0) {
+					return new MaxSubArrayVO(newSum,
+							maxSubArrInSubsetOfArray.lowerIndex, endIndex);
+				} else {// currentElement cannot be part of maxsubarray
+					return maxSubArrInSubsetOfArray;
+				}
+			} else { // sum of maxsubarray in array-subset(startIndex -&gt;
+						// endIndex -1) is 0 or -ve
+				if (array[endIndex] &gt; 0) {
+					return new MaxSubArrayVO(array[endIndex], endIndex,
+							endIndex);
+				} else {
+					// return 0 for a -ve number
+					return new MaxSubArrayVO(0, endIndex, endIndex);
+				}
+			}
+		} else {
+			// current element is NOT contiguous to maxsubarray in
+			// array-subset[startIndex, endIndex -1]
+			if (maxSubArrInSubsetOfArray.sum &gt; 0) {
+				if (array[endIndex] &gt; maxSubArrInSubsetOfArray.sum) {
+					// currentElement is larger than maxsubarray found so far
+					return new MaxSubArrayVO(array[endIndex], endIndex,
+							endIndex);
+				} else {
+					if (maxSubArrayTable[endIndex][array.length - 1] == null) {
+						maxSubArrayTable[endIndex][array.length - 1] = findMaximalSubArray(
+								array, endIndex, array.length - 1,
+								maxSubArrayTable);
+					}
+					return max(maxSubArrayTable[endIndex][array.length - 1],
+							maxSubArrInSubsetOfArray);
+
+				}
+
+			} else { // sum of array-subset[startIndex, endIndex -1] is 0 or
+						// -ve
+				if (array[endIndex] &gt; 0) {
+					return new MaxSubArrayVO(array[endIndex], endIndex,
+							endIndex);
+				} else {
+					// return 0 for a -ve number
+					return new MaxSubArrayVO(0, endIndex, endIndex);
+				}
+			}
+		}
+
+	}
+
+	/**
+	 * Returns subarrayVO whose sum is maximum; if sum is equal, then longer
+	 * subarray gets preference.
+	 */
+	private static MaxSubArrayVO max(MaxSubArrayVO sub1, MaxSubArrayVO sub2) {
+		return sub1.sum &gt; sub2.sum ? sub1 : ((sub1.sum == sub2.sum) &amp;&amp; (sub1
+				.range() &gt; sub2.range())) ? sub1 : sub2;
+	}
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// input array
+		int[] array = new int[] { 6, 4, -11, 7, 6, -2, 0, -15, -1, -3, 25, 2,
+				-3, 4 };
+
+		// table that caches intermediate results; [i][j] denote the range of
+		// subarray
+		MaxSubArrayVO[][] maxSubArrayTable = new MaxSubArrayVO[array.length][array.length];
+
+		MaxSubArrayVO maxSubArrVO = findMaximalSubArray(array, 0,
+				array.length - 1, maxSubArrayTable);
+		System.out.println(&quot;Max sum = &quot; + maxSubArrVO.sum);
+		System.out.println(&quot;lower index = &quot; + maxSubArrVO.lowerIndex);
+		System.out.println(&quot;upper Index = &quot; + maxSubArrVO.upperIndex);
+	}
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-aggarwald2002 odd alt depth-3" id="dsq-comment-6632">
+        <div id="dsq-comment-header-6632" class="dsq-comment-header">
+            <cite id="dsq-cite-6632">
+                <span id="dsq-author-user-6632">aggarwald2002</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6632" class="dsq-comment-body">
+            <div id="dsq-comment-message-6632" class="dsq-comment-message"><p>omg, the above code was in java and the formatting has gone for a toss <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_sad.gif" alt=":-(" class="wp-smiley" /> I tried to edit it later but didn&#8217;t find this feature. Apologies to the folks&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1498">
+        <div id="dsq-comment-header-1498" class="dsq-comment-header">
+            <cite id="dsq-cite-1498">
+                <span id="dsq-author-user-1498">Aravind_Sen</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1498" class="dsq-comment-body">
+            <div id="dsq-comment-message-1498" class="dsq-comment-message"><p>why doesnt input a[] = {-2, -3, 4, -4, 50, 5, -3};<br />
+work in kadane&#8217;s algorithm</p>
+<p>it gives me output as 2293724</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-1511">
+        <div id="dsq-comment-header-1511" class="dsq-comment-header">
+            <cite id="dsq-cite-1511">
+                <span id="dsq-author-user-1511">edvox1138</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1511" class="dsq-comment-body">
+            <div id="dsq-comment-message-1511" class="dsq-comment-message"><p>Check you array size parameter.<br />
+I added your test array and got 55.</p>
+<pre> <code language="C">
+int arrAravind_Sen[] = {-2, -3, 4, -4, 50, 5, -3};
+	max = testCaseHelper(arrAravind_Sen,(sizeof(arrAravind_Sen)/sizeof(int)), 55);
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-1531">
+        <div id="dsq-comment-header-1531" class="dsq-comment-header">
+            <cite id="dsq-cite-1531">
+                <span id="dsq-author-user-1531">Aravind_Sen</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1531" class="dsq-comment-body">
+            <div id="dsq-comment-message-1531" class="dsq-comment-message"><p>thanks..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-anuragvickey odd alt thread-even depth-1" id="dsq-comment-1214">
+        <div id="dsq-comment-header-1214" class="dsq-comment-header">
+            <cite id="dsq-cite-1214">
+http://anuragsharma-sun.blogspot.com/                <span id="dsq-author-user-1214">crazyFrog</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1214" class="dsq-comment-body">
+            <div id="dsq-comment-message-1214" class="dsq-comment-message"><p>What if all elements in the array are negative. Will it not return 0 in this case which is wrong?<br />
+Correct me if I am missing something</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-1226">
+        <div id="dsq-comment-header-1226" class="dsq-comment-header">
+            <cite id="dsq-cite-1226">
+                <span id="dsq-author-user-1226">edvox1138</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1226" class="dsq-comment-body">
+            <div id="dsq-comment-message-1226" class="dsq-comment-message"><p>Possible solution for an array input with all negative numbers:<br />
+// initialize max_so_far to the first element of the array<br />
+max_so_far = a[0];</p>
+<p>{ -1, -20, -4, -5 } returns -1<br />
+{ -10, -5, -3, -2 } returns -2</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik odd alt depth-3" id="dsq-comment-1246">
+        <div id="dsq-comment-header-1246" class="dsq-comment-header">
+            <cite id="dsq-cite-1246">
+                <span id="dsq-author-user-1246">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1246" class="dsq-comment-body">
+            <div id="dsq-comment-message-1246" class="dsq-comment-message"><p>Initializing max_so_far to the first element of the array might not work as we also have below condition in the code.</p>
+<pre> <code language="C">
+if(max_ending_here &lt; 0)
+   max_ending_here = 0;</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-1257">
+        <div id="dsq-comment-header-1257" class="dsq-comment-header">
+            <cite id="dsq-cite-1257">
+                <span id="dsq-author-user-1257">edvox1138</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1257" class="dsq-comment-body">
+            <div id="dsq-comment-message-1257" class="dsq-comment-message"><p>You are correct. So along with the initialization code. I modified the following code:</p>
+<pre> <code language="C">  
+// guarantee an array of at least one element
+   if(a == 0) return 0;
+   if(size &lt; 1) return 0;
+   max_so_far = a[0];
+
+...
+
+//if(max_ending_here &lt; 0)
+//   max_ending_here = 0;
+// condition to start a new subarray to sum
+ if(max_ending_here &lt; a[i]) 
+     max_ending_here = a[i];
+
+result of test cases so far:
+/*
+testCase: arr=  0 max = 0 passed
+testCase: arr=  -99 max = -99 passed
+testCase: arr=  34 max = 34 passed
+testCase: arr=  0 1 2 3 4 5 max = 15 passed
+testCase: arr=  99 1 10 2 4 max = 116 passed
+testCase: arr=  34 0 1 12 10 max = 57 passed
+testCase: arr=  1 -9 4 5 6 -1 2 max = 16 passed
+testCase: arr=  1 -9 4 5 6 -10 2 max = 15 passed
+testCase: arr=  1 -9 4 5 6 -16 45 max = 45 passed
+testCase: arr=  1 -9 4 5 6 -10 45 max = 50 passed
+testCase: arr=  -1 -9 -2 -3 -4 -5 0 max = 0 passed
+testCase: arr=  -99 -1 -10 -2 -4 max = -1 passed
+testCase: arr=  -34 -5 -1 -12 -1 max = -1 passed
+*/
+</code> </pre>
+<p>The test cases above do not cover all cases, but it looks promising.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-5" id="dsq-comment-6056">
+        <div id="dsq-comment-header-6056" class="dsq-comment-header">
+            <cite id="dsq-cite-6056">
+                <span id="dsq-author-user-6056">Amol</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6056" class="dsq-comment-body">
+            <div id="dsq-comment-message-6056" class="dsq-comment-message"><p>Following code works for all cases. I think checking for max_present&lt;0, is needed here.</p>
+<p>#include &lt;iostream&gt;<br />
+using namespace std;<br />
+int main() {</p>
+<p>int arr[]={-2,-3,4,-1,-2,-7,-5,-3};<br />
+int max_present,max_all,i;<br />
+max_present=0;<br />
+max_all=arr[0];<br />
+for(i=0;i&lt;8;i++)<br />
+{<br />
+  max_present+=arr[i];<br />
+  if(max_all&lt;max_present){<br />
+    max_all=max_present;<br />
+  }<br />
+  if(max_present&lt;0){<br />
+    max_present=0;<br />
+  }<br />
+}<br />
+cout&lt;&lt;&quot;Max sum is &quot;&lt;&lt;max_all;<br />
+return 0;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-asitbaran-das even thread-odd thread-alt depth-1" id="dsq-comment-920">
+        <div id="dsq-comment-header-920" class="dsq-comment-header">
+            <cite id="dsq-cite-920">
+                <span id="dsq-author-user-920">Asit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-920" class="dsq-comment-body">
+            <div id="dsq-comment-message-920" class="dsq-comment-message"><p>In this example {-2, -3, 4, -1, -2, 1, 5, -3}..shouldn&#8217;t 6 be the answer (1 and 5)&#8230;we&#8217;re getting 4 which i feel isn&#8217;t correct. Please correct me if I&#8217;m wrong.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor odd alt depth-2" id="dsq-comment-923">
+        <div id="dsq-comment-header-923" class="dsq-comment-header">
+            <cite id="dsq-cite-923">
+                <span id="dsq-author-user-923">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-923" class="dsq-comment-body">
+            <div id="dsq-comment-message-923" class="dsq-comment-message"><p>@Asit: The program doesn&#8217;t return 4, it returns 7 (4 + -1 + -2 + 1 + 5). In function maxSubArraySum(), we return max_so_far, not max_ending_here (whose final value is 4).</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-asitbaran-das even depth-3" id="dsq-comment-925">
+        <div id="dsq-comment-header-925" class="dsq-comment-header">
+            <cite id="dsq-cite-925">
+                <span id="dsq-author-user-925">Asit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-925" class="dsq-comment-body">
+            <div id="dsq-comment-message-925" class="dsq-comment-message"><p>Sorry, my mistake.I considered max_ending_here instead of max_so_far</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-762">
+        <div id="dsq-comment-header-762" class="dsq-comment-header">
+            <cite id="dsq-cite-762">
+                <span id="dsq-author-user-762">ab</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-762" class="dsq-comment-body">
+            <div id="dsq-comment-message-762" class="dsq-comment-message"><p>uh&#8230; I think there&#8217;s a typo in the example?  The critical 6th index reads: </p>
+<p>for i=6, a[6] = 1<br />
+&#8230; etc &#8230;</p>
+<p>The element at a[6] is 5, not 1.  The rest of the statement it correct, but that assignment error might be confusing to a non-programmer trying to understand the explanation of algorithm?  I&#8217;ve been programming for a while, and I still did a triple take until I found the typo.</p>
+<p>Or, is this a test to see if the readers can debug pseudo-code? <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_wink.gif" alt=";)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even depth-2" id="dsq-comment-779">
+        <div id="dsq-comment-header-779" class="dsq-comment-header">
+            <cite id="dsq-cite-779">
+                <span id="dsq-author-user-779">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-779" class="dsq-comment-body">
+            <div id="dsq-comment-message-779" class="dsq-comment-message"><p>@ab: Thanks for pointing this out. We have corrected the typo.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-gauthamns odd alt depth-2" id="dsq-comment-787">
+        <div id="dsq-comment-header-787" class="dsq-comment-header">
+            <cite id="dsq-cite-787">
+                <span id="dsq-author-user-787">Gautham</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-787" class="dsq-comment-body">
+            <div id="dsq-comment-message-787" class="dsq-comment-message"><p><img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /> @ab, for your question, answer is no. We do not want to test readers by introducing bugs. There are smarter ways of doing so. (Obvious one being the Q&amp;A section). But I guess this made you understand the solution better <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_wink.gif" alt=";)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even thread-odd thread-alt depth-1" id="dsq-comment-240">
+        <div id="dsq-comment-header-240" class="dsq-comment-header">
+            <cite id="dsq-cite-240">
+                <span id="dsq-author-user-240">geeksforgeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-240" class="dsq-comment-body">
+            <div id="dsq-comment-message-240" class="dsq-comment-message"><p>@Hary: Your solution works fine.</p>
+<p>One thing to add &#8211; When count of negative numbers is odd, we need to check product of left and right for <b>both</b> first and last negative elements.  So we need to get max of these four products.</p>
+<p>Thanks for writing the solution. Keep writing to us!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-abhimanu odd alt depth-2" id="dsq-comment-1256">
+        <div id="dsq-comment-header-1256" class="dsq-comment-header">
+            <cite id="dsq-cite-1256">
+                <span id="dsq-author-user-1256">abhimanu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1256" class="dsq-comment-body">
+            <div id="dsq-comment-message-1256" class="dsq-comment-message"><p>Here is the code as discussed by you and Hary.</p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+int max(int a, int b)
+{
+	int max_num;
+	return (a&gt;b ? a:b);
+
+}
+int maxSubArrayProd(int a[], int size)
+{
+   int max_so_far = 1;
+   int i;
+   //stores number of negative entries
+   int num_of_neg=0;
+   //stores first negative entries if any
+   int first_neg;
+   //stores last negative entries if any
+   int last_neg;
+   int prod_so_far_right_of_last_neg=1;
+   int prod_so_far_left_for_first_neg=1;
+   int prod_so_far_left=1;
+   int prod_so_far_right=1;
+   int prod_so_far_middle=1;
+   int prod_right_of_last_neg=1;
+   int prod_left_of_last_neg=1;
+   int prod_left_of_first_neg=1;
+   int prod_right_of_first_neg=1;
+
+   for(i = 0; i &lt; size; i++)
+   {
+	   if (a[i] &lt; 0)
+	   {
+		   if (num_of_neg == 0) {
+			   first_neg = i;
+		   }
+		   num_of_neg++;
+		   last_neg = i;
+	   }
+   }
+   if ((num_of_neg%2 == 0) || (num_of_neg == 0)) {
+	   //multiply all
+	   for(i = 0; i &lt; size; i++)
+	   {
+		max_so_far *= a[i];
+	   }
+	   return max_so_far;
+   } else if (num_of_neg == 1) {
+	   //only one negative number
+	   //find prod of left and write numbers
+	   for(i = 0; i &lt; first_neg; i++)
+	   {
+		prod_so_far_left *= a[i];
+	   }
+	   for(i = first_neg+1; i &lt; size; i++)
+	   {
+		prod_so_far_right *= a[i];
+	   }
+	   return max(prod_so_far_left, prod_so_far_right);
+   } else {
+	   //more than one odd negative numbers
+	   for(i = 0; i &lt; first_neg; i++)
+	   {
+		prod_so_far_left_for_first_neg *= a[i];
+	   }
+	   for(i = first_neg+1; i &lt; last_neg; i++)
+	   {
+		prod_so_far_middle *= a[i];
+	   }
+	   for(i = last_neg+1; i &lt; size; i++)
+	   {
+		prod_so_far_right_of_last_neg *= a[i];
+	   }
+	   prod_left_of_first_neg = prod_so_far_left_for_first_neg;
+	   prod_right_of_first_neg = prod_so_far_middle * prod_so_far_right_of_last_neg * a[last_neg];
+	   prod_left_of_last_neg = prod_so_far_left_for_first_neg * a[first_neg] * prod_so_far_middle;
+	   prod_right_of_last_neg = prod_so_far_right_of_last_neg;
+
+	   return (max(max(prod_right_of_last_neg, prod_left_of_last_neg), 
+				   max(prod_right_of_first_neg, prod_left_of_first_neg)));
+   }
+}
+ 
+/*Driver program to test maxSubArraySum*/
+int main()
+{
+   int a[] = {-2, -3, 4, -1, -2, 1, 5, -3};
+   int max_prod = maxSubArrayProd(a, 8);
+   printf(&quot;Maximum contiguous prod is %d\n&quot;, max_prod);
+   return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-3259">
+        <div id="dsq-comment-header-3259" class="dsq-comment-header">
+            <cite id="dsq-cite-3259">
+                <span id="dsq-author-user-3259">anonymous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3259" class="dsq-comment-body">
+            <div id="dsq-comment-message-3259" class="dsq-comment-message"><p>what if 0 is one of the element</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-3" id="dsq-comment-20935">
+        <div id="dsq-comment-header-20935" class="dsq-comment-header">
+            <cite id="dsq-cite-20935">
+                <span id="dsq-author-user-20935">Nagaraju</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20935" class="dsq-comment-body">
+            <div id="dsq-comment-message-20935" class="dsq-comment-message"><p>for input<br />
+{-2, -3, 4, 0, -2, 1, 5, -3};</p>
+<p>result is wrong<br />
+Maximum contiguous prod is 0</p>
+<p>tested code coping to<br />
+<a href="http://ideone.com/o8g7Rl" rel="nofollow">http://ideone.com/o8g7Rl</a></p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-192">
+        <div id="dsq-comment-header-192" class="dsq-comment-header">
+            <cite id="dsq-cite-192">
+                <span id="dsq-author-user-192">Hary</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-192" class="dsq-comment-body">
+            <div id="dsq-comment-message-192" class="dsq-comment-message"><p>Ok, as far as the all negative and all positive are concerned<br />
+you dont have to worry because in case of all positive &#8211; just add the entire array to get the result &#8211; in case of all negative &#8211; just find out the smalles no in terms of magnitude. </p>
+<p>The problem becomes sensible only when you have a blend of negative and positive nos. </p>
+<p>As far as the &#8220;product variant&#8221; of this ques is listed above:<br />
+I would say just find out the no of negative elements. If they are even, find the product of all the nos in the array  , If the no of negative elements is odd then scan the array to find the last negative element. Find out the product of all the elements on one side of it &#8211; call it product left &#8211; and similarly for all the elements on the right of it &#8211; call them product right.</p>
+<p>Yield which ever is greater .</p>
+<p>Please correct me if i am missing something</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor odd alt thread-odd thread-alt depth-1" id="dsq-comment-33">
+        <div id="dsq-comment-header-33" class="dsq-comment-header">
+            <cite id="dsq-cite-33">
+                <span id="dsq-author-user-33">geeksforgeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33" class="dsq-comment-body">
+            <div id="dsq-comment-message-33" class="dsq-comment-message"><p>Hi Raj, as mentioned in the notes, the algorithm doesn&#8217;t work for all negative numbers.</p>
+<p>For handling this we can add an extra phase before actual implementation.  The phase will look if all numbers are negative,  if they are it will return maximum of them (or smallest in terms of absolute value).  There may be other ways to handle it though.</p>
+<p>Thanks for the comment, keep visiting us.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-31">
+        <div id="dsq-comment-header-31" class="dsq-comment-header">
+            <cite id="dsq-cite-31">
+                <span id="dsq-author-user-31">raj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31" class="dsq-comment-body">
+            <div id="dsq-comment-message-31" class="dsq-comment-message"><p>what if all the input values are negative.</p>
+<p>EX: {-2, -3, -4, -1, -2, -1, -5, -3}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-1225">
+        <div id="dsq-comment-header-1225" class="dsq-comment-header">
+            <cite id="dsq-cite-1225">
+                <span id="dsq-author-user-1225">edvox1138</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1225" class="dsq-comment-body">
+            <div id="dsq-comment-message-1225" class="dsq-comment-message"><p>Possible solution for an array input with all negative numbers:<br />
+max_so_far = a[0];<br />
+// initialize to the first element of the array<br />
+{ -1, -20, -4, -5 } returns -1<br />
+{ -10, -5, -3, -2 } returns -2</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/largest-sum-contiguous-subarray/';
+var disqus_identifier = '576 http://geeksforgeeks.org/?p=576';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Largest Sum Contiguous Subarray";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.279 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:29:17 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

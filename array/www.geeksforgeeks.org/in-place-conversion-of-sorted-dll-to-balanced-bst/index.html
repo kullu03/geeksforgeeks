@@ -1,0 +1,1626 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>In-place conversion of Sorted DLL to Balanced BST - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/in-place-conversion-of-sorted-dll-to-balanced-bst/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="In-place conversion of Sorted DLL to Balanced BST - GeeksforGeeks" />
+<meta property="og:description" content="Given a Doubly Linked List which has data members sorted in ascending order. Construct a Balanced Binary Search Tree which has same data members as the given Doubly Linked List. The tree must be constructed in-place (No new node should be allocated for tree conversion) Examples: Input: Doubly Linked List 1 2 3 Output: A &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/in-place-conversion-of-sorted-dll-to-balanced-bst/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:section" content="Linked Lists" />
+<meta property="article:published_time" content="2012-02-03T12:25:58+00:00" />
+<meta property="article:modified_time" content="2014-04-21T12:21:49+00:00" />
+<meta property="og:updated_time" content="2014-04-21T12:21:49+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.584 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417110950 98.197.221.22';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">In-place conversion of Sorted DLL to Balanced BST</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given a Doubly Linked List which has data members sorted in ascending order.  Construct a <a href="http://www.geeksforgeeks.org/archives/5230">Balanced Binary Search Tree</a> which has same data members as the given Doubly Linked List. The tree must be constructed in-place (No new node should be allocated for tree conversion) <span id="more-17629"></span></p>
+<p>Examples:</p>
+<pre>
+Input:  Doubly Linked List 1 <--> 2 <--> 3
+Output: A Balanced BST 
+     2   
+   /  \  
+  1    3 
+
+
+Input: Doubly Linked List 1 <--> 2 <-->3 <--> 4 <-->5 <--> 6 <--> 7
+Output: A Balanced BST
+        4
+      /   \
+     2     6
+   /  \   / \
+  1   3  4   7  
+
+Input: Doubly Linked List 1 <--> 2 <--> 3 <--> 4
+Output: A Balanced BST
+      3   
+    /  \  
+   2    4 
+ / 
+1
+
+Input:  Doubly Linked List 1 <--> 2 <--> 3 <--> 4 <--> 5 <--> 6
+Output: A Balanced BST
+      4   
+    /   \  
+   2     6 
+ /  \   / 
+1   3  5   
+</pre>
+<p>The Doubly Linked List conversion is very much similar to <a href="http://www.geeksforgeeks.org/archives/17063">this Singly Linked List problem</a> and the method 1 is exactly same as the method 1 of<a href="http://www.geeksforgeeks.org/archives/17063"> previous post</a>.  Method 2 is also almost same. The only difference in method 2 is, instead of allocating new nodes for BST, we reuse same DLL nodes.  We use prev pointer as left and next pointer as right.</p>
+<p><strong>Method 1 (Simple)</strong><br />
+Following is a simple algorithm where we first find the middle node of list and make it root of the tree to be constructed.</p>
+<pre>
+1) Get the Middle of the linked list and make it root.
+2) Recursively do same for left half and right half.
+       a) Get the middle of left half and make it left child of the root
+          created in step 1.
+       b) Get the middle of right half and make it right child of the
+          root created in step 1.
+
+</pre>
+<p>Time complexity: O(nLogn) where n is the number of nodes in Linked List.</p>
+<p><strong>Method 2 (Tricky) </strong><br />
+The method 1 constructs the tree from root to leaves.  In this method, we construct from leaves to root. The idea is to insert nodes in BST in the same order as the appear in Doubly Linked List, so that the tree can be constructed in O(n) time complexity.  We first count the number of nodes in the given Linked List. Let the count be n. After counting nodes, we take left n/2 nodes and recursively construct the left subtree.  After left subtree is constructed, we assign middle node to root and link the left subtree with root.  Finally, we recursively construct the right subtree and link it with root.<br />
+While constructing the BST, we also keep moving the list head pointer to next so that we have the appropriate pointer in each recursive call.<br />
+Following is C implementation of method 2.  The main code which creates Balanced BST is highlighted. </p>
+<pre class="brush: cpp; highlight: [22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60]; title: ; notranslate" title="">
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+
+/* A Doubly Linked List node that will also be used as a tree node */
+struct Node
+{
+    int data;
+
+    // For tree, next pointer can be used as right subtree pointer
+    struct Node* next;
+
+    // For tree, prev pointer can be used as left subtree pointer
+    struct Node* prev;
+};
+
+
+// A utility function to count nodes in a Linked List
+int countNodes(struct Node *head);
+
+struct Node* sortedListToBSTRecur(struct Node **head_ref, int n);
+
+/* This function counts the number of nodes in Linked List and then calls
+   sortedListToBSTRecur() to construct BST */
+struct Node* sortedListToBST(struct Node *head)
+{
+    /*Count the number of nodes in Linked List */
+    int n = countNodes(head);
+
+    /* Construct BST */
+    return sortedListToBSTRecur(&amp;head, n);
+}
+
+/* The main function that constructs balanced BST and returns root of it.
+       head_ref --&gt;  Pointer to pointer to head node of Doubly linked list
+       n  --&gt; No. of nodes in the Doubly Linked List */
+struct Node* sortedListToBSTRecur(struct Node **head_ref, int n)
+{
+    /* Base Case */
+    if (n &lt;= 0)
+        return NULL;
+
+    /* Recursively construct the left subtree */
+    struct Node *left = sortedListToBSTRecur(head_ref, n/2);
+
+    /* head_ref now refers to middle node, make middle node as root of BST*/
+    struct Node *root = *head_ref;
+
+    // Set pointer to left subtree
+    root-&gt;prev = left;
+
+    /* Change head pointer of Linked List for parent recursive calls */
+    *head_ref = (*head_ref)-&gt;next;
+
+    /* Recursively construct the right subtree and link it with root
+      The number of nodes in right subtree  is total nodes - nodes in
+      left subtree - 1 (for root) */
+    root-&gt;next = sortedListToBSTRecur(head_ref, n-n/2-1);
+
+    return root;
+}
+
+/* UTILITY FUNCTIONS */
+/* A utility function that returns count of nodes in a given Linked List */
+int countNodes(struct Node *head)
+{
+    int count = 0;
+    struct Node *temp = head;
+    while(temp)
+    {
+        temp = temp-&gt;next;
+        count++;
+    }
+    return count;
+}
+
+/* Function to insert a node at the beginging of the Doubly Linked List */
+void push(struct Node** head_ref, int new_data)
+{
+    /* allocate node */
+    struct Node* new_node =
+            (struct Node*) malloc(sizeof(struct Node));
+
+    /* put in the data  */
+    new_node-&gt;data  = new_data;
+
+    /* since we are adding at the begining,
+      prev is always NULL */
+    new_node-&gt;prev = NULL;
+
+    /* link the old list off the new node */
+    new_node-&gt;next = (*head_ref);
+
+    /* change prev of head node to new node */
+    if((*head_ref) !=  NULL)
+      (*head_ref)-&gt;prev = new_node ;
+
+    /* move the head to point to the new node */
+    (*head_ref)    = new_node;
+}
+
+/* Function to print nodes in a given linked list */
+void printList(struct Node *node)
+{
+    while(node!=NULL)
+    {
+        printf(&quot;%d &quot;, node-&gt;data);
+        node = node-&gt;next;
+    }
+}
+
+/* A utility function to print preorder traversal of BST */
+void preOrder(struct Node* node)
+{
+    if (node == NULL)
+        return;
+    printf(&quot;%d &quot;, node-&gt;data);
+    preOrder(node-&gt;prev);
+    preOrder(node-&gt;next);
+}
+
+/* Drier program to test above functions*/
+int main()
+{
+    /* Start with the empty list */
+    struct Node* head = NULL;
+
+    /* Let us create a sorted linked list to test the functions
+     Created linked list will be 7-&gt;6-&gt;5-&gt;4-&gt;3-&gt;2-&gt;1 */
+    push(&amp;head, 7);
+    push(&amp;head, 6);
+    push(&amp;head, 5);
+    push(&amp;head, 4);
+    push(&amp;head, 3);
+    push(&amp;head, 2);
+    push(&amp;head, 1);
+
+    printf(&quot;\n Given Linked List &quot;);
+    printList(head);
+
+    /* Convert List to BST */
+    struct Node *root = sortedListToBST(head);
+    printf(&quot;\n PreOrder Traversal of constructed BST &quot;);
+    preOrder(root);
+
+    return 0;
+}
+</pre>
+<p>Time Complexity: O(n)</p>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/given-linked-list-reverse-alternate-nodes-append-end/" title="Given a linked list, reverse alternate nodes and append at the end">Given a linked list, reverse alternate nodes and append at the end</a></li><li><a href="http://www.geeksforgeeks.org/pairwise-swap-elements-of-a-given-linked-list-by-changing-links/" title="Pairwise swap elements of a given linked list by changing links">Pairwise swap elements of a given linked list by changing links</a></li><li><a href="http://www.geeksforgeeks.org/self-organizing-list-set-1-introduction/" title="Self Organizing List | Set 1 (Introduction)">Self Organizing List | Set 1 (Introduction)</a></li><li><a href="http://www.geeksforgeeks.org/merge-a-linked-list-into-another-linked-list-at-alternate-positions/" title="Merge a linked list into another linked list at alternate positions">Merge a linked list into another linked list at alternate positions</a></li><li><a href="http://www.geeksforgeeks.org/quicksort-on-singly-linked-list/" title="QuickSort on Singly Linked List">QuickSort on Singly Linked List</a></li><li><a href="http://www.geeksforgeeks.org/delete-n-nodes-after-m-nodes-of-a-linked-list/" title="Delete N nodes after M nodes of a linked list">Delete N nodes after M nodes of a linked list</a></li><li><a href="http://www.geeksforgeeks.org/design-a-stack-with-find-middle-operation/" title="Design a stack with operations on middle element">Design a stack with operations on middle element</a></li><li><a href="http://www.geeksforgeeks.org/swap-kth-node-from-beginning-with-kth-node-from-end-in-a-linked-list/" title="Swap Kth node from beginning with Kth node from end in a Linked List">Swap Kth node from beginning with Kth node from end in a Linked List</a></li></ul>
+<p></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fin-place-conversion-of-sorted-dll-to-balanced-bst%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/in-place-conversion-of-sorted-dll-to-balanced-bst/" data-text="In-place conversion of Sorted DLL to Balanced BST" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/in-place-conversion-of-sorted-dll-to-balanced-bst/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-34636">
+        <div id="dsq-comment-header-34636" class="dsq-comment-header">
+            <cite id="dsq-cite-34636">
+                <span id="dsq-author-user-34636">alien</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34636" class="dsq-comment-body">
+            <div id="dsq-comment-message-34636" class="dsq-comment-message"><p>Excellent</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-29400">
+        <div id="dsq-comment-header-29400" class="dsq-comment-header">
+            <cite id="dsq-cite-29400">
+                <span id="dsq-author-user-29400">SwaS</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29400" class="dsq-comment-body">
+            <div id="dsq-comment-message-29400" class="dsq-comment-message"><p>How is method 1 different from method 2 ?<br />
+Both algo work in the same fashion.. Using the recursion properly we can achieve O(n), which is done in method 2.<br />
+Implementation of method 1 is not provided ..I think the author intends to update the pointers(left node n right node) for current node before making recursive calls for left &amp; right subtrees. Then the complexity wud be O(nlg n) . If we use recursion properly and return the root node at each level we dont need to traverse and calculate mid node at each level. We get these value as sub probs in deeper levels of recursion are solved. So the complexity reduces to O(n).</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-28655">
+        <div id="dsq-comment-header-28655" class="dsq-comment-header">
+            <cite id="dsq-cite-28655">
+                <span id="dsq-author-user-28655">Arpit Baheti</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28655" class="dsq-comment-body">
+            <div id="dsq-comment-message-28655" class="dsq-comment-message"><p>For method 1:</p>
+<p>#include </p>
+<p>#include </p>
+<p>using namespace std;</p>
+<p>/*</p>
+<p>sample input:</p>
+<p>9</p>
+<p>10 5 14 1 8 7 11 16 13</p>
+<p>*/</p>
+<p>typedef struct tree</p>
+<p>{</p>
+<p>    int data;</p>
+<p>    struct tree *left;</p>
+<p>    struct tree *right;</p>
+<p>    struct tree *parent;</p>
+<p>} tree;</p>
+<p>tree* BSTtoDLL(tree *root)</p>
+<p>{</p>
+<p>    static tree *pre = NULL;</p>
+<p>    static int started =0;</p>
+<p>    static tree *head = NULL;</p>
+<p>    if(root!=NULL)</p>
+<p>    {</p>
+<p>        BSTtoDLL(root-&gt;left);</p>
+<p>        if(pre)</p>
+<p>            pre-&gt;right = root;</p>
+<p>        root-&gt;left = pre;</p>
+<p>        pre = root;</p>
+<p>        if(!started)</p>
+<p>        {</p>
+<p>            started =1;</p>
+<p>            head = root;</p>
+<p>        }</p>
+<p>        BSTtoDLL(root-&gt;right);</p>
+<p>    }</p>
+<p>    return head;</p>
+<p>}</p>
+<p>tree* FindMiddle(tree* head)</p>
+<p>{</p>
+<p>    tree* slowPtr=head,*fastPtr=head;</p>
+<p>    while(fastPtr&amp;&amp;slowPtr)</p>
+<p>    {</p>
+<p>        fastPtr = fastPtr-&gt;right;</p>
+<p>        if(!fastPtr)</p>
+<p>            return slowPtr;</p>
+<p>        fastPtr = fastPtr-&gt;right;</p>
+<p>        if(!fastPtr)</p>
+<p>            return slowPtr;</p>
+<p>        slowPtr = slowPtr-&gt;right;</p>
+<p>    }</p>
+<p>    return slowPtr;</p>
+<p>}</p>
+<p>tree* DLLtoBST(tree *head)</p>
+<p>{</p>
+<p>    tree *temp,*q;</p>
+<p>    if(!head||!head-&gt;right)</p>
+<p>        return head;</p>
+<p>    temp = FindMiddle(head);</p>
+<p>    if(head==temp)</p>
+<p>    {</p>
+<p>        if(head-&gt;right!=NULL){</p>
+<p>            head-&gt;left =NULL;</p>
+<p>            head-&gt;right-&gt;left = NULL;</p>
+<p>            return temp;</p>
+<p>        }</p>
+<p>        else</p>
+<p>            return temp;</p>
+<p>    }</p>
+<p>    if(temp-&gt;left)</p>
+<p>        temp-&gt;left-&gt;right = NULL;</p>
+<p>    else</p>
+<p>        return temp;</p>
+<p>    q = temp-&gt;right;</p>
+<p>    q-&gt;left = NULL;</p>
+<p>    temp-&gt;left =NULL;</p>
+<p>    temp-&gt;left = DLLtoBST(head);</p>
+<p>    temp-&gt;right = DLLtoBST(q);</p>
+<p>    return temp;</p>
+<p>}</p>
+<p>tree* makenode(int d)</p>
+<p>{</p>
+<p>    tree *t = new tree;</p>
+<p>    t-&gt;data =d;</p>
+<p>    t-&gt;left =NULL;</p>
+<p>    t-&gt;right =NULL;</p>
+<p>    t-&gt;parent =NULL;</p>
+<p>    return t;</p>
+<p>}</p>
+<p>void tree_insert(tree *t,tree *z)</p>
+<p>{</p>
+<p>    tree *x,*y;</p>
+<p>    y = NULL;</p>
+<p>    x = t;</p>
+<p>    while(x!=NULL)</p>
+<p>    {</p>
+<p>        y = x;</p>
+<p>        if(x-&gt;data&gt;z-&gt;data)</p>
+<p>            x = x-&gt;left;</p>
+<p>        else</p>
+<p>            x = x-&gt;right;</p>
+<p>    }</p>
+<p>    z-&gt;parent = y;</p>
+<p>    if(z-&gt;datadata)</p>
+<p>        y-&gt;left = z;</p>
+<p>    else</p>
+<p>        y-&gt;right =z;</p>
+<p>}</p>
+<p>void printDLL(tree *head)</p>
+<p>{</p>
+<p>    tree *ptr = head;</p>
+<p>    tree *pr;</p>
+<p>    while(ptr)</p>
+<p>    {</p>
+<p>        pr = ptr;</p>
+<p>        cout&lt;data&lt;right;</p>
+<p>    }</p>
+<p>}</p>
+<p>void preorder_walk(tree *t)</p>
+<p>{</p>
+<p>    if(t==NULL)</p>
+<p>        return;</p>
+<p>    cout&lt;data&lt;left);</p>
+<p>    preorder_walk(t-&gt;right);</p>
+<p>}</p>
+<p>int main()</p>
+<p>{</p>
+<p>    int i,n,data;</p>
+<p>    cin&gt;&gt;n;</p>
+<p>    tree *t,*x,*root;</p>
+<p>    cin&gt;&gt;data;</p>
+<p>    root = makenode(data);</p>
+<p>    tree *newNode;</p>
+<p>    for(i=1;i&gt;data;</p>
+<p>        newNode = makenode(data);</p>
+<p>        tree_insert(root,newNode);</p>
+<p>    }</p>
+<p>    tree *head = BSTtoDLL(root);</p>
+<p>    cout&lt;&lt;&quot;nBST to doubly link list :  &quot;;</p>
+<p>    printDLL(head);</p>
+<p>    cout&lt;&lt;endl&lt;&lt;&quot;Doubly link list to BST(preorder print) :  &quot;;</p>
+<p>    root = DLLtoBST(head);</p>
+<p>    preorder_walk(root);</p>
+<p>    return 0;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-apurvkagrawal odd alt thread-odd thread-alt depth-1" id="dsq-comment-24919">
+        <div id="dsq-comment-header-24919" class="dsq-comment-header">
+            <cite id="dsq-cite-24919">
+                <span id="dsq-author-user-24919">Apurvkagrawal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24919" class="dsq-comment-body">
+            <div id="dsq-comment-message-24919" class="dsq-comment-message"><p>I think there is a bug in this.<br />
+When you go to make the right subtree, it will change root to point to the next element and that will reflect in the callee function too.<br />
+After you return from this recursive call to right subtree, you cannot set root->next = sortedListToBSTRecur(head_ref, n-n/2-1); because root has already been incremented.<br />
+So I guess we need to store it a temp and then change that temp?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-29123">
+        <div id="dsq-comment-header-29123" class="dsq-comment-header">
+            <cite id="dsq-cite-29123">
+                <span id="dsq-author-user-29123">Ayush Jain</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29123" class="dsq-comment-body">
+            <div id="dsq-comment-message-29123" class="dsq-comment-message"><p>Even if head_ref is stored in a temp, it will not work because they pointing to same location (in java).They going to refer same list and once root-&gt;next is null list is also modified and there will be a Null Pointer exception.Correct me if i&#8217;m wrong.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-abhishek08aug odd alt thread-even depth-1" id="dsq-comment-17928">
+        <div id="dsq-comment-header-17928" class="dsq-comment-header">
+            <cite id="dsq-cite-17928">
+                <span id="dsq-author-user-17928">abhishek08aug</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17928" class="dsq-comment-body">
+            <div id="dsq-comment-message-17928" class="dsq-comment-message"><p>Intelligent <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_biggrin.gif" alt=":D" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-ajinkya even thread-odd thread-alt depth-1" id="dsq-comment-16632">
+        <div id="dsq-comment-header-16632" class="dsq-comment-header">
+            <cite id="dsq-cite-16632">
+                <span id="dsq-author-user-16632">ajinkya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16632" class="dsq-comment-body">
+            <div id="dsq-comment-message-16632" class="dsq-comment-message"><pre> <code language="C">
+#include &lt;iostream&gt;
+#include &lt;conio.h&gt;
+
+using namespace std;
+
+struct DLinkList
+{
+	int data ;
+	DLinkList *pPrev;
+	DLinkList *pNext;
+};
+
+DLinkList* FindMiddleElement( DLinkList *pStart , DLinkList **p1 , DLinkList **p2 )
+{
+	DLinkList *pTemp = pStart , *pFast = NULL ;
+
+	if(NULL == pTemp)
+	{
+		return NULL;
+	}
+	else if( NULL == pTemp-&gt;pNext )
+	{
+		pTemp-&gt;pPrev = NULL;
+		*p1 = NULL;
+		*p2 = NULL;
+		return pTemp;
+	}
+	else if( pTemp-&gt;pNext-&gt;pNext ==  NULL )
+	{
+		pTemp-&gt;pPrev = NULL;
+		*p1 = NULL;
+		*p2 = pTemp-&gt;pNext;
+		pTemp-&gt;pNext-&gt;pPrev = NULL;
+		pTemp-&gt;pNext = NULL;
+		
+
+	}
+	else
+	{
+		pFast = pTemp;
+		while( NULL != pFast )
+		{
+			pFast = pFast-&gt;pNext;
+
+			if( NULL != pFast )
+			{
+				pTemp = pTemp-&gt;pNext;
+				pFast = pFast-&gt;pNext;
+			}
+		}
+
+		*p1 = pStart;
+		*p2 = pTemp-&gt;pNext;
+		pTemp-&gt;pPrev-&gt;pNext = NULL;
+		pTemp-&gt;pNext = NULL;
+		pTemp-&gt;pPrev = NULL;
+		return pTemp;
+	}
+	
+}
+
+DLinkList* ConvertFromDoublytoTree(DLinkList* pHead1)
+{
+	DLinkList *pTemp = pHead1 , *p1 = NULL , *p2 = NULL , *p3 = NULL ;
+
+	 p3 = FindMiddleElement(pTemp,&amp;p1,&amp;p2);
+	
+	 if(NULL == p3)
+		 return NULL;
+	
+	 p3-&gt;pNext = ConvertFromDoublytoTree(p2);
+
+	p3-&gt;pPrev = ConvertFromDoublytoTree(p1);
+
+	return p3;
+	_getch();
+}
+
+int main()
+{
+	DLinkList *pHead1 = (DLinkList*)calloc(1,sizeof(DLinkList));
+	DLinkList *pHead2 = (DLinkList*)calloc(1,sizeof(DLinkList));
+	DLinkList *pHead3 = (DLinkList*)calloc(1,sizeof(DLinkList));
+	DLinkList *pHead4 = (DLinkList*)calloc(1,sizeof(DLinkList));
+	DLinkList *pHead5 = (DLinkList*)calloc(1,sizeof(DLinkList));
+	DLinkList *pHead6 = (DLinkList*)calloc(1,sizeof(DLinkList));
+	DLinkList *pHead7 = (DLinkList*)calloc(1,sizeof(DLinkList));
+	//-------------------------------------------------------------//
+
+	pHead1-&gt;data = 10;
+	pHead2-&gt;data = 20;
+	pHead3-&gt;data = 30;
+	pHead4-&gt;data = 40;
+	pHead5-&gt;data = 50;
+	pHead6-&gt;data = 60;
+	pHead7-&gt;data = 70;
+	//-------------------------------------------------------------//
+
+	pHead1-&gt;pNext = pHead2;
+	pHead2-&gt;pNext = pHead3;
+	pHead3-&gt;pNext = pHead4;
+	pHead4-&gt;pNext = pHead5;
+	pHead5-&gt;pNext = pHead6;
+	pHead6-&gt;pNext = pHead7;
+	//-------------------------------------------------------------//
+
+	pHead1-&gt;pPrev = NULL;
+	pHead2-&gt;pPrev = pHead1;
+	pHead3-&gt;pPrev = pHead2;
+	pHead4-&gt;pPrev = pHead3;
+	pHead5-&gt;pPrev = pHead4;
+	pHead6-&gt;pPrev = pHead5;
+	pHead7-&gt;pPrev = pHead6;
+	//-------------------------------------------------------------//
+
+	pHead1 = ConvertFromDoublytoTree(pHead1);
+
+
+	_getch();
+	return 0;
+}
+
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-10117">
+        <div id="dsq-comment-header-10117" class="dsq-comment-header">
+            <cite id="dsq-cite-10117">
+                <span id="dsq-author-user-10117">Ankit Gupta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10117" class="dsq-comment-body">
+            <div id="dsq-comment-message-10117" class="dsq-comment-message"><p>O(N * log N)</p>
+<p>public Node createBST(Node head, Node rear) {<br />
+    if (head == rear) {<br />
+        head.left = head.right = null;<br />
+        return head;<br />
+    }<br />
+    Node mid = getMidNode(head, rear);<br />
+    Node L = null;<br />
+    if (head != mid) {<br />
+        L = createBST(head, mid.left);<br />
+    }<br />
+    mid.left = L;<br />
+    Node R = null;<br />
+    if (rear != mid) {<br />
+        R = createBST(mid.right, rear);<br />
+    }<br />
+    mid.right = R;<br />
+    return mid;<br />
+}</p>
+<p>public Node getMidNode(Node head, Node rear) {<br />
+    Node it1, it2;<br />
+    it1 = it2 = head;<br />
+    while (it2 != rear &amp;&amp; it2.right != rear) {<br />
+        it1 = it1.right;<br />
+        it2 = it2.right.right;<br />
+    }<br />
+    return it1;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-7964">
+        <div id="dsq-comment-header-7964" class="dsq-comment-header">
+            <cite id="dsq-cite-7964">
+                <span id="dsq-author-user-7964">BlackMath</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7964" class="dsq-comment-body">
+            <div id="dsq-comment-message-7964" class="dsq-comment-message"><p>Hi all,</p>
+<p>I tried implementing the method 2 in java.<br />
+I have written the same code i think.<br />
+But things not working as they should be.<br />
+My input list is {1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;6}.</p>
+<p>I am pasting my code here.<br />
+Please could anyone tell me whats wrong. </p>
+<pre> <code language="Java">
+/* Paste your code here (You may delete these lines if not writing code) */
+import java.util.*;
+
+class DLListNode
+{
+  int value;
+  DLListNode next;
+  DLListNode prev;
+  
+  DLListNode (int val)
+  {
+    value = val;
+  }
+}
+
+class TNode
+{
+  int value;
+  TNode left;
+  TNode right;
+  
+  TNode (int val)
+  {
+    value = val;
+  }
+}
+
+public class DoublyLinkedListToBST
+{
+  public static int countNodes (DLListNode head)
+  {
+    int count = 0;
+    DLListNode tmp = head;
+    while (tmp != null)
+    {
+      count++;
+      tmp = tmp.next;
+    }
+    return count;
+  }
+  
+  public static TNode sortedListToBST (DLListNode head, int n)
+  {
+    if (n &lt;= 0)
+      return null;
+    
+    // System.out.println(n + &quot;  &quot; + head.value);
+    TNode left = sortedListToBST (head, n/2);
+    // System.out.println(&quot;left &quot; + n + &quot;  &quot; + left.value);
+    TNode root = new TNode (head.value);
+    root.left = left;
+    
+    head = head.next;
+    // System.out.println(&quot;right &quot; + (n-n/2-1) + &quot;  &quot; + head.value);
+    root.right = sortedListToBST (head, n-n/2-1);
+    System.out.println(&quot;root &quot; + root.value);
+    return root;
+  }
+  
+  public static void preOrder (TNode root)
+  {
+    if (root == null)
+      return;
+    
+    preOrder (root.left);
+    System.out.print(root.value + &quot;   &quot;);
+    preOrder (root.right);
+  }
+  
+  public static void main (String args[])
+  {
+    DLListNode a = new DLListNode(1);
+    DLListNode b = new DLListNode(2);
+    DLListNode c = new DLListNode(3);
+    DLListNode d = new DLListNode(4);
+    DLListNode e = new DLListNode(5);
+    DLListNode f = new DLListNode(6);
+    a.next = b;
+    b.next = c;
+    c.next = d;
+    d.next = e;
+    e.next = f;
+    DLListNode head = a;
+    
+    int n = countNodes (head);
+    TNode root = sortedListToBST (head, n);
+    preOrder (root);
+    System.out.println();
+  }
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-8870">
+        <div id="dsq-comment-header-8870" class="dsq-comment-header">
+            <cite id="dsq-cite-8870">
+                <span id="dsq-author-user-8870">sasuke</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8870" class="dsq-comment-body">
+            <div id="dsq-comment-message-8870" class="dsq-comment-message"><p>Java is not pass by reference.the linked list head you are passing through recursion is not being modified.<br />
+you can do it with &#8220;ref&#8221; keyword in C#.i don&#8217;t know if there are other alternative ways in java to do it.And its not In place code btw.you created new TNodes.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-archit even thread-even depth-1" id="dsq-comment-7879">
+        <div id="dsq-comment-header-7879" class="dsq-comment-header">
+            <cite id="dsq-cite-7879">
+                <span id="dsq-author-user-7879">archit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7879" class="dsq-comment-body">
+            <div id="dsq-comment-message-7879" class="dsq-comment-message"><p>What about conversion of BST in to sorted DLL aur conversion of binary tree in to DLL using ZIg-Zag order traversal in the binary tree?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-7667">
+        <div id="dsq-comment-header-7667" class="dsq-comment-header">
+            <cite id="dsq-cite-7667">
+                <span id="dsq-author-user-7667">Avinash</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7667" class="dsq-comment-body">
+            <div id="dsq-comment-message-7667" class="dsq-comment-message"><p>Implementation of Method1</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+struct node *ConvertTreefromDll(struct node *head)
+{
+	If (head==NULL || head-&gt;next == NULL) return head;
+	struct node *p,*q, *temp;
+	
+	temp=FindMiddle(head);
+	
+	p=head;
+	while(p-&gt;next!=temp) p=p-&gt;next;
+	p-&gt;next=NULL;
+	
+	q=temp-&gt;next;
+	temp-&gt;next=NULL;
+	temp-&gt;prev=ConvertTreefromDll(head);
+	temp-&gt;next=ConvertTreefromDll(q);
+	
+	return temp;
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-7880">
+        <div id="dsq-comment-header-7880" class="dsq-comment-header">
+            <cite id="dsq-cite-7880">
+                <span id="dsq-author-user-7880">Pranav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7880" class="dsq-comment-body">
+            <div id="dsq-comment-message-7880" class="dsq-comment-message"><p>Optimised method1</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code)
+struct node *ConvertTreefromDll(struct node *head) 
+{     
+If (head==NULL || head-&gt;next == NULL) 
+    return head;     
+struct node *q, *temp;       
+temp=FindMiddle(head);   
+    
+temp-&gt;prev-&gt;next=NULL;
+
+q=temp-&gt;next;     
+temp-&gt;next=NULL;     
+temp-&gt;prev=ConvertTreefromDll(head);     
+temp-&gt;next=ConvertTreefromDll(q);       
+return temp; 
+} 
+ */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-7593">
+        <div id="dsq-comment-header-7593" class="dsq-comment-header">
+            <cite id="dsq-cite-7593">
+                <span id="dsq-author-user-7593">kartikaditya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7593" class="dsq-comment-body">
+            <div id="dsq-comment-message-7593" class="dsq-comment-message"><pre> <code language="C">
+Node* toBalancedBst(Node** node, int size) {
+    if (size == 0) {
+        return NULL;
+    }
+
+    // Distribute elments across left and right sub-trees
+    int lsize = 0, rsize = 0;
+    int assorted = 0, levelSize = 1;
+    for (int i = size &gt;&gt; 1; i != 1; i = i &gt;&gt; 1) {
+        lsize += levelSize;
+        rsize += levelSize;
+        levelSize = levelSize &lt;&lt; 1;
+        assorted += levelSize;
+    }
+    if (size - 1 - assorted &gt;= levelSize) {
+        lsize += levelSize;
+        rsize += size - 1 - assorted - levelSize;
+    } else {
+        lsize += size - 1 - assorted;
+    }
+
+    (*node)-&gt;left = toBalancedBst(node, lsize);
+    Node* currRoot = *node;
+    *node = (*node)-&gt;right;
+    currRoot-&gt;right = toBalancedBst(node, rsize);
+    return currRoot;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-7592">
+        <div id="dsq-comment-header-7592" class="dsq-comment-header">
+            <cite id="dsq-cite-7592">
+                <span id="dsq-author-user-7592">kartikaditya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7592" class="dsq-comment-body">
+            <div id="dsq-comment-message-7592" class="dsq-comment-message"><p>Node* toBalancedBst(Node** node, int size) {<br />
+    if (size == 0) {<br />
+        return NULL;<br />
+    }</p>
+<p>    // Distribute elments across left and right sub-trees<br />
+    int lsize = 0, rsize = 0;<br />
+    int assorted = 0, levelSize = 1;<br />
+    for (int i = size &gt;&gt; 1; i != 1; i = i &gt;&gt; 1) {<br />
+        lsize += levelSize;<br />
+        rsize += levelSize;<br />
+        levelSize = levelSize &lt;&lt; 1;<br />
+        assorted += levelSize;<br />
+    }<br />
+    if (size &#8211; 1 &#8211; assorted &gt;= levelSize) {<br />
+        lsize += levelSize;<br />
+        rsize += size &#8211; 1 &#8211; assorted &#8211; levelSize;<br />
+    } else {<br />
+        lsize += size &#8211; 1 &#8211; assorted;<br />
+    }</p>
+<p>    (*node)-&gt;left = toBalancedBst(node, lsize);<br />
+    Node* currRoot = *node;<br />
+    *node = (*node)-&gt;right;<br />
+    currRoot-&gt;right = toBalancedBst(node, rsize);<br />
+    return currRoot;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-vkjk89 odd alt thread-even depth-1" id="dsq-comment-7404">
+        <div id="dsq-comment-header-7404" class="dsq-comment-header">
+            <cite id="dsq-cite-7404">
+                <span id="dsq-author-user-7404">vkjk89</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7404" class="dsq-comment-body">
+            <div id="dsq-comment-message-7404" class="dsq-comment-message"><p>Can somebody please explain about the time complexity of method1 ?<br />
+How its O(nlogn) ?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even depth-2" id="dsq-comment-7405">
+        <div id="dsq-comment-header-7405" class="dsq-comment-header">
+            <cite id="dsq-cite-7405">
+                <span id="dsq-author-user-7405">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7405" class="dsq-comment-body">
+            <div id="dsq-comment-message-7405" class="dsq-comment-message"><p>See the explanation given on below link of a previous post:</p>
+<p><a href="http://www.geeksforgeeks.org/archives/17063/comment-page-1#comment-7125" rel="nofollow">http://www.geeksforgeeks.org/archives/17063/comment-page-1#comment-7125</a></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-vkjk89 odd alt depth-3" id="dsq-comment-7406">
+        <div id="dsq-comment-header-7406" class="dsq-comment-header">
+            <cite id="dsq-cite-7406">
+                <span id="dsq-author-user-7406">vkjk89</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7406" class="dsq-comment-body">
+            <div id="dsq-comment-message-7406" class="dsq-comment-message"><p>Hi ..<br />
+Thanks <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /><br />
+Got it ..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-7362">
+        <div id="dsq-comment-header-7362" class="dsq-comment-header">
+            <cite id="dsq-cite-7362">
+                <span id="dsq-author-user-7362">saurabh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7362" class="dsq-comment-body">
+            <div id="dsq-comment-message-7362" class="dsq-comment-message"><p>\Round5 | Q2 : Suppose, Amazon have a Logging system Like This:</p>
+<p>They Track all logs daily basis, stored in separate log file.Log contains a collection of tuples of Customer ID and Page ID. The length of Customer ID and Page ID is L1 and L2. Suppose We have a log of D-days , and size of each log fine can be Order of n , where n be the number of customer.<br />
+In a most generalized situation, you can assume that a customer can visit the same page multiple times in a day or any number of days.</p>
+<p>We are interested to find out the number of Distinct customer visited at-least p distinct pages within exactly T days.</p>
+<p>Propose a Data Structure to be use to solve this problem efficiently . Design an Algorithm to solve this problem and Find out the complexity of the algorithm.</p>
+<p>{Hints:- Double Hashing/ {Hashing +Tries/BST }}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik odd alt depth-2" id="dsq-comment-7364">
+        <div id="dsq-comment-header-7364" class="dsq-comment-header">
+            <cite id="dsq-cite-7364">
+                <span id="dsq-author-user-7364">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7364" class="dsq-comment-body">
+            <div id="dsq-comment-message-7364" class="dsq-comment-message"><p>@saurabh: Thanks for sharing the question.  I have posted the question in <a href="http://geeksforgeeks.org/forum/topic/amazon-interview-question-for-software-engineerdeveloper-about-algorithms-94" rel="nofollow">interview corner </a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-7360">
+        <div id="dsq-comment-header-7360" class="dsq-comment-header">
+            <cite id="dsq-cite-7360">
+                <span id="dsq-author-user-7360">Dumanshu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7360" class="dsq-comment-body">
+            <div id="dsq-comment-message-7360" class="dsq-comment-message"><p>somebody please explain by taking an example for method 2..</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik odd alt depth-2" id="dsq-comment-7366">
+        <div id="dsq-comment-header-7366" class="dsq-comment-header">
+            <cite id="dsq-cite-7366">
+                <span id="dsq-author-user-7366">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7366" class="dsq-comment-body">
+            <div id="dsq-comment-message-7366" class="dsq-comment-message"><p>@Dumanshu: Please read the explanation provided before the C code. Let me know if any specific thing is not clear in code.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-7367">
+        <div id="dsq-comment-header-7367" class="dsq-comment-header">
+            <cite id="dsq-cite-7367">
+                <span id="dsq-author-user-7367">Dumanshu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7367" class="dsq-comment-body">
+            <div id="dsq-comment-message-7367" class="dsq-comment-message"><p>From the method 2:<br />
+After left subtree is constructed, we allocate memory for root and link the left subtree with root. Finally, we recursively construct the right subtree and link it with root.</p>
+<p>Don&#8217;t you think its same as of method 1?<br />
+Please correct me.<br />
+Lets say I have list as 1,2,3,4,5,6<br />
+Method2:<br />
+First recursively construct left sub tree which would be<br />
+  2<br />
+1    3<br />
+at the end of recursive calls. Same is for the right subtree like<br />
+  5<br />
+    6<br />
+4 is the root<br />
+how is it different from method 1?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik odd alt depth-4" id="dsq-comment-7368">
+        <div id="dsq-comment-header-7368" class="dsq-comment-header">
+            <cite id="dsq-cite-7368">
+                <span id="dsq-author-user-7368">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7368" class="dsq-comment-body">
+            <div id="dsq-comment-message-7368" class="dsq-comment-message"><p>Yes, it is similar to method 1.  But in method 1, we first find the middle node by linearly traversing the linked list.  And this linear searching makes the time complexity O(nLogn).  In method 2, we link tree nodes in same order as they appear in linked list. This is how we construct the tree in O(n)time complexity only.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-5" id="dsq-comment-7369">
+        <div id="dsq-comment-header-7369" class="dsq-comment-header">
+            <cite id="dsq-cite-7369">
+                <span id="dsq-author-user-7369">Dumanshu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7369" class="dsq-comment-body">
+            <div id="dsq-comment-message-7369" class="dsq-comment-message"><p>Yes.. thanks a lot! <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-5" id="dsq-comment-14880">
+        <div id="dsq-comment-header-14880" class="dsq-comment-header">
+            <cite id="dsq-cite-14880">
+                <span id="dsq-author-user-14880">Ayush</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14880" class="dsq-comment-body">
+            <div id="dsq-comment-message-14880" class="dsq-comment-message"><p>I still dun knw how its O(n) and not O(n Logn) </p>
+<p>i mean in nlogn one u r finding the middle using some linear approach and then trying the recursion on left and right sub tree ryt?</p>
+<p>so in O(n) u r finding the middle and then applying the recursion on the remaining left and right and then joining it with the root &#8230;.so where z the difference?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-5" id="dsq-comment-33908">
+        <div id="dsq-comment-header-33908" class="dsq-comment-header">
+            <cite id="dsq-cite-33908">
+                <span id="dsq-author-user-33908">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33908" class="dsq-comment-body">
+            <div id="dsq-comment-message-33908" class="dsq-comment-message"><p>Every node in DLL is visited once so O(n).</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/in-place-conversion-of-sorted-dll-to-balanced-bst/';
+var disqus_identifier = '17629 http://www.geeksforgeeks.org/?p=17629';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "In-place conversion of Sorted DLL to Balanced BST";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.225 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:25:50 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

@@ -1,0 +1,640 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Ukkonen&#039;s Suffix Tree Construction - Part 3 - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="This is ukkonen&#039;s suffix tree construction algorithm. Here step by step detail is discussed and a complete working code will be developed"/>
+<link rel="canonical" href="http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-3/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Ukkonen&#039;s Suffix Tree Construction - Part 3 - GeeksforGeeks" />
+<meta property="og:description" content="This is ukkonen&#039;s suffix tree construction algorithm. Here step by step detail is discussed and a complete working code will be developed" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-3/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Pattern Searching" />
+<meta property="article:section" content="Strings" />
+<meta property="article:published_time" content="2014-10-30T19:25:26+00:00" />
+<meta property="article:modified_time" content="2014-11-08T23:58:00+00:00" />
+<meta property="og:updated_time" content="2014-11-08T23:58:00+00:00" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig20-300x137.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig21-300x144.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig22-300x161.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig23-300x135.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig24-300x138.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig25-300x159.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig26.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig27.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig28.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/active_point_examples-300x212.jpg" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.516 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417112709 210.212.53.139 172.19.11.169';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Ukkonen&#8217;s Suffix Tree Construction &#8211; Part 3</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>This article is continuation of following two articles:<br />
+<a title="Ukkonen’s Suffix Tree Construction – Part 1" href="http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-1/" target="_blank">Ukkonen’s Suffix Tree Construction – Part 1</a><br />
+<a title="Ukkonen’s Suffix Tree Construction – Part 2" href="http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-2/" target="_blank">Ukkonen’s Suffix Tree Construction – Part 2</a><span id="more-132051"></span></p>
+<p>Please go through <a title="Ukkonen’s Suffix Tree Construction – Part 1" href="http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-1/" target="_blank">Part 1</a> and <a title="Ukkonen’s Suffix Tree Construction – Part 2" href="http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-2/" target="_blank">Part 2</a>, before looking at current article, where we have seen few basics on suffix tree, high level ukkonen’s algorithm, suffix link and three implementation tricks.</p>
+<p>Here we will take string S = “abcabxabcd” as an example and go through all the things step by step and create the tree.<br />
+We will add $ (discussed in <a title="Ukkonen’s Suffix Tree Construction – Part 1" href="http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-1/" target="_blank">Part 1</a> why we do this) so string S would be “abcabxabcd$”.</p>
+<p>While building suffix tree for string S of length m:</p>
+<ul>
+<li>There will be m phases 1 to m (one phase for each character)<br />
+In our current example, m is 11, so there will be 11 phases.</li>
+<li>First phase will add first character ‘a’ in the tree, second phase will add second character ‘b’ in tree, third phase will add third character ‘c’ in tree, ……, m<sup>th</sup> phase will add m<sup>th</sup> character in tree (This makes Ukkonen&#8217;s algorithm an online algorithm)</li>
+<li>Each phase i will go through at-most i extensions (from 1 to i). If current character being added in tree is not seen so far, all i extensions will be completed (Extension Rule 3 will not apply in this phase). If current character being added in tree is seen before, then phase i will complete early (as soon as Extension Rule 3 applies) without going through all i extensions</li>
+<li>There are three extension rules (1, 2 and 3) and each extension j (from 1 to i) of any phase i will adhere to one of these three rules.</li>
+<li>Rule 1 adds a new character on existing leaf edge</li>
+<li>Rule 2 creates a new leaf edge (And may also create new internal node, if the path label ends in between an edge)</li>
+<li>Rule 3 ends the current phase (when current character is found in current edge being traversed)</li>
+<li>Phase 1 will read first character from the string, will go through 1 extension.<br />
+<strong>(In figures, we are showing characters on edge labels just for explanation, while writing code, we will only use start and end indices – The Edge-label compression discussed in <a title="Ukkonen’s Suffix Tree Construction – Part 2" href="http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-2/" target="_blank">Part 2</a>) </strong><br />
+Extension 1 will add suffix “a” in tree. We start from root and traverse path with label ‘a’. There is no path from root, going out with label ‘a’, so create a leaf edge (Rule 2).</p>
+<pre>                    <a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig20.jpg"><img class="alignnone size-medium wp-image-132054" src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig20-300x137.jpg" alt="Ukkonen's Suffix Tree Construction" width="300" height="137" /></a></pre>
+<p>Phase 1 completes with the completion of extension 1 (As a phase i has at most i extensions)<br />
+For any string, Phase 1 will have only one extension and it will always follow Rule 2.</li>
+<li>Phase 2 will read second character, will go through at least 1 and at most 2 extensions.<br />
+In our example, phase 2 will read second character ‘b’. Suffixes to be added are “ab” and “b”.<br />
+Extension 1 adds suffix “ab” in tree.<br />
+Path for label ‘a’ ends at leaf edge, so add ‘b’ at the end of this edge.<br />
+Extension 1 just increments the end index by 1 (from 1 to 2) on first edge (Rule 1).</p>
+<pre>                    <a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig21.jpg"><img class="alignnone size-medium wp-image-132058" src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig21-300x144.jpg" alt="Ukkonen's Suffix Tree Construction" width="300" height="144" /></a></pre>
+<p>Extension 2 adds suffix “b” in tree. There is no path from root, going out with label ‘b’, so creates a leaf edge (Rule 2).</p>
+<pre>                    <a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig22.jpg"><img class="alignnone size-medium wp-image-132059" src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig22-300x161.jpg" alt="Ukkonen's Suffix Tree Construction" width="300" height="161" /></a></pre>
+<p>Phase 2 completes with the completion of extension 2.<br />
+Phase 2 went through two extensions here. Rule 1 applied in 1st Extension and Rule 2 applied in 2nd Extension.</li>
+<li>Phase 3 will read third character, will go through at least 1 and at most 3 extensions.<br />
+In our example, phase 3 will read third character ‘c’. Suffixes to be added are “abc”, “bc” and “c”.<br />
+Extension 1 adds suffix “abc” in tree.<br />
+Path for label ‘ab’ ends at leaf edge, so add ‘c’ at the end of this edge.<br />
+Extension 1 just increments the end index by 1 (from 2 to 3) on this edge (Rule 1).</p>
+<pre>                    <a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig23.jpg"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig23-300x135.jpg" alt="Ukkonen's Suffix Tree Construction" width="300" height="135" class="alignnone size-medium wp-image-132062" /></a></pre>
+<p>Extension 2 adds suffix “bc” in tree.<br />
+Path for label ‘b’ ends at leaf edge, so add ‘c’ at the end of this edge.<br />
+Extension 2 just increments the end index by 1 (from 2 to 3) on this edge (Rule 1).</p>
+<pre>                    <a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig24.jpg"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig24-300x138.jpg" alt="Ukkonen's Suffix Tree Construction" width="300" height="138" class="alignnone size-medium wp-image-132063" /></a></pre>
+<p>Extension 3 adds suffix “c” in tree. There is no path from root, going out with label ‘c’, so creates a leaf edge (Rule 2).</p>
+<pre>                    <a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig25.jpg"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig25-300x159.jpg" alt="Ukkonen's Suffix Tree Construction" width="300" height="159" class="alignnone size-medium wp-image-132064" /></a></pre>
+<p>Phase 3 completes with the completion of extension 3.<br />
+Phase 3 went through three extensions here. Rule 1 applied in first two Extensions and Rule 2 applied in 3rd Extension.</li>
+<li>Phase 4 will read fourth character, will go to at least 1 and at most 4 extensions.<br />
+In our example, phase 4 will read fourth character ‘a’. Suffixes to be added are “abca”, “bca”, “ca” and “a”.<br />
+Extension 1 adds suffix “abca” in tree.<br />
+Path for label ‘abc’ ends at leaf edge, so add ‘a’ at the end of this edge.<br />
+Extension 1 just increments the end index by 1 (from 3 to 4) on this edge (Rule 1).</p>
+<pre>                    <a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig26.jpg"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig26.jpg" alt="Ukkonen's Suffix Tree Construction" width="221" height="161" class="alignnone size-full wp-image-132066" /></a></pre>
+<p>Extension 2 adds suffix “bca” in tree.<br />
+Path for label ‘bc’ ends at leaf edge, so add ‘a’ at the end of this edge.<br />
+Extension 2 just increments the end index by 1 (from 3 to 4) on this edge (Rule 1).</p>
+<pre>                    <a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig27.jpg"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig27.jpg" alt="Ukkonen's Suffix Tree Construction" width="228" height="161" class="alignnone size-full wp-image-132067" /></a></pre>
+<p>Extension 3 adds suffix “ca” in tree.<br />
+Path for label ‘c’ ends at leaf edge, so add ‘a’ at the end of this edge.<br />
+Extension 3 just increments the end index by 1 (from 3 to 4) on this edge (Rule 1).</p>
+<pre>                    <a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig28.jpg"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig28.jpg" alt="Ukkonen's Suffix Tree Construction" width="232" height="163" class="alignnone size-full wp-image-132068" /></a></pre>
+<p>Extension 4 adds suffix “a” in tree.<br />
+Path for label ‘a’ exists in the tree. No more work needed and Phase 4 ends here (Rule 3 and Trick 2). This is an example of implicit suffix tree. Here suffix “a” is not seen explicitly (because it doesn’t end at a leaf edge) but it is in the tree implicitly. So there is no change in tree structure after extension 4. It will remain as above in Figure 28.<br />
+Phase 4 completes as soon as Rule 3 is applied while Extension 4.<br />
+Phase 4 went through four extensions here. Rule 1 applied in first three Extensions and Rule 3 applied in 4th Extension.</li>
+</ul>
+<p>Now we will see few observations and how to implement those.</p>
+<ol>
+<li>At the end of any phase i, there are at most i leaf edges (if i<sup>th</sup> character is not seen so far, there will be i leaf edges, else there will be less than i leaf edges).<br />
+e.g. After phases 1, 2 and 3 in our example, there are 1, 2 and 3 leaf edges respectively, but after phase 4, there are 3 leaf edges only (not 4).</li>
+<li>After completing phase i, “end” indices of all leaf edges are i. How do we implement this in code? Do we need to iterate through all those extensions, find leaf edges by traversing from root to leaf and increment the “end” index? Answer is “NO”.<br />
+For this, we will maintain a global variable (say “END”) and we will just increment this global variable “END” and all leaf edge end indices will point to this global variable. So this way, if we have j leaf edges after phase i, then in phase i+1, first j extensions (1 to j) will be done by just incrementing variable “END” by 1 (END will be i+1 at the point).<br />
+Here we just implemented the trick 3 &#8211; <strong>Once a leaf, always a leaf</strong>. This trick processes all the j leaf edges (i.e. extension 1 to j) using rule 1 in a constant time in any phase. Rule 1 will not apply to subsequent extensions in the same phase. This can be verified in the four phases we discussed above. If at all Rule 1 applies in any phase, it only applies in initial few phases continuously (say 1 to j). Rule 1 never applies later in a given phase once Rule 2 or Rule 3 is applied in that phase.</li>
+<li>In the example explained so far, in each extension (where trick 3 is not applied) of any phase to add a suffix in tree, we are traversing from root by matching path labels against the suffix being added. If there are j leaf edges after phase i, then in phase i+1, first j extensions will follow Rule 1 and will be done in constant time using trick 3. There are i+1-j extensions yet to be performed. For these extensions, which node (root or some other internal node) to start from and which path to go? Answer to this depends on how previous phase i is completed.<br />
+If previous phase i went through all the i extensions (when i<sup>th</sup> character is unique so far), then in next phase i+1, trick 3 will take care of first i suffixes (the i leaf edges) and then extension i+1 will start from root node and it will insert just one character [(i+1)<sup>th</sup>] suffix in tree by creating a leaf edge using Rule 2.<br />
+If previous phase i completes early (and this will happen if and only if rule 3 applies – when i<sup>th</sup> character is already seen before), say at j<sup>th</sup> extension (i.e. rule 3 is applied at j<sup>th</sup> extension), then there are j-1 leaf edges so far.<br />
+We will state few more facts (which may be a repeat, but we want to make sure it’s clear to you at this point) here based on discussion so far:</p>
+<ul>
+<li><em>Phase 1 starts with Rule 2, all other phases start with Rule 1</em></li>
+<li><em>Any phase ends with either Rule 2 or Rule 3</em></li>
+<li><em>Any phase i may go through a series of j extensions (1 &lt;= j &lt;= i). In these j extensions, first p (0 &lt;= p &lt; i) extensions will follow Rule 1, next q (0 &lt;= q &lt;= i-p) extensions will follow Rule 2 and next r (0&lt;= r &lt;= 1) extensions will follow Rule 3. The order in which Rule 1, Rule 2 and Rule 3 apply, is never intermixed in a phase. They apply in order of their number (if at all applied), i.e. in a phase, Rule 1 applies 1st, then Rule 2 and then Rule 3</em></li>
+<li><em>In a phase i, p + q + r &lt;= i</em></li>
+<li><em>At the end of any phase i, there will be p+q leaf edges and next phase i+1 will go through Rule 1 for first p+q extensions</em></li>
+</ul>
+<p>In the next phase i+1, trick 3 (Rule 1) will take care of first j-1 suffixes (the j-1 leaf edges), then extension j will start where we will add j<sup>th</sup> suffix in tree. For this, we need to find the best possible matching edge and then add new character at the end of that edge. How to find the end of best matching edge? Do we need to traverse from root node and match tree edges against the j<sup>th</sup> suffix being added character by character? This will take time and overall algorithm will not be linear. activePoint comes to the rescue here.<br />
+In previous phase i, while j<sup>th</sup> extension, path traversal ended at a point (which could be an internal node or some point in the middle of an edge) where i<sup>th</sup> character being added was found in tree already and Rule 3 applied, j<sup>th</sup> extension of phase i+1 will start exactly from the same point and we start matching path against (i+1)<sup>th</sup> character. activePoint helps to avoid unnecessary path traversal from root in any extension based on the knowledge gained in traversals done in previous extension. There is no traversal needed in 1<sup>st</sup> p extensions where Rule 1 is applied. Traversal is done where Rule 2 or Rule 3 gets applied and that’s where activePoint tells the starting point for traversal where we match the path against the current character being added in tree. Implementation is done in such a way that, in any extension where we need a traversal, activePoint is set to right location already (with one exception case <strong>APCFALZ</strong> discussed below) and at the end of current extension, we reset activePoint as apprppriate so that next extension (of same phase or next phase) where a traversal is required, activePoint points to the right place already.</p>
+<p><strong>activePoint</strong>: This could be root node, any internal node or any point in the middle of an edge. This is the point where traversal starts in any extension. For the 1st extension of phase 1, activePoint is set to root. Other extension will get activePoint set correctly by previous extension (with one exception case <strong>APCFALZ</strong> discussed below) and it is the responsibility of current extension to reset activePoint appropriately at the end, to be used in next extension where Rule 2 or Rule 3 is applied (of same or next phase).<br />
+To accomplish this, we need a way to store activePoint. We will store this using three variables: <strong>activeNode</strong>, <strong>activeEdge</strong>, <strong>activeLength</strong>.<br />
+<strong>activeNode</strong>: This could be root node or an internal node.<br />
+<strong>activeEdge</strong>: When we are on root node or internal node and we need to walk down, we need to know which edge to choose. activeEdge will store that information. In case, activeNode itself is the point from where traversal starts, then activeEdge will be set to next character being processed in next phase.<br />
+<strong>activeLength</strong>: This tells how many characters we need to walk down (on the path represented by activeEdge) from activeNode to reach the activePoint where traversal starts. In case, activeNode itself is the point from where traversal starts, then activeLength will be ZERO.<br />
+<em>(click on below image to see it clearly)</em></p>
+<pre>                    <a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/active_point_examples.jpg"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/active_point_examples-300x212.jpg" alt="Ukkonen's Suffix Tree Construction" width="300" height="212" class="alignnone size-medium wp-image-132074" /></a></pre>
+<p>After phase i, if there are j leaf edges then in phase i+1, first j extensions will be done by trick 3. activePoint will be needed for the extensions from j+1 to i+1 and activePoint may or may not change between two extensions depending on the point where previous extension ends.</p>
+<p><strong>activePoint change for extension rule 3 (APCFER3)</strong>: When rule 3 applies in any phase i, then before we move on to next phase i+1, we increment activeLength by 1. There is no change in activeNode and activeEdge. Why? Because in case of rule 3, the current character from string S is matched on the same path represented by current activePoint, so for next activePoint, activeNode and activeEdge remain the same, only activeLenth is increased by 1 (because of matched character in current phase). This new activePoint (same node, same edge and incremented length) will be used in phase i+1.</p>
+<p><strong>activePoint change for walk down (APCFWD)</strong>: activePoint may change at the end of an extension based on extension rule applied. activePoint may also change during the extension when we do walk down. Let’s consider an activePoint is (A, s, 11) in the above activePoint example figure. If this is the activePoint at the start of some extension, then while walk down from activeNode A, other internal nodes will be seen. Anytime if we encounter an internal node while walk down, that node will become activeNode (it will change activeEdge and activeLenght as appropriate so that new activePoint represents the same point as earlier). In this walk down, below is the sequence of changes in activePoint:<br />
+(A, s, 11)  &#8212; &gt;&gt;&gt; (B, w, 7) &#8212;- &gt;&gt;&gt; (C, a, 3)<br />
+All above three activePoints refer to same point ‘c’<br />
+Let’s take another example.<br />
+If activePoint is (D, a, 11) at the start of an extension, then while walk down, below is the sequence of changes in activePoint:<br />
+(D, a, 10) &#8212; &gt;&gt;&gt; (E, d, 7) &#8212; &gt;&gt;&gt; (F, f, 5) &#8212; &gt;&gt; (F, j, 1)<br />
+All above activePoints refer to same point ‘k’.<br />
+If activePoints are (A, s, 3), (A, t, 5), (B, w, 1), (D, a, 2) etc when no internal node comes in the way while walk down, then there will be no change in activePoint for APCFWD.<br />
+The idea is that, at any time, the closest internal node from the point, where we want to reach, should be the activePoint. Why? This will minimize the length of traversal in the next extension.</p>
+<p><strong>activePoint change for Active Length ZERO (APCFALZ)</strong>: Let’s consider an activePoint (A, s, 0) in the above activePoint example figure. And let’s say current character being processed from string S is ‘x’ (or any other character). At the start of extension, when activeLength is ZERO, activeEdge is set to the current character being processed, i.e. ‘x’, because there is no walk down needed here (as activeLength is ZERO) and so next character we look for is current character being processed.</li>
+<li>While code implementation, we will loop through all the characters of string S one by one. Each loop for i<sup>th</sup> character will do processing for phase i. Loop will run one or more time depending on how many extensions are left to be performed (Please note that in a phase i+1, we don’t really have to perform all i+1 extensions explicitly, as trick 3 will take care of j extensions for all j leaf edges coming from previous phase i). We will use a variable <strong>remainingSuffixCount</strong>, to track how many extensions are yet to be performed explicitly in any phase (after trick 3 is performed). Also, at the end of any phase, if remainingSuffixCount is ZERO, this tells that all suffixes supposed to be added in tree, are added explicitly and present in tree. If remainingSuffixCount is non-zero at the end of any phase, that tells that suffixes of that many count are not added in tree explicitly (because of rule 3, we stopped early), but they are in tree implicitly though (Such trees are called implicit suffix tree). These implicit suffixes will be added explicitly in subsequent phases when a unique character comes in the way.</li>
+</ol>
+<p>We will continue our discussion in <a title="Ukkonen’s Suffix Tree Construction – Part 4" href="http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-4/" target="_blank">Part 4</a> and <a title="Ukkonen’s Suffix Tree Construction – Part 5" href="http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-5/" target="_blank">Part 5</a>. Code implementation will be discussed in <a title="Ukkonen’s Suffix Tree Construction – Part 6" href="http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-6/" target="_blank">Part 6</a>.</p>
+<p><strong>References</strong>:<br />
+<a href="http://web.stanford.edu/~mjkay/gusfield.pdf" target="_blank">http://web.stanford.edu/~mjkay/gusfield.pdf</a><br />
+<a href="http://stackoverflow.com/questions/9452701/ukkonens-suffix-tree-algorithm-in-plain-english" target="_blank">Ukkonen&#8217;s suffix tree algorithm in plain English</a></p>
+<p>This article is contributed by <strong>Anurag Singh</strong>. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above<!--more--></p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-5-longest-common-substring-2/" title="Suffix Tree Application 5 &#8211; Longest Common Substring">Suffix Tree Application 5 &#8211; Longest Common Substring</a></li><li><a href="http://www.geeksforgeeks.org/generalized-suffix-tree-1/" title="Generalized Suffix Tree 1">Generalized Suffix Tree 1</a></li><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-4-build-linear-time-suffix-array/" title="Suffix Tree Application 4 &#8211; Build Linear Time Suffix Array">Suffix Tree Application 4 &#8211; Build Linear Time Suffix Array</a></li><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-3-longest-repeated-substring/" title="Suffix Tree Application 3 &#8211; Longest Repeated Substring">Suffix Tree Application 3 &#8211; Longest Repeated Substring</a></li><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-2-searching-all-patterns/" title="Suffix Tree Application 2 &#8211; Searching All Patterns">Suffix Tree Application 2 &#8211; Searching All Patterns</a></li><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-1-substring-check/" title="Suffix Tree Application 1 &#8211; Substring Check">Suffix Tree Application 1 &#8211; Substring Check</a></li><li><a href="http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-6/" title="Ukkonen&#8217;s Suffix Tree Construction &#8211; Part 6">Ukkonen&#8217;s Suffix Tree Construction &#8211; Part 6</a></li><li><a href="http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-5/" title="Ukkonen&#8217;s Suffix Tree Construction &#8211; Part 5">Ukkonen&#8217;s Suffix Tree Construction &#8211; Part 5</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/pattern-searching/" rel="tag">Pattern Searching</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fukkonens-suffix-tree-construction-part-3%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-3/" data-text="Ukkonen&#8217;s Suffix Tree Construction &#8211; Part 3" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-3/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-3/';
+var disqus_identifier = '132051 http://www.geeksforgeeks.org/?p=132051';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Ukkonen&#8217;s Suffix Tree Construction &#8211; Part 3";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.186 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:55:09 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

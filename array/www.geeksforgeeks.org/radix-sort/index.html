@@ -1,0 +1,1130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Radix Sort - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/radix-sort/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Radix Sort - GeeksforGeeks" />
+<meta property="og:description" content="The lower bound for Comparison based sorting algorithm (Merge Sort, Heap Sort, Quick-Sort .. etc) is , i.e., they cannot do better than nLogn. Counting sort is a linear tine sorting algorithm that sort in O(n+k) time when elements are in range from 1 to k. What if the elements are in range from 1 &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/radix-sort/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:section" content="Arrays" />
+<meta property="article:published_time" content="2013-09-02T12:50:01+00:00" />
+<meta property="article:modified_time" content="2014-03-04T19:43:38+00:00" />
+<meta property="og:updated_time" content="2014-03-04T19:43:38+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.498 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111052 128.199.167.194';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Radix Sort</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>The <a href="http://www.geeksforgeeks.org/lower-bound-on-comparison-based-sorting-algorithms/" target="_blank">lower bound for Comparison based sorting algorithm</a> (Merge Sort, Heap Sort, Quick-Sort .. etc) is <img src="http://d2o58evtke57tz.cloudfront.net/wp-content/ql-cache/quicklatex.com-87f87faf81d6c8436533bacd36538df6_l3.png" class="ql-img-inline-formula " alt="&#92;&#79;&#109;&#101;&#103;&#97;&#40;&#110;&#76;&#111;&#103;&#110;&#41;" title="Rendered by QuickLaTeX.com" height="18" width="77" style="vertical-align: -4px;"/>, i.e., they cannot do better than nLogn. <span id="more-122061"></span></p>
+<p><a href="http://www.geeksforgeeks.org/counting-sort/" target="_blank">Counting sort</a> is a linear tine sorting algorithm that sort in O(n+k) time when elements are in range from 1 to k.</p>
+<p><strong><em>What if the elements are in range from 1 to n<sup>2</sup>? </em></strong><br />
+We can&#8217;t use counting sort because counting sort will take O(n<sup>2</sup>) which is worse than comparison based sorting algorithms.  Can we sort such an array in linear time?<br />
+<a href="http://en.wikipedia.org/wiki/Radix_sort" target="_blank">Radix Sort</a> is the answer. The idea of Radix Sort is to do digit by digit sort starting from least significant digit to most significant digit.  Radix sort uses counting sort as a subroutine to sort.</p>
+<p><em><strong>The Radix Sort Algorithm</strong></em><br />
+<strong>1)</strong> Do following for each digit i where i varies from least significant digit to the most significant digit.<br />
+&#8230;&#8230;&#8230;&#8230;.<strong>a)</strong> Sort input array using counting sort (or any stable sort) according to the i&#8217;th digit.</p>
+<p><strong>Example:</strong><br />
+Original, unsorted list:</p>
+<dl>
+<dd>170, 45, 75, 90, 802, 24, 2, 66</dd>
+</dl>
+<p>Sorting by least significant digit (1s place) gives: [*Notice that we keep 802 before 2, because 802 occurred before 2 in the original list, and similarly for pairs 170 &amp; 90 and 45 &amp; 75.]</p>
+<dl>
+<dd>17<span style="text-decoration: underline;">0</span>, 9<span style="text-decoration: underline;">0</span>, 80<span style="text-decoration: underline;">2</span>, <span style="text-decoration: underline;">2</span>, 2<span style="text-decoration: underline;">4</span>, 4<span style="text-decoration: underline;">5</span>, 7<span style="text-decoration: underline;">5</span>, 6<span style="text-decoration: underline;">6</span></dd>
+</dl>
+<p>Sorting by next digit (10s place) gives: [*Notice that 802 again comes before 2 as 802 comes before 2 in the previous list.]</p>
+<dl>
+<dd>8<span style="text-decoration: underline;">0</span>2, 2, <span style="text-decoration: underline;">2</span>4, <span style="text-decoration: underline;">4</span>5, <span style="text-decoration: underline;">6</span>6, 1<span style="text-decoration: underline;">7</span>0, <span style="text-decoration: underline;">7</span>5, <span style="text-decoration: underline;">9</span>0</dd>
+</dl>
+<p>Sorting by most significant digit (100s place) gives:</p>
+<dl>
+<dd>2, 24, 45, 66, 75, 90, <span style="text-decoration: underline;">1</span>70, <span style="text-decoration: underline;">8</span>02</dd>
+</dl>
+<p><em><strong>What is the running time of Radix Sort?</strong></em><br />
+Let there be d digits in input integers.  Radix Sort takes O(d*(n+b)) time where b is the base for representing numbers, for example, for decimal system, b is 10.  What is the value of d? If k is the maximum possible value, then d would be <img src="http://d2o58evtke57tz.cloudfront.net/wp-content/ql-cache/quicklatex.com-646595434b33139c0c8a22b83e189093_l3.png" class="ql-img-inline-formula " alt="&#32;&#79;&#40;&#92;&#108;&#111;&#103;&#95;&#98;&#40;&#107;&#41;&#41;" title="Rendered by QuickLaTeX.com" height="18" width="80" style="vertical-align: -4px;"/>. So overall time complexity is <img src="http://d2o58evtke57tz.cloudfront.net/wp-content/ql-cache/quicklatex.com-789cecbb4c596aa8217a9b3873815b50_l3.png" class="ql-img-inline-formula " alt="&#79;&#40;&#40;&#110;&#43;&#98;&#41;&#42;&#92;&#108;&#111;&#103;&#95;&#98;&#40;&#107;&#41;&#41;" title="Rendered by QuickLaTeX.com" height="18" width="151" style="vertical-align: -4px;"/>. Which looks more than the time complexity of comparison based sorting algorithms for a large k.  Let us first limit k.  Let k <= n<sup>c</sup> where c is a constant. In that case, the complexity becomes <img src="http://d2o58evtke57tz.cloudfront.net/wp-content/ql-cache/quicklatex.com-3c073e9e4d4b6a32614b40f2a7cf78dd_l3.png" class="ql-img-inline-formula " alt="&#79;&#40;&#110;&#92;&#108;&#111;&#103;&#95;&#98;&#40;&#110;&#41;&#41;" title="Rendered by QuickLaTeX.com" height="18" width="95" style="vertical-align: -4px;"/>. But it still doesn&#8217;t beat comparison based sorting algorithms.<br />
+What if we make value of b larger?. What should be the value of b to make the time complexity linear?  If we set b as n, we get the time complexity as O(n).  In other words, we can sort an array of integers with range from 1 to n<sup>c</sup> if the numbers are represented in base n (or every digit takes <img src="http://d2o58evtke57tz.cloudfront.net/wp-content/ql-cache/quicklatex.com-fc5523a1042c16cf598292bc5e365086_l3.png" class="ql-img-inline-formula " alt="&#92;&#108;&#111;&#103;&#95;&#50;&#40;&#110;&#41;" title="Rendered by QuickLaTeX.com" height="18" width="55" style="vertical-align: -4px;"/> bits). </p>
+<p><em><strong>Is Radix Sort preferable to Comparison based sorting algorithms like Quick-Sort?</strong></em><br />
+If we have <img src="http://d2o58evtke57tz.cloudfront.net/wp-content/ql-cache/quicklatex.com-fc5523a1042c16cf598292bc5e365086_l3.png" class="ql-img-inline-formula " alt="&#92;&#108;&#111;&#103;&#95;&#50;&#40;&#110;&#41;" title="Rendered by QuickLaTeX.com" height="18" width="55" style="vertical-align: -4px;"/> bits for every digit, the running time of Radix appears to be better than Quick Sort for a wide range of input numbers.  The constant factors hidden in asymptotic notation are higher for Radix Sort and Quick-Sort uses hardware caches more effectively. Also, Radix sort uses counting sort as a subroutine and counting sort takes extra space to sort numbers.</p>
+<p><strong>Implementation of Radix Sort</strong><br />
+Following is a simple C++ implementation of Radix Sort. For simplicity, the value of d is assumed to be 10. We recommend you to see <a href="http://www.geeksforgeeks.org/counting-sort/" target="_blank">Counting Sort</a> for details of countSort() function in below code.</p>
+<pre class="brush: cpp; highlight: [44,45,46,47,48,49,50,51,52,53,54]; title: ; notranslate" title="">
+// C++ implementation of Radix Sort
+#include&lt;iostream&gt;
+using namespace std;
+
+// A utility function to get maximum value in arr[]
+int getMax(int arr[], int n)
+{
+    int mx = arr[0];
+    for (int i = 1; i &lt; n; i++)
+        if (arr[i] &gt; mx)
+            mx = arr[i];
+    return mx;
+}
+
+// A function to do counting sort of arr[] according to
+// the digit represented by exp.
+void countSort(int arr[], int n, int exp)
+{
+    int output[n]; // output array
+    int i, count[10] = {0};
+
+    // Store count of occurrences in count[]
+    for (i = 0; i &lt; n; i++)
+        count[ (arr[i]/exp)%10 ]++;
+
+    // Change count[i] so that count[i] now contains actual position of
+    // this digit in output[]
+    for (i = 1; i &lt; 10; i++)
+        count[i] += count[i - 1];
+
+    // Build the output array
+    for (i = n - 1; i &gt;= 0; i--)
+    {
+        output[count[ (arr[i]/exp)%10 ] - 1] = arr[i];
+        count[ (arr[i]/exp)%10 ]--;
+    }
+
+    // Copy the output array to arr[], so that arr[] now
+    // contains sorted numbers according to curent digit
+    for (i = 0; i &lt; n; i++)
+        arr[i] = output[i];
+}
+
+// The main function to that sorts arr[] of size n using Radix Sort
+void radixsort(int arr[], int n)
+{
+    // Find the maximum number to know number of digits
+    int m = getMax(arr, n);
+
+    // Do counting sort for every digit. Note that instead of passing digit
+    // number, exp is passed. exp is 10^i where i is current digit number
+    for (int exp = 1; m/exp &gt; 0; exp *= 10)
+        countSort(arr, n, exp);
+}
+
+// A utility function to print an array
+void print(int arr[], int n)
+{
+    for (int i = 0; i &lt; n; i++)
+        cout &lt;&lt; arr[i] &lt;&lt; &quot; &quot;;
+}
+
+// Driver program to test above functions
+int main()
+{
+    int arr[] = {170, 45, 75, 90, 802, 24, 2, 66};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    radixsort(arr, n);
+    print(arr, n);
+    return 0;
+}
+</pre>
+<p>Output:
+<pre>2 24 45 66 75 90 170 802</pre>
+<p><strong>References:</strong><br />
+<a href="http://en.wikipedia.org/wiki/Radix_sort" target="_blank">http://en.wikipedia.org/wiki/Radix_sort</a><br />
+<a href="http://alg12.wikischolars.columbia.edu/file/view/RADIX.pdf" target="_blank">http://alg12.wikischolars.columbia.edu/file/view/RADIX.pdf</a><br />
+<a href="http://www.youtube.com/watch?v=Nz1KZXbghj8" target="_blank">MIT Video Lecture</a><br />
+<a href="http://www.flipkart.com/introduction-algorithms-3/p/itmczynzhyhxv2gs?pid=9788120340077&#038;affid=sandeepgfg" target="_blank">Introduction to Algorithms 3rd Edition by Clifford Stein, Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest</a></p>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array-set-2-expected-linear-time/" title="K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)">K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)</a></li><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array/" title="K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1">K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/time-complexity-insertion-sort-inversions/" title="Time complexity of insertion sort when there are O(n) inversions?">Time complexity of insertion sort when there are O(n) inversions?</a></li><li><a href="http://www.geeksforgeeks.org/check-two-given-sets-disjoint/" title="How to check if two given sets are disjoint?">How to check if two given sets are disjoint?</a></li><li><a href="http://www.geeksforgeeks.org/minimum-number-platforms-required-railwaybus-station/" title="Minimum Number of Platforms Required for a Railway/Bus Station">Minimum Number of Platforms Required for a Railway/Bus Station</a></li><li><a href="http://www.geeksforgeeks.org/given-two-sorted-arrays-number-x-find-pair-whose-sum-closest-x/" title="Find the closest pair from two sorted arrays">Find the closest pair from two sorted arrays</a></li><li><a href="http://www.geeksforgeeks.org/print-elements-sorted-order-row-column-wise-sorted-matrix/" title="Print all elements in sorted order from row and column wise sorted matrix">Print all elements in sorted order from row and column wise sorted matrix</a></li><li><a href="http://www.geeksforgeeks.org/length-largest-subarray-contiguous-elements-set-1/" title="Length of the largest subarray with contiguous elements | Set 1">Length of the largest subarray with contiguous elements | Set 1</a></li></ul>
+<p></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fradix-sort%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/radix-sort/" data-text="Radix Sort" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/radix-sort/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-34532">
+        <div id="dsq-comment-header-34532" class="dsq-comment-header">
+            <cite id="dsq-cite-34532">
+                <span id="dsq-author-user-34532">ERROR</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34532" class="dsq-comment-body">
+            <div id="dsq-comment-message-34532" class="dsq-comment-message"><p>for (i = n &#8211; 1; i &gt;= 0; i&#8211;)<br />
+{<br />
+     // YOU ARE RUNNNING OUT OF ARRAY &#8230; YOU KNOW<br />
+     output[count[ (arr[i]/exp)%10 ] &#8211; 1] = arr[i];<br />
+     count[ (arr[i]/exp)%10 ]&#8211;;<br />
+}</p>
+<p>YOU wrote it badli</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-34491">
+        <div id="dsq-comment-header-34491" class="dsq-comment-header">
+            <cite id="dsq-cite-34491">
+                <span id="dsq-author-user-34491">zzer</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34491" class="dsq-comment-body">
+            <div id="dsq-comment-message-34491" class="dsq-comment-message"><p>here is a general version of radix sort, which you can choose any base you like</p>
+<p>#include</p>
+<p>#include</p>
+<p>using namespace std;</p>
+<p>const int base = 16; </p>
+<p>int get_max(int arr[],int n)</p>
+<p>{</p>
+<p>	int max = arr[0];</p>
+<p>	for(int i = 1; i &lt; n; i++)</p>
+<p>		if(max &lt; arr[i])</p>
+<p>			max = arr[i];</p>
+<p>	return max;</p>
+<p>}</p>
+<p>void count_sort(int arr[],int n,int exp,int output[])</p>
+<p>{</p>
+<p>	memset(output,0,sizeof(int)*n);</p>
+<p>	int count[base]={0};</p>
+<p>	for(int i = 0; i &lt; n;i++)</p>
+<p>		count[(arr[i]/exp)%base]++;</p>
+<p>	for(int i = 1; i = 0; i&#8211;)</p>
+<p>	{</p>
+<p>		output[count[(arr[i]/exp)%base]-1] = arr[i];</p>
+<p>		count[(arr[i]/exp)%base]&#8211;;</p>
+<p>	}</p>
+<p>	for(int i = 0; i  0; exp*= base)</p>
+<p>		count_sort(arr,n,exp,output);</p>
+<p>	delete []output;</p>
+<p>}</p>
+<p>int main()</p>
+<p>{</p>
+<p>	srand(time(0));</p>
+<p>	const int n = 30;</p>
+<p>	int arr[n];</p>
+<p>	for(int i = 0; i &lt; n; i++)</p>
+<p>		arr[i] = rand()%500;</p>
+<p>	for(int i = 0; i &lt; n; i++)</p>
+<p>		cout &lt;&lt; arr[i] &lt;&lt; &quot; &quot;;</p>
+<p>	cout &lt;&lt; endl;</p>
+<p>	radix_sort(arr,n);</p>
+<p>	for(int i = 0; i &lt; n; i++)</p>
+<p>		cout &lt;&lt; arr[i] &lt;&lt; &quot; &quot;;</p>
+<p>	cout &lt;&lt; endl;</p>
+<p>	return 0;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-32286">
+        <div id="dsq-comment-header-32286" class="dsq-comment-header">
+            <cite id="dsq-cite-32286">
+                <span id="dsq-author-user-32286">Sparsh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32286" class="dsq-comment-body">
+            <div id="dsq-comment-message-32286" class="dsq-comment-message"><p>I&#8217;m not sure if that has been said, but I think one clarification to add is that when describing the runtime of radix sort, it should be noted that the constant c in n^c should be O(1) ( although I understand a constant, c, could be taken for granted to be O(1) )</p>
+<p>A nice explanation of radix sort is given here:<br />
+<a href="http://courses.csail.mit.edu/6.006/spring11/exams/notes2-1.pdf" rel="nofollow">http://courses.csail.mit.edu/6.006/spring11/exams/notes2-1.pdf</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-31921">
+        <div id="dsq-comment-header-31921" class="dsq-comment-header">
+            <cite id="dsq-cite-31921">
+                <span id="dsq-author-user-31921">Prasaanth</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31921" class="dsq-comment-body">
+            <div id="dsq-comment-message-31921" class="dsq-comment-message"><p><a href="http://pastie.org/8674341#8,11" rel="nofollow">http://pastie.org/8674341#8,11</a></p>
+<p>Friends , please find my recursive java implementation above and give your comments and analysis at <a href="mailto:prasaanth07@gmail.com">prasaanth07@gmail.com</a> <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-33641">
+        <div id="dsq-comment-header-33641" class="dsq-comment-header">
+            <cite id="dsq-cite-33641">
+                <span id="dsq-author-user-33641">Hitesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33641" class="dsq-comment-body">
+            <div id="dsq-comment-message-33641" class="dsq-comment-message"><p>Dude! don&#8217;t use built-in constructs like hashmap, etc in learning the basic algorithms!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-33642">
+        <div id="dsq-comment-header-33642" class="dsq-comment-header">
+            <cite id="dsq-cite-33642">
+                <span id="dsq-author-user-33642">Hitesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33642" class="dsq-comment-body">
+            <div id="dsq-comment-message-33642" class="dsq-comment-message"><p>int Maxdigits=3;<br />
+It&#8217;s NOT a good practice.<br />
+Your code should work for all the maximum possible input without any change.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-31041">
+        <div id="dsq-comment-header-31041" class="dsq-comment-header">
+            <cite id="dsq-cite-31041">
+                <span id="dsq-author-user-31041">Guru</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31041" class="dsq-comment-body">
+            <div id="dsq-comment-message-31041" class="dsq-comment-message"><p>#include<br />
+#include<br />
+#include<br />
+#include<br />
+using namespace std;<br />
+#define BASE 10</p>
+<p>int arr[] = {23, 145, 11, 90, 115, 39, 13, 256, 47, 71};</p>
+<p>void printArray(int arr[], int n)<br />
+{<br />
+    for(int i=0; i &lt; n; i++)<br />
+    {<br />
+        cout&lt;&lt;arr[i]&lt;&lt;&quot; &quot;;<br />
+    }<br />
+    cout&lt;&lt;endl;<br />
+}</p>
+<p>void radixsort(int arr[], int n)<br />
+{<br />
+    int largest = INT_MIN;<br />
+    int digits = 0;<br />
+    for (int i=0; i largest)<br />
+            largest = arr[i];<br />
+    }</p>
+<p>    do {<br />
+        digits++;<br />
+    }while(largest/=10);</p>
+<p>    vector bucket;<br />
+    vector&lt; vector &gt; v;<br />
+    for (int i = 0; i &lt; BASE; i++) {<br />
+        v.push_back(vector()); // Add an empty row<br />
+    }</p>
+<p>    for (int j=0;j &lt; n; j++)<br />
+    {<br />
+        bucket.push_back(arr[j]);<br />
+    }<br />
+    int divisor  = 1;<br />
+    int index;<br />
+    while(digits)<br />
+    {<br />
+        for (int j=0; j&lt;n; j++)<br />
+        {<br />
+            index = (bucket[j]/divisor)%10;<br />
+            v[index].push_back(bucket[j]);<br />
+        }<br />
+        bucket.clear();<br />
+        for (int i=0; i &lt; v.size(); i++)<br />
+        {<br />
+            for (int j=0; j &lt; v[i].size(); j++)<br />
+            {<br />
+                bucket.push_back(v[i][j]);<br />
+            }<br />
+            v[i].clear();<br />
+        }<br />
+        cout&lt;&lt;endl;<br />
+        for (int k=0; k &lt; bucket.size(); k++)<br />
+        {<br />
+                cout&lt;&lt;bucket[k]&lt;&lt;&quot; &quot;;<br />
+        }<br />
+        cout&lt;&lt;endl;<br />
+        digits&#8211;;<br />
+        divisor *= BASE;<br />
+    }<br />
+}</p>
+<p>int main()<br />
+{<br />
+    int n = sizeof(arr)/sizeof(arr[0]);<br />
+    printArray(arr, n);<br />
+    radixsort(arr, n);<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-30702">
+        <div id="dsq-comment-header-30702" class="dsq-comment-header">
+            <cite id="dsq-cite-30702">
+                <span id="dsq-author-user-30702">Javed</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30702" class="dsq-comment-body">
+            <div id="dsq-comment-message-30702" class="dsq-comment-message"><p>there is a typo&#8230;.return type of countSort function should be void.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-30859">
+        <div id="dsq-comment-header-30859" class="dsq-comment-header">
+            <cite id="dsq-cite-30859">
+                <span id="dsq-author-user-30859">Kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30859" class="dsq-comment-body">
+            <div id="dsq-comment-message-30859" class="dsq-comment-message"><p>Thanks for pointing this out.  We have made the return type as void.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-29998">
+        <div id="dsq-comment-header-29998" class="dsq-comment-header">
+            <cite id="dsq-cite-29998">
+                <span id="dsq-author-user-29998">Allen</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29998" class="dsq-comment-body">
+            <div id="dsq-comment-message-29998" class="dsq-comment-message"><p>I understand the concept behind Radix sort thanks to your post. But how do I count the number of swaps which is made using this program?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-27410">
+        <div id="dsq-comment-header-27410" class="dsq-comment-header">
+            <cite id="dsq-cite-27410">
+                <span id="dsq-author-user-27410">Silent</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27410" class="dsq-comment-body">
+            <div id="dsq-comment-message-27410" class="dsq-comment-message"><p>why this sorting is giving garbage value at some indices??? it&#8217;s a simple counting sort..</p>
+<p>void CountSort(int arr[],int size,int exp)<br />
+{<br />
+     int temp[10] = {0},b[size];<br />
+     int i = 0;</p>
+<p>     while(i &lt; size)<br />
+     {<br />
+         temp[(int)(arr[i] / pow(10,exp-1)) % 10]++;<br />
+         i++;<br />
+     }</p>
+<p>     i = 1;<br />
+     while(i = 0)<br />
+     {<br />
+         x = (int)(arr[i] / pow(10,exp-1)) % 10;<br />
+         b[temp[x] &#8211; 1] = arr[i];<br />
+         temp[x] = temp[x] &#8211; 1;<br />
+         i&#8211;;<br />
+     }<br />
+     cout &lt;&lt; endl;<br />
+     i = 0;<br />
+     while(i &lt; size)<br />
+     {<br />
+        arr[i] = b[i];<br />
+        i++;<br />
+     }<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-27289">
+        <div id="dsq-comment-header-27289" class="dsq-comment-header">
+            <cite id="dsq-cite-27289">
+                <span id="dsq-author-user-27289">sumit4iit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27289" class="dsq-comment-body">
+            <div id="dsq-comment-message-27289" class="dsq-comment-message"><p>First line.<br />
+If the elements are in the range from 1 to n^2 then counting sort will take O(n^2) time agreed. But at the same time comparison based algorithm is going to take (n^2)lg(n^2) or O( n^2 * lg(n) ) time. Obviously counting sort is better. </p>
+<p>You can say that it will require more space complexity than that of comparison based algorithms, but saying that it has got more time complexity is incorrect.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-27293">
+        <div id="dsq-comment-header-27293" class="dsq-comment-header">
+            <cite id="dsq-cite-27293">
+                <span id="dsq-author-user-27293">Anonymous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27293" class="dsq-comment-body">
+            <div id="dsq-comment-message-27293" class="dsq-comment-message"><p>Comparison based algorithm will take O(n.log(n))<br />
+Here n is the number of elements and any comparison based sorting only depends on the number of elements.<br />
+Counting sort on the other hand depends on the value of the largest element, here n^2 and hence runtime is O(n^2)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-29481">
+        <div id="dsq-comment-header-29481" class="dsq-comment-header">
+            <cite id="dsq-cite-29481">
+                <span id="dsq-author-user-29481">kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29481" class="dsq-comment-body">
+            <div id="dsq-comment-message-29481" class="dsq-comment-message"><p>Range != number of numbers that are to sorted.<br />
+Range means the max and min value in the array of numbers which are to be sorted</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-27288">
+        <div id="dsq-comment-header-27288" class="dsq-comment-header">
+            <cite id="dsq-cite-27288">
+                <span id="dsq-author-user-27288">Amandeep Sharma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27288" class="dsq-comment-body">
+            <div id="dsq-comment-message-27288" class="dsq-comment-message"><p>#include<br />
+#include<br />
+int main()<br />
+{<br />
+    int arr[5],i,j,k=0,p=0;<br />
+int radix[5][10];<br />
+for(i=0;i&lt;5;i++)<br />
+{<br />
+    for(j=0;j&lt;10;j++)<br />
+    {<br />
+    radix[i][j]=0;<br />
+    }<br />
+}<br />
+cout&lt;&lt;&quot;Please enter three digit no.s only :n&quot;;<br />
+for(i=0;i&lt;5;i++)<br />
+{<br />
+    cout&lt;&lt;&quot;Enter &quot;&lt;&lt;i+1&lt;&gt;arr[i];<br />
+}<br />
+cout&lt;&lt;&quot;nEntered elements : &quot;;<br />
+for(i=0;i&lt;5;i++)<br />
+cout&lt;&lt;arr[i]&lt;&lt;&quot; &quot;;<br />
+cout&lt;&lt;endl;<br />
+for(p=0;p&lt;3;p++)<br />
+{<br />
+    k=0;<br />
+    for(i=0;i&lt;5;i++)<br />
+    {<br />
+    j=int(arr[i]/pow(10,p))%10;<br />
+    radix[i][j]=arr[i];<br />
+    }<br />
+    for(i=0;i&lt;10;i++)<br />
+    {<br />
+        for(j=0;j&lt;5;j++)<br />
+        {<br />
+            if(radix[j][i])<br />
+            {<br />
+            arr[k]=radix[j][i];<br />
+            k++;<br />
+            }<br />
+        }<br />
+    }<br />
+    cout&lt;&lt;&quot;nElements after &quot;&lt;&lt;p+1&lt;&lt; &quot; pass : &quot;;<br />
+    for(i=0;i&lt;5;i++)<br />
+    {<br />
+        cout&lt;&lt;arr[i]&lt;&lt;&quot; &quot;;<br />
+    }<br />
+    for(i=0;i&lt;5;i++)<br />
+    {<br />
+        for(j=0;j&lt;10;j++)<br />
+        {<br />
+            radix[i][j]=0;<br />
+        }<br />
+    }<br />
+}</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-27280">
+        <div id="dsq-comment-header-27280" class="dsq-comment-header">
+            <cite id="dsq-cite-27280">
+                <span id="dsq-author-user-27280">Hiren Pandya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27280" class="dsq-comment-body">
+            <div id="dsq-comment-message-27280" class="dsq-comment-message"><p>I am sorry to bother you but I really can&#8217;t understand the lines given below,</p>
+<p>    for (i = 1; i = 0; i&#8211;)<br />
+    {<br />
+        output[count[ (arr[i]/exp)%10 ] &#8211; 1] = arr[i];<br />
+        count[ (arr[i]/exp)%10 ]&#8211;;<br />
+    }</p>
+<p>What exactly is being done over here.. I&#8217;ve tried on my own to under stand by placing cout statement after each loop but still no clearance of my doubt..</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-27281">
+        <div id="dsq-comment-header-27281" class="dsq-comment-header">
+            <cite id="dsq-cite-27281">
+                <span id="dsq-author-user-27281">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27281" class="dsq-comment-body">
+            <div id="dsq-comment-message-27281" class="dsq-comment-message"><p>The counting sort post may help you.  Please see the following link.</p>
+<p><a href="http://www.geeksforgeeks.org/counting-sort/" rel="nofollow">http://www.geeksforgeeks.org/counting-sort/</a></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-27608">
+        <div id="dsq-comment-header-27608" class="dsq-comment-header">
+            <cite id="dsq-cite-27608">
+                <span id="dsq-author-user-27608">mritunjaya gupta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27608" class="dsq-comment-body">
+            <div id="dsq-comment-message-27608" class="dsq-comment-message"><p><a href="http://algogururocks.blogspot.com" rel="nofollow">http://algogururocks.blogspot.com</a></p>
+<p>public static void doBalanacePartition(int[] arr) {</p>
+<p>        int sum = 0;</p>
+<p>        for (int i : arr) {</p>
+<p>            sum += i;</p>
+<p>        }</p>
+<p>        int num = sum / 2;</p>
+<p>        int k = num;</p>
+<p>        while (!findNumSetBySum(arr, k)) {</p>
+<p>            k++;</p>
+<p>        }</p>
+<p>        int j = num;</p>
+<p>        while (!findNumBySum(arr, j)) {</p>
+<p>            j&#8211;;</p>
+<p>        }</p>
+<p>    }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/radix-sort/';
+var disqus_identifier = '122061 http://www.geeksforgeeks.org/?p=122061';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Radix Sort";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.998 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:27:33 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

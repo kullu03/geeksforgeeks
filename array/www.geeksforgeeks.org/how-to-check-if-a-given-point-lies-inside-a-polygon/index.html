@@ -1,0 +1,1565 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>How to check if a given point lies inside or outside a polygon? - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/how-to-check-if-a-given-point-lies-inside-a-polygon/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="How to check if a given point lies inside or outside a polygon? - GeeksforGeeks" />
+<meta property="og:description" content="Given a polygon and a point &#8216;p&#8217;, find if &#8216;p&#8217; lies inside the polygon or not. The points lying on the border are considered inside. We strongly recommend to see the following post first. How to check if two given line segments intersect? Following is a simple idea to check whether a point is inside &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/how-to-check-if-a-given-point-lies-inside-a-polygon/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="geometric algorithms" />
+<meta property="article:tag" content="MathematicalAlgo" />
+<meta property="article:section" content="Misc" />
+<meta property="article:published_time" content="2013-07-11T14:33:33+00:00" />
+<meta property="article:modified_time" content="2014-02-10T11:26:55+00:00" />
+<meta property="og:updated_time" content="2014-02-10T11:26:55+00:00" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/polygon211.png" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/polygon31-300x169.png" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.519 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111705 210.212.53.139 172.19.11.169';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">How to check if a given point lies inside or outside a polygon?</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given a polygon and a point &#8216;p&#8217;, find if &#8216;p&#8217; lies inside the polygon or not. The points lying on the border are considered inside.<span id="more-120624"></span></p>
+<p><a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/polygon211.png"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/polygon211.png" alt="polygon21" width="400" height="175" class="aligncenter size-full wp-image-120668" /></a></p>
+<p>We strongly recommend to see the following post first.<br />
+<a href="http://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/" target="_blank">How to check if two given line segments intersect?</a></p>
+<p>Following is a simple idea to check whether a point is inside or outside.
+<pre>
+<strong>1)</strong> Draw a horizontal line to the right of each point and extend it to infinity
+
+<strong>1)</strong> Count the number of times the line intersects with polygon edges.
+
+<strong>2)</strong> A point is inside the polygon if either count of intersections is odd or
+   point lies on an edge of polygon.  If none of the conditions is true, then 
+   point lies outside.</pre>
+<p><a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/polygon31.png"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/polygon31-300x169.png" alt="polygon3" width="390" height="219" class="aligncenter size-medium wp-image-120669" /></a></p>
+<p><strong>How to handle point &#8216;g&#8217; in the above figure?</strong><br />
+Note that we should returns true if the point lies on the line or same as one of the vertices of the given polygon.  To handle this, after checking if the line from &#8216;p&#8217; to extreme intersects, we check whether &#8216;p&#8217; is colinear with vertices of current line of polygon.  If it is coliear, then we check if the point &#8216;p&#8217; lies on current side of polygon, if it lies, we return true, else false.</p>
+<p>Following is C++ implementation of the above idea. </p>
+<pre class="brush: cpp; highlight: [71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103]; title: ; notranslate" title="">
+// A C++ program to check if a given point lies inside a given polygon
+// Refer http://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/
+// for explanation of functions onSegment(), orientation() and doIntersect()
+#include &lt;iostream&gt;
+using namespace std;
+
+// Define Infinite (Using INT_MAX caused overflow problems)
+#define INF 10000
+
+struct Point
+{
+    int x;
+    int y;
+};
+
+// Given three colinear points p, q, r, the function checks if
+// point q lies on line segment 'pr'
+bool onSegment(Point p, Point q, Point r)
+{
+    if (q.x &lt;= max(p.x, r.x) &amp;&amp; q.x &gt;= min(p.x, r.x) &amp;&amp;
+            q.y &lt;= max(p.y, r.y) &amp;&amp; q.y &gt;= min(p.y, r.y))
+        return true;
+    return false;
+}
+
+// To find orientation of ordered triplet (p, q, r).
+// The function returns following values
+// 0 --&gt; p, q and r are colinear
+// 1 --&gt; Clockwise
+// 2 --&gt; Counterclockwise
+int orientation(Point p, Point q, Point r)
+{
+    int val = (q.y - p.y) * (r.x - q.x) -
+              (q.x - p.x) * (r.y - q.y);
+
+    if (val == 0) return 0;  // colinear
+    return (val &gt; 0)? 1: 2; // clock or counterclock wise
+}
+
+// The function that returns true if line segment 'p1q1'
+// and 'p2q2' intersect.
+bool doIntersect(Point p1, Point q1, Point p2, Point q2)
+{
+    // Find the four orientations needed for general and
+    // special cases
+    int o1 = orientation(p1, q1, p2);
+    int o2 = orientation(p1, q1, q2);
+    int o3 = orientation(p2, q2, p1);
+    int o4 = orientation(p2, q2, q1);
+
+    // General case
+    if (o1 != o2 &amp;&amp; o3 != o4)
+        return true;
+
+    // Special Cases
+    // p1, q1 and p2 are colinear and p2 lies on segment p1q1
+    if (o1 == 0 &amp;&amp; onSegment(p1, p2, q1)) return true;
+
+    // p1, q1 and p2 are colinear and q2 lies on segment p1q1
+    if (o2 == 0 &amp;&amp; onSegment(p1, q2, q1)) return true;
+
+    // p2, q2 and p1 are colinear and p1 lies on segment p2q2
+    if (o3 == 0 &amp;&amp; onSegment(p2, p1, q2)) return true;
+
+     // p2, q2 and q1 are colinear and q1 lies on segment p2q2
+    if (o4 == 0 &amp;&amp; onSegment(p2, q1, q2)) return true;
+
+    return false; // Doesn't fall in any of the above cases
+}
+
+// Returns true if the point p lies inside the polygon[] with n vertices
+bool isInside(Point polygon[], int n, Point p)
+{
+    // There must be at least 3 vertices in polygon[]
+    if (n &lt; 3)  return false;
+
+    // Create a point for line segment from p to infinite
+    Point extreme = {INF, p.y};
+
+    // Count intersections of the above line with sides of polygon
+    int count = 0, i = 0;
+    do
+    {
+        int next = (i+1)%n;
+
+        // Check if the line segment from 'p' to 'extreme' intersects
+        // with the line segment from 'polygon[i]' to 'polygon[next]'
+        if (doIntersect(polygon[i], polygon[next], p, extreme))
+        {
+            // If the point 'p' is colinear with line segment 'i-next',
+            // then check if it lies on segment. If it lies, return true,
+            // otherwise false
+            if (orientation(polygon[i], p, polygon[next]) == 0)
+               return onSegment(polygon[i], p, polygon[next]);
+
+            count++;
+        }
+        i = next;
+    } while (i != 0);
+
+    // Return true if count is odd, false otherwise
+    return count&amp;1;  // Same as (count%2 == 1)
+}
+
+// Driver program to test above functions
+int main()
+{
+    Point polygon1[] = {{0, 0}, {10, 0}, {10, 10}, {0, 10}};
+    int n = sizeof(polygon1)/sizeof(polygon1[0]);
+    Point p = {20, 20};
+    isInside(polygon1, n, p)? cout &lt;&lt; &quot;Yes \n&quot;: cout &lt;&lt; &quot;No \n&quot;;
+
+    p = {5, 5};
+    isInside(polygon1, n, p)? cout &lt;&lt; &quot;Yes \n&quot;: cout &lt;&lt; &quot;No \n&quot;;
+
+    Point polygon2[] = {{0, 0}, {5, 5}, {5, 0}};
+    p = {3, 3};
+    n = sizeof(polygon2)/sizeof(polygon2[0]);
+    isInside(polygon2, n, p)? cout &lt;&lt; &quot;Yes \n&quot;: cout &lt;&lt; &quot;No \n&quot;;
+
+    p = {5, 1};
+    isInside(polygon2, n, p)? cout &lt;&lt; &quot;Yes \n&quot;: cout &lt;&lt; &quot;No \n&quot;;
+
+    p = {8, 1};
+    isInside(polygon2, n, p)? cout &lt;&lt; &quot;Yes \n&quot;: cout &lt;&lt; &quot;No \n&quot;;
+
+    Point polygon3[] =  {{0, 0}, {10, 0}, {10, 10}, {0, 10}};
+    p = {-1,10};
+    n = sizeof(polygon3)/sizeof(polygon3[0]);
+    isInside(polygon3, n, p)? cout &lt;&lt; &quot;Yes \n&quot;: cout &lt;&lt; &quot;No \n&quot;;
+
+    return 0;
+}</pre>
+<p>Output:
+<pre>
+No
+Yes
+Yes
+Yes
+No
+No</pre>
+<p><strong>Time Complexity:</strong> O(n) where n is the number of vertices in the given polygon.</p>
+<p><strong>Source:</strong><br />
+<a href="http://www.dcs.gla.ac.uk/~pat/52233/slides/Geometry1x1.pdf">http://www.dcs.gla.ac.uk/~pat/52233/slides/Geometry1x1.pdf</a></p>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/job-sequencing-problem-set-1-greedy-algorithm/" title="Job Sequencing Problem | Set 1 (Greedy Algorithm)">Job Sequencing Problem | Set 1 (Greedy Algorithm)</a></li><li><a href="http://www.geeksforgeeks.org/multiply-two-polynomials-2/" title="Multiply two polynomials">Multiply two polynomials</a></li><li><a href="http://www.geeksforgeeks.org/algorithm-practice-question-beginners-set-1/" title="Algorithm Practice Question for Beginners | Set 1">Algorithm Practice Question for Beginners | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/count-distinct-non-negative-pairs-x-y-satisfy-inequality-xx-yy-n-2/" title="Count Distinct Non-Negative Integer Pairs (x, y) that Satisfy the Inequality x*x + y*y &lt; n">Count Distinct Non-Negative Integer Pairs (x, y) that Satisfy the Inequality x*x + y*y < n</a></li><li><a href="http://www.geeksforgeeks.org/binomial-heap-2/" title="Binomial Heap">Binomial Heap</a></li><li><a href="http://www.geeksforgeeks.org/print-increasing-sequences-length-k-first-n-natural-numbers/" title="Print all increasing sequences of length k from first n natural numbers">Print all increasing sequences of length k from first n natural numbers</a></li><li><a href="http://www.geeksforgeeks.org/find-nth-number-number-system-3-4/" title="Find n&#8217;th number in a number system with only 3 and 4">Find n&#8217;th number in a number system with only 3 and 4</a></li><li><a href="http://www.geeksforgeeks.org/minimum-cost-polygon-triangulation/" title="Minimum Cost Polygon Triangulation">Minimum Cost Polygon Triangulation</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/" rel="tag">geometric algorithms</a>, <a href="http://www.geeksforgeeks.org/tag/mathematicalalgo/" rel="tag">MathematicalAlgo</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fhow-to-check-if-a-given-point-lies-inside-a-polygon%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/how-to-check-if-a-given-point-lies-inside-a-polygon/" data-text="How to check if a given point lies inside or outside a polygon?" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/how-to-check-if-a-given-point-lies-inside-a-polygon/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-33047">
+        <div id="dsq-comment-header-33047" class="dsq-comment-header">
+            <cite id="dsq-cite-33047">
+                <span id="dsq-author-user-33047">Piyush</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33047" class="dsq-comment-body">
+            <div id="dsq-comment-message-33047" class="dsq-comment-message"><p>what if segment joining point and extreme pass through the vertex ?. for e.g. if our polygon is Point polygon1[] = {{2,-2}, {4,0}, {2, 2}, {0, 0}}; and point is (2,0) it gives NO for that case. So condition for this case should be added.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-30723">
+        <div id="dsq-comment-header-30723" class="dsq-comment-header">
+            <cite id="dsq-cite-30723">
+                <span id="dsq-author-user-30723">Prashanth Reddy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30723" class="dsq-comment-body">
+            <div id="dsq-comment-message-30723" class="dsq-comment-message"><p>Thanks for the info&#8230; <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-29698">
+        <div id="dsq-comment-header-29698" class="dsq-comment-header">
+            <cite id="dsq-cite-29698">
+                <span id="dsq-author-user-29698">akshat</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29698" class="dsq-comment-body">
+            <div id="dsq-comment-message-29698" class="dsq-comment-message"><p>what if the coordinates are very large(order of 10^9) then the multiplication in the orientation method may lead to multiplication of 2 very large coordinates leading to result of a number of order of 10^18 which cannot be stored in long long int also. i tried to solve it by using the actual equation given in the slides i.e i actually calculated two slopes and subtracted them as follows<br />
+ ( y2-y1/x2-x1)-(y3-y2/x3-x2)<br />
+but this sol&#8217;n is still not working  maybe because slopes cannot be compared like this. please sort this out</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-29647">
+        <div id="dsq-comment-header-29647" class="dsq-comment-header">
+            <cite id="dsq-cite-29647">
+                <span id="dsq-author-user-29647">Deven Bhooshan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29647" class="dsq-comment-body">
+            <div id="dsq-comment-message-29647" class="dsq-comment-message"><p>There is a problem in the algorithm .</p>
+<p>Suppose that a point to be checked lies inside the polygon and passes through only one vertex then the above algorithm will fail.<br />
+for example suppose there is a polygon having five vertices as following<br />
+0 0<br />
+0 4<br />
+4 2<br />
+1 1<br />
+1 0<br />
+Then if we check Points (1 2) (2 2) (3 2) above algorithm will not work.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-29654">
+        <div id="dsq-comment-header-29654" class="dsq-comment-header">
+            <cite id="dsq-cite-29654">
+                <span id="dsq-author-user-29654">Nishchay Kala</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29654" class="dsq-comment-body">
+            <div id="dsq-comment-message-29654" class="dsq-comment-message"><p>A bit of change is required in code, algorithm is correct though. Nice Observation <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-29656">
+        <div id="dsq-comment-header-29656" class="dsq-comment-header">
+            <cite id="dsq-cite-29656">
+                <span id="dsq-author-user-29656">Deven Bhooshan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29656" class="dsq-comment-body">
+            <div id="dsq-comment-message-29656" class="dsq-comment-message"><p>yup</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-27108">
+        <div id="dsq-comment-header-27108" class="dsq-comment-header">
+            <cite id="dsq-cite-27108">
+                <span id="dsq-author-user-27108">trying</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27108" class="dsq-comment-body">
+            <div id="dsq-comment-message-27108" class="dsq-comment-message"><p>what abt the point which is inside the polygon but the ray passes through only one vertex then the  algo will return outside because of even while it is inside. please check.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-28654">
+        <div id="dsq-comment-header-28654" class="dsq-comment-header">
+            <cite id="dsq-cite-28654">
+                <span id="dsq-author-user-28654">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28654" class="dsq-comment-body">
+            <div id="dsq-comment-message-28654" class="dsq-comment-message"><p>Thanks for pointing this out. We have added this condition to algorithm and code.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-27107">
+        <div id="dsq-comment-header-27107" class="dsq-comment-header">
+            <cite id="dsq-cite-27107">
+                <span id="dsq-author-user-27107">trying</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27107" class="dsq-comment-body">
+            <div id="dsq-comment-message-27107" class="dsq-comment-message"><p>what abt the point which is inside the polygon but the ray passes through only one vertex then the  algo will return outside because of even while it is inside. please check.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-clotho odd alt thread-even depth-1" id="dsq-comment-23015">
+        <div id="dsq-comment-header-23015" class="dsq-comment-header">
+            <cite id="dsq-cite-23015">
+                <span id="dsq-author-user-23015">clotho</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-23015" class="dsq-comment-body">
+            <div id="dsq-comment-message-23015" class="dsq-comment-message"><p>How about a figure 8 polygon rotated 90 degrees? A line from a point to the right crosses 2 times and its in the second loop.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-22219">
+        <div id="dsq-comment-header-22219" class="dsq-comment-header">
+            <cite id="dsq-cite-22219">
+                <span id="dsq-author-user-22219">badri</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22219" class="dsq-comment-body">
+            <div id="dsq-comment-message-22219" class="dsq-comment-message"><p>For the first polygon ,<br />
+ Point polygon1[] = {{0, 0}, {10, 0}, {10, 10}, {0, 10}};<br />
+say point p(-1,10) , the line intersects 3 times {10, 0} to {10, 10} , {10, 10}to {0, 10} , {0, 10} to {0, 0} , by the theorem if its odd then point lies inside the polygon , need to handle this case as well..</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor odd alt depth-2" id="dsq-comment-22222">
+        <div id="dsq-comment-header-22222" class="dsq-comment-header">
+            <cite id="dsq-cite-22222">
+                <span id="dsq-author-user-22222">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22222" class="dsq-comment-body">
+            <div id="dsq-comment-message-22222" class="dsq-comment-message"><p>Thanks for pointing this out.  We have made changes to handle this case.  Now to handle all cases where a point is coliear with sides of polygon, we do following:<br />
+If the point lies on the side, we return true, else false.  We use onSegment() for checking whether the point lies or not.<br />
+Keep it up!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-22051">
+        <div id="dsq-comment-header-22051" class="dsq-comment-header">
+            <cite id="dsq-cite-22051">
+                <span id="dsq-author-user-22051">hh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22051" class="dsq-comment-body">
+            <div id="dsq-comment-message-22051" class="dsq-comment-message"><p>@geeksforgeeks : Your algorithm has bug.<br />
+Consider a triangle and say point lie on one side of triangle .This point has two intersection points i.e. even so it should lie outside(acc. to your algo.) but it lie on the side i.e. inside.<br />
+Please take a look at this.Thanks.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik odd alt depth-2" id="dsq-comment-22058">
+        <div id="dsq-comment-header-22058" class="dsq-comment-header">
+            <cite id="dsq-cite-22058">
+                <span id="dsq-author-user-22058">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22058" class="dsq-comment-body">
+            <div id="dsq-comment-message-22058" class="dsq-comment-message"><p>I don&#8217;t understand your question.  How can a line from inside point to infinite can intersect with 2 sides of triangle.</p>
+<p>See following diagram for example.  The line intersects only with one line.
+<pre>
+
+
+         / \
+        / ..\........
+       /_____\</pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-22063">
+        <div id="dsq-comment-header-22063" class="dsq-comment-header">
+            <cite id="dsq-cite-22063">
+                <span id="dsq-author-user-22063">hh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22063" class="dsq-comment-body">
+            <div id="dsq-comment-message-22063" class="dsq-comment-message"><p>see diagram below:
+<pre>
+        a
+       /\
+      ...\.....
+     /    \
+    /      \
+    --------
+   b         c </pre>
+<p>here point lie on  side ab  of triangle and it intersect triangle at two points(on side ab and ac).</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik odd alt depth-4" id="dsq-comment-22071">
+        <div id="dsq-comment-header-22071" class="dsq-comment-header">
+            <cite id="dsq-cite-22071">
+                <span id="dsq-author-user-22071">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22071" class="dsq-comment-body">
+            <div id="dsq-comment-message-22071" class="dsq-comment-message"><p>Thanks for providing this case.  I think, we should check for onSegment rather than same point.  Following is updated code.  We will soon update the post with this code.</p>
+<pre> <code language="C">
+// Returns true if the point p lies inside the polygon[] with n vertices
+bool isInside(Point polygon[], int n, Point p)
+{
+    // There must be at least 3 vertices in polygon[]
+    if (n &lt; 3)  return false;
+
+    // Create a point for line segment from p to infinite
+    Point extreme = {INF, p.y};
+
+    // Count intersections of the above line with sides of polygon
+    int count = 0, i = 0;
+    do
+    {
+        if (doIntersect(polygon[i], polygon[(i+1)%n], p, extreme))
+        {
+            if (onSegment(polygon[i], p, polygon[(i+1)%n]))
+                return true;
+            count++;
+        }
+        i = (i + 1)%n;
+    } while (i != 0);
+
+    // Return true if count is odd, false otherwise
+    return count&amp;1;  // Same as (count%2 == 1)
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even depth-5" id="dsq-comment-22091">
+        <div id="dsq-comment-header-22091" class="dsq-comment-header">
+            <cite id="dsq-cite-22091">
+                <span id="dsq-author-user-22091">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22091" class="dsq-comment-body">
+            <div id="dsq-comment-message-22091" class="dsq-comment-message"><p>@hh: We have updated the code to handle the cases where point lies on a side of polygon.  Keep it up!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-22036">
+        <div id="dsq-comment-header-22036" class="dsq-comment-header">
+            <cite id="dsq-cite-22036">
+                <span id="dsq-author-user-22036">mohit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22036" class="dsq-comment-body">
+            <div id="dsq-comment-message-22036" class="dsq-comment-message"><p>bool onSegment(Point p, Point q, Point r)<br />
+{<br />
+    if (q.x = min(p.x, r.x) &amp;&amp;<br />
+            q.y = min(p.y, r.y))<br />
+        return true;<br />
+    return false;<br />
+}</p>
+<p>this is wrong . consider (1,2) , (2,4) , (4,5) are not collinear   best way can be to check area of triangle = 0 of 3 points then 3 points are collinear</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik even depth-2" id="dsq-comment-22039">
+        <div id="dsq-comment-header-22039" class="dsq-comment-header">
+            <cite id="dsq-cite-22039">
+                <span id="dsq-author-user-22039">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22039" class="dsq-comment-body">
+            <div id="dsq-comment-message-22039" class="dsq-comment-message"><p>Take a closer look at the usage and working of onSegment(p, q, r).  This is used when we have already checked if the three points are colinear.  In this function, we only want to check if q lies on segment pr or not.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-21990">
+        <div id="dsq-comment-header-21990" class="dsq-comment-header">
+            <cite id="dsq-cite-21990">
+                <span id="dsq-author-user-21990">Chaitanya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21990" class="dsq-comment-body">
+            <div id="dsq-comment-message-21990" class="dsq-comment-message"><p>I think the best solution would be,<br />
+Draw two line from the given point 1 Horizontal &amp; 1 Vertical.<br />
+Considering given point as origin , all 4 lines originating from the origin should have minimum 1 intersect with the polygon.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik even depth-2" id="dsq-comment-22014">
+        <div id="dsq-comment-header-22014" class="dsq-comment-header">
+            <cite id="dsq-cite-22014">
+                <span id="dsq-author-user-22014">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22014" class="dsq-comment-body">
+            <div id="dsq-comment-message-22014" class="dsq-comment-message"><p>This will not work.  Consider the diagram of inside example. If we put a point where &#8220;Inside example&#8221; is written, the lines passing through point will intersect, but point is not inside.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-22020">
+        <div id="dsq-comment-header-22020" class="dsq-comment-header">
+            <cite id="dsq-cite-22020">
+                <span id="dsq-author-user-22020">Chaitanya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22020" class="dsq-comment-body">
+            <div id="dsq-comment-message-22020" class="dsq-comment-message"><p>only 3 out of 4 lines will get intersect if the point is outside in the case of &#8220;inside example&#8221;.<br />
+for point to be inside, all 4 lines originating from that point should have minimum 1 intersect to polygon.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-3" id="dsq-comment-22021">
+        <div id="dsq-comment-header-22021" class="dsq-comment-header">
+            <cite id="dsq-cite-22021">
+                <span id="dsq-author-user-22021">Chaitanya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22021" class="dsq-comment-body">
+            <div id="dsq-comment-message-22021" class="dsq-comment-message"><p>@Kartik<br />
+In case of Inside Example, if you draw a point outside polygon, then there wont be any case in which all the 4 lines originating from the point intersect a polygon at least a single time. In fact I didnt find any case. Please help me if u find any :S </p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-bit_cracker007 odd alt thread-odd thread-alt depth-1" id="dsq-comment-21917">
+        <div id="dsq-comment-header-21917" class="dsq-comment-header">
+            <cite id="dsq-cite-21917">
+                <span id="dsq-author-user-21917">bit_cracker007</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21917" class="dsq-comment-body">
+            <div id="dsq-comment-message-21917" class="dsq-comment-message"><p>Input 1:<br />
+3 // no of points<br />
+1 1<br />
+2 4<br />
+2 3<br />
+2 2 // x,y coordinates of point to check for inside or outside</p>
+<p>Input 2:<br />
+5<br />
+2 1<br />
+8 1<br />
+11 4<br />
+8 7<br />
+2 7<br />
+10 2</p>
+<p>Output must be :<br />
+1> Inside<br />
+2> Outside</p>
+<p>But above code produces:<br />
+1> Outside<br />
+2> Outside</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik even depth-2" id="dsq-comment-21918">
+        <div id="dsq-comment-header-21918" class="dsq-comment-header">
+            <cite id="dsq-cite-21918">
+                <span id="dsq-author-user-21918">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21918" class="dsq-comment-body">
+            <div id="dsq-comment-message-21918" class="dsq-comment-message"><p>I draw a diagram for your first test case.  The point (2, 2) seems to be the outside the triangle formed by (1, 1), (2, 4) and (2, 3).</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-bit_cracker007 odd alt depth-3" id="dsq-comment-21920">
+        <div id="dsq-comment-header-21920" class="dsq-comment-header">
+            <cite id="dsq-cite-21920">
+                <span id="dsq-author-user-21920">bit_cracker007</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21920" class="dsq-comment-body">
+            <div id="dsq-comment-message-21920" class="dsq-comment-message"><p>That was a typo, check for the below one:<br />
+3<br />
+1 1<br />
+2 3<br />
+2 1<br />
+2 2</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even depth-4" id="dsq-comment-21922">
+        <div id="dsq-comment-header-21922" class="dsq-comment-header">
+            <cite id="dsq-cite-21922">
+                <span id="dsq-author-user-21922">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21922" class="dsq-comment-body">
+            <div id="dsq-comment-message-21922" class="dsq-comment-message"><p>Thanks for providing this case.  This seems to have happened due to integer overflow. If we replace INT_MAX with 200 or some other big number that doesn&#8217;t cause overflow, we get the correct output.   We will update the post soon.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-hitesh-dholaria odd alt thread-even depth-1" id="dsq-comment-21915">
+        <div id="dsq-comment-header-21915" class="dsq-comment-header">
+            <cite id="dsq-cite-21915">
+http://in.linkedin.com/in/hiteshdholaria                <span id="dsq-author-user-21915">Hitesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21915" class="dsq-comment-body">
+            <div id="dsq-comment-message-21915" class="dsq-comment-message"><p>Here&#8217;s another algorithm for the same purpose of checking whether the candidate point lies inside the given polygon or not.</p>
+<p>Taking a small example for better understanding the algorithm used in the code:</p>
+<p>(1) Suppose, we are given 4 polygon points in clockwise order : A, B, C, D</p>
+<p>(2) Selected candidate point is : P</p>
+<p>(3) Say, ABC = angle made by the line segments AB and BC</p>
+<p>(4) Consider the following 4 conditions ( 1 condition per each polygon angle ) :</p>
+<p>        (a) ABC >= ABP &#038;&#038; ABC >= CBP<br />
+        (b) BCD >= BCP &#038;&#038; BCD >= DCP<br />
+        (c) CDA >= CDP &#038;&#038; CDA >= ADP<br />
+        (d) DAB >= DAP &#038;&#038; DAB >= BAP</p>
+<p>(5) If all the above conditions hold good, then the candidate point P is lying inside the polygon ABCD</p>
+<p>(6) Otherwise, point P is lying outside the polygon ABCD</p>
+<p>&#8212;</p>
+<p>Have a look at the implementation as per above algorithm ( example ) :</p>
+<pre> <code language="C">
+import java.util.*;
+
+class Point {
+	
+	private float x;
+	private float y;
+
+	public Point( ) {
+
+	}
+
+	public Point( float x, float y ) {
+
+		this.x = x;
+		this.y = y;
+
+	}
+
+	public float getX( ) {
+
+		return x;
+
+	}
+
+	public float getY( ) {
+
+		return y;
+
+	}
+
+	public void setX( float x ) {
+
+		this.x = x;
+
+	}
+
+	public void setY( float y ) {
+
+		this.y = y;
+
+	}
+
+	public void print( ) {
+
+		System.out.print( &quot;(&quot; + x + &quot;, &quot; + y + &quot;) &quot; );
+
+	}
+
+	public void println( ) {
+
+		System.out.println( &quot;(&quot; + x + &quot;, &quot; + y + &quot;)&quot; );
+
+	}
+
+	public String toString( ) {
+
+		return &quot;(&quot; + x + &quot;, &quot; + y + &quot;)&quot;;
+
+	}
+
+	public Point clone( ) {
+
+		return ( new Point( x, y ) );
+
+	}
+
+}
+
+public class PointInsidePolygon {
+
+	// Check whether the first argument value lies between the other two argument values
+
+	public static boolean isBetween( float a, float b, float c ) {
+
+		if( ( b &lt;= a &amp;&amp; a &lt;= c ) || ( c &lt;= a &amp;&amp; a &lt;= b ) ) {
+
+			return true;
+
+		}
+
+		return false;
+	}
+
+
+	// Check whether the point A lies in between the argument points B &amp; C
+
+	// Return true, if the point A lies inside the the imaginary rectangle, which is parallel to both the axis and drawn taking the points B and C as the opposite corner points
+
+	public static boolean isBetween( Point a, Point b, Point c ) {
+
+		if( isBetween( a.getY( ), b.getY( ), c.getY( ) ) &amp;&amp; isBetween( a.getX( ), b.getX( ), c.getX( ) ) ) {
+
+			return true;
+
+		}
+
+		return false;
+
+	}
+
+	// Calculate the slope of the line AB
+
+	public static float slope( Point a, Point b ) {
+
+		if( a.getX( ) == b.getX( ) ) {
+
+			return Float.POSITIVE_INFINITY;
+
+		}
+
+		return ( ( a.getY( ) - b.getY( ) ) / ( a.getX( ) - b.getX( ) ) );
+	}
+
+	public static float distance( Point a, Point b ) {
+
+		return ( ( float ) Math.sqrt( ( a.getX( ) - b.getX( ) ) * ( a.getX( ) - b.getX( ) ) + 
+
+						( a.getY( ) - b.getY( ) ) * ( a.getY( ) - b.getY( ) ) ) );
+
+	}
+
+	// Check whether the argument points are co-linear or not
+
+	public static boolean areColinear( Point a, Point b, Point c ) {
+
+		if( arePointsEqual( a, b ) || arePointsEqual( a, c ) || arePointsEqual( b, c ) || 
+
+			( slope( a, b ) == slope( a, c ) ) ) {
+
+			return true;
+
+		}
+
+		return false;
+	}
+
+	// Check whether the argument points have the same co-ordinates or not
+
+	public static boolean arePointsEqual( Point a, Point b ) {
+
+		if( ( a.getX( ) == b.getX( ) ) &amp;&amp; 
+			( a.getY( ) == b.getY( ) ) ) {
+
+			return true;
+
+		}
+
+		return false;
+	}
+
+	// Find an angle (in degree) between the lines AB and BC
+
+	public static float angle( Point a, Point b, Point c ) {
+
+		if( !areColinear( a, b, c ) &amp;&amp; distance( a, b ) &gt; distance( b, c ) ) {
+
+			// Swap the roles
+
+			Point t = a;
+			a = new Point( c.getX( ), c.getY( ) );
+			c = t;
+
+		}
+
+		if( areColinear( a, b, c ) ) {
+
+			// Handle various orientations of the co-linear points
+
+			if( arePointsEqual( a, b ) || arePointsEqual( a, c ) || arePointsEqual( b, c ) ) {
+
+				return 0;
+
+			} else if( isBetween( b, a, c ) ) {
+
+				return 180;
+
+			} else {
+
+				return 0;
+
+			}
+		}
+
+		float m = slope( b, c );
+
+		Point p = new Point( );		// Projection point on the line BC
+
+		// Handle zero-slope projection line
+
+		if( m == Float.POSITIVE_INFINITY ) {
+
+			p.setX( b.getX( ) );
+
+			p.setY( a.getY( ) );
+
+		} else {
+
+			p.setX( ( m * a.getY( ) +  a.getX( ) + m * m * b.getX( ) - m * b.getY( ) ) / ( 1 + m * m ) );
+
+			p.setY( m * p.getX( ) - m * b.getX( ) + b.getY( ) );
+
+		}
+
+		// Now, projection point is determined
+
+		// Handle different test cases
+
+		if( arePointsEqual( p, b ) ) {
+
+			return 90;
+
+		} else if ( isBetween( p, b, c ) ) {
+
+			return ( ( float ) ( Math.atan( distance( a, p ) / distance( b, p ) ) * 180 / Math.PI ) );
+
+		} else {
+
+			return ( ( float ) ( ( Math.PI - Math.atan( distance( a, p ) / distance( b, p ) ) ) * 180 / Math.PI ) );
+
+		}
+
+	}
+
+	public static boolean isPointInsidePolygon( Point p, LinkedList &lt;Point&gt; points ) {
+
+		// Handle special case
+
+		if( points.size( ) &lt; 3 ) {
+
+			return false;
+
+		}
+		
+		// Indices of the current angle points
+
+		int i;
+		int j;
+		int k;
+
+		// Current angle points
+
+		Point a = null;
+		Point b = null;
+		Point c = null;
+		
+		for( i = 0; i &lt; points.size( ); i++ ) {
+
+			j = ( i + 1 ) % points.size( );
+			k = ( i + 2 ) % points.size( );
+
+			a = points.get( i );
+			b = points.get( j );
+			c = points.get( k );
+
+			// If the argument point p is found to be outside of any of the corner angles,
+			// then it is outside of the convex-hull polygon
+
+			if( ( angle( a, b, c ) &lt; angle( a, b, p ) ) || ( angle( a, b, c ) &lt; angle( c, b, p ) ) ) {
+				
+				return false;
+
+			}
+
+		}
+		return true;
+
+	}
+
+	public static void main( String[ ] args ) {
+
+		// Create a linked list of the polygon points by adding them as per either clockwise or counter-clockwise order
+
+		LinkedList &lt;Point&gt; points = new LinkedList &lt;Point&gt; ( );
+
+		points.add( new Point( 0, 9 ) );
+		points.add( new Point( 2, 1 ) );
+		points.add( new Point( 4, 0 ) );
+		points.add( new Point( 8, 6 ) );
+		points.add( new Point( 2, 9 ) );
+
+		Point p = new Point( 7, 4 );
+
+		System.out.println( isPointInsidePolygon( p, points ) );
+
+	}
+
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-21904">
+        <div id="dsq-comment-header-21904" class="dsq-comment-header">
+            <cite id="dsq-cite-21904">
+                <span id="dsq-author-user-21904">sniper</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21904" class="dsq-comment-body">
+            <div id="dsq-comment-message-21904" class="dsq-comment-message"><p>What if the ray passes through two vertex of the polygon. This corner case needs to be handled properly.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor odd alt depth-2" id="dsq-comment-21905">
+        <div id="dsq-comment-header-21905" class="dsq-comment-header">
+            <cite id="dsq-cite-21905">
+                <span id="dsq-author-user-21905">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21905" class="dsq-comment-body">
+            <div id="dsq-comment-message-21905" class="dsq-comment-message"><p>@sniper: Please take a closer look.  If the horizontal  line from p to infinite passes through two vertices, then number of intersections would be 4 which is even.<br />
+As a side note, if the point is same as one of the vertices, then we immediately return true.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-21895">
+        <div id="dsq-comment-header-21895" class="dsq-comment-header">
+            <cite id="dsq-cite-21895">
+                <span id="dsq-author-user-21895">sreeni</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21895" class="dsq-comment-body">
+            <div id="dsq-comment-message-21895" class="dsq-comment-message"><p>You might want to update the line:<br />
+q.y = min(r.y, r.y))<br />
+to<br />
+q.y = min(p.y, r.y))</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor odd alt depth-2" id="dsq-comment-21897">
+        <div id="dsq-comment-header-21897" class="dsq-comment-header">
+            <cite id="dsq-cite-21897">
+                <span id="dsq-author-user-21897">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21897" class="dsq-comment-body">
+            <div id="dsq-comment-message-21897" class="dsq-comment-message"><p>@sreeni: Thanks for pointing this out.  We have updated the code.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/how-to-check-if-a-given-point-lies-inside-a-polygon/';
+var disqus_identifier = '120624 http://www.geeksforgeeks.org/?p=120624';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "How to check if a given point lies inside or outside a polygon?";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.205 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:38:25 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

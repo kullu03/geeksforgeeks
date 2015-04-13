@@ -1,0 +1,1212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Iterative Postorder Traversal | Set 2 (Using One Stack) - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/iterative-postorder-traversal-using-stack/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Iterative Postorder Traversal | Set 2 (Using One Stack) - GeeksforGeeks" />
+<meta property="og:description" content="We have discussed a simple iterative postorder traversal using two stacks in the previous post. In this post, an approach with only one stack is discussed. The idea is to move down to leftmost node using left pointer. While moving down, push root and root&#8217;s right child to stack. Once we reach leftmost node, print &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/iterative-postorder-traversal-using-stack/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="stack" />
+<meta property="article:section" content="Trees" />
+<meta property="article:published_time" content="2013-02-25T00:28:04+00:00" />
+<meta property="article:modified_time" content="2013-02-25T01:46:19+00:00" />
+<meta property="og:updated_time" content="2013-02-25T01:46:19+00:00" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/BinaryTree.png" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.557 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111215 210.212.53.139 172.19.11.169';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Iterative Postorder Traversal | Set 2 (Using One Stack)</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>We have discussed a simple <a href="http://www.geeksforgeeks.org/iterative-postorder-traversal/">iterative postorder traversal using two stacks</a> in the previous post. In this post, an approach with only one stack is discussed.<span id="more-114897"></span></p>
+<p>The idea is to move down to leftmost node using left pointer.  While moving down, push root and root&#8217;s right child to stack.  Once we reach leftmost node, print it if it doesn&#8217;t have a right child. If it has a right child, then change root so that the right child is processed before. </p>
+<p>Following is detailed algorithm.</p>
+<pre>1.1 Create an empty stack
+2.1 Do following while root is not NULL
+    a) Push root's right child and then root to stack.
+    b) Set root as root's left child.
+2.2 Pop an item from stack and set it as root.
+    a) If the popped item has a right child and the right child 
+       is at top of stack, then remove the right child from stack,
+       push the root back and set root as root's right child.
+    b) Else print root's data and set root as NULL.
+2.3 Repeat steps 2.1 and 2.2 while stack is not empty.</pre>
+<p>Let us consider the following tree<br />
+<a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/BinaryTree.png"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/BinaryTree.png" alt="" title="BinaryTree" width="350" height="200" class="aligncenter size-full wp-image-114872" /></a></p>
+<p>Following are the steps to print postorder traversal of the above tree using one stack.
+<pre>
+1. Right child of 1 exists. 
+   Push 3 to stack. Push 1 to stack. Move to left child.
+        Stack: 3, 1
+
+2. Right child of 2 exists. 
+   Push 5 to stack. Push 2 to stack. Move to left child.
+        Stack: 3, 1, 5, 2
+
+3. Right child of 4 doesn't exist. '
+   Push 4 to stack. Move to left child.
+        Stack: 3, 1, 5, 2, 4
+
+4. Current node is NULL. 
+   Pop 4 from stack. Right child of 4 doesn't exist. 
+   Print 4. Set current node to NULL.
+        Stack: 3, 1, 5, 2
+
+5. Current node is NULL. 
+    Pop 2 from stack. Since right child of 2 equals stack top element, 
+    pop 5 from stack. Now push 2 to stack.     
+    Move current node to right child of 2 i.e. 5
+        Stack: 3, 1, 2
+
+6. Right child of 5 doesn't exist. Push 5 to stack. Move to left child.
+        Stack: 3, 1, 2, 5
+
+7. Current node is NULL. Pop 5 from stack. Right child of 5 doesn't exist. 
+   Print 5. Set current node to NULL.
+        Stack: 3, 1, 2
+
+8. Current node is NULL. Pop 2 from stack. 
+   Right child of 2 is not equal to stack top element. 
+   Print 2. Set current node to NULL.
+        Stack: 3, 1
+
+9. Current node is NULL. Pop 1 from stack. 
+   Since right child of 1 equals stack top element, pop 3 from stack. 
+   Now push 1 to stack. Move current node to right child of 1 i.e. 3
+        Stack: 1
+
+10. Repeat the same as above steps and Print 6, 7 and 3. 
+    Pop 1 and Print 1.</pre>
+<pre class="brush: cpp; highlight: [70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110]; title: ; notranslate" title="">
+// C program for iterative postorder traversal using one stack
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+// Maximum stack size
+#define MAX_SIZE 100
+
+// A tree node
+struct Node
+{
+    int data;
+    struct Node *left, *right;
+};
+
+// Stack type
+struct Stack
+{
+    int size;
+    int top;
+    struct Node* *array;
+};
+
+// A utility function to create a new tree node
+struct Node* newNode(int data)
+{
+    struct Node* node = (struct Node*) malloc(sizeof(struct Node));
+    node-&gt;data = data;
+    node-&gt;left = node-&gt;right = NULL;
+    return node;
+}
+
+// A utility function to create a stack of given size
+struct Stack* createStack(int size)
+{
+    struct Stack* stack = (struct Stack*) malloc(sizeof(struct Stack));
+    stack-&gt;size = size;
+    stack-&gt;top = -1;
+    stack-&gt;array = (struct Node**) malloc(stack-&gt;size * sizeof(struct Node*));
+    return stack;
+}
+
+// BASIC OPERATIONS OF STACK
+int isFull(struct Stack* stack)
+{  return stack-&gt;top - 1 == stack-&gt;size; }
+
+int isEmpty(struct Stack* stack)
+{  return stack-&gt;top == -1; }
+
+void push(struct Stack* stack, struct Node* node)
+{
+    if (isFull(stack))
+        return;
+    stack-&gt;array[++stack-&gt;top] = node;
+}
+
+struct Node* pop(struct Stack* stack)
+{
+    if (isEmpty(stack))
+        return NULL;
+    return stack-&gt;array[stack-&gt;top--];
+}
+
+struct Node* peek(struct Stack* stack)
+{
+    if (isEmpty(stack))
+        return NULL;
+    return stack-&gt;array[stack-&gt;top];
+}
+
+// An iterative function to do postorder traversal of a given binary tree
+void postOrderIterative(struct Node* root)
+{
+    // Check for empty tree
+    if (root == NULL)
+        return;
+    
+    struct Stack* stack = createStack(MAX_SIZE);
+    do
+    {
+        // Move to leftmost node
+        while (root)
+        {
+            // Push root's right child and then root to stack.
+            if (root-&gt;right)
+                push(stack, root-&gt;right);
+            push(stack, root);
+
+            // Set root as root's left child  
+            root = root-&gt;left;
+        }
+
+        // Pop an item from stack and set it as root    
+        root = pop(stack);
+
+        // If the popped item has a right child and the right child is not
+        // processed yet, then make sure right child is processed before root
+        if (root-&gt;right &amp;&amp; peek(stack) == root-&gt;right)
+        {
+            pop(stack);  // remove right child from stack
+            push(stack, root);  // push root back to stack
+            root = root-&gt;right; // change root so that the right 
+                                // child is processed next
+        }
+        else  // Else print root's data and set root as NULL
+        {
+            printf(&quot;%d &quot;, root-&gt;data);
+            root = NULL;
+        }
+    } while (!isEmpty(stack));
+}
+
+// Driver program to test above functions
+int main()
+{
+    // Let us construct the tree shown in above figure
+    struct Node* root = NULL;
+    root = newNode(1);
+    root-&gt;left = newNode(2);
+    root-&gt;right = newNode(3);
+    root-&gt;left-&gt;left = newNode(4);
+    root-&gt;left-&gt;right = newNode(5);
+    root-&gt;right-&gt;left = newNode(6);
+    root-&gt;right-&gt;right = newNode(7);
+
+    postOrderIterative(root);
+
+    return 0;
+}
+</pre>
+<p>Output:
+<pre>4 5 2 6 7 3 1</pre>
+<p>This article is compiled by<a href="https://www.facebook.com/barnwal.aashish?fref=ts"> Aashish Barnwal</a>. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/perfect-binary-tree-specific-level-order-traversal/" title="Perfect Binary Tree Specific Level Order Traversal">Perfect Binary Tree Specific Level Order Traversal</a></li><li><a href="http://www.geeksforgeeks.org/print-nodes-top-view-binary-tree/" title="Print Nodes in Top View of Binary Tree">Print Nodes in Top View of Binary Tree</a></li><li><a href="http://www.geeksforgeeks.org/k-dimensional-tree/" title="K Dimensional Tree">K Dimensional Tree</a></li><li><a href="http://www.geeksforgeeks.org/convert-binary-tree-threaded-binary-tree/" title="Convert a Binary Tree to Threaded binary tree">Convert a Binary Tree to Threaded binary tree</a></li><li><a href="http://www.geeksforgeeks.org/serialize-deserialize-n-ary-tree/" title="Serialize and Deserialize an N-ary Tree">Serialize and Deserialize an N-ary Tree</a></li><li><a href="http://www.geeksforgeeks.org/serialize-deserialize-binary-tree/" title="Serialize and Deserialize a Binary Tree">Serialize and Deserialize a Binary Tree</a></li><li><a href="http://www.geeksforgeeks.org/given-binary-tree-print-nodes-two-given-level-numbers/" title="Print nodes between two given level numbers of a binary tree">Print nodes between two given level numbers of a binary tree</a></li><li><a href="http://www.geeksforgeeks.org/find-height-binary-tree-represented-parent-array/" title="Find Height of Binary Tree represented by Parent array">Find Height of Binary Tree represented by Parent array</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/stack/" rel="tag">stack</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fiterative-postorder-traversal-using-stack%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/iterative-postorder-traversal-using-stack/" data-text="Iterative Postorder Traversal | Set 2 (Using One Stack)" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/iterative-postorder-traversal-using-stack/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-33571">
+        <div id="dsq-comment-header-33571" class="dsq-comment-header">
+            <cite id="dsq-cite-33571">
+                <span id="dsq-author-user-33571">Debabrata</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33571" class="dsq-comment-body">
+            <div id="dsq-comment-message-33571" class="dsq-comment-message"><p>//Using double stack is simpler<br />
+struct Stack{<br />
+    Node *treeNode;<br />
+    struct Stack *next;<br />
+};<br />
+typedef struct Stack Stack;<br />
+void push(Stack **root,Node *t_Node){<br />
+    Stack *head = *root,*tmp;<br />
+    tmp = NALLOC(1,Stack);<br />
+    tmp-&gt;treeNode = t_Node;<br />
+    tmp-&gt;next = (*root);<br />
+    (*root) = tmp;<br />
+}</p>
+<p>Node* pop(Stack **root){<br />
+    Stack *tmp = *root;<br />
+    Node* ret;<br />
+    if(!tmp){<br />
+       return NULL;<br />
+   }<br />
+   *root = tmp-&gt;next;<br />
+    tmp-&gt;next = NULL;<br />
+    ret = tmp-&gt;treeNode;<br />
+    free (tmp);<br />
+    return ret;<br />
+}</p>
+<p>void it_postorder(Node *root){</p>
+<p>    Stack *S1 = NULL;<br />
+    Stack *S2 = NULL ;<br />
+    Node *tmp ;<br />
+    push(&amp;S1,root);<br />
+    while(S1 ){<br />
+        tmp = pop(&amp;S1);<br />
+        push(&amp;S2,tmp);<br />
+        if(tmp-&gt;left){<br />
+            push(&amp;S1,tmp-&gt;left);<br />
+        }<br />
+        if(tmp-&gt;right){<br />
+           push(&amp;S1,tmp-&gt;right);<br />
+       }<br />
+   }<br />
+   std::cout&lt;&lt;&quot;n&quot;;<br />
+   while(S2){<br />
+        tmp = pop(&amp;S2);<br />
+        if(!tmp){<br />
+            break;<br />
+        }<br />
+       std::cout&lt;data&lt;&#8220;;<br />
+    }<br />
+   std::cout&lt;&lt;&quot;n&quot;;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-27339">
+        <div id="dsq-comment-header-27339" class="dsq-comment-header">
+            <cite id="dsq-cite-27339">
+                <span id="dsq-author-user-27339">Arko</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27339" class="dsq-comment-body">
+            <div id="dsq-comment-message-27339" class="dsq-comment-message"><p>will this code work??/</p>
+<p>private static void iterativePostorderSingleStack(Node root) {</p>
+<p>		if (root != null) {</p>
+<p>			StackArray&lt;Node&gt; array = new StackArray&lt;Node&gt;();</p>
+<p>			array.push(root);</p>
+<p>			while (!array.isEmpty()) {</p>
+<p>				Node node = array.pop();</p>
+<p>				if (node.left == null &amp;&amp; node.right == null)</p>
+<p>					System.out.print(node.item + &#8221; &#8220;);</p>
+<p>				else {</p>
+<p>					Node left = node.left;</p>
+<p>					Node right = node.right;</p>
+<p>					node.left = null;</p>
+<p>					node.right = null;</p>
+<p>					array.push(node);</p>
+<p>					if (right != null)</p>
+<p>						array.push(right);</p>
+<p>					if (left != null)</p>
+<p>						array.push(left);</p>
+<p>				}</p>
+<p>			}</p>
+<p>		}</p>
+<p>	}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-21177">
+        <div id="dsq-comment-header-21177" class="dsq-comment-header">
+            <cite id="dsq-cite-21177">
+                <span id="dsq-author-user-21177">Trilok Sharma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21177" class="dsq-comment-body">
+            <div id="dsq-comment-message-21177" class="dsq-comment-message"><pre> <code language="C">
+/* 
+if (root-&gt;right &amp;&amp; !isEmpty(stack) &amp;&amp; peek(stack) == root-&gt;right)
+should be used in place of  
+if (root-&gt;right &amp;&amp; peek(stack) == root-&gt;right)
+//-------------------------------------------------
+// CORRECT CODE IS
+
+void postOrderIterative(struct Node* root)
+{
+	// Check for empty tree
+    if (root == NULL)
+        return;
+
+  stack&lt;struct Node *&gt; mystack;
+
+    do
+    {
+        // Move to leftmost node
+        while (root)
+        {
+            // Push root's right child and then root to stack.
+            if (root-&gt;right)
+                mystack.push(root-&gt;right);
+
+            mystack.push(root);
+
+            // Set root as root's left child
+            root = root-&gt;left;
+        }
+
+        // Pop an item from stack and set it as root
+        root = mystack.top();
+        mystack.pop();
+
+        // If the popped item has a right child and the right child is not
+        // processed yet, then make sure right child is processed before root
+
+        if (root-&gt;right &amp;&amp; !mystack.empty() &amp;&amp; mystack.top() == root-&gt;right)
+        {
+            mystack.pop();  // remove right child from stack
+            mystack.push(root);  // push root back to stack
+            root = root-&gt;right; // change root so that the right
+                                // child is processed next
+        }
+        else  // Else print root's data and set root as NULL
+        {
+            printf(&quot;%d &quot;, root-&gt;data);
+            root = NULL;
+        }
+    } while (!mystack.empty());
+}
+
+
+
+
+
+
+ */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-21176">
+        <div id="dsq-comment-header-21176" class="dsq-comment-header">
+            <cite id="dsq-cite-21176">
+                <span id="dsq-author-user-21176">Trilok Sharma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21176" class="dsq-comment-body">
+            <div id="dsq-comment-message-21176" class="dsq-comment-message"><pre> <code language="C">
+/* 
+
+if (root-&gt;right &amp;&amp; !isEmpty(stack) &amp;&amp; peek(stack) == root-&gt;right)
+should be used in place of  
+if (root-&gt;right &amp;&amp; peek(stack) == root-&gt;right)
+
+ */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-21032">
+        <div id="dsq-comment-header-21032" class="dsq-comment-header">
+            <cite id="dsq-cite-21032">
+                <span id="dsq-author-user-21032">Geek86</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21032" class="dsq-comment-body">
+            <div id="dsq-comment-message-21032" class="dsq-comment-message"><p>Please validate my code for iterative post order traversal..<br />
+I have used 2 stacks..</p>
+<p>public class Client {</p>
+<p>	public static void postOrderIterate(BTNode node) {</p>
+<p>		Stack&lt;BTNode&gt; processingStack = new Stack&lt;BTNode&gt;();<br />
+		Stack&lt;BTNode&gt; resultStack = new Stack&lt;BTNode&gt;();</p>
+<p>		processingStack.push(node);</p>
+<p>		while (!processingStack.isEmpty()) {</p>
+<p>			BTNode processingNode = processingStack.pop();</p>
+<p>			if (processingNode.getLeft() != null) {</p>
+<p>				processingStack.push(processingNode.getLeft());<br />
+			}</p>
+<p>			if (processingNode.getRight() != null) {<br />
+				processingStack.push(processingNode.getRight());<br />
+			}</p>
+<p>			resultStack.add(processingNode);</p>
+<p>		}</p>
+<p>		while (!resultStack.isEmpty()) {<br />
+			System.out.println(&quot;Processing &quot; + resultStack.pop());<br />
+		}</p>
+<p>	}</p>
+<p>	public static void main(String[] args) {</p>
+<p>		BTNode one = new BTNode(1);<br />
+		BTNode two = new BTNode(2);<br />
+		BTNode three = new BTNode(3);<br />
+		BTNode four = new BTNode(4);<br />
+		BTNode five = new BTNode(5);<br />
+		BTNode six = new BTNode(6);<br />
+		BTNode seven = new BTNode(7);</p>
+<p>		one.setLeft(two);<br />
+		one.setRight(three);<br />
+		two.setLeft(four);<br />
+		two.setRight(five);<br />
+		three.setLeft(six);<br />
+		three.setRight(seven);<br />
+		seven.setRight(new BTNode(8));</p>
+<p>		postOrderIterate(one);<br />
+	}<br />
+}</p>
+<p>Output:<br />
+Processing 4<br />
+Processing 5<br />
+Processing 2<br />
+Processing 6<br />
+Processing 8<br />
+Processing 7<br />
+Processing 3<br />
+Processing 1</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-eof odd alt thread-odd thread-alt depth-1" id="dsq-comment-20311">
+        <div id="dsq-comment-header-20311" class="dsq-comment-header">
+            <cite id="dsq-cite-20311">
+                <span id="dsq-author-user-20311">EOF</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20311" class="dsq-comment-body">
+            <div id="dsq-comment-message-20311" class="dsq-comment-message"><p>Much simpler solution if we are allowed to destroy the tree <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_biggrin.gif" alt=":D" class="wp-smiley" /><br />
+Here is a java code.</p>
+<pre> <code language="C">
+    //JAVA Code
+    static void traverse(Node root){
+        Stack&lt;Node&gt; s = new Stack&lt;&gt;();
+        Node temp;
+        
+        s.push(root);
+        while(!s.empty()){
+            temp = s.peek();
+            if(temp.left != null){
+                s.push(temp.left);
+                temp.left = null;
+            }else if(temp.right != null){
+                s.push(temp.right);
+                temp.right = null;
+            }else if(temp.left == null &amp;&amp; temp.right == null){
+                System.out.print(temp.keyC + &quot; &quot;);
+                s.pop();
+            }
+        }
+    }
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-eof even depth-2" id="dsq-comment-20312">
+        <div id="dsq-comment-header-20312" class="dsq-comment-header">
+            <cite id="dsq-cite-20312">
+                <span id="dsq-author-user-20312">EOF</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20312" class="dsq-comment-body">
+            <div id="dsq-comment-message-20312" class="dsq-comment-message"><p>We can copy the tree before traversing..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-eof odd alt depth-2" id="dsq-comment-20317">
+        <div id="dsq-comment-header-20317" class="dsq-comment-header">
+            <cite id="dsq-cite-20317">
+                <span id="dsq-author-user-20317">EOF</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20317" class="dsq-comment-body">
+            <div id="dsq-comment-message-20317" class="dsq-comment-message"><p>?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-33789">
+        <div id="dsq-comment-header-33789" class="dsq-comment-header">
+            <cite id="dsq-cite-33789">
+                <span id="dsq-author-user-33789">Anonym</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33789" class="dsq-comment-body">
+            <div id="dsq-comment-message-33789" class="dsq-comment-message"><p>looks like you could have used a bool to track the visited nodes</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-abhishek08aug odd alt thread-even depth-1" id="dsq-comment-18513">
+        <div id="dsq-comment-header-18513" class="dsq-comment-header">
+            <cite id="dsq-cite-18513">
+                <span id="dsq-author-user-18513">abhishek08aug</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18513" class="dsq-comment-body">
+            <div id="dsq-comment-message-18513" class="dsq-comment-message"><p>Intelligent <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_biggrin.gif" alt=":D" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-15914">
+        <div id="dsq-comment-header-15914" class="dsq-comment-header">
+            <cite id="dsq-cite-15914">
+                <span id="dsq-author-user-15914">Sibendu Dey</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15914" class="dsq-comment-body">
+            <div id="dsq-comment-message-15914" class="dsq-comment-message"><p>#include<br />
+#include</p>
+<p>using namespace std;</p>
+<p>struct node    {<br />
+    int data;<br />
+    struct node *leftchild;<br />
+    struct node *rightchild;<br />
+    };</p>
+<p>struct node * create_node(int data) {<br />
+    struct node *temp=(struct node *)malloc(sizeof(struct node));<br />
+    temp-&gt;data=data;<br />
+    temp-&gt;leftchild=temp-&gt;rightchild=NULL;<br />
+    }</p>
+<p>void inorder(struct node *root) {<br />
+    struct node **stack=(struct node **)malloc(sizeof *stack * 20);<br />
+    struct node *current=NULL,*temp;<br />
+    int index=-1,previndex;<br />
+    stack[++index]=root;<br />
+    current=root;<br />
+    while(1)    {<br />
+        if(current-&gt;leftchild!=NULL)   {<br />
+            index=index+1;<br />
+            stack[index]=current-&gt;leftchild;<br />
+            temp=current;<br />
+            current=current-&gt;leftchild;<br />
+            temp-&gt;leftchild=NULL;<br />
+            }</p>
+<p>        else    {<br />
+            if(current-&gt;rightchild!=NULL)  {<br />
+                temp=current;<br />
+                current=current-&gt;rightchild;<br />
+                temp-&gt;rightchild=NULL;<br />
+                index=index+1;<br />
+                previndex=index-1;<br />
+                stack[index]=current;<br />
+                }<br />
+            else  {<br />
+                cout&lt;data&lt;0)  {<br />
+        cout&lt;data&lt;leftchild=create_node(2);<br />
+    root-&gt;leftchild-&gt;leftchild=create_node(4);<br />
+    root-&gt;leftchild-&gt;leftchild-&gt;leftchild=create_node(5);<br />
+    root-&gt;leftchild-&gt;leftchild-&gt;leftchild-&gt;rightchild=create_node(9);<br />
+    root-&gt;leftchild-&gt;leftchild-&gt;leftchild-&gt;rightchild-&gt;leftchild=create_node(10);<br />
+   root-&gt;leftchild-&gt;leftchild-&gt;leftchild-&gt;rightchild-&gt;rightchild=create_node(11);<br />
+    root-&gt;leftchild-&gt;rightchild=create_node(6);<br />
+    root-&gt;rightchild=create_node(3);<br />
+    root-&gt;rightchild-&gt;leftchild=create_node(7);<br />
+    root-&gt;rightchild-&gt;leftchild-&gt;rightchild=create_node(8);<br />
+    inorder(root);<br />
+    }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-15648">
+        <div id="dsq-comment-header-15648" class="dsq-comment-header">
+            <cite id="dsq-cite-15648">
+                <span id="dsq-author-user-15648">Kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15648" class="dsq-comment-body">
+            <div id="dsq-comment-message-15648" class="dsq-comment-message"><pre> <code language="C">
+// An iterative function to do postorder traversal of a given binary tree
+void postOrderIterative(struct Node* root)
+{
+  if(root==NULL)
+   return;
+   
+  struct Stack* stack = createStack(MAX_SIZE); 
+  push(stack,root);
+  struct Node *prev, *curr;
+  prev=NULL;
+  
+  while(!isEmpty(stack))
+  {
+    curr=top(stack);             
+    if(prev==NULL||prev-&gt;left==curr||prev-&gt;right==curr) //top to bottom
+     {
+      if(curr-&gt;left)
+        push(stack,curr-&gt;left);
+      else if(curr-&gt;right)
+        push(stack,curr-&gt;right);
+      else
+       {
+        printf(&quot;%d &quot;,curr-&gt;data);
+        pop(stack);                        
+       }                                                       
+     } 
+    else if(curr-&gt;left==prev) //bottom up
+     {
+       if(curr-&gt;right)
+        {
+          push(stack,curr-&gt;right);              
+        }   
+       else
+        {
+           printf(&quot;%d &quot;,curr-&gt;data);
+           pop(stack);  
+        }  
+     }           
+    else if(curr-&gt;right==prev)
+     {
+        printf(&quot;%d &quot;,curr-&gt;data);
+        pop(stack);  
+     }       
+    prev=curr;               
+  }
+}
+ 
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/iterative-postorder-traversal-using-stack/';
+var disqus_identifier = '114897 http://www.geeksforgeeks.org/?p=114897';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Iterative Postorder Traversal | Set 2 (Using One Stack)";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.196 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:30:15 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

@@ -1,0 +1,2308 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Boundary Traversal of binary tree - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/boundary-traversal-of-binary-tree/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Boundary Traversal of binary tree - GeeksforGeeks" />
+<meta property="og:description" content="Given a binary tree, print boundary nodes of the binary tree Anti-Clockwise starting from the root. For example, boundary traversal of the following tree is &#8220;20 8 4 10 14 25 22&#8243; We break the problem in 3 parts: 1. Print the left boundary in top-down manner. 2. Print all leaf nodes from left to &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/boundary-traversal-of-binary-tree/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:section" content="Trees" />
+<meta property="article:published_time" content="2012-09-12T14:29:15+00:00" />
+<meta property="article:modified_time" content="2012-10-21T22:17:48+00:00" />
+<meta property="og:updated_time" content="2012-10-21T22:17:48+00:00" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/BoundryTraversal-300x188.gif" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.574 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111201 210.212.53.139 172.19.11.169';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Boundary Traversal of binary tree</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given a binary tree, print boundary nodes of the binary tree Anti-Clockwise starting from the root. For example, boundary traversal of the following tree is &#8220;20 8 4 10 14 25 22&#8243;<span id="more-23796"></span></p>
+<p><a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/BoundryTraversal.gif"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/BoundryTraversal-300x188.gif" alt="" title="BoundryTraversal" width="300" height="188" class="aligncenter size-medium wp-image-23836" /></a><br />
+We break the problem in 3 parts:<br />
+<strong>1.</strong> Print the left boundary in top-down manner.<br />
+<strong>2.</strong> Print all leaf nodes from left to right, which can again be sub-divided into two sub-parts:<br />
+&#8230;..<strong>2.1</strong>  Print all leaf nodes of left sub-tree from left to right.<br />
+&#8230;..<strong>2.2</strong> Print all leaf nodes of right subtree from left to right.<br />
+<strong>3.</strong> Print the right boundary in bottom-up manner.</p>
+<p>We need to take care of one thing that nodes are not printed again. e.g. The left most node is also the leaf node of the tree.</p>
+<p>Based on the above cases, below is the implementation:</p>
+<pre class="brush: cpp; highlight: [75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92]; title: ; notranslate" title="">
+/* program for boundary traversal of a binary tree */
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+/* A binary tree node has data, pointer to left child
+   and a pointer to right child */
+struct node
+{
+    int data;
+    struct node *left, *right;
+};
+
+// A simple function to print leaf nodes of a binary tree
+void printLeaves(struct node* root)
+{
+    if ( root )
+    {
+        printLeaves(root-&gt;left);
+
+        // Print it if it is a leaf node
+        if ( !(root-&gt;left)  &amp;&amp;  !(root-&gt;right) )
+            printf(&quot;%d &quot;, root-&gt;data);
+
+        printLeaves(root-&gt;right);
+    }
+}
+
+// A function to print all left boundry nodes, except a leaf node.
+// Print the nodes in TOP DOWN manner
+void printBoundaryLeft(struct node* root)
+{
+    if (root)
+    {
+        if (root-&gt;left)
+        {
+            // to ensure top down order, print the node
+            // before calling itself for left subtree
+            printf(&quot;%d &quot;, root-&gt;data);
+            printBoundaryLeft(root-&gt;left);
+        }
+        else if( root-&gt;right )
+        {
+            printf(&quot;%d &quot;, root-&gt;data);
+            printBoundaryLeft(root-&gt;right);
+        }
+        // do nothing if it is a leaf node, this way we avoid
+        // duplicates in output
+    }
+}
+
+// A function to print all right boundry nodes, except a leaf node
+// Print the nodes in BOTTOM UP manner
+void printBoundaryRight(struct node* root)
+{
+    if (root)
+    {
+        if ( root-&gt;right )
+        {
+            // to ensure bottom up order, first call for right
+            //  subtree, then print this node
+            printBoundaryRight(root-&gt;right);
+            printf(&quot;%d &quot;, root-&gt;data);
+        }
+        else if ( root-&gt;left )
+        {
+            printBoundaryRight(root-&gt;left);
+            printf(&quot;%d &quot;, root-&gt;data);
+        }
+       // do nothing if it is a leaf node, this way we avoid
+       // duplicates in output
+    }
+}
+
+
+// A function to do boundary traversal of a given binary tree
+void printBoundary (struct node* root)
+{
+    if (root)
+    {
+        printf(&quot;%d &quot;,root-&gt;data);
+
+        // Print the left boundary in top-down manner.
+        printBoundaryLeft(root-&gt;left);
+
+        // Print all leaf nodes
+        printLeaves(root-&gt;left);
+        printLeaves(root-&gt;right);
+
+        // Print the right boundary in bottom-up manner
+        printBoundaryRight(root-&gt;right);
+    }
+}
+
+// A utility function to create a node
+struct node* newNode( int data )
+{
+    struct node* temp = (struct node *) malloc( sizeof(struct node) );
+
+    temp-&gt;data = data;
+    temp-&gt;left = temp-&gt;right = NULL;
+
+    return temp;
+}
+
+// Driver program to test above functions
+int main()
+{
+    // Let us construct the tree given in the above diagram
+    struct node *root         = newNode(20);
+    root-&gt;left                = newNode(8);
+    root-&gt;left-&gt;left          = newNode(4);
+    root-&gt;left-&gt;right         = newNode(12);
+    root-&gt;left-&gt;right-&gt;left   = newNode(10);
+    root-&gt;left-&gt;right-&gt;right  = newNode(14);
+    root-&gt;right               = newNode(22);
+    root-&gt;right-&gt;right        = newNode(25);
+
+    printBoundary( root );
+
+    return 0;
+}
+</pre>
+<p>Output:
+<pre>20 8 4 10 14 25 22</pre>
+<p>Time Complexity: O(n) where n is the number of nodes in binary tree.</p>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/perfect-binary-tree-specific-level-order-traversal/" title="Perfect Binary Tree Specific Level Order Traversal">Perfect Binary Tree Specific Level Order Traversal</a></li><li><a href="http://www.geeksforgeeks.org/print-nodes-top-view-binary-tree/" title="Print Nodes in Top View of Binary Tree">Print Nodes in Top View of Binary Tree</a></li><li><a href="http://www.geeksforgeeks.org/k-dimensional-tree/" title="K Dimensional Tree">K Dimensional Tree</a></li><li><a href="http://www.geeksforgeeks.org/convert-binary-tree-threaded-binary-tree/" title="Convert a Binary Tree to Threaded binary tree">Convert a Binary Tree to Threaded binary tree</a></li><li><a href="http://www.geeksforgeeks.org/serialize-deserialize-n-ary-tree/" title="Serialize and Deserialize an N-ary Tree">Serialize and Deserialize an N-ary Tree</a></li><li><a href="http://www.geeksforgeeks.org/serialize-deserialize-binary-tree/" title="Serialize and Deserialize a Binary Tree">Serialize and Deserialize a Binary Tree</a></li><li><a href="http://www.geeksforgeeks.org/given-binary-tree-print-nodes-two-given-level-numbers/" title="Print nodes between two given level numbers of a binary tree">Print nodes between two given level numbers of a binary tree</a></li><li><a href="http://www.geeksforgeeks.org/find-height-binary-tree-represented-parent-array/" title="Find Height of Binary Tree represented by Parent array">Find Height of Binary Tree represented by Parent array</a></li></ul>
+<p></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fboundary-traversal-of-binary-tree%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/boundary-traversal-of-binary-tree/" data-text="Boundary Traversal of binary tree" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/boundary-traversal-of-binary-tree/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-34497">
+        <div id="dsq-comment-header-34497" class="dsq-comment-header">
+            <cite id="dsq-cite-34497">
+                <span id="dsq-author-user-34497">danny</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34497" class="dsq-comment-body">
+            <div id="dsq-comment-message-34497" class="dsq-comment-message"><p>I don&#8217;t think the above solution will work for skew trees either Left skew or right skew&#8230;.Please correct me if I am wrong.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-32399">
+        <div id="dsq-comment-header-32399" class="dsq-comment-header">
+            <cite id="dsq-cite-32399">
+                <span id="dsq-author-user-32399">mccullum</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32399" class="dsq-comment-body">
+            <div id="dsq-comment-message-32399" class="dsq-comment-message"><p>20</p>
+<p>                  8<br />
+               /<br />
+           4<br />
+        /<br />
+    10        14</p>
+<p>          22        </p>
+<p>for the tree above shudn&#8217;t the ans be 20 10 22 14 8<br />
+bt the solution posted gives 20 22 14 4 8</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-32469">
+        <div id="dsq-comment-header-32469" class="dsq-comment-header">
+            <cite id="dsq-cite-32469">
+                <span id="dsq-author-user-32469">Rahul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32469" class="dsq-comment-body">
+            <div id="dsq-comment-message-32469" class="dsq-comment-message"><p>In the boundary traversal as mentioned we have to print .. first left subtree&#8217;s boundary , then all leaf nodes and at last right subtree&#8217;s boundary in bottom-up manner&#8230;<br />
+In ur example, 10 is neither in left subtree&#8217;s boundary nor in right subtree&#8217;s boundary .. hence the required ans. i think should be 20 22 14 4 8</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-29687">
+        <div id="dsq-comment-header-29687" class="dsq-comment-header">
+            <cite id="dsq-cite-29687">
+                <span id="dsq-author-user-29687">Sriharsha g.r.v</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29687" class="dsq-comment-body">
+            <div id="dsq-comment-message-29687" class="dsq-comment-message"><p>HI..the same idea but code loooks simple here</p>
+<p>printleft(struct node* node)</p>
+<p>{</p>
+<p>    if (node-&gt;left == NULL)</p>
+<p>        return;</p>
+<p>    printf(&#8220;%d &#8220;, node-&gt;data);</p>
+<p>    printleft(node-&gt;left);</p>
+<p>}</p>
+<p>printleaves(struct node*root)</p>
+<p>{</p>
+<p>  if(root)</p>
+<p>  {</p>
+<p>    printleaves(root-&gt;left);</p>
+<p>    if(root-&gt;left==NULL &amp;&amp; root-&gt;right==NULL)</p>
+<p>    printf(&#8220;%d  &#8220;,root-&gt;data );</p>
+<p>    printleaves(root-&gt;right);</p>
+<p>  }</p>
+<p>}</p>
+<p>printright(struct node* node)</p>
+<p>{</p>
+<p>    if (node-&gt;right == NULL)</p>
+<p>        return;<br />
+    printleft(node-&gt;right);</p>
+<p>    printf(&#8220;%d &#8220;, node-&gt;data);<br />
+}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-32470">
+        <div id="dsq-comment-header-32470" class="dsq-comment-header">
+            <cite id="dsq-cite-32470">
+                <span id="dsq-author-user-32470">Rahul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32470" class="dsq-comment-body">
+            <div id="dsq-comment-message-32470" class="dsq-comment-message"><p>your code will give incorrect output for this &#8230; </p>
+<p>   20</p>
+<p>						    /    </p>
+<p>						   8      22</p>
+<p>12      25</p>
+<p>					            /       </p>
+<p>					          10    14</p>
+<p>the correct output should be . 20 8 12 10 14 25 22</p>
+<p>but o/p according to ur code is . 20 10 14 25 22</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-29216">
+        <div id="dsq-comment-header-29216" class="dsq-comment-header">
+            <cite id="dsq-cite-29216">
+                <span id="dsq-author-user-29216">Gautam</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29216" class="dsq-comment-body">
+            <div id="dsq-comment-message-29216" class="dsq-comment-message"><p>Hey  i think your code will not properly work for<br />
+                                           20</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-27307">
+        <div id="dsq-comment-header-27307" class="dsq-comment-header">
+            <cite id="dsq-cite-27307">
+                <span id="dsq-author-user-27307">@Ankit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27307" class="dsq-comment-body">
+            <div id="dsq-comment-message-27307" class="dsq-comment-message"><p>i think else if part in printBoundaryLeft and printBoundaryRight function is not necessary</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-sh odd alt thread-odd thread-alt depth-1" id="dsq-comment-26677">
+        <div id="dsq-comment-header-26677" class="dsq-comment-header">
+            <cite id="dsq-cite-26677">
+                <span id="dsq-author-user-26677">sh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26677" class="dsq-comment-body">
+            <div id="dsq-comment-message-26677" class="dsq-comment-message"><p>Another approach could be, use BFS for the tree traversal and enter all the elements in queue where levels are seperated by NULL entries.After completing traversal, start taking out elements from queue, first entry after NULL will be printed, and entry before NULL will be pushed to stack, rest all the entries are ignored. Now, when queue is empty, go on popping elements from the stack until it gets empty.</p>
+<p>please mention if it is having problem with some cases. </p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-25125">
+        <div id="dsq-comment-header-25125" class="dsq-comment-header">
+            <cite id="dsq-cite-25125">
+http://realfv.blogspot.in                <span id="dsq-author-user-25125">Amit Bgl</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-25125" class="dsq-comment-body">
+            <div id="dsq-comment-message-25125" class="dsq-comment-message"><p>wow code <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_biggrin.gif" alt=":D" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-punfabi odd alt thread-odd thread-alt depth-1" id="dsq-comment-23041">
+        <div id="dsq-comment-header-23041" class="dsq-comment-header">
+            <cite id="dsq-cite-23041">
+                <span id="dsq-author-user-23041">punfabi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-23041" class="dsq-comment-body">
+            <div id="dsq-comment-message-23041" class="dsq-comment-message"><p>for trees in which root doesn&#8217;t have left or right child..</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+
+// A function to do boundary traversal of a given binary tree
+void printBoundary (struct node* root)
+{
+    if (root)
+    {
+        printf(&quot;%d &quot;,root-&gt;data);
+ 
+        // Print the left boundary in top-down manner.
+        if( root-&gt;left)
+            printBoundaryLeft(root-&gt;left);
+        else
+            printBoundaryLeft(root-&gt;right);
+ 
+        // Print all leaf nodes
+        printLeaves(root-&gt;left);
+        printLeaves(root-&gt;right);
+ 
+        // Print the right boundary in bottom-up manner
+        if( root-&gt;right)
+           printBoundaryRight(root-&gt;right);
+        else
+           printBoundaryRight(root-&gt;left);
+    }
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-22587">
+        <div id="dsq-comment-header-22587" class="dsq-comment-header">
+            <cite id="dsq-cite-22587">
+                <span id="dsq-author-user-22587">Akshay Jindal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22587" class="dsq-comment-body">
+            <div id="dsq-comment-message-22587" class="dsq-comment-message"><p>Awesome!!&#8230;simplicity at its best..:D</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-ushekokar odd alt thread-odd thread-alt depth-1" id="dsq-comment-22506">
+        <div id="dsq-comment-header-22506" class="dsq-comment-header">
+            <cite id="dsq-cite-22506">
+                <span id="dsq-author-user-22506">ushekokar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22506" class="dsq-comment-body">
+            <div id="dsq-comment-message-22506" class="dsq-comment-message"><p>void boundary(struct node *root1)<br />
+{<br />
+   static struct node *t=root1;<br />
+   static int leftflag=1;</p>
+<p>   if(root1-&gt;l==NULL&amp;&amp;root1-&gt;r==NULL)//dont print leaf nodes<br />
+     return;</p>
+<p>   if(leftflag==1&amp;&amp;t-&gt;l!=NULL)//check if left of root is not null,if it is null dont go inside<br />
+   {<br />
+      cout&lt;&lt;&quot; &quot;&lt;&lt;root1-&gt;data;//print data first<br />
+     if(root1-&gt;l!=NULL)<br />
+       boundary(root1-&gt;l);<br />
+     else if(root1-&gt;r!=NULL)<br />
+       boundary(root1-&gt;r);<br />
+   }</p>
+<p>   if(root1==t&amp;&amp;leftflag==1)//if left<br />
+      {<br />
+        leftflag=0;<br />
+        printleaf(root1);<br />
+      } </p>
+<p>   if(leftflag==0&amp;&amp;t-&gt;r!=NULL)//if right is null dont go inside<br />
+   {<br />
+    if(root1-&gt;r!=NULL)<br />
+       boundary(root1-&gt;r);<br />
+     else if(root1-&gt;l!=NULL)<br />
+       boundary(root1-&gt;l);<br />
+     if(root1!=t)//dont print root again<br />
+     cout&lt;&lt;&quot; &quot;&lt;&lt;root1-&gt;data;//print data in reverse order<br />
+   }<br />
+}</p>
+<p>void printleaf(struct node *t)<br />
+{<br />
+     if(t-&gt;l==NULL&amp;&amp;t-&gt;r==NULL)<br />
+         cout&lt;&lt;&quot; &quot;&lt;&lt;t-&gt;data;<br />
+     else<br />
+        {<br />
+           if(t-&gt;l!=NULL)<br />
+                 printleaf(t-&gt;l);<br />
+           if(t-&gt;r!=NULL)<br />
+                 printleaf(t-&gt;r);<br />
+        }<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-21925">
+        <div id="dsq-comment-header-21925" class="dsq-comment-header">
+            <cite id="dsq-cite-21925">
+                <span id="dsq-author-user-21925">Sunil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21925" class="dsq-comment-body">
+            <div id="dsq-comment-message-21925" class="dsq-comment-message"><p>There is no need of the &#8216;else if&#8217; part in both printBoundaryLeft() and printBoundaryRight(). I don&#8217;t understand its need. Code works just fine without it.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-22141">
+        <div id="dsq-comment-header-22141" class="dsq-comment-header">
+            <cite id="dsq-cite-22141">
+                <span id="dsq-author-user-22141">Himanshu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22141" class="dsq-comment-body">
+            <div id="dsq-comment-message-22141" class="dsq-comment-message"><p>@Sunil<br />
+There is a need of else if in both functions.<br />
+Suppose in the above example node 8 has no left child.<br />
+Then the output should be 20 8 12 10 14 25 22.If you remove else if from the functions the output will be<br />
+20 10 14 25 22</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-22143">
+        <div id="dsq-comment-header-22143" class="dsq-comment-header">
+            <cite id="dsq-cite-22143">
+                <span id="dsq-author-user-22143">Sunil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22143" class="dsq-comment-body">
+            <div id="dsq-comment-message-22143" class="dsq-comment-message"><p>Thank you so much! It needed explanation!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-denial odd alt thread-odd thread-alt depth-1" id="dsq-comment-21387">
+        <div id="dsq-comment-header-21387" class="dsq-comment-header">
+            <cite id="dsq-cite-21387">
+                <span id="dsq-author-user-21387">denial</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21387" class="dsq-comment-body">
+            <div id="dsq-comment-message-21387" class="dsq-comment-message"><p>I think this code solves problem. works in all case. Correct me if I&#8217;m wrong. <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_razz.gif" alt=":P" class="wp-smiley" /></p>
+<pre> <code language="C">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+// structure declaration of tree node
+struct tnode
+{
+	int data;
+	struct tnode *left;
+	struct tnode *right;
+};
+typedef struct tnode node;
+node *newNode(int data)
+{
+	node *temp=(node *)malloc(sizeof(node));
+	temp-&gt;data=data;
+	temp-&gt;left=NULL;
+	temp-&gt;right=NULL;
+	return temp;
+}
+// function printing left boundary of the tree
+void leftBoundary(node *root)
+{
+	if(root)
+	{
+		// print the node if it is NOT leaf
+		if(root-&gt;left!=NULL||root-&gt;right!=NULL)
+			printf(&quot;%d\t&quot;,root-&gt;data);
+		leftBoundary(root-&gt;left);
+	}
+}
+// function printing right boundary of the tree
+void rightBoundary(node *root)
+{
+	if(root)
+	{
+		rightBoundary(root-&gt;right);
+		// print the node if it is NOT leaf
+		if(root-&gt;left!=NULL||root-&gt;right!=NULL)
+			printf(&quot;%d\t&quot;,root-&gt;data);
+	}
+}
+// function printing all leaves of tree
+void printLeaf(node *root)
+{
+	if(root)
+	{
+		// traverse in Inorder and print all leaves
+		printLeaf(root-&gt;left);
+		if(root-&gt;left==NULL&amp;&amp;root-&gt;right==NULL)
+			printf(&quot;%d\t&quot;,root-&gt;data);
+		printLeaf(root-&gt;right);
+	}
+}
+// function printing boundary of the tree
+void printBoundary(node *root)
+{
+	if(root)
+	{
+		    leftBoundary(root);
+		    printLeaf(root);
+		    rightBoundary(root);
+	}
+}
+int main()
+{
+	node *root         		  = newNode(20);
+    root-&gt;left                = newNode(8);
+    root-&gt;left-&gt;left          = newNode(4);
+    root-&gt;left-&gt;right         = newNode(12);
+    root-&gt;left-&gt;right-&gt;left   = newNode(10);
+    root-&gt;left-&gt;right-&gt;right  = newNode(14);
+    root-&gt;right               = newNode(22);
+    root-&gt;right-&gt;right        = newNode(25);
+    
+    printBoundary(root);
+    
+	return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-20067">
+        <div id="dsq-comment-header-20067" class="dsq-comment-header">
+            <cite id="dsq-cite-20067">
+                <span id="dsq-author-user-20067">sid</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20067" class="dsq-comment-body">
+            <div id="dsq-comment-message-20067" class="dsq-comment-message"><p>#include</p>
+<p>using namespace std;</p>
+<p>struct node<br />
+{<br />
+	int data;<br />
+	struct node *left;<br />
+	struct node *right;<br />
+};</p>
+<p>struct node *getnode(int data)<br />
+{<br />
+	struct node *new_node =(struct node *)malloc(sizeof(struct node));<br />
+	new_node-&gt;data=data;<br />
+	new_node-&gt;left=NULL;<br />
+	new_node-&gt;right=NULL;<br />
+	return new_node;<br />
+}<br />
+void printleftboundary(struct node *node)<br />
+{<br />
+	if(node)<br />
+	{<br />
+		if(node-&gt;left!=NULL)<br />
+		{<br />
+			printf(&#8220;%d &#8220;,node-&gt;data);<br />
+			printleftboundary(node-&gt;left);<br />
+		}<br />
+		else if(node-&gt;right)<br />
+		{<br />
+			printf(&#8220;%d &#8220;,node-&gt;data);<br />
+			printleftboundary(node-&gt;right);<br />
+		}<br />
+	}<br />
+}</p>
+<p>void printrightboundary(struct node *node)<br />
+{<br />
+	if(node)<br />
+	{<br />
+		if(node-&gt;right!=NULL)<br />
+		{<br />
+			printf(&#8220;%d &#8220;,node-&gt;data);<br />
+			printrightboundary(node-&gt;right);<br />
+		}<br />
+		else if(node-&gt;left)<br />
+		{<br />
+			printf(&#8220;%d &#8220;,node-&gt;data);<br />
+			printrightboundary(node-&gt;left);<br />
+		}<br />
+	}<br />
+}</p>
+<p>void printleafnodes(struct node *node)<br />
+{<br />
+	if(!node)<br />
+		return;</p>
+<p>	if(!node-&gt;left&amp;&amp;!node-&gt;right)<br />
+		printf(&#8220;%d &#8220;,node-&gt;data);</p>
+<p>	printleafnodes(node-&gt;left);<br />
+	printleafnodes(node-&gt;right);<br />
+}</p>
+<p>void print(struct node *node)<br />
+{<br />
+	struct node *rightnode=node-&gt;right,*leftnode=node-&gt;left,*tnode=node;</p>
+<p>	if(!node)<br />
+		return;<br />
+	printf(&#8220;%d &#8220;,node-&gt;data);</p>
+<p>	if((!tnode-&gt;left)&amp;&amp;tnode-&gt;right)<br />
+	{<br />
+		while((!tnode-&gt;left)&amp;&amp;tnode-&gt;right)<br />
+		{<br />
+			tnode=tnode-&gt;right;<br />
+		}</p>
+<p>		if(tnode-&gt;left!=NULL)<br />
+		{<br />
+			leftnode=tnode-&gt;left;<br />
+		}<br />
+		rightnode=node-&gt;right;<br />
+	}</p>
+<p>	else if(tnode-&gt;left&amp;&amp;(!tnode-&gt;right))<br />
+	{<br />
+		while(tnode-&gt;left&amp;&amp;(!tnode-&gt;right))<br />
+		{<br />
+			tnode=tnode-&gt;left;<br />
+		}</p>
+<p>		if(tnode-&gt;right!=NULL)<br />
+		{<br />
+			rightnode=tnode-&gt;right;<br />
+		}<br />
+		leftnode=node-&gt;left;</p>
+<p>	}</p>
+<p>	printleftboundary(leftnode);</p>
+<p>	printleafnodes(node-&gt;left);</p>
+<p>	printleafnodes(node-&gt;right);<br />
+	//printf(&#8220;%d&#8221;,rightnode-&gt;right-&gt;data);<br />
+	printrightboundary(rightnode);<br />
+}</p>
+<p>int main()<br />
+{<br />
+	struct node *root=getnode(10);<br />
+	root-&gt;left=getnode(5);<br />
+	root-&gt;left-&gt;left=getnode(3);<br />
+	root-&gt;left-&gt;right=getnode(7);<br />
+	root-&gt;left-&gt;left-&gt;left=getnode(1);<br />
+	root-&gt;left-&gt;right-&gt;right=getnode(8);<br />
+	root-&gt;left-&gt;left-&gt;right=getnode(4);</p>
+<p>	print(root);<br />
+	return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-koolkeshaw odd alt thread-odd thread-alt depth-1" id="dsq-comment-19465">
+        <div id="dsq-comment-header-19465" class="dsq-comment-header">
+            <cite id="dsq-cite-19465">
+                <span id="dsq-author-user-19465">koolkeshaw</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19465" class="dsq-comment-body">
+            <div id="dsq-comment-message-19465" class="dsq-comment-message"><p>@GeeksforGeeks</p>
+<p>   your algo will not work for a node satisfying following condition :-<br />
+      i) it is neither on left boundary nor on right boundary<br />
+      ii) only one of its child(either left OR right) is null</p>
+<p>refer :<br />
+<a href="http://ideone.com/QtOivl" rel="nofollow">http://ideone.com/QtOivl</a></p>
+<p>I think the correct o/p :- 20,8,23,24,25</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-koolkeshaw even depth-2" id="dsq-comment-19467">
+        <div id="dsq-comment-header-19467" class="dsq-comment-header">
+            <cite id="dsq-cite-19467">
+                <span id="dsq-author-user-19467">koolkeshaw</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19467" class="dsq-comment-body">
+            <div id="dsq-comment-message-19467" class="dsq-comment-message"><p>correct o/p :- 20,8,24,23,25</p>
+<p>for correct algo<br />
+refer to<br />
+          <a href="http://ideone.com/kaZWyD" rel="nofollow">http://ideone.com/kaZWyD</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-19182">
+        <div id="dsq-comment-header-19182" class="dsq-comment-header">
+            <cite id="dsq-cite-19182">
+                <span id="dsq-author-user-19182">abhinav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19182" class="dsq-comment-body">
+            <div id="dsq-comment-message-19182" class="dsq-comment-message"><p>just  level  order  traversal  and  print  first  and  last  nodes</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-34498">
+        <div id="dsq-comment-header-34498" class="dsq-comment-header">
+            <cite id="dsq-cite-34498">
+                <span id="dsq-author-user-34498">danny</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34498" class="dsq-comment-body">
+            <div id="dsq-comment-message-34498" class="dsq-comment-message"><p>In the last level you have to print all the values in queue and also the right values will not follow bottom up approach.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-18822">
+        <div id="dsq-comment-header-18822" class="dsq-comment-header">
+            <cite id="dsq-cite-18822">
+                <span id="dsq-author-user-18822">KK</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18822" class="dsq-comment-body">
+            <div id="dsq-comment-message-18822" class="dsq-comment-message"><p>We can do with level order traversal also. Print left node of each level and store the right node in stack. Once we are done with tree traversal print the stack in reverse order. </p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-abhishek08aug even thread-even depth-1" id="dsq-comment-18458">
+        <div id="dsq-comment-header-18458" class="dsq-comment-header">
+            <cite id="dsq-cite-18458">
+                <span id="dsq-author-user-18458">abhishek08aug</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18458" class="dsq-comment-body">
+            <div id="dsq-comment-message-18458" class="dsq-comment-message"><p>Intelligent <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_biggrin.gif" alt=":D" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-17442">
+        <div id="dsq-comment-header-17442" class="dsq-comment-header">
+            <cite id="dsq-cite-17442">
+                <span id="dsq-author-user-17442">r&#8230;</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17442" class="dsq-comment-body">
+            <div id="dsq-comment-message-17442" class="dsq-comment-message"><p>we can Print all boundary elements in a single iteration O(n) </p>
+<pre> <code language="C">
+void Boundary_traversal ( bst_node * node ,int lcnt ,int rcnt )
+{
+	if(node == NULL)
+		return;
+
+	if( !rcnt &amp;&amp; !isLeaf(node))
+	{
+	      printf(&quot;-&gt; %d &quot;,node-&gt;value);
+	}
+	
+	Boundary_traversal(node-&gt;left ,flag,lcnt+1,rcnt);
+
+	if(isLeaf(node))
+	{
+	      printf(&quot;-&gt; %d &quot;,node-&gt;value );
+	}
+
+	Boundary_traversal(node-&gt;right ,flag,lcnt,rcnt+1);
+
+	if(!lcnt &amp;&amp; rcnt &amp;&amp; !isLeaf(node))
+	{
+	      printf(&quot;-&gt; %d &quot;,node-&gt;value );
+	}
+
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-17443">
+        <div id="dsq-comment-header-17443" class="dsq-comment-header">
+            <cite id="dsq-cite-17443">
+                <span id="dsq-author-user-17443">r&#8230;</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17443" class="dsq-comment-body">
+            <div id="dsq-comment-message-17443" class="dsq-comment-message"><p>fixing the recursive caller function arguments (shouldn&#8217;t have flag as the second argument)</p>
+<pre> <code language="C">
+void Boundary_traversal ( bst_node * node ,int lcnt ,int rcnt )
+{
+    if(node == NULL)
+        return;
+ 
+    if( !rcnt &amp;&amp; !isLeaf(node))
+    {
+          printf(&quot;-&gt; %d &quot;,node-&gt;value);
+    }
+     
+    Boundary_traversal(node-&gt;left ,lcnt+1,rcnt);
+ 
+    if(isLeaf(node))
+    {
+          printf(&quot;-&gt; %d &quot;,node-&gt;value );
+    }
+ 
+    Boundary_traversal(node-&gt;right,lcnt,rcnt+1);
+ 
+    if(!lcnt &amp;&amp; rcnt &amp;&amp; !isLeaf(node))
+    {
+          printf(&quot;-&gt; %d &quot;,node-&gt;value );
+    }
+ 
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-gupt odd alt thread-even depth-1" id="dsq-comment-17059">
+        <div id="dsq-comment-header-17059" class="dsq-comment-header">
+            <cite id="dsq-cite-17059">
+                <span id="dsq-author-user-17059">Gupt</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17059" class="dsq-comment-body">
+            <div id="dsq-comment-message-17059" class="dsq-comment-message"><p>The above approach seems to be wrong. Consider a tree where the left subtree of root has just one child. But the right subtree has say 10 complete levels. The left boundary of right subtree also becomes the boundary of whole tree. But it wont be printed in this aproach.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-26702">
+        <div id="dsq-comment-header-26702" class="dsq-comment-header">
+            <cite id="dsq-cite-26702">
+                <span id="dsq-author-user-26702">Anon</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26702" class="dsq-comment-body">
+            <div id="dsq-comment-message-26702" class="dsq-comment-message"><p>this is a valid point.It is a request to please confirm this point!.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-29096">
+        <div id="dsq-comment-header-29096" class="dsq-comment-header">
+            <cite id="dsq-cite-29096">
+                <span id="dsq-author-user-29096">Shrey Trivedi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29096" class="dsq-comment-body">
+            <div id="dsq-comment-message-29096" class="dsq-comment-message"><p>Then in that case we should do the following :<br />
+1. Print the left view of the tree (all nodes that you would see from the left)<br />
+2. Print the leaves of the tree<br />
+3. Print the right view of the tree bottom to top</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-16441">
+        <div id="dsq-comment-header-16441" class="dsq-comment-header">
+            <cite id="dsq-cite-16441">
+                <span id="dsq-author-user-16441">Manish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16441" class="dsq-comment-body">
+            <div id="dsq-comment-message-16441" class="dsq-comment-message"><p>public void boundaryTraversal(){<br />
+       boundaryTraversal(root);<br />
+   }<br />
+  private void boundaryTraversal(Node root){<br />
+       leftBoundary(root);<br />
+       leafNodes(root);<br />
+       rightBoundary(root.right);</p>
+<p>   }<br />
+   private void leftBoundary(Node root){<br />
+       if(root==null)<br />
+           return;<br />
+       while(root.left!=null){<br />
+           System.out.println(root.key);<br />
+           root=root.left;<br />
+       }<br />
+   }<br />
+    private void rightBoundary(Node root){<br />
+       if(root==null)<br />
+           return;<br />
+       rightBoundary(root.right);<br />
+       if(root.right==null){}<br />
+       else<br />
+            System.out.println(root.key);</p>
+<p>         }<br />
+    private void leafNodes(Node root){<br />
+        if(root==null)<br />
+            return;<br />
+        leafNodes(root.left);<br />
+        leafNodes(root.right);<br />
+        if(root.left==null&amp;&amp;root.right==null)<br />
+            System.out.println(root.key);<br />
+    }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-14938">
+        <div id="dsq-comment-header-14938" class="dsq-comment-header">
+            <cite id="dsq-cite-14938">
+                <span id="dsq-author-user-14938">amit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14938" class="dsq-comment-body">
+            <div id="dsq-comment-message-14938" class="dsq-comment-message"><p>I think if we add another node as left of 10 say with value 6, we should get both 10 and 6 in output, but these code wont give 10 in the output<br />
+please verify</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+/* A binary tree node has data, pointer to left child
+   and a pointer to right child */
+struct node
+{
+    int data;
+    struct node *left, *right;
+};
+
+// A simple function to print leaf nodes of a binary tree
+void printLeaves(struct node* root)
+{
+    if ( root )
+    {
+        printLeaves(root-&gt;left);
+
+        // Print it if it is a leaf node
+        if ( !(root-&gt;left)  &amp;&amp;  !(root-&gt;right) )
+            printf(&quot;%d &quot;, root-&gt;data);
+
+        printLeaves(root-&gt;right);
+    }
+}
+
+// A function to print all left boundry nodes, except a leaf node.
+// Print the nodes in TOP DOWN manner
+void printBoundaryLeft(struct node* root)
+{
+    if (root)
+    {
+        if (root-&gt;left)
+        {
+            // to ensure top down order, print the node
+            // before calling itself for left subtree
+            printf(&quot;%d &quot;, root-&gt;data);
+            printBoundaryLeft(root-&gt;left);
+        }
+        else if( root-&gt;right )
+        {
+            printf(&quot;%d &quot;, root-&gt;data);
+            printBoundaryLeft(root-&gt;right);
+        }
+        // do nothing if it is a leaf node, this way we avoid
+        // duplicates in output
+    }
+}
+
+// A function to print all right boundry nodes, except a leaf node
+// Print the nodes in BOTTOM UP manner
+void printBoundaryRight(struct node* root)
+{
+    if (root)
+    {
+        if ( root-&gt;right )
+        {
+            // to ensure bottom up order, first call for right
+            //  subtree, then print this node
+            printBoundaryRight(root-&gt;right);
+            printf(&quot;%d &quot;, root-&gt;data);
+        }
+        else if ( root-&gt;left )
+        {
+            printBoundaryRight(root-&gt;left);
+            printf(&quot;%d &quot;, root-&gt;data);
+        }
+       // do nothing if it is a leaf node, this way we avoid
+       // duplicates in output
+    }
+}
+
+
+// A function to do boundary traversal of a given binary tree
+void printBoundary (struct node* root)
+{
+    if (root)
+    {
+        printf(&quot;%d &quot;,root-&gt;data);
+
+        // Print the left boundary in top-down manner.
+        printBoundaryLeft(root-&gt;left);
+
+        // Print all leaf nodes
+        printLeaves(root-&gt;left);
+        printLeaves(root-&gt;right);
+
+        // Print the right boundary in bottom-up manner
+        printBoundaryRight(root-&gt;right);
+    }
+}
+
+// A utility function to create a node
+struct node* newNode( int data )
+{
+    struct node* temp = (struct node *) malloc( sizeof(struct node) );
+
+    temp-&gt;data = data;
+    temp-&gt;left = temp-&gt;right = NULL;
+
+    return temp;
+}
+
+// Driver program to test above functions
+int main()
+{
+    // Let us construct the tree given in the above diagram
+    struct node *root         = newNode(20);
+    root-&gt;left                = newNode(8);
+    root-&gt;left-&gt;left          = newNode(4);
+    root-&gt;left-&gt;right         = newNode(12);
+    root-&gt;left-&gt;right-&gt;left   = newNode(10);
+    root-&gt;left-&gt;right-&gt;left-&gt;left   = newNode(6);
+    root-&gt;left-&gt;right-&gt;right  = newNode(14);
+    root-&gt;right               = newNode(22);
+    root-&gt;right-&gt;right        = newNode(25);
+
+    printBoundary( root );
+
+    return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-14681">
+        <div id="dsq-comment-header-14681" class="dsq-comment-header">
+            <cite id="dsq-cite-14681">
+                <span id="dsq-author-user-14681">Gopal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14681" class="dsq-comment-body">
+            <div id="dsq-comment-message-14681" class="dsq-comment-message"><p>	public static void boundaryTraversal(Node root)<br />
+	{<br />
+		if(root == null)<br />
+			return;</p>
+<p>		boundaryTraversal(root,true,true);<br />
+	}</p>
+<p>	private static void boundaryTraversal(Node node,boolean left,boolean right)<br />
+	{<br />
+		if(node == null)<br />
+			return;<br />
+		//to avoid root to printed twice<br />
+		boolean isRootPrinted = false;<br />
+		if(node.left == null &amp;&amp; node.right ==null)<br />
+		{<br />
+			System.out.print(node.n + &quot; &quot;);<br />
+			return;<br />
+		}</p>
+<p>		if(left)<br />
+		{<br />
+			System.out.print(node.n + &quot; &quot;);<br />
+			isRootPrinted = true;<br />
+		}</p>
+<p>		if(left)<br />
+			boundaryTraversal(node.left,left,false);<br />
+		else<br />
+			boundaryTraversal(node.left,false,false);</p>
+<p>		if(right)<br />
+			boundaryTraversal(node.right,false,right);<br />
+		else<br />
+			boundaryTraversal(node.right,false,false);</p>
+<p>		if(right &amp;&amp; !isRootPrinted)<br />
+		{<br />
+			System.out.print(node.n + &quot; &quot;);<br />
+		}<br />
+	}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-14320">
+        <div id="dsq-comment-header-14320" class="dsq-comment-header">
+            <cite id="dsq-cite-14320">
+                <span id="dsq-author-user-14320">Karthik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14320" class="dsq-comment-body">
+            <div id="dsq-comment-message-14320" class="dsq-comment-message"><p>Using Preorder traversal on left tree and postorder traversal on right</p>
+<p>void preLeft(Node* node, bool check = true)<br />
+{<br />
+	if(!node)<br />
+		return;</p>
+<p>	if(check || !(node-&gt;right || node-&gt;left))<br />
+		cout &lt;&lt; node-&gt;data &lt;&lt; endl;</p>
+<p>	preLeft(node-&gt;left,check &amp;&amp; true);<br />
+	preLeft(node-&gt;right,false);<br />
+}</p>
+<p>void postRight(Node* node, bool check = true)<br />
+{<br />
+	if(!node)<br />
+		return;</p>
+<p>	postRight(node-&gt;left,false);<br />
+	postRight(node-&gt;right,check&amp;&amp;true);</p>
+<p>	if(check || !(node-&gt;right || node-&gt;left))<br />
+		cout &lt;&lt; node-&gt;data &lt;&lt; endl;<br />
+}</p>
+<p>void boundaryTraversal(Node* root)<br />
+{<br />
+	if(!root)<br />
+		return;</p>
+<p>	cout&lt;&lt; root-&gt;data&lt;&lt;endl;<br />
+	preLeft(root-&gt;left);<br />
+	postRight(root-&gt;right);<br />
+}</p>
+<p>class Node<br />
+{<br />
+public:<br />
+	Node* left;<br />
+	Node* right;<br />
+	int data;<br />
+	Node(int data, Node*right = NULL, Node* left = NULL):data(data),right(right),left(left){};<br />
+};</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-16143">
+        <div id="dsq-comment-header-16143" class="dsq-comment-header">
+            <cite id="dsq-cite-16143">
+http://chandrabhagat.wordpress.com                <span id="dsq-author-user-16143">Sharad Chandra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16143" class="dsq-comment-body">
+            <div id="dsq-comment-message-16143" class="dsq-comment-message"><p>I figured out the same and agree with your idea with some changes. It is one pass solution unlike given solution.</p>
+<p>For left tree, pre-order traversal, use the information that backtrack has started so stop printing internal nodes.</p>
+<p>For right tree, post-order traversal, pass the information to recursive function that which child of current node is part of right boundary.</p>
+<p>In both the case, always print leaf node, which can easily be checked.</p>
+<p>void preorderPrintBoundary (struct node* root, int&amp; backtrack)<br />
+{<br />
+	 if (root)<br />
+	 {<br />
+		if ((! backtrack) || ((!root-&gt;left) &amp;&amp; (!root-&gt;right)))<br />
+		   printf(&#8220;%d &#8220;, root-&gt;data);</p>
+<p>        preorderPrintBoundary(root-&gt;left, backtrack);<br />
+        preorderPrintBoundary(root-&gt;right, backtrack);<br />
+        backtrack = 1; // place where backtrack starts, set it forever<br />
+  	 }<br />
+}</p>
+<p>void postorderPrintBoundary (struct node* root, const int&amp; right_boundary)<br />
+{<br />
+     if (root)<br />
+	 {<br />
+		postorderPrintBoundary(root-&gt;left, (right_boundary &amp;&amp; root-&gt;right == NULL));<br />
+		postorderPrintBoundary(root-&gt;right, right_boundary);<br />
+		if (right_boundary || ((!root-&gt;left) &amp;&amp; (!root-&gt;right)))<br />
+		   printf(&#8220;%d &#8220;, root-&gt;data);<br />
+	 }<br />
+}</p>
+<p>void printBoundary (struct node* root)<br />
+{<br />
+     if (root)<br />
+	 {<br />
+		printf(&#8220;%d &#8220;, root-&gt;data);<br />
+		int backtrack = 0;<br />
+		preorderPrintBoundary(root-&gt;left, backtrack);<br />
+		int right_boundary = 1;<br />
+		postorderPrintBoundary(root-&gt;right, right_boundary);<br />
+	 }<br />
+}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-16144">
+        <div id="dsq-comment-header-16144" class="dsq-comment-header">
+            <cite id="dsq-cite-16144">
+                <span id="dsq-author-user-16144">Sharad Chandra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16144" class="dsq-comment-body">
+            <div id="dsq-comment-message-16144" class="dsq-comment-message"><p>PrintBoundary requires a correction</p>
+<p>if (root and root does not have both child node)<br />
+{<br />
+   print root-&gt;data<br />
+   printBoundary(root&#8217;s child which ever is present)<br />
+}<br />
+else<br />
+{  /* root has both the child node, continue with preorder and post order idea */<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-13949">
+        <div id="dsq-comment-header-13949" class="dsq-comment-header">
+            <cite id="dsq-cite-13949">
+                <span id="dsq-author-user-13949">Amit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13949" class="dsq-comment-body">
+            <div id="dsq-comment-message-13949" class="dsq-comment-message"><p>Requirement :<br />
+1. Print the left boundary in top-down manner.<br />
+2. Print all leaf nodes from left to right, which can again be sub-divided into two sub-parts:<br />
+…..2.1 Print all leaf nodes of left sub-tree from left to right.<br />
+…..2.2 Print all leaf nodes of right subtree from left to right.<br />
+3. Print the right boundary in bottom-up manner.</p>
+<p>Solution should be :<br />
+1. Root -&gt; Check Not Leaf -&gt; Print -&gt; Recurse to left<br />
+2. Inorder Traversal of full tree print only leaves<br />
+3. Root -&gt; Recurse to right -&gt; Check Not Leaf -&gt; Print</p>
+<p>Am I right looks like simple functions</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-12242">
+        <div id="dsq-comment-header-12242" class="dsq-comment-header">
+            <cite id="dsq-cite-12242">
+                <span id="dsq-author-user-12242">Dhaval</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12242" class="dsq-comment-body">
+            <div id="dsq-comment-message-12242" class="dsq-comment-message"><pre> <code language="C">
+/*@geeksforgeeks
+    For the following input...*/
+    struct node *root         = newNode(20);
+    root-&gt;right                = newNode(8);
+    root-&gt;right-&gt;left          = newNode(4);
+    root-&gt;right-&gt;right         = newNode(12);
+    root-&gt;right-&gt;left-&gt;left   = newNode(10);
+    root-&gt;right-&gt;right-&gt;right  = newNode(14);
+    root-&gt;right-&gt;right-&gt;left   = newNode(11);
+    root-&gt;right-&gt;left-&gt;right        = newNode(25);
+/*    output:20 10 25 11 14 12 8
+        20
+         
+             8
+ 
+        4        12
+
+     10    25  11   14
+
+    4 is not printed...
+    I think it should be print 4 as a Left-boundary..
+    Correct me if I am wrong.. 
+
+*/
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-25043">
+        <div id="dsq-comment-header-25043" class="dsq-comment-header">
+            <cite id="dsq-cite-25043">
+                <span id="dsq-author-user-25043">AKS</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-25043" class="dsq-comment-body">
+            <div id="dsq-comment-message-25043" class="dsq-comment-message"><p>@Dhaval, Yes, You are right.I too have same question, let me know if you got the answer .</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-11663">
+        <div id="dsq-comment-header-11663" class="dsq-comment-header">
+            <cite id="dsq-cite-11663">
+                <span id="dsq-author-user-11663">Sariam</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11663" class="dsq-comment-body">
+            <div id="dsq-comment-message-11663" class="dsq-comment-message"><p>why do well call printLeaves() twice, we can just call it once by passing the root like: printLeaves(root) which will print leaves from left to right which we want. </p>
+<p>Clarify if I am missing something!</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-10918">
+        <div id="dsq-comment-header-10918" class="dsq-comment-header">
+            <cite id="dsq-cite-10918">
+                <span id="dsq-author-user-10918">rahul sihag</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10918" class="dsq-comment-body">
+            <div id="dsq-comment-message-10918" class="dsq-comment-message"><p>O(n) in one traversal<br />
+Call<br />
+printBoundary(root,1,1);</p>
+<pre> <code language="C">
+int flagl=1;
+
+void printBoundary(struct node *root,int flagr,int rootflag)
+{
+        if(!root)
+                return;
+        if(root-&gt;left==NULL&amp;&amp;root-&gt;right==NULL)
+        {
+                printf(&quot;%d &quot;,root-&gt;data);
+                flagl=0;
+                return;
+        }
+
+        if(flagl)
+                printf(&quot;%d &quot;,root-&gt;data);
+
+        printBoundary(root-&gt;left,0,0);
+        if(flagr)
+                printBoundary(root-&gt;right,1,0);
+        else
+                printBoundary(root-&gt;right,0,0);
+        if(flagr&amp;&amp;!rootflag)
+                printf(&quot;%d &quot;,root-&gt;data);
+
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-11360">
+        <div id="dsq-comment-header-11360" class="dsq-comment-header">
+            <cite id="dsq-cite-11360">
+                <span id="dsq-author-user-11360">firefist</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11360" class="dsq-comment-body">
+            <div id="dsq-comment-message-11360" class="dsq-comment-message"><p>fantastic&#8230;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-11500">
+        <div id="dsq-comment-header-11500" class="dsq-comment-header">
+            <cite id="dsq-cite-11500">
+                <span id="dsq-author-user-11500">praveen</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11500" class="dsq-comment-body">
+            <div id="dsq-comment-message-11500" class="dsq-comment-message"><p>superb</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-gupt odd alt depth-2" id="dsq-comment-17048">
+        <div id="dsq-comment-header-17048" class="dsq-comment-header">
+            <cite id="dsq-cite-17048">
+                <span id="dsq-author-user-17048">Gupt</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17048" class="dsq-comment-body">
+            <div id="dsq-comment-message-17048" class="dsq-comment-message"><p>Could you please explain the code?</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-28114">
+        <div id="dsq-comment-header-28114" class="dsq-comment-header">
+            <cite id="dsq-cite-28114">
+                <span id="dsq-author-user-28114">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28114" class="dsq-comment-body">
+            <div id="dsq-comment-message-28114" class="dsq-comment-message"><p>Your code will not work in below example:</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-28115">
+        <div id="dsq-comment-header-28115" class="dsq-comment-header">
+            <cite id="dsq-cite-28115">
+                <span id="dsq-author-user-28115">Vaibhav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28115" class="dsq-comment-body">
+            <div id="dsq-comment-message-28115" class="dsq-comment-message"><p>Your code will not work in below example:<br />
+10</p>
+<p>    20</p>
+<p>        30</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-10880">
+        <div id="dsq-comment-header-10880" class="dsq-comment-header">
+            <cite id="dsq-cite-10880">
+                <span id="dsq-author-user-10880">Nishant Seth</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10880" class="dsq-comment-body">
+            <div id="dsq-comment-message-10880" class="dsq-comment-message"><p>What if nodes 10 &amp; 14 have children as well? I think they should still be part of tree boundary, but they wont be picked by any of the 3 boundary functions. Let me know if I am wrong.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-10881">
+        <div id="dsq-comment-header-10881" class="dsq-comment-header">
+            <cite id="dsq-cite-10881">
+                <span id="dsq-author-user-10881">Aashish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10881" class="dsq-comment-body">
+            <div id="dsq-comment-message-10881" class="dsq-comment-message"><p>If 10 and 14 will have children, they will become internal nodes, so they should not be printed.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-11023">
+        <div id="dsq-comment-header-11023" class="dsq-comment-header">
+            <cite id="dsq-cite-11023">
+                <span id="dsq-author-user-11023">Theo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11023" class="dsq-comment-body">
+            <div id="dsq-comment-message-11023" class="dsq-comment-message"><p>i think 10 and 14 will be still part of the boundary if 10 has only a right child(leaf) and 14 has only a left child(leaf). But your code seems doesn&#8217;t handling it..the boundary should contain all left most nodes and right most nodes of n-1 levels and all leaves of nth level for a n level tree&#8230;.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-10872">
+        <div id="dsq-comment-header-10872" class="dsq-comment-header">
+            <cite id="dsq-cite-10872">
+                <span id="dsq-author-user-10872">Nitin Gutpa iitan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10872" class="dsq-comment-body">
+            <div id="dsq-comment-message-10872" class="dsq-comment-message"><p><img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /> No Need to right else part of PrintLeft and PrintRight boundary function&#8230;.<br />
+pls clarify me &#8230;if i m wrong  </p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-10873">
+        <div id="dsq-comment-header-10873" class="dsq-comment-header">
+            <cite id="dsq-cite-10873">
+                <span id="dsq-author-user-10873">Aashish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10873" class="dsq-comment-body">
+            <div id="dsq-comment-message-10873" class="dsq-comment-message"><p>Remove node 4 from the example discussed above. The new output should be: 20 8 12 10 14 25 22<br />
+This is because, if a subtree has no left child, its right node will serve as the boundary. This will be missed if we remove the else part.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-11472">
+        <div id="dsq-comment-header-11472" class="dsq-comment-header">
+            <cite id="dsq-cite-11472">
+                <span id="dsq-author-user-11472">adarsh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11472" class="dsq-comment-body">
+            <div id="dsq-comment-message-11472" class="dsq-comment-message"><pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-10831">
+        <div id="dsq-comment-header-10831" class="dsq-comment-header">
+            <cite id="dsq-cite-10831">
+                <span id="dsq-author-user-10831">sahilalipuria</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10831" class="dsq-comment-body">
+            <div id="dsq-comment-message-10831" class="dsq-comment-message"><pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+the function to print the left and right can be written as
+
+void printleft(node *root)
+{
+  if(root-&gt;left==NULL &amp;&amp; root-&gt;right==NULL)
+   return;
+  else
+   {
+     printf(&quot;%d&quot;,root-&gt;left-&gt;data);
+     printleft(root-&gt;left);
+   }
+}
+
+similarly we can write for the right boundary
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-10792">
+        <div id="dsq-comment-header-10792" class="dsq-comment-header">
+            <cite id="dsq-cite-10792">
+                <span id="dsq-author-user-10792">atul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10792" class="dsq-comment-body">
+            <div id="dsq-comment-message-10792" class="dsq-comment-message"><p>printing left and leaf nodes can be done in same function :-<br />
+call : print(root);</p>
+<pre> <code language="C">
+int flag=1;
+void printLeftLeaf(node *root)
+{
+        if(root!=NULL)
+        {
+                if(flag==1 || (!root-&gt;left &amp;&amp; !root-&gt;right))
+                {
+                        printf(&quot;%d &quot;,root-&gt;data);
+                }
+                printLeftLeaf(root-&gt;left);
+                flag=0;
+                printLeftLeaf(root-&gt;right);
+        }
+
+
+}
+
+void printRight(node *root)
+{
+        if(root!=NULL)
+        {
+                if(root-&gt;left==NULL &amp;&amp; root-&gt;right==NULL)
+                {
+                        return;
+                }
+                else
+                {
+                        printf(&quot;%d &quot;,root-&gt;data);
+                        printRight(root-&gt;right);
+                }
+        }
+
+}
+node* print(node *root)
+{
+        if(!root)
+                return NULL;
+        printLeftLeaf(root);
+        if(root-&gt;right)
+        {
+                printRight(root-&gt;right);
+        }
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-10791">
+        <div id="dsq-comment-header-10791" class="dsq-comment-header">
+            <cite id="dsq-cite-10791">
+                <span id="dsq-author-user-10791">atul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10791" class="dsq-comment-body">
+            <div id="dsq-comment-message-10791" class="dsq-comment-message"><p>printing left and the leaf nodes can be done in single function.<br />
+call : print(root);</p>
+<pre> <code language="C">
+int flag=1;
+void printLeftLeaf(node *root)
+{
+        if(root!=NULL)
+        {
+                if(flag==1 || (!root-&gt;left &amp;&amp; !root-&gt;right))
+                {
+                        printf(&quot;%d &quot;,root-&gt;data);
+                }
+                printLeftLeaf(root-&gt;left);
+                flag=0;
+                printLeftLeaf(root-&gt;right);
+        }
+
+
+}
+
+void printRight(node *root)
+{
+        if(root!=NULL)
+        {
+                if(root-&gt;left==NULL &amp;&amp; root-&gt;right==NULL)
+                {
+                        return;
+                }
+                else
+                {
+                        printf(&quot;%d &quot;,root-&gt;data);
+                        printRight(root-&gt;right);
+                }
+        }
+
+}
+node* print(node *root)
+{
+        if(!root)
+                return NULL;
+        printLeftLeaf(root);
+        if(root-&gt;right)
+        {
+                printRight(root-&gt;right);
+        }
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-10788">
+        <div id="dsq-comment-header-10788" class="dsq-comment-header">
+            <cite id="dsq-cite-10788">
+                <span id="dsq-author-user-10788">sreeram</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10788" class="dsq-comment-body">
+            <div id="dsq-comment-message-10788" class="dsq-comment-message"><p>I think in these printBoundaryLeft and printBoundaryRight<br />
+functions &#8230;we can go for iterative traversal since it substantially reduces stack calls and memory &#8230;.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-10790">
+        <div id="dsq-comment-header-10790" class="dsq-comment-header">
+            <cite id="dsq-cite-10790">
+                <span id="dsq-author-user-10790">ranjan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10790" class="dsq-comment-body">
+            <div id="dsq-comment-message-10790" class="dsq-comment-message"><p>yes..i agree..<br />
+cud u please post ur solution here..</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-10793">
+        <div id="dsq-comment-header-10793" class="dsq-comment-header">
+            <cite id="dsq-cite-10793">
+                <span id="dsq-author-user-10793">sreeram</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10793" class="dsq-comment-body">
+            <div id="dsq-comment-message-10793" class="dsq-comment-message"><pre> <code language="C">
+void printBoundaryLeft(struct node* root)
+{
+    while (root-&gt;left||root-&gt;right)
+    {
+        if (root-&gt;left)
+        {
+            // to ensure top down order, print the node
+            // before calling itself for left subtree
+            printf(&quot;%d &quot;, root-&gt;data);
+            root=root-&gt;left;
+        }
+        else if( root-&gt;right )
+        {
+            printf(&quot;%d &quot;, root-&gt;data);
+            root=root-&gt;right;
+        }
+        // do nothing if it is a leaf node, this way we avoid
+        // duplicates in output
+    }
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-10786">
+        <div id="dsq-comment-header-10786" class="dsq-comment-header">
+            <cite id="dsq-cite-10786">
+                <span id="dsq-author-user-10786">Siva Krishna</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10786" class="dsq-comment-body">
+            <div id="dsq-comment-message-10786" class="dsq-comment-message"><p>I think here duplicates may come 4 and 25 are printed twice</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-10787">
+        <div id="dsq-comment-header-10787" class="dsq-comment-header">
+            <cite id="dsq-cite-10787">
+                <span id="dsq-author-user-10787">Aashish Barnwal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10787" class="dsq-comment-body">
+            <div id="dsq-comment-message-10787" class="dsq-comment-message"><p>You can check output here: <a href="https://ideone.com/5Mdp7" rel="nofollow">https://ideone.com/5Mdp7</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/boundary-traversal-of-binary-tree/';
+var disqus_identifier = '23796 http://www.geeksforgeeks.org/?p=23796';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Boundary Traversal of binary tree";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.229 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:30:02 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

@@ -1,0 +1,1174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Construction of Longest Monotonically Increasing Subsequence (N log N) - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/construction-of-longest-monotonically-increasing-subsequence-n-log-n/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Construction of Longest Monotonically Increasing Subsequence (N log N) - GeeksforGeeks" />
+<meta property="og:description" content="In my previous post, I have explained about longest monotonically increasing sub-sequence (LIS) problem in detail. However, the post only covered code related to querying size of LIS, but not the construction of LIS. I left it as an exercise. If you have solved, cheers. If not, you are not alone, here is code. If you have not &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/construction-of-longest-monotonically-increasing-subsequence-n-log-n/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:section" content="Arrays" />
+<meta property="article:published_time" content="2012-11-23T13:20:41+00:00" />
+<meta property="article:modified_time" content="2012-12-31T19:01:44+00:00" />
+<meta property="og:updated_time" content="2012-12-31T19:01:44+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.574 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111540 210.212.53.139 172.19.11.169';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Construction of Longest Monotonically Increasing Subsequence (N log N)</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>In my previous post, I have explained about longest <a href="http://www.geeksforgeeks.org/archives/9591" target="_blank">monotonically increasing sub-sequence</a> (LIS) problem in detail. <span id="more-27614"></span>However, the post only covered code related to querying size of LIS, but not the construction of LIS. I left it as an exercise. If you have solved, cheers. If not, you are not alone, here is code.</p>
+<p>If you have not read my previous post, read <a href="http://www.geeksforgeeks.org/archives/9591" target="_blank">here</a>. Note that the below code prints LIS in reverse order. We can modify print order using a stack (explicit or system stack). I am leaving explanation as an exercise (easy).</p>
+<pre class="brush: cpp; highlight: [21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61]; title: ; notranslate" title="">
+#include &lt;iostream&gt;
+#include &lt;string.h&gt;
+#include &lt;stdio.h&gt;
+using namespace std;
+
+// Binary search
+int GetCeilIndex(int A[], int T[], int l, int r, int key) {
+   int m;
+
+   while( r - l &gt; 1 ) {
+      m = l + (r - l)/2;
+      if( A[T[m]] &gt;= key )
+         r = m;
+      else
+         l = m;
+   }
+
+   return r;
+}
+
+int LongestIncreasingSubsequence(int A[], int size) {
+   // Add boundary case, when array size is zero
+   // Depend on smart pointers
+
+   int *tailIndices = new int[size];
+   int *prevIndices = new int[size];
+   int len;
+
+   memset(tailIndices, 0, sizeof(tailIndices[0])*size);
+   memset(prevIndices, 0xFF, sizeof(prevIndices[0])*size);
+
+   tailIndices[0] = 0;
+   prevIndices[0] = -1;
+   len = 1; // it will always point to empty location
+   for( int i = 1; i &lt; size; i++ ) {
+      if( A[i] &lt; A[tailIndices[0]] ) {
+         // new smallest value
+         tailIndices[0] = i;
+      } else if( A[i] &gt; A[tailIndices[len-1]] ) {
+         // A[i] wants to extend largest subsequence
+         prevIndices[i] = tailIndices[len-1];
+         tailIndices[len++] = i;
+      } else {
+         // A[i] wants to be a potential condidate of future subsequence
+         // It will replace ceil value in tailIndices
+        int pos = GetCeilIndex(A, tailIndices, -1, len-1, A[i]);
+
+        prevIndices[i] = tailIndices[pos-1];
+        tailIndices[pos] = i;
+      }
+   }
+   cout &lt;&lt; &quot;LIS of given input&quot; &lt;&lt; endl;
+   for( int i = tailIndices[len-1]; i &gt;= 0; i = prevIndices[i] )
+      cout &lt;&lt; A[i] &lt;&lt; &quot;   &quot;;
+   cout &lt;&lt; endl;
+
+   delete[] tailIndices;
+   delete[] prevIndices;
+
+   return len;
+}
+
+int main() {
+   int A[] = { 2, 5, 3, 7, 11, 8, 10, 13, 6 };
+   int size = sizeof(A)/sizeof(A[0]);
+
+   printf(&quot;LIS size %d\n&quot;, LongestIncreasingSubsequence(A, size));
+
+   return 0;
+}
+</pre>
+<p><strong>Exercises:</strong></p>
+<p>1. You know <a href="http://en.wikipedia.org/wiki/Maximum_subarray_problem" target="_blank">Kadane</a>&#8216;s algorithm to find <a href="http://www.geeksforgeeks.org/archives/576" target="_blank">maximum sum sub-array</a>. Modify Kadane&#8217;s algorithm to trace starting and ending location of maximum sum sub-array.</p>
+<p>2. Modify <a href="http://en.wikipedia.org/wiki/Maximum_subarray_problem" target="_blank">Kadane</a>&#8216;s algorithm to find maximum sum sub-array in a circular array. Refer GFG forum for many comments on the question.</p>
+<p>3. Given two integers A and B as input. Find number of Fibonacci numbers existing in between these two numbers (including A and B). For example, A = 3 and B = 18, there are 4 Fibonacci numbers in between {3, 5, 8, 13}. Do it in O(log K) time, where K is max(A, B). What is your observation?</p>
+<p>— <a href="http://www.linkedin.com/in/ramanawithu" target="_blank">Venki</a>. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array-set-2-expected-linear-time/" title="K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)">K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)</a></li><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array/" title="K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1">K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/time-complexity-insertion-sort-inversions/" title="Time complexity of insertion sort when there are O(n) inversions?">Time complexity of insertion sort when there are O(n) inversions?</a></li><li><a href="http://www.geeksforgeeks.org/check-two-given-sets-disjoint/" title="How to check if two given sets are disjoint?">How to check if two given sets are disjoint?</a></li><li><a href="http://www.geeksforgeeks.org/minimum-number-platforms-required-railwaybus-station/" title="Minimum Number of Platforms Required for a Railway/Bus Station">Minimum Number of Platforms Required for a Railway/Bus Station</a></li><li><a href="http://www.geeksforgeeks.org/given-two-sorted-arrays-number-x-find-pair-whose-sum-closest-x/" title="Find the closest pair from two sorted arrays">Find the closest pair from two sorted arrays</a></li><li><a href="http://www.geeksforgeeks.org/print-elements-sorted-order-row-column-wise-sorted-matrix/" title="Print all elements in sorted order from row and column wise sorted matrix">Print all elements in sorted order from row and column wise sorted matrix</a></li><li><a href="http://www.geeksforgeeks.org/length-largest-subarray-contiguous-elements-set-1/" title="Length of the largest subarray with contiguous elements | Set 1">Length of the largest subarray with contiguous elements | Set 1</a></li></ul>
+<p></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fconstruction-of-longest-monotonically-increasing-subsequence-n-log-n%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/construction-of-longest-monotonically-increasing-subsequence-n-log-n/" data-text="Construction of Longest Monotonically Increasing Subsequence (N log N)" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/construction-of-longest-monotonically-increasing-subsequence-n-log-n/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-18248">
+        <div id="dsq-comment-header-18248" class="dsq-comment-header">
+            <cite id="dsq-cite-18248">
+http://www.piyush.co.nf                <span id="dsq-author-user-18248">binary001</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18248" class="dsq-comment-body">
+            <div id="dsq-comment-message-18248" class="dsq-comment-message"><pre> <code language="C">
+
+int search(int in [] ,int a[],int i,int j,int x){
+
+	while(i&lt;j){
+		int m=i+(j-i)/2;
+		if(in[m]&gt;x)
+		j=m-1;
+		else
+		i=m+1;
+	}
+return i;
+
+}
+
+int lis(int in[],int n){
+	
+int ans=0;
+int a[n];
+
+	for(int i=0;i&lt;n;i++){
+		int temp=search( in, a, 0, n-1, in[i] );	
+		if(temp==ans){
+		a[temp]=in[i];
+		ans++;
+		}
+		else
+		a[temp]=in[i];
+
+
+
+	}
+
+return ans;
+}
+
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-abhishek08aug odd alt thread-odd thread-alt depth-1" id="dsq-comment-17761">
+        <div id="dsq-comment-header-17761" class="dsq-comment-header">
+            <cite id="dsq-cite-17761">
+                <span id="dsq-author-user-17761">abhishek08aug</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17761" class="dsq-comment-body">
+            <div id="dsq-comment-message-17761" class="dsq-comment-message"><p>Trying out something. Shall update later how it performs.</p>
+<pre> <code language="C">
+Given an array of integers: array[n]
+
+1) Create array greatest[n][n]
+
+where,
+
+greatest[i][j]=1, if there is no element in the array between index j+1 and n-1-i which is greater than array[j]
+              =0, if there is atleast one element in the array between index j+1 and n-1-i which is greater than array[j]
+              =-1, if j&gt;n-1-i
+
+2) k=n-1, l=0, last_added_element=Some number lower than all integers in the array
+
+while(k&gt;0 &amp;&amp; l&lt;=n-1)
+  if greatest[k][l]==1
+    if k-1&gt;=0 &amp;&amp; greatest[k-1][l]!=1
+      add array[l] in LIS
+      last_added_element=array[l]
+      k=k-1
+      l=l+1
+    else if k-1&gt;=0 &amp;&amp; greatest[k-1][l]==1
+      if array[l+1]&gt;last_added_element
+        k=k-2
+        l=l+2
+      else
+        add array[l] in LIS
+        last_added_element=array[l]
+        k=k-1
+        l=l+1
+      end if
+    else if k==0 
+      add array[l] in LIS
+      last_added_element=array[l]     
+      k=k-1
+      l=l+1
+    end if
+  end if
+end for
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-abhishek08aug even depth-2" id="dsq-comment-17766">
+        <div id="dsq-comment-header-17766" class="dsq-comment-header">
+            <cite id="dsq-cite-17766">
+                <span id="dsq-author-user-17766">abhishek08aug</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17766" class="dsq-comment-body">
+            <div id="dsq-comment-message-17766" class="dsq-comment-message"><p>Here is the implementation of above algo with some fixes:</p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+
+int LongestIncreasingSubsequence(int array[], int n) {
+  int ** greatest=(int **)malloc(sizeof(int *)*n);
+  int i;
+
+  for(i=0; i&lt;n; i++) {
+    *(greatest+i)=(int *)malloc(sizeof(int)*n);
+  }
+
+  int j, largest_on_right;
+  for(i=0, largest_on_right=-9999; i&lt;n; i++) {
+    for(j=n-1; j&gt;=0; j--) {
+      if(j&gt;n-1-i) {
+        greatest[i][j]=-1;  
+      } else if(array[j]&gt;largest_on_right) {
+        greatest[i][j]=1;
+        largest_on_right=array[j];
+      } else if(array[j]&lt;=largest_on_right) {
+        greatest[i][j]=0;
+      }
+    }
+    largest_on_right=-9999;
+  }
+
+  /*
+  printf(&quot;Greatest matrix\n&quot;);
+  for(i=0; i&lt;n; i++) {
+    for(j=0; j&lt;n; j++) {
+      printf(&quot;%*d &quot;, 2, greatest[i][j]);
+    }
+    printf(&quot;\n&quot;);
+  }
+  printf(&quot;\n&quot;);
+  */
+
+  int k=n-1, l=0, last_added_element=-9999, lis_size=0;
+  while(k&gt;=0 &amp;&amp; l&lt;=n-1) {
+    if(greatest[k][l]==1) {
+      if((k-1&gt;=0 &amp;&amp; greatest[k-1][l]!=1) || k==0) {
+        if(array[l]&gt;last_added_element) {
+          printf(&quot;%d &quot;, array[l]);
+          last_added_element=array[l];
+          k=k-1;
+          l=l+1;
+          lis_size++;
+        } else {
+          k=k-1;
+          l=l+1;          
+        }
+      } else if(k-1&gt;=0 &amp;&amp; greatest[k-1][l]==1) {
+        if(array[l+1]&gt;last_added_element) {
+          k=k-1;
+          l=l+1;
+        } else {
+          printf(&quot;%d &quot;, array[l]);
+          last_added_element=array[l];
+          k=k-1;
+          l=l+1;
+          lis_size++;
+        }
+      }
+    }
+  }
+  return lis_size;
+}
+
+int main() {
+   int array[] = {2, 5, 3, 7, 11, 8, 10, 13, 6};
+   int n = sizeof(array)/sizeof(array[0]);
+ 
+   printf(&quot;\nLIS size %d\n&quot;, LongestIncreasingSubsequence(array, n));
+ 
+   return 0;
+}
+</code> </pre>
+<p>2 3 7 8 10 13<br />
+LIS size 6</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-15703">
+        <div id="dsq-comment-header-15703" class="dsq-comment-header">
+            <cite id="dsq-cite-15703">
+                <span id="dsq-author-user-15703">anirudh beria</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15703" class="dsq-comment-body">
+            <div id="dsq-comment-message-15703" class="dsq-comment-message"><p>won&#8217;t the run time be n^2 because of search for min and max elements ?? I  think a maximum finding segment tree will give nlogn sol ( possible if numbers are less than 10^6).</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-venki bypostauthor even depth-2" id="dsq-comment-15740">
+        <div id="dsq-comment-header-15740" class="dsq-comment-header">
+            <cite id="dsq-cite-15740">
+http://www.linkedin.com/in/ramanawithu                <span id="dsq-author-user-15740">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15740" class="dsq-comment-body">
+            <div id="dsq-comment-message-15740" class="dsq-comment-message"><p>@Anirudh, please be more specific. Where are we searching for min and max?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-14920">
+        <div id="dsq-comment-header-14920" class="dsq-comment-header">
+            <cite id="dsq-cite-14920">
+                <span id="dsq-author-user-14920">ashish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14920" class="dsq-comment-body">
+            <div id="dsq-comment-message-14920" class="dsq-comment-message"><p>#include</p>
+<p>    void longest(int *,int);</p>
+<p>void main()<br />
+    {<br />
+        int n,i,ary[50];<br />
+      printf(&#8220;enter the no of term:- &#8220;);<br />
+      scanf(&#8220;%d&#8221;,&amp;n);</p>
+<p>      for(i=0;i&lt;n;i++)<br />
+      scanf(&quot;%d&quot;,&amp;ary[i]);</p>
+<p>    longest(ary,n);<br />
+    }</p>
+<p>   void longest(int ary[],int n)</p>
+<p>   {<br />
+       int i,j,l=0,maxlen=0;<br />
+       int start=0,s;</p>
+<p>       for(i=0;i=ary[i+1])<br />
+           {<br />
+               start=i+1;<br />
+               l=0;<br />
+           }<br />
+           else<br />
+           l++;</p>
+<p>           if(maxlen&lt;l){</p>
+<p>             maxlen=l; s=start;}</p>
+<p>       }<br />
+      int m=s+maxlen;<br />
+      for(i=s;i&lt;=m;i++)<br />
+   printf(&quot;%d  &quot;,ary[i]);</p>
+<p>   }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-14489">
+        <div id="dsq-comment-header-14489" class="dsq-comment-header">
+            <cite id="dsq-cite-14489">
+                <span id="dsq-author-user-14489">suresh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14489" class="dsq-comment-body">
+            <div id="dsq-comment-message-14489" class="dsq-comment-message"><p>Why we need array prevIndices when tailIndices stores the Indices coresponding to the elements of the LIS??</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-14224">
+        <div id="dsq-comment-header-14224" class="dsq-comment-header">
+            <cite id="dsq-cite-14224">
+                <span id="dsq-author-user-14224">vivek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14224" class="dsq-comment-body">
+            <div id="dsq-comment-message-14224" class="dsq-comment-message"><p>How to do the fibbonaci question here ?</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-14333">
+        <div id="dsq-comment-header-14333" class="dsq-comment-header">
+            <cite id="dsq-cite-14333">
+http://www.google.com/profiles/ramanawithu                <span id="dsq-author-user-14333">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14333" class="dsq-comment-body">
+            <div id="dsq-comment-message-14333" class="dsq-comment-message"><p>It is easy and can be done in O(1) time. Here is hint, at what rate Fibonacci numbers increase? What is the relation between their growth rate and decimal numbers? Hope you will get the answer easily.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-14347">
+        <div id="dsq-comment-header-14347" class="dsq-comment-header">
+            <cite id="dsq-cite-14347">
+                <span id="dsq-author-user-14347">vivek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14347" class="dsq-comment-body">
+            <div id="dsq-comment-message-14347" class="dsq-comment-message"><p>I m still not able to figure out the soln. I was thinking to find the nearest fibonacci # to A. And then use those 2 fib nos. to find other fibs in the range A to B.</p>
+<p>How is O(1) achieved ? Using some Fib nos. related formula ?</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-14358">
+        <div id="dsq-comment-header-14358" class="dsq-comment-header">
+            <cite id="dsq-cite-14358">
+http://www.google.com/profiles/ramanawithu                <span id="dsq-author-user-14358">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14358" class="dsq-comment-body">
+            <div id="dsq-comment-message-14358" class="dsq-comment-message"><p>Okay, here it is. What do we need? Number of fibonacci numbers in between A and B. If we can figure out which position does A and B occupies in the Fibonacci sequence, we can easily find the required result.</p>
+<p>Fibonacci numbers grow at the rate approximated by golden ration, i.e. F(n) = Phi^n, where Phi = 1.618. It means, to calculate (n+1) Fibonacci number in same time of n-th number on the same environment, we need 61.8% faster machine.</p>
+<p>Here, A and B corresponds to F(n1) and F(n2). We can easily find n1 and n2 value, and followed by difference. Here is my code,</p>
+<pre> <code language="C">
+int FibonacciInBetween(long unsigned a, long unsigned b) {
+    int x = (int)(4.785 * log10((double)a));
+    int y = (int)(4.785 * log10((double)b));
+
+    return abs(y-x);
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-17403">
+        <div id="dsq-comment-header-17403" class="dsq-comment-header">
+            <cite id="dsq-cite-17403">
+                <span id="dsq-author-user-17403">sachin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17403" class="dsq-comment-body">
+            <div id="dsq-comment-message-17403" class="dsq-comment-message"><p>How did you get 4.785?I am not getting how you are getting the formula?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-venki bypostauthor even depth-4" id="dsq-comment-17708">
+        <div id="dsq-comment-header-17708" class="dsq-comment-header">
+            <cite id="dsq-cite-17708">
+http://www.linkedin.com/in/ramanawithu                <span id="dsq-author-user-17708">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17708" class="dsq-comment-body">
+            <div id="dsq-comment-message-17708" class="dsq-comment-message"><p>log 10 to the base 1.618 = 4.785. Easy one, I expected the reader to know this.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-ronny odd alt depth-3" id="dsq-comment-20696">
+        <div id="dsq-comment-header-20696" class="dsq-comment-header">
+            <cite id="dsq-cite-20696">
+                <span id="dsq-author-user-20696">Ronny</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20696" class="dsq-comment-body">
+            <div id="dsq-comment-message-20696" class="dsq-comment-message"><p>@venki @geeksforgeeks<br />
+Should not the returned value be abs(y-x)-1<br />
+since the question asks for number of fibonacci numbers BETWEEN a and b</p>
+<p>For a fibonacci series starting with 0,</p>
+<p>0 1 1 2 3 5 8 13 21 34 55 &#8230;. </p>
+<p>pos of 5 is 6<br />
+pos of 8 is 7</p>
+<p>the above method returns difference in position of a and b.<br />
+for the above case it will return 1, but there are no fibonacci numbers BETWEEN 5 and 8.</p>
+<p>So the return value should be abs(y-x)-1.<br />
+Kindly update the comment to avoid confusion.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-14223">
+        <div id="dsq-comment-header-14223" class="dsq-comment-header">
+            <cite id="dsq-cite-14223">
+                <span id="dsq-author-user-14223">vivek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14223" class="dsq-comment-body">
+            <div id="dsq-comment-message-14223" class="dsq-comment-message"><p>What is the solution to problem:</p>
+<p>&gt;&gt; Find number of Fibonacci numbers existing in between these two numbers (including A and B). &gt;&gt; </p>
+<p>asked above.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-14056">
+        <div id="dsq-comment-header-14056" class="dsq-comment-header">
+            <cite id="dsq-cite-14056">
+                <span id="dsq-author-user-14056">nomind</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14056" class="dsq-comment-body">
+            <div id="dsq-comment-message-14056" class="dsq-comment-message"><p>memset(tailIndices, 0, sizeof(tailIndices[0])*size);<br />
+   memset(prevIndices, 0, sizeof(prevIndices[0])*size);</p>
+<p>replace these two lines with</p>
+<p>memset(tailIndices, -2, sizeof(tailIndices[0])*size);<br />
+   memset(prevIndices, -2, sizeof(prevIndices[0])*size);</p>
+<p>then it will work fine <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-venki bypostauthor even depth-2" id="dsq-comment-14124">
+        <div id="dsq-comment-header-14124" class="dsq-comment-header">
+            <cite id="dsq-cite-14124">
+http://www.linkedin.com/in/ramanawithu                <span id="dsq-author-user-14124">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14124" class="dsq-comment-body">
+            <div id="dsq-comment-message-14124" class="dsq-comment-message"><p>Thanks.</p>
+<p>In my code I have initialized it to 0xFF (effectively -1). Missed here. Updated code, it will work fine.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-14053">
+        <div id="dsq-comment-header-14053" class="dsq-comment-header">
+            <cite id="dsq-cite-14053">
+                <span id="dsq-author-user-14053">nomind</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14053" class="dsq-comment-body">
+            <div id="dsq-comment-message-14053" class="dsq-comment-message"><p>input int A[] = { 2, 5,1, 3, 7, 11, 8, 10, 13, 6 }</p>
+<p> output<br />
+ LIS of given input<br />
+  13   10   8   7   3   1   2<br />
+ LIS size 6</p>
+<p> output is wrong.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-13300">
+        <div id="dsq-comment-header-13300" class="dsq-comment-header">
+            <cite id="dsq-cite-13300">
+                <span id="dsq-author-user-13300">rafi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13300" class="dsq-comment-body">
+            <div id="dsq-comment-message-13300" class="dsq-comment-message"><p>But just try this input :</p>
+<pre> <code language="C">
+int A[] = { 26, 13, 24, 25, 28, 10, 15, 4, 7, 21, 20, 23, 19, 22, 30, 29, 8, 27, 11, 1, 6, 3, 14, 16, 17, 5, 18, 2, 9, 12 };
+</code> </pre>
+<p>And you have this:</p>
+<p>LIS of given input<br />
+18   17   16   14   11   8   7   4   26<br />
+LIS size 8</p>
+<p>So you have to set the sentinel each time you renew tailIndices[0].</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-13369">
+        <div id="dsq-comment-header-13369" class="dsq-comment-header">
+            <cite id="dsq-cite-13369">
+                <span id="dsq-author-user-13369">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13369" class="dsq-comment-body">
+            <div id="dsq-comment-message-13369" class="dsq-comment-message"><p>@Rafi, we need a delimiter to recognize end of trace back. I have used -1 in location 0 as sentinel. I got the following output on my machine.</p>
+<pre> <code language="C">
+Input:
+26  13  24  25  28  10  15   4   7  21  20  23  19  22  30  29   8  27  11   1   6   3  14  16  17   5  18   2   9  12
+
+Output:
+Length of Longest Increasing Subsequence is 8, and it is
+4   7   8  11  14  16  17  18
+</code> </pre>
+<p>Note that there is possibility of many such LIS of same length.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-13152">
+        <div id="dsq-comment-header-13152" class="dsq-comment-header">
+            <cite id="dsq-cite-13152">
+                <span id="dsq-author-user-13152">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13152" class="dsq-comment-body">
+            <div id="dsq-comment-message-13152" class="dsq-comment-message"><p><b>An email comment to author: Comment by Rafi</b>:</p>
+<p>You forget to reset prevIndices here : if( A[i] &lt; A[tailIndices[0]] ) { // new smallest value tailIndices[0] = i; There should be a : prevIndices[i] = -1; BTW thank for your 2 posts about LIS they&#039;re just amazing.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-13229">
+        <div id="dsq-comment-header-13229" class="dsq-comment-header">
+            <cite id="dsq-cite-13229">
+                <span id="dsq-author-user-13229">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13229" class="dsq-comment-body">
+            <div id="dsq-comment-message-13229" class="dsq-comment-message"><p>@Rafi, this is not required. If you observe, the location prevIndices[0] acts as sentinel to stop trace back.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/construction-of-longest-monotonically-increasing-subsequence-n-log-n/';
+var disqus_identifier = '27614 http://www.geeksforgeeks.org/?p=27614';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Construction of Longest Monotonically Increasing Subsequence (N log N)";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.217 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:35:40 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

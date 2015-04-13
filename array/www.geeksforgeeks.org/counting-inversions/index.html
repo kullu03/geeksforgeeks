@@ -1,0 +1,2108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Count Inversions in an array - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/counting-inversions/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Count Inversions in an array - GeeksforGeeks" />
+<meta property="og:description" content="Inversion Count for an array indicates &#8211; how far (or close) the array is from being sorted. If array is already sorted then inversion count is 0. If array is sorted in reverse order that inversion count is the maximum. Formally speaking, two elements a[i] and a[j] form an inversion if a[i] &gt; a[j] and &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/counting-inversions/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Divide and Conquer" />
+<meta property="article:section" content="Arrays" />
+<meta property="article:published_time" content="2010-01-05T23:53:09+00:00" />
+<meta property="article:modified_time" content="2011-08-18T23:40:58+00:00" />
+<meta property="og:updated_time" content="2011-08-18T23:40:58+00:00" />
+<meta property="og:image" content="http://geeksforgeeks.org/wp-content/uploads/2010/01/inv_count1.GIF" />
+<meta property="og:image" content="http://geeksforgeeks.org/wp-content/uploads/2010/01/inv_count2.GIF" />
+<meta property="og:image" content="http://geeksforgeeks.org/wp-content/uploads/2010/01/inv_count3.GIF" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.542 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111336 108.217.227.164';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Count Inversions in an array</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p><em>Inversion Count </em>for an array indicates &#8211; how far (or close) the array is from being sorted.  If array is already sorted then inversion count is 0.  If array is sorted in reverse order that inversion count is the maximum. <span id="more-3968"></span><br />
+Formally speaking, two elements a[i] and a[j] form an inversion if a[i] > a[j] and i < j</p>
+<p><strong>Example:</strong><br />
+The sequence 2, 4, 1, 3, 5 has three inversions (2, 1), (4, 1), (4, 3).</p>
+<p><strong>METHOD 1 (Simple)</strong><br />
+For each element, count number of elements which are on right side of it and are smaller than it. </p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+int getInvCount(int arr[], int n)
+{
+  int inv_count = 0;
+  int i, j;
+
+  for(i = 0; i &lt; n - 1; i++)
+    for(j = i+1; j &lt; n; j++)
+      if(arr[i] &gt; arr[j])
+        inv_count++;
+
+  return inv_count;
+}
+
+/* Driver progra to test above functions */
+int main(int argv, char** args)
+{
+  int arr[] = {1, 20, 6, 4, 5};
+  printf(&quot; Number of inversions are %d \n&quot;, getInvCount(arr, 5));
+  getchar();
+  return 0;
+}
+</pre>
+<p><strong>Time Complexity:</strong> O(n^2)</p>
+<p></br><br />
+<strong>METHOD 2(Enhance Merge Sort)</strong><br />
+Suppose we know the number of inversions in the left half and right half of the array (let be inv1 and inv2), what kinds of inversions are not accounted for in Inv1 + Inv2? The answer is &#8211; the inversions we have to count during the merge step. Therefore, to get number of inversions, we need to add number of inversions in left subarray, right subarray and merge(). </p>
+<p><img src="http://geeksforgeeks.org/wp-content/uploads/2010/01/inv_count1.GIF" alt="inv_count1" title="inv_count1" width="505" height="237" class="aligncenter size-full wp-image-3997" /><br />
+<strong>How to get number of inversions in merge()?</strong><br />
+In merge process, let i is used for indexing left sub-array and j for right sub-array. At any step in merge(), if a[i] is greater than a[j], then there are (mid – i) inversions. because left and right subarrays are sorted, so all the remaining elements in left-subarray (a[i+1], a[i+2] … a[mid]) will be greater than a[j]</p>
+<p><img src="http://geeksforgeeks.org/wp-content/uploads/2010/01/inv_count2.GIF" alt="inv_count2" title="inv_count2" width="555" height="257" class="aligncenter size-full wp-image-3999" /></p>
+<p><strong>The complete picture:</strong><br />
+<img src="http://geeksforgeeks.org/wp-content/uploads/2010/01/inv_count3.GIF" alt="inv_count3" title="inv_count3" width="461" height="406" class="aligncenter size-full wp-image-4000" /></p>
+<p><strong>Implementation:</strong></p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+ 
+int  _mergeSort(int arr[], int temp[], int left, int right);
+int merge(int arr[], int temp[], int left, int mid, int right);
+ 
+/* This function sorts the input array and returns the
+   number of inversions in the array */
+int mergeSort(int arr[], int array_size)
+{
+    int *temp = (int *)malloc(sizeof(int)*array_size);
+    return _mergeSort(arr, temp, 0, array_size - 1);
+}
+ 
+/* An auxiliary recursive function that sorts the input array and
+  returns the number of inversions in the array. */
+int _mergeSort(int arr[], int temp[], int left, int right)
+{
+  int mid, inv_count = 0;
+  if (right &gt; left)
+  {
+    /* Divide the array into two parts and call _mergeSortAndCountInv()
+       for each of the parts */
+    mid = (right + left)/2;
+ 
+    /* Inversion count will be sum of inversions in left-part, right-part
+      and number of inversions in merging */
+    inv_count  = _mergeSort(arr, temp, left, mid);
+    inv_count += _mergeSort(arr, temp, mid+1, right);
+ 
+    /*Merge the two parts*/
+    inv_count += merge(arr, temp, left, mid+1, right);
+  }
+  return inv_count;
+}
+ 
+/* This funt merges two sorted arrays and returns inversion count in
+   the arrays.*/
+int merge(int arr[], int temp[], int left, int mid, int right)
+{
+  int i, j, k;
+  int inv_count = 0;
+ 
+  i = left; /* i is index for left subarray*/
+  j = mid;  /* i is index for right subarray*/
+  k = left; /* i is index for resultant merged subarray*/
+  while ((i &lt;= mid - 1) &amp;&amp; (j &lt;= right))
+  {
+    if (arr[i] &lt;= arr[j])
+    {
+      temp[k++] = arr[i++];
+    }
+    else
+    {
+      temp[k++] = arr[j++];
+ 
+     /*this is tricky -- see above explanation/diagram for merge()*/
+      inv_count = inv_count + (mid - i);
+    }
+  }
+ 
+  /* Copy the remaining elements of left subarray
+   (if there are any) to temp*/
+  while (i &lt;= mid - 1)
+    temp[k++] = arr[i++];
+ 
+  /* Copy the remaining elements of right subarray
+   (if there are any) to temp*/
+  while (j &lt;= right)
+    temp[k++] = arr[j++];
+ 
+  /*Copy back the merged elements to original array*/
+  for (i=left; i &lt;= right; i++)
+    arr[i] = temp[i];
+ 
+  return inv_count;
+}
+ 
+/* Driver progra to test above functions */
+int main(int argv, char** args)
+{
+  int arr[] = {1, 20, 6, 4, 5};
+  printf(&quot; Number of inversions are %d \n&quot;, mergeSort(arr, 5));
+  getchar();
+  return 0;
+}
+</pre>
+<p>Note that above code modifies (or sorts) the input array.  If we want to count only inversions then we need to create a copy of original array and call mergeSort() on copy.<br />
+<strong><br />
+Time Complexity:  </strong>O(nlogn)<br />
+<strong>Algorithmic Paradigm:</strong>  Divide and Conquer</p>
+<p><strong><br />
+References:</strong><br />
+<a href="http://www.cs.umd.edu/class/fall2009/cmsc451/lectures/Lec08-inversions.pdf">http://www.cs.umd.edu/class/fall2009/cmsc451/lectures/Lec08-inversions.pdf</a><br />
+<a href="http://www.cp.eng.chula.ac.th/~piak/teaching/algo/algo2008/count-inv.htm">http://www.cp.eng.chula.ac.th/~piak/teaching/algo/algo2008/count-inv.htm</a></p>
+<p>Please write comments if you find any bug in the above program/algorithm or other ways to solve the same problem. </p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array-set-2-expected-linear-time/" title="K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)">K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)</a></li><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array/" title="K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1">K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/time-complexity-insertion-sort-inversions/" title="Time complexity of insertion sort when there are O(n) inversions?">Time complexity of insertion sort when there are O(n) inversions?</a></li><li><a href="http://www.geeksforgeeks.org/check-two-given-sets-disjoint/" title="How to check if two given sets are disjoint?">How to check if two given sets are disjoint?</a></li><li><a href="http://www.geeksforgeeks.org/minimum-number-platforms-required-railwaybus-station/" title="Minimum Number of Platforms Required for a Railway/Bus Station">Minimum Number of Platforms Required for a Railway/Bus Station</a></li><li><a href="http://www.geeksforgeeks.org/given-two-sorted-arrays-number-x-find-pair-whose-sum-closest-x/" title="Find the closest pair from two sorted arrays">Find the closest pair from two sorted arrays</a></li><li><a href="http://www.geeksforgeeks.org/print-elements-sorted-order-row-column-wise-sorted-matrix/" title="Print all elements in sorted order from row and column wise sorted matrix">Print all elements in sorted order from row and column wise sorted matrix</a></li><li><a href="http://www.geeksforgeeks.org/length-largest-subarray-contiguous-elements-set-1/" title="Length of the largest subarray with contiguous elements | Set 1">Length of the largest subarray with contiguous elements | Set 1</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/divide-and-conquer/" rel="tag">Divide and Conquer</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fcounting-inversions%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/counting-inversions/" data-text="Count Inversions in an array" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/counting-inversions/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-33151">
+        <div id="dsq-comment-header-33151" class="dsq-comment-header">
+            <cite id="dsq-cite-33151">
+                <span id="dsq-author-user-33151">Paramvir Singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33151" class="dsq-comment-body">
+            <div id="dsq-comment-message-33151" class="dsq-comment-message"><p>everybody who is facing with the doubt that inversions should be mid-1+j is correct. It&#8217;s just that see the merge the function argument passed is mid+1 not mid. Hope this helps.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-30945">
+        <div id="dsq-comment-header-30945" class="dsq-comment-header">
+            <cite id="dsq-cite-30945">
+                <span id="dsq-author-user-30945">Rahul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30945" class="dsq-comment-body">
+            <div id="dsq-comment-message-30945" class="dsq-comment-message"><p>Its fine! Sorry</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-30944">
+        <div id="dsq-comment-header-30944" class="dsq-comment-header">
+            <cite id="dsq-cite-30944">
+                <span id="dsq-author-user-30944">Rahul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30944" class="dsq-comment-body">
+            <div id="dsq-comment-message-30944" class="dsq-comment-message"><p>It should be j=mid+1</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-30942">
+        <div id="dsq-comment-header-30942" class="dsq-comment-header">
+            <cite id="dsq-cite-30942">
+                <span id="dsq-author-user-30942">Rahul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30942" class="dsq-comment-body">
+            <div id="dsq-comment-message-30942" class="dsq-comment-message"><p>I am in a doubt..there should be mid-i+1 inversions.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-30943">
+        <div id="dsq-comment-header-30943" class="dsq-comment-header">
+            <cite id="dsq-cite-30943">
+                <span id="dsq-author-user-30943">Rahul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30943" class="dsq-comment-body">
+            <div id="dsq-comment-message-30943" class="dsq-comment-message"><p>or j should point to mid+1????</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-30882">
+        <div id="dsq-comment-header-30882" class="dsq-comment-header">
+            <cite id="dsq-cite-30882">
+                <span id="dsq-author-user-30882">alam01</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30882" class="dsq-comment-body">
+            <div id="dsq-comment-message-30882" class="dsq-comment-message"><p>If we just need the inversion count then what is the need of array &#8216;temp&#8217;?<br />
+Do we need it?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-30728">
+        <div id="dsq-comment-header-30728" class="dsq-comment-header">
+            <cite id="dsq-cite-30728">
+                <span id="dsq-author-user-30728">Akshay Srinivas</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30728" class="dsq-comment-body">
+            <div id="dsq-comment-message-30728" class="dsq-comment-message"><p>i wrote following algorithm, let me know if its good one</p>
+<p>#include<br />
+static int *start_address=0;<br />
+static int size = 0;<br />
+int inc = 0;<br />
+int inversion(int *arr, int num, int n)<br />
+{<br />
+    if(n == 0) {<br />
+        if(num &gt; arr[0]) {<br />
+            return 1;<br />
+        }<br />
+        return 0;<br />
+    }<br />
+    inc += inversion(arr, num, n/2);<br />
+    if(n %2 != 0 &amp;&amp; n &gt; 1) {<br />
+        if(num &gt; arr[n-1]) {<br />
+            inc++;<br />
+        }<br />
+    }<br />
+    if(n%2 &amp;&amp; n != 1) {<br />
+         inc += inversion(arr + n , num, n/2);<br />
+    } else {<br />
+        int index = 0;<br />
+        index = (arr +n) &#8211; start_address;<br />
+        if(index  1) {<br />
+        int index = 0;<br />
+        index = (arr +n +n -1) &#8211; start_address;</p>
+<p>        if(index  (arr + n)[n-1])<br />
+            inc += 1;<br />
+    }<br />
+    return 0;<br />
+}</p>
+<p>int main()<br />
+{<br />
+    int i =0, inverse = 0;<br />
+//  int arr[]={100,0,1,23,25};<br />
+    int arr[]={11,100,0,1,3,20,4,7,0,2,24,5,9,25,11,8,45,78,90,14,21};<br />
+    int n =0;<br />
+    size = n = sizeof(arr)/sizeof(arr[0]);<br />
+    start_address = arr;<br />
+    for(i=0;i&lt;n;i++){<br />
+        printf(&quot;%d &quot;, arr[i]);<br />
+    }<br />
+    printf(&quot;n&quot;);</p>
+<p>    printf(&quot;size %dn&quot;, size);</p>
+<p>    for(i=0;i&lt;n-1;i++) {<br />
+        if((n-1-i)%2)<br />
+            inversion(arr+i + 1,arr[i],(n-i)/2);<br />
+        else<br />
+            inversion(arr+i + 1,arr[i],(n-1-i)/2);<br />
+    }<br />
+    printf(&quot;total inversions %dn&quot;, inc);<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-30110">
+        <div id="dsq-comment-header-30110" class="dsq-comment-header">
+            <cite id="dsq-cite-30110">
+                <span id="dsq-author-user-30110">feroz</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30110" class="dsq-comment-body">
+            <div id="dsq-comment-message-30110" class="dsq-comment-message"><p>how can i do method one in 2d array c#</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-29860">
+        <div id="dsq-comment-header-29860" class="dsq-comment-header">
+            <cite id="dsq-cite-29860">
+                <span id="dsq-author-user-29860">tczf1128</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29860" class="dsq-comment-body">
+            <div id="dsq-comment-message-29860" class="dsq-comment-message"><p>&#8216;inv_count  = _mergeSort(arr, temp, left, mid);&#8217; should be &#8216;+=&#8217;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-29861">
+        <div id="dsq-comment-header-29861" class="dsq-comment-header">
+            <cite id="dsq-cite-29861">
+                <span id="dsq-author-user-29861">tczf1128</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29861" class="dsq-comment-body">
+            <div id="dsq-comment-message-29861" class="dsq-comment-message"><p>you are right.sorry</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-29205">
+        <div id="dsq-comment-header-29205" class="dsq-comment-header">
+            <cite id="dsq-cite-29205">
+                <span id="dsq-author-user-29205">Murali</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29205" class="dsq-comment-body">
+            <div id="dsq-comment-message-29205" class="dsq-comment-message"><p>We can solve this in O(n) using a stack.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-29676">
+        <div id="dsq-comment-header-29676" class="dsq-comment-header">
+            <cite id="dsq-cite-29676">
+                <span id="dsq-author-user-29676">Upen</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29676" class="dsq-comment-body">
+            <div id="dsq-comment-message-29676" class="dsq-comment-message"><p>we can solve it by using stack but can&#8217;t in O(n) time it will cost us O(n^2) &#8230;. give me your algorithm if you really think we can solve it in O(n) using stack</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-28640">
+        <div id="dsq-comment-header-28640" class="dsq-comment-header">
+            <cite id="dsq-cite-28640">
+                <span id="dsq-author-user-28640">kd111</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28640" class="dsq-comment-body">
+            <div id="dsq-comment-message-28640" class="dsq-comment-message"><p>//Simple modification to mergeSort algorithm</p>
+<p>#include<br />
+#include</p>
+<p>int count = 0;</p>
+<p>void mergeAndCount(int *A , int low , int mid , int high){<br />
+    int n1 = mid &#8211; low + 1;<br />
+    int n2 = high &#8211; low;<br />
+    int *L = (int *) malloc(sizeof(int)*n1);<br />
+    int *R = (int *) malloc(sizeof(int)*n2);<br />
+    int i , j , k;<br />
+    for(i = 0 ; i &lt; n1 ; i++)<br />
+            L[i] = A[low + i];<br />
+    for(j = 0 ; j &lt; n2 ; j++)<br />
+            R[j] = A[mid + 1 + j];<br />
+    i = 0;<br />
+    j = 0;<br />
+    k = low;<br />
+    while(i &lt; n1 &amp;&amp; j &lt; n2){<br />
+        if(L[i] &lt;= R[j]){<br />
+            A[k] = L[i];<br />
+            i++;<br />
+            k++;<br />
+            }<br />
+        else{<br />
+            count = count + n1 &#8211; i;<br />
+            A[k] = R[j];<br />
+            j++;<br />
+            k++;<br />
+            }<br />
+        }<br />
+    while(i &lt; n1){<br />
+        A[k] = L[i];<br />
+        i++;<br />
+        k++;<br />
+        }<br />
+    while(j &lt; n2){<br />
+        A[k] = R[j];<br />
+        j++;<br />
+        k++;<br />
+        }<br />
+    free(L);<br />
+    free(R);<br />
+    }</p>
+<p>void mergeSort(int *A , int low , int high){<br />
+    if( low &lt; high ){<br />
+        int mid = low + (high &#8211; low)/2;<br />
+        mergeSort(A , low , mid);<br />
+        mergeSort(A , mid + 1 , high);<br />
+        mergeAndCount(A , low , mid ,high);<br />
+        }<br />
+    }</p>
+<p>int main(){<br />
+    int A[] = {6,5,4,3,2,1};<br />
+    int size = sizeof(A)/sizeof(A[0]);<br />
+    printf(&quot;Given array :nt&quot;);<br />
+    int i;<br />
+    for(i = 0 ; i &lt; size ; i++)<br />
+        printf(&quot;%d &quot;,A[i]);<br />
+    mergeSort(A , 0 , size &#8211; 1);<br />
+    printf(&quot;nno. of inversions : %dn&quot;,count);<br />
+    return 0;<br />
+    }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-27822">
+        <div id="dsq-comment-header-27822" class="dsq-comment-header">
+            <cite id="dsq-cite-27822">
+                <span id="dsq-author-user-27822">Marsha Donna</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27822" class="dsq-comment-body">
+            <div id="dsq-comment-message-27822" class="dsq-comment-message"><p>@geeksforgeeks although not optimal..is the following progm correct to count the number of inversions using bubble sort..just to clarify the concept..</p>
+<p>#include</p>
+<p>int bubble(int arr[],int n)<br />
+{<br />
+  int i, j,temp,k,inv_count=0;</p>
+<p>  for(i = 0; i &lt;= n &#8211; 2; i++)<br />
+    for(j = 0; j  arr[j+1])<br />
+         {<br />
+          temp=arr[j];<br />
+          arr[j]=arr[j+1];<br />
+          arr[j+1]=temp;<br />
+          inv_count++;<br />
+        }<br />
+return inv_count;<br />
+}</p>
+<p>void main()<br />
+{<br />
+    int k,count_inv;<br />
+    int myarray[] = {50,40,30,20,10};<br />
+    count_inv=bubble(myarray,5);<br />
+    for(k=0;k&lt;5;k++)<br />
+    printf(&quot;sorted array is %dn&quot;,myarray[k]);<br />
+    printf(&quot;the number of inversions is %d&quot;,count_inv);<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-27821">
+        <div id="dsq-comment-header-27821" class="dsq-comment-header">
+            <cite id="dsq-cite-27821">
+                <span id="dsq-author-user-27821">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27821" class="dsq-comment-body">
+            <div id="dsq-comment-message-27821" class="dsq-comment-message"><p>@geeksforgeeks:disqus although not optimal..is the following progm correct to count the number of inversions using bubble sort..just to clarify the concept..</p>
+<p>#include</p>
+<p>int bubble(int arr[],int n)<br />
+{<br />
+    int i, j,temp,k,inv_count=0;</p>
+<p>  for(i = 0; i &lt;= n &#8211; 2; i++)<br />
+  {for(j = 0; j  arr[j+1])<br />
+         {<br />
+          printf(&#8220;n%dt%dn&#8221;,arr[j],arr[j+1]);<br />
+          temp=arr[j];<br />
+          arr[j]=arr[j+1];<br />
+          arr[j+1]=temp;<br />
+          inv_count++;<br />
+         // for(k=0;k&lt;n;k++)<br />
+        //      printf(&quot;%d&quot;,arr[k]);<br />
+          }</p>
+<p>      }<br />
+  printf(&quot;nn&quot;);<br />
+  for(k=0;k&lt;n;k++)<br />
+          printf(&quot;%dt&quot;,arr[k]);printf(&quot;nn&quot;);<br />
+  }<br />
+return inv_count;<br />
+}</p>
+<p>void main()<br />
+{int k,count_inv;<br />
+    int myarray[] = {50,40,30,20,10};<br />
+count_inv=bubble(myarray,5);<br />
+for(k=0;k&lt;5;k++)<br />
+    printf(&quot;sorted array is %dn&quot;,myarray[k]);<br />
+printf(&quot;the number of inversions is %d&quot;,count_inv);<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-22877">
+        <div id="dsq-comment-header-22877" class="dsq-comment-header">
+            <cite id="dsq-cite-22877">
+                <span id="dsq-author-user-22877">Mohit Garg</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22877" class="dsq-comment-body">
+            <div id="dsq-comment-message-22877" class="dsq-comment-message"><p>I think there exists a simpler solution<br />
+sort the array<br />
+e.g. 4,5,6,1,2,3 becomes 1,2,3,4,5,6<br />
+find the displacement for a given element e.g. 4 which was initially at 0 is now at index 3. Thus displacement is 3.</p>
+<p>Total number of inversions should be sum of all the displacement towards right.<br />
+Only 4,5,6 are displaced right, total = 3+3+3 = 9</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-27069">
+        <div id="dsq-comment-header-27069" class="dsq-comment-header">
+            <cite id="dsq-cite-27069">
+                <span id="dsq-author-user-27069">piyush</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27069" class="dsq-comment-body">
+            <div id="dsq-comment-message-27069" class="dsq-comment-message"><p>Try using the same technique on 4,5,6,1,3,2:<br />
+Your answer would still be 3+3+3=9, however the correct answer is 10.</p>
+<p>Its the not displacement towards right that counts, but the relative displacements of elements. e.g. 3 relative to 2 is swapped =&gt; add 1, and so on .</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-20065">
+        <div id="dsq-comment-header-20065" class="dsq-comment-header">
+            <cite id="dsq-cite-20065">
+                <span id="dsq-author-user-20065">crazy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20065" class="dsq-comment-body">
+            <div id="dsq-comment-message-20065" class="dsq-comment-message"><pre> <code language="C">
+#include&lt;stdio.h&gt;
+#define INF 19999999
+long long total;
+void merge(int a[],int p,int q,int r)
+{
+    int n1,n2,i,k,j;
+    n1=(q-p)+1;
+    n2=(r-q);
+    int left[n1+2],right[n2+2];
+    for(i=1;i&lt;=n1;i++)
+     left[i]=a[p+i-1];
+    for(i=1;i&lt;=n2;i++)
+     right[i]=a[q+i];
+    left[n1+1]=right[n2+1]=INF;
+    i=j=1;
+    for(k=p;k&lt;=r;k++)
+    {
+        if(left[i]&lt;=right[j])
+         a[k]=left[i++];
+        else
+        {
+         total+=(n1-(i-1));
+         a[k]=right[j++];
+        }
+    }
+}
+void mergesort(int a[],int p,int r)
+{
+    int q;
+    if(p&lt;r)
+    {
+        q=(p+r)/2;
+        mergesort(a,p,q);
+        mergesort(a,q+1,r);
+        merge(a,p,q,r);
+    }
+}
+int main(int argv, char** args)
+{
+  int arr[] = {1, 20, 6, 4, 5};
+  mergeSort(arr,0,4);
+  printf(&quot; Number of inversions are %d \n&quot;,total);
+  getchar();
+  return 0;
+}
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-18549">
+        <div id="dsq-comment-header-18549" class="dsq-comment-header">
+            <cite id="dsq-cite-18549">
+                <span id="dsq-author-user-18549">Venkatesh B</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18549" class="dsq-comment-body">
+            <div id="dsq-comment-message-18549" class="dsq-comment-message"><p>for the algorithm given by geeks for geeks, for this input 4,5,6,1,2,3 number of inversions are 9, is that correct?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-18772">
+        <div id="dsq-comment-header-18772" class="dsq-comment-header">
+            <cite id="dsq-cite-18772">
+                <span id="dsq-author-user-18772">Swapnil R Mehta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18772" class="dsq-comment-body">
+            <div id="dsq-comment-message-18772" class="dsq-comment-message"><p>Yes its correct.<br />
+As inversions: (4,1),(4,2),(4,3),(5,1),(5,2),(5,3),(6,1)(6,2),(6,3).</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-29112">
+        <div id="dsq-comment-header-29112" class="dsq-comment-header">
+            <cite id="dsq-cite-29112">
+                <span id="dsq-author-user-29112">ljk</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29112" class="dsq-comment-body">
+            <div id="dsq-comment-message-29112" class="dsq-comment-message"><p>Is this venkatesh basker?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-31404">
+        <div id="dsq-comment-header-31404" class="dsq-comment-header">
+            <cite id="dsq-cite-31404">
+                <span id="dsq-author-user-31404">Venkatesh Fan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31404" class="dsq-comment-body">
+            <div id="dsq-comment-message-31404" class="dsq-comment-message"><p>Are u the famous Venkatesh B?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-shivi even thread-odd thread-alt depth-1" id="dsq-comment-18013">
+        <div id="dsq-comment-header-18013" class="dsq-comment-header">
+            <cite id="dsq-cite-18013">
+                <span id="dsq-author-user-18013">shivi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18013" class="dsq-comment-body">
+            <div id="dsq-comment-message-18013" class="dsq-comment-message"><pre> <code language="C">
+#include &lt;algorithm&gt;
+#include &lt;cstdio&gt;
+#include&lt;shiviheaders.h&gt;
+#include &lt;cstring&gt;
+using namespace std;
+
+typedef long long llong;
+const int MAXN = 500020;
+llong tree[MAXN], A[MAXN], B[MAXN];
+
+llong read(int idx)
+{
+    llong sum = 0;
+    while (idx &gt; 0)
+    {
+        sum += tree[idx];
+        idx -= (idx &amp; -idx);
+    }
+    return sum;
+}
+
+void update(int idx ,llong val)
+{
+    while (idx &lt;= MAXN)
+    {
+        tree[idx] += val;
+        idx += (idx &amp; -idx);
+    }
+}
+
+int main()
+{
+    int N,t;
+    // scanf(&quot;%d&quot;,&amp;t);
+    t=1;
+    while(t--)
+    {
+		 scanf(&quot;%d&quot;,&amp;N);      
+        memset(tree, 0, sizeof(tree));
+        for(int i = 0; i &lt; N; ++i)
+        {
+            scanf(&quot;%lld&quot;,&amp;A[i]);
+            B[i] = A[i];
+        }
+        
+        sort(B, B + N);
+        
+        for(int i = 0; i &lt; N; ++i)
+        {
+            int rank = int(lower_bound(B, B + N, A[i]) - B);
+            A[i] = rank + 1;
+        }
+        
+        
+        
+        llong inv_count = 0;
+        
+        for(int i = N - 1; i &gt;= 0; --i)
+        {
+            llong x = read(A[i] - 1);
+            inv_count += x;
+            update(A[i], 1);
+        }
+        printf(&quot;%lld\n&quot;,inv_count);
+    }
+    return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-ajiteshpathak odd alt thread-even depth-1" id="dsq-comment-16499">
+        <div id="dsq-comment-header-16499" class="dsq-comment-header">
+            <cite id="dsq-cite-16499">
+                <span id="dsq-author-user-16499">ajiteshpathak</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16499" class="dsq-comment-body">
+            <div id="dsq-comment-message-16499" class="dsq-comment-message"><p>Not sure if any of the above methods have similar implementation but here is my approach. Basically I am using I ,j where I holds the iterator for every element in the array and J just iterates all elements before it.</p>
+<p>int inversionCount(int *arr, int n)<br />
+{<br />
+	int i = 0, j = 1;<br />
+	int count = 0;</p>
+<p>	while (i < n - 1)<br />
+	{<br />
+		if (arr[j] > arr[i] &#038;&#038; j > i)<br />
+		{<br />
+			// Already sorted<br />
+			j++;<br />
+		}<br />
+		else if (arr[j] < arr[i] &#038;&#038; j > i)<br />
+		{<br />
+			printf(&#8221; (%d, %d) &#8220;, arr[i], arr[j]);<br />
+			j++;<br />
+			count++;<br />
+		}</p>
+<p>		if (j == n)<br />
+		{<br />
+			i++;<br />
+			j = i + 1;<br />
+		}<br />
+	}</p>
+<p>	return count;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-lotus even thread-odd thread-alt depth-1" id="dsq-comment-16418">
+        <div id="dsq-comment-header-16418" class="dsq-comment-header">
+            <cite id="dsq-cite-16418">
+                <span id="dsq-author-user-16418">lotus</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16418" class="dsq-comment-body">
+            <div id="dsq-comment-message-16418" class="dsq-comment-message"><p>Why can&#8217;t we just store sorted array and count how many numbers in the original array are not in their expected position.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-17827">
+        <div id="dsq-comment-header-17827" class="dsq-comment-header">
+            <cite id="dsq-cite-17827">
+                <span id="dsq-author-user-17827">dew</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17827" class="dsq-comment-body">
+            <div id="dsq-comment-message-17827" class="dsq-comment-message"><p>@GeeksforGeeks Please let us know if there is any mistake in this logic. Creating a temp array in which the elements are sorted. then finding the no of elements that are not in their correct position</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-18838">
+        <div id="dsq-comment-header-18838" class="dsq-comment-header">
+            <cite id="dsq-cite-18838">
+                <span id="dsq-author-user-18838">Priso</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18838" class="dsq-comment-body">
+            <div id="dsq-comment-message-18838" class="dsq-comment-message"><p>Consider an sorted array (1,2,3,4) where inversion is 0<br />
+now lets swap 1 and 4 so the array is (4,2,3,1)<br />
+and the numbers which are not in their expected positions = 2 (number 4 and number 1)</p>
+<p>But the number of inversions = 5 i.e., {(4,2),(4,3),(4,1),(2,1),(3,1)}</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-15222">
+        <div id="dsq-comment-header-15222" class="dsq-comment-header">
+            <cite id="dsq-cite-15222">
+                <span id="dsq-author-user-15222">mukesh gupta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15222" class="dsq-comment-body">
+            <div id="dsq-comment-message-15222" class="dsq-comment-message"><p>void inversion(int a[ ],int n)<br />
+{<br />
+if(n&gt;1){<br />
+int b[n/2],c[n-n/2],i,j=0,k,m;<br />
+  for(i=0;i&lt;n/2;i++)<br />
+   b[i]=a[i];<br />
+  for(i=n/2;i&lt;n;i++)<br />
+   { c[j]=a[i];<br />
+   j++;}<br />
+   inversion(b,n/2);<br />
+   inversion(c,n-n/2);<br />
+   i=0;<br />
+   j=0;<br />
+   k=0;<br />
+   while(i&lt;n/2 &amp;&amp; j&lt;(n-n/2))<br />
+{   if(b[i]&lt;c[j])<br />
+     {	 a[k]=b[i];<br />
+               i++;}<br />
+               else<br />
+               { a[k]=c[j];<br />
+               j++;<br />
+               for(m=i;m&lt;n/2;m++)<br />
+               inver++; }<br />
+               k++;<br />
+               }<br />
+if(i==n/2)<br />
+for(i=j;i&lt;n-n/2;i++)<br />
+a[k++]=c[i];<br />
+else if(j==n-n/2)<br />
+for(j=i;j&lt;n/2;j++)<br />
+a[k++]=b[j];<br />
+}<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-15221">
+        <div id="dsq-comment-header-15221" class="dsq-comment-header">
+            <cite id="dsq-cite-15221">
+                <span id="dsq-author-user-15221">mukesh gupta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15221" class="dsq-comment-body">
+            <div id="dsq-comment-message-15221" class="dsq-comment-message"><p>void inversion(int a[ ],int n)<br />
+{<br />
+if(n&gt;1){<br />
+int b[n/2],c[n-n/2],i,j=0,k,m;<br />
+  for(i=0;i&lt;n/2;i++)<br />
+   b[i]=a[i];<br />
+  for(i=n/2;i&lt;n;i++)<br />
+   { c[j]=a[i];<br />
+   j++;}<br />
+   inversion(b,n/2);<br />
+%2</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-15185">
+        <div id="dsq-comment-header-15185" class="dsq-comment-header">
+            <cite id="dsq-cite-15185">
+                <span id="dsq-author-user-15185">bartender</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15185" class="dsq-comment-body">
+            <div id="dsq-comment-message-15185" class="dsq-comment-message"><p>If mid = (left+right)/2<br />
+The number of inversions should be mid+1-i.<br />
+As all elements from A[i] to A[mid] are less than A[j]<br />
+which is mid+1-i.</p>
+<p>But the code works out as we pass mid+1 into the merge function.So, here mid= (left+right)/2+1 i.e. as explained in code, pointing to the first element in the second sub-array.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-coderace even depth-2" id="dsq-comment-16131">
+        <div id="dsq-comment-header-16131" class="dsq-comment-header">
+            <cite id="dsq-cite-16131">
+                <span id="dsq-author-user-16131">coderAce</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16131" class="dsq-comment-body">
+            <div id="dsq-comment-message-16131" class="dsq-comment-message"><p>You&#8217;re right. @Moderators, you should highlight this in the main article.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-14679">
+        <div id="dsq-comment-header-14679" class="dsq-comment-header">
+            <cite id="dsq-cite-14679">
+                <span id="dsq-author-user-14679">Ankit Malhotra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14679" class="dsq-comment-body">
+            <div id="dsq-comment-message-14679" class="dsq-comment-message"><p>Earlier code was using extra memory. However using array rotation, this can be made inplace as follows : </p>
+<pre> <code language="C">
+
+#include &lt;iostream&gt;
+using namespace::std;
+typedef unsigned long counter;
+typedef long long element;
+
+inline void rotate (element term[], counter count, counter jump)
+{
+  element temp;
+  counter gcd = count, k = jump, i, position;
+  for (; k != 0; i = k, k = gcd % k, gcd = i);
+  for (i = 0; i != gcd; ++i)
+  {
+    temp = term [i];
+    position = k = i;
+    do
+    {
+      term [position] = term[k];
+      position = k;
+      k -= jump;
+      if (k &lt; 0) k += count;
+    }
+    while (k != i);
+    term[position] = temp;
+  }
+}
+
+counter mergesort (element term[], counter count)
+{
+  if (count &lt; 2) return 0;
+  counter mid = count/2, inversions = mergesort (term, mid);
+  inversions += mergesort (term + mid, count - mid);
+  counter range, bound;
+  element * ptr = NULL;
+  for (counter left = 0, right = mid, movecount = 0; 
+       right != count; right += movecount)
+  {
+    for (left += movecount; 
+	 left != right &amp;&amp; term[left] &lt;= term[right]; ++left);
+    if ((range = right - left) == 0) break;
+    for (ptr = term + right, movecount = 1, bound = count - right; 
+	 movecount != bound &amp;&amp; ptr[movecount] &lt; term[left]; ++movecount);
+    rotate (term + left, range + movecount, movecount);
+    inversions += movecount * range;
+  }
+  return inversions;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-14692">
+        <div id="dsq-comment-header-14692" class="dsq-comment-header">
+            <cite id="dsq-cite-14692">
+                <span id="dsq-author-user-14692">Ankit Malhotra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14692" class="dsq-comment-body">
+            <div id="dsq-comment-message-14692" class="dsq-comment-message"><p>As we are using unsigned for counter which is generally what size_type returns the following replacements need to be done.</p>
+<pre> <code language="C">
+      k -= jump;
+      if (k &lt; 0) k += count;
+</code> </pre>
+<p>should be</p>
+<pre> <code language="C">
+      k += jump;
+      if (k &gt;= count) k -= count;
+</code> </pre>
+<pre> <code language="C">
+rotate (term + left, range + movecount, movecount);</code> </pre>
+<p>should be</p>
+<pre> <code language="C">
+rotate (term + left, range + movecount, range);</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-14646">
+        <div id="dsq-comment-header-14646" class="dsq-comment-header">
+            <cite id="dsq-cite-14646">
+                <span id="dsq-author-user-14646">Arun</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14646" class="dsq-comment-body">
+            <div id="dsq-comment-message-14646" class="dsq-comment-message"><p>You need to change </p>
+<p>inv_count += mid &#8211; i to<br />
+inv_count += (mid-left+1-i);</p>
+<p>else, the result coming is not correct.</p>
+<p>Thanks,</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even depth-2" id="dsq-comment-14647">
+        <div id="dsq-comment-header-14647" class="dsq-comment-header">
+            <cite id="dsq-cite-14647">
+                <span id="dsq-author-user-14647">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14647" class="dsq-comment-body">
+            <div id="dsq-comment-message-14647" class="dsq-comment-message"><p>@Arun: Please take a closer look at the code.  The value of mid is (left + right)/2.  Let us know if you find any case for which the given code doesn&#8217;t produce the correct result.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-15186">
+        <div id="dsq-comment-header-15186" class="dsq-comment-header">
+            <cite id="dsq-cite-15186">
+                <span id="dsq-author-user-15186">bartender</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15186" class="dsq-comment-body">
+            <div id="dsq-comment-message-15186" class="dsq-comment-message"><p>We are passing mid+1 into merge routine,so everything works out.Read my other comment for additional details.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-14052">
+        <div id="dsq-comment-header-14052" class="dsq-comment-header">
+            <cite id="dsq-cite-14052">
+                <span id="dsq-author-user-14052">Ankit Malhotra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14052" class="dsq-comment-body">
+            <div id="dsq-comment-message-14052" class="dsq-comment-message"><p>Simplified the code to a single merge sort function which returns the inversions. This implementation is in place and reduces looping when consecutive elements on the right side need me be moved for a single element on the left.</p>
+<pre> <code language="C">
+using namespace::std;
+typedef unsigned long counter;
+typedef long long element;
+counter mergesort (element term[], counter count)
+{
+  if (count &lt; 2) return 0;
+  counter mid = count/2,
+  inversions = mergesort (term, mid);
+  inversions += mergesort (term + mid, count - mid);
+  counter prefix = 0, suffix = mid, range, movecount, bound, j;
+  element * ptr = NULL;
+  while (true)
+  {
+    for (; prefix != suffix &amp;&amp; term[prefix] &lt;= term[suffix]; prefix++);
+    range = suffix - prefix;
+    if (!range) break;
+    for (ptr = term + suffix, movecount = 1, bound = count - suffix; 
+	 movecount != bound &amp;&amp; ptr[movecount] &lt; term[prefix]; movecount++);
+    for (ptr = new (element[range]), j = 0; j &lt; range; 
+	 ptr[j++] = term [prefix + j]);
+    for (j = 0; j &lt; movecount; term[prefix + j++] = term[suffix + j]);
+    for (j = 0; j &lt; range; term[prefix + movecount + j++] = ptr[j]);
+    delete ptr;
+    inversions += movecount * range;
+    suffix += movecount;
+    if (suffix == count) break;
+  }
+  return inversions;
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-14058">
+        <div id="dsq-comment-header-14058" class="dsq-comment-header">
+            <cite id="dsq-cite-14058">
+                <span id="dsq-author-user-14058">Ankit Malhotra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14058" class="dsq-comment-body">
+            <div id="dsq-comment-message-14058" class="dsq-comment-message"><p>delete ptr should be replaced with delete []ptr</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-14102">
+        <div id="dsq-comment-header-14102" class="dsq-comment-header">
+            <cite id="dsq-cite-14102">
+                <span id="dsq-author-user-14102">Ankit Malhotra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14102" class="dsq-comment-body">
+            <div id="dsq-comment-message-14102" class="dsq-comment-message"><p>if (suffix == count) break;<br />
+should also have else statement as follows<br />
+else prefix += movecount;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-13410">
+        <div id="dsq-comment-header-13410" class="dsq-comment-header">
+            <cite id="dsq-cite-13410">
+http://friendmaybe.com                <span id="dsq-author-user-13410">pankaj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13410" class="dsq-comment-body">
+            <div id="dsq-comment-message-13410" class="dsq-comment-message"><p>balanced BST</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-8499">
+        <div id="dsq-comment-header-8499" class="dsq-comment-header">
+            <cite id="dsq-cite-8499">
+                <span id="dsq-author-user-8499">hi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8499" class="dsq-comment-body">
+            <div id="dsq-comment-message-8499" class="dsq-comment-message"><p>This problem can also be solved using BIT and Segment Tree</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-13032">
+        <div id="dsq-comment-header-13032" class="dsq-comment-header">
+            <cite id="dsq-cite-13032">
+                <span id="dsq-author-user-13032">abzx12@gmail.com</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13032" class="dsq-comment-body">
+            <div id="dsq-comment-message-13032" class="dsq-comment-message"><p>Can you suggest the way we can use BIT to solve it?</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-19083">
+        <div id="dsq-comment-header-19083" class="dsq-comment-header">
+            <cite id="dsq-cite-19083">
+                <span id="dsq-author-user-19083">Rahul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19083" class="dsq-comment-body">
+            <div id="dsq-comment-message-19083" class="dsq-comment-message"><p>There you go </p>
+<p>#include<br />
+#include<br />
+#include </p>
+<p>using namespace std;</p>
+<p>typedef long long llong;</p>
+<p>const int MAXN = 500020;<br />
+llong tree[MAXN], A[MAXN], B[MAXN];</p>
+<p>llong read(int idx){<br />
+ llong sum = 0;<br />
+ while (idx &gt; 0){<br />
+  sum += tree[idx];<br />
+  idx -= (idx &amp; -idx);<br />
+ }<br />
+ return sum;<br />
+}</p>
+<p>void update(int idx ,llong val){<br />
+ while (idx &lt;= MAXN){<br />
+  tree[idx] += val;<br />
+  idx += (idx &amp; -idx);<br />
+ }<br />
+}</p>
+<p>int main(int argc, char *argv[]) {<br />
+   int N;<br />
+   while(1 == scanf(&quot;%d&quot;,&amp;N)) {<br />
+      if(!N) break;<br />
+      memset(tree, 0, sizeof(tree));<br />
+      for(int i = 0; i &lt; N; ++i) {<br />
+         scanf(&quot;%lld&quot;,&amp;A[i]);<br />
+         B[i] = A[i];<br />
+      }<br />
+      sort(B, B + N);<br />
+      for(int i = 0; i = 0; &#8211;i) {<br />
+         llong x = read(A[i] &#8211; 1);<br />
+         inv_count += x;<br />
+         update(A[i], 1);<br />
+      }<br />
+      printf(&#8220;%lld\n&#8221;,inv_count);<br />
+   }<br />
+   return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-7143">
+        <div id="dsq-comment-header-7143" class="dsq-comment-header">
+            <cite id="dsq-cite-7143">
+                <span id="dsq-author-user-7143">Venkatesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7143" class="dsq-comment-body">
+            <div id="dsq-comment-message-7143" class="dsq-comment-message"><p>If we use modified insertion sort alg, we see best running time. for partially sorted array insertion sort runs in linear time. </p>
+<p>int arr[], array_size, inv_count;</p>
+<p>for (int i = 0; i  0; j&#8211;)<br />
+   if (a[j] &lt; a[j-1]))<br />
+     inv_count ++;<br />
+   else<br />
+     break;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3398">
+        <div id="dsq-comment-header-3398" class="dsq-comment-header">
+            <cite id="dsq-cite-3398">
+                <span id="dsq-author-user-3398">jordi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3398" class="dsq-comment-body">
+            <div id="dsq-comment-message-3398" class="dsq-comment-message"><p>theres a linear solution that im looking for..</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-3905">
+        <div id="dsq-comment-header-3905" class="dsq-comment-header">
+            <cite id="dsq-cite-3905">
+                <span id="dsq-author-user-3905">Algoseekar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3905" class="dsq-comment-body">
+            <div id="dsq-comment-message-3905" class="dsq-comment-message"><p>@jordi..i dont think we can do it linearly..??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2515">
+        <div id="dsq-comment-header-2515" class="dsq-comment-header">
+            <cite id="dsq-cite-2515">
+                <span id="dsq-author-user-2515">amit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2515" class="dsq-comment-body">
+            <div id="dsq-comment-message-2515" class="dsq-comment-message"><p>nice question !</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2455">
+        <div id="dsq-comment-header-2455" class="dsq-comment-header">
+            <cite id="dsq-cite-2455">
+                <span id="dsq-author-user-2455">Naman Goel</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2455" class="dsq-comment-body">
+            <div id="dsq-comment-message-2455" class="dsq-comment-message"><p>We can also use binary search tree method for this<br />
+here is the code-</p>
+<pre> <code language="CPP">
+
+#include&lt;iostream&gt;
+using namespace std;
+
+struct node{
+	int data;
+	node *left;
+	node *right;
+	int rc;
+};
+
+node *root = NULL;
+
+int get_inv(int val)
+{
+	node *newnode = new node;
+	newnode -&gt; data = val;
+	newnode -&gt; left = NULL;
+	newnode -&gt; right = NULL;
+	newnode -&gt; rc = 0;
+	
+	int inv = 0;
+	
+	if(!root)
+	{
+		root = newnode;
+		return 0;
+	}
+	
+	node *ptr = root;
+	node *pptr = root;
+	while(ptr)
+	{
+		pptr = ptr;
+		if(val &lt; ptr-&gt;data)
+		{
+			inv += ptr-&gt;rc +1;
+			ptr = ptr-&gt;left;
+		}
+		else
+		{
+			ptr-&gt;rc++;
+			ptr = ptr-&gt;right;
+		}
+	}
+	
+	if(val &lt; pptr-&gt;data)
+	{
+		pptr-&gt;left = newnode;
+	}
+	else
+	{
+		pptr-&gt;right = newnode;
+	}
+	
+	return inv;
+}
+
+int count_inv(int *array,int n)
+{
+	int inv = 0;
+	for(int i=0;i&lt;n;i++)
+	{
+		inv += get_inv(array[i]);
+	}
+	return inv; 
+}
+
+int main()
+{
+	int array[] = {3,6,1,2,4,5};
+	cout&lt;&lt;count_inv(array,6)&lt;&lt;endl;
+	return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-2812">
+        <div id="dsq-comment-header-2812" class="dsq-comment-header">
+            <cite id="dsq-cite-2812">
+                <span id="dsq-author-user-2812">J</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2812" class="dsq-comment-body">
+            <div id="dsq-comment-message-2812" class="dsq-comment-message"><p>Really cool coding. I must learn to code like this.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-2813">
+        <div id="dsq-comment-header-2813" class="dsq-comment-header">
+            <cite id="dsq-cite-2813">
+                <span id="dsq-author-user-2813">J</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2813" class="dsq-comment-body">
+            <div id="dsq-comment-message-2813" class="dsq-comment-message"><p>Memory is leaked in the above program. You cannot just call new and leave it alone.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-3676">
+        <div id="dsq-comment-header-3676" class="dsq-comment-header">
+            <cite id="dsq-cite-3676">
+                <span id="dsq-author-user-3676">laxman</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3676" class="dsq-comment-body">
+            <div id="dsq-comment-message-3676" class="dsq-comment-message"><p>@nama goel ..hi naman can you explain the algorithm..its awesome program. please write the algo.</p>
+<p>Thanks<br />
+laxman</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-venki odd alt depth-2" id="dsq-comment-3694">
+        <div id="dsq-comment-header-3694" class="dsq-comment-header">
+            <cite id="dsq-cite-3694">
+http://www.linkedin.com/in/ramanawithu                <span id="dsq-author-user-3694">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3694" class="dsq-comment-body">
+            <div id="dsq-comment-message-3694" class="dsq-comment-message"><p>If I understand the logic correctly, we are constructing BST from the array elements and maintaining a count on each node. The idea here is every parent node must maintain the number of nodes that branched on to it&#8217;s right side (<strong>r</strong>ight <strong>c</strong>ount). The above code fails if there are equal element which cause the count to be incremented. Equal nodes won&#8217;t participate in inversions. The count (<strong>rc</strong>) will be used to track the number of inversions.</p>
+<p>However, when the array is reverse sorted, the tree will be fully right skewed. While inserting i-th node, we need to visit previous (i-1) nodes, so the worst case complexity is no better than O(n^2).</p>
+<p>Where as merge sort procedure doesn&#8217;t depend on data to be sorted. What ever may be the permutation of input data, merge sort will sort the array in O(NlogN) time, so the inversion count.</p>
+<p>Let me know if I am missing something to understand.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-decoder even depth-3" id="dsq-comment-7942">
+        <div id="dsq-comment-header-7942" class="dsq-comment-header">
+            <cite id="dsq-cite-7942">
+                <span id="dsq-author-user-7942">Decoder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7942" class="dsq-comment-body">
+            <div id="dsq-comment-message-7942" class="dsq-comment-message"><p>What if we insert equal element to right child of equal element, In this case count won&#8217;t be incremented.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-decoder odd alt depth-3" id="dsq-comment-7943">
+        <div id="dsq-comment-header-7943" class="dsq-comment-header">
+            <cite id="dsq-cite-7943">
+                <span id="dsq-author-user-7943">Decoder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7943" class="dsq-comment-body">
+            <div id="dsq-comment-message-7943" class="dsq-comment-message"><p>What if we insert equal element to right child of equal element, In this case count won&#8217;t be incremented.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-3" id="dsq-comment-9273">
+        <div id="dsq-comment-header-9273" class="dsq-comment-header">
+            <cite id="dsq-cite-9273">
+                <span id="dsq-author-user-9273">Apoorv</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9273" class="dsq-comment-body">
+            <div id="dsq-comment-message-9273" class="dsq-comment-message"><p>True&#8230;worst case complexity looks like O(n*n). But this can be improved using a self balancing binary search tree like a Red Black tree.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-3" id="dsq-comment-9695">
+        <div id="dsq-comment-header-9695" class="dsq-comment-header">
+            <cite id="dsq-cite-9695">
+                <span id="dsq-author-user-9695">Aashish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9695" class="dsq-comment-body">
+            <div id="dsq-comment-message-9695" class="dsq-comment-message"><p>@venki,<br />
+I have modified the code to handle the case of duplicate items. To avoid the worst time complexity of O(N^2), self balancing BST can be used.<br />
+Here is the code:</p>
+<pre> <code language="C">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+ 
+struct node
+{
+        int data;
+        int freq;
+        struct node *left,*right;
+};
+ 
+struct node* getNode(int data)
+{
+        struct node* temp=(struct node*)malloc(sizeof(struct node));
+        temp-&gt;left=temp-&gt;right=NULL;
+        temp-&gt;data=data;
+        temp-&gt;freq=1;
+        return temp;
+}
+ 
+int insert(struct node**root,int data)
+{
+        if(!*root)
+        {
+                *root=getNode(data);
+                return 0;
+        }
+        else if(data&lt;(*root)-&gt;data)
+                return (*root)-&gt;freq + insert(&amp;((*root)-&gt;left),data);
+        else if(data&gt;=(*root)-&gt;data)
+        {
+                ++((*root)-&gt;freq);
+                return insert(&amp;((*root)-&gt;right),data);
+        }
+}
+ 
+void cal(int *arr,int size)
+{
+        struct node *root=NULL;
+        int i,count=0;
+        for(i=0;i&lt;size;i++)
+        {
+                count+=insert(&amp;root,arr[i]);
+        }
+        printf(&quot;%d &quot;,count);
+}
+ 
+int main()
+{
+        int arr[]={2, 4, 1, 3, 5},size;
+        size=sizeof(arr)/sizeof(arr[0]);
+        cal(arr,size);
+        return 0;
+}
+</code> </pre>
+<p>Output: <a href="http://ideone.com/c2gXM" rel="nofollow">http://ideone.com/c2gXM</a></p>
+<p>Let me know if i am missing anything.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-9696">
+        <div id="dsq-comment-header-9696" class="dsq-comment-header">
+            <cite id="dsq-cite-9696">
+                <span id="dsq-author-user-9696">Aashish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9696" class="dsq-comment-body">
+            <div id="dsq-comment-message-9696" class="dsq-comment-message"><p>A little change, When the value to be inserted already exists, do not insert it in BST.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-4" id="dsq-comment-15382">
+        <div id="dsq-comment-header-15382" class="dsq-comment-header">
+            <cite id="dsq-cite-15382">
+                <span id="dsq-author-user-15382">mrn</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15382" class="dsq-comment-body">
+            <div id="dsq-comment-message-15382" class="dsq-comment-message"><p>I think , we can&#8217;t balance the tree. coz if we do , then e.g. in RR rotation , left subtree no more represents smaller nos. inserted after the new root.<br />
+Please correct me if i am wrong.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/counting-inversions/';
+var disqus_identifier = '3968 http://geeksforgeeks.org/?p=3968';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Count Inversions in an array";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.222 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:32:16 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

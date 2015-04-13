@@ -1,0 +1,1428 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Count the number of occurrences in a sorted array - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/count-number-of-occurrences-in-a-sorted-array/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Count the number of occurrences in a sorted array - GeeksforGeeks" />
+<meta property="og:description" content="Given a sorted array arr[] and a number x, write a function that counts the occurrences of x in arr[]. Expected time complexity is O(Logn) Examples: Input: arr[] = {1, 1, 2, 2, 2, 2, 3,}, x = 2 Output: 4 // x (or 2) occurs 4 times in arr[] Input: arr[] = {1, 1, &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/count-number-of-occurrences-in-a-sorted-array/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Divide and Conquer" />
+<meta property="article:section" content="Arrays" />
+<meta property="article:published_time" content="2011-05-03T11:21:32+00:00" />
+<meta property="article:modified_time" content="2011-08-18T23:39:19+00:00" />
+<meta property="og:updated_time" content="2011-08-18T23:39:19+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.496 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417110816 50.47.42.178';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Count the number of occurrences in a sorted array</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given a sorted array arr[] and a number x, write a function that counts the occurrences of x in arr[]. Expected time complexity is O(Logn) <span id="more-12164"></span> </p>
+<p>Examples:</p>
+<pre>  Input: arr[] = {1, 1, 2, 2, 2, 2, 3,},   x = 2
+  Output: 4 // x (or 2) occurs 4 times in arr[]
+
+  Input: arr[] = {1, 1, 2, 2, 2, 2, 3,},   x = 3
+  Output: 1 
+
+  Input: arr[] = {1, 1, 2, 2, 2, 2, 3,},   x = 1
+  Output: 2 
+
+  Input: arr[] = {1, 1, 2, 2, 2, 2, 3,},   x = 4
+  Output: -1 // 4 doesn't occur in arr[] </pre>
+<p><strong>Method 1 (Linear Search)</strong><br />
+Linearly search for x, count the occurrences of x and return the count.</p>
+<p>Time Complexity: O(n)</p>
+<p><strong>Method 2 (Use Binary Search)</strong><br />
+1) Use Binary search to get index of the first occurrence of x in arr[]. Let the index of the first occurrence be i.<br />
+2) Use Binary search to get index of the last occurrence of x in arr[]. Let the index of the last occurrence be j.<br />
+3) Return (j &#8211; i + 1);</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+/* if x is present in arr[] then returns the count of occurrences of x, 
+   otherwise returns -1. */
+int count(int arr[], int x, int n)
+{
+  int i; // index of first occurrence of x in arr[0..n-1]
+  int j; // index of last occurrence of x in arr[0..n-1]
+    
+  /* get the index of first occurrence of x */
+  i = first(arr, 0, n-1, x, n);
+
+  /* If x doesn't exist in arr[] then return -1 */
+  if(i == -1)
+    return i;
+   
+  /* Else get the index of last occurrence of x. Note that we 
+      are only looking in the subarray after first occurrence */   
+  j = last(arr, i, n-1, x, n);     
+   
+  /* return count */
+  return j-i+1;
+}
+
+/* if x is present in arr[] then returns the index of FIRST occurrence 
+   of x in arr[0..n-1], otherwise returns -1 */
+int first(int arr[], int low, int high, int x, int n)
+{
+  if(high &gt;= low)
+  {
+    int mid = (low + high)/2;  /*low + (high - low)/2;*/
+    if( ( mid == 0 || x &gt; arr[mid-1]) &amp;&amp; arr[mid] == x)
+      return mid;
+    else if(x &gt; arr[mid])
+      return first(arr, (mid + 1), high, x, n);
+    else
+      return first(arr, low, (mid -1), x, n);
+  }
+  return -1;
+}
+
+
+/* if x is present in arr[] then returns the index of LAST occurrence 
+   of x in arr[0..n-1], otherwise returns -1 */ 
+int last(int arr[], int low, int high, int x, int n)
+{
+  if(high &gt;= low)
+  {
+    int mid = (low + high)/2;  /*low + (high - low)/2;*/
+    if( ( mid == n-1 || x &lt; arr[mid+1]) &amp;&amp; arr[mid] == x )
+      return mid;
+    else if(x &lt; arr[mid])
+      return last(arr, low, (mid -1), x, n);
+    else
+      return last(arr, (mid + 1), high, x, n);      
+  }
+  return -1;
+}
+
+/* driver program to test above functions */
+int main()
+{
+  int arr[] = {1, 2, 2, 3, 3, 3, 3};
+  int x =  3;  // Element to be counted in arr[]
+  int n = sizeof(arr)/sizeof(arr[0]);
+  int c = count(arr, x, n);
+  printf(&quot; %d occurs %d times &quot;, x, c);
+  getchar();
+  return 0;
+}
+</pre>
+<p>Time Complexity: O(Logn)<br />
+Programming Paradigm: Divide &#038; Conquer</p>
+<p>Please write comments if you find the above codes/algorithms incorrect, or find other ways to solve the same problem.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array-set-2-expected-linear-time/" title="K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)">K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)</a></li><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array/" title="K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1">K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/time-complexity-insertion-sort-inversions/" title="Time complexity of insertion sort when there are O(n) inversions?">Time complexity of insertion sort when there are O(n) inversions?</a></li><li><a href="http://www.geeksforgeeks.org/check-two-given-sets-disjoint/" title="How to check if two given sets are disjoint?">How to check if two given sets are disjoint?</a></li><li><a href="http://www.geeksforgeeks.org/minimum-number-platforms-required-railwaybus-station/" title="Minimum Number of Platforms Required for a Railway/Bus Station">Minimum Number of Platforms Required for a Railway/Bus Station</a></li><li><a href="http://www.geeksforgeeks.org/given-two-sorted-arrays-number-x-find-pair-whose-sum-closest-x/" title="Find the closest pair from two sorted arrays">Find the closest pair from two sorted arrays</a></li><li><a href="http://www.geeksforgeeks.org/print-elements-sorted-order-row-column-wise-sorted-matrix/" title="Print all elements in sorted order from row and column wise sorted matrix">Print all elements in sorted order from row and column wise sorted matrix</a></li><li><a href="http://www.geeksforgeeks.org/length-largest-subarray-contiguous-elements-set-1/" title="Length of the largest subarray with contiguous elements | Set 1">Length of the largest subarray with contiguous elements | Set 1</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/divide-and-conquer/" rel="tag">Divide and Conquer</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fcount-number-of-occurrences-in-a-sorted-array%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/count-number-of-occurrences-in-a-sorted-array/" data-text="Count the number of occurrences in a sorted array" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/count-number-of-occurrences-in-a-sorted-array/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-32244">
+        <div id="dsq-comment-header-32244" class="dsq-comment-header">
+            <cite id="dsq-cite-32244">
+                <span id="dsq-author-user-32244">Bhuvan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32244" class="dsq-comment-body">
+            <div id="dsq-comment-message-32244" class="dsq-comment-message"><p>Find_Key(int arr[], int size, int key){</p>
+<p>    int begin = 0;</p>
+<p>	int end = size &#8211; 1;</p>
+<p>	int mid = end / 2;</p>
+<p>	int res = INT_MIN;</p>
+<p>	while (begin != mid)</p>
+<p>	{</p>
+<p>		if (arr[mid] &lt; key)</p>
+<p>			begin = mid;</p>
+<p>		else</p>
+<p>		{</p>
+<p>			end = mid;</p>
+<p>			if(arr[mid] == key)</p>
+<p>				res = mid;</p>
+<p>		}</p>
+<p>		mid = (end + begin )/2;</p>
+<p>	}</p>
+<p>	return res;</p>
+<p>    }</p>
+<p>Assuming the array of ints is in ascending sorted order; Returns the index of the first index of key occurrence or INT_MIN. Runs in O(lg n).</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-31601">
+        <div id="dsq-comment-header-31601" class="dsq-comment-header">
+            <cite id="dsq-cite-31601">
+                <span id="dsq-author-user-31601">Sat</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31601" class="dsq-comment-body">
+            <div id="dsq-comment-message-31601" class="dsq-comment-message"><p>mid = (low + high)/2 will cause overflow if low and high are high. Java binary search had that issue. It should be written this way -&gt; mid = low + (high &#8211; low)/2; But this change alone isn&#8217;t sufficient. Once you calculated mid this way, the loop invariant low &lt;= high should be changed to low &lt; high. Once&#039;s that changed, you will have to make other changes when low &lt; high. Overall this post has many hidden issues.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-31523">
+        <div id="dsq-comment-header-31523" class="dsq-comment-header">
+            <cite id="dsq-cite-31523">
+                <span id="dsq-author-user-31523">prastut</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31523" class="dsq-comment-body">
+            <div id="dsq-comment-message-31523" class="dsq-comment-message"><p>#include<br />
+int count(int a[],int start,int end,int num)<br />
+{<br />
+    int mid=(start+end)/2,lcount=0,rcount=0;<br />
+    while(start&lt;=end)<br />
+    {<br />
+        lcount=count(a,start,mid-1,num);<br />
+        rcount=count(a,mid+1,end,num);</p>
+<p>        if(a[mid]==num)<br />
+        {<br />
+            if(lcount==-1)<br />
+                lcount=0;<br />
+            if(rcount==-1)<br />
+                rcount=0;<br />
+            return 1+lcount+rcount;<br />
+        }<br />
+        else<br />
+        {<br />
+            if(lcount==-1 &amp;&amp; rcount== -1)<br />
+                return -1;<br />
+            else<br />
+            {<br />
+                if(lcount==-1)<br />
+                    lcount=0;<br />
+                if(rcount==-1)<br />
+                    rcount=0;</p>
+<p>                                return lcount+rcount;<br />
+            }<br />
+        }<br />
+    }</p>
+<p>    return -1;<br />
+}</p>
+<p>int count_occurence(int a[],int len,int num)<br />
+{<br />
+    return count(a,0,len-1,num);<br />
+}</p>
+<p>int main()<br />
+{<br />
+    int arr[] = {1, 1, 1, 2, 2, 2, 2, 3};<br />
+    int len=7,num=2;</p>
+<p>    printf(&quot;Count of %d is %d&quot;,num,count_occurence(arr,len,num));</p>
+<p>    return 0;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-28096">
+        <div id="dsq-comment-header-28096" class="dsq-comment-header">
+            <cite id="dsq-cite-28096">
+                <span id="dsq-author-user-28096">din</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28096" class="dsq-comment-body">
+            <div id="dsq-comment-message-28096" class="dsq-comment-message"><p>code in java validate me&#8230;</p>
+<p><code><br />
+int count(){<br />
+        int c = 0;<br />
+        int[] a = {1, 1, 2, 2, 2, 2, 3};<br />
+        int  l = 0;<br />
+        int key = 1;<br />
+        int r = a.length-1;<br />
+        while(l&lt;=r){<br />
+            int mid = (l+r)/2;<br />
+            if(a[mid]==key){<br />
+                c++;<br />
+                int n=1;<br />
+                int k =-1;<br />
+                    while(mid+n=0 &amp;&amp;a[mid+k]==key){<br />
+                        k--;<br />
+                        c++;<br />
+                    }</p>
+<p>                return c;<br />
+            }<br />
+            else if(key&gt;a[mid]){<br />
+                l=mid+1;<br />
+            }<br />
+            else{<br />
+                r = mid-1;<br />
+            }</p>
+<p>        }<br />
+        return -1;<br />
+    }</code></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-27269">
+        <div id="dsq-comment-header-27269" class="dsq-comment-header">
+            <cite id="dsq-cite-27269">
+                <span id="dsq-author-user-27269">vinay</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27269" class="dsq-comment-body">
+            <div id="dsq-comment-message-27269" class="dsq-comment-message"><p>#include</p>
+<p>#include</p>
+<p>void main()</p>
+<p>{</p>
+<p>  int arr[]={1,1,2,2,2,2,3};</p>
+<p>  int num,i,count=0;</p>
+<p>  clrscr();</p>
+<p>  printf(&#8220;no please&#8221;);</p>
+<p>  scanf(&#8220;%d&#8221;,&amp;num) ;</p>
+<p>  for(i=0;i&lt;7;i++)</p>
+<p>  {</p>
+<p>	 if(arr[i]!=num)</p>
+<p>	 {</p>
+<p>	 }</p>
+<p>	 else if(arr[i]==num)</p>
+<p>	 {</p>
+<p>	 count++;</p>
+<p>	 }</p>
+<p>  }</p>
+<p>  printf(&quot;no of times %d&quot;,count);</p>
+<p>  getch();</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-27241">
+        <div id="dsq-comment-header-27241" class="dsq-comment-header">
+            <cite id="dsq-cite-27241">
+                <span id="dsq-author-user-27241">Abhishek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27241" class="dsq-comment-body">
+            <div id="dsq-comment-message-27241" class="dsq-comment-message"><p>In above solution, there is some duplicacy in the logic. We can modify the binary search as given below to give the number of count of the specific element in one go. Working code is as follows : </p>
+<p>    //this function returns the number of occurrences of element x in array a.<br />
+    //the main function call will be &#8211; binary(0,a.length-1,a,x);<br />
+    public static int binary(int low, int high, int[] a, int x)<br />
+            {<br />
+            int mid = -1;<br />
+            if ( high = x)<br />
+            count +=binary(low,mid-1,a,x);</p>
+<p>            //this signifies that we can have element x on the right side<br />
+            if ( a[mid] &lt;= x)<br />
+            count+=binary(mid+1,high,a,x);</p>
+<p>            return count;<br />
+            }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-16769">
+        <div id="dsq-comment-header-16769" class="dsq-comment-header">
+            <cite id="dsq-cite-16769">
+                <span id="dsq-author-user-16769">Ankit Malhotra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16769" class="dsq-comment-body">
+            <div id="dsq-comment-message-16769" class="dsq-comment-message"><p>Recursion leads to stack calls. Here is code across 2 functions with each function complexity logn thus combined of 2logn. Also returns reference position of first occurrence or position to be inserted at if not found.</p>
+<pre> <code language="C">
+#include &lt;iostream&gt;
+#define MAXCOUNT 99999
+using namespace::std;
+typedef unsigned counter;
+typedef long element;
+
+// first insert position in sorted order
+// returns false with left = count for item &gt; last
+// Check boundaries before use
+bool firstsortloc (element terms[], counter n, element item, counter &amp; left)
+{
+  counter right = n, mid;
+  left = 0;
+  while (left != right &amp;&amp; terms[left] != item) {
+    mid = left + (right - left)/2;
+    if (terms[mid] &lt; item)
+      left = mid + 1;
+    else right = mid;
+  }
+  return (left == n ? false : terms[left] == item);
+}
+
+// Count occurrence of item in sorted terms
+// position = count for item &gt; last
+counter sortcount(element terms[], counter n, element item, counter &amp; startindex)
+{
+  counter left, right = n - 1, mid;
+  if (!firstsortloc(terms, n, item, startindex)) return 0;
+  left = startindex;
+  while (left != right &amp;&amp; terms[right] != item) {
+    --right; // We know it's not item
+    mid = left + (right - left)/2;
+    if (terms[mid] &gt; item)
+      right = mid - 1;
+    else left = mid;
+  }
+  return (right + 1 - startindex);
+}
+int main ()
+{
+  counter n, i, count, startindex;
+  element terms[MAXCOUNT] = {0}, item;
+  cout &lt;&lt; &quot;Enter count of terms followed by sorted terms.&quot; &lt;&lt; endl;
+  for (cin &gt;&gt; n, i =0; i &lt; n; ++i) cin &gt;&gt; terms[i];
+  cout &lt;&lt; &quot;Enter element to find count : &quot;;
+  cin &gt;&gt; item;
+  if (count = sortcount(terms, n, item, startindex))
+    cout &lt;&lt; item &lt;&lt; &quot; found &quot; &lt;&lt; count &lt;&lt; &quot; times from index &quot; 
+    &lt;&lt; startindex &lt;&lt; endl;
+  else
+    cout &lt;&lt; item &lt;&lt; &quot; not found.&quot;&lt;&lt; endl;
+  return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-16794">
+        <div id="dsq-comment-header-16794" class="dsq-comment-header">
+            <cite id="dsq-cite-16794">
+                <span id="dsq-author-user-16794">Ankit Malhotra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16794" class="dsq-comment-body">
+            <div id="dsq-comment-message-16794" class="dsq-comment-message"><p>Optimize firstsortloc by adding a left increment as the first statement to the while loop as follows</p>
+<pre> <code language="C">
+  while (left != right &amp;&amp; terms[left] != item) {
+    ++left; // We know it's not item
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-16818">
+        <div id="dsq-comment-header-16818" class="dsq-comment-header">
+            <cite id="dsq-cite-16818">
+                <span id="dsq-author-user-16818">Ankit Malhotra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16818" class="dsq-comment-body">
+            <div id="dsq-comment-message-16818" class="dsq-comment-message"><p>Ignore this optimization as it is a bug. The original code is correct.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-3" id="dsq-comment-16819">
+        <div id="dsq-comment-header-16819" class="dsq-comment-header">
+            <cite id="dsq-cite-16819">
+                <span id="dsq-author-user-16819">Ankit Malhotra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16819" class="dsq-comment-body">
+            <div id="dsq-comment-message-16819" class="dsq-comment-message"><p>Ignore the update for ++left. Original code is correct.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-13071">
+        <div id="dsq-comment-header-13071" class="dsq-comment-header">
+            <cite id="dsq-cite-13071">
+                <span id="dsq-author-user-13071">rahul sundar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13071" class="dsq-comment-body">
+            <div id="dsq-comment-message-13071" class="dsq-comment-message"><p>The fourth argument n is never used in function first and last. We can get rid of that!</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-10833">
+        <div id="dsq-comment-header-10833" class="dsq-comment-header">
+            <cite id="dsq-cite-10833">
+                <span id="dsq-author-user-10833">bunty</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10833" class="dsq-comment-body">
+            <div id="dsq-comment-message-10833" class="dsq-comment-message"><p>Optimization: Method2:<br />
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;<br />
+Function last() can be optimized by removing the recursive call with parameters (a, mid+1, hi, x).</p>
+<p>-As the original call of last() was with low=i, which is the first occurrence of X, so<br />
+&#8211; In last(), if X does not lie between i and new mid, then it is 100% sure that X won&#8217;t lie in another range from mid+1 to high (which is higher than first range)<br />
+So just recursively call last(a, lo, mid-1, x) will either find the last occurrence of X or return -1.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-10834">
+        <div id="dsq-comment-header-10834" class="dsq-comment-header">
+            <cite id="dsq-cite-10834">
+                <span id="dsq-author-user-10834">bunty</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10834" class="dsq-comment-body">
+            <div id="dsq-comment-message-10834" class="dsq-comment-message"><p>In other words,<br />
+&#8211; As we have found the first index of X, which is i,<br />
+&#8211; then the last index will be grater than or equal to i without any gap/hole. So keep searching in the left part will solve the purpose.<br />
+&#8211; If in some case, where left part doesn&#8217;t have X, then we have already encountered X&#8217;s last index in earlier call.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-anujbansal odd alt thread-odd thread-alt depth-1" id="dsq-comment-6463">
+        <div id="dsq-comment-header-6463" class="dsq-comment-header">
+            <cite id="dsq-cite-6463">
+                <span id="dsq-author-user-6463">Anuj Bansal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6463" class="dsq-comment-body">
+            <div id="dsq-comment-message-6463" class="dsq-comment-message"><p>Here is a code that also works in O(lgN). </p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+#include&lt;math.h&gt;
+#define MAX 12
+
+int number(int a[MAX], int low, int high, int x) {
+        if(low &lt;= high) {
+                int mid,i,j;
+                mid = (low+high)/2;
+                if(a[mid] == x) { 
+                        i = number(a,low,mid-1,x);
+                        j = number(a,mid+1,high,x);
+                        if(i != -1 &amp;&amp; j != -1) 
+                                return i+j+1;
+                        else if(i == -1 &amp;&amp; j != -1)
+                                return j+1;
+                        else if(j== -1 &amp;&amp; i != -1)
+                                return i+1;
+                        else  
+                                return 1;
+                }       
+                else if(a[mid] &gt; x) 
+                        return number(a,low,mid-1,x);
+                else 
+                        return number(a,mid+1,high,x);
+        }
+        else
+                return -1;
+}
+
+
+int main() {
+        int a[MAX]={1,1,3,3,3,3,7,7,7,11,11,12};
+        printf(&quot;%d\n&quot;,number(a,0,MAX-1,7));
+        return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-5585">
+        <div id="dsq-comment-header-5585" class="dsq-comment-header">
+            <cite id="dsq-cite-5585">
+                <span id="dsq-author-user-5585">Ankur</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5585" class="dsq-comment-body">
+            <div id="dsq-comment-message-5585" class="dsq-comment-message"><p>If mid==0 or mid==n-1 then the function returns mid</p>
+<p>Now if the element is not present then the result will be wrong </p>
+<p>Here i think we should put a check before return mid statement that<br />
+if(mid==0){<br />
+   if(x!=a[mid]) return -1<br />
+}<br />
+similarly for Last func</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-4954">
+        <div id="dsq-comment-header-4954" class="dsq-comment-header">
+            <cite id="dsq-cite-4954">
+                <span id="dsq-author-user-4954">LoneShadow</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4954" class="dsq-comment-body">
+            <div id="dsq-comment-message-4954" class="dsq-comment-message"><p>The function first doesnt seem to work for the following input. For example, array is 0,1,1,2,3, and I am looking for the first occurrence of 1.</p>
+<p>Start with low=0, high= 4, x=1.<br />
+1. Mid = 2, and since arr[mid-1] is not less than x(arr[mid-1] is arr[1], which is 1), it will end up calling the function again with parameters 0, 1</p>
+<p>2. With 0,1 as low and high mid will be (0+1)/2, which is 0. The first conditional wil fail,( mid == 0, but the &amp;&amp; part is not true, a[mid] is a[0], which is NOT equal to 1). So the function will be called again with low, mid-1, which is 0,0.</p>
+<p>3. This will eventually return -1, which is wrong.</p>
+<p>Also, not really sure why n is being passed into first/last. Not being used as far as I can see.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-4955">
+        <div id="dsq-comment-header-4955" class="dsq-comment-header">
+            <cite id="dsq-cite-4955">
+                <span id="dsq-author-user-4955">LoneShadow</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4955" class="dsq-comment-body">
+            <div id="dsq-comment-message-4955" class="dsq-comment-message"><p>One fix I can think off the top of my head is to call the function again with low, mid instead of low, mid-1, since you want to include the value of mid itself (its equal, not less or more to be excluded).</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-4956">
+        <div id="dsq-comment-header-4956" class="dsq-comment-header">
+            <cite id="dsq-cite-4956">
+                <span id="dsq-author-user-4956">LoneShadow</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4956" class="dsq-comment-body">
+            <div id="dsq-comment-message-4956" class="dsq-comment-message"><p>Sorry, my bad. Worked it out.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-skulldude even thread-even depth-1" id="dsq-comment-4630">
+        <div id="dsq-comment-header-4630" class="dsq-comment-header">
+            <cite id="dsq-cite-4630">
+                <span id="dsq-author-user-4630">skulldude</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4630" class="dsq-comment-body">
+            <div id="dsq-comment-message-4630" class="dsq-comment-message"><p>Well, can someone tell me why in the second method is the condition (m==0) included while checking if the middle element is the required element?</p>
+<pre> <code language="C"> if( ( mid == 0 || x &gt; arr[mid-1]) &amp;&amp; arr[mid] == x)</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-hari6988 odd alt depth-2" id="dsq-comment-4882">
+        <div id="dsq-comment-header-4882" class="dsq-comment-header">
+            <cite id="dsq-cite-4882">
+                <span id="dsq-author-user-4882">hari6988</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4882" class="dsq-comment-body">
+            <div id="dsq-comment-message-4882" class="dsq-comment-message"><p>if mid was 0 , arr[mid-1] will reference arr[-1] and it will cause the error .same case with mid==n-1||x&lt;arr[mid+1]</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-4597">
+        <div id="dsq-comment-header-4597" class="dsq-comment-header">
+            <cite id="dsq-cite-4597">
+                <span id="dsq-author-user-4597">Jatin Sanghvi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4597" class="dsq-comment-body">
+            <div id="dsq-comment-message-4597" class="dsq-comment-message"><p>shouldn&#8217;t work. take arr = [1,3] and search for 2.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor odd alt depth-2" id="dsq-comment-4600">
+        <div id="dsq-comment-header-4600" class="dsq-comment-header">
+            <cite id="dsq-cite-4600">
+                <span id="dsq-author-user-4600">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4600" class="dsq-comment-body">
+            <div id="dsq-comment-message-4600" class="dsq-comment-message"><p>@Jatin Sanghvi: The given code works fine for your example.  It returns -1 when the given number is not present.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-4385">
+        <div id="dsq-comment-header-4385" class="dsq-comment-header">
+            <cite id="dsq-cite-4385">
+                <span id="dsq-author-user-4385">foobar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4385" class="dsq-comment-body">
+            <div id="dsq-comment-message-4385" class="dsq-comment-message"><pre> <code language="C">
+        public static void CountNumberOfOccurences()
+        {
+
+            /*
+             * Count the number of occurrences in a sorted array
+             * Given a sorted array arr[] and a number x, write a function that counts the occurrences of x in arr[]. Expected time complexity is O(Logn) 
+             * */
+            int[] arr = {1, 1, 2, 2, 2, 2, 3,};
+            int n = 2;
+
+            int res = Array.BinarySearch(arr, 2);
+
+            int found = res;
+
+            int count = 0;
+
+            if(res &gt; 0)
+            {
+                count++;
+            }
+
+            
+            while(arr[--res] == 2)
+            {
+                count++;
+            }
+
+            res = found;
+
+            while(arr[++res] ==2)
+            {
+                count++;
+            }
+
+            Console.WriteLine(res);
+
+        }
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-4044">
+        <div id="dsq-comment-header-4044" class="dsq-comment-header">
+            <cite id="dsq-cite-4044">
+                <span id="dsq-author-user-4044">saji</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4044" class="dsq-comment-body">
+            <div id="dsq-comment-message-4044" class="dsq-comment-message"><p>while invoking the method last , will using the args </p>
+<p>last(arr, i, n-1, x, n) instead of last(arr, 0, n-1, x, n) cause any issues?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even depth-2" id="dsq-comment-4045">
+        <div id="dsq-comment-header-4045" class="dsq-comment-header">
+            <cite id="dsq-cite-4045">
+                <span id="dsq-author-user-4045">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4045" class="dsq-comment-body">
+            <div id="dsq-comment-message-4045" class="dsq-comment-message"><p>@saji: Thanks for suggesting the optimization. It doesn&#8217;t cause any problem. We have updated the code with the suggested changes.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3990">
+        <div id="dsq-comment-header-3990" class="dsq-comment-header">
+            <cite id="dsq-cite-3990">
+                <span id="dsq-author-user-3990">nandini</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3990" class="dsq-comment-body">
+            <div id="dsq-comment-message-3990" class="dsq-comment-message"><p>Isn&#8217;t the complexity of the algorithm in <strong>Method2</strong> <strong>O(n)</strong> in the worst case?</p>
+<p>eg: {2,2,2,2,2}<br />
+program will start from mid-index and then will shift one-by-one towards left to find &#8216;first&#8217; and then one-by-one right to find &#8216;last&#8217; in each loop.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-sandeep even depth-2" id="dsq-comment-3994">
+        <div id="dsq-comment-header-3994" class="dsq-comment-header">
+            <cite id="dsq-cite-3994">
+                <span id="dsq-author-user-3994">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3994" class="dsq-comment-body">
+            <div id="dsq-comment-message-3994" class="dsq-comment-message"><p>@nandini: Please take a closer look at the program, it recursively divide the array into two halves.  Time complexity is: T(n) = T(n/2) + C which is O(Logn)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-thechamp odd alt depth-2" id="dsq-comment-4036">
+        <div id="dsq-comment-header-4036" class="dsq-comment-header">
+            <cite id="dsq-cite-4036">
+                <span id="dsq-author-user-4036">thechamp</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4036" class="dsq-comment-body">
+            <div id="dsq-comment-message-4036" class="dsq-comment-message"><p>you have chosen an example where number of elements are so less that it appears a sequential search but it is a binary search only</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3977">
+        <div id="dsq-comment-header-3977" class="dsq-comment-header">
+            <cite id="dsq-cite-3977">
+http://ashutosh7s.blogspot.com/                <span id="dsq-author-user-3977">WgpShashank</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3977" class="dsq-comment-body">
+            <div id="dsq-comment-message-3977" class="dsq-comment-message"><p>Hi Sandeep It Can be done more simply using </p>
+<p>Modified Binary Search Algorithm</p>
+<p>calculate  mid=low+high/2;<br />
+if(a[mid]&gt;num)<br />
+search in right side &amp; set low=mid+1 &amp; return ;<br />
+else if(a[mid]<br />
+search in left side of mid set high=mid-1 &amp; return ;<br />
+else //its important instead of just of printing the num or incrementing the counter //i tried if you will do like this then it will be O(n) not O(logn) , si i will add 1 to recursively call for left side + recursively call for right side so every time this line executes we are incrementing the counter &amp;<br />
+return 1+left_binsearch()+right_binsearch thus it will be in O(logn) </p>
+<p>Here is the Code   </p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+int Count(int a[], int value, int low, int high)
+{
+    int mid;
+    if (high &lt; low)
+        return 0;
+    mid = low + (high - low)/2;
+    if (a[mid] &gt; value)
+        return Count(a, value, low, mid - 1);
+    else if (a[mid] &lt; value)
+        return Count(a, value, mid + 1, high);
+    else
+        return 1 + Count(a, value, low, mid - 1) +
+          Count(a, value, mid + 1, high);
+}
+
+int main()
+{
+    int a[] = {1, 2, 2, 3, 3, 3, 3};
+    int value = 3;
+    printf(&quot;%d\n&quot;, Count(a, value, 0, sizeof(a)/sizeof(int)-1));
+    return 0;
+}
+</code> </pre>
+<p>its running for may test cases Correct me if Anything Wrong<br />
+Run Here <a href="https://ideone.com/g7koI" rel="nofollow">https://ideone.com/g7koI</a></p>
+<p>run Here</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-sandeep odd alt depth-2" id="dsq-comment-3978">
+        <div id="dsq-comment-header-3978" class="dsq-comment-header">
+            <cite id="dsq-cite-3978">
+                <span id="dsq-author-user-3978">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3978" class="dsq-comment-body">
+            <div id="dsq-comment-message-3978" class="dsq-comment-message"><p>@WgpShashank: Thanks for suggesting a new method.  The approach looks fine, but the time complexity in worst case is O(n).  Consider the case when all elements are same.</p>
+<pre> <code language="C">
+    int a[] = {3, 3, 3, 3, 3, 3, 3};
+    int value = 3; </code> </pre>
+<p>In this case, the time complexity can be written as </p>
+<p>T(n) = 2*T(n/2) + C</p>
+<p>which is O(n)</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-4163">
+        <div id="dsq-comment-header-4163" class="dsq-comment-header">
+            <cite id="dsq-cite-4163">
+http://shashank7s.blogspot.com/                <span id="dsq-author-user-4163">WgpShashank</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4163" class="dsq-comment-body">
+            <div id="dsq-comment-message-4163" class="dsq-comment-message"><p>@sandeep Thanks For Pointing out ..yes it will O(n) in this scenario</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-5514">
+        <div id="dsq-comment-header-5514" class="dsq-comment-header">
+            <cite id="dsq-cite-5514">
+                <span id="dsq-author-user-5514">Yogesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5514" class="dsq-comment-body">
+            <div id="dsq-comment-message-5514" class="dsq-comment-message"><p>i think that is the only case which is making its time complexity O(n)&#8230;</p>
+<p>that can be covered by adding line</p>
+<pre> <code language="C">
+if (a[high] == value &amp;&amp; a[low] == value) return (high-low)+1
+</code> </pre>
+<p>at the beginning of the count function</p>
+<p>Correct me if i am wrong somewhere.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even depth-3" id="dsq-comment-7378">
+        <div id="dsq-comment-header-7378" class="dsq-comment-header">
+            <cite id="dsq-cite-7378">
+                <span id="dsq-author-user-7378">saurabh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7378" class="dsq-comment-body">
+            <div id="dsq-comment-message-7378" class="dsq-comment-message"><p>i think Time compl. will be O(logn)</p>
+<pre> <code language="C">
+            T(n)
+          /      \
+     T(n/2)       T(n/2)
+    /    \        /      \
+  T(n/4) T(n/4)  T(n/4)  T(n/4)
+ ...............................
+</code> </pre>
+<p>Worst case will be longest height of above recursion tree&#8230;.</p>
+<p>let k will be max height&#8230;..and also we see terms at each level forms a G.P(1,1/2,1/4,&#8230;)<br />
+and through calculas stuff we know this will be a convergence series&#8230;.and sum of node at each level is n(n/2+n/2)&#8230;.n(1/2)^k< =1<br />
+k>=log2(n)..nearly&#8230;.hence time compl will b O(logn)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/count-number-of-occurrences-in-a-sorted-array/';
+var disqus_identifier = '12164 http://geeksforgeeks.org/?p=12164';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Count the number of occurrences in a sorted array";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.208 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:23:36 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

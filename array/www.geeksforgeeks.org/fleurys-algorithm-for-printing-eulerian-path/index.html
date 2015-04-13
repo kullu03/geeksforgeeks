@@ -1,0 +1,815 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Fleury&#039;s Algorithm for printing Eulerian Path or Circuit - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/fleurys-algorithm-for-printing-eulerian-path/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Fleury&#039;s Algorithm for printing Eulerian Path or Circuit - GeeksforGeeks" />
+<meta property="og:description" content="Eulerian Path is a path in graph that visits every edge exactly once. Eulerian Circuit is an Eulerian Path which starts and ends on the same vertex. We strongly recommend to first read the following post on Euler Path and Circuit. http://www.geeksforgeeks.org/eulerian-path-and-circuit/ In the above mentioned post, we discussed the problem of finding out whether a &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/fleurys-algorithm-for-printing-eulerian-path/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Graph" />
+<meta property="article:section" content="Graph" />
+<meta property="article:published_time" content="2013-08-03T14:56:15+00:00" />
+<meta property="article:modified_time" content="2014-02-09T19:33:28+00:00" />
+<meta property="og:updated_time" content="2014-02-09T19:33:28+00:00" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Euler11.png" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Euler21.png" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Eule3.png" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Euler4.png" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Euler5.png" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Euler6.png" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.514 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111114 97.104.175.94';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Fleury&#8217;s Algorithm for printing Eulerian Path or Circuit</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p><a href="http://en.wikipedia.org/wiki/Eulerian_path" target="_blank">Eulerian Path </a>is a path in graph that visits every edge exactly once. Eulerian Circuit is an Eulerian Path which starts and ends on the same vertex.<span id="more-121669"></span></p>
+<p>We strongly recommend to first read the following post on Euler Path and Circuit.<br />
+<a href="http://www.geeksforgeeks.org/eulerian-path-and-circuit/" target="_blank">http://www.geeksforgeeks.org/eulerian-path-and-circuit/</a></p>
+<p>In the above mentioned post, we discussed the problem of finding out whether a given graph is Eulerian or not. In this post, an algorithm to print Eulerian trail or circuit is discussed.</p>
+<p>Following is Fleury&#8217;s Algorithm for printing Eulerian trail or cycle (Source <a href="http://www.math.ku.edu/~jmartin/courses/math105-F11/Lectures/chapter5-part2.pdf" target="_blank">Ref1</a>).</p>
+<p><strong>1.</strong> Make sure the graph has either 0 or 2 odd vertices.</p>
+<p><strong>2.</strong> If there are 0 odd vertices, start anywhere. If there are 2 odd vertices, start at one of them.</p>
+<p><strong>3. </strong>Follow edges one at a time. If you have a choice between a bridge and a non-bridge, <em>always choose the non-bridge</em>.</p>
+<p><strong>4.</strong> Stop when you run out of edges.</p>
+<p>The idea is, <strong><em>&#8220;don&#8217;t burn <a href="http://www.geeksforgeeks.org/bridge-in-a-graph/" target="_blank">bridges</a>&#8220;</em></strong> so that we can come back to a vertex and traverse remaining edges.  For example let us consider the following graph. </p>
+<p><a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Euler11.png"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Euler11.png" alt="Euler1" width="160" height="130" class="aligncenter size-full wp-image-121702" /></a></p>
+<p>There are two vertices with odd degree, &#8216;2&#8217; and &#8216;3&#8217;, we can start path from any of them. Let us start tour from vertex &#8216;2&#8217;.<br />
+<a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Euler21.png"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Euler21.png" alt="Euler2" width="160" height="130" class="aligncenter size-full wp-image-121703" /></a><br />
+There are three edges going out from vertex &#8216;2&#8217;, which one to pick? We don&#8217;t pick the edge &#8216;2-3&#8242; because that is a bridge (we won&#8217;t be able to come back to &#8216;3&#8217;).  We can pick any of the remaining two edge. Let us say we pick &#8216;2-0&#8242;. We remove this edge and move to vertex &#8216;0&#8217;.<br />
+<a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Eule3.png"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Eule3.png" alt="Eule3" width="160" height="130" class="aligncenter size-full wp-image-121704" /></a><br />
+There is only one edge from vertex &#8216;0&#8217;, so we pick it, remove it and move to vertex &#8216;1&#8217;. Euler tour becomes &#8216;2-0 0-1&#8242;.<br />
+<a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Euler4.png"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Euler4.png" alt="Euler4" width="160" height="130" class="aligncenter size-full wp-image-121705" /></a></p>
+<p>There is only one edge from vertex &#8216;1&#8217;, so we pick it, remove it and move to vertex &#8216;2&#8217;. Euler tour becomes &#8216;2-0 0-1 1-2&#8242;<br />
+<a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Euler5.png"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Euler5.png" alt="Euler5" width="160" height="130" class="aligncenter size-full wp-image-121706" /></a></p>
+<p>Again there is only one edge from vertex 2, so we pick it, remove it and move to vertex 3. Euler tour becomes &#8216;2-0 0-1 1-2 2-3&#8242;<br />
+<a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Euler6.png"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Euler6.png" alt="Euler6" width="160" height="130" class="aligncenter size-full wp-image-121707" /></a></p>
+<p>There are no more edges left, so we stop here.  Final tour is &#8216;2-0 0-1 1-2 2-3&#8242;.</p>
+<p>See <a href="http://www.math.ku.edu/~jmartin/courses/math105-F11/Lectures/chapter5-part2.pdf" target="_blank">this </a>for and <a href="http://www.austincc.edu/powens/+Topics/HTML/05-6/05-6.html">this </a>fore more examples.</p>
+<p>Following is C++ implementation of above algorithm.  In the following code, it is assumed that the given graph has an Eulerian trail or Circuit. The main focus is to print an Eulerian trail or circuit. We can use <a href="http://www.geeksforgeeks.org/eulerian-path-and-circuit/" target="_blank">isEulerian()</a> to first check whether there is an Eulerian Trail or Circuit in the given graph. </p>
+<p>We first find the starting point which must be an odd vertex (if there are odd vertices) and store it in variable ‘u’. If there are zero odd vertices, we start from vertex &#8216;0&#8217;. We call printEulerUtil() to print Euler tour starting with u. We traverse all adjacent vertices of u, if there is only one adjacent vertex, we immediately consider it. If there are more than one adjacent vertices, we consider an adjacent v only if edge u-v is not a bridge. How to find if a given is edge is bridge? We count number of vertices reachable from u. We remove edge u-v and again count number of reachable vertices from u. If number of reachable vertices are reduced, then edge u-v is a bridge. To count reachable vertices, we can either use BFS or DFS, we have used DFS in the above code. The function DFSCount(u) returns number of vertices reachable from u.<br />
+Once an edge is processed (included in Euler tour), we remove it from the graph.  To remove the edge, we replace the vertex entry with -1 in adjacency list.  Note that simply deleting the node may not work as the code is recursive and a parent call may be in middle of adjacency list.</p>
+<pre class="brush: cpp; highlight: [34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104]; title: ; notranslate" title="">
+// A C++ program print Eulerian Trail in a given Eulerian or Semi-Eulerian Graph
+#include &lt;iostream&gt;
+#include &lt;string.h&gt;
+#include &lt;algorithm&gt;
+#include &lt;list&gt;
+using namespace std;
+
+// A class that represents an undirected graph
+class Graph
+{
+  int V;    // No. of vertices
+  list&lt;int&gt; *adj;    // A dynamic array of adjacency lists
+public:
+    // Constructor and destructor
+  Graph(int V)  { this-&gt;V = V;  adj = new list&lt;int&gt;[V];  }
+  ~Graph()      { delete [] adj;  }
+
+  // functions to add and remove edge
+  void addEdge(int u, int v) {  adj[u].push_back(v); adj[v].push_back(u); }
+  void rmvEdge(int u, int v);
+
+  // Methods to print Eulerian tour
+  void printEulerTour();
+  void printEulerUtil(int s);
+
+  // This function returns count of vertices reachable from v. It does DFS
+  int DFSCount(int v, bool visited[]);
+
+  // Utility function to check if edge u-v is a valid next edge in
+  // Eulerian trail or circuit
+  bool isValidNextEdge(int u, int v);
+};
+
+/* The main function that print Eulerian Trail. It first finds an odd
+   degree vertex (if there is any) and then calls printEulerUtil()
+   to print the path */
+void Graph::printEulerTour()
+{
+  // Find a vertex with odd degree
+  int u = 0;
+  for (int i = 0; i &lt; V; i++)
+      if (adj[i].size() &amp; 1)
+        {   u = i; break;  }
+
+  // Print tour starting from oddv
+  printEulerUtil(u);
+  cout &lt;&lt; endl;
+}
+
+// Print Euler tour starting from vertex u
+void Graph::printEulerUtil(int u)
+{
+  // Recur for all the vertices adjacent to this vertex
+  list&lt;int&gt;::iterator i;
+  for (i = adj[u].begin(); i != adj[u].end(); ++i)
+  {
+      int v = *i;
+
+      // If edge u-v is not removed and it's a a valid next edge
+      if (v != -1 &amp;&amp; isValidNextEdge(u, v))
+      {
+          cout &lt;&lt; u &lt;&lt; &quot;-&quot; &lt;&lt; v &lt;&lt; &quot;  &quot;;
+          rmvEdge(u, v);
+          printEulerUtil(v);
+      }
+  }
+}
+
+// The function to check if edge u-v can be considered as next edge in
+// Euler Tout
+bool Graph::isValidNextEdge(int u, int v)
+{
+  // The edge u-v is valid in one of the following two cases:
+
+  // 1) If v is the only adjacent vertex of u
+  int count = 0;  // To store count of adjacent vertices
+  list&lt;int&gt;::iterator i;
+  for (i = adj[u].begin(); i != adj[u].end(); ++i)
+     if (*i != -1)
+        count++;
+  if (count == 1)
+    return true;
+
+
+  // 2) If there are multiple adjacents, then u-v is not a bridge
+  // Do following steps to check if u-v is a bridge
+
+  // 2.a) count of vertices reachable from u
+  bool visited[V];
+  memset(visited, false, V);
+  int count1 = DFSCount(u, visited);
+
+  // 2.b) Remove edge (u, v) and after removing the edge, count
+  // vertices reachable from u
+  rmvEdge(u, v);
+  memset(visited, false, V);
+  int count2 = DFSCount(u, visited);
+
+  // 2.c) Add the edge back to the graph
+  addEdge(u, v);
+
+  // 2.d) If count1 is greater, then edge (u, v) is a bridge
+  return (count1 &gt; count2)? false: true;
+}
+
+// This function removes edge u-v from graph.  It removes the edge by
+// replacing adjcent vertex value with -1.
+void Graph::rmvEdge(int u, int v)
+{
+  // Find v in adjacency list of u and replace it with -1
+  list&lt;int&gt;::iterator iv = find(adj[u].begin(), adj[u].end(), v);
+  *iv = -1;
+
+  // Find u in adjacency list of v and replace it with -1
+  list&lt;int&gt;::iterator iu = find(adj[v].begin(), adj[v].end(), u);
+  *iu = -1;
+}
+
+// A DFS based function to count reachable vertices from v
+int Graph::DFSCount(int v, bool visited[])
+{
+  // Mark the current node as visited
+  visited[v] = true;
+  int count = 1;
+
+  // Recur for all vertices adjacent to this vertex
+  list&lt;int&gt;::iterator i;
+  for (i = adj[v].begin(); i != adj[v].end(); ++i)
+      if (*i != -1 &amp;&amp; !visited[*i])
+          count += DFSCount(*i, visited);
+
+  return count;
+}
+
+// Driver program to test above function
+int main()
+{
+  // Let us first create and test graphs shown in above figure
+  Graph g1(4);
+  g1.addEdge(0, 1);
+  g1.addEdge(0, 2);
+  g1.addEdge(1, 2);
+  g1.addEdge(2, 3);
+  g1.printEulerTour();
+
+  Graph g2(3);
+  g2.addEdge(0, 1);
+  g2.addEdge(1, 2);
+  g2.addEdge(2, 0);
+  g2.printEulerTour();
+
+  Graph g3(5);
+  g3.addEdge(1, 0);
+  g3.addEdge(0, 2);
+  g3.addEdge(2, 1);
+  g3.addEdge(0, 3);
+  g3.addEdge(3, 4);
+  g3.addEdge(3, 2);
+  g3.addEdge(3, 1);
+  g3.addEdge(2, 4);
+  g3.printEulerTour();
+
+  return 0;
+}
+</pre>
+<p>Output:
+<pre>2-0  0-1  1-2  2-3
+0-1  1-2  2-0
+0-1  1-2  2-0  0-3  3-4  4-2  2-3  3-1</pre>
+<p>Note that the above code modifies given graph, we can create a copy of graph if we don&#8217;t want the given graph to be modified.</p>
+<p><strong>Time Complexity:</strong> Time complexity of the above implementation is O ((V+E)<sup>2</sup>).  The function printEulerUtil() is like DFS and it calls isValidNextEdge() which also does DFS two times.  Time complexity of DFS for adjacency list representation is O(V+E). Therefore overall time complexity is O((V+E)*(V+E)) which can be written as O(E<sup>2</sup>) for a connected graph. </p>
+<p>There are better algorithms to print Euler tour, we will soon be covering them as separate posts.</p>
+<p><strong>References:</strong><br />
+<a href="http://www.math.ku.edu/~jmartin/courses/math105-F11/Lectures/chapter5-part2.pdf" target="_blank">http://www.math.ku.edu/~jmartin/courses/math105-F11/Lectures/chapter5-part2.pdf</a><br />
+<a href="http://en.wikipedia.org/wiki/Eulerian_path#Fleury.27s_algorithm" target="_blank">http://en.wikipedia.org/wiki/Eulerian_path#Fleury.27s_algorithm</a></p>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/vertex-cover-problem-set-1-introduction-approximate-algorithm-2/" title="Vertex Cover Problem | Set 1 (Introduction and Approximate Algorithm)">Vertex Cover Problem | Set 1 (Introduction and Approximate Algorithm)</a></li><li><a href="http://www.geeksforgeeks.org/snake-ladder-problem-2/" title="Snake and Ladder Problem">Snake and Ladder Problem</a></li><li><a href="http://www.geeksforgeeks.org/tarjan-algorithm-find-strongly-connected-components/" title="Tarjan&#8217;s Algorithm to find Strongly Connected Components">Tarjan&#8217;s Algorithm to find Strongly Connected Components</a></li><li><a href="http://www.geeksforgeeks.org/shortest-path-exactly-k-edges-directed-weighted-graph/" title="Shortest path with exactly k edges in a directed and weighted graph">Shortest path with exactly k edges in a directed and weighted graph</a></li><li><a href="http://www.geeksforgeeks.org/count-possible-paths-source-destination-exactly-k-edges/" title="Count all possible walks from a source to a destination with exactly k edges">Count all possible walks from a source to a destination with exactly k edges</a></li><li><a href="http://www.geeksforgeeks.org/euler-circuit-directed-graph/" title="Euler Circuit in a Directed Graph">Euler Circuit in a Directed Graph</a></li><li><a href="http://www.geeksforgeeks.org/given-array-strings-find-strings-can-chained-form-circle/" title="Given an array of strings, find if the strings can be chained to form a circle">Given an array of strings, find if the strings can be chained to form a circle</a></li><li><a href="http://www.geeksforgeeks.org/given-sorted-dictionary-find-precedence-characters/" title="Given a sorted dictionary of an alien language, find order of characters">Given a sorted dictionary of an alien language, find order of characters</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/graph/" rel="tag">Graph</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Ffleurys-algorithm-for-printing-eulerian-path%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/fleurys-algorithm-for-printing-eulerian-path/" data-text="Fleury&#8217;s Algorithm for printing Eulerian Path or Circuit" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/fleurys-algorithm-for-printing-eulerian-path/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-28899">
+        <div id="dsq-comment-header-28899" class="dsq-comment-header">
+            <cite id="dsq-cite-28899">
+                <span id="dsq-author-user-28899">Ash</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28899" class="dsq-comment-body">
+            <div id="dsq-comment-message-28899" class="dsq-comment-message"><p>Ah, I see now why my previously mentioned solution would not work.  I came across a counter example.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-28897">
+        <div id="dsq-comment-header-28897" class="dsq-comment-header">
+            <cite id="dsq-cite-28897">
+                <span id="dsq-author-user-28897">Ash</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28897" class="dsq-comment-body">
+            <div id="dsq-comment-message-28897" class="dsq-comment-message"><p>Would it be possible to avoid the DFS by instead checking the in-degree of the next vertex?  If the next vertex only has in-degree of 1, then you are burning a bridge.  My logic must be wrong here though because this would imply a linear-time algorithm and Wikipedia doesn&#8217;t mention any existence of a linear time algorithm.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-33709">
+        <div id="dsq-comment-header-33709" class="dsq-comment-header">
+            <cite id="dsq-cite-33709">
+                <span id="dsq-author-user-33709">Susnata Roy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33709" class="dsq-comment-body">
+            <div id="dsq-comment-message-33709" class="dsq-comment-message"><p>having an in-degree of 1 is not the only condition when its a bridge, when u remove a bridge number of connected components should increase.</p>
+<p><a href="http://s30.postimg.org/4fyghwb29/bridge.png" rel="nofollow">http://s30.postimg.org/4fyghwb29/bridge.png</a> &#8211; its a bridge, even though degree is not 1 for either of the vertices.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/fleurys-algorithm-for-printing-eulerian-path/';
+var disqus_identifier = '121669 http://www.geeksforgeeks.org/?p=121669';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Fleury&#8217;s Algorithm for printing Eulerian Path or Circuit";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.198 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:28:34 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

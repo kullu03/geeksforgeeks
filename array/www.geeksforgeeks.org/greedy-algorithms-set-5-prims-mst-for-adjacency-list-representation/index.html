@@ -1,0 +1,1152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Greedy Algorithms | Set 6 (Prim’s MST for Adjacency List Representation) - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/greedy-algorithms-set-5-prims-mst-for-adjacency-list-representation/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Greedy Algorithms | Set 6 (Prim’s MST for Adjacency List Representation) - GeeksforGeeks" />
+<meta property="og:description" content="We recommend to read following two posts as a prerequisite of this post. 1. Greedy Algorithms | Set 5 (Prim’s Minimum Spanning Tree (MST)) 2. Graph and its representations We have discussed Prim&#8217;s algorithm and its implementation for adjacency matrix representation of graphs. The time complexity for the matrix representation is O(V^2). In this post, &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/greedy-algorithms-set-5-prims-mst-for-adjacency-list-representation/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Graph" />
+<meta property="article:tag" content="Greedy Algorithm" />
+<meta property="article:section" content="Graph" />
+<meta property="article:published_time" content="2012-11-23T00:03:26+00:00" />
+<meta property="article:modified_time" content="2014-03-13T11:45:07+00:00" />
+<meta property="og:updated_time" content="2014-03-13T11:45:07+00:00" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig-11.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/MST1.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/MST2.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/MST3.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/MST4.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/MST5.jpg" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.524 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111312 210.212.53.139 172.19.11.169';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Greedy Algorithms | Set 6 (Prim’s MST for Adjacency List Representation)</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>We recommend to read following two posts as a prerequisite of this post.<span id="more-27580"></span></p>
+<p><strong>1.</strong> <a href="http://www.geeksforgeeks.org/archives/27455">Greedy Algorithms | Set 5 (Prim’s Minimum Spanning Tree (MST))</a><br />
+<strong>2.</strong> <a href="http://www.geeksforgeeks.org/archives/27134">Graph and its representations</a></p>
+<p>We have discussed <a href="http://www.geeksforgeeks.org/archives/27455">Prim&#8217;s algorithm and its implementation for adjacency matrix representation of graphs</a>. The time complexity for the matrix representation is O(V^2). In this post, O(ELogV) algorithm for adjacency list representation is discussed.<br />
+As discussed in the previous post, in Prim&#8217;s algorithm, two sets are maintained, one set contains list of vertices already included in MST, other set contains vertices not yet included. With adjacency list representation, all vertices of a graph can be traversed in O(V+E) time using <a href="http://www.geeksforgeeks.org/archives/18382">BFS</a>. The idea is to traverse all vertices of graph using <a href="http://www.geeksforgeeks.org/archives/18382">BFS </a>and use a Min Heap to store the vertices not yet included in MST. Min Heap is used as a priority queue to get the minimum weight edge from the <a href="http://en.wikipedia.org/wiki/Cut_%28graph_theory%29">cut</a>. Min Heap is used as time complexity of operations like extracting minimum element and decreasing key value is O(LogV) in Min Heap.</p>
+<p>Following are the detailed steps.<br />
+<strong>1) </strong>Create a Min Heap of size V where V is the number of vertices in the given graph. Every node of min heap contains vertex number and key value of the vertex.<br />
+<strong>2)</strong> Initialize Min Heap with first vertex as root (the key value assigned to first vertex is 0). The key value assigned to all other vertices is INF (infinite).<br />
+<strong>3) </strong> While Min Heap is not empty, do following<br />
+&#8230;..<strong>a)</strong> Extract the min value node from Min Heap. Let the extracted vertex be u.<br />
+&#8230;..<strong>b)</strong> For every adjacent vertex v of u, check if v is in Min Heap (not yet included in MST). If v is in Min Heap and its key value is more than weight of u-v, then update the key value of v as weight of u-v.</p>
+<p>Let us understand the above algorithm with the following example:<br />
+<a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig-11.jpg"><img title="Fig-1" src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig-11.jpg" alt="" width="300" height="139" /></a><br />
+Initially, key value of first vertex is 0 and INF (infinite) for all other vertices. So vertex 0 is extracted from Min Heap and key values of vertices adjacent to 0 (1 and 7) are updated. Min Heap contains all vertices except vertex 0.<br />
+The vertices in green color are the vertices included in MST.<br />
+<a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/MST1.jpg"><img title="Fig-2" src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/MST1.jpg" alt="" width="80" height="139" /></a><br />
+Since key value of vertex 1 is minimum among all nodes in Min Heap, it is extracted from Min Heap and key values of vertices adjacent to 1 are updated (Key is updated if the a vertex is not in Min Heap and previous key value is greater than the weight of edge from 1 to the adjacent). Min Heap contains all vertices except vertex 0 and 1.<br />
+<a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/MST2.jpg"><img title="Fig-3" src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/MST2.jpg" alt="" width="150" height="139" /></a><br />
+Since key value of vertex 7 is minimum among all nodes in Min Heap, it is extracted from Min Heap and key values of vertices adjacent to 7 are updated (Key is updated if the a vertex is not in Min Heap and previous key value is greater than the weight of edge from 7 to the adjacent). Min Heap contains all vertices except vertex 0, 1 and 7.<br />
+<a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/MST3.jpg"><img title="Fig-4" src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/MST3.jpg" alt="" width="110" height="125" /></a><br />
+Since key value of vertex 6 is minimum among all nodes in Min Heap, it is extracted from Min Heap and key values of vertices adjacent to 6 are updated (Key is updated if the a vertex is not in Min Heap and previous key value is greater than the weight of edge from 6 to the adjacent). Min Heap contains all vertices except vertex 0, 1, 7 and 6.<br />
+<a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/MST4.jpg"><img title="Fig-4" src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/MST4.jpg" alt="" width="150" height="139" /></a><br />
+The above steps are repeated for rest of the nodes in Min Heap till Min Heap becomes empty<br />
+<a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/MST5.jpg"><img title="Fig-1" src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/MST5.jpg" alt="" width="300" height="139" /></a></p>
+<pre class="brush: cpp; highlight: [223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,278,279,280,281,282,283]; title: ; notranslate" title="">
+// C / C++ program for Prim's MST for adjacency list representation of graph
+
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;limits.h&gt;
+
+// A structure to represent a node in adjacency list
+struct AdjListNode
+{
+    int dest;
+    int weight;
+    struct AdjListNode* next;
+};
+
+// A structure to represent an adjacency liat
+struct AdjList
+{
+    struct AdjListNode *head;  // pointer to head node of list
+};
+
+// A structure to represent a graph. A graph is an array of adjacency lists.
+// Size of array will be V (number of vertices in graph)
+struct Graph
+{
+    int V;
+    struct AdjList* array;
+};
+
+// A utility function to create a new adjacency list node
+struct AdjListNode* newAdjListNode(int dest, int weight)
+{
+    struct AdjListNode* newNode =
+            (struct AdjListNode*) malloc(sizeof(struct AdjListNode));
+    newNode-&gt;dest = dest;
+    newNode-&gt;weight = weight;
+    newNode-&gt;next = NULL;
+    return newNode;
+}
+
+// A utility function that creates a graph of V vertices
+struct Graph* createGraph(int V)
+{
+    struct Graph* graph = (struct Graph*) malloc(sizeof(struct Graph));
+    graph-&gt;V = V;
+
+    // Create an array of adjacency lists.  Size of array will be V
+    graph-&gt;array = (struct AdjList*) malloc(V * sizeof(struct AdjList));
+
+     // Initialize each adjacency list as empty by making head as NULL
+    for (int i = 0; i &lt; V; ++i)
+        graph-&gt;array[i].head = NULL;
+
+    return graph;
+}
+
+// Adds an edge to an undirected graph
+void addEdge(struct Graph* graph, int src, int dest, int weight)
+{
+    // Add an edge from src to dest.  A new node is added to the adjacency
+    // list of src.  The node is added at the begining
+    struct AdjListNode* newNode = newAdjListNode(dest, weight);
+    newNode-&gt;next = graph-&gt;array[src].head;
+    graph-&gt;array[src].head = newNode;
+
+    // Since graph is undirected, add an edge from dest to src also
+    newNode = newAdjListNode(src, weight);
+    newNode-&gt;next = graph-&gt;array[dest].head;
+    graph-&gt;array[dest].head = newNode;
+}
+
+// Structure to represent a min heap node
+struct MinHeapNode
+{
+    int  v;
+    int key;
+};
+
+// Structure to represent a min heap
+struct MinHeap
+{
+    int size;      // Number of heap nodes present currently
+    int capacity;  // Capacity of min heap
+    int *pos;     // This is needed for decreaseKey()
+    struct MinHeapNode **array;
+};
+
+// A utility function to create a new Min Heap Node
+struct MinHeapNode* newMinHeapNode(int v, int key)
+{
+    struct MinHeapNode* minHeapNode =
+           (struct MinHeapNode*) malloc(sizeof(struct MinHeapNode));
+    minHeapNode-&gt;v = v;
+    minHeapNode-&gt;key = key;
+    return minHeapNode;
+}
+
+// A utilit function to create a Min Heap
+struct MinHeap* createMinHeap(int capacity)
+{
+    struct MinHeap* minHeap =
+         (struct MinHeap*) malloc(sizeof(struct MinHeap));
+    minHeap-&gt;pos = (int *)malloc(capacity * sizeof(int));
+    minHeap-&gt;size = 0;
+    minHeap-&gt;capacity = capacity;
+    minHeap-&gt;array =
+         (struct MinHeapNode**) malloc(capacity * sizeof(struct MinHeapNode*));
+    return minHeap;
+}
+
+// A utility function to swap two nodes of min heap. Needed for min heapify
+void swapMinHeapNode(struct MinHeapNode** a, struct MinHeapNode** b)
+{
+    struct MinHeapNode* t = *a;
+    *a = *b;
+    *b = t;
+}
+
+// A standard function to heapify at given idx
+// This function also updates position of nodes when they are swapped.
+// Position is needed for decreaseKey()
+void minHeapify(struct MinHeap* minHeap, int idx)
+{
+    int smallest, left, right;
+    smallest = idx;
+    left = 2 * idx + 1;
+    right = 2 * idx + 2;
+
+    if (left &lt; minHeap-&gt;size &amp;&amp;
+        minHeap-&gt;array[left]-&gt;key &lt; minHeap-&gt;array[smallest]-&gt;key )
+      smallest = left;
+
+    if (right &lt; minHeap-&gt;size &amp;&amp;
+        minHeap-&gt;array[right]-&gt;key &lt; minHeap-&gt;array[smallest]-&gt;key )
+      smallest = right;
+
+    if (smallest != idx)
+    {
+        // The nodes to be swapped in min heap
+        MinHeapNode *smallestNode = minHeap-&gt;array[smallest];
+        MinHeapNode *idxNode = minHeap-&gt;array[idx];
+
+        // Swap positions
+        minHeap-&gt;pos[smallestNode-&gt;v] = idx;
+        minHeap-&gt;pos[idxNode-&gt;v] = smallest;
+
+        // Swap nodes
+        swapMinHeapNode(&amp;minHeap-&gt;array[smallest], &amp;minHeap-&gt;array[idx]);
+
+        minHeapify(minHeap, smallest);
+    }
+}
+
+// A utility function to check if the given minHeap is ampty or not
+int isEmpty(struct MinHeap* minHeap)
+{
+    return minHeap-&gt;size == 0;
+}
+
+// Standard function to extract minimum node from heap
+struct MinHeapNode* extractMin(struct MinHeap* minHeap)
+{
+    if (isEmpty(minHeap))
+        return NULL;
+
+    // Store the root node
+    struct MinHeapNode* root = minHeap-&gt;array[0];
+
+    // Replace root node with last node
+    struct MinHeapNode* lastNode = minHeap-&gt;array[minHeap-&gt;size - 1];
+    minHeap-&gt;array[0] = lastNode;
+
+    // Update position of last node
+    minHeap-&gt;pos[root-&gt;v] = minHeap-&gt;size-1;
+    minHeap-&gt;pos[lastNode-&gt;v] = 0;
+
+    // Reduce heap size and heapify root
+    --minHeap-&gt;size;
+    minHeapify(minHeap, 0);
+
+    return root;
+}
+
+// Function to decreasy key value of a given vertex v. This function
+// uses pos[] of min heap to get the current index of node in min heap
+void decreaseKey(struct MinHeap* minHeap, int v, int key)
+{
+    // Get the index of v in  heap array
+    int i = minHeap-&gt;pos[v];
+
+    // Get the node and update its key value
+    minHeap-&gt;array[i]-&gt;key = key;
+
+    // Travel up while the complete tree is not hepified.
+    // This is a O(Logn) loop
+    while (i &amp;&amp; minHeap-&gt;array[i]-&gt;key &lt; minHeap-&gt;array[(i - 1) / 2]-&gt;key)
+    {
+        // Swap this node with its parent
+        minHeap-&gt;pos[minHeap-&gt;array[i]-&gt;v] = (i-1)/2;
+        minHeap-&gt;pos[minHeap-&gt;array[(i-1)/2]-&gt;v] = i;
+        swapMinHeapNode(&amp;minHeap-&gt;array[i],  &amp;minHeap-&gt;array[(i - 1) / 2]);
+
+        // move to parent index
+        i = (i - 1) / 2;
+    }
+}
+
+// A utility function to check if a given vertex
+// 'v' is in min heap or not
+bool isInMinHeap(struct MinHeap *minHeap, int v)
+{
+   if (minHeap-&gt;pos[v] &lt; minHeap-&gt;size)
+     return true;
+   return false;
+}
+
+// A utility function used to print the constructed MST
+void printArr(int arr[], int n)
+{
+    for (int i = 1; i &lt; n; ++i)
+        printf(&quot;%d - %d\n&quot;, arr[i], i);
+}
+
+// The main function that constructs Minimum Spanning Tree (MST)
+// using Prim's algorithm
+void PrimMST(struct Graph* graph)
+{
+    int V = graph-&gt;V;// Get the number of vertices in graph
+    int parent[V];   // Array to store constructed MST
+    int key[V];      // Key values used to pick minimum weight edge in cut
+
+    // minHeap represents set E
+    struct MinHeap* minHeap = createMinHeap(V);
+
+    // Initialize min heap with all vertices. Key value of
+    // all vertices (except 0th vertex) is initially infinite
+    for (int v = 1; v &lt; V; ++v)
+    {
+        parent[v] = -1;
+        key[v] = INT_MAX;
+        minHeap-&gt;array[v] = newMinHeapNode(v, key[v]);
+        minHeap-&gt;pos[v] = v;
+    }
+
+    // Make key value of 0th vertex as 0 so that it
+    // is extracted first
+    key[0] = 0;
+    minHeap-&gt;array[0] = newMinHeapNode(0, key[0]);
+    minHeap-&gt;pos[0]   = 0;
+
+    // Initially size of min heap is equal to V
+    minHeap-&gt;size = V;
+
+    // In the followin loop, min heap contains all nodes
+    // not yet added to MST.
+    while (!isEmpty(minHeap))
+    {
+        // Extract the vertex with minimum key value
+        struct MinHeapNode* minHeapNode = extractMin(minHeap);
+        int u = minHeapNode-&gt;v; // Store the extracted vertex number
+
+        // Traverse through all adjacent vertices of u (the extracted
+        // vertex) and update their key values
+        struct AdjListNode* pCrawl = graph-&gt;array[u].head;
+        while (pCrawl != NULL)
+        {
+            int v = pCrawl-&gt;dest;
+
+            // If v is not yet included in MST and weight of u-v is
+            // less than key value of v, then update key value and
+            // parent of v
+            if (isInMinHeap(minHeap, v) &amp;&amp; pCrawl-&gt;weight &lt; key[v])
+            {
+                key[v] = pCrawl-&gt;weight;
+                parent[v] = u;
+                decreaseKey(minHeap, v, key[v]);
+            }
+            pCrawl = pCrawl-&gt;next;
+        }
+    }
+
+    // print edges of MST
+    printArr(parent, V);
+}
+
+// Driver program to test above functions
+int main()
+{
+    // Let us create the graph given in above fugure
+    int V = 9;
+    struct Graph* graph = createGraph(V);
+    addEdge(graph, 0, 1, 4);
+    addEdge(graph, 0, 7, 8);
+    addEdge(graph, 1, 2, 8);
+    addEdge(graph, 1, 7, 11);
+    addEdge(graph, 2, 3, 7);
+    addEdge(graph, 2, 8, 2);
+    addEdge(graph, 2, 5, 4);
+    addEdge(graph, 3, 4, 9);
+    addEdge(graph, 3, 5, 14);
+    addEdge(graph, 4, 5, 10);
+    addEdge(graph, 5, 6, 2);
+    addEdge(graph, 6, 7, 1);
+    addEdge(graph, 6, 8, 6);
+    addEdge(graph, 7, 8, 7);
+
+    PrimMST(graph);
+
+    return 0;
+}
+</pre>
+<p>Output:</p>
+<pre>0 - 1
+5 - 2
+2 - 3
+3 - 4
+6 - 5
+7 - 6
+0 - 7
+2 - 8</pre>
+<p><strong>Time Complexity:</strong> The time complexity of the above code/algorithm looks O(V^2) as there are two nested while loops. If we take a closer look, we can observe that the statements in inner loop are executed O(V+E) times (similar to BFS). The inner loop has decreaseKey() operation which takes O(LogV) time. So overall time complexity is O(E+V)*O(LogV) which is O((E+V)*LogV) = O(ELogV) (For a connected graph, V = O(E))</p>
+<p><strong>References:</strong><br />
+<a href="http://www.flipkart.com/introduction-algorithms-8120340078/p/itmczynzhyhxv2gs?pid=9788120340077&amp;affid=sandeepgfg">Introduction to Algorithms by Clifford Stein, Thomas H. Cormen, Charles E. Leiserson, Ronald L.<br />
+</a><br />
+<a href="http://en.wikipedia.org/wiki/Prim's_algorithm">http://en.wikipedia.org/wiki/Prim&#8217;s_algorithm</a></p>
+<p>This article is compiled by <a href="https://www.facebook.com/barnwal.aashish">Aashish Barnwal</a> and reviewed by GeeksforGeeks team. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/vertex-cover-problem-set-1-introduction-approximate-algorithm-2/" title="Vertex Cover Problem | Set 1 (Introduction and Approximate Algorithm)">Vertex Cover Problem | Set 1 (Introduction and Approximate Algorithm)</a></li><li><a href="http://www.geeksforgeeks.org/snake-ladder-problem-2/" title="Snake and Ladder Problem">Snake and Ladder Problem</a></li><li><a href="http://www.geeksforgeeks.org/tarjan-algorithm-find-strongly-connected-components/" title="Tarjan&#8217;s Algorithm to find Strongly Connected Components">Tarjan&#8217;s Algorithm to find Strongly Connected Components</a></li><li><a href="http://www.geeksforgeeks.org/shortest-path-exactly-k-edges-directed-weighted-graph/" title="Shortest path with exactly k edges in a directed and weighted graph">Shortest path with exactly k edges in a directed and weighted graph</a></li><li><a href="http://www.geeksforgeeks.org/count-possible-paths-source-destination-exactly-k-edges/" title="Count all possible walks from a source to a destination with exactly k edges">Count all possible walks from a source to a destination with exactly k edges</a></li><li><a href="http://www.geeksforgeeks.org/euler-circuit-directed-graph/" title="Euler Circuit in a Directed Graph">Euler Circuit in a Directed Graph</a></li><li><a href="http://www.geeksforgeeks.org/given-array-strings-find-strings-can-chained-form-circle/" title="Given an array of strings, find if the strings can be chained to form a circle">Given an array of strings, find if the strings can be chained to form a circle</a></li><li><a href="http://www.geeksforgeeks.org/given-sorted-dictionary-find-precedence-characters/" title="Given a sorted dictionary of an alien language, find order of characters">Given a sorted dictionary of an alien language, find order of characters</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/graph/" rel="tag">Graph</a>, <a href="http://www.geeksforgeeks.org/tag/greedy-algorithm/" rel="tag">Greedy Algorithm</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fgreedy-algorithms-set-5-prims-mst-for-adjacency-list-representation%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/greedy-algorithms-set-5-prims-mst-for-adjacency-list-representation/" data-text="Greedy Algorithms | Set 6 (Prim’s MST for Adjacency List Representation)" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/greedy-algorithms-set-5-prims-mst-for-adjacency-list-representation/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-30971">
+        <div id="dsq-comment-header-30971" class="dsq-comment-header">
+            <cite id="dsq-cite-30971">
+                <span id="dsq-author-user-30971">Stormey</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30971" class="dsq-comment-body">
+            <div id="dsq-comment-message-30971" class="dsq-comment-message"><p>Shouldn&#8217;t it be: &#8220;Key is updated if the a vertex is in Min Heap and previous key value<br />
+ is greater than the weight of edge from X to the adjacent&#8221;?<br />
+Since you DO want to update vertex&#8217;s key ONLY if they are in the MinHeap&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-22192">
+        <div id="dsq-comment-header-22192" class="dsq-comment-header">
+            <cite id="dsq-cite-22192">
+                <span id="dsq-author-user-22192">Asap</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22192" class="dsq-comment-body">
+            <div id="dsq-comment-message-22192" class="dsq-comment-message"><p>I think we dont need 2 key arrays.<br />
+Correct me if i am wrong.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-27965">
+        <div id="dsq-comment-header-27965" class="dsq-comment-header">
+            <cite id="dsq-cite-27965">
+                <span id="dsq-author-user-27965">Abhishek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27965" class="dsq-comment-body">
+            <div id="dsq-comment-message-27965" class="dsq-comment-message"><p>I agree. We don&#8217;t need two 2 key arrays.<br />
+Inside the PrimMST function call :<br />
+while (pCrawl != NULL)<br />
+        {<br />
+..<br />
+key[v] = pCrawl-&gt;weight;<br />
+&#8230;..<br />
+decreaseKey(minHeap, v, key[v]);<br />
+}<br />
+}</p>
+<p>We update the key values twice. </p>
+<p>key[v] =<br />
+as well as inside the decreaseKey() function call<br />
+minHeap-&gt;array[i]-&gt;key = key;</p>
+<p>At any point of time, they will have equal values.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-20406">
+        <div id="dsq-comment-header-20406" class="dsq-comment-header">
+            <cite id="dsq-cite-20406">
+                <span id="dsq-author-user-20406">Kumar Vikram</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20406" class="dsq-comment-body">
+            <div id="dsq-comment-message-20406" class="dsq-comment-message"><p>Another implementation using Adjancency list in c++.</p>
+<p>#include&lt;iostream&gt;<br />
+#include &lt;list&gt;<br />
+#include &lt;limits.h&gt;</p>
+<p>using namespace std;</p>
+<p>class AdjListNode<br />
+{<br />
+    int v;<br />
+    int weight;<br />
+public:<br />
+    AdjListNode(int _v, int _w)  { v = _v;  weight = _w;}<br />
+    int getV()       {  return v;  }<br />
+    int getWeight()  {  return weight; }<br />
+};</p>
+<p>class Graph<br />
+{<br />
+    int V;    // No. of vertices&#8217;<br />
+    // Pointer to an array containing adjacency lists<br />
+    list&lt;AdjListNode&gt; *adj;</p>
+<p>    public:<br />
+    Graph(int V);   // Constructor</p>
+<p>    // function to add an edge to graph<br />
+    void addEdge(int u, int v, int weight);<br />
+    void prims_mst();<br />
+    void print_mst(int parent[]);<br />
+    int min_dist(int dist[],bool sptSet[]);</p>
+<p>};</p>
+<p>Graph::Graph(int V)<br />
+{<br />
+    this-&gt;V = V;<br />
+    adj = new list&lt;AdjListNode&gt;[V];<br />
+}</p>
+<p>void Graph::addEdge(int u, int v, int weight)<br />
+{<br />
+    AdjListNode node(v, weight);<br />
+    adj[u].push_back(node); // Add v to u&#8217;s list<br />
+}</p>
+<p>int Graph::min_dist(int dist[],bool sptSet[])<br />
+{<br />
+	int min = INT_MAX, min_index;</p>
+<p>   for (int v = 0; v &lt; V; v++)<br />
+     if (sptSet[v] == false &amp;&amp; dist[v] &lt;= min)<br />
+         min = dist[v], min_index = v;</p>
+<p>   return min_index;<br />
+}</p>
+<p>void Graph::print_mst(int parent[])<br />
+{<br />
+	cout&lt;&lt;&quot;edges in the MST are&quot;&lt;&lt;endl;<br />
+	for(int i=1;i&lt;V;i++)<br />
+		{<br />
+		cout&lt;&lt;parent[i]&lt;&lt;&quot;&#8212;&quot;&lt;&lt;i;<br />
+		cout&lt;&lt;endl;<br />
+		}<br />
+}</p>
+<p>void Graph::prims_mst()<br />
+{<br />
+	int parent[V]; // Array to store constructed MST<br />
+     int key[V];   // Key values used to pick minimum weight edge in cut<br />
+     bool mstSet[V];  // To represent set of vertices not yet included in MST</p>
+<p>     // Initialize all keys as INFINITE<br />
+     for (int i = 0; i &lt; V; i++)<br />
+        key[i] = INT_MAX, mstSet[i] = false;</p>
+<p>     // Always include first 1st vertex in MST.<br />
+     key[0] = 0;     // Make key 0 so that this vertex is picked as first vertex<br />
+     parent[0] = -1; // First node is always root of MST<br />
+	for(int v=0;v&lt;V;v++)<br />
+	{<br />
+		int u=min_dist(key,mstSet);<br />
+		mstSet[u]=true;<br />
+		list&lt;AdjListNode&gt;::iterator i;<br />
+		for(i=adj[u].begin();i!=adj[u].end();i++)<br />
+		{<br />
+			if(mstSet[i-&gt;getV()]==false &amp;&amp; i-&gt;getWeight() &lt; key[i-&gt;getV()])<br />
+				parent[i-&gt;getV()]=u,key[i-&gt;getV()]=i-&gt;getWeight();<br />
+		}<br />
+	}<br />
+	print_mst(parent);<br />
+}</p>
+<p>int main()<br />
+{</p>
+<p>    Graph g(9);<br />
+    g.addEdge(0, 1, 4);<br />
+    g.addEdge(1, 0, 4);<br />
+    g.addEdge(0, 7, 8);<br />
+    g.addEdge(7, 0, 8);<br />
+    g.addEdge(1, 2, 8);<br />
+    g.addEdge(2, 1, 8);<br />
+    g.addEdge(1, 7, 11);<br />
+    g.addEdge(7, 1, 11);<br />
+    g.addEdge(2, 3, 7);<br />
+    g.addEdge(3, 2, 7);<br />
+    g.addEdge(2, 8, 2);<br />
+    g.addEdge(8, 2, 2);<br />
+    g.addEdge(2, 5, 4);<br />
+    g.addEdge(5, 2, 4);<br />
+    g.addEdge(3, 4, 9);<br />
+    g.addEdge(4, 3, 9);<br />
+    g.addEdge(3, 5, 14);<br />
+    g.addEdge(5, 3, 14);<br />
+    g.addEdge(4, 5, 10);<br />
+    g.addEdge(5, 4, 10);<br />
+    g.addEdge(5, 6, 2);<br />
+    g.addEdge(6, 5, 2);<br />
+    g.addEdge(6, 7, 1);<br />
+    g.addEdge(7, 6, 1);<br />
+    g.addEdge(6, 8, 6);<br />
+    g.addEdge(8, 6, 6);<br />
+    g.addEdge(7, 8, 7);<br />
+    g.addEdge(8, 7, 7);</p>
+<p>    g.prims_mst();</p>
+<p>    return 0;<br />
+} </p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-jaskaran1 even thread-odd thread-alt depth-1" id="dsq-comment-19522">
+        <div id="dsq-comment-header-19522" class="dsq-comment-header">
+            <cite id="dsq-cite-19522">
+                <span id="dsq-author-user-19522">jaskaran1</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19522" class="dsq-comment-body">
+            <div id="dsq-comment-message-19522" class="dsq-comment-message"><p>Coded up a shorter implementation using STL and found another MST<br />
+0-1<br />
+1-2<br />
+2-8<br />
+2-5<br />
+5-6<br />
+6-7<br />
+2-3<br />
+3-4</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-12807">
+        <div id="dsq-comment-header-12807" class="dsq-comment-header">
+            <cite id="dsq-cite-12807">
+                <span id="dsq-author-user-12807">golu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12807" class="dsq-comment-body">
+            <div id="dsq-comment-message-12807" class="dsq-comment-message"><p>i tried so many times to implement it, but failed</p>
+<p>it really needs courage to write such a program</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-12808">
+        <div id="dsq-comment-header-12808" class="dsq-comment-header">
+            <cite id="dsq-cite-12808">
+                <span id="dsq-author-user-12808">Pushkar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12808" class="dsq-comment-body">
+            <div id="dsq-comment-message-12808" class="dsq-comment-message"><p>it needs programming skills <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/greedy-algorithms-set-5-prims-mst-for-adjacency-list-representation/';
+var disqus_identifier = '27580 http://www.geeksforgeeks.org/?p=27580';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Greedy Algorithms | Set 6 (Prim’s MST for Adjacency List Representation)";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.193 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:31:52 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

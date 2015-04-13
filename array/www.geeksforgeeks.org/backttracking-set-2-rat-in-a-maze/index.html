@@ -1,0 +1,1864 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Backtracking | Set 2 (Rat in a Maze) - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/backttracking-set-2-rat-in-a-maze/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Backtracking | Set 2 (Rat in a Maze) - GeeksforGeeks" />
+<meta property="og:description" content="We have discussed Backtracking and Knight&#8217;s tour problem in Set 1. Let us discuss Rat in a Maze as another example problem that can be solved using Backtracking. A Maze is given as N*N binary matrix of blocks where source block is the upper left most block i.e., maze[0][0] and destination block is lower rightmost &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/backttracking-set-2-rat-in-a-maze/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Backtracking" />
+<meta property="article:section" content="Misc" />
+<meta property="article:published_time" content="2011-07-18T19:52:48+00:00" />
+<meta property="article:modified_time" content="2014-03-26T12:24:12+00:00" />
+<meta property="og:updated_time" content="2014-03-26T12:24:12+00:00" />
+<meta property="og:image" content="http://geeksforgeeks.org/wp-content/uploads/ratinmaze_filled11.png" />
+<meta property="og:image" content="http://geeksforgeeks.org/wp-content/uploads/ratinmaze_filled_path1.png" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.578 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417110808 59.183.26.128';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Backtracking | Set 2 (Rat in a Maze)</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>We have discussed Backtracking and Knight&#8217;s tour problem in <a href="http://geeksforgeeks.org/?p=12916">Set 1</a>.  Let us discuss Rat in a <a href="http://en.wikipedia.org/wiki/Maze">Maze </a>as another example problem that can be solved using Backtracking.<span id="more-13376"></span></p>
+<p>A Maze is given as N*N binary matrix of blocks where source block is the upper left most block i.e., maze[0][0] and destination block is lower rightmost block i.e., maze[N-1][N-1].  A rat starts from source and has to reach destination. The rat can move only in two directions: forward and down.<br />
+In the maze matrix, 0 means the block is dead end and 1 means the block can be used in the path from source to destination. Note that this is a simple version of the typical Maze problem. For example, a more complex version can be that the rat can move in 4 directions and a more complex version can be with limited number of moves.</p>
+<p>Following is an example maze.</p>
+<pre> Gray blocks are dead ends (value = 0). </pre>
+<p><a href="http://geeksforgeeks.org/wp-content/uploads/ratinmaze_filled11.png"><img src="http://geeksforgeeks.org/wp-content/uploads/ratinmaze_filled11.png" alt="" title="ratinmaze_filled1" width="181" height="157" class="aligncenter size-full wp-image-13423" /></a></p>
+<p>Following is binary matrix representation of the above maze.</p>
+<pre>
+                {1, 0, 0, 0}
+                {1, 1, 0, 1}
+                {0, 1, 0, 0}
+                {1, 1, 1, 1}
+</pre>
+<p>Following is maze with highlighted solution path.</p>
+<p><a href="http://geeksforgeeks.org/wp-content/uploads/ratinmaze_filled_path1.png"><img src="http://geeksforgeeks.org/wp-content/uploads/ratinmaze_filled_path1.png" alt="" title="ratinmaze_filled_path" width="176" height="157" class="aligncenter size-full wp-image-13424"/></a></p>
+<p>Following is the solution matrix (output of program) for the above input matrx.</p>
+<pre>
+                {1, 0, 0, 0}
+                {1, 1, 0, 0}
+                {0, 1, 0, 0}
+                {0, 1, 1, 1}
+ All enteries in solution path are marked as 1.
+</pre>
+<p><strong>Naive Algorithm</strong><br />
+The Naive Algorithm is to generate all paths from source to destination and one by one check if the generated path satisfies the constraints.</p>
+<pre>while there are untried paths
+{
+   generate the next path
+   if this path has all blocks as 1
+   {
+      print this path;
+   }
+}</pre>
+<p><strong>Backtrackng Algorithm</strong></p>
+<pre>If destination is reached
+    print the solution matrix
+Else
+   a) Mark current cell in solution matrix as 1. 
+   b) Move forward in horizontal direction and recursively check if this 
+       move leads to a solution. 
+   c) If the move chosen in the above step doesn't lead to a solution
+       then move down and check if  this move leads to a solution. 
+   d) If none of the above solutions work then unmark this cell as 0 
+       (BACKTRACK) and return false.
+</pre>
+<p><strong>Implementation of Backtracking solution</strong></p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+#include&lt;stdio.h&gt;
+
+// Maze size
+#define N 4 
+
+bool solveMazeUtil(int maze[N][N], int x, int y, int sol[N][N]);
+
+/* A utility function to print solution matrix sol[N][N] */
+void printSolution(int sol[N][N])
+{
+    for (int i = 0; i &lt; N; i++)
+    {
+        for (int j = 0; j &lt; N; j++)
+            printf(&quot; %d &quot;, sol[i][j]);
+        printf(&quot;\n&quot;);
+    }
+}
+
+/* A utility function to check if x,y is valid index for N*N maze */
+bool isSafe(int maze[N][N], int x, int y)
+{
+    // if (x,y outside maze) return false
+    if(x &gt;= 0 &amp;&amp; x &lt; N &amp;&amp; y &gt;= 0 &amp;&amp; y &lt; N &amp;&amp; maze[x][y] == 1)
+        return true;
+
+    return false;
+}
+
+/* This function solves the Maze problem using Backtracking.  It mainly uses
+solveMazeUtil() to solve the problem. It returns false if no path is possible,
+otherwise return true and prints the path in the form of 1s. Please note that
+there may be more than one solutions, this function prints one of the feasible
+solutions.*/
+bool solveMaze(int maze[N][N])
+{
+    int sol[N][N] = { {0, 0, 0, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0}
+    };
+
+    if(solveMazeUtil(maze, 0, 0, sol) == false)
+    {
+        printf(&quot;Solution doesn't exist&quot;);
+        return false;
+    }
+
+    printSolution(sol);
+    return true;
+}
+
+/* A recursive utility function to solve Maze problem */
+bool solveMazeUtil(int maze[N][N], int x, int y, int sol[N][N])
+{
+    // if (x,y is goal) return true
+    if(x == N-1 &amp;&amp; y == N-1)
+    {
+        sol[x][y] = 1;
+        return true;
+    }
+
+    // Check if maze[x][y] is valid
+    if(isSafe(maze, x, y) == true)
+    {
+        // mark x,y as part of solution path
+        sol[x][y] = 1;
+
+        /* Move forward in x direction */
+        if (solveMazeUtil(maze, x+1, y, sol) == true)
+            return true;
+
+        /* If moving in x direction doesn't give solution then
+           Move down in y direction  */
+        if (solveMazeUtil(maze, x, y+1, sol) == true)
+            return true;
+
+        /* If none of the above movements work then BACKTRACK: 
+            unmark x,y as part of solution path */
+        sol[x][y] = 0;
+        return false;
+    }   
+
+    return false;
+}
+
+// driver program to test above function
+int main()
+{
+    int maze[N][N]  =  { {1, 0, 0, 0},
+        {1, 1, 0, 1},
+        {0, 1, 0, 0},
+        {1, 1, 1, 1}
+    };
+
+    solveMaze(maze);
+    getchar();
+    return 0;
+}
+</pre>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/job-sequencing-problem-set-1-greedy-algorithm/" title="Job Sequencing Problem | Set 1 (Greedy Algorithm)">Job Sequencing Problem | Set 1 (Greedy Algorithm)</a></li><li><a href="http://www.geeksforgeeks.org/multiply-two-polynomials-2/" title="Multiply two polynomials">Multiply two polynomials</a></li><li><a href="http://www.geeksforgeeks.org/algorithm-practice-question-beginners-set-1/" title="Algorithm Practice Question for Beginners | Set 1">Algorithm Practice Question for Beginners | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/count-distinct-non-negative-pairs-x-y-satisfy-inequality-xx-yy-n-2/" title="Count Distinct Non-Negative Integer Pairs (x, y) that Satisfy the Inequality x*x + y*y &lt; n">Count Distinct Non-Negative Integer Pairs (x, y) that Satisfy the Inequality x*x + y*y < n</a></li><li><a href="http://www.geeksforgeeks.org/binomial-heap-2/" title="Binomial Heap">Binomial Heap</a></li><li><a href="http://www.geeksforgeeks.org/print-increasing-sequences-length-k-first-n-natural-numbers/" title="Print all increasing sequences of length k from first n natural numbers">Print all increasing sequences of length k from first n natural numbers</a></li><li><a href="http://www.geeksforgeeks.org/find-nth-number-number-system-3-4/" title="Find n&#8217;th number in a number system with only 3 and 4">Find n&#8217;th number in a number system with only 3 and 4</a></li><li><a href="http://www.geeksforgeeks.org/minimum-cost-polygon-triangulation/" title="Minimum Cost Polygon Triangulation">Minimum Cost Polygon Triangulation</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/backtracking/" rel="tag">Backtracking</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fbackttracking-set-2-rat-in-a-maze%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/backttracking-set-2-rat-in-a-maze/" data-text="Backtracking | Set 2 (Rat in a Maze)" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/backttracking-set-2-rat-in-a-maze/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-33403">
+        <div id="dsq-comment-header-33403" class="dsq-comment-header">
+            <cite id="dsq-cite-33403">
+                <span id="dsq-author-user-33403">Amit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33403" class="dsq-comment-body">
+            <div id="dsq-comment-message-33403" class="dsq-comment-message"><p>Very well explained but it will fail for the case in which rat has to travel left or up and then the normal path<br />
+ex<br />
+1 1 1 0 0<br />
+0 0 1 0 0<br />
+0 1 1 0 0<br />
+0 1 0 0 0<br />
+0 1 1 1 1</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-33861">
+        <div id="dsq-comment-header-33861" class="dsq-comment-header">
+            <cite id="dsq-cite-33861">
+                <span id="dsq-author-user-33861">Kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33861" class="dsq-comment-body">
+            <div id="dsq-comment-message-33861" class="dsq-comment-message"><p>Amit, please take a closer look at the problem statement.  It is clearly mentioned that the rat can only move forward (or right) and down.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-33887">
+        <div id="dsq-comment-header-33887" class="dsq-comment-header">
+            <cite id="dsq-cite-33887">
+                <span id="dsq-author-user-33887">amit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33887" class="dsq-comment-body">
+            <div id="dsq-comment-message-33887" class="dsq-comment-message"><p>oops.<br />
+kartik Thanku buddy</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-32669">
+        <div id="dsq-comment-header-32669" class="dsq-comment-header">
+            <cite id="dsq-cite-32669">
+                <span id="dsq-author-user-32669">shiv</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32669" class="dsq-comment-body">
+            <div id="dsq-comment-message-32669" class="dsq-comment-message"><p>here is one more sipmle solution of maze</p>
+<p>technofrendzz.blogspot.in</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-30438">
+        <div id="dsq-comment-header-30438" class="dsq-comment-header">
+            <cite id="dsq-cite-30438">
+                <span id="dsq-author-user-30438">nakul gowda</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30438" class="dsq-comment-body">
+            <div id="dsq-comment-message-30438" class="dsq-comment-message"><p>here is the bfs implementation for the same, which is much quicker and gives you always the shortest path</p>
+<p>#include</p>
+<p>#define SIZE 7   </p>
+<p>int a[SIZE][SIZE],q[SIZE*SIZE],visited[SIZE][SIZE],n,i,j,f=0,r=-1;</p>
+<p>int parent[SIZE*SIZE], x_dest, y_dest, x_temp, y_temp;</p>
+<p>int flag =0;</p>
+<p>void find_neighbours(int x, int y)</p>
+<p>{</p>
+<p>    if (( (y+1)=0 &amp;&amp; (a[x][y-1]) &amp;&amp; !visited[x][y-1])</p>
+<p>    {</p>
+<p>        q[++r]= x*n + (y-1);</p>
+<p>        parent[x*n +  (y-1)] = x*n +y;</p>
+<p>        visited[x][y-1] =1;</p>
+<p>    }</p>
+<p>    if ((x+1)=0 &amp;&amp; (a[x-1][y]) &amp;&amp; !visited[x-1][y])</p>
+<p>    {</p>
+<p>        q[++r]= (x-1)*n + (y);</p>
+<p>        parent[(x-1)*n +  (y)] = x*n +y;</p>
+<p>        visited[x-1][y] =1;</p>
+<p>    }</p>
+<p>}</p>
+<p>void bfs(int x, int y)</p>
+<p>{</p>
+<p>    find_neighbours(x, y);</p>
+<p>        if(f&lt;=r)</p>
+<p>        {</p>
+<p>        x_temp = q[f]/n;</p>
+<p>        y_temp = q[f] &#8211; n*x_temp;    </p>
+<p>        if (x_temp == x_dest &amp;&amp; y_temp == y_dest)</p>
+<p>            {</p>
+<p>				flag =1;</p>
+<p>				return ;</p>
+<p>			}</p>
+<p>//        visited[x_temp][y_temp] = 1;</p>
+<p>              f++;</p>
+<p>        bfs(x_temp,y_temp);</p>
+<p>         }</p>
+<p>}</p>
+<p>int main()</p>
+<p>{</p>
+<p>    int x,y,val;</p>
+<p>    int source_x , source_y;</p>
+<p>    n = SIZE;</p>
+<p>    for(i=0;i&lt; n;i++)</p>
+<p>     {</p>
+<p>      q[i]=0;</p>
+<p>     }</p>
+<p>     for(i=0;i&lt; n;i++)</p>
+<p>      for(j=0;j&lt;n;j++)</p>
+<p>        {</p>
+<p>            visited[i][j] = 0;</p>
+<p>        }</p>
+<p>    for(i=0;i&lt;n*n;i++)</p>
+<p>        parent[i] = 0;</p>
+<p>     printf(&quot;n Enter graph data in matrix form:n&quot;);</p>
+<p>     for(i=0;i&lt; n;i++)</p>
+<p>      for(j=0;j&lt;n;j++)</p>
+<p>       scanf(&quot;%d&quot;,&amp;a[i][j]);</p>
+<p>    source_x = 0;</p>
+<p>    source_y = 0;</p>
+<p>	visited[source_x][source_y] =1;</p>
+<p>    x_dest = 6;</p>
+<p>    y_dest = 6;</p>
+<p>    bfs(0,0);</p>
+<p>	if (!flag)</p>
+<p>		{</p>
+<p>			printf(&quot;not reachablen&quot;);</p>
+<p>			return 0;</p>
+<p>	    }</p>
+<p>    x = x_temp;</p>
+<p>    y = y_temp;</p>
+<p>    while(x!=0 || y!=0)</p>
+<p>    {</p>
+<p>        val = parent[x *n + y];</p>
+<p>        x = val/n;</p>
+<p>        y = val &#8211; x*n;</p>
+<p>        printf(&quot;%d %dn &quot;, x,y);</p>
+<p>    }</p>
+<p>return 0;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-29500">
+        <div id="dsq-comment-header-29500" class="dsq-comment-header">
+            <cite id="dsq-cite-29500">
+                <span id="dsq-author-user-29500">Raj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29500" class="dsq-comment-body">
+            <div id="dsq-comment-message-29500" class="dsq-comment-message"><p>Here is the java version of rat in a maze. Code is really easy to understand.<br />
+<a href="http://techlovejump.in/2013/11/rat-in-a-maze-in-java/" rel="nofollow">http://techlovejump.in/2013/11/rat-in-a-maze-in-java/</a></p>
+<p>Demo of code :-<br />
+ boolean solveMazeUtil(int matrix[][],int x,int y,int sol[][],int n){<br />
+            //path complete (if we are at our goal then path complete)<br />
+                if(x == n-1 &amp;&amp; y == n-1){<br />
+                    sol[x][y] = 1;<br />
+                        return true;<br />
+                        }<br />
+        if(isSafe(matrix,x,y,n) == true)<br />
+        {<br />
+        sol[x][y] = 1;<br />
+        // try right<br />
+        if(solveMazeUtil(matrix,x+1,y,sol,n))<br />
+            return true;<br />
+        //try down<br />
+        if(solveMazeUtil(matrix,x,y+1,sol,n))<br />
+            return true;<br />
+        //try left<br />
+        if(solveMazeUtil(matrix,x-1,y,sol,n))<br />
+            return true;<br />
+        //try up<br />
+        if(solveMazeUtil(matrix,x,y-1,sol,n))<br />
+            return true;<br />
+        //no case match so return false<br />
+        sol[x][y] = 0;<br />
+        return false;<br />
+        }<br />
+        return false;<br />
+        }}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-17431">
+        <div id="dsq-comment-header-17431" class="dsq-comment-header">
+            <cite id="dsq-cite-17431">
+                <span id="dsq-author-user-17431">Suryaamsh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17431" class="dsq-comment-body">
+            <div id="dsq-comment-message-17431" class="dsq-comment-message"><p>This is quite long comment/reply.</p>
+<p>I think performance of the solution posted can be improved by memorizing whether a path exists from given node (to destination). </p>
+<p>Say, we are at a[i][j] and if both recursive calls of solveMazeUtil return false, it means that from that node there doesn&#8217;t exist a path leading to destination. Set a flag say, flags[i][j] to false. So, when a[i][j] is hit during another recursive call (arriving from different path), we can altogether ignore the subsequent recursive calls if flags[i][j] is found to be false. There is an overhead of n^2 bits though. In my opinion, it can reduce substantial amount of redundant recursive calls on an average. Please point the mistakes if found.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-24924">
+        <div id="dsq-comment-header-24924" class="dsq-comment-header">
+            <cite id="dsq-cite-24924">
+                <span id="dsq-author-user-24924">Aditya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24924" class="dsq-comment-body">
+            <div id="dsq-comment-message-24924" class="dsq-comment-message"><p>so you are saying false =&gt; no path , true =&gt; path exists, what about the third case, where we do not know if path exists or not, i.e. we haven&#8217;t calculated yet?<br />
+its better if we use an int array with 0,1,2 values.</p>
+<p>correct me if I&#8217;m mistaken.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-16757">
+        <div id="dsq-comment-header-16757" class="dsq-comment-header">
+            <cite id="dsq-cite-16757">
+                <span id="dsq-author-user-16757">Kavish Dwivedi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16757" class="dsq-comment-body">
+            <div id="dsq-comment-message-16757" class="dsq-comment-message"><p>Here is my code for the problem:</p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+#define N 4
+int sol[N][N],maze[N][N];
+int check(int x,int y)
+{
+	if( x&gt;=0 &amp;&amp; x&lt;N &amp;&amp; y&gt;=0 &amp;&amp; y&lt;N &amp;&amp; maze[x][y]!=0 &amp;&amp; sol[x][y]==-1)
+	return 1;
+	return 0;
+}
+int solve(int x,int y,int move)
+{
+	if(x==N-1&amp;&amp;y==N-1)
+	{
+		return 1;
+	}
+	else
+	{
+		if(check(x+1,y)==1)
+		{
+			sol[x+1][y]=move;
+			if(solve(x+1,y,move+1)==1)
+			return 1;
+			else
+			{
+				printf(&quot;Case 1\n&quot;);
+				sol[x+1][y]=-1;
+			}
+			
+		}
+		if(check(x,y+1)==1)
+		{
+			sol[x][y+1]=move;
+			if(solve(x,y+1,move+1)==1)
+			return 1;
+			else
+			{
+				printf(&quot;Case 2\n&quot;);
+				sol[x][y+1]=-1;
+			}
+		}
+	}
+	return 0;
+}
+int main()
+{
+	int i,j;
+	for(i=0;i&lt;N;i++)
+	for(j=0;j&lt;N;j++)
+	sol[i][j]=-1;
+	printf(&quot;Enter the maze:\n&quot;);
+	for(i=0;i&lt;N;i++)
+	for(j=0;j&lt;N;j++)
+	scanf(&quot;%d&quot;,&amp;maze[i][j]);
+	sol[0][0]=0;
+	if(solve(0,0,1)==1)
+	{
+		for(i=0;i&lt;N;i++)
+		{
+			for(j=0;j&lt;N;j++)
+			printf(&quot;%d &quot;,sol[i][j]);
+			printf(&quot;\n&quot;);
+		}
+	}
+	else
+	printf(&quot;No path exists\n&quot;);
+	return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-12113">
+        <div id="dsq-comment-header-12113" class="dsq-comment-header">
+            <cite id="dsq-cite-12113">
+                <span id="dsq-author-user-12113">Ravi Shankar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12113" class="dsq-comment-body">
+            <div id="dsq-comment-message-12113" class="dsq-comment-message"><p>This prints no. of solutions from 0,0 to n-1,n-1</p>
+<p>#include&lt;cstdio&gt;<br />
+int v[10][10],m[10][10],c=0,n,i,j,dx[4]={1,0,-1,0},dy[4]={0,1,0,-1};<br />
+int s(int x,int y){<br />
+	if(x&gt;=0&amp;&amp;x&lt;n&amp;&amp;y&gt;=0&amp;&amp;y&lt;n&amp;&amp;m[x][y]&amp;&amp;!v[x][y]){<br />
+		if(x==n-1&amp;&amp;y==n-1)return 1;<br />
+		v[x][y]=1;<br />
+		for(int i=0;i&lt;4;i++)c+=s(x+dx[i],y+dy[i]);<br />
+		v[x][y]=0;<br />
+	}<br />
+	return 0;<br />
+}<br />
+int main(){<br />
+	scanf(&quot;%d&quot;,&amp;n);<br />
+	for(i=0;i&lt;n;i++)for(j=0;j&lt;n;j++)scanf(&quot;%d&quot;,&amp;m[i][j]);<br />
+	s(0,0);<br />
+	printf(&quot;%d\n&quot;,c);<br />
+	return 0;<br />
+}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-13520">
+        <div id="dsq-comment-header-13520" class="dsq-comment-header">
+            <cite id="dsq-cite-13520">
+                <span id="dsq-author-user-13520">hariprasath</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13520" class="dsq-comment-body">
+            <div id="dsq-comment-message-13520" class="dsq-comment-message"><p>does this implementation correct??<br />
+#include<br />
+#include<br />
+#include</p>
+<p>int a[9][9];<br />
+int b[9][9];</p>
+<p>int check(int x,int y,int val)<br />
+{<br />
+    int i,j;</p>
+<p>//Scanning its own Row and Column</p>
+<p>    for(i=0;i&lt;9;i++)<br />
+    {<br />
+        if(val==b[i][y] || val==b[x][i])   return 0;<br />
+    }</p>
+<p>// Scanning its own square</p>
+<p>    if(x&lt;3)<br />
+    {<br />
+        if(y&lt;3)<br />
+        {<br />
+            for(i=0;i&lt;3;i++)<br />
+                for(j=0;j&lt;3;j++)<br />
+                    if (val==b[i][j])   return 0;<br />
+        }<br />
+        else if(y&lt;6)<br />
+        {<br />
+            for(i=0;i&lt;3;i++)<br />
+                for(j=3;j&lt;6;j++)<br />
+                    if(val==b[i][j])    return 0;<br />
+        }<br />
+        else<br />
+        {<br />
+            for(i=0;i&lt;3;i++)<br />
+                for(j=6;j&lt;9;j++)<br />
+                    if(val==b[i][j])    return 0;<br />
+        }<br />
+    }</p>
+<p>    else if(x&lt;6)<br />
+    {<br />
+        if(y&lt;3)<br />
+        {<br />
+            for(i=3;i&lt;6;i++)<br />
+                for(j=0;j&lt;3;j++)<br />
+                    if(val==b[i][j])    return 0;<br />
+        }<br />
+        else if(y&lt;6)<br />
+        {<br />
+            for(i=3;i&lt;6;i++)<br />
+                for(j=3;j&lt;6;j++)<br />
+                    if(val==b[i][j])    return 0;<br />
+        }<br />
+        else<br />
+        {<br />
+            for(i=3;i&lt;6;i++)<br />
+                for(j=6;j&lt;9;j++)<br />
+                    if(val==b[i][j])    return 0;<br />
+        }<br />
+    }<br />
+    else<br />
+    {<br />
+        if(y&lt;3)<br />
+        {<br />
+            for (i=6;i&lt;9;i++)<br />
+                for(j=0;j&lt;3;j++)<br />
+                    if (val == b[i][j]) return 0;<br />
+        }<br />
+        else if(y&lt;6)<br />
+        {<br />
+            for(i=6;i&lt;9;i++)<br />
+                for(j=3;j&lt;6;j++)<br />
+                    if(val==b[i][j])    return 0;<br />
+        }<br />
+        else<br />
+        {<br />
+            for(i=6;i&lt;9;i++)<br />
+                for(j=6;j&lt;9;j++)<br />
+                    if(val==b[i][j])    return 0;<br />
+        }<br />
+    }<br />
+    return val;<br />
+}</p>
+<p>int BT(int x,int y)<br />
+{<br />
+    int t,i,j;</p>
+<p>//If the value is Zero then we have to find possible values!!</p>
+<p>    if(b[x][y]==0)<br />
+    {<br />
+        for(i=1;i0)<br />
+            {<br />
+                b[x][y]=t;<br />
+                if(x==8 &amp;&amp; y==8)    return 1;       //Puzzle solved and returns 1.<br />
+                else if(x==8)<br />
+                {<br />
+                    if(BT(0,y+1))   return 1;<br />
+                }<br />
+                else<br />
+                {<br />
+                    if(BT(x+1,y))   return 1 ;<br />
+                }<br />
+            }<br />
+        }<br />
+        if(i==10)<br />
+        {<br />
+            if(b[x][y] != a[x][y])  b[x][y]=0;<br />
+            return 0;<br />
+        }<br />
+    }<br />
+    else<br />
+    {<br />
+        if(x==8 &amp;&amp; y==8)    return 1;<br />
+        else if(x==8)<br />
+        {<br />
+            if(BT(0,y+1))   return 1;<br />
+        }<br />
+        else<br />
+        {<br />
+            if(BT(x+1,y))   return 1;<br />
+        }<br />
+    }<br />
+}</p>
+<p>main()<br />
+{<br />
+    int i,j;<br />
+    FILE * fd;<br />
+    fd=fopen(&#8220;input.txt&#8221;,&#8221;r&#8221;);<br />
+    printf(&#8220;Before Solving:\n&#8221;);</p>
+<p>//Read the puzzle from the given text file!!</p>
+<p>    for(i=0;i&lt;9;i++)<br />
+    {<br />
+        fscanf(fd,&quot;%d%d%d%d%d%d%d%d%d&quot;,&amp;a[i][0],&amp;a[i][1],&amp;a[i][2],&amp;a[i][3],&amp;a[i][4],&amp;a[i][5],&amp;a[i][6],&amp;a[i][7],&amp;a[i][8]);<br />
+    }</p>
+<p>//For dispalying the given puzzle before solving and also copying it into another array for future use!!</p>
+<p>    for(i=0;i&lt;9;i++)<br />
+    {<br />
+        for (j=0;j&lt;9;j++)<br />
+        {<br />
+            b[i][j] = a[i][j];<br />
+            printf(&quot;%d &quot;, a[i][j]);<br />
+        }<br />
+        printf(&quot;\n&quot;);<br />
+    }</p>
+<p>//Here i implemented backtrack for solving this given puzzle it returns 1 on success!!</p>
+<p>    if(BT(0,0))<br />
+    {<br />
+        printf(&quot;After Solving:\n&quot;);<br />
+        for(i=0;i&lt;9;i++)<br />
+        {<br />
+            for(j=0;j&lt;9;j++)<br />
+            {<br />
+                printf(&quot;%d &quot;,b[i][j]);<br />
+            }<br />
+            printf(&quot;\n&quot;);<br />
+        }<br />
+    }<br />
+    else<br />
+    {<br />
+        printf(&quot;Error in the given data\n&quot;);<br />
+    }<br />
+    fclose(fd);<br />
+    return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-12112">
+        <div id="dsq-comment-header-12112" class="dsq-comment-header">
+            <cite id="dsq-cite-12112">
+                <span id="dsq-author-user-12112">Ravi Shankar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12112" class="dsq-comment-body">
+            <div id="dsq-comment-message-12112" class="dsq-comment-message"><p>Thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-9577">
+        <div id="dsq-comment-header-9577" class="dsq-comment-header">
+            <cite id="dsq-cite-9577">
+                <span id="dsq-author-user-9577">sachin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9577" class="dsq-comment-body">
+            <div id="dsq-comment-message-9577" class="dsq-comment-message"><p>I have basic  C /recursion noob question.Can Someone please explain- when we backtrack,why we set sol[x][y] =0 .<br />
+As sol[x][y] should not already be set to 0 when return to previous state of recursion?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-14584">
+        <div id="dsq-comment-header-14584" class="dsq-comment-header">
+            <cite id="dsq-cite-14584">
+                <span id="dsq-author-user-14584">monika</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14584" class="dsq-comment-body">
+            <div id="dsq-comment-message-14584" class="dsq-comment-message"><p>It is because, we were making changes in the same sol[][] matrix, and so when we backtrack, we have to undo the changes we had made.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-9153">
+        <div id="dsq-comment-header-9153" class="dsq-comment-header">
+            <cite id="dsq-cite-9153">
+                <span id="dsq-author-user-9153">sachin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9153" class="dsq-comment-body">
+            <div id="dsq-comment-message-9153" class="dsq-comment-message"><p>How to find out the shortest path among all the paths?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-9017">
+        <div id="dsq-comment-header-9017" class="dsq-comment-header">
+            <cite id="dsq-cite-9017">
+                <span id="dsq-author-user-9017">vivek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9017" class="dsq-comment-body">
+            <div id="dsq-comment-message-9017" class="dsq-comment-message"><p>where is the backtracking step? i mean in backtracking,if subsequent computation don&#8217;t provide a valid solution we revert the state of a system to a previous stable state&#8230;right? so i don&#8217;t get where is that done here?here its just a condition checking .. please explain</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-8529">
+        <div id="dsq-comment-header-8529" class="dsq-comment-header">
+            <cite id="dsq-cite-8529">
+                <span id="dsq-author-user-8529">Guddu sharma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8529" class="dsq-comment-body">
+            <div id="dsq-comment-message-8529" class="dsq-comment-message"><p>Here is my code which prints all the solutions of the maze.</p>
+<pre> <code language="C">
+void Maze(int (*maze)[N],int x,int y,int (*sol)[N])
+{
+	static int i,j;
+	if(x==N-1 &amp;&amp; y==N-1)
+	{
+		printf(&quot;\n\nSolution\n\n&quot;);
+		sol[x][y]=1;
+		for(i=0;i&lt;N;i++)
+		{
+			for(j=0;j&lt;N;j++)
+				printf(&quot;%d &quot;,sol[i][j]);
+			printf(&quot;\n&quot;);
+		}
+	}
+	else
+	{
+		if(isSafe(maze,x,y))
+		{
+			sol[x][y]=1;
+
+			Maze(maze,x+1,y,sol);
+			Maze(maze,x,y+1,sol);
+
+			sol[x][y]=0;
+		}
+	}
+}
+</code> </pre>
+<p>comments are welcome</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-7876">
+        <div id="dsq-comment-header-7876" class="dsq-comment-header">
+            <cite id="dsq-cite-7876">
+                <span id="dsq-author-user-7876">Ajinkya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7876" class="dsq-comment-body">
+            <div id="dsq-comment-message-7876" class="dsq-comment-message"><p>Execute this modified code to print all possible paths and not just one path&#8230; Also a new more clear printPath procedure&#8230;.</p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+#include&lt;conio.h&gt;
+#include&lt;iostream.h&gt;
+ 
+// Maze size
+#define N 4 
+ 
+void solveMazeUtil(int maze[N][N], int x, int y, int sol[N][N]);
+ 
+/* A utility function to print solution matrix sol[N][N] */
+void printSolution(int sol[N][N],int i,int j)
+{
+    /*for (int i = 0; i &lt; N; i++)
+    {
+        for (int j = 0; j &lt; N; j++)
+            printf(&quot; %d &quot;, sol[i][j]);
+        printf(&quot;\n&quot;);
+    }*/
+
+       cout&lt;&lt;&quot;(&quot;&lt;&lt;i&lt;&lt;&quot;,&quot;&lt;&lt;j&lt;&lt;&quot;)&quot;&lt;&lt;endl;
+       if(i==N-1 &amp;&amp; j==N-1) //end
+         return;
+       if(sol[i+1][j]==1)
+        printSolution(sol,i+1,j);
+       else
+        printSolution(sol,i,j+1);
+   //go down till you can, if you cant go right
+   
+          
+}
+ 
+/* A utility function to check if x,y is valid index for N*N maze */
+bool isSafe(int maze[N][N], int x, int y)
+{
+    // if (x,y outside maze) return false
+    if(x &gt;= 0 &amp;&amp; x &lt; N &amp;&amp; y &gt;= 0 &amp;&amp; y &lt; N &amp;&amp; maze[x][y] == 1)
+        return true;
+ 
+    return false;
+}
+ 
+/* This function solves the Maze problem using Backtracking.  It mainly uses
+solveMazeUtil() to solve the problem. It returns false if no path is possible,
+otherwise return true and prints the path in the form of 1s. Please note that
+there may be more than one solutions, this function prints one of the feasible
+solutions.*/
+void solveMaze(int maze[N][N])
+{
+    int sol[N][N] = { {0, 0, 0, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0}
+    };
+ 
+    solveMazeUtil(maze, 0, 0, sol);
+    //return true;
+}
+ 
+/* A recursive utility function to solve Maze problem */
+void solveMazeUtil(int maze[N][N], int x, int y, int sol[N][N])
+{
+      cout&lt;&lt;&quot;x: &quot;&lt;&lt;x&lt;&lt;&quot; y: &quot;&lt;&lt;y&lt;&lt;endl;
+    // if (x,y is goal) return true
+    if(x == N-1 &amp;&amp; y == N-1)
+    {
+        sol[x][y] = 1;
+        printSolution(sol,0,0);
+        return;
+    }
+ 
+    // Check if maze[x][y] is valid
+    if(isSafe(maze, x, y) == true)
+    {
+        // mark x,y as part of solution path
+        sol[x][y] = 1;
+       
+ 
+        /* Move forward in x direction */
+        solveMazeUtil(maze, x+1, y, sol);
+        
+        /* If x moving in x direction doesn't give solution then
+           Move down in y direction  */
+        solveMazeUtil(maze, x, y+1, sol);
+        sol[x][y]=0;
+ 
+        /* If none of the above movements work then BACKTRACK:
+            unmark x,y as part of solution path */
+        //sol[x][y] = 0;
+        //return false;
+    }   
+ 
+    
+}
+ 
+// driver program to test above function
+int main()
+{
+    int maze[N][N]  =  { {1,0,0,0},
+        {1, 1, 0, 1},
+        {0, 1, 1, 0},
+        {1, 1, 1, 1}
+    };
+ 
+    solveMaze(maze);
+    getchar();
+    return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-agniswar even thread-odd thread-alt depth-1" id="dsq-comment-5097">
+        <div id="dsq-comment-header-5097" class="dsq-comment-header">
+            <cite id="dsq-cite-5097">
+                <span id="dsq-author-user-5097">Agniswar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5097" class="dsq-comment-body">
+            <div id="dsq-comment-message-5097" class="dsq-comment-message"><p>Hey this is my solution..please tell me if there is any wrong in the code somewhere-</p>
+<p>#include<br />
+#include</p>
+<p>#define N 4</p>
+<p>int is_safe(int a[N][N],int sol[][N],int x1,int y1)<br />
+{<br />
+    if((x1&gt;=0 &amp;&amp; y1&gt;=0) &amp;&amp; (x1&lt;=N-1 &amp;&amp; y1&lt;=N-1))<br />
+    {<br />
+              if(a[x1][y1]==1 &amp;&amp; sol[x1][y1]==0)<br />
+                              return 1;<br />
+    }<br />
+    return 0;<br />
+}</p>
+<p>void init(int sol[N][N])<br />
+{<br />
+     int i,j;<br />
+     for(i=0;i&lt;N;i++)<br />
+     {<br />
+            for(j=0;j&lt;N;j++)<br />
+            {<br />
+                            sol[i][j]=0;<br />
+            }<br />
+     }<br />
+}</p>
+<p>void print(int a[][N])<br />
+{<br />
+     int i,j;<br />
+     for(i=0;i&lt;N;i++)<br />
+     {<br />
+            for(j=0;j&lt;N;j++)<br />
+            {<br />
+                            printf(&quot;%d    &quot;,a[i][j]);<br />
+            }<br />
+            printf(&quot;\n&quot;);<br />
+     }<br />
+}     </p>
+<p>int rat_in_maze(int a[N][N],int sol[N][N],int x1,int y1,int x2,int y2)<br />
+{<br />
+    static int flag=0;</p>
+<p>    if(x1==x2 &amp;&amp; y1==y2)<br />
+    {<br />
+              printf(&quot;destination found\n&quot;);<br />
+              sol[x1][y1]=1;<br />
+              print(sol);<br />
+              return 1;<br />
+    }</p>
+<p>     else if(is_safe(a,sol,x1,y1))<br />
+     {<br />
+        sol[x1][y1]=1;</p>
+<p>     }</p>
+<p>     else if(!is_safe(a,sol,x1,y1))<br />
+         return 0;</p>
+<p>     if(flag==0)<br />
+     {<br />
+                return (rat_in_maze(a,sol,x1+1,y1,x2,y2) || rat_in_maze(a,sol,x1,y1+1,x2,y2)||rat_in_maze(a,sol,x1-1,y1,x2,y2)||rat_in_maze(a,sol,x1,y1-1,x2,y2));</p>
+<p>     }<br />
+}</p>
+<p>int main()<br />
+{</p>
+<p>    int a[N][N]  =  { {1, 1, 0, 0},<br />
+        {1, 1, 0, 1},<br />
+        {0, 1, 0, 0},<br />
+        {1, 1, 1, 1}<br />
+    };</p>
+<p>    int sol[N][N];</p>
+<p>    init(sol);</p>
+<p>    int x=rat_in_maze(a,sol,0,0,3,3);<br />
+    //print(a);<br />
+    printf(&quot;\n\n&quot;);<br />
+    printf(&quot;x=%d\n&quot;,x);<br />
+    if(x==0)<br />
+            printf(&quot;No solution exists\n&quot;);<br />
+    getch();<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-4665">
+        <div id="dsq-comment-header-4665" class="dsq-comment-header">
+            <cite id="dsq-cite-4665">
+                <span id="dsq-author-user-4665">karthiga</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4665" class="dsq-comment-body">
+            <div id="dsq-comment-message-4665" class="dsq-comment-message"><p>can somebody pls help me how dis part working ..i cant understand dis !!!!!!</p>
+<pre> <code language="C">
+bool solveMazeUtil(int maze[N][N], int x, int y, int sol[N][N])
+{
+    // if (x,y is goal) return true
+    if(x == N-1 &amp;amp;&amp;amp; y == N-1)
+    {
+        sol[x][y] = 1;
+        return true;
+    }
+ 
+    // Check if maze[x][y] is valid
+    if(isSafe(maze, x, y) == true)
+    {
+        // mark x,y as part of solution path
+        sol[x][y] = 1;
+ 
+        /* Move forward in x direction */
+        if (solveMazeUtil(maze, x+1, y, sol) == true)
+            return true;
+ 
+        /* If x moving in x direction doesn't give solution then
+           Move down in y direction  */
+        if (solveMazeUtil(maze, x, y+1, sol) == true)
+            return true;
+ 
+        /* If none of the above movements work then BACKTRACK:
+            unmark x,y as part of solution path */
+        sol[x][y] = 0;
+        return false;
+    }   
+ 
+    return false;
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-6905">
+        <div id="dsq-comment-header-6905" class="dsq-comment-header">
+            <cite id="dsq-cite-6905">
+                <span id="dsq-author-user-6905">PolaNix</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6905" class="dsq-comment-body">
+            <div id="dsq-comment-message-6905" class="dsq-comment-message"><p>If you cant understand this clearly written code along with the descriptive comments, this is a serious RED flag.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-7790">
+        <div id="dsq-comment-header-7790" class="dsq-comment-header">
+            <cite id="dsq-cite-7790">
+                <span id="dsq-author-user-7790">xor</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7790" class="dsq-comment-body">
+            <div id="dsq-comment-message-7790" class="dsq-comment-message"><p>The code is clear to you because you wrote it.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-nitishgarg even thread-odd thread-alt depth-1" id="dsq-comment-4652">
+        <div id="dsq-comment-header-4652" class="dsq-comment-header">
+            <cite id="dsq-cite-4652">
+                <span id="dsq-author-user-4652">nitishgarg</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4652" class="dsq-comment-body">
+            <div id="dsq-comment-message-4652" class="dsq-comment-message"><p>Err..The code given above is not printing the correct solution, check here: <a href="https://ideone.com/Ffssm" rel="nofollow">https://ideone.com/Ffssm</a><br />
+Can anyone check why?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-sandeep odd alt depth-2" id="dsq-comment-4658">
+        <div id="dsq-comment-header-4658" class="dsq-comment-header">
+            <cite id="dsq-cite-4658">
+http://geeksforgeeks.org/                <span id="dsq-author-user-4658">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4658" class="dsq-comment-body">
+            <div id="dsq-comment-message-4658" class="dsq-comment-message"><p>@nitishgarg: Thanks for pointing this out.  The original code was working on my compiler (Code Blocks) but there was a small issue which was causing problems on Ideone.  I have added &#8220;return false&#8221; at the end of solveMaze().  It should work on all compilers now.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-8719">
+        <div id="dsq-comment-header-8719" class="dsq-comment-header">
+            <cite id="dsq-cite-8719">
+                <span id="dsq-author-user-8719">atul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8719" class="dsq-comment-body">
+            <div id="dsq-comment-message-8719" class="dsq-comment-message"><p>code does  not work for below test case :-</p>
+<p>int maze[N][N]  =  {<br />
+        {1, 1, 1, 1},<br />
+        {0, 0, 1, 1},<br />
+        {0, 1, 1, 0},<br />
+        {1, 1, 1, 1}<br />
+    };</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-32847">
+        <div id="dsq-comment-header-32847" class="dsq-comment-header">
+            <cite id="dsq-cite-32847">
+                <span id="dsq-author-user-32847">Aps</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32847" class="dsq-comment-body">
+            <div id="dsq-comment-message-32847" class="dsq-comment-message"><p>It doesn&#8217;t work because we defined &#8216;N&#8217; value to 9 so the array which we given is 4X4 but compiler considers it as 9X9 by inserting zeros(as we no for zero&#8217;s there is no path),so by changing N value to 4 we can get a correct path</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even depth-3" id="dsq-comment-8722">
+        <div id="dsq-comment-header-8722" class="dsq-comment-header">
+            <cite id="dsq-cite-8722">
+                <span id="dsq-author-user-8722">atul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8722" class="dsq-comment-body">
+            <div id="dsq-comment-message-8722" class="dsq-comment-message"><p>it will fail for following test case :-</p>
+<p>int maze[N][N]  =  {<br />
+        {1, 1, 1, 1,1,1},<br />
+        {0, 0, 1, 0,0,1},<br />
+        {0, 0, 0, 1,1,1},<br />
+        {1, 1, 0, 0,1,0},<br />
+	{0, 0, 1, 1,1,1},<br />
+	{0, 0, 0, 0,0,1}<br />
+    };</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-3" id="dsq-comment-8729">
+        <div id="dsq-comment-header-8729" class="dsq-comment-header">
+            <cite id="dsq-cite-8729">
+                <span id="dsq-author-user-8729">atul007</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8729" class="dsq-comment-body">
+            <div id="dsq-comment-message-8729" class="dsq-comment-message"><p>Here is the code which will for all cases :-</p>
+<pre> <code language="C">
+
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#define N 9
+
+int validPath(int maze[][N],int row,int col)
+{
+	if(maze[row][col])
+		return 1;
+
+return 0;
+}
+void printSolution(int path[][N])
+{
+int i,j;
+
+        for(i=0;i&lt;N;i++)
+        {
+                for(j=0;j&lt;N;j++)
+                {
+                        printf(&quot;%d &quot;,path[i][j]);
+                }
+                printf(&quot;\n&quot;);
+        }
+}
+
+int searchUtil(int maze[][N],int sol[][N],int row,int col)
+{
+
+if(row==N-1 &amp;&amp; col==N-1)
+{
+	sol[row][col]=1;
+	return 1;
+}
+
+if(row &gt;= N || col &gt;= N || row &lt; 0 || col &lt; 0)
+{
+		return 0;
+}
+	if(validPath(maze,row,col)==1)
+	{
+		if(sol[row][col]==0)
+		{
+			sol[row][col]=1;
+			
+				if(searchUtil(maze,sol,row,col+1)==1)
+					return 1;
+		
+				if(searchUtil(maze,sol,row+1,col)==1)
+					return 1;
+
+                		if(searchUtil(maze,sol,row,col-1)==1)
+					return 1;
+
+				if(searchUtil(maze,sol,row-1,col)==1)
+                                        return 1;
+ 				
+		
+			sol[row][col]=0;
+
+		}
+	}
+
+return 0;
+}
+
+
+void searchPath(int maze[][N])
+{
+	int path[N][N];
+	int i,j;
+
+	for(i=0;i&lt;N;i++)
+		for(j=0;j&lt;N;j++)
+			path[i][j]=0;
+
+	if(searchUtil(maze,path,0,0)==0)
+	{
+		printf(&quot;\n\nPath does not exist\n\n&quot;);
+	}
+	else
+	{
+		printf(&quot;\n\nSolution\n\n&quot;);
+		printSolution(path);
+	}	
+
+}
+
+int main()
+{
+
+int maze[N][N]  =  {
+        {1, 1, 1, 1,1,1,0,0,0},
+        {0, 0, 1, 0,0,1,0,0,0},
+        {0, 0, 0, 1,1,1,0,0,1},
+        {1, 1, 0, 0,1,0,0,0,0},
+        {0, 0, 1, 1,1,0,0,0,1},
+        {1, 1, 1, 0,0,0,0,0,0},
+	{0, 1, 0, 0,1,1,1,0,0},
+	{0, 1, 1, 1,1,0,1,1,0},
+	{0, 0, 0, 0,0,0,0,1,1},
+    };
+
+/*
+modify #define N accordingly for below test case..or it wont give correct output. 
+
+int maze[N][N]  =  {
+        {1, 1, 1, 1,1,1},
+        {0, 0, 1, 0,0,1},
+        {0, 0, 0, 1,1,1},
+        {1, 1, 0, 0,1,0},
+	{0, 0, 1, 1,1,1},
+	{0, 0, 0, 0,0,1}
+    };
+*/
+/*
+int maze[N][N]  =  { {1, 1, 1, 1},
+        {1, 1, 1, 1},
+        {1, 1, 1, 1},
+        {1, 1, 1, 1}
+    };
+*/
+searchPath(maze);
+printf(&quot;\n&quot;);
+return 1;
+}
+
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-4651">
+        <div id="dsq-comment-header-4651" class="dsq-comment-header">
+            <cite id="dsq-cite-4651">
+                <span id="dsq-author-user-4651">yu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4651" class="dsq-comment-body">
+            <div id="dsq-comment-message-4651" class="dsq-comment-message"><p>we can also build a binary tree from the matrix representation and do a depth-first traversal to find a route to destination.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-sandeep odd alt depth-2" id="dsq-comment-4659">
+        <div id="dsq-comment-header-4659" class="dsq-comment-header">
+            <cite id="dsq-cite-4659">
+http://geeksforgeeks.org/                <span id="dsq-author-user-4659">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4659" class="dsq-comment-body">
+            <div id="dsq-comment-message-4659" class="dsq-comment-message"><p>Backtracking  solution does DFS traversal only. The point to note is that the Backtracking solutions do not always traverse the complete tree. Backtracking stops at an internal node when it sees that no solution is feasible from this node and starts exploring other possibilities.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/backttracking-set-2-rat-in-a-maze/';
+var disqus_identifier = '13376 http://geeksforgeeks.org/?p=13376';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Backtracking | Set 2 (Rat in a Maze)";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.217 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:23:28 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

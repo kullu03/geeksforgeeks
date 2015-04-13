@@ -1,0 +1,803 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Travelling Salesman Problem | Set 1 (Naive and Dynamic Programming) - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/travelling-salesman-problem-set-1/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Travelling Salesman Problem | Set 1 (Naive and Dynamic Programming) - GeeksforGeeks" />
+<meta property="og:description" content="Travelling Salesman Problem (TSP): Given a set of cities and distance between every pair of cities, the problem is to find the shortest possible route that visits every city exactly once and returns to the starting point. Note the difference between Hamiltonian Cycle and TSP. The Hamiltoninan cycle problem is to find if there exist &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/travelling-salesman-problem-set-1/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Dynamic Programming" />
+<meta property="article:tag" content="Graph" />
+<meta property="article:section" content="Graph" />
+<meta property="article:published_time" content="2013-11-03T11:05:31+00:00" />
+<meta property="article:modified_time" content="2014-02-09T19:32:54+00:00" />
+<meta property="og:updated_time" content="2014-02-09T19:32:54+00:00" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Euler12.png" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.521 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417110776 200.83.174.32';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Travelling Salesman Problem | Set 1 (Naive and Dynamic Programming)</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p><strong>Travelling Salesman Problem (TSP):</strong> Given a set of cities and distance between every pair of cities, the problem is to find the shortest p<span id="more-123690"></span>ossible route that visits every city exactly once and returns to the starting point.<br />
+Note the difference between <a href="http://www.geeksforgeeks.org/backtracking-set-7-hamiltonian-cycle/" target="_blank">Hamiltonian Cycle</a> and TSP.  The Hamiltoninan cycle problem is to find if there exist a tour that visits every city exactly once.  Here we know that Hamiltonian Tour exists (because the graph is complete) and in fact many such tours exist, the problem is to find a minimum weight Hamiltonian Cycle.</p>
+<p><a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Euler12.png"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Euler12.png" alt="Euler1" width="237" height="177" class="alignright size-full wp-image-123705" /></a></p>
+<p>For example, consider the graph shown in figure on right side.  A TSP tour in the graph is 1-2-4-3-1.  The cost of the tour is 10+25+30+15 which is 80.</p>
+<p>The problem is a famous <a href="http://www.geeksforgeeks.org/np-completeness-set-1/" target="_blank">NP hard </a>problem. There is no polynomial time know solution for this problem.  </p>
+<p>Following are different solutions for the traveling salesman problem.</p>
+<p><strong>Naive Solution:</strong><br />
+1)  Consider city 1 as the starting and ending point.<br />
+2)  Generate all (n-1)! <a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/" target="_blank">Permutations </a>of cities.<br />
+3)  Calculate cost of every permutation and keep track of minimum cost permutation.<br />
+4)  Return the permutation with minimum cost.</p>
+<p>Time Complexity:  <img src="http://d2o58evtke57tz.cloudfront.net/wp-content/ql-cache/quicklatex.com-ec0c546b6596f336d8e1d41bb064b951_l3.png" class="ql-img-inline-formula " alt="&#92;&#79;&#109;&#101;&#103;&#97;" title="Rendered by QuickLaTeX.com" height="12" width="12" style="vertical-align: 0px;"/>(n!)</p>
+<p><strong>Dynamic Programming:</strong><br />
+Let the given set of vertices be {1, 2, 3, 4,&#8230;.n}. Let us consider 1 as starting and ending point of output.  For every other vertex i (other than 1), we find the minimum cost path with 1 as the starting point, i as the ending point and all vertices appearing exactly once.  Let the cost of this path be cost(i), the cost of corresponding Cycle would be cost(i) + dist(i, 1) where dist(i, 1) is the distance from i to 1.  Finally, we return the minimum of all [cost(i) + dist(i, 1)] values.  This looks simple so far. Now the question is how to get cost(i)?<br />
+To calculate cost(i) using Dynamic Programming, we need to have some recursive relation in terms of sub-problems. Let us define a term <em>C(S, i) be the cost of the minimum cost path visiting each vertex in set S exactly once, starting at 1 and ending at i</em>.<br />
+We start with all subsets of size 2 and calculate C(S, i) for all subsets where S is the subset, then we calculate C(S, i) for all subsets S of size 3 and so on.  Note that 1 must be present in every subset.  </p>
+<pre>
+If size of S is 2, then S must be {1, i},
+ C(S, i) = dist(1, i) 
+Else if size of S is greater than 2.
+ C(S, i) = min { C(S-{i}, j) + dis(j, i)} where j belongs to S, j != i and j != 1.
+</pre>
+<p>For a set of size n, we consider n-2 subsets each of size n-1 such that all subsets don&#8217;t have nth in them.<br />
+Using the above recurrence relation, we can write dynamic programming based solution. There are at most O(n*2<sup>n</sup>) subproblems, and each one takes linear time to solve. The total running time is therefore O(n<sup>2</sup>*2<sup>n</sup>). The time complexity is much less than O(n!), but still exponential. Space required is also exponential. So this approach is also infeasible even for slightly higher number of vertices.</p>
+<p>We will soon be discussing approximate algorithms for travelling salesman problem.</p>
+<p><strong>References:</strong><br />
+<a href="http://www.lsi.upc.edu/~mjserna/docencia/algofib/P07/dynprog.pdf" target="_blank">http://www.lsi.upc.edu/~mjserna/docencia/algofib/P07/dynprog.pdf</a><br />
+<a href="http://www.cs.berkeley.edu/~vazirani/algorithms/chap6.pdf" target="_blank">http://www.cs.berkeley.edu/~vazirani/algorithms/chap6.pdf</a></p>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/vertex-cover-problem-set-1-introduction-approximate-algorithm-2/" title="Vertex Cover Problem | Set 1 (Introduction and Approximate Algorithm)">Vertex Cover Problem | Set 1 (Introduction and Approximate Algorithm)</a></li><li><a href="http://www.geeksforgeeks.org/snake-ladder-problem-2/" title="Snake and Ladder Problem">Snake and Ladder Problem</a></li><li><a href="http://www.geeksforgeeks.org/tarjan-algorithm-find-strongly-connected-components/" title="Tarjan&#8217;s Algorithm to find Strongly Connected Components">Tarjan&#8217;s Algorithm to find Strongly Connected Components</a></li><li><a href="http://www.geeksforgeeks.org/shortest-path-exactly-k-edges-directed-weighted-graph/" title="Shortest path with exactly k edges in a directed and weighted graph">Shortest path with exactly k edges in a directed and weighted graph</a></li><li><a href="http://www.geeksforgeeks.org/count-possible-paths-source-destination-exactly-k-edges/" title="Count all possible walks from a source to a destination with exactly k edges">Count all possible walks from a source to a destination with exactly k edges</a></li><li><a href="http://www.geeksforgeeks.org/euler-circuit-directed-graph/" title="Euler Circuit in a Directed Graph">Euler Circuit in a Directed Graph</a></li><li><a href="http://www.geeksforgeeks.org/given-array-strings-find-strings-can-chained-form-circle/" title="Given an array of strings, find if the strings can be chained to form a circle">Given an array of strings, find if the strings can be chained to form a circle</a></li><li><a href="http://www.geeksforgeeks.org/given-sorted-dictionary-find-precedence-characters/" title="Given a sorted dictionary of an alien language, find order of characters">Given a sorted dictionary of an alien language, find order of characters</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/dynamic-programming/" rel="tag">Dynamic Programming</a>, <a href="http://www.geeksforgeeks.org/tag/graph/" rel="tag">Graph</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Ftravelling-salesman-problem-set-1%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/travelling-salesman-problem-set-1/" data-text="Travelling Salesman Problem | Set 1 (Naive and Dynamic Programming)" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/travelling-salesman-problem-set-1/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-34786">
+        <div id="dsq-comment-header-34786" class="dsq-comment-header">
+            <cite id="dsq-cite-34786">
+                <span id="dsq-author-user-34786">rohan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34786" class="dsq-comment-body">
+            <div id="dsq-comment-message-34786" class="dsq-comment-message"><p><a href="http://ideone.com/tYdrK8" rel="nofollow">http://ideone.com/tYdrK8</a></p>
+<p>It is well commented and contains the recursion tree for an example input graph <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /> enjoy </p>
+<p>Using the DP equation-</p>
+<p>g(i,S)= min(Cij + g( j, S-{ j }) where j belongs to S.</p>
+<p>where g(i,S) is length of a shortest path starting at vertex i, going through all vertices in S and terminating at vertex 1.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-34535">
+        <div id="dsq-comment-header-34535" class="dsq-comment-header">
+            <cite id="dsq-cite-34535">
+                <span id="dsq-author-user-34535">NB</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34535" class="dsq-comment-body">
+            <div id="dsq-comment-message-34535" class="dsq-comment-message"><p>Why is the Time Complexity: big omega (n!)  ? This should be an upper bound, not lower bound right</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-33751">
+        <div id="dsq-comment-header-33751" class="dsq-comment-header">
+            <cite id="dsq-cite-33751">
+                <span id="dsq-author-user-33751">john</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33751" class="dsq-comment-body">
+            <div id="dsq-comment-message-33751" class="dsq-comment-message"><p>and that dp-derived path (preferably, as it pertains to the top-down sol&#8217;n)?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-32702">
+        <div id="dsq-comment-header-32702" class="dsq-comment-header">
+            <cite id="dsq-cite-32702">
+                <span id="dsq-author-user-32702">Lohith Ravi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32702" class="dsq-comment-body">
+            <div id="dsq-comment-message-32702" class="dsq-comment-message"><p>Hi Moderators,<br />
+I really like geeks for geeks for the service it renders by spreading so much of knowledge.<br />
+I also want you guys to make a point some where that, Dynamic programming is just a method where we cache the result so that it need not be computer once more and a HashMap could be of great help as a simple cache.</p>
+<p>// for the above problem, I have a DP code writtern in Java, I wish you use it in the above post so that it helps people</p>
+<p>import java.util.ArrayList;</p>
+<p>import java.util.HashMap;</p>
+<p>public class TravelingSalesManProblem {</p>
+<p>	public static HashMap DynamicProgrammingCache = new HashMap();</p>
+<p>	public static void main(String[] args) {</p>
+<p>		int source = 0;</p>
+<p>		int matrix[][] = { { 0, 10, 15, 20 }, { 10, 0, 35, 25 },</p>
+<p>				{ 15, 35, 0, 30 }, { 20, 25, 30, 0 } };</p>
+<p>		ArrayList visitedNodes = new ArrayList();</p>
+<p>		visitedNodes.add(source);</p>
+<p>		int minDistance = findMinimumDistance(matrix, source, visitedNodes);</p>
+<p>		System.out.println(minDistance);</p>
+<p>	}</p>
+<p>	private static int findMinimumDistance(int[][] matrix, int source, ArrayList visitedNodes) {</p>
+<p>		if(DynamicProgrammingCache.containsKey(visitedNodes+&#8221;,(&#8220;+source+&#8221;)&#8221;))</p>
+<p>		{</p>
+<p>			return DynamicProgrammingCache.get(visitedNodes+&#8221;,(&#8220;+source+&#8221;)&#8221;);</p>
+<p>		}</p>
+<p>		if(visitedNodes.size() == 4){</p>
+<p>			int temp = matrix[visitedNodes.get(visitedNodes.size()-1)][visitedNodes.get(0)];</p>
+<p>			if(temp !=0)</p>
+<p>			   return temp;</p>
+<p>			else</p>
+<p>				return -1;</p>
+<p>		}</p>
+<p>		int min = -1;</p>
+<p>		for (int i = 0; i &lt; matrix.length; i++) {</p>
+<p>			if (matrix[i] != 0 &amp;&amp; notInVisitedNodes(visitedNodes, i)) {</p>
+<p>				ArrayList tempVisitedNodes = copyOf(visitedNodes);</p>
+<p>				tempVisitedNodes.add(i);</p>
+<p>				int val = findMinimumDistance(matrix, i, tempVisitedNodes) ;</p>
+<p>				if (val != -1) {</p>
+<p>					val = val + matrix[i];</p>
+<p>					if (min == -1) {</p>
+<p>						min = val ;</p>
+<p>					} else {</p>
+<p>						if (min &gt; val) {</p>
+<p>							min = val;</p>
+<p>						}</p>
+<p>					}</p>
+<p>				}</p>
+<p>			}</p>
+<p>		}</p>
+<p>		DynamicProgrammingCache.put(visitedNodes+&#8221;,(&#8220;+source+&#8221;)&#8221;, min);</p>
+<p>		return min;</p>
+<p>	}</p>
+<p>	private static ArrayList copyOf(ArrayList visitedNodes) {</p>
+<p>		return new ArrayList(visitedNodes);</p>
+<p>	}</p>
+<p>	private static boolean notInVisitedNodes(ArrayList visitedNodes, int i) {</p>
+<p>		return !visitedNodes.contains(i);</p>
+<p>	}</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-32664">
+        <div id="dsq-comment-header-32664" class="dsq-comment-header">
+            <cite id="dsq-cite-32664">
+                <span id="dsq-author-user-32664">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32664" class="dsq-comment-body">
+            <div id="dsq-comment-message-32664" class="dsq-comment-message"><p>import java.util.ArrayList;</p>
+<p>public class TravelingSalesManProblem {</p>
+<p>	public static void main(String[] args) {</p>
+<p>		int source = 0;</p>
+<p>		int matrix[][] = { { 0, 10, 15, 20 }, { 10, 0, 35, 25 },</p>
+<p>				{ 15, 35, 0, 30 }, { 20, 25, 30, 0 } };</p>
+<p>		ArrayList visitedNodes = new ArrayList();</p>
+<p>		visitedNodes.add(source);</p>
+<p>		int minDistance = findMinimumDistance(matrix, source, visitedNodes);</p>
+<p>		System.out.println(minDistance);</p>
+<p>	}</p>
+<p>	private static int findMinimumDistance(int[][] matrix, int source, ArrayList visitedNodes) {</p>
+<p>		int min = -1;</p>
+<p>		for (int i = 0; i &lt; matrix.length; i++) {</p>
+<p>			ArrayList visitedNodes = copyOf(visitedNodes);</p>
+<p>			visitedNodes.add(i);</p>
+<p>			if (i != source &amp;&amp; matrix[i] != 0 &amp;&amp; notInVisitedNodes(visitedNodes)) {</p>
+<p>				int val = findMinimumDistance(matrix, i, visitedNodes) ;</p>
+<p>				if (val != -1) {</p>
+<p>					if (min == -1) {</p>
+<p>						min = val + matrix[i];</p>
+<p>					} else {</p>
+<p>						if (min &gt; val + matrix[i]) {</p>
+<p>							min = val + matrix[i];</p>
+<p>						}</p>
+<p>					}</p>
+<p>				}</p>
+<p>			}</p>
+<p>		}</p>
+<p>		return min;</p>
+<p>	}</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-30274">
+        <div id="dsq-comment-header-30274" class="dsq-comment-header">
+            <cite id="dsq-cite-30274">
+                <span id="dsq-author-user-30274">Sriharsha g.r.v</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30274" class="dsq-comment-body">
+            <div id="dsq-comment-message-30274" class="dsq-comment-message"><p>hello  sir, i am naive to this concept, but i would like to know if disktras or bellmann algo could be applied to very vertex one after th other and discard that vertex from graph..in that way dont we get the shortest tour possible?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-31753">
+        <div id="dsq-comment-header-31753" class="dsq-comment-header">
+            <cite id="dsq-cite-31753">
+                <span id="dsq-author-user-31753">mysticPrince</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31753" class="dsq-comment-body">
+            <div id="dsq-comment-message-31753" class="dsq-comment-message"><p>Look at this recurrence:</p>
+<p>C(S, i) = min { C(S-{i}, j) + dis(j, i)}<br />
+Doesn&#8217;t it look similar to relaxation property in Bellman ford&#8217;s?</p>
+<p>Why not the same complexity then?</p>
+<p>1. Cause there are two constraints in particular:<br />
+  a)Each vertex must be visited, and only once (except 1 where tour    starts and ends)</p>
+<p>  b) For nth vertex, in tour (from 1st), we are looking for a n-length path      subject to above two constraints.</p>
+<p>2. Cause it NP Complete problem :p  incorporating above two constraints</p>
+<p>Well, I&#8217;m not the author of the article. But maybe it helps. <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-29947">
+        <div id="dsq-comment-header-29947" class="dsq-comment-header">
+            <cite id="dsq-cite-29947">
+                <span id="dsq-author-user-29947">Kaushik Srinivasan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29947" class="dsq-comment-body">
+            <div id="dsq-comment-message-29947" class="dsq-comment-message"><p>Can someone please explain the 2nd recurrence relation?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-31754">
+        <div id="dsq-comment-header-31754" class="dsq-comment-header">
+            <cite id="dsq-cite-31754">
+                <span id="dsq-author-user-31754">mysticPrince</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31754" class="dsq-comment-body">
+            <div id="dsq-comment-message-31754" class="dsq-comment-message"><p>C(S, i) = min { C(S-{i}, j) + dis(j, i)} where j belongs to S, j != i and j != 1<br />
+This one I suppose.<br />
+As the author has stated:<br />
+C(S, i) be the cost of the minimum cost path visiting each vertex in set S exactly once, starting at 1 and ending at i.</p>
+<p>For each subset size&gt;2,<br />
+C(S,i) is given as minimum of all path lengths visiting every vertex in subset S exactly once, starting at 1, ending at i (i belongs to S) , with j as intermediate vertex, for all j in S (j!=i, j!=1), for all i in S (i!=1).<br />
+So the expressions is of form: C(S-{i}, j) +dist (j,i)<br />
+I hope it helps <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-32820">
+        <div id="dsq-comment-header-32820" class="dsq-comment-header">
+            <cite id="dsq-cite-32820">
+                <span id="dsq-author-user-32820">Bharathkumar Hegde</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32820" class="dsq-comment-body">
+            <div id="dsq-comment-message-32820" class="dsq-comment-message"><p>I think if subset is greater than two, then</p>
+<p>loop for each j in S-{i}:<br />
+  required = min ( required , C (S-{i}, j) + dist ( i , j ) );</p>
+<p>now &#8216;required&#8217; has minimum cost of travelling through S &#8211; { i } considering some city &#8216; j &#8216; in S &#8211; { i } is last node plus the dist from &#8216; j &#8216; (possible last city )  to i.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-29527">
+        <div id="dsq-comment-header-29527" class="dsq-comment-header">
+            <cite id="dsq-cite-29527">
+                <span id="dsq-author-user-29527">Shubham Mittal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29527" class="dsq-comment-body">
+            <div id="dsq-comment-message-29527" class="dsq-comment-message"><p>How is the time complexity when using DP is O(n^2*2^n)?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/travelling-salesman-problem-set-1/';
+var disqus_identifier = '123690 http://www.geeksforgeeks.org/?p=123690';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Travelling Salesman Problem | Set 1 (Naive and Dynamic Programming)";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 1.015 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:22:57 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

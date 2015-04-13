@@ -1,0 +1,2605 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Find duplicates in O(n) time and O(1) extra space - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/find-duplicates-in-on-time-and-constant-extra-space/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Find duplicates in O(n) time and O(1) extra space - GeeksforGeeks" />
+<meta property="og:description" content="Given an array of n elements which contains elements from 0 to n-1, with any of these numbers appearing any number of times. Find these repeating numbers in O(n) and using only constant memory space. For example, let n be 7 and array be {1, 2, 3, 1, 3, 6, 6}, the answer should be &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/find-duplicates-in-on-time-and-constant-extra-space/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:section" content="Arrays" />
+<meta property="article:published_time" content="2011-01-04T14:17:55+00:00" />
+<meta property="article:modified_time" content="2014-01-01T19:27:02+00:00" />
+<meta property="og:updated_time" content="2014-01-01T19:27:02+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.637 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417110878 59.91.209.170';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Find duplicates in O(n) time and O(1) extra space</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given an array of n elements which contains elements from 0 to n-1, with any of these numbers appearing any number of times. Find these repeating numbers in O(n) and using only constant memory space.<span id="more-9755"></span></p>
+<p>For example, let n be 7 and array be {1, 2, 3, 1, 3, 6, 6}, the answer should be 1, 3 and 6.</p>
+<p>This problem is an extended version of following problem.</p>
+<p><a href="http://geeksforgeeks.org/?p=7953">Find the two repeating elements in a given array </a></p>
+<p>Method 1 and Method 2 of the above link are not applicable as the question says O(n) time complexity and O(1) constant space. Also, Method 3 and Method 4 cannot be applied here because there can be more than 2 repeating elements in this problem. Method 5 can be extended to work for this problem. Below is the solution that is similar to the Method 5.</p>
+<p><strong>Algorithm:</strong></p>
+<pre>traverse the list for i= 0 to n-1 elements
+{
+  check for sign of A[abs(A[i])] ;
+  if positive then
+     make it negative by   A[abs(A[i])]=-A[abs(A[i])];
+  else  // i.e., A[abs(A[i])] is negative
+     this   element (ith element of list) is a repetition
+}</pre>
+<p><strong>Implementation:</strong></p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+void printRepeating(int arr[], int size)
+{
+  int i;
+  printf(&quot;The repeating elements are: \n&quot;);
+  for (i = 0; i &lt; size; i++)
+  {
+    if (arr[abs(arr[i])] &gt;= 0)
+      arr[abs(arr[i])] = -arr[abs(arr[i])];
+    else
+      printf(&quot; %d &quot;, abs(arr[i]));
+  }
+}
+
+int main()
+{
+  int arr[] = {1, 2, 3, 1, 3, 6, 6};
+  int arr_size = sizeof(arr)/sizeof(arr[0]);
+  printRepeating(arr, arr_size);
+  getchar();
+  return 0;
+}
+</pre>
+<p>Note: The above program doesn&#8217;t handle 0 case (If 0 is present in array). The program can be easily modified to handle that also. It is not handled to keep the code simple.</p>
+<p>Output:<br />
+<em>The repeating elements are:<br />
+1  3  6</em></p>
+<p>Time Complexity: O(n)<br />
+Auxiliary Space: O(1)</p>
+<p>Please write comments if you find the above codes/algorithms incorrect, or find better ways to solve the same problem.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array-set-2-expected-linear-time/" title="K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)">K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)</a></li><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array/" title="K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1">K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/time-complexity-insertion-sort-inversions/" title="Time complexity of insertion sort when there are O(n) inversions?">Time complexity of insertion sort when there are O(n) inversions?</a></li><li><a href="http://www.geeksforgeeks.org/check-two-given-sets-disjoint/" title="How to check if two given sets are disjoint?">How to check if two given sets are disjoint?</a></li><li><a href="http://www.geeksforgeeks.org/minimum-number-platforms-required-railwaybus-station/" title="Minimum Number of Platforms Required for a Railway/Bus Station">Minimum Number of Platforms Required for a Railway/Bus Station</a></li><li><a href="http://www.geeksforgeeks.org/given-two-sorted-arrays-number-x-find-pair-whose-sum-closest-x/" title="Find the closest pair from two sorted arrays">Find the closest pair from two sorted arrays</a></li><li><a href="http://www.geeksforgeeks.org/print-elements-sorted-order-row-column-wise-sorted-matrix/" title="Print all elements in sorted order from row and column wise sorted matrix">Print all elements in sorted order from row and column wise sorted matrix</a></li><li><a href="http://www.geeksforgeeks.org/length-largest-subarray-contiguous-elements-set-1/" title="Length of the largest subarray with contiguous elements | Set 1">Length of the largest subarray with contiguous elements | Set 1</a></li></ul>
+<p></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Ffind-duplicates-in-on-time-and-constant-extra-space%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/find-duplicates-in-on-time-and-constant-extra-space/" data-text="Find duplicates in O(n) time and O(1) extra space" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/find-duplicates-in-on-time-and-constant-extra-space/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-34347">
+        <div id="dsq-comment-header-34347" class="dsq-comment-header">
+            <cite id="dsq-cite-34347">
+                <span id="dsq-author-user-34347">Rocky</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34347" class="dsq-comment-body">
+            <div id="dsq-comment-message-34347" class="dsq-comment-message"><p>Here is a bug. If all elements are 0, it doesn&#8217;t work. So the range should be 1-n. I agree with Vivek, but pay more attention to very large array with overflow problem.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-30787">
+        <div id="dsq-comment-header-30787" class="dsq-comment-header">
+            <cite id="dsq-cite-30787">
+                <span id="dsq-author-user-30787">gaja</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30787" class="dsq-comment-body">
+            <div id="dsq-comment-message-30787" class="dsq-comment-message"><p>4,2,3,3,3,3,1,4,5,6,1,2,5.</p>
+<p>Hello guys the above code doesn&#8217;t work for this series.<br />
+o/p : 3  3  3  4  1  2  5</p>
+<p>3 is repeating in the output.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-30802">
+        <div id="dsq-comment-header-30802" class="dsq-comment-header">
+            <cite id="dsq-cite-30802">
+                <span id="dsq-author-user-30802">anonymous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30802" class="dsq-comment-body">
+            <div id="dsq-comment-message-30802" class="dsq-comment-message"><p>@geeksforgeeks:disqus Please help solve this issue. What about elements that repeat more than once, as mentioned in this example?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-30045">
+        <div id="dsq-comment-header-30045" class="dsq-comment-header">
+            <cite id="dsq-cite-30045">
+                <span id="dsq-author-user-30045">Abdulkhadar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30045" class="dsq-comment-body">
+            <div id="dsq-comment-message-30045" class="dsq-comment-message"><p>//find repeated elements from single dimentional array<br />
+class searchDemo{</p>
+<p>	public static void main(String args[]){</p>
+<p>		int a[]={2,0,3,2,2,9,1,2,1,1,3,10,99,3,2,9,9,0,2,1,2,9,9,1,3,9,1,2};</p>
+<p>		boolean rep=false,si=false;</p>
+<p>		int c=1;</p>
+<p>		for(int i=0;i&lt;a.length;i++){</p>
+<p>			rep=false;</p>
+<p>			c=1;</p>
+<p>			for(int k=0;k&lt;i;k++){</p>
+<p>				if(a[i]==a[k]){</p>
+<p>					rep=true;</p>
+<p>				}</p>
+<p>			}</p>
+<p>			for(int j=i+1;j&lt;a.length;j++){</p>
+<p>			si=false;</p>
+<p>				if(!rep){</p>
+<p>					if(a[i]==a[j]){</p>
+<p>						c++;</p>
+<p>					}else{</p>
+<p>						si=true;</p>
+<p>					}</p>
+<p>				}</p>
+<p>			}</p>
+<p>			if(c!=1 || si){</p>
+<p>				System.out.println(a[i]+&quot; is repeated &quot;+c+&quot; times&quot;);</p>
+<p>			}	</p>
+<p>		}</p>
+<p>	}</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-29673">
+        <div id="dsq-comment-header-29673" class="dsq-comment-header">
+            <cite id="dsq-cite-29673">
+                <span id="dsq-author-user-29673">Mukesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29673" class="dsq-comment-body">
+            <div id="dsq-comment-message-29673" class="dsq-comment-message"><p>This solution will not work If element value is greater than array length. example, just add a element having value 20.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-29530">
+        <div id="dsq-comment-header-29530" class="dsq-comment-header">
+            <cite id="dsq-cite-29530">
+                <span id="dsq-author-user-29530">Vivek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29530" class="dsq-comment-body">
+            <div id="dsq-comment-message-29530" class="dsq-comment-message"><p>for i=0 to n-1<br />
+arr[arr[i]] + = n;  </p>
+<p>for i=0 to n-1<br />
+    if(arr[i]&gt;=2n)   // means i is repeated<br />
+      print i;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-28936">
+        <div id="dsq-comment-header-28936" class="dsq-comment-header">
+            <cite id="dsq-cite-28936">
+                <span id="dsq-author-user-28936">jedi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28936" class="dsq-comment-body">
+            <div id="dsq-comment-message-28936" class="dsq-comment-message"><p>if 1 is repeating more than once, this program gives output 1,1,3,6 instead of 1,3,6&#8230;.please clarify&#8230;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-29066">
+        <div id="dsq-comment-header-29066" class="dsq-comment-header">
+            <cite id="dsq-cite-29066">
+                <span id="dsq-author-user-29066">wasseypuriyan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29066" class="dsq-comment-body">
+            <div id="dsq-comment-message-29066" class="dsq-comment-message"><p>Any number which repeats more than once will be printed using this code.</p>
+<p>for (i = 0; i = 0)<br />
+                 arr[abs(arr[i])] = -arr[abs(arr[i])];<br />
+       else<br />
+       &#8221;   printf(&#8221; %d &#8220;, abs(arr[i])); &#8221;  //This statement is executed when                                                      //number is repeated<br />
+  }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-28351">
+        <div id="dsq-comment-header-28351" class="dsq-comment-header">
+            <cite id="dsq-cite-28351">
+                <span id="dsq-author-user-28351">ChennaiWarrior</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28351" class="dsq-comment-body">
+            <div id="dsq-comment-message-28351" class="dsq-comment-message"><p>This may be a solution. Please correct me if i am wrong.</p>
+<p>#include </p>
+<p>using namespace std;</p>
+<p>#include</p>
+<p>int main()</p>
+<p>{</p>
+<p>	int n;</p>
+<p>	cout&lt;&gt;n;</p>
+<p>	int a[n];</p>
+<p>	for(int i=0;i&gt;a[i];</p>
+<p>	cout&lt;&lt;&quot;The repeated elements are: ;</p>
+<p>	for(int i=0;i0 &amp;&amp; a[abs(a[i])]n);</p>
+<p>			/// do nothing already printed</p>
+<p>			else</p>
+<p>			{</p>
+<p>				cout&lt;&lt;&quot; &quot;&lt;&lt;abs(a[i]);</p>
+<p>				a[abs(a[i])]=n+5;</p>
+<p>			}</p>
+<p>		}</p>
+<p>	}</p>
+<p>	return 0;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-28103">
+        <div id="dsq-comment-header-28103" class="dsq-comment-header">
+            <cite id="dsq-cite-28103">
+                <span id="dsq-author-user-28103">prakash</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28103" class="dsq-comment-body">
+            <div id="dsq-comment-message-28103" class="dsq-comment-message"><p>&#8211;&gt;this program wont work if total array size is les than the maximum value element in array<br />
+&#8211;&gt;only works with positive number set</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-28831">
+        <div id="dsq-comment-header-28831" class="dsq-comment-header">
+            <cite id="dsq-cite-28831">
+                <span id="dsq-author-user-28831">Nagaraju</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28831" class="dsq-comment-body">
+            <div id="dsq-comment-message-28831" class="dsq-comment-message"><p>They clearly mentioned in problem statement that numbers are from 0&#8211;n-1 so max value never exceeds array size. </p>
+<p>Numbers are from 0 to n-1 so negative numbers does not come in this space</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-28007">
+        <div id="dsq-comment-header-28007" class="dsq-comment-header">
+            <cite id="dsq-cite-28007">
+                <span id="dsq-author-user-28007">draganwarrior</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28007" class="dsq-comment-body">
+            <div id="dsq-comment-message-28007" class="dsq-comment-message"><p>Can  anyone  explain  how  this  method  will  work  always</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-27192">
+        <div id="dsq-comment-header-27192" class="dsq-comment-header">
+            <cite id="dsq-cite-27192">
+http://readerszone.com                <span id="dsq-author-user-27192">ajaypathak</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27192" class="dsq-comment-body">
+            <div id="dsq-comment-message-27192" class="dsq-comment-message"><p>This does not work if the element occurs more then twice </p>
+<p>input : 1, 2, 3, 1, 3, 6, 6,1</p>
+<p>it will show 1,3,6,1</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-27505">
+        <div id="dsq-comment-header-27505" class="dsq-comment-header">
+            <cite id="dsq-cite-27505">
+                <span id="dsq-author-user-27505">Sanjay Agarwal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27505" class="dsq-comment-body">
+            <div id="dsq-comment-message-27505" class="dsq-comment-message"><p>@geeksforgeeks:disqus  Please tell us how to handle such scenarios.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-27748">
+        <div id="dsq-comment-header-27748" class="dsq-comment-header">
+            <cite id="dsq-cite-27748">
+                <span id="dsq-author-user-27748">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27748" class="dsq-comment-body">
+            <div id="dsq-comment-message-27748" class="dsq-comment-message"><p>i hope this solves your problem plus it contains zero case too<br />
+correct me if I m wrong &#8230;</p>
+<p>void print_repeat(int a[],int size)<br />
+{<br />
+    int count=0;<br />
+    FOR(i,size,0)<br />
+    {</p>
+<p>        if(!a[i])<br />
+        {<br />
+            if(count==1)<br />
+            {<br />
+                cout&lt;&lt;a[i]&lt;=0)<br />
+            a[abs(a[i])]*=-1;<br />
+        else<br />
+        {<br />
+            if(a[abs(a[i])]!=-9999)<br />
+            {<br />
+                cout&lt;&lt;abs(a[i])&lt;&lt;&quot; &quot;;<br />
+                a[abs(a[i])]=-9999;<br />
+            }<br />
+        }</p>
+<p>    }<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-3" id="dsq-comment-27749">
+        <div id="dsq-comment-header-27749" class="dsq-comment-header">
+            <cite id="dsq-cite-27749">
+                <span id="dsq-author-user-27749">Suryabhan Singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27749" class="dsq-comment-body">
+            <div id="dsq-comment-message-27749" class="dsq-comment-message"><p>void print_repeat(int a[],int size)<br />
+{<br />
+    int count=0;<br />
+    for(int i=0;i&lt;size;i++)<br />
+    {<br />
+          if(!a[i])<br />
+          {<br />
+            if(count==1)<br />
+            { cout&lt;&lt;a[i]&lt;=0)<br />
+            a[abs(a[i])]*=-1;<br />
+        else<br />
+        {<br />
+            if(a[abs(a[i])]!=-9999)<br />
+            {<br />
+                cout&lt;&lt;abs(a[i])&lt;&lt;&quot; &quot;;<br />
+                a[abs(a[i])]=-9999;<br />
+            }<br />
+        }</p>
+<p>    }<br />
+}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-27750">
+        <div id="dsq-comment-header-27750" class="dsq-comment-header">
+            <cite id="dsq-cite-27750">
+                <span id="dsq-author-user-27750">Suryabhan Singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27750" class="dsq-comment-body">
+            <div id="dsq-comment-message-27750" class="dsq-comment-message"><p>I hopes it solves your problem , it involves the cases where zero is the element<br />
+if you find difficulty to read the code , plz go to following pastebin link-<br />
+<a href="http://pastebin.com/HFucjSQH" rel="nofollow">http://pastebin.com/HFucjSQH</a><br />
+and correct me if logic is wrong</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-27007">
+        <div id="dsq-comment-header-27007" class="dsq-comment-header">
+            <cite id="dsq-cite-27007">
+                <span id="dsq-author-user-27007">TPSA</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27007" class="dsq-comment-body">
+            <div id="dsq-comment-message-27007" class="dsq-comment-message"><p>Please try with different data set. Eg. {1, 2, 1000, 1000, 3, 6, 6}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-27008">
+        <div id="dsq-comment-header-27008" class="dsq-comment-header">
+            <cite id="dsq-cite-27008">
+                <span id="dsq-author-user-27008">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27008" class="dsq-comment-body">
+            <div id="dsq-comment-message-27008" class="dsq-comment-message"><p>Please take a closer look at the problem statement.  It says &#8220;Given an array of n elements which contains elements from 0 to n-1&#8243;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-27006">
+        <div id="dsq-comment-header-27006" class="dsq-comment-header">
+            <cite id="dsq-cite-27006">
+                <span id="dsq-author-user-27006">TPSA</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27006" class="dsq-comment-body">
+            <div id="dsq-comment-message-27006" class="dsq-comment-message"><p>Please try with different data set. Eg. {1, 2, 1000, 1000, 3, 6, 6}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-24858">
+        <div id="dsq-comment-header-24858" class="dsq-comment-header">
+            <cite id="dsq-cite-24858">
+http://www.geeksforgeeks.org/find-duplicates-in-on-time-and-constant-extra-space/                <span id="dsq-author-user-24858">kc</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24858" class="dsq-comment-body">
+            <div id="dsq-comment-message-24858" class="dsq-comment-message"><p>we can just add n in array at index=a[i].<br />
+means just add n as a[a[i]]+=n.<br />
+than in second scan u will have the count equl to how much time n is added.<br />
+correct me if I am wrong.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+<ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-27506">
+        <div id="dsq-comment-header-27506" class="dsq-comment-header">
+            <cite id="dsq-cite-27506">
+                <span id="dsq-author-user-27506">Sanjay Agarwal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27506" class="dsq-comment-body">
+            <div id="dsq-comment-message-27506" class="dsq-comment-message"><p>But this approach won&#8217;t satisfy the requirement of O(1) space complexity.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-17450">
+        <div id="dsq-comment-header-17450" class="dsq-comment-header">
+            <cite id="dsq-cite-17450">
+                <span id="dsq-author-user-17450">Ranjan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17450" class="dsq-comment-body">
+            <div id="dsq-comment-message-17450" class="dsq-comment-message"><p>following code finds the repeating numbers in an array of positive numbers. It prints only once if a number is repeated multiple times.</p>
+<pre> <code language="C">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+  
+void printRepeating(int arr[], int size)
+{
+  int temp = 0;
+  int t =0;
+  printf(&quot;The repeating elements are: \n&quot;);
+  for (int i = 0; i &lt; size; i++)
+  {
+      if(temp &amp; (1 &lt;&lt; arr[i]))
+      {
+              if(t &amp;(1&lt;&lt;arr[i]))
+              {
+                   printf(&quot;%d \t&quot;, arr[i]);
+                   t = t^(1&lt;&lt;arr[i]);
+              }
+      }
+     
+      else
+      {
+          temp = (temp|(1&lt;&lt;arr[i]));
+          t = (t | (1&lt;&lt;arr[i]));
+      }
+  }
+}
+  
+int main()
+{
+  int arr[] = {1111161, 2, 18, 0, 0, 0, 2, 1111161, 3, 3, 3};
+  int arr_size = sizeof(arr)/sizeof(arr[0]);
+  printRepeating(arr, arr_size);
+  getchar();
+  return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-19139">
+        <div id="dsq-comment-header-19139" class="dsq-comment-header">
+            <cite id="dsq-cite-19139">
+                <span id="dsq-author-user-19139">Piyush Agarwal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19139" class="dsq-comment-body">
+            <div id="dsq-comment-message-19139" class="dsq-comment-message"><p>The method i am using Take only O(n) time and O(1) extra space<br />
+#include<br />
+using namespace std;<br />
+int main()<br />
+{<br />
+int n,k,i;<br />
+cin&gt;&gt;n; // n is limit of elements i.e range is from 0 to n-1<br />
+cin&gt;&gt;k; /* k is the size of array having elements ranging from 0 to n-1*/<br />
+int a[k+1];<br />
+for(i=0;i&gt;a[i];<br />
+}<br />
+for(i=0;i&lt;k;i++)<br />
+{<br />
+	a[a[i]%n]+=n;<br />
+}<br />
+for(i=0;i&lt;k;i++)<br />
+{<br />
+	//cout&lt;&lt;&quot;value &quot;&lt;&lt; a[i]&lt;=2)<br />
+	cout&lt;&lt;i&lt;&lt;&quot; &quot;;<br />
+}<br />
+return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-27533">
+        <div id="dsq-comment-header-27533" class="dsq-comment-header">
+            <cite id="dsq-cite-27533">
+                <span id="dsq-author-user-27533">Sanjay Agarwal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27533" class="dsq-comment-body">
+            <div id="dsq-comment-message-27533" class="dsq-comment-message"><p>Take arr[] = {0, 1, 32, 33, 0};<br />
+output should be 1, 32, 33<br />
+But your program&#8217;s output is 32, 33</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-16703">
+        <div id="dsq-comment-header-16703" class="dsq-comment-header">
+            <cite id="dsq-cite-16703">
+http://myvedham.blogspot.in/                <span id="dsq-author-user-16703">Karthic</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16703" class="dsq-comment-body">
+            <div id="dsq-comment-message-16703" class="dsq-comment-message"><p>Check the below link for java implementation :<br />
+<a href="http://myvedham.blogspot.in/2013/03/print-duplicate-numbers-in-array-java.html?view=sidebar" rel="nofollow">http://myvedham.blogspot.in/2013/03/print-duplicate-numbers-in-array-java.html?view=sidebar</a></p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-16028">
+        <div id="dsq-comment-header-16028" class="dsq-comment-header">
+            <cite id="dsq-cite-16028">
+                <span id="dsq-author-user-16028">Umar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16028" class="dsq-comment-body">
+            <div id="dsq-comment-message-16028" class="dsq-comment-message"><p>fails for</p>
+<pre> <code language="Java">
+ int [] arr = {1, 2, 18, 0, 1, 3, 3 };
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-16029">
+        <div id="dsq-comment-header-16029" class="dsq-comment-header">
+            <cite id="dsq-cite-16029">
+                <span id="dsq-author-user-16029">Umar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16029" class="dsq-comment-body">
+            <div id="dsq-comment-message-16029" class="dsq-comment-message"><p>My bad.. didn&#8217;t read the following:<br />
+&#8220;Given an array of n elements which contains elements from 0 to n-1, with any of these numbers appearing any number of times&#8221;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-16485">
+        <div id="dsq-comment-header-16485" class="dsq-comment-header">
+            <cite id="dsq-cite-16485">
+                <span id="dsq-author-user-16485">Sabaru</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16485" class="dsq-comment-body">
+            <div id="dsq-comment-message-16485" class="dsq-comment-message"><p>This code will the expected result:</p>
+<pre> <code language="Java">
+public class FindDuplicates {
+ 
+    public static void main(String[] args) {
+        int arr[] = {1, 4 , 7 , 1 , 0, 1, 7 , 4 };
+        findDuplicates(arr);
+    }
+ 
+    private static void findDuplicates(int[] arr) {
+            HashSet&lt;Integer&gt; S1=new HashSet&lt;Integer&gt; ();
+            HashSet&lt;Integer&gt; dup=new HashSet&lt;Integer&gt; ();
+            for (int temp : arr ){
+                if(S1.contains(temp)){
+                    dup.add(temp) ;
+                } else {
+                    S1.add(temp) ;
+                }
+            }
+            System.out.println(&quot;Duplicates:&quot;+ dup ) ;
+    }
+}</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-27537">
+        <div id="dsq-comment-header-27537" class="dsq-comment-header">
+            <cite id="dsq-cite-27537">
+                <span id="dsq-author-user-27537">Sanjay Agarwal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27537" class="dsq-comment-body">
+            <div id="dsq-comment-message-27537" class="dsq-comment-message"><p>@d5e1ff9f81c8e0d297ee9e31c4fca962:disqus Input should be in the range 1 to n-1 where n is the size of the array. Your array size is 7. But your array contains 18 which violates the constraint on the input.<br />
+Also, the case when array contains zero is not handled here.Please check.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-15675">
+        <div id="dsq-comment-header-15675" class="dsq-comment-header">
+            <cite id="dsq-cite-15675">
+                <span id="dsq-author-user-15675">Ganesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15675" class="dsq-comment-body">
+            <div id="dsq-comment-message-15675" class="dsq-comment-message"><p>You can find java code here:</p>
+<p>/**<br />
+ * Given an array of n elements which contains elements from 0 to n-1, with any of these numbers appearing any number of times.<br />
+ * Find these repeating numbers in O(n) and using only constant memory space.<br />
+ * For example, let n be 7 and array be {1, 2, 3, 1, 3, 6, 6}, the answer should be 1, 3 and 6.<br />
+ *<br />
+ * @author GAPIITD<br />
+ *<br />
+ */<br />
+public class FindDuplicates {</p>
+<p>	public static void main(String[] args) {<br />
+		int arr[] = {1, 2, 3, 1, 3, 6, 6};<br />
+		findDuplicates(arr);<br />
+	}</p>
+<p>	private static void findDuplicates(int[] arr) {<br />
+		for (int i = 0; i &lt; arr.length; i++) {<br />
+			int value = Math.abs(arr[i]);<br />
+			if (arr[value] &lt; 0)<br />
+				System.out.println(&quot;Duplicate: &quot; + value);<br />
+			else arr[value] = -arr[value];<br />
+		}<br />
+	}<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-15149">
+        <div id="dsq-comment-header-15149" class="dsq-comment-header">
+            <cite id="dsq-cite-15149">
+                <span id="dsq-author-user-15149">NNAVNEET</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15149" class="dsq-comment-body">
+            <div id="dsq-comment-message-15149" class="dsq-comment-message"><p>Given correct answer for the cases where zeros are involved. it would rather work for number from 1 to n. Not 0 to n-1. </p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-14820">
+        <div id="dsq-comment-header-14820" class="dsq-comment-header">
+            <cite id="dsq-cite-14820">
+                <span id="dsq-author-user-14820">Niks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14820" class="dsq-comment-body">
+            <div id="dsq-comment-message-14820" class="dsq-comment-message"><p>How about this solution?</p>
+<pre> <code language="C">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+ 
+void printRepeating(int arr[], int size)
+{
+  int temp = 0;
+  printf(&quot;The repeating elements are: \n&quot;);
+  for (int i = 0; i &lt; size; i++)
+  {
+	  if(temp &amp; (1 &lt;&lt; arr[i]))
+		  printf(&quot;%d \n&quot;, arr[i]);
+    
+	  else
+		  temp = (temp|(1&lt;&lt;arr[i]));
+  }
+}
+ 
+int main()
+{
+  int arr[] = {0,0,1, 2, 3, 1, 3, 6, 6};
+  int arr_size = sizeof(arr)/sizeof(arr[0]);
+  printRepeating(arr, arr_size);
+  getchar();
+  return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-algobaba odd alt depth-2" id="dsq-comment-14822">
+        <div id="dsq-comment-header-14822" class="dsq-comment-header">
+            <cite id="dsq-cite-14822">
+                <span id="dsq-author-user-14822">AlgoBaba</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14822" class="dsq-comment-body">
+            <div id="dsq-comment-message-14822" class="dsq-comment-message"><p>What if your array is of size 100 or so. Your temp variable can store only up to 32 bits (being integer). So all a[i] with values greater than 32 will be simply neglected by your code&#8217;s this part </p>
+<pre> <code language="C">
+ if(temp &amp; (1 &lt;&lt; arr[i]))
+</code> </pre>
+<p>Or even if you say it works for a specific compiler, it is definitely not safe.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-aikinz even depth-2" id="dsq-comment-15588">
+        <div id="dsq-comment-header-15588" class="dsq-comment-header">
+            <cite id="dsq-cite-15588">
+                <span id="dsq-author-user-15588">aikinz</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15588" class="dsq-comment-body">
+            <div id="dsq-comment-message-15588" class="dsq-comment-message"><p>I think this is actually a great answer (as a normal case). But can someone explain how it works please? I just don&#8217;t quite get the &#8216;&#038;&#8217; and &#8216;|&#8217; part. How these are represented in decimal calculation? Thanks!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-27539">
+        <div id="dsq-comment-header-27539" class="dsq-comment-header">
+            <cite id="dsq-cite-27539">
+                <span id="dsq-author-user-27539">Sanjay Agarwal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27539" class="dsq-comment-body">
+            <div id="dsq-comment-message-27539" class="dsq-comment-message"><p>Take arr[] = {0,1,32,33,0}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-14309">
+        <div id="dsq-comment-header-14309" class="dsq-comment-header">
+            <cite id="dsq-cite-14309">
+                <span id="dsq-author-user-14309">Nathan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14309" class="dsq-comment-body">
+            <div id="dsq-comment-message-14309" class="dsq-comment-message"><p>what if the duplicate element repeats 3 times or more?<br />
+ the result will be printed more than one time,right?</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-14393">
+        <div id="dsq-comment-header-14393" class="dsq-comment-header">
+            <cite id="dsq-cite-14393">
+                <span id="dsq-author-user-14393">Vratika</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14393" class="dsq-comment-body">
+            <div id="dsq-comment-message-14393" class="dsq-comment-message"><p>This will handle repeated printing.  </p>
+<pre> <code language="C">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+ 
+void printRepeating(int arr[], int size)
+{
+  int i;
+  printf(&quot;The repeating elements are: \n&quot;);
+  for (i = 0; i &lt; size; i++)
+  {
+    if (arr[abs(arr[i])]&gt;=size) {
+    	//Do nothing, Repeated element already printed
+    }	
+    else if (arr[abs(arr[i])] &gt;= 0) 
+      arr[abs(arr[i])] = -arr[abs(arr[i])];
+    else {
+      printf(&quot; %d &quot;, abs(arr[i]));
+      arr[abs(arr[i])] = size-arr[abs(arr[i])] ;	//already printed value (say x) will become n-(-x) = n+x 
+    }
+  }
+}
+ 
+int main()
+{
+  int arr[] = {1, 2, 3, 1, 3, 6, 6, 6, 6, 6};
+  int arr_size = sizeof(arr)/sizeof(arr[0]);
+  printRepeating(arr, arr_size);
+  getchar();
+  return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-14502">
+        <div id="dsq-comment-header-14502" class="dsq-comment-header">
+            <cite id="dsq-cite-14502">
+http://nothing.wern                <span id="dsq-author-user-14502">ghatiya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14502" class="dsq-comment-body">
+            <div id="dsq-comment-message-14502" class="dsq-comment-message"><p>thanks <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-3" id="dsq-comment-14508">
+        <div id="dsq-comment-header-14508" class="dsq-comment-header">
+            <cite id="dsq-cite-14508">
+                <span id="dsq-author-user-14508">Algobaba</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14508" class="dsq-comment-body">
+            <div id="dsq-comment-message-14508" class="dsq-comment-message"><p>@Vratika your code don&#8217;t work for below case<br />
+6,6,6,3,0,2,2    //it prints only 6 and not 2</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-14517">
+        <div id="dsq-comment-header-14517" class="dsq-comment-header">
+            <cite id="dsq-cite-14517">
+                <span id="dsq-author-user-14517">Vratika</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14517" class="dsq-comment-body">
+            <div id="dsq-comment-message-14517" class="dsq-comment-message"><p>Thanx for pointing out my mistake <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /><br />
+Below is the correction. </p>
+<p>Note: The above program doesn’t handle 0 case (If 0 is present in array). The program can be easily modified to handle that also. It is not handled to keep the code simple.</p>
+<pre> <code language="C">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+ 
+void printRepeating(int arr[], int size)
+{
+  int i, x;
+  printf(&quot;The repeating elements are: \n&quot;);
+  for (i = 0; i &lt; size; i++)
+  {
+    if (arr[i]&gt;size)
+    	x = arr[i]-size ;
+    else 
+    	x = arr[i] ; 
+    if (arr[abs(x)]&gt;=size) {
+    	//Do nothing, Repeated element already printed
+    }	
+    else if (arr[abs(x)] &gt;= 0) 
+      arr[abs(x)] = -arr[abs(x)];
+    else {
+      printf(&quot; %d &quot;, abs(x));
+      arr[abs(x)] = size-arr[abs(x)] ;	//alredy printed value (say x) will become n-(-x) = n+x 
+    }
+  }
+}
+ 
+int main()
+{
+  int arr[] = {6,6,6,3,0,2,2};
+  int arr_size = sizeof(arr)/sizeof(arr[0]);
+  printRepeating(arr, arr_size);
+  getchar();
+  return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-nikhil-agrawal odd alt depth-2" id="dsq-comment-19502">
+        <div id="dsq-comment-header-19502" class="dsq-comment-header">
+            <cite id="dsq-cite-19502">
+                <span id="dsq-author-user-19502">Nikhil Agrawal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19502" class="dsq-comment-body">
+            <div id="dsq-comment-message-19502" class="dsq-comment-message"><p>Java Version for avoiding repeated printing when any element is repeated more than 2 times</p>
+<pre> <code language="Java">
+ public static void duplicates(int input[])
+    {        
+        
+        if(input.length==0) 
+            return ;
+        
+        int i;
+        System.out.println(&quot;\nDuplicate elements:&quot;);
+       for(i=0;i&lt;input.length;i++)
+       {
+         //  v=input[Math.abs(input[i])];
+                     
+          if(Math.abs(input[i])&lt;input.length) 
+          {
+           if(input[Math.abs(input[i])]&lt;=0)
+           {
+               System.out.println(Math.abs(input[i]));
+               input[Math.abs(input[i])]=input.length;
+           }
+           else if(Math.abs(input[i])&lt;input.length &amp;&amp; input[Math.abs(input[i])]==input.length)
+               continue;
+           else
+           input[Math.abs(input[i])]=-input[Math.abs(input[i])];
+          }
+          else
+              continue;
+       }
+        
+    }
+    
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-12552">
+        <div id="dsq-comment-header-12552" class="dsq-comment-header">
+            <cite id="dsq-cite-12552">
+                <span id="dsq-author-user-12552">Sidhant Panda</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12552" class="dsq-comment-body">
+            <div id="dsq-comment-message-12552" class="dsq-comment-message"><p>A better algorithm would be keep on XORing subsequent elements in the array. If the result comes out to be zero, then the element is repeated. So print it. And XOR it with the element again to get a non zero XOR.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-12992">
+        <div id="dsq-comment-header-12992" class="dsq-comment-header">
+            <cite id="dsq-cite-12992">
+                <span id="dsq-author-user-12992">Berkay</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12992" class="dsq-comment-body">
+            <div id="dsq-comment-message-12992" class="dsq-comment-message"><p>It does not work. XOR will only be zero when all elements in the sequence repeated even number of times.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-14365">
+        <div id="dsq-comment-header-14365" class="dsq-comment-header">
+            <cite id="dsq-cite-14365">
+                <span id="dsq-author-user-14365">anonymous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14365" class="dsq-comment-body">
+            <div id="dsq-comment-message-14365" class="dsq-comment-message"><p>yes it will work,when the an element is encountered for the second time it will get printed see this <a href="http://www.geeksforgeeks.org/find-duplicates-in-on-time-and-constant-extra-space/#comment-8146" rel="nofollow">http://www.geeksforgeeks.org/find-duplicates-in-on-time-and-constant-extra-space/#comment-8146</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-10557">
+        <div id="dsq-comment-header-10557" class="dsq-comment-header">
+            <cite id="dsq-cite-10557">
+                <span id="dsq-author-user-10557">vishal ritolia</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10557" class="dsq-comment-body">
+            <div id="dsq-comment-message-10557" class="dsq-comment-message"><p>check the output for this case &#8220;arr[] = {1, 2, 5, 1, 5, 0, 6};&#8221;<br />
+it will not print &#8220;5&#8221; as the repeating element&#8230;</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-10803">
+        <div id="dsq-comment-header-10803" class="dsq-comment-header">
+            <cite id="dsq-cite-10803">
+                <span id="dsq-author-user-10803">Rishabh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10803" class="dsq-comment-body">
+            <div id="dsq-comment-message-10803" class="dsq-comment-message"><p>Yes it didnot work !!!1any explaination?</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-10805">
+        <div id="dsq-comment-header-10805" class="dsq-comment-header">
+            <cite id="dsq-cite-10805">
+                <span id="dsq-author-user-10805">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10805" class="dsq-comment-body">
+            <div id="dsq-comment-message-10805" class="dsq-comment-message"><p>Thanks for pointing this out. The code doesn&#8217;t handle the case with 0 in the array. We have added a note for this. We will update the post with code to handle 0 case also.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-22643">
+        <div id="dsq-comment-header-22643" class="dsq-comment-header">
+            <cite id="dsq-cite-22643">
+                <span id="dsq-author-user-22643">rakitic</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22643" class="dsq-comment-body">
+            <div id="dsq-comment-message-22643" class="dsq-comment-message"><p>what change to be done in algorithm  to handle zeroes too&#8230;??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-9594">
+        <div id="dsq-comment-header-9594" class="dsq-comment-header">
+            <cite id="dsq-cite-9594">
+                <span id="dsq-author-user-9594">Ajit Verma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9594" class="dsq-comment-body">
+            <div id="dsq-comment-message-9594" class="dsq-comment-message"><p>I have an array be {1, 2, 3, 1, 3, 3,0, 6}.The answer should be more duplicate element in array .eg.- {3,3,3}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-9558">
+        <div id="dsq-comment-header-9558" class="dsq-comment-header">
+            <cite id="dsq-cite-9558">
+                <span id="dsq-author-user-9558">nv_vivek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9558" class="dsq-comment-body">
+            <div id="dsq-comment-message-9558" class="dsq-comment-message"><p>the above mentioned logic wont work if the array has 0 in its first index and the array has more than one &#8216;0&#8217; elements in it . eg &#8211; arr[]={0, 2, 3, 1, 3, 0, 5};</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-9579">
+        <div id="dsq-comment-header-9579" class="dsq-comment-header">
+            <cite id="dsq-cite-9579">
+                <span id="dsq-author-user-9579">kamal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9579" class="dsq-comment-body">
+            <div id="dsq-comment-message-9579" class="dsq-comment-message"><p>It&#8217;s a known issue and mentioned in the post.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8359">
+        <div id="dsq-comment-header-8359" class="dsq-comment-header">
+            <cite id="dsq-cite-8359">
+                <span id="dsq-author-user-8359">cracker</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8359" class="dsq-comment-body">
+            <div id="dsq-comment-message-8359" class="dsq-comment-message"><p>But this method alters the original array.. how to fix this and avoid altering the original array ??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8294">
+        <div id="dsq-comment-header-8294" class="dsq-comment-header">
+            <cite id="dsq-cite-8294">
+                <span id="dsq-author-user-8294">abhishek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8294" class="dsq-comment-body">
+            <div id="dsq-comment-message-8294" class="dsq-comment-message"><p>Hi,<br />
+I did not this algo to find the duplicate number. How can abs check helpful for find the duplicate number into n array.</p>
+<p>For Ex: n=5 {1,2,3,3,5} Can we find the duplicate number into above case</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-8295">
+        <div id="dsq-comment-header-8295" class="dsq-comment-header">
+            <cite id="dsq-cite-8295">
+                <span id="dsq-author-user-8295">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8295" class="dsq-comment-body">
+            <div id="dsq-comment-message-8295" class="dsq-comment-message"><p>@abhishek: Take a closer look at the problem statement. The array given by you is not a valid input array. Since n = 5, the elements of array can be from 0 to 4.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-8296">
+        <div id="dsq-comment-header-8296" class="dsq-comment-header">
+            <cite id="dsq-cite-8296">
+http://n/p                <span id="dsq-author-user-8296">abhishek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8296" class="dsq-comment-body">
+            <div id="dsq-comment-message-8296" class="dsq-comment-message"><p>I sincerely apologize but really I could not understand above algo. can you explain little bit more above algorithm</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-8297">
+        <div id="dsq-comment-header-8297" class="dsq-comment-header">
+            <cite id="dsq-cite-8297">
+http://n/p                <span id="dsq-author-user-8297">abhishek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8297" class="dsq-comment-body">
+            <div id="dsq-comment-message-8297" class="dsq-comment-message"><p>@adding small thing. I face same interview question in which he asked me to find out duplicate number from 1 to n.<br />
+ex n=5<br />
+{1,2,3,3,5}<br />
+How can we find the duplicate number in this case</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-5" id="dsq-comment-8299">
+        <div id="dsq-comment-header-8299" class="dsq-comment-header">
+            <cite id="dsq-cite-8299">
+                <span id="dsq-author-user-8299">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8299" class="dsq-comment-body">
+            <div id="dsq-comment-message-8299" class="dsq-comment-message"><p>The basic idea is to use the fact that numbers are in range from 0 to n-1. Possible indexes in the array are also from 0 to n-1. We traverse through the input array and for every element, we use it as index and mark it as visited by making the array value negative at this index. </p>
+<p>For handling you case, you can modify the code to following</p>
+<pre> <code language="C">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+void printRepeating(int arr[], int size)
+{
+  int i;
+  printf(&quot;The repeating elements are: \n&quot;);
+  for(i = 0; i &lt; size; i++)
+  {
+    if(arr[abs(arr[i])-1] &gt;= 0)
+      arr[abs(arr[i])-1] = -arr[abs(arr[i])-1];
+    else
+      printf(&quot; %d &quot;, abs(arr[i]));
+  }
+}
+
+int main()
+{
+  int arr[] = {1, 2, 3, 3, 5};
+  int arr_size = sizeof(arr)/sizeof(arr[0]);
+  printRepeating(arr, arr_size);
+  getchar();
+  return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8182">
+        <div id="dsq-comment-header-8182" class="dsq-comment-header">
+            <cite id="dsq-cite-8182">
+http://avidullu.wordpress.com                <span id="dsq-author-user-8182">Avi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8182" class="dsq-comment-body">
+            <div id="dsq-comment-message-8182" class="dsq-comment-message"><p>Don&#8217;t you think that by modifying the input array you are *actually* using O(n) space? In general, the signature of such a function would be<br />
+void GetDups(const vector&amp; arr, vector* output); and no O(n) memory usage in the function?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8146">
+        <div id="dsq-comment-header-8146" class="dsq-comment-header">
+            <cite id="dsq-cite-8146">
+                <span id="dsq-author-user-8146">sudohack</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8146" class="dsq-comment-body">
+            <div id="dsq-comment-message-8146" class="dsq-comment-message"><p>Space Complexity = O(2) // constant<br />
+time complexity =O(1)</p>
+<p>use two variable to store the result of XOR value of array.<br />
+logic :<br />
+traverse the array for 1 to n and store the their xor in flag1 and flag 2.<br />
+if flag1 ==0 , which tells about repetition ,print a[i].and revert back it by using flag2.// flag1=flag2</p>
+<pre> <code language="C">
+flag1=flag2=0
+for(i=1;i&lt;=n;i++)
+flag1^=a[i];
+if(flag1==0) // which tells about repetition 
+   { print a[i];
+    flag1=flag2;// set back flag1=flag2 ,to revert flag1 back to its previous state
+
+    } else
+   flag2=flag1;
+
+
+
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-agrawal25 even thread-even depth-1" id="dsq-comment-7585">
+        <div id="dsq-comment-header-7585" class="dsq-comment-header">
+            <cite id="dsq-cite-7585">
+                <span id="dsq-author-user-7585">agrawal25</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7585" class="dsq-comment-body">
+            <div id="dsq-comment-message-7585" class="dsq-comment-message"><pre> <code language="C">
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+void printRepeating(int arr[], int size)
+{
+  int i,index=0;
+  printf(&quot;The repeating elements are: \n&quot;);
+  for(i = 0; i &lt; size; i++)
+  {
+ index=abs(arr[i])%size;
+    if(arr[index] == 0)
+       arr[index]=-size;
+    else if(arr[index]&gt;0 &amp;&amp; arr[index]&lt;size){
+      arr[index]+=size;
+      arr[index] = -arr[index];}
+    else if(arr[index]&lt;0)
+      {
+      printf(&quot;%d     %d\n&quot;, abs(arr[i]%size), abs(arr[index])/size+1);
+      arr[index]=-arr[index];
+      arr[index]+=size;
+      arr[index]=-arr[index];
+   
+     }
+  }
+  //restore previous array/
+  for(i=0;i&lt;size;i++)
+  arr[i]=abs(arr[i])%size;
+}
+ 
+int main()
+{
+  int arr[] = {1, 1,1,1,1,1,2,2,3,0,0,0};
+  int arr_size = sizeof(arr)/sizeof(arr[0]);
+  printRepeating(arr, arr_size);
+  getchar();
+  return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-9631">
+        <div id="dsq-comment-header-9631" class="dsq-comment-header">
+            <cite id="dsq-cite-9631">
+                <span id="dsq-author-user-9631">Mady</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9631" class="dsq-comment-body">
+            <div id="dsq-comment-message-9631" class="dsq-comment-message"><p>I like your solution. Good work.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-7113">
+        <div id="dsq-comment-header-7113" class="dsq-comment-header">
+            <cite id="dsq-cite-7113">
+                <span id="dsq-author-user-7113">Venkatesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7113" class="dsq-comment-body">
+            <div id="dsq-comment-message-7113" class="dsq-comment-message"><p>This code may not work and overruns array if the is n = 4 and input is 6 4 3 2. arr[abs(arr[i])] = arr[6] // array overrun</p>
+<p>for(i = 0; i = 0)<br />
+      arr[abs(arr[i])] = -arr[abs(arr[i])];<br />
+    else<br />
+      printf(&#8221; %d &#8220;, abs(arr[i]));<br />
+  }</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik odd alt depth-2" id="dsq-comment-7114">
+        <div id="dsq-comment-header-7114" class="dsq-comment-header">
+            <cite id="dsq-cite-7114">
+                <span id="dsq-author-user-7114">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7114" class="dsq-comment-body">
+            <div id="dsq-comment-message-7114" class="dsq-comment-message"><p>@Venkatesh:</p>
+<p>The input given by you is not a valid input.  Take a closer look at the problem statement.  It clearly says: &#8220;array of n elements must contain elements from 0 to n-1&#8243;</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-7116">
+        <div id="dsq-comment-header-7116" class="dsq-comment-header">
+            <cite id="dsq-cite-7116">
+                <span id="dsq-author-user-7116">Venkatesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7116" class="dsq-comment-body">
+            <div id="dsq-comment-message-7116" class="dsq-comment-message"><p>My bad. Thanks kartik for the clarification.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-6286">
+        <div id="dsq-comment-header-6286" class="dsq-comment-header">
+            <cite id="dsq-cite-6286">
+                <span id="dsq-author-user-6286">kamlesh meghwal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6286" class="dsq-comment-body">
+            <div id="dsq-comment-message-6286" class="dsq-comment-message"><p>It says no. can be repeated any no. of times . But program given above on input of {4,4,4} gives output {4,4}.Should not it give just 4????</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik even depth-2" id="dsq-comment-6308">
+        <div id="dsq-comment-header-6308" class="dsq-comment-header">
+            <cite id="dsq-cite-6308">
+                <span id="dsq-author-user-6308">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6308" class="dsq-comment-body">
+            <div id="dsq-comment-message-6308" class="dsq-comment-message"><p>4 is repeated two times, that is why u get 4 two times.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-5079">
+        <div id="dsq-comment-header-5079" class="dsq-comment-header">
+            <cite id="dsq-cite-5079">
+                <span id="dsq-author-user-5079">Manna</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5079" class="dsq-comment-body">
+            <div id="dsq-comment-message-5079" class="dsq-comment-message"><p>void findDuplicate(int *arr, int size) {<br />
+  int i , zeroCount = 0 , index ;<br />
+  for ( i = 0 ; i  0 &amp;&amp; arr[index] &lt; size )<br />
+      arr[index] = &#8211; arr[index] ;<br />
+    else {<br />
+         if ( arr[index]  1 )<br />
+    printf ( &#8221;  0&#8243;) ;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-4738">
+        <div id="dsq-comment-header-4738" class="dsq-comment-header">
+            <cite id="dsq-cite-4738">
+                <span id="dsq-author-user-4738">Lavanya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4738" class="dsq-comment-body">
+            <div id="dsq-comment-message-4738" class="dsq-comment-message"><p>Hi<br />
+I&#8217;ve a code here which displays both the repeated elements and their number of occurrences and replaces the array at last.<br />
+main()<br />
+{<br />
+  int a[30],n,j,index;<br />
+  scanf(&#8220;%d&#8221;,&amp;n);<br />
+  for(int i=0;i&lt;n;i++)<br />
+  scanf(&quot;%d&quot;,&amp;a[i]);<br />
+  for(int i=0;i&lt;n;i++)<br />
+  {<br />
+          index=a[i]%n;<br />
+          a[index]+=n;<br />
+          }<br />
+    for(int i=0;in &amp;&amp; (a[index]/n)&gt;1 )<br />
+                         { printf(&#8220;\n%d repeated %d times:&#8221;,index,a[index]/n);<br />
+                         a[index]%=n;<br />
+                         }<br />
+                          }<br />
+                          getch();<br />
+                          }<br />
+Correct me if i&#8217;m wrong.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-9585">
+        <div id="dsq-comment-header-9585" class="dsq-comment-header">
+            <cite id="dsq-cite-9585">
+                <span id="dsq-author-user-9585">Keshav_singla</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9585" class="dsq-comment-body">
+            <div id="dsq-comment-message-9585" class="dsq-comment-message"><p>correct</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-14364">
+        <div id="dsq-comment-header-14364" class="dsq-comment-header">
+            <cite id="dsq-cite-14364">
+                <span id="dsq-author-user-14364">anonymous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14364" class="dsq-comment-body">
+            <div id="dsq-comment-message-14364" class="dsq-comment-message"><p>remove this check (a[index]/n)&gt;1 and put it inside the loop<br />
+otherwise loop may get break in between 0 to n if the check results false<br />
+for(int i=0;i1 )</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-4681">
+        <div id="dsq-comment-header-4681" class="dsq-comment-header">
+            <cite id="dsq-cite-4681">
+                <span id="dsq-author-user-4681">Gaurav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4681" class="dsq-comment-body">
+            <div id="dsq-comment-message-4681" class="dsq-comment-message"><p>Hi,<br />
+What if i also want the number of occurrences of the duplicates in the same o(n) time and o(1) space.is there a way to do this by modifying the array?</p>
+<p>Gaurav</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-4680">
+        <div id="dsq-comment-header-4680" class="dsq-comment-header">
+            <cite id="dsq-cite-4680">
+                <span id="dsq-author-user-4680">Gaurav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4680" class="dsq-comment-body">
+            <div id="dsq-comment-message-4680" class="dsq-comment-message"><p>Hi Sandeep,<br />
+I came across similar question in an interview.The question is how can also find the number of times the duplicates are repeated in the same O(n)time and O(1) space?How to modify the exisiting array in that case.</p>
+<p>Gaurav</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-9379">
+        <div id="dsq-comment-header-9379" class="dsq-comment-header">
+            <cite id="dsq-cite-9379">
+                <span id="dsq-author-user-9379">amitp49</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9379" class="dsq-comment-body">
+            <div id="dsq-comment-message-9379" class="dsq-comment-message"><p>To find out how many times repeated occurance,<br />
+-&gt; add size of array to element rather than just making it negative while scanning.. care should be taken while reading this modified element using modulo by size<br />
+-&gt; second scan to get the count and divide by size each element</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-mastermind even thread-odd thread-alt depth-1" id="dsq-comment-4472">
+        <div id="dsq-comment-header-4472" class="dsq-comment-header">
+            <cite id="dsq-cite-4472">
+http://sachinguptacse.blogspot.com/                <span id="dsq-author-user-4472">sachin gupta MNNIT</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4472" class="dsq-comment-body">
+            <div id="dsq-comment-message-4472" class="dsq-comment-message"><pre> <code language="C">
+/* the above solution print for arr[]={1,1,1,2,2,2}
+  output 1 ,1,2,2;
+i am giving a solution which will print repeated element once and handle case of 0 
+ &lt;hapysachin91@gmail.com&gt;
+  */
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+void printRepeating(int arr[], int size)
+{
+  int i,index=0;
+  printf(&quot;The repeating elements are: \n&quot;);
+  for(i = 0; i &lt; size; i++)
+  { 
+ index=abs(arr[i])%size;
+    if(arr[index] == 0)
+       arr[index]=-size;
+    else if(arr[index]&gt;0 &amp;&amp; arr[index]&lt;size)
+      arr[index] = -arr[index];
+    else if(arr[index]&lt;0)
+      {
+      printf(&quot; %d &quot;, abs(arr[i]));
+      arr[index]=-arr[index];
+      arr[index]+=size;
+     }
+  }
+  //restore previous array
+  for(i=0;i&lt;size;i++)
+  arr[i]=abs(arr[i])%size;
+}
+ 
+int main()
+{
+  int arr[] = {1, 1,1,1,1,1,2,2,3,0,0,0};
+  int arr_size = sizeof(arr)/sizeof(arr[0]);
+  printRepeating(arr, arr_size);
+  getchar();
+  return 0;
+}
+</code> </pre>
+<p><a href="http://sachinguptacse.blogspot.com/" rel="nofollow"></a></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-4819">
+        <div id="dsq-comment-header-4819" class="dsq-comment-header">
+            <cite id="dsq-cite-4819">
+                <span id="dsq-author-user-4819">Arvind Mohan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4819" class="dsq-comment-body">
+            <div id="dsq-comment-message-4819" class="dsq-comment-message"><p>What if there is only repeating number which is greater than size of array.<br />
+suppose {6,6,6,6,6} and also with less number of 6&#8217;s.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-5001">
+        <div id="dsq-comment-header-5001" class="dsq-comment-header">
+            <cite id="dsq-cite-5001">
+                <span id="dsq-author-user-5001">Fanendra Nath Tripathi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5001" class="dsq-comment-body">
+            <div id="dsq-comment-message-5001" class="dsq-comment-message"><p>In this case this approach will fail</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-3" id="dsq-comment-5564">
+        <div id="dsq-comment-header-5564" class="dsq-comment-header">
+            <cite id="dsq-cite-5564">
+                <span id="dsq-author-user-5564">nikhil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5564" class="dsq-comment-body">
+            <div id="dsq-comment-message-5564" class="dsq-comment-message"><p>the question says number must be less than or equal to the size of array&#8230;in ur case size is 5 and 6&gt;5</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-agrawal25 even depth-2" id="dsq-comment-7586">
+        <div id="dsq-comment-header-7586" class="dsq-comment-header">
+            <cite id="dsq-cite-7586">
+                <span id="dsq-author-user-7586">agrawal25</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7586" class="dsq-comment-body">
+            <div id="dsq-comment-message-7586" class="dsq-comment-message"><p>#include<stdio .h><br />
+#include<stdlib .h><br />
+void printRepeating(int arr[], int size)<br />
+{<br />
+  int i,index=0;<br />
+  printf(&#8220;The repeating elements are: \n&#8221;);<br />
+  for(i = 0; i < size; i++)<br />
+  {<br />
+ index=abs(arr[i])%size;<br />
+    if(arr[index] == 0)<br />
+       arr[index]=-size;<br />
+    else if(arr[index]>0 &#038;&#038; arr[index]<size){<br />
+      arr[index]+=size;<br />
+      arr[index] = -arr[index];}<br />
+    else if(arr[index]&lt;0)<br />
+      {<br />
+      printf(&#8220;%d     %d\n&#8221;, abs(arr[i]%size), abs(arr[index])/size+1);<br />
+      arr[index]=-arr[index];<br />
+      arr[index]+=size;<br />
+      arr[index]=-arr[index];</p>
+<p>     }<br />
+  }<br />
+  //restore previous array/<br />
+  for(i=0;i<size;i++)<br />
+  arr[i]=abs(arr[i])%size;<br />
+}</p>
+<p>int main()<br />
+{<br />
+  int arr[] = {1, 1,1,1,1,1,2,2,3,0,0,0};<br />
+  int arr_size = sizeof(arr)/sizeof(arr[0]);<br />
+  printRepeating(arr, arr_size);<br />
+  getchar();<br />
+  return 0;<br />
+}</stdlib></stdio></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3227">
+        <div id="dsq-comment-header-3227" class="dsq-comment-header">
+            <cite id="dsq-cite-3227">
+                <span id="dsq-author-user-3227">Mohit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3227" class="dsq-comment-body">
+            <div id="dsq-comment-message-3227" class="dsq-comment-message"><p>we can use inplace counting sort here ?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-3535">
+        <div id="dsq-comment-header-3535" class="dsq-comment-header">
+            <cite id="dsq-cite-3535">
+                <span id="dsq-author-user-3535">R.Srinivasan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3535" class="dsq-comment-body">
+            <div id="dsq-comment-message-3535" class="dsq-comment-message"><p>The important advantage of this algo is that the &#8220;array is restored back to its original&#8221; although it is modified.</p>
+<p>It also places the elements where it belongs i.e initial sublist is sorted.</p>
+<p>Run Time Complexity: 0(n)<br />
+Space Somplexity: 0(1)</p>
+<pre> <code language="C">
+//The important advantage of this algo is that the &quot;array is restored back to its original&quot; although it is modified.
+ 
+//It also places the elements where it belongs i.e initial sublist is sorted.
+ 
+//It also handles 0 case
+ 
+#include &lt;stdio.h&gt;
+ 
+void swap(int *p,int *q)
+{
+     int temp;
+     temp=*p;
+     *p=*q;
+     *q=temp;
+}   
+ 
+void printRepeating(int arr[], int size)
+{
+   int i,j;
+ 
+   for(i=0;i&lt;size;i++)
+       while(arr[i]!=i)
+          if(arr[i]!=arr[arr[i]])
+               swap(&amp;arr[i],&amp;arr[arr[i]]);
+          else
+                break;
+    //Initial sublist is sorted
+    for(i=0;i&lt;size-1&amp;&amp;arr[i]&lt;arr[i+1];i++,j=i) ;
+ 
+    if(i==size-1)
+    {
+        printf(&quot;There are no repeating elements\n&quot;);
+        return;
+    }
+    else
+        printf(&quot;The repeating elements are: &quot;);              
+ 
+    //Printing duplicates
+    for(i=i+1;i&lt;size;i++)
+    {
+       if(arr[i]!=i &amp;&amp; arr[arr[i]]&gt;=0 &amp;&amp; arr[i]==arr[arr[i]])
+       {
+          printf(&quot;%d &quot;,arr[i]);
+          arr[arr[i]]=-1;
+       }
+    }
+    //Restoring to oirginal
+    for(i=0;i&lt;=j;i++)
+       if(arr[i] == -1) arr[i]=i;
+}                                       
+ 
+void printArray(int a[],int size)
+{
+     int i;
+     for(i=0;i&lt;size;i++)
+        printf(&quot;%d &quot;,a[i]);
+     printf(&quot;\n&quot;);
+}        
+ 
+int main()
+{
+    int arr[] = {1, 2, 3, 1, 3, 0, 6};
+    int arr_size = sizeof(arr)/sizeof(arr[0]);
+    printRepeating(arr, arr_size);
+    printf(&quot;\nIt also places the elements where it belongs i.e initial sublist is sorted\n&quot;);
+    printArray(arr,arr_size);
+ 
+    getchar();
+    return 0;
+}                           
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2842">
+        <div id="dsq-comment-header-2842" class="dsq-comment-header">
+            <cite id="dsq-cite-2842">
+                <span id="dsq-author-user-2842">Ratnakar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2842" class="dsq-comment-body">
+            <div id="dsq-comment-message-2842" class="dsq-comment-message"><p>Sandeep<br />
+if the array is like [255,284,289,256,284,289]<br />
+i hope this logic will not work</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-sandeep even depth-2" id="dsq-comment-2849">
+        <div id="dsq-comment-header-2849" class="dsq-comment-header">
+            <cite id="dsq-cite-2849">
+                <span id="dsq-author-user-2849">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2849" class="dsq-comment-body">
+            <div id="dsq-comment-message-2849" class="dsq-comment-message"><p>@Ratnakar: Please take a closer look at the question statement. The array [255,284,289,256,284,289] is not a valid input.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2834">
+        <div id="dsq-comment-header-2834" class="dsq-comment-header">
+            <cite id="dsq-cite-2834">
+                <span id="dsq-author-user-2834">kk</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2834" class="dsq-comment-body">
+            <div id="dsq-comment-message-2834" class="dsq-comment-message"><p>What if the array has an element like 2020,<br />
+then we will store something like<br />
+arr[2020] = -2020 , what happens to the memory allocation??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2717">
+        <div id="dsq-comment-header-2717" class="dsq-comment-header">
+            <cite id="dsq-cite-2717">
+                <span id="dsq-author-user-2717">Lakshmi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2717" class="dsq-comment-body">
+            <div id="dsq-comment-message-2717" class="dsq-comment-message"><p>This input will give an undesirable output.<br />
+input:1 2 2 5 3 5 5<br />
+the output must be: 2 5<br />
+but the obtained output is:2 5 5<br />
+In the problem statement it has been specified any number of times. But this output is not the desirable one.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-sandeep odd alt depth-2" id="dsq-comment-2719">
+        <div id="dsq-comment-header-2719" class="dsq-comment-header">
+            <cite id="dsq-cite-2719">
+                <span id="dsq-author-user-2719">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2719" class="dsq-comment-body">
+            <div id="dsq-comment-message-2719" class="dsq-comment-message"><p>Yes, the program prints 5 twice because 5 is repeated 2 times.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2702">
+        <div id="dsq-comment-header-2702" class="dsq-comment-header">
+            <cite id="dsq-cite-2702">
+                <span id="dsq-author-user-2702">gunjan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2702" class="dsq-comment-body">
+            <div id="dsq-comment-message-2702" class="dsq-comment-message"><p>i am getting wrong result for this input<br />
+{1,2,3,4,0,1,1,3}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-sandeep odd alt depth-2" id="dsq-comment-2704">
+        <div id="dsq-comment-header-2704" class="dsq-comment-header">
+            <cite id="dsq-cite-2704">
+                <span id="dsq-author-user-2704">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2704" class="dsq-comment-body">
+            <div id="dsq-comment-message-2704" class="dsq-comment-message"><p>@gunjan:</p>
+<p>Thanks for pointing this out.  There was a typo in program that caused this issue. It should work fine now.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-samujjal even thread-odd thread-alt depth-1" id="dsq-comment-2694">
+        <div id="dsq-comment-header-2694" class="dsq-comment-header">
+            <cite id="dsq-cite-2694">
+                <span id="dsq-author-user-2694">samujjal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2694" class="dsq-comment-body">
+            <div id="dsq-comment-message-2694" class="dsq-comment-message"><p>Ohh Sorry, By Bad.<br />
+Thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-samujjal odd alt thread-even depth-1" id="dsq-comment-2692">
+        <div id="dsq-comment-header-2692" class="dsq-comment-header">
+            <cite id="dsq-cite-2692">
+                <span id="dsq-author-user-2692">samujjal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2692" class="dsq-comment-body">
+            <div id="dsq-comment-message-2692" class="dsq-comment-message"><p>How will it work for negative numbers in the array and sparse numbers like</p>
+<p>10, -4, 4, 5, 900, 21, -2123</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-sandeep even depth-2" id="dsq-comment-2693">
+        <div id="dsq-comment-header-2693" class="dsq-comment-header">
+            <cite id="dsq-cite-2693">
+                <span id="dsq-author-user-2693">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2693" class="dsq-comment-body">
+            <div id="dsq-comment-message-2693" class="dsq-comment-message"><p>Please take a closer look at the problem statement. It says &#8220;<em>Given an array of n elements which contains elements from 0 to n-1, with any of these numbers appearing any number of times&#8221;</em></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-2724">
+        <div id="dsq-comment-header-2724" class="dsq-comment-header">
+            <cite id="dsq-cite-2724">
+                <span id="dsq-author-user-2724">nutcracker</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2724" class="dsq-comment-body">
+            <div id="dsq-comment-message-2724" class="dsq-comment-message"><p>How would case of zero be handled, imagine that the array is {0,0} ?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-2725">
+        <div id="dsq-comment-header-2725" class="dsq-comment-header">
+            <cite id="dsq-cite-2725">
+                <span id="dsq-author-user-2725">nutcracker</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2725" class="dsq-comment-body">
+            <div id="dsq-comment-message-2725" class="dsq-comment-message"><p>in case the element is zero, we can change it to n and then the code would look like</p>
+<pre> <code language="C">
+int _tmain(int argc, _TCHAR* argv[])
+{ /*This program can't handle the case for 0  as 0 can't be made negative*/
+
+	int a[]={1,2,1,0,3,4,5,0};
+	int numOfEle=8;
+	for (int i=0;i0) &amp;&amp; (a[abs(a[i])] &lt; numOfEle)) /*the lement is not marked negative and hence is not duplicate*/
+			a[abs(a[i])]= -a[abs(a[i])];
+		else if (a[abs(a[i])] == 0) a[abs(a[i])]= numOfEle;
+		else
+		{
+			/* Since it is negative, it is reoccuring*/
+			printf(&quot;\n    %d is a duplicate element&quot;, abs(a[i]));
+		}
+	}
+	return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-kartik odd alt depth-4" id="dsq-comment-2733">
+        <div id="dsq-comment-header-2733" class="dsq-comment-header">
+            <cite id="dsq-cite-2733">
+                <span id="dsq-author-user-2733">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2733" class="dsq-comment-body">
+            <div id="dsq-comment-message-2733" class="dsq-comment-message"><p>@nutcracker: following is a simpler modification. </p>
+<pre> <code language="C">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+ 
+void printRepeating(int arr[], int size)
+{
+  int i;
+  printf(&quot;The repeating elements are: \n&quot;);
+  for(i = 0; i &lt; size; i++)
+  {
+    if(arr[abs(arr[i])] &gt;= 0)
+    {
+      if(arr[i] == 0)                  
+        arr[0] = -size; //put some negative value, could be anything negative
+      else  
+        arr[abs(arr[i])] = -arr[abs(arr[i])];
+    }  
+    else
+      printf(&quot; %d &quot;, abs(arr[i]));
+  }
+}
+ 
+int main()
+{
+  int arr[] = {0, 0};
+  int arr_size = sizeof(arr)/sizeof(arr[0]);
+  printRepeating(arr, arr_size);
+  getchar();
+  return 0;
+}</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-5" id="dsq-comment-3102">
+        <div id="dsq-comment-header-3102" class="dsq-comment-header">
+            <cite id="dsq-cite-3102">
+                <span id="dsq-author-user-3102">Anil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3102" class="dsq-comment-body">
+            <div id="dsq-comment-message-3102" class="dsq-comment-message"><p>@Kartik:</p>
+<p>For an input : {1,0,1}, this algorithm goes wrong.</p>
+<p>Please Correct me if I am wrong.<br />
+Best.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-5" id="dsq-comment-3274">
+        <div id="dsq-comment-header-3274" class="dsq-comment-header">
+            <cite id="dsq-cite-3274">
+                <span id="dsq-author-user-3274">Sreeram</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3274" class="dsq-comment-body">
+            <div id="dsq-comment-message-3274" class="dsq-comment-message"><p>In order to address the issue of 0 appearing as an input, what if we go ahead and add 1 to all elements of the list.</p>
+<p>Then, we can follow the above method, but adjusting it to the fact that we have added a 1. Thus:</p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;  
+void printRepeating(int arr[], int size) 
+{
+   int i;
+   for(i = 0; i &lt; size; i++)
+   {
+	arr[i]++;
+   }
+
+   printf(&quot;The repeating elements are: \n&quot;);
+
+   for(i = 0; i  0)
+       arr[abs(arr[i]) - 1] = -arr[abs(arr[i]) - 1];
+     else
+      printf(&quot; %d &quot;, abs(arr[i])-1);
+   }
+ }
+
+int main()
+{
+   int arr[] = {1, 2, 3, 1, 3, 0, 6};
+   int arr_size = sizeof(arr)/sizeof(arr[0]);
+   printRepeating(arr, arr_size);
+   getchar();
+   return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/find-duplicates-in-on-time-and-constant-extra-space/';
+var disqus_identifier = '9755 http://geeksforgeeks.org/?p=9755';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Find duplicates in O(n) time and O(1) extra space";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.247 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:24:39 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

@@ -1,0 +1,2938 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Length of the longest substring without repeating characters - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/length-of-the-longest-substring-without-repeating-characters/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Length of the longest substring without repeating characters - GeeksforGeeks" />
+<meta property="og:description" content="Given a string, find the length of the longest substring without repeating characters. For example, the longest substrings without repeating characters for “ABDEFGABEF” are “BDEFGA” and &#8220;DEFGAB&#8221;, with length 6. For “BBBB” the longest substring is “B”, with length 1. For &#8220;GEEKSFORGEEKS&#8221;, there are two longest substrings shown in the below diagrams, with length 7. &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/length-of-the-longest-substring-without-repeating-characters/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Dynamic Programming" />
+<meta property="article:section" content="Strings" />
+<meta property="article:published_time" content="2011-12-02T11:42:12+00:00" />
+<meta property="article:modified_time" content="2012-11-03T17:57:58+00:00" />
+<meta property="og:updated_time" content="2012-11-03T17:57:58+00:00" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/unique_char_substr.png" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/unique_char_substr2.png" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/unique_char_substr3.png" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.487 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417112214 122.161.79.120';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Length of the longest substring without repeating characters</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given a string, find the length of the longest substring without repeating characters. For example, <span id="more-15859"></span>the longest substrings without repeating characters for “ABDEFGABEF” are “BDEFGA” and &#8220;DEFGAB&#8221;, with length 6. For “BBBB” the longest substring is “B”, with length 1. For &#8220;GEEKSFORGEEKS&#8221;, there are two longest substrings shown in the below diagrams, with length 7. </p>
+<p><a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/unique_char_substr.png"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/unique_char_substr.png" alt="" title="unique_char_substr" width="400" height="80" class="aligncenter size-full wp-image-16009" /></a><br />
+<a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/unique_char_substr2.png"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/unique_char_substr2.png" alt="" title="unique_char_substr2" width="400" height="80" class="aligncenter size-full wp-image-16021" /></a><br />
+<a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/unique_char_substr3.png"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/unique_char_substr3.png" alt="" title="unique_char_substr3" width="400" height="80" class="aligncenter size-full wp-image-16022" /></a></p>
+<p>The desired time complexity is O(n) where n is the length of the string.</p>
+<p><strong>Method 1 (Simple)</strong><br />
+We can consider all substrings one by one and check for each substring whether it contains all unique characters or not. There will be n*(n+1)/2 substrings. Whether a substirng contains all unique characters or not can be checked in linear time by scanning it from left to right and keeping a map of visited characters. Time complexity of this solution would be O(n^3).</p>
+<p><strong>Method 2 (Linear Time)</strong><br />
+Let us talk about the linear time solution now. This solution uses extra space to store the last indexes of already visited characters.  The idea is to scan the string from left to right, keep track of the maximum length Non-Repeating Character Substring (NRCS) seen so far.  Let the maximum length be max_len.  When we traverse the string, we also keep track of length of the current NRCS using cur_len variable.  For every new character, we look for it in already processed part of the string (A temp array called visited[] is used for this purpose). If it is not present, then we increase the cur_len by 1.  If present, then there are two cases:</p>
+<p><strong>a)</strong> The previous instance of character is not part of current NRCS (The NRCS which is under process). In this case, we need to simply increase cur_len by 1.<br />
+<strong>b) </strong>If the previous instance is part of the current NRCS, then our current NRCS changes. It becomes the substring staring from the next character of previous instance to currently scanned character.  We also need to compare cur_len and max_len, before changing current NRCS (or changing cur_len).</p>
+<p><strong>Implementation</strong></p>
+<pre class="brush: cpp; highlight: [7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58]; title: ; notranslate" title="">
+#include&lt;stdlib.h&gt;
+#include&lt;stdio.h&gt;
+#define NO_OF_CHARS 256
+
+int min(int a, int b);
+
+int longestUniqueSubsttr(char *str)
+{
+    int n = strlen(str);
+    int cur_len = 1;  // To store the lenght of current substring
+    int max_len = 1;  // To store the result
+    int prev_index;  // To store the previous index
+    int i;
+    int *visited = (int *)malloc(sizeof(int)*NO_OF_CHARS);
+
+    /* Initialize the visited array as -1, -1 is used to indicate that
+       character has not been visited yet. */
+    for (i = 0; i &lt; NO_OF_CHARS;  i++)
+        visited[i] = -1;
+
+    /* Mark first character as visited by storing the index of first 
+       character in visited array. */
+    visited[str[0]] = 0;
+
+    /* Start from the second character. First character is already processed
+       (cur_len and max_len are initialized as 1, and visited[str[0]] is set */
+    for (i = 1; i &lt; n; i++)
+    {
+        prev_index =  visited[str[i]];
+
+        /* If the currentt character is not present in the already processed
+           substring or it is not part of the current NRCS, then do cur_len++ */
+        if (prev_index == -1 || i - cur_len &gt; prev_index)
+            cur_len++;
+
+        /* If the current character is present in currently considered NRCS,
+           then update NRCS to start from the next character of previous instance. */
+        else
+        {
+            /* Also, when we are changing the NRCS, we should also check whether 
+              length of the previous NRCS was greater than max_len or not.*/
+            if (cur_len &gt; max_len)
+                max_len = cur_len;
+
+            cur_len = i - prev_index;
+        }
+
+        visited[str[i]] = i; // update the index of current character
+    }
+
+    // Compare the length of last NRCS with max_len and update max_len if needed
+    if (cur_len &gt; max_len)
+        max_len = cur_len;
+
+
+    free(visited); // free memory allocated for visited
+
+    return max_len;
+}
+
+/* A utility function to get the minimum of two integers */
+int min(int a, int b)
+{
+    return (a&gt;b)?b:a;
+}
+
+/* Driver program to test above function */
+int main()
+{
+    char str[] = &quot;ABDEFGABEF&quot;;
+    printf(&quot;The input string is %s \n&quot;, str);
+    int len =  longestUniqueSubsttr(str);
+    printf(&quot;The length of the longest non-repeating character substring is %d&quot;, len);
+
+    getchar();
+    return 0;
+}
+</pre>
+<p><strong>Output</strong></p>
+<pre>
+  The input string is ABDEFGABEF
+  The length of the longest non-repeating character substring is 6
+</pre>
+<p><strong>Time Complexity:</strong>  O(n + d) where n is length of the input string and d is number of characters in input string alphabet. For example, if string consists of lowercase English characters then value of d is 26.<br />
+<strong>Auxiliary Space:</strong> O(d)<br />
+<strong>Algorithmic Paradigm:</strong> Dynamic Programming</p>
+<p>As an exercise, try the modified version of the above problem where you need to print the maximum length NRCS also (the above program only prints length of it).</p>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-5-longest-common-substring-2/" title="Suffix Tree Application 5 &#8211; Longest Common Substring">Suffix Tree Application 5 &#8211; Longest Common Substring</a></li><li><a href="http://www.geeksforgeeks.org/generalized-suffix-tree-1/" title="Generalized Suffix Tree 1">Generalized Suffix Tree 1</a></li><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-4-build-linear-time-suffix-array/" title="Suffix Tree Application 4 &#8211; Build Linear Time Suffix Array">Suffix Tree Application 4 &#8211; Build Linear Time Suffix Array</a></li><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-3-longest-repeated-substring/" title="Suffix Tree Application 3 &#8211; Longest Repeated Substring">Suffix Tree Application 3 &#8211; Longest Repeated Substring</a></li><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-2-searching-all-patterns/" title="Suffix Tree Application 2 &#8211; Searching All Patterns">Suffix Tree Application 2 &#8211; Searching All Patterns</a></li><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-1-substring-check/" title="Suffix Tree Application 1 &#8211; Substring Check">Suffix Tree Application 1 &#8211; Substring Check</a></li><li><a href="http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-6/" title="Ukkonen&#8217;s Suffix Tree Construction &#8211; Part 6">Ukkonen&#8217;s Suffix Tree Construction &#8211; Part 6</a></li><li><a href="http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-5/" title="Ukkonen&#8217;s Suffix Tree Construction &#8211; Part 5">Ukkonen&#8217;s Suffix Tree Construction &#8211; Part 5</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/dynamic-programming/" rel="tag">Dynamic Programming</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Flength-of-the-longest-substring-without-repeating-characters%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/length-of-the-longest-substring-without-repeating-characters/" data-text="Length of the longest substring without repeating characters" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/length-of-the-longest-substring-without-repeating-characters/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-34629">
+        <div id="dsq-comment-header-34629" class="dsq-comment-header">
+            <cite id="dsq-cite-34629">
+                <span id="dsq-author-user-34629">Ashish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34629" class="dsq-comment-body">
+            <div id="dsq-comment-message-34629" class="dsq-comment-message"><p>The longest NRCS can be printed by code at below link:<br />
+<a href="http://ideone.com/FFQRkw" rel="nofollow">http://ideone.com/FFQRkw</a></p>
+<p>Plz point out if any mistake&#8230;&#8230;.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-34504">
+        <div id="dsq-comment-header-34504" class="dsq-comment-header">
+            <cite id="dsq-cite-34504">
+                <span id="dsq-author-user-34504">Mohaan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34504" class="dsq-comment-body">
+            <div id="dsq-comment-message-34504" class="dsq-comment-message"><p>We can print and count like below.. If any mistake please specify&#8230;</p>
+<p><a href="http://ideone.com/IFZygQ" rel="nofollow">http://ideone.com/IFZygQ</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-33939">
+        <div id="dsq-comment-header-33939" class="dsq-comment-header">
+            <cite id="dsq-cite-33939">
+                <span id="dsq-author-user-33939">Srikant Aggarwal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33939" class="dsq-comment-body">
+            <div id="dsq-comment-message-33939" class="dsq-comment-message"><p>This is giving wrong answer for ABCDEFCGHIJB</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-34185">
+        <div id="dsq-comment-header-34185" class="dsq-comment-header">
+            <cite id="dsq-cite-34185">
+                <span id="dsq-author-user-34185">mccullum</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34185" class="dsq-comment-body">
+            <div id="dsq-comment-message-34185" class="dsq-comment-message"><p>its 9 correct</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-33729">
+        <div id="dsq-comment-header-33729" class="dsq-comment-header">
+            <cite id="dsq-cite-33729">
+                <span id="dsq-author-user-33729">shan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33729" class="dsq-comment-body">
+            <div id="dsq-comment-message-33729" class="dsq-comment-message"><p>A very simple solution to check and find longest substring is </p>
+<p>#include</p>
+<p>using namespace std;</p>
+<p>int main()</p>
+<p>{</p>
+<p>    char s[]=&#8221;geeksforgeeks&#8221;;</p>
+<p>    bool visited[26]={false};</p>
+<p>    int max=INT_MIN,count=0,i=0;</p>
+<p>    while(s[i]!=&#8221;)</p>
+<p>    {</p>
+<p>        if(visited[s[i]-&#8216;a&#8217;]==false)</p>
+<p>        {</p>
+<p>            visited[s[i]-&#8216;a&#8217;]=true;</p>
+<p>            count++;</p>
+<p>        }</p>
+<p>        else{</p>
+<p>            memset(visited,false,sizeof(visited));</p>
+<p>            count=1;</p>
+<p>            visited[s[i]-&#8216;a&#8217;]=true;</p>
+<p>        }</p>
+<p>        if(count&gt;max)</p>
+<p>            max=count;</p>
+<p>         i++;</p>
+<p>    }</p>
+<p>    cout&lt;&lt;max;</p>
+<p>    return 0;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-32838">
+        <div id="dsq-comment-header-32838" class="dsq-comment-header">
+            <cite id="dsq-cite-32838">
+                <span id="dsq-author-user-32838">prashant jha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32838" class="dsq-comment-body">
+            <div id="dsq-comment-message-32838" class="dsq-comment-message"><p>here is the 0(nlogn) complexity using divide and conquer approach<br />
+<a href="http://ideone.com/eDWtc8" rel="nofollow">http://ideone.com/eDWtc8</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-31858">
+        <div id="dsq-comment-header-31858" class="dsq-comment-header">
+            <cite id="dsq-cite-31858">
+                <span id="dsq-author-user-31858">Yogendra Singh Vimal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31858" class="dsq-comment-body">
+            <div id="dsq-comment-message-31858" class="dsq-comment-message"><p>#include</p>
+<p>#include</p>
+<p>#include</p>
+<p>#define MAX 256</p>
+<p>int lsubstring(char *s)</p>
+<p>{</p>
+<p>	int count[MAX][2]={{0}};</p>
+<p>	int MLEN=0,CLEN=0,i,j,ptr=0;</p>
+<p>	for(i=0;*(s+i);i++)</p>
+<p>	{</p>
+<p>		if(count[*(s+i)][0]==0)</p>
+<p>		{</p>
+<p>			count[*(s+i)][0]=1;</p>
+<p>			count[*(s+i)][1]=i;</p>
+<p>			CLEN++;</p>
+<p>		}</p>
+<p>		else</p>
+<p>		{</p>
+<p>			if(count[*(s+i)][1]&gt;=ptr)</p>
+<p>			{</p>
+<p>				if(CLEN&gt;MLEN)</p>
+<p>					MLEN=CLEN;</p>
+<p>				ptr=count[*(s+i)][1]+1;</p>
+<p>				CLEN=i-count[*(s+i)][1];</p>
+<p>				count[*(s+i)][1]=i;	</p>
+<p>			}</p>
+<p>			else</p>
+<p>			{</p>
+<p>				count[*(s+i)][1]=i;</p>
+<p>				CLEN++;</p>
+<p>			}</p>
+<p>		}</p>
+<p>	}</p>
+<p>	return (CLEN&gt;MLEN)?CLEN:MLEN;</p>
+<p>}</p>
+<p>int main()</p>
+<p>{</p>
+<p>	char *s=&#8221;abcdaefghijklmnopqrstuvwxyz&#8221;;</p>
+<p>	printf(&#8220;nInput String is %s&#8221;,s);</p>
+<p>	int len=lsubstring(s);</p>
+<p>	printf(&#8220;nThe length of longest substring is %d&#8221;,len);</p>
+<p>	return 0;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-30673">
+        <div id="dsq-comment-header-30673" class="dsq-comment-header">
+            <cite id="dsq-cite-30673">
+                <span id="dsq-author-user-30673">Harjit Singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30673" class="dsq-comment-body">
+            <div id="dsq-comment-message-30673" class="dsq-comment-message"><p>This is wrong. We have to use array of size equal to string size in stead of 256. It is giving wrong result.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-28257">
+        <div id="dsq-comment-header-28257" class="dsq-comment-header">
+            <cite id="dsq-cite-28257">
+                <span id="dsq-author-user-28257">navneet goel</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28257" class="dsq-comment-body">
+            <div id="dsq-comment-message-28257" class="dsq-comment-message"><p>In the 2nd method program, run for the input string &#8220;geeksforkgeeks&#8221;. here it shows output as &#8220;The length of the longest non-repeating character substring is 7&#8243; though here longest non repeating character substring is 5 (from k of geeks to k of fork).<br />
+Please correct me if i am wrong.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-31622">
+        <div id="dsq-comment-header-31622" class="dsq-comment-header">
+            <cite id="dsq-cite-31622">
+                <span id="dsq-author-user-31622">chen</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31622" class="dsq-comment-body">
+            <div id="dsq-comment-message-31622" class="dsq-comment-message"><p>sforkge</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-28022">
+        <div id="dsq-comment-header-28022" class="dsq-comment-header">
+            <cite id="dsq-cite-28022">
+                <span id="dsq-author-user-28022">vikram</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28022" class="dsq-comment-body">
+            <div id="dsq-comment-message-28022" class="dsq-comment-message"><p>reposting&#8230;.<br />
+Code for printing the longest unique sub string. Also prints all the unique strings of same length.<br />
+Please correct me, if something is wrong. Also please share if someone has better code.</p>
+<p><code><br />
+#include "stdafx.h"<br />
+#include &lt;iostream&gt;<br />
+using namespace std;<br />
+int LongestUniqueSubString(char *str)<br />
+{<br />
+	if(str == 0)<br />
+		return 0;<br />
+	cout &lt;&lt; &quot;Input string = &quot; &lt;&lt; str &lt;&lt; &quot;n&quot;;<br />
+	/*save the latest index at the character position*/<br />
+	int charIdx[256];<br />
+	for(int i=0; i = s) {<br />
+			if(e-s+1 == fc) { /*track equal longest unique strings*/<br />
+				++fi;<br />
+				fs[fi] = s;<br />
+				fe[fi] = e;<br />
+			}else if(e-s+1 &gt; fc) { /*update longest unique string*/<br />
+				fc=e-s+1;<br />
+				fs[0]=s;<br />
+				fe[0]=e;<br />
+				fi=0;<br />
+			}<br />
+			s = charIdx + 1; //move the start mark to next position.<br />
+		}<br />
+		charIdx = i;<br />
+		e=i;<br />
+	}<br />
+	if(e-s+1 == fc) {<br />
+		++fi;<br />
+		fs[fi] = s;<br />
+		fe[fi] = e;<br />
+	}else if(e-s+1 &gt; fc) {<br />
+		fc=e-s+1;<br />
+		fs[0]=s;<br />
+		fe[0]=e;<br />
+		fi=0;<br />
+	}<br />
+	cout &lt;&lt; &quot;The longest unique substring = n&quot;;<br />
+	for(int i=0; i &lt;= fi; i++) {<br />
+		for(int j=fs[i]; j &lt;= fe[i]; j++)  {<br />
+			cout &lt;&lt; str[j];<br />
+		}<br />
+		cout &lt;&lt; &quot;n&quot;;<br />
+	}<br />
+	cout &lt;&lt; &quot;length = &quot; &lt;&lt; fc &lt;&lt; &quot;n&quot;;<br />
+	cout &lt;&lt; &quot;-------------------------------------n&quot;;<br />
+	return fc;<br />
+}<br />
+int _tmain(int argc, _TCHAR* argv[])<br />
+{<br />
+	char *p = &quot;ABCDEFGH&quot;;<br />
+	LongestUniqueSubString(p);<br />
+	p = &quot;ABDEFGALMF&quot;;<br />
+	LongestUniqueSubString(p);<br />
+	p = &quot;GEEKSFORGEEKS&quot;;<br />
+	LongestUniqueSubString(p);<br />
+	p = &quot;AAAA&quot;;<br />
+	LongestUniqueSubString(p);<br />
+	p = &quot;ABCABCABC&quot;;<br />
+	LongestUniqueSubString(p);<br />
+	p = &quot;ABCDECQWERTYU&quot;;<br />
+	LongestUniqueSubString(p);<br />
+	p = &quot;BBACDBV&quot;;<br />
+	LongestUniqueSubString(p);<br />
+	return 0;<br />
+}<br />
+</code></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-28020">
+        <div id="dsq-comment-header-28020" class="dsq-comment-header">
+            <cite id="dsq-cite-28020">
+                <span id="dsq-author-user-28020">vikram</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28020" class="dsq-comment-body">
+            <div id="dsq-comment-message-28020" class="dsq-comment-message"><p><code></p>
+<p>Code for printing the longest unique sub strings.<br />
+Please correct me, if something wrong. Please share, if someone has the code for printing the sub string.</p>
+<p>#include "stdafx.h"</p>
+<p>#include </p>
+<p>using namespace std;</p>
+<p>int LongestUniqueSubString(char *str)</p>
+<p>{</p>
+<p>if(str == 0)</p>
+<p>return 0;</p>
+<p>cout &lt;&lt; &quot;Input string = &quot; &lt;&lt; str &lt;&lt; &quot;n&quot;;</p>
+<p>/*save the latest index at the character position*/</p>
+<p>int charIdx[256];</p>
+<p>for(int i=0; i = s) {</p>
+<p>if(e-s+1 == fc) { /*track equal longest unique strings*/</p>
+<p>++fi;</p>
+<p>fs[fi] = s;</p>
+<p>fe[fi] = e;</p>
+<p>}else if(e-s+1 &gt; fc) { /*update longest unique string*/</p>
+<p>fc=e-s+1;</p>
+<p>fs[0]=s;</p>
+<p>fe[0]=e;</p>
+<p>fi=0;</p>
+<p>}</p>
+<p>s = charIdx + 1; //move the start mark to next position.</p>
+<p>}</p>
+<p>charIdx = i;</p>
+<p>e=i;</p>
+<p>}</p>
+<p>if(e-s+1 == fc) {</p>
+<p>++fi;</p>
+<p>fs[fi] = s;</p>
+<p>fe[fi] = e;</p>
+<p>}else if(e-s+1 &gt; fc) {</p>
+<p>fc=e-s+1;</p>
+<p>fs[0]=s;</p>
+<p>fe[0]=e;</p>
+<p>fi=0;</p>
+<p>}</p>
+<p>cout &lt;&lt; &quot;The longest unique substring = n&quot;;</p>
+<p>for(int i=0; i &lt;= fi; i++) {</p>
+<p>for(int j=fs[i]; j &lt;= fe[i]; j++) {</p>
+<p>cout &lt;&lt; str[j];</p>
+<p>}</p>
+<p>cout &lt;&lt; &quot;n&quot;;</p>
+<p>}</p>
+<p>cout &lt;&lt; &quot;length = &quot; &lt;&lt; fc &lt;&lt; &quot;n&quot;;</p>
+<p>cout &lt;&lt; &quot;-------------------------------------n&quot;;</p>
+<p>return fc;</p>
+<p>}</p>
+<p>int _tmain(int argc, _TCHAR* argv[])</p>
+<p>{</p>
+<p>char *p = &quot;ABCDEFGH&quot;;</p>
+<p>LongestUniqueSubString(p);</p>
+<p>p = &quot;ABDEFGALMF&quot;;</p>
+<p>LongestUniqueSubString(p);</p>
+<p>p = &quot;GEEKSFORGEEKS&quot;;</p>
+<p>LongestUniqueSubString(p);</p>
+<p>p = &quot;AAAA&quot;;</p>
+<p>LongestUniqueSubString(p);</p>
+<p>p = &quot;ABCABCABC&quot;;</p>
+<p>LongestUniqueSubString(p);</p>
+<p>p = &quot;ABCDECQWERTYU&quot;;</p>
+<p>LongestUniqueSubString(p);</p>
+<p>return 0;</p>
+<p>}</p>
+<p></code></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-23017">
+        <div id="dsq-comment-header-23017" class="dsq-comment-header">
+            <cite id="dsq-cite-23017">
+                <span id="dsq-author-user-23017">vishal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-23017" class="dsq-comment-body">
+            <div id="dsq-comment-message-23017" class="dsq-comment-message"><p>O(n) time and O(26) space</p>
+<pre> <code language="C">
+void initialise(int a[] , int n)
+{
+    int i =0;
+    for(i = 0 ; i &lt; n ;++i)
+        a[i]  = 0;
+}
+int main()
+{
+        char arr[] = &quot;GeeksforGeeks&quot;;
+        int count[26] = {0};
+        int i =0;
+        int max = 0 , sum = 0;
+        while( i &lt; 13)
+        {
+                arr[i] = toupper(arr[i]);
+                if( count[arr[i] - 65] == 0)
+                {
+                        ++sum;
+                        count[arr[i] -65] = 1;
+                }
+                else
+                {
+                    if( sum &gt; max)
+                        max = sum;
+                     sum = 0;
+                     initialise(count , 26);
+                     --i;
+                }
+
+                ++i;
+        }
+        printf(&quot;The maximum : %d\n&quot; , max);
+        return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-28605">
+        <div id="dsq-comment-header-28605" class="dsq-comment-header">
+            <cite id="dsq-cite-28605">
+                <span id="dsq-author-user-28605">timus</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28605" class="dsq-comment-body">
+            <div id="dsq-comment-message-28605" class="dsq-comment-message"><p>try this as input: &#8220;asdfgauvwx&#8221;<br />
+It&#8217;ll give ans as 5, instead of 9</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-23016">
+        <div id="dsq-comment-header-23016" class="dsq-comment-header">
+            <cite id="dsq-cite-23016">
+                <span id="dsq-author-user-23016">vishal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-23016" class="dsq-comment-body">
+            <div id="dsq-comment-message-23016" class="dsq-comment-message"><p>O(n) solution with o(26) space</p>
+<pre> <code language="C">
+void initialise(int a[] , int n)
+{
+    int i =0;
+    for(i = 0 ; i &lt; n ;++i)
+        a[i]  = 0;
+}
+int main()
+{
+        char arr[] = &quot;GeeksforGeeks&quot;;
+        int count[26] = {0};
+        int i =0;
+        int max = 0 , sum = 0;
+        while( i &lt; 13)
+        {
+                arr[i] = toupper(arr[i]);
+                if( count[arr[i] - 65] == 0)
+                {
+                        ++sum;
+                        count[arr[i] -65] = 1;
+                }
+                else
+                {
+                    if( sum &gt; max)
+                        max = sum;
+                     sum = 0;
+                     initialise(count , 26);
+                     --i;
+                }
+
+                ++i;
+        }
+        printf(&quot;The maximum : %d\n&quot; , max);
+        return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-24671">
+        <div id="dsq-comment-header-24671" class="dsq-comment-header">
+            <cite id="dsq-cite-24671">
+                <span id="dsq-author-user-24671">Anonymous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24671" class="dsq-comment-body">
+            <div id="dsq-comment-message-24671" class="dsq-comment-message"><p>Your algorithm fails for this case:<br />
+&#8220;GEEKSFORGEEKSXYZRLBHA&#8221;<br />
+Output is 7 but it should be 11<br />
+You should update max value every time new letter is added to NRCS </p>
+<pre> <code language="C">
+#include &lt;iostream&gt;
+#include &lt;cstring&gt;
+#include &lt;cstdio&gt;
+using namespace std;
+
+void initialise(int a[] , int n)
+{
+    int i =0;
+    for(i = 0 ; i &lt; n ;++i)
+        a[i]  = 0;
+}
+int main()
+{
+        char arr[] = &quot;GEEKSFORGEEKSXYZRLBHA&quot;;
+        int count[26] = {0};
+        int i =0;
+        int max = 0 , sum = 0;
+        char n;
+        while( i &lt; strlen(arr))
+        {
+            n = arr[i];
+                if( count[arr[i] - 65] == 0)
+                {
+                        ++sum;
+                        count[arr[i] -65] = 1;
+                        if( sum &gt; max) max = sum;
+                }
+                else
+                {
+                    if( sum &gt; max) max = sum;
+                     sum = 0;
+                     initialise(count , 26);
+                     --i;
+                }
+
+                ++i;
+        }
+        printf(&quot;The maximum : %d\n&quot; , max);
+        return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-24818">
+        <div id="dsq-comment-header-24818" class="dsq-comment-header">
+            <cite id="dsq-cite-24818">
+                <span id="dsq-author-user-24818">vishal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24818" class="dsq-comment-body">
+            <div id="dsq-comment-message-24818" class="dsq-comment-message"><p>Agreed I missed a case where the longest string is terminated at the end . Thank You for Pointing this out</p>
+<pre> <code language="C">
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-22908">
+        <div id="dsq-comment-header-22908" class="dsq-comment-header">
+            <cite id="dsq-cite-22908">
+                <span id="dsq-author-user-22908">vivek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22908" class="dsq-comment-body">
+            <div id="dsq-comment-message-22908" class="dsq-comment-message"><p>/*<br />
+#include<br />
+#include<br />
+void undo(int a[],char *s,int n)<br />
+{<br />
+        int i;<br />
+        for(i=0;i&lt;=n;i++)<br />
+        a[s[i]]=0;<br />
+}<br />
+int len(char *str)<br />
+{<br />
+        int n =strlen(str);<br />
+        int a[256]={0};<br />
+        int i=0;<br />
+        int maxcount=0;<br />
+        int index=0;<br />
+        int count=0;<br />
+        while(i&lt;n)<br />
+        {<br />
+                count=0;<br />
+                while(!a[str[i]]&amp;&amp;i&lt;n)<br />
+                {<br />
+                        a[str[i]]++;<br />
+                        count++;<br />
+                        i++;<br />
+                }<br />
+                if(i!=n)<br />
+                {<br />
+                        undo(a,str,i);index=i;<br />
+                }<br />
+                if(maxcount&lt;count)<br />
+                {<br />
+                        maxcount=count;<br />
+                }<br />
+                count=0;<br />
+        }<br />
+        printf(&quot;%c\n&quot;,str[index]);<br />
+        return maxcount;<br />
+}<br />
+int main()<br />
+{</p>
+<p>        char s[]=&quot;ABCDEFGHIJAAKLMNOPQBARSTUVWXYZ&quot;;<br />
+        printf(&quot;%d\n&quot;,len(s));<br />
+        return 0;<br />
+}</p>
+<p>*/</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-22585">
+        <div id="dsq-comment-header-22585" class="dsq-comment-header">
+            <cite id="dsq-cite-22585">
+                <span id="dsq-author-user-22585">The King</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22585" class="dsq-comment-body">
+            <div id="dsq-comment-message-22585" class="dsq-comment-message"><p>#include<br />
+#include<br />
+#define mchar 256</p>
+<p>int main()<br />
+{<br />
+    int i,j=0, len=0,max=0,*temp=NULL;<br />
+    char str[20];<br />
+    gets(str);</p>
+<p>    temp = (int *) calloc(sizeof(int) , mchar);</p>
+<p>    for(i=0;*(str+i);i++)<br />
+    {<br />
+         if(temp[*(str+i)] == 0)<br />
+         {<br />
+             len++;<br />
+             temp[*(str+i)]=1;<br />
+         }<br />
+         else<br />
+         {<br />
+             for(j=len-1; j&gt;=0 ; j&#8211;)<br />
+             temp[*(str+j)] = 0;</p>
+<p>             temp[*(str+i)]=1;</p>
+<p>             if(len &gt; max)<br />
+             max = len;<br />
+             len = 1;<br />
+         }<br />
+    }<br />
+    printf(&#8220;The maximum substring is=%d&#8221;, max);<br />
+    getchar();<br />
+    return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-me-abhinav odd alt thread-even depth-1" id="dsq-comment-19874">
+        <div id="dsq-comment-header-19874" class="dsq-comment-header">
+            <cite id="dsq-cite-19874">
+                <span id="dsq-author-user-19874">me.abhinav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19874" class="dsq-comment-body">
+            <div id="dsq-comment-message-19874" class="dsq-comment-message"><p>Another O(n) solution.<br />
+< <EXPECTING ONLY LOWER CASE ENGLISH ALPHABETS>></p>
+<pre> <code language="C">
+#include &lt;iostream&gt;
+#define SIZ 100
+#define index(c) c-'a'
+
+using namespace std;
+
+void process(char *str){
+	int i, j, start, end, maxLen = -1, curLen;
+	bool present[26];
+	for(i=0 ; i&lt;26 ; i++)
+		present[i] = false;
+
+	present[index(str[0])] = true;
+	start = end = i = 0; curLen = j = 1;
+	while(str[j]){
+		if(!present[index(str[j])]){
+			curLen++;
+		}else{
+			while(present[index(str[j])]){
+				present[index(str[i])] = false;
+				i++;
+				curLen--;
+			}
+		}
+		if(curLen&gt;maxLen){
+			maxLen = curLen;
+			start = i;
+			end = j;
+		}
+		present[index(str[j])] = true;
+		j++;
+	}
+	char *res = new char[end-start+2];
+	for(i=start ; i&lt;=end ; i++)
+		res[i-start] = str[i];
+	res[i-start] = '&#92;&#48;';
+	cout&lt;&lt;start&lt;&lt;&quot; &quot;&lt;&lt;end&lt;&lt;&quot; &quot;&lt;&lt;res&lt;&lt;&quot;\n\n&quot;;
+}
+
+int main(){
+	char str[SIZ];
+	char *res;
+
+	while(1){
+		cin&gt;&gt;str;
+		process(str);
+	}
+
+	return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-me-abhinav even depth-2" id="dsq-comment-19875">
+        <div id="dsq-comment-header-19875" class="dsq-comment-header">
+            <cite id="dsq-cite-19875">
+                <span id="dsq-author-user-19875">me.abhinav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19875" class="dsq-comment-body">
+            <div id="dsq-comment-message-19875" class="dsq-comment-message"><p>EXPECTING ONLY LOWER CASE ENGLISH ALPHABETS</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-pritybhudolia odd alt thread-odd thread-alt depth-1" id="dsq-comment-18677">
+        <div id="dsq-comment-header-18677" class="dsq-comment-header">
+            <cite id="dsq-cite-18677">
+                <span id="dsq-author-user-18677">pritybhudolia</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18677" class="dsq-comment-body">
+            <div id="dsq-comment-message-18677" class="dsq-comment-message"><p>I think this program is very simple and works in O(n) Complexity. I have used hashing.Correct me if anything is wrong. <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+<p>#include<stdio .h><br />
+#include<conio .h><br />
+int longestUniqueSubsttr(char str[])<br />
+{<br />
+     int hash[256]={0};<br />
+     int start=0,max=0,i=0,j=0,end=0,begin=0;<br />
+     for(i=0;i<strlen (str);i++)<br />
+     {<br />
+                               if(hash[str[i]]==1)<br />
+                               {<br />
+                                                   start=end;<br />
+                                                   end=i;<br />
+                                                   if((end-start)>max)<br />
+                                                   {<br />
+                                                                      max=end-start;<br />
+                                                                      begin=start;<br />
+                                                                      j=end;</p>
+<p>                                                   }<br />
+                               }<br />
+                               hash[str[i]]=1;<br />
+     }<br />
+     printf(&#8220;The longest non-repeating character substring is :&#8221;);<br />
+     for(start=begin;start<=j;start++) printf(&#8220;%c&#8221;,str[start]);<br />
+     return max;<br />
+}</p>
+<p>int main()<br />
+{<br />
+    char str[] = &#8220;GEEKSFORGEEKS&#8221;;<br />
+    printf(&#8220;The input string is :%s \n&#8221;, str);<br />
+    int len =  longestUniqueSubsttr(str);<br />
+    printf(&#8220;\nThe length of the longest non-repeating character substring is :%d&#8221;, len);</p>
+<p>    getchar();<br />
+    return 0;<br />
+}</strlen></conio></stdio></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-pritybhudolia even depth-2" id="dsq-comment-18779">
+        <div id="dsq-comment-header-18779" class="dsq-comment-header">
+            <cite id="dsq-cite-18779">
+                <span id="dsq-author-user-18779">pritybhudolia</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18779" class="dsq-comment-body">
+            <div id="dsq-comment-message-18779" class="dsq-comment-message"><p>Previous code is not pasted properly.  I have used hashing.Try this <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /> </p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+#include&lt;conio.h&gt;
+int longestUniqueSubsttr(char str[])
+{
+     int hash[256]={0};
+     int start=0,max=0,i=0,j=0,end=0,begin=0;
+     for(i=0;i&lt;strlen(str);i++)
+     {
+           if(hash[str[i]]==1) 
+           {  
+                 start=end;
+                 end=i;
+                 if((end-start)&gt;max)
+                 {
+                     max=end-start;
+                     begin=start;
+                     j=end;                                                                      
+                 }
+           }
+           hash[str[i]]=1;
+     }
+     printf(&quot;The longest non-repeating character substring is :&quot;);
+     for(start=begin;start&lt;=j;start++) printf(&quot;%c&quot;,str[start]);
+     return max;
+}
+
+int main()
+{
+    char str[] = &quot;GEEKSFORGEEKS&quot;;
+    printf(&quot;The input string is :%s \n&quot;, str);
+    int len =  longestUniqueSubsttr(str);
+    printf(&quot;\nThe length of the longest non-repeating character substring is :%d&quot;, len);
+ 
+    getchar();
+    return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-19474">
+        <div id="dsq-comment-header-19474" class="dsq-comment-header">
+            <cite id="dsq-cite-19474">
+                <span id="dsq-author-user-19474">Akash</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19474" class="dsq-comment-body">
+            <div id="dsq-comment-message-19474" class="dsq-comment-message"><p>Hi, I guess the program returns length as 0 if all the characters in the input string are unique. This is because you are entering the if statement where the max variable is updated only when you find that there is a repeating character. </p>
+<p>Also, in current scenario I guess you have missed to check whether the repeated character that you are checking is included in length of NRCS or not. That is why its giving the output of length of longest NRCS as 6 for the input string &#8220;GEEKS FORGEEKS&#8221;.</p>
+<p>I guess this might help. Please correct me if wrong.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-3" id="dsq-comment-22374">
+        <div id="dsq-comment-header-22374" class="dsq-comment-header">
+            <cite id="dsq-cite-22374">
+                <span id="dsq-author-user-22374">MVN Murthy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22374" class="dsq-comment-body">
+            <div id="dsq-comment-message-22374" class="dsq-comment-message"><p>Take This Input &#8211; abcabcdabcdeabcdefga<br />
+Output should be &#8211; abcdefg</p>
+<p>Your output is &#8211; abca</p>
+<p>because you are not maintaining hash table.when encounter some duplicates you should change hash table respective values.</p>
+<p>Following is the Modification. Correct me if i m wrong.</p>
+<p>#include</p>
+<p>using namespace std;</p>
+<p>void check(char *s,int n)<br />
+{<br />
+  int *count,i,begin,end,m=-100,s_w;<br />
+  s_w = begin = end = 0;<br />
+  count = new int [256];</p>
+<p>  for(i=0;i m)<br />
+	  { m = i-begin;s_w = begin;end = i-1;}</p>
+<p>	while(count[s[i]]) {count[s[begin]]=0; begin++;}<br />
+	begin = i;</p>
+<p>     }</p>
+<p>     count[s[i]]++;</p>
+<p>   }	</p>
+<p>// check whether all characters in string are non repeating<br />
+	 if(i-begin-1 &gt; m)<br />
+	  { m = i-begin;s_w = begin;end = i-1;}</p>
+<p>    for(i = s_w;i&lt;=end ;i++) cout&lt;&lt;s[i]; </p>
+<p> cout&lt;&lt;endl;<br />
+ cout&lt;&lt;&quot;Length of the non repeating string is: &quot;&lt;&lt;end-s_w+1;<br />
+ cout&lt;&lt;endl;</p>
+<p>}</p>
+<p>int main (int argc, char const* argv[])<br />
+{<br />
+    string s;<br />
+    getline(cin,s);</p>
+<p>    check(&amp;s[0],s.length());<br />
+    return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-18234">
+        <div id="dsq-comment-header-18234" class="dsq-comment-header">
+            <cite id="dsq-cite-18234">
+                <span id="dsq-author-user-18234">Prateek Sharma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18234" class="dsq-comment-body">
+            <div id="dsq-comment-message-18234" class="dsq-comment-message"><p>python code with o(n) time complexity based on approach similar to KMP algo&#8230;.</p>
+<pre> <code language="C">
+storingList =[]
+def recursion(list1,tempArray,initial,i,len1):
+    if i == len1:
+        storingList.append(list1[initial:i])
+        return 0
+    else:  
+        if tempArray[list1[i]][0] !=1:
+            tempArray[list1[i]] = [1,i]
+            i = i+1
+            recursion(list1,tempArray,initial,i,len1)
+        else:
+            storingList.append(list1[initial:i])
+            initial = tempArray[list1[i]][1]+1
+            tempArray[list1[i]][1]  =i
+            i = i+1
+            recursion(list1,tempArray,initial,i,len1)
+def recursion1(list1,tempArray,initial,i,len1):
+    if i == len1:
+        storingList.append(list1[initial:i])
+        return 0
+    else:  
+        if tempArray[ord(list1[i])][0] !=1:
+            tempArray[ord(list1[i])] = [1,i]
+            i = i+1
+            recursion1(list1,tempArray,initial,i,len1)
+        else:
+            storingList.append(list1[initial:i])
+            initial = tempArray[ord(list1[i])][1]+1
+            tempArray[ord(list1[i])][1]  =i
+            i = i+1
+            recursion1(list1,tempArray,initial,i,len1)
+        
+def longestSubstring(s,bool):
+    initial = 0
+    list2 =[]
+    list1 = list(s)
+    if bool == True:
+        for i in list1:
+            list2.append(int(i))
+        list1 = list2    
+    len1 = len(s)
+    if bool == True:
+        maxi = max(list1)
+    else:
+        maxi = ord(max(list1))    
+    tempArray = [[0,0] for _dummy in xrange(maxi+1)]
+    if bool == True:
+        recursion(list1,tempArray,initial,0,len1)
+    else:
+        recursion1(list1,tempArray,initial,0,len1)
+    maxi = 0
+    for i in storingList:
+        if len(i)&gt;maxi:
+            maxi = len(i)
+    for i in storingList:
+        if len(i) == maxi:
+            if bool == True:
+                list3 =[]
+                for j in i:
+                    list3.append(str(j))
+                print &quot;&quot;.join(list3)
+            else:
+                print i                                 
+    
+def main():
+    str = &quot;abcdefgabc&quot;
+    bool =  str.isdigit()
+    longestSubstring(str,bool)
+if __name__ == '__main__':
+    main()
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-17510">
+        <div id="dsq-comment-header-17510" class="dsq-comment-header">
+            <cite id="dsq-cite-17510">
+                <span id="dsq-author-user-17510">keshav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17510" class="dsq-comment-body">
+            <div id="dsq-comment-message-17510" class="dsq-comment-message"><p>Each character need to refer its subsequent character for longest sub-string till that character. In case current character has been found already then we need to check if its most previous index lies outside the range of sub-string length of subsequent character.</p>
+<pre> <code language="C">
+/* #include&lt;stdio.h&gt;
+#include&lt;conio.h&gt;
+#include&lt;string.h&gt;
+
+int main()
+{
+    char str[100];
+    int n,i,*ref,hash[256],max,Index;
+    printf(&quot;enter the string\n&quot;);
+    gets(str);
+    n=strlen(str);
+    ref= (int *)(malloc(n*(sizeof(int))));
+    for(i=0;i&lt;n;i++)
+    hash[str[i]]=-1;
+    hash[str[n-1]]=n-1;
+    ref[n-1]=1;
+    max=1;
+    Index=n-1;
+    for(i=n-2;i&gt;=0;i--)
+    {
+        if(hash[str[i]]==-1||hash[str[i]]&gt;(i+ref[i+1]))
+        ref[i]=ref[i+1]+1;
+        else
+        ref[i]=hash[str[i]]-i;
+        hash[str[i]]=i;
+        if(ref[i]&gt;max)
+        {
+            max=ref[i];
+            Index=i;
+        }
+    }
+    printf(&quot;\nLongest substring without repetitions is:&quot;); 
+    for(i=Index;i&lt;(Index+max);i++)
+    printf(&quot;%c&quot;,str[i]);
+    getch();
+    return 1;  
+}
+ */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-17318">
+        <div id="dsq-comment-header-17318" class="dsq-comment-header">
+            <cite id="dsq-cite-17318">
+                <span id="dsq-author-user-17318">Code1101</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17318" class="dsq-comment-body">
+            <div id="dsq-comment-message-17318" class="dsq-comment-message"><pre> <code language="Java">
+    public int largestUniqueString(String s) {
+        Set&lt;Character&gt; set = new HashSet&lt;Character&gt;();
+        int[] w = new int[s.length()];
+        for(int i=0; i&lt;s.length(); i++) {
+            if(set.contains(s.charAt(i))) set.clear();
+
+            set.add(s.charAt(i));
+                w[i] = set.size();
+        }
+
+        int max=-1;
+        for(int i=0; i&lt;w.length; i++) {
+            if(w[i] &gt; max) {
+                max = w[i];
+            }
+        }
+        return max;
+    }
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-rahul-titare even thread-odd thread-alt depth-1" id="dsq-comment-17116">
+        <div id="dsq-comment-header-17116" class="dsq-comment-header">
+            <cite id="dsq-cite-17116">
+                <span id="dsq-author-user-17116">rahul.titare</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17116" class="dsq-comment-body">
+            <div id="dsq-comment-message-17116" class="dsq-comment-message"><pre> <code language="Java">
+int start=0,stop=0,longestStart=0,longestStop = 0;		
+				
+		int[] counts = new int[65];
+		
+		int lastCheckedPosition = -1;
+		
+		String a = &quot;GEEKSFORGEEKS&quot;.toUpperCase();
+		counts[a.charAt(0) - 65] = 1;
+		
+		for(int i=1;i &lt; a.length();i++){
+			
+			if(counts[a.charAt(i)%65] == 0){		
+				
+				stop = i;
+				
+				counts[a.charAt(i)%65] = i+1;
+				
+			}else{						
+				
+				int pos = counts[a.charAt(i)%65];
+				
+				if(lastCheckedPosition &lt; pos){					
+					
+					if(stop-start &gt; longestStop-longestStart){
+						longestStop = stop;
+						longestStart = start;
+					}
+				
+					start = pos;					
+					stop = i;					
+					lastCheckedPosition = start;					
+				}
+
+				counts[a.charAt(i)%65] = i+1;
+				
+			}
+			
+		}
+		
+		if(stop-start &gt; longestStop-longestStart){
+			longestStop = stop;
+			longestStart = start;
+		}
+		
+		System.out.println(&quot;Logest substring is : &quot;+a.substring(longestStart, longestStop+1));
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-tsndiffopera odd alt thread-even depth-1" id="dsq-comment-16589">
+        <div id="dsq-comment-header-16589" class="dsq-comment-header">
+            <cite id="dsq-cite-16589">
+http://www.tsndiffopera.in/                <span id="dsq-author-user-16589">Sai Nikhil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16589" class="dsq-comment-body">
+            <div id="dsq-comment-message-16589" class="dsq-comment-message"><p>instead of</p>
+<pre> <code language="C">
+cur_len = i - prev_index;
+</code> </pre>
+<p>the following would also work.</p>
+<pre> <code language="C">
+cur_len--;
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-tsndiffopera even depth-2" id="dsq-comment-16590">
+        <div id="dsq-comment-header-16590" class="dsq-comment-header">
+            <cite id="dsq-cite-16590">
+http://www.tsndiffopera.in/                <span id="dsq-author-user-16590">Sai Nikhil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16590" class="dsq-comment-body">
+            <div id="dsq-comment-message-16590" class="dsq-comment-message"><p>Also initialise curr_len to &#8216;0&#8217;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-14722">
+        <div id="dsq-comment-header-14722" class="dsq-comment-header">
+            <cite id="dsq-cite-14722">
+                <span id="dsq-author-user-14722">Arun</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14722" class="dsq-comment-body">
+            <div id="dsq-comment-message-14722" class="dsq-comment-message"><p>Java implementation for the same::</p>
+<p>	public static String findSubsString(String str){</p>
+<p>		HashSet set = new HashSet();</p>
+<p>		int max_curr = 0;<br />
+		int max_overAll = 0;<br />
+		int head = 0;<br />
+		int tail = 0;<br />
+		String longestSubstring = &#8220;&#8221;;</p>
+<p>		while(tail &lt; str.length()){</p>
+<p>			if(!set.contains(str.charAt(tail))){<br />
+				max_curr++;<br />
+				set.add(str.charAt(tail));<br />
+			}else{<br />
+				int i = 0;<br />
+				for(Character c : set){<br />
+					i++;<br />
+					if(c == str.charAt(tail)){<br />
+						break;<br />
+					}<br />
+				}</p>
+<p>				for(int j = head ; j  max_overAll){<br />
+					longestSubstring = str.substring(head, tail);<br />
+					max_overAll = max_curr;<br />
+				}<br />
+				head = ++i;<br />
+			}<br />
+			tail++;<br />
+		}<br />
+		return longestSubstring;<br />
+	}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-13976">
+        <div id="dsq-comment-header-13976" class="dsq-comment-header">
+            <cite id="dsq-cite-13976">
+                <span id="dsq-author-user-13976">time pass</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13976" class="dsq-comment-body">
+            <div id="dsq-comment-message-13976" class="dsq-comment-message"><p>the solution ( linear time ) gives output as 1 even in case of empty strings  .. i think a check should be added at the begining of the function for n  .. in case n is 0 , return 0 </p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-12008">
+        <div id="dsq-comment-header-12008" class="dsq-comment-header">
+            <cite id="dsq-cite-12008">
+                <span id="dsq-author-user-12008">Saurabh Jain</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12008" class="dsq-comment-body">
+            <div id="dsq-comment-message-12008" class="dsq-comment-message"><p>import java.util.HashSet;<br />
+import java.util.Iterator;<br />
+import java.util.Scanner;<br />
+import java.util.Set;</p>
+<p>/**<br />
+ *<br />
+ * @author saurabh<br />
+ */<br />
+public class LongestSubstringWithoutRepeatingChars<br />
+{<br />
+    String s;</p>
+<p>    public LongestSubstringWithoutRepeatingChars()<br />
+    {<br />
+        Scanner sc = new Scanner(System.in);<br />
+        s = sc.nextLine();<br />
+        System.out.println(&quot;\nLength of longest substring without repeating chars is : &quot;+printLengthOfLongestNonRepeatingSubstring2());<br />
+    }</p>
+<p>    private int printLengthOfLongestNonRepeatingSubstring2()<br />
+    {<br />
+        int start=0,len=1;<br />
+        Set&lt;Integer&gt; subIndex = new HashSet&lt;Integer&gt;();<br />
+        int[] v = new int[256];</p>
+<p>        for(int i=0; i&lt;256; i++)<br />
+            v[i]=-1;</p>
+<p>        for(int i=0; i&lt;s.length() &amp;&amp; start&lt;s.length(); i++)<br />
+        {<br />
+            if(v[s.charAt(i)]&lt;start)<br />
+            {<br />
+                v[s.charAt(i)]=i;<br />
+            }<br />
+            else<br />
+            {<br />
+                start=v[s.charAt(i)]+1;<br />
+                v[s.charAt(i)]=i;<br />
+            }</p>
+<p>            if(i-start+1&gt;len)<br />
+            {<br />
+                len = i-start+1;<br />
+                subIndex.clear();<br />
+                subIndex.add(start);<br />
+            }<br />
+            else if(i-start+1==len)<br />
+            {<br />
+                subIndex.add(start);<br />
+            }<br />
+        }</p>
+<p>        System.out.print(&quot;Longest Substrings without repeating characters is : &quot;);<br />
+        Iterator&lt;Integer&gt; it = subIndex.iterator();<br />
+        while(it.hasNext())<br />
+        {<br />
+            int l = it.next();<br />
+            System.out.println();<br />
+            for(int i=l; i&lt;l+len; i++)<br />
+                System.out.print(s.charAt(i));<br />
+        }</p>
+<p>        return len;<br />
+    }</p>
+<p>    public static void main(String[] args)<br />
+    {<br />
+        LongestSubstringWithoutRepeatingChars lswrc = new LongestSubstringWithoutRepeatingChars();<br />
+    }<br />
+}</p>
+<p>This program prints all longest substrings without repeating characters. Time Complexity O(n+d), Space Complexity O(d). Correct me, if anything is wrong.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-9550">
+        <div id="dsq-comment-header-9550" class="dsq-comment-header">
+            <cite id="dsq-cite-9550">
+                <span id="dsq-author-user-9550">anubhav gupta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9550" class="dsq-comment-body">
+            <div id="dsq-comment-message-9550" class="dsq-comment-message"><p>#include &lt;iostream&gt;<br />
+#include &lt;map&gt;<br />
+#include &lt;set&gt;<br />
+#include &lt;algorithm&gt;<br />
+using namespace std;</p>
+<p>void compute(char *str,int *mins , int *maxs)<br />
+{<br />
+     int begin,end,count=0,maxcount=-1;<br />
+     map&lt;char,int&gt; hash;<br />
+     hash.clear();</p>
+<p>     for(begin = 0,end = 0 ;end &lt; strlen(str); end++){</p>
+<p>               hash[str[end]]++;</p>
+<p>               if(hash[str[end]]&gt;1){</p>
+<p>                                 while(hash[str[end]]&gt;1)<br />
+                                 {<br />
+                                                     hash[str[begin]]&#8211;;</p>
+<p>                                                     begin ++ ;<br />
+                                 }<br />
+               }<br />
+               count = end-begin+1;<br />
+               if(count &gt; maxcount)<br />
+               {<br />
+                        maxcount = count;<br />
+                        *maxs = end;<br />
+                        *mins = begin;<br />
+               }<br />
+     }<br />
+}</p>
+<p>int main()<br />
+{</p>
+<p>    char *str = &quot;THISISASTRING&quot;;<br />
+    int mins,maxs;<br />
+    compute(str,&amp;mins,&amp;maxs);<br />
+    for(int i= mins;i &lt;= maxs ;i++)<br />
+            printf(&quot;%c&quot;,str[i]);<br />
+    printf(&quot;\n&quot;);<br />
+    system(&quot;pause&quot;);<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8176">
+        <div id="dsq-comment-header-8176" class="dsq-comment-header">
+            <cite id="dsq-cite-8176">
+                <span id="dsq-author-user-8176">Raghav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8176" class="dsq-comment-body">
+            <div id="dsq-comment-message-8176" class="dsq-comment-message"><p>A simple code as below would work for the O(n) solution</p>
+<pre> <code language="Java">
+int retMaxLenSubString(char str[]){
+     if(str == null || str.length==0)
+             return 0;
+     int charIndex[] = new int[256];
+     for(int i=0;i&lt;256;i++) {
+       charIndex[i] = -1;
+     }
+
+     int maxLenStIndex = 0;
+     int maxLen = 0;
+
+     for(int i=0;i&lt;str.length;i++) {
+          int asciiValue = (int)str[i];
+          if(index[asciiValue]&gt;maxLenStIndex) {
+              maxLenStIndex = index[asciiValue] + 1;
+          }
+          index[charIndex] = i;
+          maxLen = max(maxLen, i-maxLenStIndex;
+      }
+}      
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-7611">
+        <div id="dsq-comment-header-7611" class="dsq-comment-header">
+            <cite id="dsq-cite-7611">
+                <span id="dsq-author-user-7611">kartikaditya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7611" class="dsq-comment-body">
+            <div id="dsq-comment-message-7611" class="dsq-comment-message"><p>#include &lt;iostream&gt;<br />
+#include &lt;stdio.h&gt;<br />
+#include &lt;string.h&gt;</p>
+<p>using namespace std;</p>
+<p>void getLongestSubstringWithoutRepeatingChars(char* s) {<br />
+    int n = strlen(s);<br />
+    int lo = 0, hi = 0, t_lo = 0, t_hi = 0, max = 0, curr = 0;<br />
+    int ht[256];<br />
+    memset(ht, -1, 256 * sizeof(int));</p>
+<p>    for (int i = 0; i &lt; n; ++i) {<br />
+        if (ht[s[i]] != -1) {<br />
+            for (; lo &lt;= ht[s[i]]; ++lo) {<br />
+                ht[s[lo]] = -1;<br />
+                &#8211;curr;<br />
+            }<br />
+        }<br />
+        ht[s[i]] = i;<br />
+        ++curr;<br />
+        t_hi = i;<br />
+        if (max &lt; curr) {<br />
+            max = curr;<br />
+            lo = t_lo;<br />
+            hi = t_hi;<br />
+        }<br />
+    }<br />
+    cout &lt;&lt; max &lt;&lt; endl;<br />
+}</p>
+<p>int main() {<br />
+    char* s = new char[64];<br />
+    strcpy(s, &quot;geeksforgeeks&quot;);<br />
+    getLongestSubstringWithoutRepeatingChars(s);<br />
+    strcpy(s, &quot;ABDEFGABEF&quot;);<br />
+    getLongestSubstringWithoutRepeatingChars(s);<br />
+    strcpy(s, &quot;BBACDBV&quot;);<br />
+    getLongestSubstringWithoutRepeatingChars(s);<br />
+    strcpy(s, &quot;AAA&quot;);<br />
+    getLongestSubstringWithoutRepeatingChars(s);<br />
+    return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-7610">
+        <div id="dsq-comment-header-7610" class="dsq-comment-header">
+            <cite id="dsq-cite-7610">
+                <span id="dsq-author-user-7610">kartikaditya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7610" class="dsq-comment-body">
+            <div id="dsq-comment-message-7610" class="dsq-comment-message"><pre> <code language="C">
+#include &lt;iostream&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+using namespace std;
+
+int getLongestSubstringWithUniqueChars(const char* s) {
+    int n = strlen(s);
+    bool ht[256];
+    memset(ht, false, 256 * sizeof(bool));
+    int max = -1, curr = 0;
+    for (int i = 0; i &lt; n; ++i) {
+        if (ht[s[i]]) {
+            curr = 0;
+            memset(ht, false, 256 * sizeof(bool));
+        }
+        ++curr;
+        ht[s[i]] = true;
+        if (max &lt; curr) {
+            max = curr;
+        }
+    }
+    return max;
+}
+
+int main() {
+    cout &lt;&lt; getLongestSubstringWithUniqueChars(&quot;ABDEFGABEF&quot;) &lt;&lt; endl;
+    return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-7384">
+        <div id="dsq-comment-header-7384" class="dsq-comment-header">
+            <cite id="dsq-cite-7384">
+                <span id="dsq-author-user-7384">Rushi Agrawal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7384" class="dsq-comment-body">
+            <div id="dsq-comment-message-7384" class="dsq-comment-message"><p>Check the python code for the same. Looks quite elegant to me.</p>
+<p>from string import ascii_lowercase</p>
+<p>def maxss(s):<br />
+	s = list(s)<br />
+	maxlen = 0<br />
+	maxsofar = 0<br />
+	lastinstance = {}<br />
+	for i in ascii_lowercase:<br />
+		lastinstance[i] = -1<br />
+	for i in range(len(s)):<br />
+		if lastinstance[s[i]] &lt; i &#8211; maxsofar:<br />
+			lastinstance[s[i]] = i<br />
+			maxsofar += 1<br />
+		else:<br />
+			maxsofar = i &#8211; lastinstance[s[i]]<br />
+			lastinstance[s[i]] = i<br />
+		if maxsofar &gt; maxlen:<br />
+			maxlen = maxsofar<br />
+	return maxlen</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-7385">
+        <div id="dsq-comment-header-7385" class="dsq-comment-header">
+            <cite id="dsq-cite-7385">
+                <span id="dsq-author-user-7385">Rushi Agrawal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7385" class="dsq-comment-body">
+            <div id="dsq-comment-message-7385" class="dsq-comment-message"><p>Correction in the above code: The line s = list(s)  can and must be removed.</p>
+<p>lastinstance is the dictionary to keep track of the last instance of the characters. Current implementation only works with smallcase alphabets, although can be scaled easily to larger character set.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-vikram-kuruguntla even thread-odd thread-alt depth-1" id="dsq-comment-7255">
+        <div id="dsq-comment-header-7255" class="dsq-comment-header">
+            <cite id="dsq-cite-7255">
+                <span id="dsq-author-user-7255">vikram.kuruguntla</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7255" class="dsq-comment-body">
+            <div id="dsq-comment-message-7255" class="dsq-comment-message"><p>Program to print the one of maximum sub string which has unique chars. Characters are case sensitive. </p>
+<p>Please correct me, if anything is wrong.</p>
+<pre> <code language="C">
+#include &quot;stdafx.h&quot;
+#include &lt;iostream&gt;
+using namespace std;
+#define NUM_CHARS 256
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	char *input_string = &quot;ABCabc&quot;;
+	int input_length = strlen(input_string);
+	char first_char_of_current_string = 0;
+
+	char visited[NUM_CHARS];
+	memset(visited, 0, sizeof(char) * NUM_CHARS);
+
+	int current_start_ix = 0, final_start_ix = -1, final_end_ix = -1;
+	int current_length=0;
+	int final_length=0;
+	for( int i = 0; i &lt; input_length; i++)
+	{
+		if(visited[ input_string[i] ] == 0)
+		{
+			visited[ input_string[i] ] = 1;
+			current_length++;
+		}else if( current_length &gt; final_length){
+
+			final_start_ix = current_start_ix;
+			final_end_ix = i - 1;
+			final_length = current_length;
+
+			if(first_char_of_current_string &amp;&amp; visited[first_char_of_current_string ] == 0)
+			{
+				final_start_ix--;
+				final_length++;
+			}
+			
+
+			current_length = 0;
+			memset(visited, 0, sizeof(char) * NUM_CHARS);
+			first_char_of_current_string = input_string[i];		
+			current_start_ix = i + 1;
+		}
+	}
+
+	if( current_length &gt; final_length)
+	{
+		final_start_ix = current_start_ix;
+		final_end_ix	= input_length;
+		if(first_char_of_current_string &amp;&amp; visited[first_char_of_current_string] == 0)
+		{
+			final_start_ix--;
+			final_length++;
+		}
+	}
+	
+	for( int i = final_start_ix; i &lt;= final_end_ix; i++)
+		cout &lt;&lt; input_string[i];
+	cout &lt;&lt; endl;
+
+	return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-8243">
+        <div id="dsq-comment-header-8243" class="dsq-comment-header">
+            <cite id="dsq-cite-8243">
+http://www.google.com                <span id="dsq-author-user-8243">syam</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8243" class="dsq-comment-body">
+            <div id="dsq-comment-message-8243" class="dsq-comment-message"><p>program is wronge</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-7047">
+        <div id="dsq-comment-header-7047" class="dsq-comment-header">
+            <cite id="dsq-cite-7047">
+                <span id="dsq-author-user-7047">randy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7047" class="dsq-comment-body">
+            <div id="dsq-comment-message-7047" class="dsq-comment-message"><p>char str[] = &#8220;ABCDECQWERTYU&#8221;;</p>
+<p>The program does not work. </p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor odd alt depth-2" id="dsq-comment-7048">
+        <div id="dsq-comment-header-7048" class="dsq-comment-header">
+            <cite id="dsq-cite-7048">
+                <span id="dsq-author-user-7048">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7048" class="dsq-comment-body">
+            <div id="dsq-comment-message-7048" class="dsq-comment-message"><p>@randy: The program given in the post return 8 for &#8220;ABCDECQWERTYU&#8221; which seems to be correct. CQWERTYU is the longest string without repeating characters.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-7055">
+        <div id="dsq-comment-header-7055" class="dsq-comment-header">
+            <cite id="dsq-cite-7055">
+                <span id="dsq-author-user-7055">randy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7055" class="dsq-comment-body">
+            <div id="dsq-comment-message-7055" class="dsq-comment-message"><p>Yes It is correct, sorry for my mistake.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-itengineer odd alt thread-odd thread-alt depth-1" id="dsq-comment-7025">
+        <div id="dsq-comment-header-7025" class="dsq-comment-header">
+            <cite id="dsq-cite-7025">
+                <span id="dsq-author-user-7025">itengineer</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7025" class="dsq-comment-body">
+            <div id="dsq-comment-message-7025" class="dsq-comment-message"><pre> <code language="C">
+package com.sun.java.longestsubstring;
+
+
+public class LongestSubstring 
+{
+	private int visitedStartIndex = 0;
+	private int previousIndex = 0;
+	
+	
+	public static void main(String[] args)
+	{
+		LongestSubstring lsObject = new LongestSubstring();
+		System.out.println(&quot;length = &quot; + lsObject.findNRCSLength(&quot;uniquesubstring&quot;));
+	}
+		
+	/**
+	 * @return  Non Repeating Character Substring length
+	 */
+	
+	public int findNRCSLength(String string)
+	{										
+		int maxLength = -1;
+		int currentLength = 1;
+		char stringChars[] = (string.toLowerCase()).toCharArray(); 
+		
+		for(int currentIndex = 1; currentIndex &lt; stringChars.length; currentIndex++)
+		{				
+			
+			if(!isCharVisited(currentIndex, stringChars))
+			{				
+				currentLength++;				
+			}
+			else
+			{
+				maxLength = currentLength &gt; maxLength ? currentLength : maxLength;
+				currentLength = 1;
+				visitedStartIndex = currentIndex;										
+			}
+			
+			previousIndex = currentIndex;
+		}
+		
+		maxLength = currentLength &gt; maxLength ? currentLength : maxLength;
+		
+		return maxLength;
+	}
+	
+	
+	private boolean isCharVisited(int index, char[] str)
+	{		
+		for(int i = visitedStartIndex; i &lt;= previousIndex; i++)
+		{
+			if(str[index] == str[i])
+			{				
+				return true;
+			}
+		}
+
+		return false;	
+	}
+}
+</code> </pre>
+<p>output<br />
+length = 8</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-itengineer even depth-2" id="dsq-comment-7026">
+        <div id="dsq-comment-header-7026" class="dsq-comment-header">
+            <cite id="dsq-cite-7026">
+                <span id="dsq-author-user-7026">itengineer</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7026" class="dsq-comment-body">
+            <div id="dsq-comment-message-7026" class="dsq-comment-message"><p>Hey Geeks,</p>
+<p>Forgot to mention that the code above uses JAVA language.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-vkjk89 odd alt thread-even depth-1" id="dsq-comment-7024">
+        <div id="dsq-comment-header-7024" class="dsq-comment-header">
+            <cite id="dsq-cite-7024">
+                <span id="dsq-author-user-7024">vkjk89</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7024" class="dsq-comment-body">
+            <div id="dsq-comment-message-7024" class="dsq-comment-message"><p>Here is one more code.<br />
+Venki/Kartik,<br />
+Plz suggest if anything wrong.</p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+#include&lt;conio.h&gt;
+#include&lt;string.h&gt;
+int longest(char * str ,int *pos)
+{
+int len;
+int i,cur,max,*vis;
+vis=(int*)malloc(sizeof(int)*256);
+for(i=0;i&lt;256;i++)
+vis[i]=-1;
+cur=max=0;
+len=strlen(str);
+for(i=0;i&lt;len;i++)
+{
+if(vis[str[i]]==-1||i-cur&gt;vis[str[i]])
+{
+vis[str[i]]=i;
+cur++;
+}
+else if(cur&gt;max)
+	{
+	 *pos=i;
+	 max=cur;
+	 cur=1;
+	 vis[str[i]]=i;
+	}
+     else cur=1;
+}
+free(vis);
+*pos=(*pos)-max;
+return max;
+
+}
+
+int main()
+{
+char *str=&quot;geeksforgeeks&quot;;
+char *sub;
+int lo;
+int pos;
+clrscr();
+lo=longest(str,&amp;pos);
+strcpy(sub,str+pos);
+sub[lo]='&#092;&#048;';
+printf(&quot;substring=%s&quot;,sub);
+getch();
+return 0;
+}
+
+
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-7010">
+        <div id="dsq-comment-header-7010" class="dsq-comment-header">
+            <cite id="dsq-cite-7010">
+                <span id="dsq-author-user-7010">AKKICOOL</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7010" class="dsq-comment-body">
+            <div id="dsq-comment-message-7010" class="dsq-comment-message"><p>Can you please give a case for</p>
+<p>&#8220;when we are changing the NRCS, we should also check whether length of the previous NRCS was greater than max_len or not&#8221; in else part</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-arpit-211190 odd alt thread-even depth-1" id="dsq-comment-6896">
+        <div id="dsq-comment-header-6896" class="dsq-comment-header">
+            <cite id="dsq-cite-6896">
+                <span id="dsq-author-user-6896">Arpit Gupta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6896" class="dsq-comment-body">
+            <div id="dsq-comment-message-6896" class="dsq-comment-message"><p>In this article complexity of brute force algorithm is written as exponential but it should be O(n^3) because there will be n*(n+1)/2 substrings and considering each of atmost length n the complexity should be O(n^3).Please let me know how can it be exponential.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even depth-2" id="dsq-comment-6979">
+        <div id="dsq-comment-header-6979" class="dsq-comment-header">
+            <cite id="dsq-cite-6979">
+                <span id="dsq-author-user-6979">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6979" class="dsq-comment-body">
+            <div id="dsq-comment-message-6979" class="dsq-comment-message"><p>@Arpit Gupta:  Thanks for pointing this out. We have updated the post with time complexity as O(n^3).</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-camster odd alt thread-odd thread-alt depth-1" id="dsq-comment-6852">
+        <div id="dsq-comment-header-6852" class="dsq-comment-header">
+            <cite id="dsq-cite-6852">
+                <span id="dsq-author-user-6852">camster</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6852" class="dsq-comment-body">
+            <div id="dsq-comment-message-6852" class="dsq-comment-message"><p>Here is a recursive function that finds and prints the length of the longest substring in O(N) time complexity, O(N) space.</p>
+<pre> <code language="C">
+void lcs(char arr5[], int n, int curr, 
+         int&amp;  maxlength,std::string&amp; sofar){
+	if (n == 0){
+		return; 
+	}
+	if (arr5[0] == arr5[1]){
+		if (curr &gt;= maxlength){
+			if (n &lt; sofar.length()){
+				maxlength = sofar.length();
+				return;
+			}
+			sofar.clear();
+		}
+		maxlength = MAX(maxlength,curr);
+		lcs(arr5 + 1, n - 1, curr + 1, 
+		                maxlength,sofar);
+	}
+	else if (arr5[0] != arr5[1]){
+		sofar.push_back(arr5[0]);
+                maxlength = sofar.length();
+		lcs(arr5 + 1, n - 1,  
+                    curr + 1, maxlength,sofar);
+	}
+}
+
+// testing
+
+ char cameron[] =  {'g','e','e','k','s','f','o','r','g','e','e','k','s'}; 
+  int maxlength(0);
+  std::string resultstring;
+
+  lcs(cameron, sizeof(cameron), 0, maxlength,resultstring);
+
+  printf(&quot;maxlength = %d resultstring = %s\n&quot;,
+	    maxlength, resultstring.c_str());
+
+
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-psychocoder even thread-even depth-1" id="dsq-comment-6845">
+        <div id="dsq-comment-header-6845" class="dsq-comment-header">
+            <cite id="dsq-cite-6845">
+                <span id="dsq-author-user-6845">PsychoCoder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6845" class="dsq-comment-body">
+            <div id="dsq-comment-message-6845" class="dsq-comment-message"><pre> <code language="C">
+#include&lt;stdio.h&gt;
+#include&lt;string.h&gt;
+
+int main() {
+  char arr[26] , str[40] ;
+  int i , len, index ;
+  int start, maxlen = 1 , end = 0 ;
+  printf ( &quot;\nEnter the string :\t &quot; ) ;
+  scanf( &quot;%s&quot;, str ) ;
+  len = strlen (str) ;
+  start = 0 ;
+
+  for ( i = 0 ; i &lt; 26 ; i ++ )
+    arr[i] = -1 ;
+  arr[str[0]-'a'] = 0 ;
+
+  for ( i = 1 ; i &lt; len ; i ++ ) {
+    index = str[i] - 'a' ;
+    if ( arr[index] &gt;= start ) {
+      if ( (i - start) &gt; maxlen ) {
+        maxlen = i-start ;
+        end = i - 1;
+      }
+      start = arr[index] + 1 ;
+    }
+    arr[index] = i ;
+  }
+  if ( (i-start) &gt; maxlen ) {
+    maxlen = i-start ;
+    end = i - 1 ;
+  }
+  printf ( &quot;\nMax length is : \t%d&quot;, maxlen ) ;
+  printf ( &quot;\nIndex (start : %d - end : %d)&quot;, end-maxlen+1, end) ;
+  return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-12203">
+        <div id="dsq-comment-header-12203" class="dsq-comment-header">
+            <cite id="dsq-cite-12203">
+                <span id="dsq-author-user-12203">suresh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12203" class="dsq-comment-body">
+            <div id="dsq-comment-message-12203" class="dsq-comment-message"><pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+<p>for &#8220;geeksforgeeks&#8221; it print 7</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-6719">
+        <div id="dsq-comment-header-6719" class="dsq-comment-header">
+            <cite id="dsq-cite-6719">
+http://mobilityworld.wordpress.com/                <span id="dsq-author-user-6719">Punit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6719" class="dsq-comment-body">
+            <div id="dsq-comment-message-6719" class="dsq-comment-message"><p>You can reduce the space further by storing indexes instead of the array itself. Below is a solution in Java that also prints the substring. </p>
+<p>public class LONGESTSTRING {<br />
+	public static void main(String[] args) {<br />
+		String str = &quot;GEEKSFORGEEKS&quot;;<br />
+		System.out.println(&quot;The input string is &quot; + str);<br />
+		int len = longestUniqueSubsttr(str);<br />
+		System.out<br />
+				.println(&quot;The length of the longest non-repeating character substring is &quot;<br />
+						+ len);<br />
+	}</p>
+<p>	private static int longestUniqueSubsttr(String str) {<br />
+		if (str.length() == 1)<br />
+			return 1;<br />
+		short back_ptr = 0, front_ptr = 1, max_len = -1, cur_len = 1;<br />
+		short max_back_ptr = -1, max_front_ptr = -1;<br />
+		for (short i = 1; i &lt; str.length(); i++) {<br />
+			if (!characterExits(str, front_ptr, back_ptr, i)) {<br />
+				cur_len++;<br />
+				front_ptr++;<br />
+			} else {<br />
+				if (max_len &lt; cur_len) {<br />
+					max_len = cur_len;<br />
+					max_back_ptr = back_ptr;<br />
+					max_front_ptr = front_ptr;<br />
+				}<br />
+				cur_len = 1;<br />
+				back_ptr = i;<br />
+				front_ptr = (short) (i + 1);<br />
+			}<br />
+		}</p>
+<p>		if (max_len == -1) {<br />
+			max_len = cur_len;<br />
+			max_back_ptr = back_ptr;<br />
+			max_front_ptr = front_ptr;<br />
+		}<br />
+		printLSNC(str, max_back_ptr, max_front_ptr);<br />
+		return max_len;<br />
+	}</p>
+<p>	private static void printLSNC(String str, short back_ptr, short front_ptr) {<br />
+		if (str.length() &lt;= back_ptr || str.length() &lt; front_ptr)<br />
+			return;<br />
+		for (int i = back_ptr; i &lt; front_ptr; i++) {<br />
+			System.out.print(str.charAt(i));<br />
+		}<br />
+		System.out.println();<br />
+	}</p>
+<p>	private static boolean characterExits(String str, short front_ptr,<br />
+			short back_ptr, short cur) {<br />
+		if (str.length() &lt;= back_ptr || str.length() &lt; front_ptr)<br />
+			return false;<br />
+		if (cur &lt; 0 || cur &gt; str.length())<br />
+			return false;<br />
+		for (int i = back_ptr; i &lt; front_ptr; i++) {<br />
+			if (str.charAt(i) == str.charAt(cur))<br />
+				return true;<br />
+		}<br />
+		return false;<br />
+	}<br />
+}</p>
+<p>/**<br />
+ * Output<br />
+The input string is GEEKSFORGEEKS<br />
+EKSFORG<br />
+The length of the longest non-repeating character substring is 7<br />
+*/ </p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-6699">
+        <div id="dsq-comment-header-6699" class="dsq-comment-header">
+            <cite id="dsq-cite-6699">
+                <span id="dsq-author-user-6699">Rahul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6699" class="dsq-comment-body">
+            <div id="dsq-comment-message-6699" class="dsq-comment-message"><pre> <code language="C">
+int uniquesubstrlength (const char *str)
+{
+  int curlen = 1, maxlen = 0;
+  int n = strlen (str);
+  int *visited = (int *) calloc (256, sizeof (int));
+  int tag = 1;
+  visited [str[0]] = tag;
+
+  for (int i = 0; i &lt; n; i++)
+  {
+    if (visited[str[i]] == tag)
+    {
+      if (curlen &gt; maxlen)
+      {
+        maxlen = curlen;
+      }
+      curlen = 1;
+      visited[str[i]] = ++tag;
+    }
+    else
+    {
+      visited[str[i]] = tag;
+      curlen++;
+    }
+  }
+  if (curlen &gt; maxlen)
+    maxlen = curlen;
+  free (visited);
+  return maxlen;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-camster even thread-odd thread-alt depth-1" id="dsq-comment-6690">
+        <div id="dsq-comment-header-6690" class="dsq-comment-header">
+            <cite id="dsq-cite-6690">
+                <span id="dsq-author-user-6690">camster</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6690" class="dsq-comment-body">
+            <div id="dsq-comment-message-6690" class="dsq-comment-message"><pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-camster odd alt depth-2" id="dsq-comment-6691">
+        <div id="dsq-comment-header-6691" class="dsq-comment-header">
+            <cite id="dsq-cite-6691">
+                <span id="dsq-author-user-6691">camster</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6691" class="dsq-comment-body">
+            <div id="dsq-comment-message-6691" class="dsq-comment-message"><p>A hashtable , STL map givea the same result. Also, I was wondering if the Knuth Pratt Moore string matching code , which has a worst cas running time of O(N) could be used to help solve this problem. Thank you for your excellent algorithm.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+int longestUniqueSubsttr(char *str) {     
+	int n = strlen(str);     
+	int cur_len = 1;  // To store the lenght 
+	int max_len = 1;  // To store the result     
+	int prev_index;  // To store the previous inde
+	int i;     
+	std::map&lt;char,int&gt; visited;
+
+	visited[str[0]] = 1;
+	for (i = 1; i &lt; n; i++)   {         
+              prev_index =  visited[str[i]];           
+	      if (prev_index == 0 || 
+                  i - cur_len &gt; prev_index)             
+		    cur_len++;          
+		else{             
+		if (cur_len &gt; max_len)                 
+		    max_len = cur_len;               
+		    cur_len = i - prev_index;         
+		}           
+		visited[str[i]] = i;     
+	}       
+
+	if (cur_len &gt; max_len)         
+		max_len = cur_len;        
+	return max_len; 
+} 
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-camster even depth-3" id="dsq-comment-6693">
+        <div id="dsq-comment-header-6693" class="dsq-comment-header">
+            <cite id="dsq-cite-6693">
+                <span id="dsq-author-user-6693">camster</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6693" class="dsq-comment-body">
+            <div id="dsq-comment-message-6693" class="dsq-comment-message"><p>It is possible to find and print the longest substring without repeating characters in 0(n + d) running time. Thank you,</p>
+<p>int PrintLongestUniqueSubsttr(char *str) {<br />
+	int n = strlen(str);<br />
+	int cur_len = 1;<br />
+	int max_len = 1;<br />
+	int prev_index;<br />
+	int i;<br />
+	int lastn(0);<br />
+	std::map visited;</p>
+<p>	visited[str[0]] = 1;<br />
+	for (i = 1; i        prev_index)            {<br />
+			cur_len++;<br />
+			if (prev_index == 0){<br />
+				lastn = i;<br />
+			}<br />
+		}<br />
+		else {<br />
+			if (cur_len > max_len){</p>
+<p>			    max_len = cur_len;<br />
+			}<br />
+		     cur_len = i &#8211; prev_index;<br />
+		}<br />
+		visited[str[i]] = i;<br />
+	}<br />
+	if (cur_len > max_len)<br />
+		max_len = cur_len;<br />
+	char* answer = new char[max_len + 1];<br />
+	int ii(0);<br />
+	for (int m = lastn &#8211; max_len +1;<br />
+                 m  <=  lastn + 1 ;<br />
+                 m++){<br />
+		answer[ii++] = str[m];<br />
+	}<br />
+	answer[ii &#8211; 1] = &#8216;\x0&#8242;;<br />
+	printf(&#8220;answer = %s\n&#8221;,answer);<br />
+	delete [] answer;<br />
+	return max_len;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-sambasiva odd alt thread-even depth-1" id="dsq-comment-6676">
+        <div id="dsq-comment-header-6676" class="dsq-comment-header">
+            <cite id="dsq-cite-6676">
+http://effprog.blogspot.com                <span id="dsq-author-user-6676">Sambasiva</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6676" class="dsq-comment-body">
+            <div id="dsq-comment-message-6676" class="dsq-comment-message"><p><a href="http://effprog.blogspot.com/2011/07/to-find-longest-substring-with-unique.html#comment-form" rel="nofollow">http://effprog.blogspot.com/2011/07/to-find-longest-substring-with-unique.html#comment-form</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-mystry even thread-odd thread-alt depth-1" id="dsq-comment-6674">
+        <div id="dsq-comment-header-6674" class="dsq-comment-header">
+            <cite id="dsq-cite-6674">
+                <span id="dsq-author-user-6674">mystry</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6674" class="dsq-comment-body">
+            <div id="dsq-comment-message-6674" class="dsq-comment-message"><p>Point out if something is wrong.<br />
+// works for lower case letters but can easily be tweaked for upper case also.</p>
+<pre> <code language="C">
+// Longest Common Substring without Repeatition
+#include&lt;stdio.h&gt;
+int main(){
+//	char Input[]=&quot;bbbb&quot;;
+//	char Input[]=&quot;abdefgabef&quot;;
+	char Input[]=&quot;geeksforgeeks&quot;;
+	int Array[26];
+	int start_index=0,curr_len=0,max_len=0;
+	int i;
+	for(i=0;i&lt;26;i++)
+		Array[i]=-1;
+	for(i=0;i&lt;sizeof(Input);i++){
+		if(Array[(int)(Input[i])-97]==-1){
+			Array[(int)(Input[i])-97]=i;
+			curr_len++;
+		}
+		else{
+			if(Array[(int)(Input[i])-97]==i-curr_len){
+				Array[(int)(Input[i])-97]=i;
+//				start_index++;
+			}
+			else{
+				if(curr_len&gt;max_len){
+					max_len=curr_len;
+					start_index=i-curr_len;
+					curr_len=i-Array[(int)(Input[i])-97]-1;
+				}
+			}
+		}
+	}
+	printf(&quot;\nMax_len\t%d\n&quot;,max_len);
+}
+</code> </pre>
+<p>This is O(n) time<br />
+and O(1) space // int array of 26.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-6668">
+        <div id="dsq-comment-header-6668" class="dsq-comment-header">
+            <cite id="dsq-cite-6668">
+                <span id="dsq-author-user-6668">chakri</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6668" class="dsq-comment-body">
+            <div id="dsq-comment-message-6668" class="dsq-comment-message"><p>The above program does not work for the below input of characters.<br />
+char str[] = &#8220;BBACDBV&#8221;;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik even depth-2" id="dsq-comment-6671">
+        <div id="dsq-comment-header-6671" class="dsq-comment-header">
+            <cite id="dsq-cite-6671">
+                <span id="dsq-author-user-6671">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6671" class="dsq-comment-body">
+            <div id="dsq-comment-message-6671" class="dsq-comment-message"><p>@Chakri: The program works perfectly fine for your string, it returns 5 as &#8220;ACDBV&#8221; is the maximum length substring with unique characters.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/length-of-the-longest-substring-without-repeating-characters/';
+var disqus_identifier = '15859 http://www.geeksforgeeks.org/?p=15859';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Length of the longest substring without repeating characters";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.239 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:46:55 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

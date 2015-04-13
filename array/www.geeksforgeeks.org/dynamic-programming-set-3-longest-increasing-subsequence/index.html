@@ -1,0 +1,2793 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Dynamic Programming | Set 3 (Longest Increasing Subsequence) - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/dynamic-programming-set-3-longest-increasing-subsequence/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Dynamic Programming | Set 3 (Longest Increasing Subsequence) - GeeksforGeeks" />
+<meta property="og:description" content="We have discussed Overlapping Subproblems and Optimal Substructure properties in Set 1 and Set 2 respectively. Let us discuss Longest Increasing Subsequence (LIS) problem as an example problem that can be solved using Dynamic Programming. The longest Increasing Subsequence (LIS) problem is to find the length of the longest subsequence of a given sequence such &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/dynamic-programming-set-3-longest-increasing-subsequence/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Dynamic Programming" />
+<meta property="article:section" content="Misc" />
+<meta property="article:published_time" content="2011-06-05T12:42:23+00:00" />
+<meta property="article:modified_time" content="2012-05-16T22:45:24+00:00" />
+<meta property="og:updated_time" content="2012-05-16T22:45:24+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.491 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417110830 1.38.20.96';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Dynamic Programming | Set 3 (Longest Increasing Subsequence)</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>We have discussed Overlapping Subproblems and Optimal Substructure properties in <a href="http://geeksforgeeks.org/?p=12635">Set 1</a> and <a href="http://geeksforgeeks.org/?p=12819">Set 2</a> respectively. <span id="more-12832"></span></p>
+<p>Let us discuss Longest Increasing Subsequence (LIS) problem as an example problem that can be solved using Dynamic Programming.<br />
+The longest Increasing Subsequence (LIS) problem is to find the length of the longest subsequence of a given sequence such that all elements of the subsequence are sorted in increasing order. For example, length of LIS for  { 10, 22, 9, 33, 21, 50, 41, 60, 80 } is 6 and LIS is {10, 22, 33, 50, 60, 80}.  </p>
+<p><strong>Optimal Substructure:</strong><br />
+Let arr[0..n-1] be the input array and L(i) be the length of the LIS till index i such that arr[i] is part of LIS and arr[i] is the last element in LIS, then L(i) can be recursively written as.<br />
+<em>L(i) = { 1 + Max ( L(j) ) } where j  < i and  arr[j] < arr[i] and if there is no such j then L(i) = 1</em><br />
+To get LIS of a given array, we need to return max(L(i)) where 0 < i < n<br />
+So the LIS problem has optimal substructure property as the main problem can be solved using solutions to subproblems.</p>
+<p><strong>Overlapping Subproblems:</strong><br />
+Following is simple recursive implementation of the LIS problem.  The implementation simply follows the recursive structure mentioned above. The value of lis ending with every element is returned using max_ending_here. The overall lis is returned using pointer to a variable max.</p>
+<pre class="brush: cpp; highlight: [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50]; title: ; notranslate" title="">
+/* A Naive recursive implementation of LIS problem */
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+
+/* To make use of recursive calls, this function must return two things:
+   1) Length of LIS ending with element arr[n-1]. We use max_ending_here 
+      for this purpose
+   2) Overall maximum as the LIS may end with an element before arr[n-1] 
+      max_ref is used this purpose.
+The value of LIS of full array of size n is stored in *max_ref which is our final result
+*/
+int _lis( int arr[], int n, int *max_ref)
+{
+    /* Base case */
+    if(n == 1)
+        return 1;
+
+    int res, max_ending_here = 1; // length of LIS ending with arr[n-1]
+
+    /* Recursively get all LIS ending with arr[0], arr[1] ... ar[n-2]. If 
+       arr[i-1] is smaller than arr[n-1], and max ending with arr[n-1] needs
+       to be updated, then update it */
+    for(int i = 1; i &lt; n; i++)
+    {
+        res = _lis(arr, i, max_ref);
+        if (arr[i-1] &lt; arr[n-1] &amp;&amp; res + 1 &gt; max_ending_here)
+            max_ending_here = res + 1;
+    }
+
+    // Compare max_ending_here with the overall max. And update the
+    // overall max if needed
+    if (*max_ref &lt; max_ending_here)
+       *max_ref = max_ending_here;
+
+    // Return length of LIS ending with arr[n-1]
+    return max_ending_here;
+}
+
+// The wrapper function for _lis()
+int lis(int arr[], int n)
+{
+    // The max variable holds the result
+    int max = 1;
+
+    // The function _lis() stores its result in max
+    _lis( arr, n, &amp;max );
+
+    // returns max
+    return max;
+}
+
+/* Driver program to test above function */
+int main()
+{
+    int arr[] = { 10, 22, 9, 33, 21, 50, 41, 60 };
+    int n = sizeof(arr)/sizeof(arr[0]);
+    printf(&quot;Length of LIS is %d\n&quot;,  lis( arr, n ));
+    getchar();
+    return 0;
+}
+</pre>
+<p>Considering the above implementation, following is recursion tree for an array of size 4.  lis(n) gives us the length of LIS for arr[].</p>
+<pre>    
+                     lis(4)           
+                 /       |      \
+         lis(3)      lis(2)    lis(1)  
+        /     \        /         
+  lis(2)  lis(1)   lis(1) 
+  /    
+lis(1) 
+</pre>
+<p>We can see that there are many subproblems which are solved again and again. So this problem has Overlapping Substructure property and recomputation of same subproblems can be avoided by either using Memoization or Tabulation.  Following is a tabluated implementation for the LIS problem.</p>
+<pre class="brush: cpp; highlight: [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]; title: ; notranslate" title="">
+/* Dynamic Programming implementation of LIS problem */
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+
+/* lis() returns the length of the longest increasing subsequence in 
+    arr[] of size n */
+int lis( int arr[], int n )
+{
+   int *lis, i, j, max = 0;
+   lis = (int*) malloc ( sizeof( int ) * n );
+
+   /* Initialize LIS values for all indexes */
+   for ( i = 0; i &lt; n; i++ )
+      lis[i] = 1;
+   
+   /* Compute optimized LIS values in bottom up manner */
+   for ( i = 1; i &lt; n; i++ )
+      for ( j = 0; j &lt; i; j++ )
+         if ( arr[i] &gt; arr[j] &amp;&amp; lis[i] &lt; lis[j] + 1)
+            lis[i] = lis[j] + 1;
+   
+   /* Pick maximum of all LIS values */
+   for ( i = 0; i &lt; n; i++ )
+      if ( max &lt; lis[i] )
+         max = lis[i];
+
+   /* Free memory to avoid memory leak */
+   free( lis );
+
+   return max;
+}
+
+/* Driver program to test above function */
+int main()
+{
+  int arr[] = { 10, 22, 9, 33, 21, 50, 41, 60 };
+  int n = sizeof(arr)/sizeof(arr[0]);
+  printf(&quot;Length of LIS is %d\n&quot;, lis( arr, n ) );
+
+  getchar();
+  return 0;
+}
+</pre>
+<p>Note that the time complexity of the above Dynamic Programmig (DP) solution is O(n^2) and there is a O(nLogn) solution for the LIS problem (see <a href="http://en.wikipedia.org/wiki/Longest_increasing_subsequence#Efficient_algorithms">this</a>). We have not discussed the nLogn solution here as the purpose of this post is to explain Dynamic Programmig with a simple example.  </p>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/job-sequencing-problem-set-1-greedy-algorithm/" title="Job Sequencing Problem | Set 1 (Greedy Algorithm)">Job Sequencing Problem | Set 1 (Greedy Algorithm)</a></li><li><a href="http://www.geeksforgeeks.org/multiply-two-polynomials-2/" title="Multiply two polynomials">Multiply two polynomials</a></li><li><a href="http://www.geeksforgeeks.org/algorithm-practice-question-beginners-set-1/" title="Algorithm Practice Question for Beginners | Set 1">Algorithm Practice Question for Beginners | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/count-distinct-non-negative-pairs-x-y-satisfy-inequality-xx-yy-n-2/" title="Count Distinct Non-Negative Integer Pairs (x, y) that Satisfy the Inequality x*x + y*y &lt; n">Count Distinct Non-Negative Integer Pairs (x, y) that Satisfy the Inequality x*x + y*y < n</a></li><li><a href="http://www.geeksforgeeks.org/binomial-heap-2/" title="Binomial Heap">Binomial Heap</a></li><li><a href="http://www.geeksforgeeks.org/print-increasing-sequences-length-k-first-n-natural-numbers/" title="Print all increasing sequences of length k from first n natural numbers">Print all increasing sequences of length k from first n natural numbers</a></li><li><a href="http://www.geeksforgeeks.org/find-nth-number-number-system-3-4/" title="Find n&#8217;th number in a number system with only 3 and 4">Find n&#8217;th number in a number system with only 3 and 4</a></li><li><a href="http://www.geeksforgeeks.org/minimum-cost-polygon-triangulation/" title="Minimum Cost Polygon Triangulation">Minimum Cost Polygon Triangulation</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/dynamic-programming/" rel="tag">Dynamic Programming</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fdynamic-programming-set-3-longest-increasing-subsequence%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/dynamic-programming-set-3-longest-increasing-subsequence/" data-text="Dynamic Programming | Set 3 (Longest Increasing Subsequence)" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/dynamic-programming-set-3-longest-increasing-subsequence/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-31987">
+        <div id="dsq-comment-header-31987" class="dsq-comment-header">
+            <cite id="dsq-cite-31987">
+                <span id="dsq-author-user-31987">ayush</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31987" class="dsq-comment-body">
+            <div id="dsq-comment-message-31987" class="dsq-comment-message"><p>In java (more efficient solution):</p>
+<p>public static int[] solveUtil(int[] input, int n){</p>
+<p>		if(n==1)</p>
+<p>			return input;</p>
+<p>		int max=0;</p>
+<p>		int index = 0;</p>
+<p>		int[] lis = new int[input.length];</p>
+<p>		lis[0] = input[0];</p>
+<p>		for (int i = 1; i max){</p>
+<p>				max=input[i];</p>
+<p>				lis[++index]=input[i];</p>
+<p>			}</p>
+<p>		}</p>
+<p>		return lis;</p>
+<p>	}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-34055">
+        <div id="dsq-comment-header-34055" class="dsq-comment-header">
+            <cite id="dsq-cite-34055">
+                <span id="dsq-author-user-34055">kx</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34055" class="dsq-comment-body">
+            <div id="dsq-comment-message-34055" class="dsq-comment-message"><p>This is wrong&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-31884">
+        <div id="dsq-comment-header-31884" class="dsq-comment-header">
+            <cite id="dsq-cite-31884">
+                <span id="dsq-author-user-31884">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31884" class="dsq-comment-body">
+            <div id="dsq-comment-message-31884" class="dsq-comment-message"><p>Find the correct code here: <a href="https://github.com/imperialguy/algorithms/blob/master/dynamic.py" rel="nofollow">https://github.com/imperialguy/algorithms/blob/master/dynamic.py</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-31883">
+        <div id="dsq-comment-header-31883" class="dsq-comment-header">
+            <cite id="dsq-cite-31883">
+                <span id="dsq-author-user-31883">Ven Karri</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31883" class="dsq-comment-body">
+            <div id="dsq-comment-message-31883" class="dsq-comment-message"><p>The code above is wrong!!</p>
+<p>Find the correct code here:<br />
+<a href="https://github.com/imperialguy/algorithms/blob/master/dynamic.py" rel="nofollow">https://github.com/imperialguy/algorithms/blob/master/dynamic.py</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-31280">
+        <div id="dsq-comment-header-31280" class="dsq-comment-header">
+            <cite id="dsq-cite-31280">
+                <span id="dsq-author-user-31280">sp1rs</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31280" class="dsq-comment-body">
+            <div id="dsq-comment-message-31280" class="dsq-comment-message"><p>This is the version of code in java..</p>
+<p>public class LongestIncreasingSubsequence{</p>
+<p>	public static int arr[];</p>
+<p>	public static void main(String[] args){</p>
+<p>		arr=new int[]{10, 22, 9, 33, 21, 50, 41, 60, 80,100};       // Array length assume to be 10 ( It can be anything)</p>
+<p>		System.out.println(find_list(arr,10));	</p>
+<p>	}</p>
+<p>	public static int find_list(int a[],int len){</p>
+<p>		int list[]=new int[10];</p>
+<p>		for(int i=1;i&lt;len;i++){</p>
+<p>			for(int j=0;j&lt;i;j++){</p>
+<p>				if(a[j]&lt;a[i] &amp;&amp; list[i]&lt;list[j]+1){</p>
+<p>					list[i]+=1;	</p>
+<p>				}	</p>
+<p>			}</p>
+<p>		}</p>
+<p>		return list[len-1]+1;</p>
+<p>	}</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-31245">
+        <div id="dsq-comment-header-31245" class="dsq-comment-header">
+            <cite id="dsq-cite-31245">
+                <span id="dsq-author-user-31245">Aditya Pn</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31245" class="dsq-comment-body">
+            <div id="dsq-comment-message-31245" class="dsq-comment-message"><p>Here is my solution with complexity of O(n) </p>
+<p><a href="https://github.com/adityapn/ProgrammingInterview/blob/master/Dynamic%20Programming/LongestIncresingSubSequence.py" rel="nofollow">https://github.com/adityapn/ProgrammingInterview/blob/master/Dynamic%20Programming/LongestIncresingSubSequence.py</a></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-31319">
+        <div id="dsq-comment-header-31319" class="dsq-comment-header">
+            <cite id="dsq-cite-31319">
+                <span id="dsq-author-user-31319">Bala</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31319" class="dsq-comment-body">
+            <div id="dsq-comment-message-31319" class="dsq-comment-message"><p>Does your code work for 10,1,2,3,4,5?<br />
+I think ur code assumes LIS starts with first position of the sequence</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-31320">
+        <div id="dsq-comment-header-31320" class="dsq-comment-header">
+            <cite id="dsq-cite-31320">
+                <span id="dsq-author-user-31320">Aditya Pn</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31320" class="dsq-comment-body">
+            <div id="dsq-comment-message-31320" class="dsq-comment-message"><p>Thanks for finding out the bug <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /> , I corrected it to make work with all kinds of series . Check the same link again !</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-34056">
+        <div id="dsq-comment-header-34056" class="dsq-comment-header">
+            <cite id="dsq-cite-34056">
+                <span id="dsq-author-user-34056">kx</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34056" class="dsq-comment-body">
+            <div id="dsq-comment-message-34056" class="dsq-comment-message"><p>&#8216;your code assumes LIS starts with first position of the sequence&#8217; &#8212; That was not the issue with your code (If the code at above link is still good). I think your code doesn&#8217;t understand the &#8216;Longest Increasing Subsequence&#8217;.<br />
+For something like [11,12,13,14,15,1,2,3,16,17,18], longest common subsequence will be [11,12,13,14,15,16,17,18]. Above code will not find this.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-31872">
+        <div id="dsq-comment-header-31872" class="dsq-comment-header">
+            <cite id="dsq-cite-31872">
+                <span id="dsq-author-user-31872">Ven Karri</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31872" class="dsq-comment-body">
+            <div id="dsq-comment-message-31872" class="dsq-comment-message"><p>LIS is not the same as longest contiguous increasing subsequence. Your program returns the longest contiguous increasing subsequence, but that wasn&#8217;t the question.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-31115">
+        <div id="dsq-comment-header-31115" class="dsq-comment-header">
+            <cite id="dsq-cite-31115">
+                <span id="dsq-author-user-31115">???</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31115" class="dsq-comment-body">
+            <div id="dsq-comment-message-31115" class="dsq-comment-message"><p>Non-recursive &amp; recursive in same class, for comparing.</p>
+<p>public class Solution {</p>
+<p>	int[] max;</p>
+<p>	int[] _max;</p>
+<p>	public int LIS(int[] s) {</p>
+<p>		max = new int[s.length];</p>
+<p>		_max = new int[s.length];</p>
+<p>		Arrays.fill(max, 1);</p>
+<p>		Arrays.fill(_max, 1);</p>
+<p>		for (int i = 1; i &lt; s.length; i++) {</p>
+<p>			for (int j = 0; j <i> s[j] &amp;&amp; max[i] &lt; max[j] + 1)</p>
+<p>					max[i] = max[j] + 1;</p>
+<p>			}</p>
+<p>		}</p>
+<p>		Arrays.sort(max);</p>
+<p>		//recursive method</p>
+<p>		_LIS(s, s.length);</p>
+<p>		Arrays.sort(_max);</p>
+<p>		//return max[s.length-1];</p>
+<p>		return _max[s.length-1];</p>
+<p>	}</p>
+<p>	public int _LIS(int[] s, int where){</p>
+<p>		if (where == 1)</p>
+<p>			return  1;</p>
+<p>		int length;</p>
+<p>		for (int i = 1; i  _max[where-1] &amp;&amp; s[i-1] &lt; s[where-1])</p>
+<p>				_max[where-1] = length +1;</p>
+<p>		}</p>
+<p>		return _max[where-1];</p>
+<p>	}</p>
+<p>}</i></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-30679">
+        <div id="dsq-comment-header-30679" class="dsq-comment-header">
+            <cite id="dsq-cite-30679">
+                <span id="dsq-author-user-30679">leslie</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30679" class="dsq-comment-body">
+            <div id="dsq-comment-message-30679" class="dsq-comment-message"><p>implemented _lis in java and for some reason fails when negative numbers appear in the array &#8212; any suggestions?</p>
+<p>static public int lis (int arr[], int n, int maxRef) {</p>
+<p>    	if (n == 1) return 1;<br />
+    	int res, max  = 1;</p>
+<p>    	for (int i = 1; i &lt; n; i ++) {<br />
+    res = lis (arr, i, maxRef);<br />
+  if (arr[i &#8211; 1]  max) {<br />
+      max  = res + 1;<br />
+   }<br />
+    	}</p>
+<p>    	if (maxRef &lt; max)<br />
+   maxRef = max;</p>
+<p>    	return max;<br />
+    }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-30635">
+        <div id="dsq-comment-header-30635" class="dsq-comment-header">
+            <cite id="dsq-cite-30635">
+                <span id="dsq-author-user-30635">aman</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30635" class="dsq-comment-body">
+            <div id="dsq-comment-message-30635" class="dsq-comment-message"><p>@Admin : Can we find the length of LIS using constant space only? Finding LIS wont be possible because output size isn&#8217;t constant.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-30630">
+        <div id="dsq-comment-header-30630" class="dsq-comment-header">
+            <cite id="dsq-cite-30630">
+                <span id="dsq-author-user-30630">Pranali Yawalkar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30630" class="dsq-comment-body">
+            <div id="dsq-comment-message-30630" class="dsq-comment-message"><p>#include </p>
+<p>#include</p>
+<p>#include</p>
+<p>#include</p>
+<p>using namespace std;</p>
+<p>int a[50];</p>
+<p>std::pair  LUT[10];</p>
+<p>int function(int i);</p>
+<p>int main()</p>
+<p>{</p>
+<p>	cout&lt;&lt;&quot;enter a sequence&quot;&lt;&lt;endl;</p>
+<p>	//int a[50];</p>
+<p>	for(int i=0;i&gt;a[i];</p>
+<p>	LUT[0].first=a[0];</p>
+<p>	LUT[0].second=1;</p>
+<p>	function(1);</p>
+<p>	cout&lt;LUT[i-1].first)</p>
+<p>		{</p>
+<p>			LUT[i].first=a[i];</p>
+<p>			LUT[i].second=LUT[i-1].second+1;</p>
+<p>		}</p>
+<p>		else</p>
+<p>			LUT[i]=LUT[i-1];</p>
+<p>		function(i+1);</p>
+<p>	}</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-30629">
+        <div id="dsq-comment-header-30629" class="dsq-comment-header">
+            <cite id="dsq-cite-30629">
+                <span id="dsq-author-user-30629">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30629" class="dsq-comment-body">
+            <div id="dsq-comment-message-30629" class="dsq-comment-message"><p><code><br />
+#include<br />
+#include<br />
+#include<br />
+#include<br />
+using namespace std;<br />
+int a[50];<br />
+std::pair  LUT[10];<br />
+int function(int i);<br />
+int main()<br />
+{<br />
+	cout&lt;&lt;&quot;enter a sequence&quot;&lt;&lt;endl;<br />
+	for(int i=0;i&gt;a[i];<br />
+	LUT[0].first=a[0];<br />
+	LUT[0].second=1;<br />
+	function(1);<br />
+	cout&lt;LUT[i-1].first)<br />
+		{<br />
+			LUT[i].first=a[i];<br />
+			LUT[i].second=LUT[i-1].second+1;<br />
+		}<br />
+		else<br />
+			LUT[i]=LUT[i-1];<br />
+		function(i+1);<br />
+	}<br />
+}<br />
+</code></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-30276">
+        <div id="dsq-comment-header-30276" class="dsq-comment-header">
+            <cite id="dsq-cite-30276">
+                <span id="dsq-author-user-30276">Raghvendra Singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30276" class="dsq-comment-body">
+            <div id="dsq-comment-message-30276" class="dsq-comment-message"><p>Hello Geeksforgeeks,</p>
+<p>Please check your code for the input&#8212;</p>
+<p>3,2,11,10,6,4,12,13,5,8</p>
+<p>Although it is giving correct LIS  which is 4 in this case but when i printed all the possible LIS of length 5 the result was wrong.</p>
+<p>While i was checking the below two lines of code&#8212;-<br />
+if ( arr[i] &gt; arr[j] &amp;&amp; lis[i] &lt; lis[j] + 1)</p>
+<p>            lis[i] = lis[j] + 1;</p>
+<p>i found that for value 8 in input sequence the LIS which i am getting is&#8212;<br />
+  3,6,5,8<br />
+and this is incorrect because 5 cannot come after 6 in LIS.</p>
+<p>Please clarify.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-31526">
+        <div id="dsq-comment-header-31526" class="dsq-comment-header">
+            <cite id="dsq-cite-31526">
+                <span id="dsq-author-user-31526">neelabhsingh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31526" class="dsq-comment-body">
+            <div id="dsq-comment-message-31526" class="dsq-comment-message"><p>Dear Raghvendra,</p>
+<p>I tested your test case. As given lis[]. I print this array. </p>
+<p>I am getting like this : list[]={1 1 2 2 2 2 3 4 3 4};</p>
+<p>                                Length of LIS is 4</p>
+<p>possible sub sequence are (3,2),(11,10,6,4) ,12,13 =&gt; length=4<br />
+                                             (3,2), 4,(6,5),8=&gt; length=4;<br />
+Not possible greater than 4.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-29999">
+        <div id="dsq-comment-header-29999" class="dsq-comment-header">
+            <cite id="dsq-cite-29999">
+                <span id="dsq-author-user-29999">pavansrinivas</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29999" class="dsq-comment-body">
+            <div id="dsq-comment-message-29999" class="dsq-comment-message"><p>Following is O(n^3 ) Soln that prints all the sequences&#8230;What modifications can be made to make it run in O(n^2)??<br />
+<code><br />
+    int LIS(int[] a){<br />
+        int fin_max = 1;<br />
+        for(int i=0;i&lt;a.length;i++){<br />
+            int max  = 1;<br />
+            for(int j=i+1;j&lt;a.length;j++){<br />
+                int max_ele = a[i];<br />
+                String kk = a[i]+&quot;-&quot;;<br />
+                for(int k = j;k<a>max_ele){<br />
+                    max++;<br />
+                    kk +=a[k]+"-";<br />
+                    max_ele = a[k];<br />
+                }<br />
+                }<br />
+                System.out.println(kk+"----"+max);<br />
+                if(max&gt;fin_max){<br />
+                    fin_max = max;<br />
+                }<br />
+                max = 1;<br />
+            }<br />
+        }<br />
+        return fin_max;<br />
+    }<br />
+</a></code></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-28920">
+        <div id="dsq-comment-header-28920" class="dsq-comment-header">
+            <cite id="dsq-cite-28920">
+                <span id="dsq-author-user-28920">Saket Kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28920" class="dsq-comment-body">
+            <div id="dsq-comment-message-28920" class="dsq-comment-message"><p>// Java code time complexity O(n^2) &amp; space complexity O(1)<br />
+	public static int LIS(int[] arr){<br />
+		int len=arr.length; int max_sub=0;</p>
+<p>		for(int i=0;i&lt;len;i++){<br />
+			int count=1; int value=arr[i];<br />
+			for(int j=i;j&lt;len;j++){<br />
+				if(value&lt;arr[j]){<br />
+					count++;<br />
+					value=arr[j];<br />
+				}<br />
+				if(max_sub&lt;count)<br />
+					max_sub=count;<br />
+			}<br />
+		}<br />
+		return max_sub;<br />
+	}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-28398">
+        <div id="dsq-comment-header-28398" class="dsq-comment-header">
+            <cite id="dsq-cite-28398">
+                <span id="dsq-author-user-28398">Chandan Mittal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28398" class="dsq-comment-body">
+            <div id="dsq-comment-message-28398" class="dsq-comment-message"><p>Can anyone please help me understanding what does lis[i] contains?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-31527">
+        <div id="dsq-comment-header-31527" class="dsq-comment-header">
+            <cite id="dsq-cite-31527">
+                <span id="dsq-author-user-31527">neelabhsingh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31527" class="dsq-comment-body">
+            <div id="dsq-comment-message-31527" class="dsq-comment-message"><p>I am getting like this : list[]={1 1 2 2 2 2 3 4 3 4};</p>
+<p>Length of LIS is 4</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-27630">
+        <div id="dsq-comment-header-27630" class="dsq-comment-header">
+            <cite id="dsq-cite-27630">
+                <span id="dsq-author-user-27630">timus</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27630" class="dsq-comment-body">
+            <div id="dsq-comment-message-27630" class="dsq-comment-message"><p>thanks for ths&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-27232">
+        <div id="dsq-comment-header-27232" class="dsq-comment-header">
+            <cite id="dsq-cite-27232">
+                <span id="dsq-author-user-27232">Subhransu Sahoo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27232" class="dsq-comment-body">
+            <div id="dsq-comment-message-27232" class="dsq-comment-message"><p>I do not think we need to loop through to find the max, the max is already there in lis[n-1]</p>
+<p>/* Pick maximum of all LIS values */<br />
+   for ( i = 0; i &lt; n; i++ )<br />
+      if ( max &lt; lis[i] )<br />
+         max = lis[i];</p>
+<p>Just return lis[n-1]</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-27267">
+        <div id="dsq-comment-header-27267" class="dsq-comment-header">
+            <cite id="dsq-cite-27267">
+                <span id="dsq-author-user-27267">sirui</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27267" class="dsq-comment-body">
+            <div id="dsq-comment-message-27267" class="dsq-comment-message"><p>lis[n-1] may not be the max because lis[i] is &#8220;the length of the LIS till index i such that arr[i] is part of LIS &#8220;. Notice that arr[i] is part of LIS!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-27268">
+        <div id="dsq-comment-header-27268" class="dsq-comment-header">
+            <cite id="dsq-cite-27268">
+                <span id="dsq-author-user-27268">Sumit Monga</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27268" class="dsq-comment-body">
+            <div id="dsq-comment-message-27268" class="dsq-comment-message"><p>No, the loop to find max is necessary because elements are in unsorted order and lis[i] is the longest increasing subsequence upto arr[i] with arr[i] included.<br />
+Hope its clear now.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-29398">
+        <div id="dsq-comment-header-29398" class="dsq-comment-header">
+            <cite id="dsq-cite-29398">
+                <span id="dsq-author-user-29398">anonymous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29398" class="dsq-comment-body">
+            <div id="dsq-comment-message-29398" class="dsq-comment-message"><p>suppose given array is<br />
+                10,22,9,33,21,50,41,40,60,55<br />
+LCS  1,2,  1, 3, 2,  4,  4,   4,  5,   5<br />
+Explanation    10 there is no one smaller than 10 so value is LCS(10)=1 ,<br />
+LCS(22)= 2, LSC(9)=1 because we have to keep in mind that 9 is also included but there is no number less than 9,LSC(33)= 3 because 33 is bigger than all three number 10,22, 9 so take max LCS , which is LCS(22)=2, LSC(33)=1+LSC(22) similar approach for all other &#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-29649">
+        <div id="dsq-comment-header-29649" class="dsq-comment-header">
+            <cite id="dsq-cite-29649">
+                <span id="dsq-author-user-29649">Shimpu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29649" class="dsq-comment-body">
+            <div id="dsq-comment-message-29649" class="dsq-comment-message"><p>for ( i = 0; i &lt; n; i++ )<br />
+      if ( max &lt; lis[i] )<br />
+         max = lis[i]; </p>
+<p>is necessary suppose the list is 10,22,9,33,21<br />
+lis values are 1,2,1,3,2<br />
+its lis[n-1] value is 2 ..which is incorrect&#8230;as it clearly shows ans is 3&#8230;so we hav to pick max frm lis&#8230;Hope you got the point&#8230;.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-ramneek-garg odd alt thread-even depth-1" id="dsq-comment-25171">
+        <div id="dsq-comment-header-25171" class="dsq-comment-header">
+            <cite id="dsq-cite-25171">
+                <span id="dsq-author-user-25171">ramneek garg</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-25171" class="dsq-comment-body">
+            <div id="dsq-comment-message-25171" class="dsq-comment-message"><p>#include<stdio .h><br />
+int max(int a,int b)<br />
+{<br />
+    if(a>b)<br />
+        return a;<br />
+    else<br />
+        return b;<br />
+}<br />
+int subseq(int i,int arr[])<br />
+{<br />
+    static int longest[100];<br />
+    int j,p=-1;<br />
+    for(j=0;j<i ;j++)<br />
+    {<br />
+        if(arr[j]>arr[i])<br />
+        {<br />
+            p=max(p,1);<br />
+        }<br />
+        else<br />
+        {<br />
+            if(longest[j]==0)<br />
+            {<br />
+                p=max(subseq(j,arr),p);<br />
+            }<br />
+            else<br />
+            {<br />
+                p=max(longest[j],p);<br />
+            }<br />
+        }<br />
+    }<br />
+    longest[i]=p+1;<br />
+    return longest[i];<br />
+}<br />
+void main()<br />
+{<br />
+    int arr[]={10,22,9,33,21,50,41,60,80};<br />
+    printf(&#8220;longest increasing subsequense is %d&#8221;,subseq((sizeof(arr)/sizeof(int)-1),arr));<br />
+}</i></stdio></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-vinodhinic even thread-odd thread-alt depth-1" id="dsq-comment-24791">
+        <div id="dsq-comment-header-24791" class="dsq-comment-header">
+            <cite id="dsq-cite-24791">
+                <span id="dsq-author-user-24791">vinodhinic</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24791" class="dsq-comment-body">
+            <div id="dsq-comment-message-24791" class="dsq-comment-message"><p>How to extend this logic to print all the LIS?<br />
+For eg:<br />
+ for input {10,22,9,33,21,50,41,40,60,55}<br />
+ LIS would be  [1, 2, 1, 3, 2, 4, 4, 4, 5, 5]<br />
+And output should be:<br />
+10,22,33,40,55<br />
+10,22,33,41,60<br />
+10,22,33,50,60<br />
+10,22,33,41,55<br />
+10,22,33,50,55<br />
+10,22,33,40,60</p>
+<p>I have tried using collections in JAVA<br />
+<a href="http://ideone.com/H3zte5" rel="nofollow">http://ideone.com/H3zte5</a></p>
+<p>But I would appreciate if someone could post a neat solution</p>
+<p>Thanks in advance.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-24778">
+        <div id="dsq-comment-header-24778" class="dsq-comment-header">
+            <cite id="dsq-cite-24778">
+                <span id="dsq-author-user-24778">Vinodhini</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24778" class="dsq-comment-body">
+            <div id="dsq-comment-message-24778" class="dsq-comment-message"><p>Hi,<br />
+I need a solution that prints all the LIS of the given input. For Eg: for input {10,22,9,33,21,50,41,40,60,55} LIS array: [1, 2, 1, 3, 2, 4, 4, 4, 5, 5] The output should be:<br />
+10,22,33,40,55<br />
+10,22,33,41,60<br />
+10,22,33,50,60<br />
+10,22,33,41,55<br />
+10,22,33,50,55<br />
+10,22,33,40,60</p>
+<p>I have tried in JAVA. (link: <a href="http://ideone.com/H3zte5" rel="nofollow">http://ideone.com/H3zte5</a> ) But to admit, it is pretty clumsy with all the collections and iterators. Could anyone provide solution that is simple? I am guessing we could use Graph and find the longest path. But I am nowhere near achieving the solution. Someone please help.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-28979">
+        <div id="dsq-comment-header-28979" class="dsq-comment-header">
+            <cite id="dsq-cite-28979">
+                <span id="dsq-author-user-28979">G4GFan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28979" class="dsq-comment-body">
+            <div id="dsq-comment-message-28979" class="dsq-comment-message"><p>/*</p>
+<p>	This prints length longest increasing subsequence (not necessarily contiguous)</p>
+<p>	{10,22,9,33,21,50,41,40,60,55} = 5</p>
+<p>	{10,22,33,50,60} = LIS</p>
+<p>*/</p>
+<p>#include</p>
+<p>#include</p>
+<p>#include</p>
+<p>void printArray(int arr[], int len){</p>
+<p>	int i = 0;	</p>
+<p>	while(i&lt;len){</p>
+<p>		printf(&quot;%dt&quot;, arr[i]);</p>
+<p>		i++;</p>
+<p>	}</p>
+<p>	printf(&quot;n&quot;);</p>
+<p>}</p>
+<p>void printLis(int arr[], int lis[], int res[], int next, int index, int maxLength, int arrlen){</p>
+<p>	int i,j,k;</p>
+<p>	if(index == maxLength+1){</p>
+<p>		printArray(res,index);</p>
+<p>		return;	</p>
+<p>	}</p>
+<p>	for(i=0;i0){</p>
+<p>				k = 0;</p>
+<p>				while(k<i> lis[i]){</p>
+<p>						break;</p>
+<p>					}</p>
+<p>					else {</p>
+<p>						k++;</p>
+<p>					}				</p>
+<p>				}</p>
+<p>				if(k == i){</p>
+<p>					res[next] = arr[i];</p>
+<p>					//printf(&#8220;%dn&#8221;, res[next]);					</p>
+<p>					printLis(arr, lis, res, next+1, index+1, maxLength, arrlen);</p>
+<p>				}	</p>
+<p>			}	</p>
+<p>		}</p>
+<p>	}</p>
+<p>}</p>
+<p>void getSubsequence(int arr[], int len){</p>
+<p>	int max,i,j,k,max_index;</p>
+<p>	int* lis = (int*)malloc(sizeof(int)*len);</p>
+<p>	max = arr[0];</p>
+<p>	lis[0] = 1;</p>
+<p>	i=1;</p>
+<p>	max_index = 0;</p>
+<p>	while(i= max){</p>
+<p>			lis[i] = lis[max_index] + 1;</p>
+<p>			max = arr[i];</p>
+<p>			max_index = i;</p>
+<p>		}</p>
+<p>		else{</p>
+<p>			int k = 0;</p>
+<p>			int min_diff = abs(arr[i]-arr[0]);</p>
+<p>			int index = 0;</p>
+<p>			while(k&lt;i){</p>
+<p>				int diff = abs(arr[i]-arr[k]);</p>
+<p>				if(diff &lt; min_diff){</p>
+<p>					min_diff = diff;</p>
+<p>					index = k;				</p>
+<p>				}</p>
+<p>				k++;		</p>
+<p>			}</p>
+<p>			if(arr[i] &lt; arr[index]){</p>
+<p>				lis[i] = lis[index];			</p>
+<p>			}</p>
+<p>			else{</p>
+<p>				lis[i] = lis[index] + 1;</p>
+<p>			}</p>
+<p>		}</p>
+<p>		i++;	</p>
+<p>	}</p>
+<p>	printArray(lis, len);</p>
+<p>	int* res = (int*)malloc(sizeof(int) * lis[max_index]);	</p>
+<p>	//printf(&quot;%dn&quot;, lis[max_index]);</p>
+<p>	printLis(arr, lis, res, 0, 1, lis[max_index], len);</p>
+<p>}</p>
+<p>int main(){</p>
+<p>	int arr[] = {10,22,9,33,21,50,41,40,60,55};</p>
+<p>	getSubsequence(arr, 10);	</p>
+<p>	int arr1[] = {9,33,21,50,40,60,55};</p>
+<p>	getSubsequence(arr1, 7);</p>
+<p>	return 0;</p>
+<p>}</i></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-innosam odd alt thread-odd thread-alt depth-1" id="dsq-comment-21591">
+        <div id="dsq-comment-header-21591" class="dsq-comment-header">
+            <cite id="dsq-cite-21591">
+                <span id="dsq-author-user-21591">innosam</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21591" class="dsq-comment-body">
+            <div id="dsq-comment-message-21591" class="dsq-comment-message"><p><a href="http://innosamcodes.wordpress.com/2013/07/06/longest-increasing-subsequence/" rel="nofollow">http://innosamcodes.wordpress.com/2013/07/06/longest-increasing-subsequence/</a><br />
+Check out the blog, for a explanation with brevity.<br />
+I have also written code to print the LIS.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-21305">
+        <div id="dsq-comment-header-21305" class="dsq-comment-header">
+            <cite id="dsq-cite-21305">
+                <span id="dsq-author-user-21305">Karan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21305" class="dsq-comment-body">
+            <div id="dsq-comment-message-21305" class="dsq-comment-message"><p>Can somebody please explain why we need to check this [if (arr[i-1]  max_ending_here)<br />
+            max_ending_here = res + 1;<br />
+] condition?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-sah_ odd alt thread-odd thread-alt depth-1" id="dsq-comment-16260">
+        <div id="dsq-comment-header-16260" class="dsq-comment-header">
+            <cite id="dsq-cite-16260">
+                <span id="dsq-author-user-16260">sah_</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16260" class="dsq-comment-body">
+            <div id="dsq-comment-message-16260" class="dsq-comment-message"><p>Yet another simple brute force O(n^3) solution..<br />
+It considers all possible continuous sub-sequences&#8230;</p>
+<p>#include<iostream></p>
+<p>using namespace std;<br />
+int main()<br />
+{<br />
+    int arr[]={ 10, 22, 9, 33, 21, 50, 41, 60, 80 } ;<br />
+    int big=0;<br />
+    int curr=0;<br />
+    int n=9;<br />
+    for(int i=0;i<n;++i)<br />
+    {<br />
+        for(int j=i;j<n;++j)<br />
+        {<br />
+            curr=1;<br />
+            for(int k=i;k<j;++k)<br />
+            {<br />
+                if(arr[k]<arr[k+1])<br />
+                ++curr;<br />
+            }<br />
+            if(big<curr)big=curr;<br />
+        }<br />
+    }<br />
+    cout<<&#8221;\nLIS is of length : &#8220;<<big;<br />
+    return 0;<br />
+}</iostream></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-15566">
+        <div id="dsq-comment-header-15566" class="dsq-comment-header">
+            <cite id="dsq-cite-15566">
+                <span id="dsq-author-user-15566">Nikin Kumar Jain</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15566" class="dsq-comment-body">
+            <div id="dsq-comment-message-15566" class="dsq-comment-message"><p>Method to Print Longest Increasing Subsequence</p>
+<pre> <code language="C">
+// LongestIncreasingSequence.cpp : Defines the entry point for the console application.
+//
+
+#include &quot;stdafx.h&quot;
+#include &lt;iostream&gt;
+
+using namespace std;
+
+void printLIS(int arr[], int lis[], int max, int n)
+{
+	if(n &lt; 0)
+		return;
+	if(lis[n] == max)
+	{
+		printLIS(arr, lis, max-1, n-1);
+		cout&lt;&lt;arr[n]&lt;&lt;&quot; &quot;;
+	}
+	else
+	{
+		printLIS(arr, lis, max, n-1);
+	}
+}
+
+int lis(int arr[], int n)
+{
+	int count = 0; 
+	int *lis = (int *)malloc(sizeof(int) * n);
+	int i, j, index;
+
+	for(int i=0;i&lt;n;i++)
+		lis[i] = 1;
+
+	for(int i=1;i&lt;n;i++)
+		for(int j = 0; j&lt;i;j++)
+		{
+			if(arr[i] &gt; arr[j] &amp;&amp; lis[i] &lt; lis[j] + 1)
+			{
+				lis[i] = lis[j] + 1;
+				index = i;
+			}
+		}
+	int max = lis[index];
+	cout&lt;&lt;endl;
+
+	printLIS(arr, lis, max, n-1);
+
+	free(lis);
+	return max;
+}
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	int arr[] = {10,22,9,33,21,50,41,60};
+
+	cout&lt;&lt;endl&lt;&lt;&quot;Longest Increasing Sequence: &quot;&lt;&lt;lis(arr, sizeof(arr)/sizeof(arr[0]));
+	getchar();
+	return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-15690">
+        <div id="dsq-comment-header-15690" class="dsq-comment-header">
+            <cite id="dsq-cite-15690">
+                <span id="dsq-author-user-15690">shubham</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15690" class="dsq-comment-body">
+            <div id="dsq-comment-message-15690" class="dsq-comment-message"><p>there is something wong in printing values as it is printing wrong  for test case<br />
+ { 10, 22, 9, 33, 21, 50, 41, 60, 80 }<br />
+it should print{ 10,22,33, 50, 60, 80}<br />
+but it is giving {10,22,33 ,41 ,60 ,80}</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-15691">
+        <div id="dsq-comment-header-15691" class="dsq-comment-header">
+            <cite id="dsq-cite-15691">
+                <span id="dsq-author-user-15691">shubham</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15691" class="dsq-comment-body">
+            <div id="dsq-comment-message-15691" class="dsq-comment-message"><p>//it should be like this</p>
+<p>#include<br />
+#include<br />
+using namespace std;<br />
+void printLIS(int arr[], int lis[], int max, int n)<br />
+{<br />
+    if(n 0;i&#8211;)<br />
+        {<br />
+         if(lis[n]==max &amp;&amp;  lis[n-1]==max &amp;&amp; arr[n]&lt;arr[n-1])<br />
+          n=n-1;<br />
+          else<br />
+          break;<br />
+          }<br />
+        printLIS(arr, lis, max-1, n-1);<br />
+        cout&lt;&lt;arr[n]&lt;&lt;&quot; &quot;;<br />
+    }<br />
+    else<br />
+    {<br />
+        printLIS(arr, lis, max, n-1);<br />
+    }<br />
+}</p>
+<p>void lis_length(int arr[],int m)<br />
+{<br />
+ int lis[m+1];<br />
+ int value[m+1];<br />
+ fill(&amp;lis[0],&amp;lis[m],1);<br />
+ for(int i=1;i&lt;m;i++)<br />
+ for(int j=0;j<i>arr[j]&amp;&amp;lis[i]&lt;lis[j]+1)<br />
+{ lis[i]=lis[j]+1;value[i]=arr[j];}</p>
+<p> int max=*max_element(lis,lis+m);<br />
+ cout&lt;&lt;max&lt;&gt;t;<br />
+    while(t&#8211;)<br />
+  {<br />
+  int n;<br />
+  cin&gt;&gt;n;<br />
+  int a[n];<br />
+  for(int i=0;i&gt;a[i];  </p>
+<p>  lis_length(a,n);<br />
+ }<br />
+}</i></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-3" id="dsq-comment-15692">
+        <div id="dsq-comment-header-15692" class="dsq-comment-header">
+            <cite id="dsq-cite-15692">
+                <span id="dsq-author-user-15692">shubham</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15692" class="dsq-comment-body">
+            <div id="dsq-comment-message-15692" class="dsq-comment-message"><p>#include<br />
+#include<br />
+using namespace std;<br />
+void printLIS(int arr[], int lis[], int max, int n)<br />
+{<br />
+    if(n 0;i&#8211;)<br />
+        {<br />
+         if(lis[n]==max &amp;&amp;  lis[n-1]==max &amp;&amp;arr[n]&lt;arr[n-1])<br />
+          n=n-1;<br />
+          else<br />
+          break;<br />
+          }<br />
+        printLIS(arr, lis, max-1, n-1);<br />
+        cout&lt;&lt;arr[n]&lt;&lt;&quot; &quot;;<br />
+    }<br />
+    else<br />
+    {<br />
+        printLIS(arr, lis, max, n-1);<br />
+    }<br />
+}</p>
+<p>void lis_length(int arr[],int m)<br />
+{<br />
+ int lis[m+1];<br />
+ int value[m+1];<br />
+ fill(&amp;lis[0],&amp;lis[m],1);<br />
+ for(int i=1;i&lt;m;i++)<br />
+ for(int j=0;j<i>arr[j]&amp;&amp;lis[i]&lt;lis[j]+1)<br />
+{ lis[i]=lis[j]+1;value[i]=arr[j];}</p>
+<p> int max=*max_element(lis,lis+m);<br />
+ cout&lt;&lt;max&lt;&gt;t;<br />
+    while(t&#8211;)<br />
+  {<br />
+  int n;<br />
+  cin&gt;&gt;n;<br />
+  int a[n];<br />
+  for(int i=0;i&gt;a[i];  </p>
+<p>  lis_length(a,n);<br />
+ }<br />
+}</i></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-aygul even depth-3" id="dsq-comment-15744">
+        <div id="dsq-comment-header-15744" class="dsq-comment-header">
+            <cite id="dsq-cite-15744">
+                <span id="dsq-author-user-15744">aygul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15744" class="dsq-comment-body">
+            <div id="dsq-comment-message-15744" class="dsq-comment-message"><p>Actually it not wrong. It is one of the LISs and there might be more than one.<br />
+If you extend the code by storing the max end points, with the help of max length you can print all LISs.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-19111">
+        <div id="dsq-comment-header-19111" class="dsq-comment-header">
+            <cite id="dsq-cite-19111">
+                <span id="dsq-author-user-19111">mohitk</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19111" class="dsq-comment-body">
+            <div id="dsq-comment-message-19111" class="dsq-comment-message"><p>Hi,<br />
+I believe the above also doesnt work for the below input:<br />
+{10, 11, 12, 9, 8, 7, 5, 6 }</p>
+<p>It would always select the last altered LIS value as max, which is not the case in above.<br />
+The algo returns 2 whereas correct should be 3.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-20438">
+        <div id="dsq-comment-header-20438" class="dsq-comment-header">
+            <cite id="dsq-cite-20438">
+                <span id="dsq-author-user-20438">Rohit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20438" class="dsq-comment-body">
+            <div id="dsq-comment-message-20438" class="dsq-comment-message"><p>@mohitk : yea.. it would not print proper values whenever the last element in sequence is not maximum, so it just need to copy its max value calculation form geeksforgeeks solution(not to mention, with proper curly braces) instead of making &#8220;index = i&#8221; and it should work fine.</p>
+<p>/* Pick maximum of all LIS values */<br />
+   for ( i = 0; i &lt; n; i++ ){<br />
+      if ( max &lt; lis[i] )<br />
+        max = lis[i];<br />
+   }</p>
+<p>/* Paste your code here (You may delete these lines if not writing code) */</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-14942">
+        <div id="dsq-comment-header-14942" class="dsq-comment-header">
+            <cite id="dsq-cite-14942">
+                <span id="dsq-author-user-14942">mrn</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14942" class="dsq-comment-body">
+            <div id="dsq-comment-message-14942" class="dsq-comment-message"><pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+for(int i=0;i&lt;n;i++)
+		for(int j=i+1;j&lt;n;j++)
+			{
+				if(a[i] &lt; a[i])
+					{
+						b[j]=max(b[j],b[i]+1);
+						if(maxim&lt;b[j])
+							maxim=b[j];
+						prv[j]=i;
+					}
+			}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-jatinjindalj even thread-even depth-1" id="dsq-comment-14746">
+        <div id="dsq-comment-header-14746" class="dsq-comment-header">
+            <cite id="dsq-cite-14746">
+                <span id="dsq-author-user-14746">jatinjindalj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14746" class="dsq-comment-body">
+            <div id="dsq-comment-message-14746" class="dsq-comment-message"><p>Hello Geeksforgeeks,</p>
+<p>I tried to understand and code the solution in Java.<br />
+The below is the code and it looks a little simpler then what you have given.<br />
+Could not understand the purpose of max_ref.<br />
+Can you please check.</p>
+<p>Regards</p>
+<p>public class lis<br />
+{<br />
+	static int lis_(int[] in,int last)<br />
+	{<br />
+		if(last==1)<br />
+			return 1;<br />
+		int result,maxTillNow=1;<br />
+		for(int i=1;i&lt;last;i++)<br />
+		{<br />
+			result=lis_(in,i);<br />
+			if(in[i-1]&lt;in[last-1] &amp;&amp; result+1&gt;maxTillNow)<br />
+				maxTillNow=result+1;<br />
+		}<br />
+		return maxTillNow;<br />
+	}</p>
+<p>	public static void main(String args[])<br />
+	{<br />
+		int[] in={0,8,4,12,2,10,6,14,1,9,5,13,3,11,7,15};<br />
+		System.out.println(&quot;lis:&quot;+lis_(in,in.length));<br />
+	}<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-14533">
+        <div id="dsq-comment-header-14533" class="dsq-comment-header">
+            <cite id="dsq-cite-14533">
+                <span id="dsq-author-user-14533">maverick</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14533" class="dsq-comment-body">
+            <div id="dsq-comment-message-14533" class="dsq-comment-message"><p>@GeeksforGeeks There is a minute bug in the recursive code above<br />
+in the line </p>
+<p>if (arr[i-1]  max_ending_here)</p>
+<p>which should actually be</p>
+<p>if (arr[i-1]  max_ending_here)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-14427">
+        <div id="dsq-comment-header-14427" class="dsq-comment-header">
+            <cite id="dsq-cite-14427">
+                <span id="dsq-author-user-14427">bharath Jhadey</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14427" class="dsq-comment-body">
+            <div id="dsq-comment-message-14427" class="dsq-comment-message"><p>/* Paste your code here (You may delete these lines if not writing code) */</p>
+<p>public class LCS {<br />
+    public LCS() {<br />
+        super();<br />
+    }<br />
+    public static int LCS(int [] A, int current, int k){<br />
+        if(current&gt;=A.length)<br />
+            return 0;<br />
+        if(A[current]&gt;k)<br />
+            return max(1+LCS(A,current+1,A[current]),LCS(A,current+1,k));<br />
+        else return LCS(A,current+1,A[current]);<br />
+    }<br />
+    public static int max(int a,int b){<br />
+        return a&gt;b?a:b;<br />
+    }<br />
+    public static void main(String [] args){<br />
+        int [] A={10,22,9,33,21,50,41,60,80};<br />
+       System.out.println( LCS(A,0,0));<br />
+    }<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-11929">
+        <div id="dsq-comment-header-11929" class="dsq-comment-header">
+            <cite id="dsq-cite-11929">
+                <span id="dsq-author-user-11929">Saurabh Jain</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11929" class="dsq-comment-body">
+            <div id="dsq-comment-message-11929" class="dsq-comment-message"><pre> <code language="Java">
+/* Paste your code here (You may delete these lines if not writing code) */
+/**
+ *
+ * @author saurabh
+ */
+public class LongestIncreasingSubsequence 
+{
+    int a[];
+    public LongestIncreasingSubsequence()
+    {
+        Scanner sc = new Scanner(System.in);
+        int size = sc.nextInt();
+        a = new int[size];
+        for(int i=0; i&lt;size; i++)
+        {
+            a[i] = sc.nextInt();
+        }
+        System.out.println(&quot;Initial Array : &quot;);
+        this.printArray();
+        System.out.println(&quot;\nLongest Increasing SubSequence is : &quot;);
+        this.printLongestSubSequence();
+    }
+    
+    private void printArray()
+    {
+        for(int i=0; i&lt;a.length; i++)
+            System.out.print(a[i]+&quot; &quot;);
+    }
+    
+    private void printLongestSubSequence()
+    {
+        int max_len=1,len_so_far,init=0,l;
+        for(int i=0; i&lt;a.length; i++)
+        {
+            len_so_far=1;
+            l = a[i];
+            for(int j=i+1; j&lt;a.length; j++)
+            {
+                if(a[j]&gt;l)
+                {
+                    len_so_far++;
+                    l = a[j];
+                }
+            }
+            if(max_len&lt;len_so_far)
+            {
+                max_len = len_so_far;
+                init = i;
+            }
+        }
+        int count=1;
+        l = a[init];
+        System.out.print(a[init]+&quot; &quot;);
+        for(int i=init+1; i&lt;a.length; i++)
+            if(a[i]&gt;l)
+            {
+                System.out.print(a[i]+&quot; &quot;);
+                l = a[i];
+                count++;
+            }
+        System.out.println();
+        System.out.println(&quot;Length of Longest Increasing SubSequence is : &quot;+count);
+    }
+    
+    public static void main(String[] args)
+    {
+        LongestIncreasingSubsequence lis = new LongestIncreasingSubsequence();
+    }
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-11930">
+        <div id="dsq-comment-header-11930" class="dsq-comment-header">
+            <cite id="dsq-cite-11930">
+                <span id="dsq-author-user-11930">Saurabh Jain</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11930" class="dsq-comment-body">
+            <div id="dsq-comment-message-11930" class="dsq-comment-message"><p>Time Complexity of this code is O(n*n) or O(n^2)&#8230;correct me if anything is wrong&#8230;..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-11932">
+        <div id="dsq-comment-header-11932" class="dsq-comment-header">
+            <cite id="dsq-cite-11932">
+                <span id="dsq-author-user-11932">Saurabh Jain</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11932" class="dsq-comment-body">
+            <div id="dsq-comment-message-11932" class="dsq-comment-message"><p>I forgot to write&#8230;. import java.util.Scanner&#8230;.so don&#8217;t forget to use it&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-10900">
+        <div id="dsq-comment-header-10900" class="dsq-comment-header">
+            <cite id="dsq-cite-10900">
+                <span id="dsq-author-user-10900">swathi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10900" class="dsq-comment-body">
+            <div id="dsq-comment-message-10900" class="dsq-comment-message"><p>Can you please explain how to print the sequence of the LIS. I am facing the difficulty when we have multiple sets of LIS. Thanks..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-9617">
+        <div id="dsq-comment-header-9617" class="dsq-comment-header">
+            <cite id="dsq-cite-9617">
+                <span id="dsq-author-user-9617">Spock</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9617" class="dsq-comment-body">
+            <div id="dsq-comment-message-9617" class="dsq-comment-message"><p>Why is there a need to check lis[i] &lt; lis[j] + 1 ??<br />
+I guess lis[i] will always be greater than lis[j] + 1.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-9633">
+        <div id="dsq-comment-header-9633" class="dsq-comment-header">
+            <cite id="dsq-cite-9633">
+                <span id="dsq-author-user-9633">Shrey</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9633" class="dsq-comment-body">
+            <div id="dsq-comment-message-9633" class="dsq-comment-message"><p>@Spock : Consider for i=3; you have the arr array&#8217;s elements as {10,22,9,33}.Now for calculating lis array we compare 33 with 10 its ok then we compare 33 with 22 its again ok and at last 33 with 9,its ok but the given subsequence is not a longest increasing subsequence as 9&lt;22.hence this check is required.</p>
+<p>Correct me if i am wrong.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-8881">
+        <div id="dsq-comment-header-8881" class="dsq-comment-header">
+            <cite id="dsq-cite-8881">
+                <span id="dsq-author-user-8881">supercooluku</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8881" class="dsq-comment-body">
+            <div id="dsq-comment-message-8881" class="dsq-comment-message"><p>What is the time complexity of the naive recursive solution of LIS and also tell me how to find the time complexity of such a recursive code&#8230;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-8884">
+        <div id="dsq-comment-header-8884" class="dsq-comment-header">
+            <cite id="dsq-cite-8884">
+                <span id="dsq-author-user-8884">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8884" class="dsq-comment-body">
+            <div id="dsq-comment-message-8884" class="dsq-comment-message"><p>The time complexity of the Naive Recursive solution is O(2^(n-1)) (2 raise to the power n-1).</p>
+<p>You can get the time complexity by taking some sample values. Like T(3) = 4, T(4) = 8, T(5) = 16.<br />
+You can also solve it by solving the following recurrence.<br />
+T(n) = T(n-1) + T(n-2) + .. T(1)<br />
+and T(1) is constant</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8715">
+        <div id="dsq-comment-header-8715" class="dsq-comment-header">
+            <cite id="dsq-cite-8715">
+                <span id="dsq-author-user-8715">krishna</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8715" class="dsq-comment-body">
+            <div id="dsq-comment-message-8715" class="dsq-comment-message"><p>The problem &#8220;sum sum of the sub sequence&#8221;, cannot have O(nlogn).<br />
+Reason: if we encounter an element which is less than all the max heads we need to move the array completely to right by one and add one element there, is there any other logic that avoids this condition? i believe not.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8460">
+        <div id="dsq-comment-header-8460" class="dsq-comment-header">
+            <cite id="dsq-cite-8460">
+                <span id="dsq-author-user-8460">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8460" class="dsq-comment-body">
+            <div id="dsq-comment-message-8460" class="dsq-comment-message"><p>@venki &amp; @sparco:<br />
+The recursive function &#8220;_lis(arr, n)&#8221; must return the length of LIS ending arr[n-1] so that the value can be used by caller in recursion. Also, we need length of LIS in overall array. The earlier implementaion had some issues as it was returning only one value. Thanks for pointing out the issues. We have updated the naive recursive implementaion now.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8451">
+        <div id="dsq-comment-header-8451" class="dsq-comment-header">
+            <cite id="dsq-cite-8451">
+                <span id="dsq-author-user-8451">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8451" class="dsq-comment-body">
+            <div id="dsq-comment-message-8451" class="dsq-comment-message"><p>@Sandeep, In the recursive program, the logic behind the comparison &#8220;<b>if (arr[i-1] &lt; arr[n-1])</b>&#8221; is not clear.</p>
+<p>Consider we are at an arbitrary position &#8216;i&#8217;, and want to find the length of LIS at i-th location. If we know the maximum length till (i-1)th element, and if (A[i] &gt; A[i-1]) we simply extend the LIS length by one. Otherwise (i.e. (A[i] &lt;= A[i-1])), the maximum length of LIS at i-th location is same as (i-1)th location.</p>
+<p>Putting in code, I have the following piece of code,</p>
+<p>int LIS(int A[], int l, int r)<br />
+{<br />
+    if( (r &#8211; l + 1) == 1 )<br />
+        return 1;</p>
+<p>    int curLen;<br />
+    int maxLen = 1;<br />
+    for( int i = l; i &lt;= r; i++ )<br />
+    {<br />
+        curLen = LIS(A, l, i-1);</p>
+<p>        if( A[i] &gt; A[i-1] )<br />
+            curLen++;</p>
+<p>        MaxSampleAndHold(maxLen, curLen);<br />
+    }</p>
+<p>    return maxLen;<br />
+}</p>
+<p>It is slightly different from the recursive logic given in the post. Is there any counter example for the above code?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8139">
+        <div id="dsq-comment-header-8139" class="dsq-comment-header">
+            <cite id="dsq-cite-8139">
+                <span id="dsq-author-user-8139">sparco</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8139" class="dsq-comment-body">
+            <div id="dsq-comment-message-8139" class="dsq-comment-message"><p>@geeksforgeeks<br />
+In recursion logic ,<br />
+I dont get why ( how the below code1 works exactly as code2)</p>
+<p>Code1 &#8211; as written in the page</p>
+<pre> <code language="C">
+        if (arr[i-1] &lt; arr[n-1])
+            res++;
+</code> </pre>
+<p>is used</p>
+<p>Code2</p>
+<pre> <code language="C">
+        if (arr[i-1] &lt; arr[i])
+            res++;
+</code> </pre>
+<p>is not used according to notes</p>
+<p>To make use of recursive calls, this function must return two things:<br />
+   1) Length of LIS<br />
+   2) Index of the last element in LIS (This is necessary as we need to compare<br />
+                                        the last element for new LIS)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-7626">
+        <div id="dsq-comment-header-7626" class="dsq-comment-header">
+            <cite id="dsq-cite-7626">
+                <span id="dsq-author-user-7626">kartikaditya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7626" class="dsq-comment-body">
+            <div id="dsq-comment-message-7626" class="dsq-comment-message"><p>public class LongestIncreasingSubsequence {<br />
+    private static int binarySearch(int a[], int x, int start, int end) {<br />
+        int limit = end;<br />
+        int mid = 0;<br />
+        while (start &lt; end) {<br />
+            mid = (start + end) &gt;&gt; 1;<br />
+            if (a[mid] &lt;= x) {<br />
+                start = mid + 1;<br />
+            } else {<br />
+                end = mid &#8211; 1;<br />
+            }<br />
+        }<br />
+        if (a[start] &lt;= x) {<br />
+            return start;<br />
+        }<br />
+        return start &#8211; 1;<br />
+    }</p>
+<p>    public static void getLongestIncreasingSubsequence(int a[]) {<br />
+        int dp[] = new int[a.length + 1];<br />
+        int memo[] = new int[a.length + 1];</p>
+<p>        dp[0] = 1;<br />
+        memo[1] = a[0];<br />
+        int maxSize = 1;<br />
+        for (int i = 1; i &lt; a.length; ++i) {<br />
+            if (a[i] &lt; memo[1]) {<br />
+                memo[1] = a[i];<br />
+                dp[i] = 1;<br />
+            } else if (a[i] &gt;= memo[maxSize]) {<br />
+                ++maxSize;<br />
+                memo[maxSize] = a[i];<br />
+                dp[i] = maxSize;<br />
+            } else {<br />
+                int k = binarySearch(memo, a[i], 1, maxSize);<br />
+                memo[k + 1] = a[i];<br />
+                dp[i] = k + 1;<br />
+            }<br />
+        }<br />
+        System.out.print(maxSize + &quot; :: &quot;);<br />
+        for (int i = 1; i &lt;= maxSize; ++i) {<br />
+            System.out.print(memo[i] + &quot; &quot;);<br />
+        }<br />
+        System.out.println();<br />
+    }</p>
+<p>    public static void main(String args[]) {<br />
+        getLongestIncreasingSubsequence(new int[]{10, 22, 9, 33, 21, 50, 41, 60});<br />
+        getLongestIncreasingSubsequence(new int[]{10, 22, 9, 33, 21, 50, 41, 60, 80});<br />
+        getLongestIncreasingSubsequence(new int[]{1, 1, 1, 1, 0, 0, 0, 0, 0});<br />
+        getLongestIncreasingSubsequence(new int[]{0, 0, 0, 0, 0, 1, 1, 1, 1});<br />
+    }<br />
+}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-11316">
+        <div id="dsq-comment-header-11316" class="dsq-comment-header">
+            <cite id="dsq-cite-11316">
+                <span id="dsq-author-user-11316">Devanshkaushik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11316" class="dsq-comment-body">
+            <div id="dsq-comment-message-11316" class="dsq-comment-message"><p>hey, @kartikaditya, i tried ur code in netbeans, it gave the following output,<br />
+while 33 should not be there i gues&#8230;.</p>
+<p>run:<br />
+5 :: 9 21 33 41 60<br />
+6 :: 9 21 33 41 60 80<br />
+5 :: 0 0 0 0 0<br />
+9 :: 0 0 0 0 0 1 1 1 1 </p>
+<p>and more in case 2, there is anotheer sequence 10,22,33,50,60,80 which also has length 6, so why onnly this is printed? plzz clearify&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-11317">
+        <div id="dsq-comment-header-11317" class="dsq-comment-header">
+            <cite id="dsq-cite-11317">
+                <span id="dsq-author-user-11317">Devanshkaushik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11317" class="dsq-comment-body">
+            <div id="dsq-comment-message-11317" class="dsq-comment-message"><p>hey, @kartikaditya, i tried ur code in netbeans, it gave the following output,<br />
+while 21 should not be there i gues&#8230;.</p>
+<p>run:<br />
+5 :: 9 21 33 41 60<br />
+6 :: 9 21 33 41 60 80<br />
+5 :: 0 0 0 0 0<br />
+9 :: 0 0 0 0 0 1 1 1 1 </p>
+<p>and more in case 2, there is anotheer sequence 10,22,33,50,60,80 which also has length 6, so why onnly this is printed? plzz clearify&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-aashish-barnwal even thread-even depth-1" id="dsq-comment-7514">
+        <div id="dsq-comment-header-7514" class="dsq-comment-header">
+            <cite id="dsq-cite-7514">
+                <span id="dsq-author-user-7514">Aashish Barnwal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7514" class="dsq-comment-body">
+            <div id="dsq-comment-message-7514" class="dsq-comment-message"><p>One solution is the modified version of longest increasing sub-sequence.<br />
+Here,take the first string as the sequence given,<br />
+second string is the sorted order of the first string.<br />
+Now apply the LCS algorithm. </p>
+<pre> <code language="C">
+/* 
+#include &lt;stdio.h&gt;
+#define SIZE1 9
+#define SIZE2 9
+
+void lcs(char *s1,char *s2)
+{
+	int l[SIZE1+1][SIZE2+1],i,j;
+	char path[SIZE1+1][SIZE2+1];	
+	for(i=0;i&lt;=SIZE1;i++)
+		l[i][0]=0;
+	for(i=0;i&lt;=SIZE2;i++)
+		l[0][i]=0;
+	
+	for(i=1;i&lt;=SIZE1;i++)
+		for(j=1;j&lt;=SIZE2;j++)
+		{
+			if(s1[i-1]==s2[j-1])	
+			{
+				l[i][j]=l[i-1][j-1] + 1;
+				path[i][j]='D';
+			}
+			else if(l[i][j-1] &gt; l[i-1][j])
+			{
+				l[i][j]=l[i][j-1];
+				path[i][j]='L';
+			}
+			else
+			{
+				l[i][j]=l[i-1][j];
+				path[i][j]='T';
+			}
+		}
+	i=SIZE1,j=SIZE2;
+	while(i&gt;0 &amp;&amp; j&gt;0)
+	{	
+		if(path[i][j]=='T')
+			i--;
+		else if(path[i][j]=='L')
+			j--;
+		else
+		{
+			printf(&quot;%c &quot;,s1[i-1]);
+			i--,j--;
+		}	
+	}
+	printf(&quot;\n&quot;);
+	/*for(i=0;i&lt;=SIZE1;i++)
+	{
+		for(j=0;j&lt;=SIZE2;j++)
+			printf(&quot;%d  &quot;,l[i][j]);
+		printf(&quot;\n&quot;);
+	}	*/	
+}
+
+int main()
+{
+	char s1[SIZE1+1],s2[SIZE2+1];
+	printf(&quot;Enter String1 n String2 &quot;);
+	scanf(&quot;%s%s&quot;,s1,s2);
+	lcs(s1,s2);
+	return 0;
+}
+ */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-7136">
+        <div id="dsq-comment-header-7136" class="dsq-comment-header">
+            <cite id="dsq-cite-7136">
+                <span id="dsq-author-user-7136">Venkatesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7136" class="dsq-comment-body">
+            <div id="dsq-comment-message-7136" class="dsq-comment-message"><p>Can some one help me how to print the increasing sequence?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-5233">
+        <div id="dsq-comment-header-5233" class="dsq-comment-header">
+            <cite id="dsq-cite-5233">
+                <span id="dsq-author-user-5233">outkast</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5233" class="dsq-comment-body">
+            <div id="dsq-comment-message-5233" class="dsq-comment-message"><p>Recursive Solution fails for input<br />
+int arr[] = {6,7,8,9,1};</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-5234">
+        <div id="dsq-comment-header-5234" class="dsq-comment-header">
+            <cite id="dsq-cite-5234">
+                <span id="dsq-author-user-5234">outkast</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5234" class="dsq-comment-body">
+            <div id="dsq-comment-message-5234" class="dsq-comment-message"><p>The Length of LIS is 4(6,7,8,9) but the function returns 1.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even depth-3" id="dsq-comment-5252">
+        <div id="dsq-comment-header-5252" class="dsq-comment-header">
+            <cite id="dsq-cite-5252">
+                <span id="dsq-author-user-5252">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5252" class="dsq-comment-body">
+            <div id="dsq-comment-message-5252" class="dsq-comment-message"><p>@outkast:  Thanks for pointing this out. There were issues in the previous code. We have updated the code.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-abhinav08 odd alt thread-odd thread-alt depth-1" id="dsq-comment-5086">
+        <div id="dsq-comment-header-5086" class="dsq-comment-header">
+            <cite id="dsq-cite-5086">
+                <span id="dsq-author-user-5086">Abhinav Kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5086" class="dsq-comment-body">
+            <div id="dsq-comment-message-5086" class="dsq-comment-message"><p>The code given using simple recursive is not consistent as it dose not follow what the question asks.<br />
+To try just take input array :{10,22,4,5,6,9,33,50,60,80}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-sandeep even depth-2" id="dsq-comment-5088">
+        <div id="dsq-comment-header-5088" class="dsq-comment-header">
+            <cite id="dsq-cite-5088">
+http://geeksforgeeks.org/                <span id="dsq-author-user-5088">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5088" class="dsq-comment-body">
+            <div id="dsq-comment-message-5088" class="dsq-comment-message"><p>@Abhinav Kumar:  Thanks for pointing this out.  The code doesn&#8217;t seem to work for this example.  We will look into this and fix the code.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-sandeep odd alt depth-2" id="dsq-comment-5089">
+        <div id="dsq-comment-header-5089" class="dsq-comment-header">
+            <cite id="dsq-cite-5089">
+http://geeksforgeeks.org/                <span id="dsq-author-user-5089">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5089" class="dsq-comment-body">
+            <div id="dsq-comment-message-5089" class="dsq-comment-message"><p>@Abhinav Kumar:  I have updated the code and it now works fine for the example given by you.</p>
+<pre> <code language="C">
+/* A Naive recursive implementation of LIS problem */
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+
+int lis( int arr[], int n )
+{
+   int max = 1;
+   int ls;
+
+   /* Base case */
+   if(n == 1)
+      return max;
+
+   /* Recursively get LIS for all smaller elements on left side */
+   for(int i = 0; i &lt; n - 1; i++)
+   {
+      if (arr[i] &lt; arr[n-1])
+      {
+        ls = lis(arr, i+1) + 1;
+
+        /* Check if max needs to be updated */
+        if(ls &gt; max)
+          max = ls;
+      }
+   }
+   return max;
+}
+
+/* Driver program to test above function */
+int main()
+{
+  int arr[] = {10,22,4,5,6,9,33,50,60,80};
+  int n = sizeof(arr)/sizeof(arr[0]);
+  printf(&quot;Length of LIS is %d\n&quot;, lis( arr, n ) );
+
+  getchar();
+  return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-8364">
+        <div id="dsq-comment-header-8364" class="dsq-comment-header">
+            <cite id="dsq-cite-8364">
+                <span id="dsq-author-user-8364">Yueming</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8364" class="dsq-comment-body">
+            <div id="dsq-comment-message-8364" class="dsq-comment-message"><p>Try this {10,22,4,5,6,9,33,50,60,80,0}, it return 1!</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-8369">
+        <div id="dsq-comment-header-8369" class="dsq-comment-header">
+            <cite id="dsq-cite-8369">
+                <span id="dsq-author-user-8369">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8369" class="dsq-comment-body">
+            <div id="dsq-comment-message-8369" class="dsq-comment-message"><p>The code was further updated due to one more issue pointed by a user.  The final code given in post works for your example.</p>
+<pre> <code language="C">
+/* A Naive recursive implementation of LIS problem */
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+
+/* To make use of recursive calls, this function must return two things:
+   1) Length of LIS
+   2) Index of the last element in LIS (This is necessary as we need to compare
+                                        the last element for new LIS)
+*/
+
+int lis( int arr[], int n )
+{
+    /* Base case */
+    if(n == 1)
+        return 1;
+
+    int res, max = 1;
+
+    /* Recursively get LIS for all smaller elements on left side */
+    for(int i = 1; i &lt; n; i++)
+    {
+        res = lis(arr, i);
+        if (arr[i-1] &lt; arr[n-1])
+            res++;
+
+        /* Check if max needs to be updated */
+        if(res  &gt; max)
+            max = res;
+    }
+    return max;
+}
+
+/* Driver program to test above function */
+int main()
+{
+    int arr[] = {10,22,4,5,6,9,33,50,60,80,0};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    int max = lis( arr, n );
+    printf(&quot;Length of LIS is %d\n&quot;,  max);
+
+    getchar();
+    return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-kk123 even thread-even depth-1" id="dsq-comment-4531">
+        <div id="dsq-comment-header-4531" class="dsq-comment-header">
+            <cite id="dsq-cite-4531">
+                <span id="dsq-author-user-4531">KK123</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4531" class="dsq-comment-body">
+            <div id="dsq-comment-message-4531" class="dsq-comment-message"><p>This is the link to O(nlogk) implementation:<br />
+<a href="http://www.algorithmist.com/index.php/Longest_Increasing_Subsequence.cpp" rel="nofollow">http://www.algorithmist.com/index.php/Longest_Increasing_Subsequence.cpp</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-pucitian odd alt thread-odd thread-alt depth-1" id="dsq-comment-4313">
+        <div id="dsq-comment-header-4313" class="dsq-comment-header">
+            <cite id="dsq-cite-4313">
+                <span id="dsq-author-user-4313">pucitian</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4313" class="dsq-comment-body">
+            <div id="dsq-comment-message-4313" class="dsq-comment-message"><p>i am soin my term paper on dp using lcs as an example&#8230;&#8230;..i found this topic very interesting&#8230;..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-4279">
+        <div id="dsq-comment-header-4279" class="dsq-comment-header">
+            <cite id="dsq-cite-4279">
+                <span id="dsq-author-user-4279">vignesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4279" class="dsq-comment-body">
+            <div id="dsq-comment-message-4279" class="dsq-comment-message"><p>In the above paragraph explaining optimal substructure i find something missing.<br />
+Let [0..n-1] be the input array and L(i) be the length of the LIS till index i including ith index then L(i) can be recursively written as.<br />
+LIS(i) = { 1 + Max ( LIS(j) ) } where j &lt; i and arr[j] &lt; arr[i] and if there is no such j then <strong>&#8220;LIS(i) = 1&#8243;</strong><br />
+It should be &#8220;<strong>Lis(i) = Lis(i-1)</strong>&#8220;.<br />
+For instance if 10, 8, 6, 11, 5 is the input array.<br />
+Lis(0) = 1  // 10 alone<br />
+Lis(1) = 1  // 8 or 10  alone<br />
+Lis(2) = 1  // 6 or 8 or 10 alone<br />
+Lis(3) = 2  // {10,11 } or {8,11} or {6,11}<br />
+Lis(4) = 2  // {10,11 } or {8,11} or {6,11} though 5 is not included. but according to t recurrence relation mentioned in the above paragraph Lis(4) will be one which is erroneous against t base assumption tat Lis(i) represents longest increasing subsequence including i.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-sandeep odd alt depth-2" id="dsq-comment-4300">
+        <div id="dsq-comment-header-4300" class="dsq-comment-header">
+            <cite id="dsq-cite-4300">
+http://geeksforgeeks.org/                <span id="dsq-author-user-4300">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4300" class="dsq-comment-body">
+            <div id="dsq-comment-message-4300" class="dsq-comment-message"><p>@vignesh: Thanks for pointing this out. There was a typo in explanation, I have corrected it so that it matches with the implementation.  Let me know if it looks fine now.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-4317">
+        <div id="dsq-comment-header-4317" class="dsq-comment-header">
+            <cite id="dsq-cite-4317">
+                <span id="dsq-author-user-4317">vignesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4317" class="dsq-comment-body">
+            <div id="dsq-comment-message-4317" class="dsq-comment-message"><p>@sandeep :- my understanding about the recurrence relation was wrong. Lis(i) represents longest subsequence ending in i(i mistook it as including i). so recurrence relation is right. After populating the Lis array. One should find t maximum in Lis[] to get LIS. Well in nlogn approach they maintain a separate array to keep track of individual elements as well.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-5148">
+        <div id="dsq-comment-header-5148" class="dsq-comment-header">
+            <cite id="dsq-cite-5148">
+                <span id="dsq-author-user-5148">SDK</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5148" class="dsq-comment-body">
+            <div id="dsq-comment-message-5148" class="dsq-comment-message"><p>I still don&#8217;t get geeksforgeeks explanation that why  LIS[i] =1 &#8230; it should be LIS[i]=LIS[i-1] if the conditions are not met&#8230;.. </p>
+<p>I think the following code works plz check. </p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+int maxof(int *a,int n){
+ int i=0;
+ int max=a[0];
+for(i=0;i&lt;n;i++){
+  if(a[i]&gt;max) max=a[i]; 
+ } 
+return i;
+}
+int lis(int arr[],int n){
+   
+   int i,j,index;
+   int*ls=(int*) calloc(sizeof(int),n);
+    
+	ls[0]=1;  //if it contains only one element;
+   
+   for(i=1;i&lt;n;i++){
+    for(j=0;j&lt;i;j++){
+	   
+	    index = maxof(ls,i-1);
+       	if(arr[i]&gt;arr[index])
+          ls[i]=1 + ls[index];
+        else 
+         ls[i] = ls[i-1];		
+	  }
+   }
+
+return ls[n-1];
+}
+
+int main()
+{
+  int arr[] = {10,20,11,12,22,44,62,8,82};
+  int n = sizeof(arr)/sizeof(arr[0]);
+  printf(&quot;Length of LIS is %d\n&quot;, lis( arr, n ) );
+ 
+  getchar();
+  return 0;
+}
+</code> </pre>
+<p>plz explain why they have taken LIS[i]=1</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even depth-5" id="dsq-comment-6306">
+        <div id="dsq-comment-header-6306" class="dsq-comment-header">
+            <cite id="dsq-cite-6306">
+                <span id="dsq-author-user-6306">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6306" class="dsq-comment-body">
+            <div id="dsq-comment-message-6306" class="dsq-comment-message"><p>@SDK:  Every element of input array is LIS of length 1.  That is why we have initial values in LIS as 1.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt depth-3" id="dsq-comment-5058">
+        <div id="dsq-comment-header-5058" class="dsq-comment-header">
+            <cite id="dsq-cite-5058">
+                <span id="dsq-author-user-5058">martin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5058" class="dsq-comment-body">
+            <div id="dsq-comment-message-5058" class="dsq-comment-message"><p>@GeeksforGeeks Note that the time complexity of the above Dynamic Programmig (DP) solution is O(n^2) and there is a O(nLogn) solution for the LIS problem (see this). We have not discussed the nLogn solution here as the purpose of this post is to explain Dynamic Programming with a simple example.</p>
+<p>so please don&#8217;t worry about complexity , please try to explain your O(nlogn) solution , i wants to learn from you geeksforgeeks , please help us <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /> &amp; keep it up <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-venki even depth-4" id="dsq-comment-5062">
+        <div id="dsq-comment-header-5062" class="dsq-comment-header">
+            <cite id="dsq-cite-5062">
+http://geeksforgeeks.org/?page_id=2                <span id="dsq-author-user-5062">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5062" class="dsq-comment-body">
+            <div id="dsq-comment-message-5062" class="dsq-comment-message"><p>@Martin, Thanks for your comments, we will soon have the nlogn solution of LIS as a post under special category.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt depth-3" id="dsq-comment-5059">
+        <div id="dsq-comment-header-5059" class="dsq-comment-header">
+            <cite id="dsq-cite-5059">
+                <span id="dsq-author-user-5059">reema</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5059" class="dsq-comment-body">
+            <div id="dsq-comment-message-5059" class="dsq-comment-message"><p>@sandeep its will just return the length of LIS not LIs itself , can you post the solution for that itself or please tell me wht modification we need to do for that to print LIS from above array ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-4274">
+        <div id="dsq-comment-header-4274" class="dsq-comment-header">
+            <cite id="dsq-cite-4274">
+                <span id="dsq-author-user-4274">satya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4274" class="dsq-comment-body">
+            <div id="dsq-comment-message-4274" class="dsq-comment-message"><p>@GeeksforGeeks..Keep Posting FAQ DP Asked problems ..keep it up..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-4235">
+        <div id="dsq-comment-header-4235" class="dsq-comment-header">
+            <cite id="dsq-cite-4235">
+                <span id="dsq-author-user-4235">Vinay</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4235" class="dsq-comment-body">
+            <div id="dsq-comment-message-4235" class="dsq-comment-message"><p>plz how are &#8220;Longest Increasing Subsequence problem&#8221; and &#8220;Maximum Sorted(ascending) Subsequence problem&#8221; diffrent?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-4232">
+        <div id="dsq-comment-header-4232" class="dsq-comment-header">
+            <cite id="dsq-cite-4232">
+                <span id="dsq-author-user-4232">giri</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4232" class="dsq-comment-body">
+            <div id="dsq-comment-message-4232" class="dsq-comment-message"><p>Good job.  I find following practice problems also very useful.<br />
+<a href="http://people.csail.mit.edu/bdean/6.046/dp/" rel="nofollow"><br />
+</a><a href="http://people.csail.mit.edu/bdean/6.046/dp/" rel="nofollow">http://people.csail.mit.edu/bdean/6.046/dp/</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-4225">
+        <div id="dsq-comment-header-4225" class="dsq-comment-header">
+            <cite id="dsq-cite-4225">
+                <span id="dsq-author-user-4225">tk</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4225" class="dsq-comment-body">
+            <div id="dsq-comment-message-4225" class="dsq-comment-message"><p>Can someone explain the nLogn approach for LIS?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even depth-2" id="dsq-comment-4229">
+        <div id="dsq-comment-header-4229" class="dsq-comment-header">
+            <cite id="dsq-cite-4229">
+                <span id="dsq-author-user-4229">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4229" class="dsq-comment-body">
+            <div id="dsq-comment-message-4229" class="dsq-comment-message"><p>@tk: We will soon publish a separate post for nLogn solution of LIS problem.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-4223">
+        <div id="dsq-comment-header-4223" class="dsq-comment-header">
+            <cite id="dsq-cite-4223">
+                <span id="dsq-author-user-4223">Anand</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4223" class="dsq-comment-body">
+            <div id="dsq-comment-message-4223" class="dsq-comment-message"><p><a href="http://anandtechblog.blogspot.com/2010/06/longest-common-subsequence.html" rel="nofollow">http://anandtechblog.blogspot.com/2010/06/longest-common-subsequence.html</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even thread-even depth-1" id="dsq-comment-4971">
+        <div id="dsq-comment-header-4971" class="dsq-comment-header">
+            <cite id="dsq-cite-4971">
+                <span id="dsq-author-user-4971">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4971" class="dsq-comment-body">
+            <div id="dsq-comment-message-4971" class="dsq-comment-message"><p>@venki: Thanks for pointing this out.  I have corrected the typo.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-5120">
+        <div id="dsq-comment-header-5120" class="dsq-comment-header">
+            <cite id="dsq-cite-5120">
+                <span id="dsq-author-user-5120">reema</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5120" class="dsq-comment-body">
+            <div id="dsq-comment-message-5120" class="dsq-comment-message"><p>@GeeksForGeeks its will just return the length of LIS not LIs itself , can you post the solution for that itself or please tell me wht modification we need to do for that to print LIS from above array ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/dynamic-programming-set-3-longest-increasing-subsequence/';
+var disqus_identifier = '12832 http://geeksforgeeks.org/?p=12832';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Dynamic Programming | Set 3 (Longest Increasing Subsequence)";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.251 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:23:50 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

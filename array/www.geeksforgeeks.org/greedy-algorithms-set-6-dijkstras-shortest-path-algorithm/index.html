@@ -1,0 +1,1105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Dijsktra&#039;s algorithm</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="C code for Dijkstra&#039;s Algortihm"/>
+<link rel="canonical" href="http://www.geeksforgeeks.org/greedy-algorithms-set-6-dijkstras-shortest-path-algorithm/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Dijsktra&#039;s algorithm" />
+<meta property="og:description" content="C code for Dijkstra&#039;s Algortihm" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/greedy-algorithms-set-6-dijkstras-shortest-path-algorithm/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Dijkstra" />
+<meta property="article:tag" content="Graph" />
+<meta property="article:tag" content="Greedy Algorithm" />
+<meta property="article:section" content="Graph" />
+<meta property="article:published_time" content="2012-11-25T11:04:26+00:00" />
+<meta property="article:modified_time" content="2014-02-09T19:35:31+00:00" />
+<meta property="og:updated_time" content="2014-02-09T19:35:31+00:00" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig-11.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/MST1.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/DIJ2.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/DIJ3.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/DIJ4.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/DIJ5.jpg" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.502 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417110767 179.223.6.159';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Greedy Algorithms | Set 7 (Dijkstra&#8217;s shortest path algorithm)</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given a graph and a source vertex in graph, find shortest paths from source to all vertices in the given graph.<span id="more-27697"></span></p>
+<p>Dijkstra&#8217;s algorithm is very similar to <a href="http://www.geeksforgeeks.org/archives/27455">Prim&#8217;s algorithm for minimum spanning tree</a>. Like Prim&#8217;s MST, we generate a<em> SPT (shortest path tree)</em> with given source as root. We maintain two sets, one set contains vertices included in shortest path tree, other set includes vertices not yet included in shortest path tree. At every step of the algorithm, we find a vertex which is in the other set (set of not yet included) and has minimum distance from source.</p>
+<p>Below are the detailed steps used in Dijkstra&#8217;s algorithm to find the shortest path from a single source vertex to all other vertices in the given graph.<br />
+Algorithm<br />
+<strong>1)</strong> Create a set <em>sptSet</em> (shortest path tree set) that keeps track of vertices included in shortest path tree, i.e., whose minimum distance from source is calculated and finalized. Initially, this set is empty.<br />
+<strong>2)</strong> Assign a distance value to all vertices in the input graph. Initialize all distance values as INFINITE. Assign distance value as 0 for the source vertex so that it is picked first.<br />
+<strong>3)</strong> While <em>sptSet</em> doesn&#8217;t include all vertices<br />
+….<strong>a)</strong> Pick a vertex u which is not there in <em>sptSet</em>and has minimum distance value.<br />
+….<strong>b)</strong> Include u to <em>sptSet</em>.<br />
+….<strong>c)</strong> Update distance value of all adjacent vertices of u. To update the distance values, iterate through all adjacent vertices. For every adjacent vertex v, if sum of distance value of u (from source) and weight of edge u-v, is less than the distance value of v, then update the distance value of v.</p>
+<p>Let us understand with the following example:<br />
+<a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig-11.jpg"><img title="Fig-1" src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig-11.jpg" alt="" width="300" height="139" /></a></p>
+<p>The set <em>sptSet</em>is initially empty and distances assigned to vertices are {0, INF, INF, INF, INF, INF, INF, INF} where INF indicates infinite. Now pick the vertex with minimum distance value. The vertex 0 is picked, include it in <em>sptSet</em>. So <em>sptSet </em>becomes {0}. After including 0 to <em>sptSet</em>, update distance values of its adjacent vertices. Adjacent vertices of 0 are 1 and 7. The distance values of 1 and 7 are updated as 4 and 8. Following subgraph shows vertices and their distance values, only the vertices with finite distance values are shown. The vertices included in SPT are shown in green color.</p>
+<p><a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/MST1.jpg"><img title="Fig-2" src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/MST1.jpg" alt="" width="80" height="139" /></a></p>
+<p>Pick the vertex with minimum distance value and not already included in SPT (not in sptSET). The vertex 1 is picked and added to sptSet. So sptSet now becomes {0, 1}. Update the distance values of adjacent vertices of 1. The distance value of vertex 2 becomes 12.</p>
+<p><a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/DIJ2.jpg"><img title="Fig-3" src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/DIJ2.jpg" alt="" width="150" height="139" /></a></p>
+<p>Pick the vertex with minimum distance value and not already included in SPT (not in sptSET). Vertex 7 is picked. So sptSet now becomes {0, 1, 7}. Update the distance values of adjacent vertices of 7. The distance value of vertex 6 and 8 becomes finite (15 and 9 respectively).<br />
+<a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/DIJ3.jpg"><img title="Fig-4" src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/DIJ3.jpg" alt="" width="110" height="125" /></a></p>
+<p>Pick the vertex with minimum distance value and not already included in SPT (not in sptSET). Vertex 6 is picked. So sptSet now becomes {0, 1, 7, 6}. Update the distance values of adjacent vertices of 6. The distance value of vertex 5 and 8 are updated.</p>
+<p><a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/DIJ4.jpg"><img title="Fig-4" src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/DIJ4.jpg" alt="" width="150" height="139" /></a></p>
+<p>We repeat the above steps until <em>sptSet </em>doesn&#8217;t include all vertices of given graph. Finally, we get the following Shortest Path Tree (SPT).</p>
+<p><a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/DIJ5.jpg"><img title="Fig-1" src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/DIJ5.jpg" alt="" width="300" height="139" /></a></p>
+<p><strong><em>How to implement the above algorithm?</em></strong><br />
+We use a boolean array sptSet[] to represent the set of vertices included in SPT. If a value sptSet[v] is true, then vertex v is included in SPT, otherwise not. Array dist[] is used to store shortest distance values of all vertices.</p>
+<pre class="brush: cpp; highlight: [32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72]; title: ; notranslate" title="">
+// A C / C++ program for Dijkstra's single source shortest path algorithm.
+// The program is for adjacency matrix representation of the graph
+
+#include &lt;stdio.h&gt;
+#include &lt;limits.h&gt;
+
+// Number of vertices in the graph
+#define V 9
+
+// A utility function to find the vertex with minimum distance value, from
+// the set of vertices not yet included in shortest path tree
+int minDistance(int dist[], bool sptSet[])
+{
+   // Initialize min value
+   int min = INT_MAX, min_index;
+
+   for (int v = 0; v &lt; V; v++)
+     if (sptSet[v] == false &amp;&amp; dist[v] &lt;= min)
+         min = dist[v], min_index = v;
+
+   return min_index;
+}
+
+// A utility function to print the constructed distance array
+int printSolution(int dist[], int n)
+{
+   printf(&quot;Vertex   Distance from Source\n&quot;);
+   for (int i = 0; i &lt; V; i++)
+      printf(&quot;%d \t\t %d\n&quot;, i, dist[i]);
+}
+
+// Funtion that implements Dijkstra's single source shortest path algorithm
+// for a graph represented using adjacency matrix representation
+void dijkstra(int graph[V][V], int src)
+{
+     int dist[V];     // The output array.  dist[i] will hold the shortest
+                      // distance from src to i
+
+     bool sptSet[V]; // sptSet[i] will true if vertex i is included in shortest
+                     // path tree or shortest distance from src to i is finalized
+
+     // Initialize all distances as INFINITE and stpSet[] as false
+     for (int i = 0; i &lt; V; i++)
+        dist[i] = INT_MAX, sptSet[i] = false;
+
+     // Distance of source vertex from itself is always 0
+     dist[src] = 0;
+
+     // Find shortest path for all vertices
+     for (int count = 0; count &lt; V-1; count++)
+     {
+       // Pick the minimum distance vertex from the set of vertices not
+       // yet processed. u is always equal to src in first iteration.
+       int u = minDistance(dist, sptSet);
+
+       // Mark the picked vertex as processed
+       sptSet[u] = true;
+
+       // Update dist value of the adjacent vertices of the picked vertex.
+       for (int v = 0; v &lt; V; v++)
+
+         // Update dist[v] only if is not in sptSet, there is an edge from 
+         // u to v, and total weight of path from src to  v through u is 
+         // smaller than current value of dist[v]
+         if (!sptSet[v] &amp;&amp; graph[u][v] &amp;&amp; dist[u] != INT_MAX 
+                                       &amp;&amp; dist[u]+graph[u][v] &lt; dist[v])
+            dist[v] = dist[u] + graph[u][v];
+     }
+
+     // print the constructed distance array
+     printSolution(dist, V);
+}
+
+// driver program to test above function
+int main()
+{
+   /* Let us create the example graph discussed above */
+   int graph[V][V] = {{0, 4, 0, 0, 0, 0, 0, 8, 0},
+                      {4, 0, 8, 0, 0, 0, 0, 11, 0},
+                      {0, 8, 0, 7, 0, 4, 0, 0, 2},
+                      {0, 0, 7, 0, 9, 14, 0, 0, 0},
+                      {0, 0, 0, 9, 0, 10, 0, 0, 0},
+                      {0, 0, 4, 0, 10, 0, 2, 0, 0},
+                      {0, 0, 0, 14, 0, 2, 0, 1, 6},
+                      {8, 11, 0, 0, 0, 0, 1, 0, 7},
+                      {0, 0, 2, 0, 0, 0, 6, 7, 0}
+                     };
+
+    dijkstra(graph, 0);
+
+    return 0;
+}
+</pre>
+<p>Output:</p>
+<pre>Vertex   Distance from Source
+0                0
+1                4
+2                12
+3                19
+4                21
+5                11
+6                9
+7                8
+8                14</pre>
+<p><strong>Notes:</strong><br />
+<strong>1)</strong> The code calculates shortest distance, but doesn&#8217;t calculate the path information. We can create a parent array, update the parent array when distance is updated (like <a href="http://www.geeksforgeeks.org/archives/27455">prim&#8217;s implementation</a>) and use it show the shortest path from source to different vertices.</p>
+<p><strong>2)</strong> The code is for undirected graph, same dijekstra function can be used for directed graphs also.</p>
+<p><strong>3)</strong> The code finds shortest distances from source to all vertices. If we are interested only in shortest distance from source to a single target, we can break the for loop when the picked minimum distance vertex is equal to target (Step 3.a of algorithm).</p>
+<p><strong>4)</strong> Time Complexity of the implementation is O(V^2). If the input <a href="http://www.geeksforgeeks.org/archives/27134">graph is represented using adjacency list</a>, it can be reduced to O(E log V) with the help of binary heap. We will soon be discussing O(E Log V) algorithm as a separate post.</p>
+<p><strong>5)</strong> Dijkstra&#8217;s algorithm doesn&#8217;t work for graphs with negative weight edges. For graphs with negative weight edges, <a href="http://en.wikipedia.org/wiki/Bellman-Ford_algorithm" target="_blank">Bellman–Ford algorithm</a> can be used, we will soon be discussing it as a separate post.<br />
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/vertex-cover-problem-set-1-introduction-approximate-algorithm-2/" title="Vertex Cover Problem | Set 1 (Introduction and Approximate Algorithm)">Vertex Cover Problem | Set 1 (Introduction and Approximate Algorithm)</a></li><li><a href="http://www.geeksforgeeks.org/snake-ladder-problem-2/" title="Snake and Ladder Problem">Snake and Ladder Problem</a></li><li><a href="http://www.geeksforgeeks.org/tarjan-algorithm-find-strongly-connected-components/" title="Tarjan&#8217;s Algorithm to find Strongly Connected Components">Tarjan&#8217;s Algorithm to find Strongly Connected Components</a></li><li><a href="http://www.geeksforgeeks.org/shortest-path-exactly-k-edges-directed-weighted-graph/" title="Shortest path with exactly k edges in a directed and weighted graph">Shortest path with exactly k edges in a directed and weighted graph</a></li><li><a href="http://www.geeksforgeeks.org/count-possible-paths-source-destination-exactly-k-edges/" title="Count all possible walks from a source to a destination with exactly k edges">Count all possible walks from a source to a destination with exactly k edges</a></li><li><a href="http://www.geeksforgeeks.org/euler-circuit-directed-graph/" title="Euler Circuit in a Directed Graph">Euler Circuit in a Directed Graph</a></li><li><a href="http://www.geeksforgeeks.org/given-array-strings-find-strings-can-chained-form-circle/" title="Given an array of strings, find if the strings can be chained to form a circle">Given an array of strings, find if the strings can be chained to form a circle</a></li><li><a href="http://www.geeksforgeeks.org/given-sorted-dictionary-find-precedence-characters/" title="Given a sorted dictionary of an alien language, find order of characters">Given a sorted dictionary of an alien language, find order of characters</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/dijkstra/" rel="tag">Dijkstra</a>, <a href="http://www.geeksforgeeks.org/tag/graph/" rel="tag">Graph</a>, <a href="http://www.geeksforgeeks.org/tag/greedy-algorithm/" rel="tag">Greedy Algorithm</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fgreedy-algorithms-set-6-dijkstras-shortest-path-algorithm%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/greedy-algorithms-set-6-dijkstras-shortest-path-algorithm/" data-text="Greedy Algorithms | Set 7 (Dijkstra&#8217;s shortest path algorithm)" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/greedy-algorithms-set-6-dijkstras-shortest-path-algorithm/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-33200">
+        <div id="dsq-comment-header-33200" class="dsq-comment-header">
+            <cite id="dsq-cite-33200">
+                <span id="dsq-author-user-33200">James Sutton</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33200" class="dsq-comment-body">
+            <div id="dsq-comment-message-33200" class="dsq-comment-message"><p>Can anyone convert this for use with Arduino? My attempts have failed so far. I think maybe because I haven&#8217;t quite grasped what each part of the code is doing and therefore can&#8217;t define them in the arduino sketch as such. Any help would be much appreciated!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-32014">
+        <div id="dsq-comment-header-32014" class="dsq-comment-header">
+            <cite id="dsq-cite-32014">
+                <span id="dsq-author-user-32014">zak</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32014" class="dsq-comment-body">
+            <div id="dsq-comment-message-32014" class="dsq-comment-message"><p>I am trying to compile the code by MVS 2012 but it does not work</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-31667">
+        <div id="dsq-comment-header-31667" class="dsq-comment-header">
+            <cite id="dsq-cite-31667">
+                <span id="dsq-author-user-31667">tan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31667" class="dsq-comment-body">
+            <div id="dsq-comment-message-31667" class="dsq-comment-message"><p>can it work for directed graph?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-30654">
+        <div id="dsq-comment-header-30654" class="dsq-comment-header">
+            <cite id="dsq-cite-30654">
+                <span id="dsq-author-user-30654">yossi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30654" class="dsq-comment-body">
+            <div id="dsq-comment-message-30654" class="dsq-comment-message"><p>hy i want to have the detail about the path if you can help me</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-30652">
+        <div id="dsq-comment-header-30652" class="dsq-comment-header">
+            <cite id="dsq-cite-30652">
+                <span id="dsq-author-user-30652">Tomislav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30652" class="dsq-comment-body">
+            <div id="dsq-comment-message-30652" class="dsq-comment-message"><p>N    0  1  2  3  4  5  6  7  8<br />
+0  {{0, 4, 0, 0, 0, 0, 0, 8, 0},<br />
+1   {4, 0, 8, 0, 0, 0, 0, 11, 0},<br />
+2   {0, 8, 0, 7, 0, 4, 0, 0, 2},<br />
+3   {0, 0, 7, 0, 9, 14, 0, 0, 0},<br />
+4   {0, 0, 0, 9, 0, 10, 0, 0, 0},<br />
+5   {0, 0, 4, 14 instead of 0, 10, 0, 2, 0, 0},<br />
+6   {0, 0, 0, 14, 0, 2, 0, 1, 6},<br />
+7   {8, 11, 0, 0, 0, 0, 1, 0, 7},<br />
+8   {0, 0, 2, 0, 0, 0, 6, 7, 0}<br />
+  };</p>
+<p>If 3 is connected with 5 with weight of 14, 5 is therefore connected with 3 with weight of 14 instead of 0.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-32405">
+        <div id="dsq-comment-header-32405" class="dsq-comment-header">
+            <cite id="dsq-cite-32405">
+                <span id="dsq-author-user-32405">Mate</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32405" class="dsq-comment-body">
+            <div id="dsq-comment-message-32405" class="dsq-comment-message"><p>0 {{0, 4, 0, 0, 0, 0, 0, 8, 0},<br />
+1 {4, 0, 8, 0, 0, 0, 0, 11, 0},<br />
+2 {0, 8, 0, 7, 0, 4, 0, 0, 2},<br />
+3 {0, 0, 7, 0, 9, 14, 0, 0, 0},<br />
+4 {0, 0, 0, 9, 0, 10, 0, 0, 0},<br />
+5 {0, 0, 4, 14 instead of 0, 10, 0, 2, 0, 0},<br />
+6 {0, 0, 0, 14 (here is not 14), 0, 2, 0, 1, 6},<br />
+7 {8, 11, 0, 0, 0, 0, 1, 0, 7},<br />
+8 {0, 0, 2, 0, 0, 0, 6, 7, 0}<br />
+};</p>
+<p>Because 6 is not connected with 3</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-30651">
+        <div id="dsq-comment-header-30651" class="dsq-comment-header">
+            <cite id="dsq-cite-30651">
+                <span id="dsq-author-user-30651">Tomislav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30651" class="dsq-comment-body">
+            <div id="dsq-comment-message-30651" class="dsq-comment-message"><p>N    0  1  2  3  4  5  6  7  8<br />
+0  {{0, 4, 0, 0, 0, 0, 0, 8, 0},<br />
+1   {4, 0, 8, 0, 0, 0, 0, 11, 0},<br />
+2   {0, 8, 0, 7, 0, 4, 0, 0, 2},<br />
+3   {0, 0, 7, 0, 9, 14, 0, 0, 0},<br />
+4   {0, 0, 0, 9, 0, 10, 0, 0, 0},<br />
+5   {0, 0, 4, 0, 10, 0, 2, 0, 0},<br />
+6   {0, 0, 0, 14, 0, 2, 0, 1, 6},<br />
+7   {8, 11, 0, 0, 0, 0, 1, 0, 7},<br />
+8   {0, 0, 2, 0, 0, 0, 6, 7, 0}<br />
+  };</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-29432">
+        <div id="dsq-comment-header-29432" class="dsq-comment-header">
+            <cite id="dsq-cite-29432">
+                <span id="dsq-author-user-29432">Ankur</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29432" class="dsq-comment-body">
+            <div id="dsq-comment-message-29432" class="dsq-comment-message"><p>dist[u]!=INF is a redundant check since dist[u]==INF will only be true if it was an isolated node , but than again all values of graph[u][v] will be 0 for this node and the condition </p>
+<p>if (!sptSet[v] &amp;&amp; graph[u][v] &amp;&amp; dist[u] != INT_MAX  &amp;&amp; dist[u]+graph[u][v] &lt; dist[v])</p>
+<p>will never be true. But since this situation is tackled by checking graph[u][v] , so why bothering checking dist[u]!=INF ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-29274">
+        <div id="dsq-comment-header-29274" class="dsq-comment-header">
+            <cite id="dsq-cite-29274">
+                <span id="dsq-author-user-29274">Nikhil Choudhary</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29274" class="dsq-comment-body">
+            <div id="dsq-comment-message-29274" class="dsq-comment-message"><p>Problem Statement:-</p>
+<p>Consider a data communication<br />
+network that must route data packets (email or MP3 files, for </p>
+<p>example). Such a network<br />
+consists of routers connected by physical cables or links. A router can act as<br />
+a source, a destination, or a forwarder of data packets. We can model a network<br />
+as a graph with each router corresponding to a vertex and the link or physical connection<br />
+between two routers corresponding to a pair of directed edges between the<br />
+vertices. </p>
+<p>A network that follows the OSPF<br />
+(Open Shortest Path First) protocol routes packets using </p>
+<p>Dijkstra’s shortest path<br />
+algorithm. The criteria used to compute the weight corresponding to a </p>
+<p>link can include the time taken<br />
+for data transmission, reliability of the link, transmission cost, and<br />
+available bandwidth. Typically each router has a complete representation of thenetwork graph and associated information available to it. </p>
+<p>For the purposes of this<br />
+project, each link has associated with it the transmission time taken for data<br />
+to get from the vertex at one end to the vertex at the other end. You will<br />
+compute the best path using the criterion of minimizing the total time taken<br />
+for data to reach the destination. The shortest time path minimizes the sum of<br />
+the transmission times of the links along the path. The network topology can<br />
+change dynamically based on the state of the links and the routers. For<br />
+example, a link may go down when the corresponding cable is cut, and a vertexmay go down when the corresponding router crashes. In addition to thesetransient changes, changes to a network occur when a link is added or removed. </p>
+<p>Example :-<br />
+Consider a very simplified example of a network at<br />
+RPI, with vertices at Amos Eaton, Lally, DCC, Troy, Sage, and Folsom. See<br />
+Figure 1 for an illustration. For this example, the shortest time (or fastest)<br />
+path from Amos Eaton to DCC is: Amos Eaton–Troy–DCC with a total transmissiontime of 0.9 milliseconds</p>
+<p>PLZ GIVE YOUR SOLUTIONS FOR THE ABOVE PROBLEM&gt;&gt;&gt;&gt;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-29273">
+        <div id="dsq-comment-header-29273" class="dsq-comment-header">
+            <cite id="dsq-cite-29273">
+                <span id="dsq-author-user-29273">Nikhil Choudhary</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29273" class="dsq-comment-body">
+            <div id="dsq-comment-message-29273" class="dsq-comment-message"><p>can anyone plz upload the code for dijstraks and bellman algorithm in a single program of c++(so that we can easily have positive and negative weight edges)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-28961">
+        <div id="dsq-comment-header-28961" class="dsq-comment-header">
+            <cite id="dsq-cite-28961">
+                <span id="dsq-author-user-28961">javaDude</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28961" class="dsq-comment-body">
+            <div id="dsq-comment-message-28961" class="dsq-comment-message"><p>could you fix the formatting T_T</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-28960">
+        <div id="dsq-comment-header-28960" class="dsq-comment-header">
+            <cite id="dsq-cite-28960">
+                <span id="dsq-author-user-28960">javaDude</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28960" class="dsq-comment-body">
+            <div id="dsq-comment-message-28960" class="dsq-comment-message"><p>The article was very helpful, thank you. I changed the code so that it is clearer to me (some parts left out):</p>
+<p><code><br />
+int minDistance(int dist[], bool sptSet[])<br />
+{<br />
+   int min = INT_MAX, min_index = -1;</p>
+<p>   for (int v = 0; v &lt; V; v++)<br />
+      if (sptSet[v] == false &amp;&amp; dist[v] &lt; min)<br />
+         min = dist[v], min_index = v;</p>
+<p>   return min_index;<br />
+}</p>
+<p>void dijkstra(int graph[V][V], int src)<br />
+{</p>
+<p>   //init code</p>
+<p>   for (int count = 0; count &lt; V-1; count++)<br />
+   {</p>
+<p>      int u = minDistance(dist, sptSet);</p>
+<p>      if (u == -1)<br />
+         break;</p>
+<p>      sptSet[u] = true;</p>
+<p>      for (int v = 0; v &lt; V; v++)<br />
+         if (!sptSet[v] &amp;&amp; graph[u][v] != 0<br />
+                            &amp;&amp; dist[u] + graph[u][v] &lt; dist[v])<br />
+            dist[v] = dist[u] + graph[u][v];<br />
+   }</p>
+<p>   //print code<br />
+}<br />
+</code></p>
+<p>The code does not look at unreachable nodes (<code>dist[u] == INT_MAX</code>) more than necessary. The last two comments address this issue.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-28923">
+        <div id="dsq-comment-header-28923" class="dsq-comment-header">
+            <cite id="dsq-cite-28923">
+                <span id="dsq-author-user-28923">viki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28923" class="dsq-comment-body">
+            <div id="dsq-comment-message-28923" class="dsq-comment-message"><p>I think &#8220;&amp;&amp; dist[u] != INT_MAX&#8221; is redundant check.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-31835">
+        <div id="dsq-comment-header-31835" class="dsq-comment-header">
+            <cite id="dsq-cite-31835">
+                <span id="dsq-author-user-31835">Ashish Tilokani</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31835" class="dsq-comment-body">
+            <div id="dsq-comment-message-31835" class="dsq-comment-message"><p>Its used because the next condition is that of dist[u]+graph[u][v] &lt; dist[v] which can cause overflow as Int type cannot store more than INT_MAX<br />
+and the LHS can be INT_MAX + any positive integer</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-25005">
+        <div id="dsq-comment-header-25005" class="dsq-comment-header">
+            <cite id="dsq-cite-25005">
+                <span id="dsq-author-user-25005">Kailash Gupta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-25005" class="dsq-comment-body">
+            <div id="dsq-comment-message-25005" class="dsq-comment-message"><p>Should not we break the outer for loop when dist[u] == INT_MAX  ?Because that means no node has left which can be reached from source node</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-17541">
+        <div id="dsq-comment-header-17541" class="dsq-comment-header">
+            <cite id="dsq-cite-17541">
+                <span id="dsq-author-user-17541">atul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17541" class="dsq-comment-body">
+            <div id="dsq-comment-message-17541" class="dsq-comment-message"><p>Below code may return garbage value i.e min_index.<br />
+test case : suppose a node is an isolated node in a graph and does not have any neighbour in that case min_index value will not get updated.</p>
+<pre> <code language="C">
+int minDistance(int dist[], bool sptSet[])
+{
+   // Initialize min value
+   int min = INT_MAX, min_index;
+ 
+   for (int v = 0; v &lt; V; v++)
+     if (sptSet[v] == false &amp;&amp; dist[v] &lt; min)
+         min = dist[v], min_index = v;
+ 
+   return min_index;
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even depth-2" id="dsq-comment-17542">
+        <div id="dsq-comment-header-17542" class="dsq-comment-header">
+            <cite id="dsq-cite-17542">
+                <span id="dsq-author-user-17542">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17542" class="dsq-comment-body">
+            <div id="dsq-comment-message-17542" class="dsq-comment-message"><p>Thanks for pointing this out.  Replacing &#8216;smaller than&#8217; sign with &#8216;smaller than or equal to&#8217; should fix the issue for all cases.  We will update the post soon.</p>
+<pre> <code language="C">
+int minDistance(int dist[], bool sptSet[])
+{
+   // Initialize min value
+   int min = INT_MAX, min_index;
+  
+   for (int v = 0; v &lt; V; v++)
+     if (sptSet[v] == false &amp;&amp; dist[v] &lt;= min)
+         min = dist[v], min_index = v;
+  
+   return min_index;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-13771">
+        <div id="dsq-comment-header-13771" class="dsq-comment-header">
+            <cite id="dsq-cite-13771">
+                <span id="dsq-author-user-13771">Ankit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13771" class="dsq-comment-body">
+            <div id="dsq-comment-message-13771" class="dsq-comment-message"><p>Please explain the presence of condition (!sptSet[v]) in </p>
+<pre> <code language="C">
+if (!sptSet[v] &amp;&amp; graph[u][v] &amp;&amp; dist[u] + graph[u][v] &lt; dist[v])
+            dist[v] = dist[u] + graph[u][v];
+     }
+</code> </pre>
+<p>According to Cormen, we are supposed to relax all the edges leaving v and is logical too. But if putting this extra condition doesn&#8217;t affect the result, please explain how ?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-29234">
+        <div id="dsq-comment-header-29234" class="dsq-comment-header">
+            <cite id="dsq-cite-29234">
+                <span id="dsq-author-user-29234">Ankur</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29234" class="dsq-comment-body">
+            <div id="dsq-comment-message-29234" class="dsq-comment-message"><p>This condition only ensures that the neighbour&#8217;s that you are going to access are not already in SPTset , because if they already are in SPtset than shortest path to them have already been computed , and there&#8217;s no need for them to go through the condition : dist[u] + graph[u][v] &lt; dist[v] , as it will never be true.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-12901">
+        <div id="dsq-comment-header-12901" class="dsq-comment-header">
+            <cite id="dsq-cite-12901">
+                <span id="dsq-author-user-12901">Dinesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12901" class="dsq-comment-body">
+            <div id="dsq-comment-message-12901" class="dsq-comment-message"><p>awesome was really helpful in understanding dijkstra algorithm&#8230;thanks a lot for this nice post&#8230;.geek for geek rocks</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-30636">
+        <div id="dsq-comment-header-30636" class="dsq-comment-header">
+            <cite id="dsq-cite-30636">
+                <span id="dsq-author-user-30636">yossi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30636" class="dsq-comment-body">
+            <div id="dsq-comment-message-30636" class="dsq-comment-message"><p>hy i want to have the detail about the path if you can help me</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/greedy-algorithms-set-6-dijkstras-shortest-path-algorithm/';
+var disqus_identifier = '27697 http://www.geeksforgeeks.org/?p=27697';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Greedy Algorithms | Set 7 (Dijkstra&#8217;s shortest path algorithm)";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.200 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:22:47 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

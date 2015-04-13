@@ -1,0 +1,1647 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Greedy Algorithms | Set 2 (Kruskal’s Minimum Spanning Tree Algorithm) - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/greedy-algorithms-set-2-kruskals-minimum-spanning-tree-mst/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Greedy Algorithms | Set 2 (Kruskal’s Minimum Spanning Tree Algorithm) - GeeksforGeeks" />
+<meta property="og:description" content="What is Minimum Spanning Tree? Given a connected and undirected graph, a spanning tree of that graph is a subgraph that is a tree and connects all the vertices together. A single graph can have many different spanning trees. A minimum spanning tree (MST) or minimum weight spanning tree for a weighted, connected and undirected &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/greedy-algorithms-set-2-kruskals-minimum-spanning-tree-mst/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Graph" />
+<meta property="article:tag" content="Greedy Algorithm" />
+<meta property="article:tag" content="Kruskal" />
+<meta property="article:tag" content="Kruskal&#039;sAlgorithm" />
+<meta property="article:section" content="Graph" />
+<meta property="article:published_time" content="2012-10-30T23:15:21+00:00" />
+<meta property="article:modified_time" content="2014-02-09T19:36:00+00:00" />
+<meta property="og:updated_time" content="2014-02-09T19:36:00+00:00" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig-0-300x139.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig-1.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig-2-241x300.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig-3-300x232.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig-4-300x175.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig-5-300x175.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig-6-300x175.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig-7-300x175.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/fig8new.jpeg" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.421 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1418208715 14.139.207.126 192.168.82.19';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Greedy Algorithms | Set 2 (Kruskal’s Minimum Spanning Tree Algorithm)</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p><em>What is Minimum Spanning Tree?</em><br />
+Given a connected and undirected graph, a <em>spanning tree</em> of that graph is a subgraph that is a tree and connects all the vertices together. <span id="more-26604"></span>A single graph can have many different spanning trees. <!--more-->A <em>minimum spanning tree (MST)</em> or minimum weight spanning tree for a weighted, connected and undirected graph is a spanning tree with weight less than or equal to the weight of every other spanning tree. The weight of a spanning tree is the sum of weights given to each edge of the spanning tree.</p>
+<p><em>How many edges does a minimum spanning tree has?</em><br />
+A minimum spanning tree has (V &#8211; 1) edges where V is the number of vertices in the given  graph. </p>
+<p><em>What are the applications of Minimum Spanning Tree?</em><br />
+See <a href="http://www.geeksforgeeks.org/archives/11110">this </a>for applications of MST.</p>
+<p>Below are the steps for finding MST using Kruskal&#8217;s algorithm</p>
+<pre>
+<strong>1.</strong> Sort all the edges in non-decreasing order of their weight.
+
+<strong>2.</strong> Pick the smallest edge. Check if it forms a cycle with the spanning tree 
+formed so far. If cycle is not formed, include this edge. Else, discard it.  
+
+<strong>3.</strong> Repeat step#2 until there are (V-1) edges in the spanning tree.
+</pre>
+<p>The step#2 uses <a href="http://www.geeksforgeeks.org/archives/26350">Union-Find algorithm</a> to detect cycle. So we recommend to read following post as a prerequisite.<br />
+<a href="http://www.geeksforgeeks.org/archives/26350">Union-Find Algorithm | Set 1 (Detect Cycle in a Graph)</a><br />
+<a href="http://www.geeksforgeeks.org/archives/26489">Union-Find Algorithm | Set 2 (Union By Rank and Path Compression)</a></p>
+<p>The algorithm is a Greedy Algorithm. The Greedy Choice is to pick the smallest weight edge that does not cause a cycle in the MST constructed so far. Let us understand it with an example: Consider the below input graph. </p>
+<p><a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig-0.jpg"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig-0-300x139.jpg" alt="" title="Fig 0" width="300" height="139" class="aligncenter size-medium wp-image-26641" /></a></p>
+<p>The graph contains 9 vertices and 14 edges. So, the minimum spanning tree formed will be having (9 &#8211; 1) = 8 edges. </p>
+<pre>
+After sorting:
+Weight   Src    Dest
+1         7      6
+2         8      2
+2         6      5
+4         0      1
+4         2      5
+6         8      6
+7         2      3
+7         7      8
+8         0      7
+8         1      2
+9         3      4
+10        5      4
+11        1      7
+14        3      5</pre>
+<p>Now pick all edges one by one from sorted list of edges<br />
+<strong>1.</strong> <em>Pick edge 7-6:</em> No cycle is formed, include it.<br />
+<a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig-1.jpg"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig-1.jpg" alt="" title="Fig 1" width="100" height="30" class="aligncenter size-full wp-image-26642" /></a></p>
+<p><strong>2.</strong> <em>Pick edge 8-2:</em> No cycle is formed, include it.<br />
+<a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig-2.jpg"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig-2-241x300.jpg" alt="" title="Fig 2" width="90" height="125" class="aligncenter size-medium wp-image-26643" /></a></p>
+<p><strong>3.</strong> <em>Pick edge 6-5:</em> No cycle is formed, include it.<br />
+<a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig-3.jpg"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig-3-300x232.jpg" alt="" title="Fig 3" width="145" height="125" class="aligncenter size-medium wp-image-26644" /></a></p>
+<p><strong>4.</strong> <em>Pick edge 0-1:</em> No cycle is formed, include it.<br />
+<a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig-4.jpg"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig-4-300x175.jpg" alt="" title="Fig 4" width="210" height="125" class="aligncenter size-medium wp-image-26645" /></a></p>
+<p><strong>5.</strong> <em>Pick edge 2-5:</em> No cycle is formed, include it.<br />
+<a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig-5.jpg"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig-5-300x175.jpg" alt="" title="Fig 5" width="210" height="125" class="aligncenter size-medium wp-image-26646" /></a></p>
+<p><strong>6.</strong><em> Pick edge 8-6: </em>Since including this edge results in cycle, discard it.</p>
+<p><strong>7.</strong> <em>Pick edge 2-3:</em> No cycle is formed, include it.<br />
+<a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig-6.jpg"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig-6-300x175.jpg" alt="" title="Fig 6" width="210" height="125" class="aligncenter size-medium wp-image-26647" /></a></p>
+<p><strong>8.</strong> <em>Pick edge 7-8:</em> Since including this edge results in cycle, discard it.</p>
+<p><strong>9.</strong> <em>Pick edge 0-7:</em> No cycle is formed, include it.<br />
+<a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig-7.jpg"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Fig-7-300x175.jpg" alt="" title="Fig 7" width="220" height="125" class="aligncenter size-medium wp-image-26648" /></a></p>
+<p><strong>10.</strong> <em>Pick edge 1-2: </em>Since including this edge results in cycle, discard it.</p>
+<p><strong>11.</strong> <em>Pick edge 3-4:</em> No cycle is formed, include it.<br />
+<a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/fig8new.jpeg"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/fig8new.jpeg" alt="" title="Fig 8" width="270" height="125" class="aligncenter size-medium wp-image-26649" /></a></p>
+<p>Since the number of edges included equals (V &#8211; 1), the algorithm stops here.</p>
+<pre class="brush: cpp; highlight: [87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137]; title: ; notranslate" title="">
+// Kruskal's algortihm to find Minimum Spanning Tree of a given connected,
+// undirected and weighted graph
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+// a structure to represent a weighted edge in graph
+struct Edge
+{
+    int src, dest, weight;
+};
+
+// a structure to represent a connected, undirected and weighted graph
+struct Graph
+{
+    // V-&gt; Number of vertices, E-&gt; Number of edges
+    int V, E;
+
+    // graph is represented as an array of edges. Since the graph is
+    // undirected, the edge from src to dest is also edge from dest
+    // to src. Both are counted as 1 edge here.
+    struct Edge* edge;
+};
+
+// Creates a graph with V vertices and E edges
+struct Graph* createGraph(int V, int E)
+{
+    struct Graph* graph = (struct Graph*) malloc( sizeof(struct Graph) );
+    graph-&gt;V = V;
+    graph-&gt;E = E;
+
+    graph-&gt;edge = (struct Edge*) malloc( graph-&gt;E * sizeof( struct Edge ) );
+
+    return graph;
+}
+
+// A structure to represent a subset for union-find
+struct subset
+{
+    int parent;
+    int rank;
+};
+
+// A utility function to find set of an element i
+// (uses path compression technique)
+int find(struct subset subsets[], int i)
+{
+    // find root and make root as parent of i (path compression)
+    if (subsets[i].parent != i)
+        subsets[i].parent = find(subsets, subsets[i].parent);
+
+    return subsets[i].parent;
+}
+
+// A function that does union of two sets of x and y
+// (uses union by rank)
+void Union(struct subset subsets[], int x, int y)
+{
+    int xroot = find(subsets, x);
+    int yroot = find(subsets, y);
+
+    // Attach smaller rank tree under root of high rank tree
+    // (Union by Rank)
+    if (subsets[xroot].rank &lt; subsets[yroot].rank)
+        subsets[xroot].parent = yroot;
+    else if (subsets[xroot].rank &gt; subsets[yroot].rank)
+        subsets[yroot].parent = xroot;
+
+    // If ranks are same, then make one as root and increment
+    // its rank by one
+    else
+    {
+        subsets[yroot].parent = xroot;
+        subsets[xroot].rank++;
+    }
+}
+
+// Compare two edges according to their weights.
+// Used in qsort() for sorting an array of edges
+int myComp(const void* a, const void* b)
+{
+    struct Edge* a1 = (struct Edge*)a;
+    struct Edge* b1 = (struct Edge*)b;
+    return a1-&gt;weight &gt; b1-&gt;weight;
+}
+
+// The main function to construct MST using Kruskal's algorithm
+void KruskalMST(struct Graph* graph)
+{
+    int V = graph-&gt;V;
+    struct Edge result[V];  // Tnis will store the resultant MST
+    int e = 0;  // An index variable, used for result[]
+    int i = 0;  // An index variable, used for sorted edges
+
+    // Step 1:  Sort all the edges in non-decreasing order of their weight
+    // If we are not allowed to change the given graph, we can create a copy of
+    // array of edges
+    qsort(graph-&gt;edge, graph-&gt;E, sizeof(graph-&gt;edge[0]), myComp);
+
+    // Allocate memory for creating V ssubsets
+    struct subset *subsets =
+        (struct subset*) malloc( V * sizeof(struct subset) );
+
+    // Create V subsets with single elements
+    for (int v = 0; v &lt; V; ++v)
+    {
+        subsets[v].parent = v;
+        subsets[v].rank = 0;
+    }
+
+    // Number of edges to be taken is equal to V-1
+    while (e &lt; V - 1)
+    {
+        // Step 2: Pick the smallest edge. And increment the index
+        // for next iteration
+        struct Edge next_edge = graph-&gt;edge[i++];
+
+        int x = find(subsets, next_edge.src);
+        int y = find(subsets, next_edge.dest);
+
+        // If including this edge does't cause cycle, include it
+        // in result and increment the index of result for next edge
+        if (x != y)
+        {
+            result[e++] = next_edge;
+            Union(subsets, x, y);
+        }
+        // Else discard the next_edge
+    }
+
+    // print the contents of result[] to display the built MST
+    printf(&quot;Following are the edges in the constructed MST\n&quot;);
+    for (i = 0; i &lt; e; ++i)
+        printf(&quot;%d -- %d == %d\n&quot;, result[i].src, result[i].dest,
+                                                   result[i].weight);
+    return;
+}
+
+// Driver program to test above functions
+int main()
+{
+    /* Let us create following weighted graph
+             10
+        0--------1
+        |  \     |
+       6|   5\   |15
+        |      \ |
+        2--------3
+            4       */
+    int V = 4;  // Number of vertices in graph
+    int E = 5;  // Number of edges in graph
+    struct Graph* graph = createGraph(V, E);
+
+
+    // add edge 0-1
+    graph-&gt;edge[0].src = 0;
+    graph-&gt;edge[0].dest = 1;
+    graph-&gt;edge[0].weight = 10;
+
+    // add edge 0-2
+    graph-&gt;edge[1].src = 0;
+    graph-&gt;edge[1].dest = 2;
+    graph-&gt;edge[1].weight = 6;
+
+    // add edge 0-3
+    graph-&gt;edge[2].src = 0;
+    graph-&gt;edge[2].dest = 3;
+    graph-&gt;edge[2].weight = 5;
+
+    // add edge 1-3
+    graph-&gt;edge[3].src = 1;
+    graph-&gt;edge[3].dest = 3;
+    graph-&gt;edge[3].weight = 15;
+
+    // add edge 2-3
+    graph-&gt;edge[4].src = 2;
+    graph-&gt;edge[4].dest = 3;
+    graph-&gt;edge[4].weight = 4;
+
+    KruskalMST(graph);
+
+    return 0;
+}
+</pre>
+<pre>Following are the edges in the constructed MST
+2 -- 3 == 4
+0 -- 3 == 5
+0 -- 1 == 10</pre>
+<p><strong>Time Complexity:</strong> O(ElogE) or O(ElogV).  Sorting of edges takes O(ELogE) time. After sorting, we iterate through all edges and apply find-union algorithm.  The find and union operations can take atmost O(LogV) time.  So overall complexity is O(ELogE + ELogV) time.  The value of E can be atmost V^2, so O(LogV) are O(LogE) same. Therefore, overall time complexity is O(ElogE) or O(ElogV)</p>
+<p>References:<br />
+<a href="http://www.ics.uci.edu/~eppstein/161/960206.html">http://www.ics.uci.edu/~eppstein/161/960206.html</a><br />
+<a href="http://en.wikipedia.org/wiki/Minimum_spanning_tree">http://en.wikipedia.org/wiki/Minimum_spanning_tree</a></p>
+<p>This article is compiled by <a href="https://www.facebook.com/barnwal.aashish">Aashish Barnwal</a> and reviewed by GeeksforGeeks team. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/vertex-cover-problem-set-1-introduction-approximate-algorithm-2/" title="Vertex Cover Problem | Set 1 (Introduction and Approximate Algorithm)">Vertex Cover Problem | Set 1 (Introduction and Approximate Algorithm)</a></li><li><a href="http://www.geeksforgeeks.org/snake-ladder-problem-2/" title="Snake and Ladder Problem">Snake and Ladder Problem</a></li><li><a href="http://www.geeksforgeeks.org/tarjan-algorithm-find-strongly-connected-components/" title="Tarjan&#8217;s Algorithm to find Strongly Connected Components">Tarjan&#8217;s Algorithm to find Strongly Connected Components</a></li><li><a href="http://www.geeksforgeeks.org/shortest-path-exactly-k-edges-directed-weighted-graph/" title="Shortest path with exactly k edges in a directed and weighted graph">Shortest path with exactly k edges in a directed and weighted graph</a></li><li><a href="http://www.geeksforgeeks.org/count-possible-paths-source-destination-exactly-k-edges/" title="Count all possible walks from a source to a destination with exactly k edges">Count all possible walks from a source to a destination with exactly k edges</a></li><li><a href="http://www.geeksforgeeks.org/euler-circuit-directed-graph/" title="Euler Circuit in a Directed Graph">Euler Circuit in a Directed Graph</a></li><li><a href="http://www.geeksforgeeks.org/given-array-strings-find-strings-can-chained-form-circle/" title="Given an array of strings, find if the strings can be chained to form a circle">Given an array of strings, find if the strings can be chained to form a circle</a></li><li><a href="http://www.geeksforgeeks.org/given-sorted-dictionary-find-precedence-characters/" title="Given a sorted dictionary of an alien language, find order of characters">Given a sorted dictionary of an alien language, find order of characters</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/graph/" rel="tag">Graph</a>, <a href="http://www.geeksforgeeks.org/tag/greedy-algorithm/" rel="tag">Greedy Algorithm</a>, <a href="http://www.geeksforgeeks.org/tag/kruskal/" rel="tag">Kruskal</a>, <a href="http://www.geeksforgeeks.org/tag/kruskalsalgorithm/" rel="tag">Kruskal'sAlgorithm</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fgreedy-algorithms-set-2-kruskals-minimum-spanning-tree-mst%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/greedy-algorithms-set-2-kruskals-minimum-spanning-tree-mst/" data-text="Greedy Algorithms | Set 2 (Kruskal’s Minimum Spanning Tree Algorithm)" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/greedy-algorithms-set-2-kruskals-minimum-spanning-tree-mst/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-32626">
+        <div id="dsq-comment-header-32626" class="dsq-comment-header">
+            <cite id="dsq-cite-32626">
+                <span id="dsq-author-user-32626">Rahul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32626" class="dsq-comment-body">
+            <div id="dsq-comment-message-32626" class="dsq-comment-message"><p>I have a doubt, how will while loop will break, if there is a cycle in the graph ? as we are taking break condition as e &lt; V-1 and e only increments when there is no cycle till now.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-30849">
+        <div id="dsq-comment-header-30849" class="dsq-comment-header">
+            <cite id="dsq-cite-30849">
+                <span id="dsq-author-user-30849">Anitesh Kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30849" class="dsq-comment-body">
+            <div id="dsq-comment-message-30849" class="dsq-comment-message"><p>Please correct me if i am wrong. The compare function used for ::qsort(), mycomp() should be static.<br />
+I am coding with VC++ and using VS2008 IDE. If i do not make mycomp() function static i am getting following CT error:<br />
+&#8220;function call missing argument list; use &#8216;&amp;Graph::mycomp&#8217; to create a pointer to member&#8221;.<br />
+Please reply.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-30146">
+        <div id="dsq-comment-header-30146" class="dsq-comment-header">
+            <cite id="dsq-cite-30146">
+                <span id="dsq-author-user-30146">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30146" class="dsq-comment-body">
+            <div id="dsq-comment-message-30146" class="dsq-comment-message"><p>package kruskalunionfind;</p>
+<p>class Edge<br />
+{<br />
+    int src,dest,weight;<br />
+}</p>
+<p>class Graph<br />
+{<br />
+     // V-&gt; Number of vertices, E-&gt; Number of edges<br />
+    int V, E;</p>
+<p>    // graph is represented as an array of edges. Since the graph is<br />
+    // undirected, the edge from src to dest is also edge from dest<br />
+    // to src. Both are counted as 1 edge here.<br />
+    Edge edge[]=null;</p>
+<p>    public void createGraph(int v,int e)<br />
+    {<br />
+        Graph g=new Graph();<br />
+        V=v;<br />
+        E=e;<br />
+        edge=new Edge[e];        </p>
+<p>        for(int i=0;i&lt;e;i++)<br />
+            edge[i]=new Edge();<br />
+    }<br />
+}</p>
+<p>// structure to represent a subset for union-find<br />
+class subset<br />
+{<br />
+    int parent;<br />
+    int rank;    </p>
+<p>    // A utility function to find set of an element i<br />
+// (uses path compression technique)<br />
+    int find(subset subsets[],int i)<br />
+    {<br />
+        // find root and make root as parent of i (path compression)<br />
+        if (subsets[i].parent != i)<br />
+        {<br />
+            subsets[i].parent = find(subsets, subsets[i].parent);<br />
+        }</p>
+<p>        return subsets[i].parent;<br />
+    }</p>
+<p>    // A function that does union of two sets of x and y<br />
+// (uses union by rank)<br />
+void Union( subset subsets[], int x, int y)<br />
+{<br />
+    int xroot = find(subsets, x);<br />
+    int yroot = find(subsets, y);</p>
+<p>    // Attach smaller rank tree under root of high rank tree<br />
+    // (Union by Rank)<br />
+    if (subsets[xroot].rank  subsets[yroot].rank)<br />
+        subsets[yroot].parent = xroot;</p>
+<p>    // If ranks are same, then make one as root and increment<br />
+    // its rank by one<br />
+    else<br />
+    {<br />
+        subsets[yroot].parent = xroot;<br />
+        subsets[xroot].rank++;<br />
+    }<br />
+}<br />
+}</p>
+<p>public class KruskalUnionFind {</p>
+<p>    static void srtEdge(Edge[] e)<br />
+    {<br />
+        int min=-1;<br />
+     for(int i=0;i&lt;e.length-1;i++)<br />
+     {<br />
+         int p=e[i].weight;</p>
+<p>         for(int j=i;je[j].weight)<br />
+                 min=j;                 </p>
+<p>         }<br />
+          // swap two edge objects<br />
+                 Edge temp;<br />
+                 temp=e[i];<br />
+                 e[i]=e[min];<br />
+                 e[min]=temp;<br />
+     }</p>
+<p>    }<br />
+    // The main function to construct MST using Kruskal&#8217;s algorithm<br />
+ static void KruskalMST(Graph g)<br />
+ {<br />
+     int V=g.V;<br />
+     Edge result[]=new Edge[V];  // This will store resultant MST</p>
+<p>      int e = 0;  // An index variable, used for result[]<br />
+    int i = 0;  // An index variable, used for sorted edges</p>
+<p>    System.out.println(&#8220;Before sorting:&#8221;);<br />
+    for(int j=0;j&lt;g.E;j++)<br />
+        System.out.print(g.edge[j].weight+&quot;  &quot;);</p>
+<p>     System.out.println();   </p>
+<p>     srtEdge(g.edge);   </p>
+<p>     System.out.println(&quot;After sorting:&quot;);<br />
+      for(int j=0;j&lt;g.E;j++)<br />
+        System.out.print(g.edge[j].weight+&quot;  &quot;);</p>
+<p>     System.out.println();</p>
+<p>    subset s[]=new subset[V];<br />
+      // Create V subsets with single elements<br />
+    for (int v = 0; v &lt; V; ++v)<br />
+    {<br />
+        s[v]=new subset();</p>
+<p>        s[v].parent = v;<br />
+        s[v].rank = 0;<br />
+    }</p>
+<p>    subset ob=new subset();<br />
+    // Number of edges to be taken is equal to V-1<br />
+    while(e&lt;V-1)<br />
+    {<br />
+           Edge next_edge=g.edge[i++];<br />
+           int x=ob.find(s,next_edge.src);<br />
+           int y=ob.find(s,next_edge.dest);</p>
+<p>           // If including this edge does&#039;t cause cycle, include it<br />
+        // in result and increment the index of result for next edge<br />
+        if (x != y)<br />
+        {<br />
+            result[e++] = next_edge;<br />
+            ob.Union(s, x, y);<br />
+        }<br />
+        // Else discard the next_edge<br />
+    }</p>
+<p>      // print the contents of result[] to display the built MST<br />
+    System.out.println(&quot;Following are the edges in the constructed MST&quot;);</p>
+<p>    for(i=0;i&lt;e;i++)<br />
+        System.out.println(result[i].src+&quot;  &quot;+result[i].dest+&quot;  &quot;+result[i].weight);</p>
+<p> }<br />
+    public static void main(String[] args) {<br />
+        /* Let us create following weighted graph<br />
+             10<br />
+        0&#8212;&#8212;&#8211;1<br />
+        |       |<br />
+       6|   5   |15<br />
+        |       |<br />
+        2&#8212;&#8212;&#8211;3<br />
+            4       */<br />
+    int V = 4;  // Number of vertices in graph<br />
+    int E = 5;  // Number of edges in graph<br />
+     Graph g= new  Graph();<br />
+     g.createGraph(V, E);</p>
+<p>      // add edge 0-1<br />
+    g.edge[0].src = 0;<br />
+    g.edge[0].dest = 1;<br />
+    g.edge[0].weight = 10;</p>
+<p>     // add edge 0-2<br />
+    g.edge[1].src = 0;<br />
+    g.edge[1].dest = 2;<br />
+    g.edge[1].weight = 6;</p>
+<p>    // add edge 0-3<br />
+    g.edge[2].src = 0;<br />
+    g.edge[2].dest = 3;<br />
+    g.edge[2].weight = 5;</p>
+<p>    // add edge 1-3<br />
+    g.edge[3].src = 1;<br />
+    g.edge[3].dest = 3;<br />
+    g.edge[3].weight = 15;</p>
+<p>    // add edge 2-3<br />
+    g.edge[4].src = 2;<br />
+    g.edge[4].dest = 3;<br />
+    g.edge[4].weight = 4;</p>
+<p>    KruskalMST(g);</p>
+<p>    }<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-28553">
+        <div id="dsq-comment-header-28553" class="dsq-comment-header">
+            <cite id="dsq-cite-28553">
+                <span id="dsq-author-user-28553">angel</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28553" class="dsq-comment-body">
+            <div id="dsq-comment-message-28553" class="dsq-comment-message"><p>Hi,</p>
+<p>I have one doubt,why do we need to use Union find algorithm for loop detection,if both vertics of current edge are already visited ,then definately they would create loop.so why to spend extra log n processing time in finding of loop.I made a small program of kruskals,in which i used one visited array of vertices only to detect cycle.Please let me know if i am missing something</p>
+<p>void MinSpanningTree_Kruskals(struct edge *Graph_edge,int count)</p>
+<p>{</p>
+<p>	bool visited[SIZE]={0,};</p>
+<p>	int i=0,k=0;</p>
+<p>	struct edge final_edges[SIZE]={0,};</p>
+<p>	while(k&lt;SIZE-1&amp;&amp; i&lt;count)</p>
+<p>	{</p>
+<p>		if(!visited[Graph_edge[i].dest]||!visited[Graph_edge[i].src])</p>
+<p>		{</p>
+<p>			visited[Graph_edge[i].dest]=1;</p>
+<p>			visited[Graph_edge[i].src]=1;</p>
+<p>			final_edges[k++]=Graph_edge[i];</p>
+<p>		}</p>
+<p>		i++;</p>
+<p>	}</p>
+<p>	printf(&quot;nKruskals Algorithmn&quot;);</p>
+<p>	for(i=0;i&lt;SIZE-1;i++)</p>
+<p>	 {</p>
+<p>		 printf(&quot;nsrc=%d,dest=%d,weight=%dn&quot;,final_edges[i].src,final_edges[i].dest,final_edges[i].weight);</p>
+<p>	 }</p>
+<p>}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-28893">
+        <div id="dsq-comment-header-28893" class="dsq-comment-header">
+            <cite id="dsq-cite-28893">
+                <span id="dsq-author-user-28893">sudshekhar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28893" class="dsq-comment-body">
+            <div id="dsq-comment-message-28893" class="dsq-comment-message"><p>Hi,</p>
+<p>Consider the following : </p>
+<p>0 1 3<br />
+1 2 5<br />
+2 3 4<br />
+3 4 6<br />
+4 5 7<br />
+5 6 8<br />
+6 0 9</p>
+<p>The first two are the src and dest and third is the weight.<br />
+Here, we first add the edge (0,1) and then (2,3). Then we get the edge (1,2) which has had both its vertices&#8217;s visited, BUT it doesn&#8217;t form a loop. (since the two components are independent till now) and it will be a part of the MST.</p>
+<p>This is why we need the union-find algorithm.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-26776">
+        <div id="dsq-comment-header-26776" class="dsq-comment-header">
+            <cite id="dsq-cite-26776">
+                <span id="dsq-author-user-26776">Kuntal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26776" class="dsq-comment-body">
+            <div id="dsq-comment-message-26776" class="dsq-comment-message"><pre> <code language="C">
+#include&lt;stdio.h&gt;
+#include&lt;malloc.h&gt;
+#define EDGESIZE 10
+struct edge {
+int cost;
+int ver1;
+int ver2;
+};
+struct edge *edges;
+int *vertex;
+void partition(int low,int high){
+int mid;
+if(low&lt;high){
+mid=(low+high)/2;
+partition(low,mid);
+partition(mid+1,high);
+mergeSort(low,mid,high);
+}
+}
+void mergeSort(int low,int mid,int high){
+int i,m,k,l,size;
+size = high+1-low;
+struct edge *temp;
+temp = malloc( size*sizeof(struct edge) );;
+l=low;
+i=low;
+m=mid+1;
+while((l&lt;=mid)&amp;&amp;(m&lt;=high)){
+if(edges[l].cost&lt;=edges[m].cost){
+temp[i].ver1=edges[l].ver1;
+temp[i].ver2=edges[l].ver2;
+temp[i].cost=edges[l].cost;
+l++;
+}
+else{
+temp[i].ver1=edges[m].ver1;
+temp[i].ver2=edges[m].ver2;
+temp[i].cost=edges[m].cost;
+m++;
+}
+i++;
+}
+if(l&gt;mid){
+for(k=m;k&lt;=high;k++){
+temp[i].ver1=edges[k].ver1;
+temp[i].ver2=edges[k].ver2;
+temp[i].cost=edges[k].cost;
+i++;
+}
+}
+else{
+for(k=l;k&lt;=mid;k++){
+temp[i].ver1=edges[k].ver1;
+temp[i].ver2=edges[k].ver2;
+temp[i].cost=edges[k].cost;
+i++;
+}
+}   
+for(k=low;k&lt;=high;k++){
+edges[k].ver1=temp[k].ver1;
+edges[k].ver2=temp[k].ver2;
+edges[k].cost=temp[k].cost;
+}
+free(temp);
+}
+int findSet(int ver)
+{
+int child,root,parent;
+child = ver;
+parent = vertex[child];
+while(parent!=child)
+{
+child = parent;
+parent=vertex[child];
+}
+root = child;
+child = ver;
+parent = vertex[child];
+while(parent!=child)
+{
+child = parent;
+parent=vertex[child];
+vertex[child]=root;
+}
+return root;
+}
+void unionSet(int ver1,int ver2)
+{
+vertex[ver2]=vertex[ver1];
+}
+int main()
+{
+int i,vertexsize,edgesize,v1,v2,cost=0;
+printf(&quot;\nNo of Vertex and No of Edges\n&quot;);
+scanf(&quot;%d %d&quot;,&amp;vertexsize,&amp;edgesize);
+vertex = malloc( vertexsize*sizeof(int) ); 
+edges = malloc( edgesize*sizeof(struct edge) );
+printf(&quot;\nv1 v2 cost\n&quot;);
+for(i=0;i&lt;edgesize;i++)
+{
+scanf(&quot;%d %d %d&quot;,&amp;v1,&amp;v2,&amp;cost);
+edges[i].ver1 = v1;
+edges[i].ver2 = v2;
+edges[i].cost = cost;
+}
+for(i=0;i&lt;vertexsize;i++)
+{
+vertex[i]=i;
+}
+printf(&quot;The path\n&quot;);
+partition(0,edgesize-1);
+cost=0;
+for(i=0;i&lt;edgesize;i++)
+{
+if(findSet(edges[i].ver1)!=findSet(edges[i].ver2))
+{
+printf(&quot;%d--%d == %d\n&quot;,edges[i].ver1,edges[i].ver2,edges[i].cost);
+cost+=edges[i].cost;
+unionSet(findSet(edges[i].ver1),findSet(edges[i].ver2));
+}
+}
+printf(&quot;\nCost is %d\n&quot;,cost);
+free(edges);
+return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-26763">
+        <div id="dsq-comment-header-26763" class="dsq-comment-header">
+            <cite id="dsq-cite-26763">
+                <span id="dsq-author-user-26763">JV</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26763" class="dsq-comment-body">
+            <div id="dsq-comment-message-26763" class="dsq-comment-message"><p>does rank variable has any importance, in the subset struct</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-28633">
+        <div id="dsq-comment-header-28633" class="dsq-comment-header">
+            <cite id="dsq-cite-28633">
+                <span id="dsq-author-user-28633">GuruSimhe</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28633" class="dsq-comment-body">
+            <div id="dsq-comment-message-28633" class="dsq-comment-message"><p>Dude, go through Union by rank algorithm first. <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":-)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-24513">
+        <div id="dsq-comment-header-24513" class="dsq-comment-header">
+            <cite id="dsq-cite-24513">
+                <span id="dsq-author-user-24513">piki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24513" class="dsq-comment-body">
+            <div id="dsq-comment-message-24513" class="dsq-comment-message"><p>what is wrong with my code plz tell me when i am trying to submit it on SPOJ it is giving 0 point so please tell me what is wrong with this</p>
+<p>Thanks in advance</p>
+<pre> <code language="C">
+/* #include&lt;stdio.h&gt;
+#include&lt;iostream&gt;
+#include&lt;queue&gt;
+#include&lt;vector&gt;
+#include&lt;algorithm&gt;
+#include&lt;string.h&gt;
+
+using namespace std;
+
+struct Edge
+{
+  int start;
+  int end;
+  int weight;
+};
+
+struct compare
+{
+   bool operator()(const Edge &amp;l,const Edge &amp;r)
+   {
+      return l.weight&gt;r.weight;
+   }
+};
+
+struct Subset
+{
+  int parent;
+  int rank;
+};
+
+struct Graph
+{
+   int V,E;
+   struct Edge *edges;
+};
+
+
+Graph * createGraph(int v,int e)
+{
+   Graph *g=new Graph();
+   g-&gt;V-v;
+   g-&gt;E=e;
+   g-&gt;edges=new Edge[g-&gt;E];
+}
+
+int find(Subset s[],int v)
+{
+    if(s[v].parent!=v)
+      s[v].parent=find(s,s[v].parent);
+    return s[v].parent;
+}
+
+void union1(Subset s[],int v,int w)
+{
+    int vfind=find(s,v);
+    int wfind=find(s,w);
+    if(s[vfind].rank&gt;s[wfind].rank)
+       s[wfind].parent=vfind;
+    else if(s[vfind].rank&lt;s[wfind].rank)
+       s[vfind].parent=wfind;
+    else
+      {
+          s[vfind].parent=wfind;
+          s[wfind].rank++;
+      }
+}
+
+bool isCycle(Graph *g)
+{
+   Subset *s=new Subset[g-&gt;V];
+   for(int i=0;i&lt;g-&gt;V;i++)
+   { 
+     s[i].parent=i;
+     s[i].rank=0;
+   }
+  for(int i=0;i&lt;g-&gt;E;i++)
+  {
+      int xfind=find(s,g-&gt;edges[i].start); 
+      int yfind=find(s,g-&gt;edges[i].end); 
+      if(xfind==yfind)
+        return false; 
+      else
+        union1(s,g-&gt;edges[i].start,g-&gt;edges[i].end);
+  }
+  return true;
+}
+int main()
+{
+  int v,e;
+  cin&gt;&gt;v&gt;&gt;e;
+  Graph *g=createGraph(v,e);
+  priority_queue&lt;Edge,vector&lt;Edge&gt;,compare&gt; Q;
+  int start,end,wt;
+  for(int i=0;i&lt;e;i++)
+  {
+     cin&gt;&gt;start&gt;&gt;end&gt;&gt;wt;
+     Edge edge1;
+     edge1.start=start;
+     edge1.end=end;
+     edge1.weight=wt;
+     Q.push(edge1);
+  }
+  g-&gt;E=0;int k=0;
+  while(g-&gt;E&lt;g-&gt;V-1)
+  {  
+      Edge edge1=Q.top();
+      Q.pop();
+      g-&gt;edges[k].start=edge1.start;
+      g-&gt;edges[k].end=edge1.end;
+      g-&gt;edges[k].weight=edge1.weight;
+      g-&gt;E++;
+      if(isCycle(g)==true)
+       k++;
+      else
+       g-&gt;E--;
+  }
+  int sum=0;
+  for(int i=0;i&lt;g-&gt;E;i++)
+    sum=sum+g-&gt;edges[i].weight;
+  cout&lt;&lt;sum&lt;&lt;endl;
+  return 0;
+} */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-24511">
+        <div id="dsq-comment-header-24511" class="dsq-comment-header">
+            <cite id="dsq-cite-24511">
+                <span id="dsq-author-user-24511">piki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24511" class="dsq-comment-body">
+            <div id="dsq-comment-message-24511" class="dsq-comment-message"><p>what is wrong with my code plz tell me when i am trying to submit it on SPOJ it is giving 0 point so please tell me what is wrong with this</p>
+<p>Thanks in advance</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-24509">
+        <div id="dsq-comment-header-24509" class="dsq-comment-header">
+            <cite id="dsq-cite-24509">
+                <span id="dsq-author-user-24509">piki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24509" class="dsq-comment-body">
+            <div id="dsq-comment-message-24509" class="dsq-comment-message"><p>what is wrong with my code is it correct or not<br />
+when i am trying to submit it on spoj it is giving 0 point so plz tell me my mistake</p>
+<p>Thanks in advance</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-24507">
+        <div id="dsq-comment-header-24507" class="dsq-comment-header">
+            <cite id="dsq-cite-24507">
+                <span id="dsq-author-user-24507">piki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24507" class="dsq-comment-body">
+            <div id="dsq-comment-message-24507" class="dsq-comment-message"><pre> <code language="C">
+/* #include&lt;stdio.h&gt;
+#include&lt;iostream&gt;
+#include&lt;queue&gt;
+#include&lt;vector&gt;
+#include&lt;algorithm&gt;
+#include&lt;string.h&gt;
+
+using namespace std;
+
+struct Edge
+{
+  int start;
+  int end;
+  int weight;
+};
+
+struct compare
+{
+   bool operator()(const Edge &amp;l,const Edge &amp;r)
+   {
+      return l.weight&gt;r.weight;
+   }
+};
+
+struct Subset
+{
+  int parent;
+  int rank;
+};
+
+struct Graph
+{
+   int V,E;
+   struct Edge *edges;
+};
+
+
+Graph * createGraph(int v,int e)
+{
+   Graph *g=new Graph();
+   g-&gt;V-v;
+   g-&gt;E=e;
+   g-&gt;edges=new Edge[g-&gt;E];
+}
+
+int find(Subset s[],int v)
+{
+    if(s[v].parent!=v)
+      s[v].parent=find(s,s[v].parent);
+    return s[v].parent;
+}
+
+void union1(Subset s[],int v,int w)
+{
+    int vfind=find(s,v);
+    int wfind=find(s,w);
+    if(s[vfind].rank&gt;s[wfind].rank)
+       s[wfind].parent=vfind;
+    else if(s[vfind].rank&lt;s[wfind].rank)
+       s[vfind].parent=wfind;
+    else
+      {
+          s[vfind].parent=wfind;
+          s[wfind].rank++;
+      }
+}
+
+bool isCycle(Graph *g)
+{
+   Subset *s=new Subset[g-&gt;V];
+   for(int i=0;i&lt;g-&gt;V;i++)
+   { 
+     s[i].parent=i;
+     s[i].rank=0;
+   }
+  for(int i=0;i&lt;g-&gt;E;i++)
+  {
+      int xfind=find(s,g-&gt;edges[i].start); 
+      int yfind=find(s,g-&gt;edges[i].end); 
+      if(xfind==yfind)
+        return false; 
+      else
+        union1(s,g-&gt;edges[i].start,g-&gt;edges[i].end);
+  }
+  return true;
+}
+int main()
+{
+  int v,e;
+  cin&gt;&gt;v&gt;&gt;e;
+  Graph *g=createGraph(v,e);
+  priority_queue&lt;Edge,vector&lt;Edge&gt;,compare&gt; Q;
+  int start,end,wt;
+  for(int i=0;i&lt;e;i++)
+  {
+     cin&gt;&gt;start&gt;&gt;end&gt;&gt;wt;
+     Edge edge1;
+     edge1.start=start;
+     edge1.end=end;
+     edge1.weight=wt;
+     Q.push(edge1);
+  }
+  g-&gt;E=0;int k=0;
+  while(g-&gt;E&lt;g-&gt;V-1)
+  {  
+      Edge edge1=Q.top();
+      Q.pop();
+      g-&gt;edges[k].start=edge1.start;
+      g-&gt;edges[k].end=edge1.end;
+      g-&gt;edges[k].weight=edge1.weight;
+      g-&gt;E++;
+      if(isCycle(g)==true)
+       k++;
+      else
+       g-&gt;E--;
+  }
+  int sum=0;
+  for(int i=0;i&lt;g-&gt;E;i++)
+    sum=sum+g-&gt;edges[i].weight;
+  cout&lt;&lt;sum&lt;&lt;endl;
+  return 0;
+} */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-24512">
+        <div id="dsq-comment-header-24512" class="dsq-comment-header">
+            <cite id="dsq-cite-24512">
+                <span id="dsq-author-user-24512">piki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24512" class="dsq-comment-body">
+            <div id="dsq-comment-message-24512" class="dsq-comment-message"><p>what is wrong with my code plz tell me when i am trying to submit it on SPOJ it is giving 0 point so please tell me what is wrong with this</p>
+<p>Thanks in advance</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-atulsingh7890 odd alt thread-even depth-1" id="dsq-comment-17417">
+        <div id="dsq-comment-header-17417" class="dsq-comment-header">
+            <cite id="dsq-cite-17417">
+                <span id="dsq-author-user-17417">ATul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17417" class="dsq-comment-body">
+            <div id="dsq-comment-message-17417" class="dsq-comment-message"><p>In the condition </p>
+<pre> <code language="C">
+while ( e &lt; V - 1 )
+</code> </pre>
+<p>it should be </p>
+<pre> <code language="C">
+while ( i &lt; V - 1 )
+</code> </pre>
+<p>because i is the index of gettig edges.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-atulsingh7890 even depth-2" id="dsq-comment-17418">
+        <div id="dsq-comment-header-17418" class="dsq-comment-header">
+            <cite id="dsq-cite-17418">
+                <span id="dsq-author-user-17418">ATul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17418" class="dsq-comment-body">
+            <div id="dsq-comment-message-17418" class="dsq-comment-message"><p>sorry i misguied it E with V</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-15674">
+        <div id="dsq-comment-header-15674" class="dsq-comment-header">
+            <cite id="dsq-cite-15674">
+                <span id="dsq-author-user-15674">John</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15674" class="dsq-comment-body">
+            <div id="dsq-comment-message-15674" class="dsq-comment-message"><p>Why doesn&#8217;t this work with</p>
+<p>Number of E=3<br />
+Number of V=3</p>
+<p>SRC DEST WEIGHT<br />
+7     8    3<br />
+7     9    2<br />
+8     9    1</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-27579">
+        <div id="dsq-comment-header-27579" class="dsq-comment-header">
+            <cite id="dsq-cite-27579">
+                <span id="dsq-author-user-27579">Shiwakant Bharti</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27579" class="dsq-comment-body">
+            <div id="dsq-comment-message-27579" class="dsq-comment-message"><p>Because for the vertices, the index are supposed to be from 0 to V-1.<br />
+Looking at below code snippet, you can realize that the array indexes of src like 7 etc will be actually be ArrayIndexOutOfBound as specified by Java.<br />
+For C/C++ as there is no bound checking it may appear silent or throw the well known segmentation fault!</p>
+<p>    // Allocate memory for creating V ssubsets<br />
+    struct subset *subsets =<br />
+        (struct subset*) malloc( V * sizeof(struct subset) );<br />
+.<br />
+.</p>
+<p>int x = find(subsets, next_edge.src);</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-12121">
+        <div id="dsq-comment-header-12121" class="dsq-comment-header">
+            <cite id="dsq-cite-12121">
+                <span id="dsq-author-user-12121">cryingFish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12121" class="dsq-comment-body">
+            <div id="dsq-comment-message-12121" class="dsq-comment-message"><p>please write about Prim and Dijekstra also</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/greedy-algorithms-set-2-kruskals-minimum-spanning-tree-mst/';
+var disqus_identifier = '26604 http://www.geeksforgeeks.org/?p=26604';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Greedy Algorithms | Set 2 (Kruskal’s Minimum Spanning Tree Algorithm)";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.207 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-12-10 16:21:55 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

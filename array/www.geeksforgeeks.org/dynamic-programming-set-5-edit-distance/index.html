@@ -1,0 +1,1783 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Dynamic Programming | Set 5 (Edit Distance) - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/dynamic-programming-set-5-edit-distance/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Dynamic Programming | Set 5 (Edit Distance) - GeeksforGeeks" />
+<meta property="og:description" content="Continuing further on dynamic programming series, edit distance is an interesting algorithm. Problem: Given two strings of size m, n and set of operations replace (R), insert (I) and delete (D) all at equal cost. Find minimum number of edits (operations) required to convert one string into another. Identifying Recursive Methods: What will be sub-problem &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/dynamic-programming-set-5-edit-distance/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Dynamic Programming" />
+<meta property="article:section" content="Misc" />
+<meta property="article:published_time" content="2011-07-06T00:27:42+00:00" />
+<meta property="article:modified_time" content="2013-06-11T20:24:58+00:00" />
+<meta property="og:updated_time" content="2013-06-11T20:24:58+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.536 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417110872 169.231.19.18';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Dynamic Programming | Set 5 (Edit Distance)</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Continuing further on dynamic programming series, <em>edit distance</em> is an interesting algorithm.<span id="more-13178"></span></p>
+<p><strong>Problem:</strong> Given two strings of size m, n and set of operations replace (R), insert (I) and delete (D) all at equal cost. Find minimum number of edits (operations) required to convert one string into another.</p>
+<p><strong>Identifying Recursive Methods:</strong></p>
+<p><strong> </strong>What will be sub-problem in this case? Consider finding edit distance of part of the strings, say small prefix. Let us denote them as [1&#8230;i] and [1&#8230;j] for some 1&lt; i &lt; m and 1 &lt; j &lt; n. Clearly it is solving smaller instance of final problem, denote it as E(i, j). Our goal is finding E(m, n) and minimizing the cost.</p>
+<p>In the prefix, we can right align the strings in three ways (i, -), (-, j) and (i, j). The hyphen symbol (-) representing no character. An example can make it more clear.</p>
+<p>Given strings SUNDAY and SATURDAY. We want to convert SUNDAY into SATURDAY with minimum edits. Let us pick i = 2 and j = 4 i.e. prefix strings are SUN and SATU respectively (assume the strings indices start at 1). The right most characters can be aligned in three different ways.</p>
+<p><em>Case 1:</em> Align characters U and U. They are equal, no edit is required. We still left with the problem of i = 1 and j = 3, E(i-1, j-1).</p>
+<p><em>Case 2:</em> Align right character from first string and no character from second string. We need a deletion (D) here. We still left with problem of i = 1 and j = 4, E(i-1, j).</p>
+<p><em>Case 3:</em> Align right character from second string and no character from first string. We need an insertion (I) here. We still left with problem of i = 2 and j = 3, E(i, j-1).</p>
+<p>Combining all the subproblems minimum cost of aligning prefix strings ending at i and j given by</p>
+<p>E(i, j) = min( <span style="color: #0000ff">[E(i-1, j) + D]</span>, <span style="color: #008000">[E(i, j-1) + I]</span>,  <span style="color: #ff00ff">[E(i-1, j-1) + R if i,j characters are not same]</span> )</p>
+<p>We still not yet done. What will be base case(s)?</p>
+<p>When both of the strings are of size 0, the cost is 0. When only one of the string is zero, we need edit operations as that of non-zero length string. Mathematically,</p>
+<p>E(0, 0) = 0, E(i, 0) = i, E(0, j) = j</p>
+<p>Now it is easy to complete recursive method. Go through the code for recursive algorithm (edit_distance_recursive).</p>
+<p><strong>Dynamic Programming Method:</strong></p>
+<p><strong></strong>We can calculate the complexity of recursive expression fairly easily.</p>
+<p>T(m, n) = T(m-1, n-1) + T(m, n-1) + T(m-1, n) + C</p>
+<p>The complexity of T(m, n) can be calculated by successive substitution method or solving homogeneous equation of two variables. It will result in an exponential complexity algorithm. It is evident from the recursion tree that it will be solving subproblems again and again. Few strings result in many overlapping subproblems (try the below program with strings <em>exponential</em> and <em>polynomial </em>and note the delay in recursive method).</p>
+<p>We can tabulate the repeating subproblems and look them up when required next time (bottom up). A two dimensional array formed by the strings can keep track of the minimum cost till the current character comparison. The visualization code will help in understanding the construction of matrix.</p>
+<p>The time complexity of dynamic programming method is <em>O(mn)</em> as we need to construct the table fully. The space complexity is also <em>O(mn)</em>. If we need only the cost of edit, we just need <em>O(min(m, n)) </em>space as it is required only to keep track of the current row and previous row.</p>
+<p>Usually the costs D, I and R are not same. In such case the problem can be represented as an acyclic directed graph (DAG) with weights on each edge, and finding shortest path gives edit distance.</p>
+<p><strong>Applications</strong>:</p>
+<p>There are many practical applications of edit distance algorithm, refer <a href="http://en.wikipedia.org/wiki/Lucene" target="_blank">Lucene</a> API for sample. Another example, display all the words in a dictionary that are near proximity to a given word\incorrectly spelled word.</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+// Dynamic Programming implementation of edit distance
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;string.h&gt;
+
+// Change these strings to test the program
+#define STRING_X &quot;SUNDAY&quot;
+#define STRING_Y &quot;SATURDAY&quot;
+
+#define SENTINEL (-1)
+#define EDIT_COST (1)
+
+inline
+int min(int a, int b) {
+   return a &lt; b ? a : b;
+}
+
+// Returns Minimum among a, b, c
+int Minimum(int a, int b, int c)
+{
+    return min(min(a, b), c);
+}
+
+// Strings of size m and n are passed.
+// Construct the Table for X[0...m, m+1], Y[0...n, n+1]
+int EditDistanceDP(char X[], char Y[])
+{
+    // Cost of alignment
+    int cost = 0;
+    int leftCell, topCell, cornerCell;
+
+    int m = strlen(X)+1;
+    int n = strlen(Y)+1;
+
+    // T[m][n]
+    int *T = (int *)malloc(m * n * sizeof(int));
+
+    // Initialize table
+    for(int i = 0; i &lt; m; i++)
+        for(int j = 0; j &lt; n; j++)
+            *(T + i * n + j) = SENTINEL;
+
+    // Set up base cases
+    // T[i][0] = i
+    for(int i = 0; i &lt; m; i++)
+        *(T + i * n) = i;
+
+    // T[0][j] = j
+    for(int j = 0; j &lt; n; j++)
+        *(T + j) = j;
+
+    // Build the T in top-down fashion
+    for(int i = 1; i &lt; m; i++)
+    {
+        for(int j = 1; j &lt; n; j++)
+        {
+            // T[i][j-1]
+            leftCell = *(T + i*n + j-1);
+            leftCell += EDIT_COST; // deletion
+
+            // T[i-1][j]
+            topCell = *(T + (i-1)*n + j);
+            topCell += EDIT_COST; // insertion
+
+            // Top-left (corner) cell
+            // T[i-1][j-1]
+            cornerCell = *(T + (i-1)*n + (j-1) );
+
+            // edit[(i-1), (j-1)] = 0 if X[i] == Y[j], 1 otherwise
+            cornerCell += (X[i-1] != Y[j-1]); // may be replace
+
+            // Minimum cost of current cell
+            // Fill in the next cell T[i][j]
+            *(T + (i)*n + (j)) = Minimum(leftCell, topCell, cornerCell);
+        }
+    }
+
+    // Cost is in the cell T[m][n]
+    cost = *(T + m*n - 1);
+    free(T);
+    return cost;
+}
+
+// Recursive implementation
+int EditDistanceRecursion( char *X, char *Y, int m, int n )
+{
+    // Base cases
+    if( m == 0 &amp;&amp; n == 0 )
+        return 0;
+
+    if( m == 0 )
+        return n;
+
+    if( n == 0 )
+        return m;
+
+    // Recurse
+    int left = EditDistanceRecursion(X, Y, m-1, n) + 1;
+    int right = EditDistanceRecursion(X, Y, m, n-1) + 1;
+    int corner = EditDistanceRecursion(X, Y, m-1, n-1) + (X[m-1] != Y[n-1]);
+
+    return Minimum(left, right, corner);
+}
+
+int main()
+{
+    char X[] = STRING_X; // vertical
+    char Y[] = STRING_Y; // horizontal
+
+    printf(&quot;Minimum edits required to convert %s into %s is %d\n&quot;,
+           X, Y, EditDistanceDP(X, Y) );
+    printf(&quot;Minimum edits required to convert %s into %s is %d by recursion\n&quot;,
+           X, Y, EditDistanceRecursion(X, Y, strlen(X), strlen(Y)));
+
+    return 0;
+}
+</pre>
+<p>&#8212; <strong><a href="http://geeksforgeeks.org/?page_id=2" target="_blank">Venki</a></strong>. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/job-sequencing-problem-set-1-greedy-algorithm/" title="Job Sequencing Problem | Set 1 (Greedy Algorithm)">Job Sequencing Problem | Set 1 (Greedy Algorithm)</a></li><li><a href="http://www.geeksforgeeks.org/multiply-two-polynomials-2/" title="Multiply two polynomials">Multiply two polynomials</a></li><li><a href="http://www.geeksforgeeks.org/algorithm-practice-question-beginners-set-1/" title="Algorithm Practice Question for Beginners | Set 1">Algorithm Practice Question for Beginners | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/count-distinct-non-negative-pairs-x-y-satisfy-inequality-xx-yy-n-2/" title="Count Distinct Non-Negative Integer Pairs (x, y) that Satisfy the Inequality x*x + y*y &lt; n">Count Distinct Non-Negative Integer Pairs (x, y) that Satisfy the Inequality x*x + y*y < n</a></li><li><a href="http://www.geeksforgeeks.org/binomial-heap-2/" title="Binomial Heap">Binomial Heap</a></li><li><a href="http://www.geeksforgeeks.org/print-increasing-sequences-length-k-first-n-natural-numbers/" title="Print all increasing sequences of length k from first n natural numbers">Print all increasing sequences of length k from first n natural numbers</a></li><li><a href="http://www.geeksforgeeks.org/find-nth-number-number-system-3-4/" title="Find n&#8217;th number in a number system with only 3 and 4">Find n&#8217;th number in a number system with only 3 and 4</a></li><li><a href="http://www.geeksforgeeks.org/minimum-cost-polygon-triangulation/" title="Minimum Cost Polygon Triangulation">Minimum Cost Polygon Triangulation</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/dynamic-programming/" rel="tag">Dynamic Programming</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fdynamic-programming-set-5-edit-distance%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/dynamic-programming-set-5-edit-distance/" data-text="Dynamic Programming | Set 5 (Edit Distance)" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/dynamic-programming-set-5-edit-distance/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-32608">
+        <div id="dsq-comment-header-32608" class="dsq-comment-header">
+            <cite id="dsq-cite-32608">
+                <span id="dsq-author-user-32608">prashantjha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32608" class="dsq-comment-body">
+            <div id="dsq-comment-message-32608" class="dsq-comment-message"><p>/*</p>
+<p>int fun(char st1[],char st2[],int i,int j,int h1,int h2)</p>
+<p>{</p>
+<p>	if((i&gt;h1)&amp;&amp;(j&gt;h2))</p>
+<p>	    return 0;</p>
+<p>	if(i&gt;h1) </p>
+<p>	   return (h2-j+1);</p>
+<p>	if(j&gt;h2)</p>
+<p>	   return (h1-i+1);</p>
+<p>	if(st1[i]==st2[j])</p>
+<p>	   return (fun(st1,st2,i+1,j+1,h1,h2));</p>
+<p>	else </p>
+<p>	   return min((1+fun(st1,st2,i+1,j,h1,h2)),</p>
+<p>	              (1+fun(st1,st2,i,j+1,h1,h2)),</p>
+<p>	              (1+fun(st1,st2,i+1,j+1,h1,h2)));</p>
+<p>}<br />
+*/</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-32607">
+        <div id="dsq-comment-header-32607" class="dsq-comment-header">
+            <cite id="dsq-cite-32607">
+                <span id="dsq-author-user-32607">prashantjha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32607" class="dsq-comment-body">
+            <div id="dsq-comment-message-32607" class="dsq-comment-message"><p><a href="http://ideone.com/xPfiVA" rel="nofollow">http://ideone.com/xPfiVA</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-32596">
+        <div id="dsq-comment-header-32596" class="dsq-comment-header">
+            <cite id="dsq-cite-32596">
+                <span id="dsq-author-user-32596">Rushikesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32596" class="dsq-comment-body">
+            <div id="dsq-comment-message-32596" class="dsq-comment-message"><p>Hi,</p>
+<p>Here is the code that I could come up with to solve this problem:</p>
+<p>public class StringTest<br />
+{<br />
+  public static void main(String[] args)<br />
+  {<br />
+    String str1 = args[0];<br />
+    String str2 = args[1];</p>
+<p>    int num = minOper(str1, str2);<br />
+    System.out.println(&#8220;Minimum Operations = &#8220;+num);<br />
+  }</p>
+<p>  public static int minOper(String str1, String str2)<br />
+  {<br />
+    int len1 = str1.length();<br />
+    int len2 = str2.length();</p>
+<p>    int nInsert = 0;<br />
+    int nDelete = 0;<br />
+    int nMod    = 0;</p>
+<p>    String small = null;<br />
+    String big   = null;<br />
+    if(len1 &lt; len2)<br />
+    {<br />
+      nInsert = len2 &#8211; len1;<br />
+      small = str1;<br />
+      big = str2;<br />
+    }<br />
+    else<br />
+    {<br />
+      nDelete = len1 &#8211; len2;<br />
+      small = str2;<br />
+      big = str1;<br />
+    }</p>
+<p>    int highestMatchingChars = 0;<br />
+    int matchingChars = 0;<br />
+    char[] smallChars = new char[small.length()+1];<br />
+    small.getChars(0, small.length(), smallChars, 0);<br />
+    for(int i=0;i&lt;=(nInsert+nDelete);i++)<br />
+    {<br />
+      matchingChars = 0;<br />
+      char[] bigChars = new char[small.length()+1];<br />
+      big.getChars(i, i+small.length(), bigChars, 0);<br />
+      for(int j=0;j&lt;small.length();j++)<br />
+      {<br />
+        if(smallChars[j] == bigChars[j])<br />
+        {<br />
+          System.out.println(&quot;Small char = &quot;+smallChars[j]+&quot;tBig char = &quot;+bigChars[j]);<br />
+          matchingChars++;<br />
+        }<br />
+      }</p>
+<p>      if(highestMatchingChars &lt; matchingChars)<br />
+        highestMatchingChars = matchingChars;<br />
+    }</p>
+<p>    nMod = small.length()-highestMatchingChars;<br />
+    return (nInsert + nDelete + nMod);<br />
+  }<br />
+}</p>
+<p>Please comment if anything missing in the algorithm/code here?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-31048">
+        <div id="dsq-comment-header-31048" class="dsq-comment-header">
+            <cite id="dsq-cite-31048">
+                <span id="dsq-author-user-31048">hello</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31048" class="dsq-comment-body">
+            <div id="dsq-comment-message-31048" class="dsq-comment-message"><p>if same cost for R,D,I operation then output is maximum of given two string lengths &#8211; length of longest common subsequence of given two strings. i think so&#8230; ? <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-30195">
+        <div id="dsq-comment-header-30195" class="dsq-comment-header">
+            <cite id="dsq-cite-30195">
+                <span id="dsq-author-user-30195">me.deeiip</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30195" class="dsq-comment-body">
+            <div id="dsq-comment-message-30195" class="dsq-comment-message"><p>How is it D.P. if recursion is not memoized?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-30283">
+        <div id="dsq-comment-header-30283" class="dsq-comment-header">
+            <cite id="dsq-cite-30283">
+                <span id="dsq-author-user-30283">what&#8217;s in the name</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30283" class="dsq-comment-body">
+            <div id="dsq-comment-message-30283" class="dsq-comment-message"><p>Actually in bottom up manner only those table entries are queried which have already been entered. Hence it isn&#8217;t called memoization in true terms which is for top down manner.<br />
+*(T + (i)*n + (j)) = Minimum(leftCell, topCell, cornerCell);<br />
+This line makes entry to the table for future use .</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-29940">
+        <div id="dsq-comment-header-29940" class="dsq-comment-header">
+            <cite id="dsq-cite-29940">
+                <span id="dsq-author-user-29940">Shimpu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29940" class="dsq-comment-body">
+            <div id="dsq-comment-message-29940" class="dsq-comment-message"><p>Can anyone please elaborate clearly the alignment thing and how the code it working??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-29685">
+        <div id="dsq-comment-header-29685" class="dsq-comment-header">
+            <cite id="dsq-cite-29685">
+                <span id="dsq-author-user-29685">Nitesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29685" class="dsq-comment-body">
+            <div id="dsq-comment-message-29685" class="dsq-comment-message"><p>The Recursive code checks for left and right even when X[m-1]==Y[n-1] , it should simply call  the next corner case instead of left and right , will that miss any special case??</p>
+<p>Recursive code : </p>
+<p># include</p>
+<p># include</p>
+<p># include</p>
+<p># include</p>
+<p># include</p>
+<p>using namespace std;</p>
+<p>string a,b;</p>
+<p>int m,n;</p>
+<p>int minimum(int a, int b, int c)</p>
+<p>{</p>
+<p>    return(min(min(a,b),c));</p>
+<p>}</p>
+<p>int edist(int i, int j, int count)</p>
+<p>{</p>
+<p>    if(i==m||j==n)</p>
+<p>    return count;</p>
+<p>    if(a[i]==b[j])</p>
+<p>    {</p>
+<p>        return(edist(i+1,j+1,count));</p>
+<p>    }</p>
+<p>    else</p>
+<p>    {</p>
+<p>        int a=edist(i+1,j,count+1);</p>
+<p>        int b=edist(i+1,j+1,count+1);</p>
+<p>        int c=edist(i,j+1,count+1);</p>
+<p>        return(minimum(a,b,c));</p>
+<p>    }</p>
+<p>}</p>
+<p>int main()</p>
+<p>{</p>
+<p>    a=&#8221;SUNDAY&#8221;;</p>
+<p>    b=&#8221;SATURDAY&#8221;;</p>
+<p>    m=a.length();</p>
+<p>    n=b.length();</p>
+<p>    printf(&#8220;%d&#8221;,edist(0,0,0));</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-28991">
+        <div id="dsq-comment-header-28991" class="dsq-comment-header">
+            <cite id="dsq-cite-28991">
+                <span id="dsq-author-user-28991">anon</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28991" class="dsq-comment-body">
+            <div id="dsq-comment-message-28991" class="dsq-comment-message"><p>This is very bad,lossy description provided here.Its like first written in Chinese and then translated into english.Not expected from the team.There must be some IMAGES showing what you are trying to say.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-28848">
+        <div id="dsq-comment-header-28848" class="dsq-comment-header">
+            <cite id="dsq-cite-28848">
+                <span id="dsq-author-user-28848">Kaidul Islam Sazal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28848" class="dsq-comment-body">
+            <div id="dsq-comment-message-28848" class="dsq-comment-message"><p>The Dynamic programming portion is buggy.<br />
+This is the right implementation<br />
+<code><br />
+int EditDistanceDP(char X[], char Y[], int lenX, int lenY) {</p>
+<p>    // T[m][n]<br />
+    int T[lenX + 1][lenY + 1];</p>
+<p>    for(int i = 0; i &lt;= lenX; i++) T[i][0] = i;<br />
+    for(int i = 0; i &lt;= lenY; i++) T[0][i] = i;</p>
+<p>    for(int i = 1; i &lt;= lenX; i++) {<br />
+        for(int j = 1; j &lt;= lenY; j++) {<br />
+            if (X[i - 1] == Y[j - 1])<br />
+                T[i][j] = T[i - 1][j - 1];<br />
+            else<br />
+                T[i][j] = Minimum(T[i - 1][j], T[i][j - 1], T[i - 1][j - 1]) + 1;<br />
+        }<br />
+    }</p>
+<p>    return T[lenX][lenY];<br />
+}</p>
+<p></code></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-28457">
+        <div id="dsq-comment-header-28457" class="dsq-comment-header">
+            <cite id="dsq-cite-28457">
+                <span id="dsq-author-user-28457">Chandan Mittal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28457" class="dsq-comment-body">
+            <div id="dsq-comment-message-28457" class="dsq-comment-message"><p>Please tell what does &#8216;align&#8217; means in the 3 cases above?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-22710">
+        <div id="dsq-comment-header-22710" class="dsq-comment-header">
+            <cite id="dsq-cite-22710">
+                <span id="dsq-author-user-22710">adit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22710" class="dsq-comment-body">
+            <div id="dsq-comment-message-22710" class="dsq-comment-message"><pre> <code language="C">
+/* Short Implementation */
+
+int EditDistanceDP(char X[], char Y[])
+{
+	        int lx=strlen(X),ly=strlen(Y);
+	        int edit[lx+1][ly+1];
+
+	        for(int i=0;i&lt;=lx;++i)
+	    		edit[i][0]=i;
+		for(int i=0;i&lt;=ly;++i)
+	    		edit[0][i]=i;
+		for(int i=1;i&lt;=lx;++i)
+			for(int j=1;j&lt;=ly;++j)
+				edit[i][j]=min(edit[i-1][j-1]+!(X[i-1]==Y[j-1]),min(edit[i][j-1],edit[i-1][j])+1);
+
+return edit[lx][ly];  
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-22716">
+        <div id="dsq-comment-header-22716" class="dsq-comment-header">
+            <cite id="dsq-cite-22716">
+                <span id="dsq-author-user-22716">adit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22716" class="dsq-comment-body">
+            <div id="dsq-comment-message-22716" class="dsq-comment-message"><p>sorry guys for so many posts ! posting for the first time !</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-aaditt odd alt thread-odd thread-alt depth-1" id="dsq-comment-22709">
+        <div id="dsq-comment-header-22709" class="dsq-comment-header">
+            <cite id="dsq-cite-22709">
+                <span id="dsq-author-user-22709">aaditt</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22709" class="dsq-comment-body">
+            <div id="dsq-comment-message-22709" class="dsq-comment-message"><pre> <code language="C">
+/* Short Implementation */
+
+int EditDistanceDP(char X[], char Y[])
+{
+	        int lx=strlen(X),ly=strlen(Y);
+	        int edit[lx+1][ly+1];
+
+	        for(int i=0;i&lt;=lx;++i)
+	    		edit[i][0]=i;
+		for(int i=0;i&lt;=ly;++i)
+	    		edit[0][i]=i;
+		for(int i=1;i&lt;=lx;++i)
+			for(int j=1;j&lt;=ly;++j)
+				edit[i][j]=min(edit[i-1][j-1]+!(X[i-1]==Y[j-1]),min(edit[i][j-1],edit[i-1][j])+1);
+
+return edit[lx][ly];  
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-aaditt even thread-even depth-1" id="dsq-comment-22708">
+        <div id="dsq-comment-header-22708" class="dsq-comment-header">
+            <cite id="dsq-cite-22708">
+                <span id="dsq-author-user-22708">aaditt</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22708" class="dsq-comment-body">
+            <div id="dsq-comment-message-22708" class="dsq-comment-message"><pre> <code language="C">
+/* Short Implementation */
+int EditDistanceDP(char X[], char Y[])
+{
+	        int lx=strlen(X),ly=strlen(Y);
+	        int edit[lx+1][ly+1];
+
+	        for(int i=0;i&lt;=lx;++i)
+	    		edit[i][0]=i;
+		for(int i=0;i&lt;=ly;++i)
+	    		edit[0][i]=i;
+		for(int i=1;i&lt;=lx;++i)
+			for(int j=1;j&lt;=ly;++j)
+				edit[i][j]=min(edit[i-1][j-1]+!(X[i-1]==Y[j-1]),min(edit[i][j-1],edit[i-1][j])+1);
+
+return edit[lx][ly];  
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-aaditt odd alt thread-odd thread-alt depth-1" id="dsq-comment-22707">
+        <div id="dsq-comment-header-22707" class="dsq-comment-header">
+            <cite id="dsq-cite-22707">
+                <span id="dsq-author-user-22707">aaditt</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22707" class="dsq-comment-body">
+            <div id="dsq-comment-message-22707" class="dsq-comment-message"><p>int EditDistanceDP(char X[], char Y[])<br />
+{<br />
+	    int lx=strlen(X),ly=strlen(Y);<br />
+	    int edit[lx+1][ly+1];</p>
+<p>	        for(int i=0;i<=lx;++i)<br />
+	    		edit[i][0]=i;<br />
+		for(int i=0;i<=ly;++i)<br />
+	    		edit[0][i]=i;<br />
+		for(int i=1;i<=lx;++i)<br />
+			for(int j=1;j<=ly;++j)<br />
+				edit[i][j]=min(edit[i-1][j-1]+!(X[i-1]==Y[j-1]),min(edit[i][j-1],edit[i-1][j])+1);</p>
+<p>return edit[lx][ly];<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-19985">
+        <div id="dsq-comment-header-19985" class="dsq-comment-header">
+            <cite id="dsq-cite-19985">
+                <span id="dsq-author-user-19985">t_thirupathi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19985" class="dsq-comment-body">
+            <div id="dsq-comment-message-19985" class="dsq-comment-message"><p>A small correction in the sentence &#8211;<br />
+&#8220;Given strings SUNDAY and SATURDAY. We want to convert SUNDAY into SATURDAY with minimum edits. Let us pick i = 2 and j = 4 i.e. prefix strings are SUN and SATU respectively (assume the strings indices start at 1). The right most characters can be aligned in three different ways.&#8221;</p>
+<p>Instead of &#8220;i = 2 and j = 4&#8243;, shouldn&#8217;t it be &#8220;i = 3 and j = 4&#8243;?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-20001">
+        <div id="dsq-comment-header-20001" class="dsq-comment-header">
+            <cite id="dsq-cite-20001">
+                <span id="dsq-author-user-20001">Nagaraju</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20001" class="dsq-comment-body">
+            <div id="dsq-comment-message-20001" class="dsq-comment-message"><p>It is i=2 only and their logic follows this, but mistake here is they wrote &#8220;SUN&#8221; instead of &#8220;SU&#8221;</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-rahul23 even thread-odd thread-alt depth-1" id="dsq-comment-18759">
+        <div id="dsq-comment-header-18759" class="dsq-comment-header">
+            <cite id="dsq-cite-18759">
+                <span id="dsq-author-user-18759">rahul23</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18759" class="dsq-comment-body">
+            <div id="dsq-comment-message-18759" class="dsq-comment-message"><p>@venki</p>
+<p>In DP implementation:-<br />
+// T[i][j-1]<br />
+            leftCell = *(T + i*n + j-1);<br />
+            leftCell += EDIT_COST; // deletion</p>
+<p>            // T[i-1][j]<br />
+            topCell = *(T + (i-1)*n + j);<br />
+            topCell += EDIT_COST; // insertion</p>
+<p>Deletion should be insertion and insertion shoud be deletion</p>
+<p>Like if we have A in X and Y is C<br />
+then A-&gt;Y<br />
+delete will say delete A&#8230;we need to find cost for NULL-&gt;Y<br />
+which will be given by [i-1][j]</p>
+<p>and insertion is given by [i][j-1]<br />
+as if A-&gt;Y<br />
+we will insert Y and find cost to A-&gt;NULL</p>
+<p>[i][j-1]<br />
+Plz update it if m ryt,otherwise correct me.w8ing for ur response</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-rahul23 odd alt thread-even depth-1" id="dsq-comment-18699">
+        <div id="dsq-comment-header-18699" class="dsq-comment-header">
+            <cite id="dsq-cite-18699">
+                <span id="dsq-author-user-18699">rahul23</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18699" class="dsq-comment-body">
+            <div id="dsq-comment-message-18699" class="dsq-comment-message"><p>@venki Inthe recursive sifinition of fxn<br />
+the following line</p>
+<p>   int corner = EditDistanceRecursion(X, Y, m-1, n-1) + (X[m] != Y[n]);<br />
+ should be changed to<br />
+int corner = EditDistanceRecursion(X, Y, m-1, n-1) + (X[m-1] != Y[n-1]);<br />
+For eg. if we have X=&#8221;A&#8221; and Y=&#8221;X&#8221;;then min should be 1.<br />
+But your function will compare m and n index value(1 and 1 index)as m and n contains 1 which is NULL<br />
+and considering these equal and  replacement cost is 0 and it calls for m-1 and n-1 which will be 0..so 0+0 will become 0&#8230;Kindly update in corner variable m-1 and n-1.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-harshieee even thread-odd thread-alt depth-1" id="dsq-comment-17773">
+        <div id="dsq-comment-header-17773" class="dsq-comment-header">
+            <cite id="dsq-cite-17773">
+                <span id="dsq-author-user-17773">harshieee</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17773" class="dsq-comment-body">
+            <div id="dsq-comment-message-17773" class="dsq-comment-message"><p>program giving wrong output for<br />
+s1 = &#8220;hello&#8221;<br />
+s2 = &#8220;hellooo&#8221;</p>
+<p>output is cuming:<br />
+Minimum edits required to convert hello into hellooo is 2<br />
+Minimum edits required to convert hello into hellooo is 5 by recursion</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-17790">
+        <div id="dsq-comment-header-17790" class="dsq-comment-header">
+            <cite id="dsq-cite-17790">
+                <span id="dsq-author-user-17790">Swapnil R Mehta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17790" class="dsq-comment-body">
+            <div id="dsq-comment-message-17790" class="dsq-comment-message"><p>There is a problem in &#8220;Minimum&#8221; function, thus answers are coming different with dp and recursive approach.<br />
+Please make it as follows:</p>
+<pre> <code language="C">
+int Minimum(int a, int b, int c)
+{
+    int min;
+    if( a &lt; b &amp;&amp; a &lt; c ) min = a;
+    else if( b &lt; a &amp;&amp; b &lt; c ) min = b;
+    else min = c;
+    return min;
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-venki bypostauthor even depth-3" id="dsq-comment-17848">
+        <div id="dsq-comment-header-17848" class="dsq-comment-header">
+            <cite id="dsq-cite-17848">
+http://www.linkedin.com/in/ramanawithu                <span id="dsq-author-user-17848">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17848" class="dsq-comment-body">
+            <div id="dsq-comment-message-17848" class="dsq-comment-message"><p>Thanks both of you for pointing the error. Code is updated.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-3" id="dsq-comment-22491">
+        <div id="dsq-comment-header-22491" class="dsq-comment-header">
+            <cite id="dsq-cite-22491">
+                <span id="dsq-author-user-22491">sobhan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22491" class="dsq-comment-body">
+            <div id="dsq-comment-message-22491" class="dsq-comment-message"><p>#include<br />
+using namespace std;</p>
+<p>T[i][j]=min(leftcell,min(cornercell,topcell));</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-16820">
+        <div id="dsq-comment-header-16820" class="dsq-comment-header">
+            <cite id="dsq-cite-16820">
+                <span id="dsq-author-user-16820">shine</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16820" class="dsq-comment-body">
+            <div id="dsq-comment-message-16820" class="dsq-comment-message"><p>can we think of applying these oprations in certain conditions&#8230;like insert or delete can give min cost if l1l2 delete or replace may be beneficial&#8230;plz do reply</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-14841">
+        <div id="dsq-comment-header-14841" class="dsq-comment-header">
+            <cite id="dsq-cite-14841">
+                <span id="dsq-author-user-14841">Alka</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14841" class="dsq-comment-body">
+            <div id="dsq-comment-message-14841" class="dsq-comment-message"><p>What if we convert &#8220;SATURDAY&#8221; to &#8220;SUNDAY&#8221;? Results in both the methods used above are different.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-32711">
+        <div id="dsq-comment-header-32711" class="dsq-comment-header">
+            <cite id="dsq-cite-32711">
+                <span id="dsq-author-user-32711">wgpshashank</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32711" class="dsq-comment-body">
+            <div id="dsq-comment-message-32711" class="dsq-comment-message"><p>Yes , its should be and it will.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-32712">
+        <div id="dsq-comment-header-32712" class="dsq-comment-header">
+            <cite id="dsq-cite-32712">
+                <span id="dsq-author-user-32712">wgpshashank</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32712" class="dsq-comment-body">
+            <div id="dsq-comment-message-32712" class="dsq-comment-message"><p>Yes , it should be and it will.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-14504">
+        <div id="dsq-comment-header-14504" class="dsq-comment-header">
+            <cite id="dsq-cite-14504">
+                <span id="dsq-author-user-14504">sreeram</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14504" class="dsq-comment-body">
+            <div id="dsq-comment-message-14504" class="dsq-comment-message"><p>i think  in the base cases E(i,0)  it should be like i*EDIT_COST instead of i</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-14506">
+        <div id="dsq-comment-header-14506" class="dsq-comment-header">
+            <cite id="dsq-cite-14506">
+http://www.geeksforgeeks.org                <span id="dsq-author-user-14506">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14506" class="dsq-comment-body">
+            <div id="dsq-comment-message-14506" class="dsq-comment-message"><p>Yes. In the current program we took all edit operations of same cost.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-14263">
+        <div id="dsq-comment-header-14263" class="dsq-comment-header">
+            <cite id="dsq-cite-14263">
+                <span id="dsq-author-user-14263">Manak</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14263" class="dsq-comment-body">
+            <div id="dsq-comment-message-14263" class="dsq-comment-message"><p>Correct me if I am wrong, but can this question be solved by first finding the largest common sub-sequence and then subtracting it from the length of the greater string?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-14277">
+        <div id="dsq-comment-header-14277" class="dsq-comment-header">
+            <cite id="dsq-cite-14277">
+                <span id="dsq-author-user-14277">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14277" class="dsq-comment-body">
+            <div id="dsq-comment-message-14277" class="dsq-comment-message"><p>No, that will not always lead to optimum alignment.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-14290">
+        <div id="dsq-comment-header-14290" class="dsq-comment-header">
+            <cite id="dsq-cite-14290">
+                <span id="dsq-author-user-14290">Manak</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14290" class="dsq-comment-body">
+            <div id="dsq-comment-message-14290" class="dsq-comment-message"><p>Can you specify an example? I cannot get my head around this.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-14298">
+        <div id="dsq-comment-header-14298" class="dsq-comment-header">
+            <cite id="dsq-cite-14298">
+                <span id="dsq-author-user-14298">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14298" class="dsq-comment-body">
+            <div id="dsq-comment-message-14298" class="dsq-comment-message"><p>Manak, you can take another example given in the content. Consider the words</p>
+<p>exponential &#8211; ponil = exent<br />
+polynomial  &#8211; ponil = lyom</p>
+<p>But the ED(exponential, polynomial) != ED(exent, lyom), here ED stands for Edit Distance.</p>
+<p>Practice with few examples, if still not clear, let me know. I would need some time for detailed explanation.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-5" id="dsq-comment-16361">
+        <div id="dsq-comment-header-16361" class="dsq-comment-header">
+            <cite id="dsq-cite-16361">
+                <span id="dsq-author-user-16361">zyfo2</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16361" class="dsq-comment-body">
+            <div id="dsq-comment-message-16361" class="dsq-comment-message"><p>Don&#8217;t get it. Can you give a more detailed example including how to edit? Thank you.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-5" id="dsq-comment-16363">
+        <div id="dsq-comment-header-16363" class="dsq-comment-header">
+            <cite id="dsq-cite-16363">
+                <span id="dsq-author-user-16363">zyfo2</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16363" class="dsq-comment-body">
+            <div id="dsq-comment-message-16363" class="dsq-comment-message"><p>get it.<br />
+the example is like<br />
+abcd<br />
+cde<br />
+LCS=2 &#8220;cd&#8221;<br />
+but edit distance is 3</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-5" id="dsq-comment-16364">
+        <div id="dsq-comment-header-16364" class="dsq-comment-header">
+            <cite id="dsq-cite-16364">
+                <span id="dsq-author-user-16364">zyfo2</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16364" class="dsq-comment-body">
+            <div id="dsq-comment-message-16364" class="dsq-comment-message"><p>In face if only deletion and insertion are possible. then LCS can be applied here</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-5" id="dsq-comment-22999">
+        <div id="dsq-comment-header-22999" class="dsq-comment-header">
+            <cite id="dsq-cite-22999">
+                <span id="dsq-author-user-22999">Silent</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22999" class="dsq-comment-body">
+            <div id="dsq-comment-message-22999" class="dsq-comment-message"><p>I guess we can do it by LCS..we would have to compare longest common subsequence with both the strings a character at a time.. correct me if i am wrong??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-12473">
+        <div id="dsq-comment-header-12473" class="dsq-comment-header">
+            <cite id="dsq-cite-12473">
+                <span id="dsq-author-user-12473">bhuvi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12473" class="dsq-comment-body">
+            <div id="dsq-comment-message-12473" class="dsq-comment-message"><p>The following line should be changed </p>
+<pre> <code language="C">
+ cornerCell += (X[i-1] != Y[j-1]);
+</code> </pre>
+<p>to</p>
+<pre> <code language="C">
+ cornerCell += (X[i] != Y[j]);
+</code> </pre>
+<p>since we are at i,j we should be comparing x[i] and y[j]. What say?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-13731">
+        <div id="dsq-comment-header-13731" class="dsq-comment-header">
+            <cite id="dsq-cite-13731">
+                <span id="dsq-author-user-13731">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13731" class="dsq-comment-body">
+            <div id="dsq-comment-message-13731" class="dsq-comment-message"><p>Thanks for comment. The indexing is not an error. Please read the content. We use table of size m+1 x n+1. The indices i and j and one step ahead of the string location, so we need to subtract 1.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-11944">
+        <div id="dsq-comment-header-11944" class="dsq-comment-header">
+            <cite id="dsq-cite-11944">
+                <span id="dsq-author-user-11944">Saurabh Jain</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11944" class="dsq-comment-body">
+            <div id="dsq-comment-message-11944" class="dsq-comment-message"><p>/* Paste your code here (You may delete these lines if not writing code) */</p>
+<p>import java.util.Scanner;</p>
+<p>/**<br />
+ *<br />
+ * @author saurabh<br />
+ */<br />
+public class EditDistanceDPP<br />
+{<br />
+    char[] s1,s2;</p>
+<p>    public EditDistanceDPP()<br />
+    {<br />
+        Scanner sc = new Scanner(System.in);<br />
+        s1 = sc.nextLine().toCharArray();<br />
+        s2 = sc.nextLine().toCharArray();<br />
+        System.out.println(&quot;Edit distance is : &quot;+editDistance(s1,s2));<br />
+    }</p>
+<p>    private int editDistance(char[] st1, char[] st2)<br />
+    {<br />
+        int[][] s = new int[s1.length+1][s2.length+1];<br />
+        for(int i=0; i&lt;=s1.length; i++)<br />
+        {<br />
+            for(int j=0; j&lt;=s2.length; j++)<br />
+            {<br />
+                if(i==0)<br />
+                    s[i][j]=j;<br />
+                else if(j==0)<br />
+                    s[i][j]=i;<br />
+                else<br />
+                    s[i][j] = min(s[i-1][j-1]+(st1[i-1]==st2[j-1]?0:1),s[i-1][j]+1,s[i][j-1]+1);<br />
+            }<br />
+        }<br />
+        return s[s1.length][s2.length];<br />
+    }</p>
+<p>    int min(int a, int b, int c)<br />
+    {<br />
+        return(a&lt;b?a&lt;c?a:c:b&lt;c?b:c);<br />
+    }</p>
+<p>    public static void main(String[] args)<br />
+    {<br />
+        EditDistanceDPP edd = new EditDistanceDPP();<br />
+    }<br />
+}</p>
+<p>This is a quite simple Dynamic Programming approach with time complexity as O(m*n) and space complexity also as O(m*n)&#8230;.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-11945">
+        <div id="dsq-comment-header-11945" class="dsq-comment-header">
+            <cite id="dsq-cite-11945">
+                <span id="dsq-author-user-11945">Saurabh Jain</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11945" class="dsq-comment-body">
+            <div id="dsq-comment-message-11945" class="dsq-comment-message"><p>Correct me..if anything is wrong in the above code&#8230;thanks&#8230;.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-28957">
+        <div id="dsq-comment-header-28957" class="dsq-comment-header">
+            <cite id="dsq-cite-28957">
+                <span id="dsq-author-user-28957">SAM</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28957" class="dsq-comment-body">
+            <div id="dsq-comment-message-28957" class="dsq-comment-message"><p>your code is working fine!! did anyone pointed some mistakes in it??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-9087">
+        <div id="dsq-comment-header-9087" class="dsq-comment-header">
+            <cite id="dsq-cite-9087">
+                <span id="dsq-author-user-9087">robin singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9087" class="dsq-comment-body">
+            <div id="dsq-comment-message-9087" class="dsq-comment-message"><p>kindly quote some references to this problem so that it becomes more clear.<br />
+thankyou</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-10279">
+        <div id="dsq-comment-header-10279" class="dsq-comment-header">
+            <cite id="dsq-cite-10279">
+                <span id="dsq-author-user-10279">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10279" class="dsq-comment-body">
+            <div id="dsq-comment-message-10279" class="dsq-comment-message"><p>Algorithms by Das Guptha is good reference.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8443">
+        <div id="dsq-comment-header-8443" class="dsq-comment-header">
+            <cite id="dsq-cite-8443">
+                <span id="dsq-author-user-8443">Jatin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8443" class="dsq-comment-body">
+            <div id="dsq-comment-message-8443" class="dsq-comment-message"><p>In function display the below changes should be made&#8211;&gt;<br />
+//(base + r * col)1 should be replaced by *(base + r * col + c)</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-8452">
+        <div id="dsq-comment-header-8452" class="dsq-comment-header">
+            <cite id="dsq-cite-8452">
+                <span id="dsq-author-user-8452">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8452" class="dsq-comment-body">
+            <div id="dsq-comment-message-8452" class="dsq-comment-message"><p>@Jatin, thanks. It was typo during post update. I have updated the post.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-8442">
+        <div id="dsq-comment-header-8442" class="dsq-comment-header">
+            <cite id="dsq-cite-8442">
+                <span id="dsq-author-user-8442">Jatin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8442" class="dsq-comment-body">
+            <div id="dsq-comment-message-8442" class="dsq-comment-message"><pre> <code language="C">
+//(base + r * col)1 should be replaced by *(base + r * col + c)
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-psychocoder even thread-odd thread-alt depth-1" id="dsq-comment-7374">
+        <div id="dsq-comment-header-7374" class="dsq-comment-header">
+            <cite id="dsq-cite-7374">
+                <span id="dsq-author-user-7374">PsychoCoder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7374" class="dsq-comment-body">
+            <div id="dsq-comment-message-7374" class="dsq-comment-message"><p>In the documentation of the table inside the program :</p>
+<p>leftCell = table[i][j-1] ;<br />
+and<br />
+topCell = table[i-1][j] ;</p>
+<p>It should be,<br />
+leftCell = table[i-1][j] ;<br />
+and<br />
+topCell = table[i][j-1] ;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-7095">
+        <div id="dsq-comment-header-7095" class="dsq-comment-header">
+            <cite id="dsq-cite-7095">
+http://www.youtube.com/watch?v=CB425OsE4Fo                <span id="dsq-author-user-7095">Venkatesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7095" class="dsq-comment-body">
+            <div id="dsq-comment-message-7095" class="dsq-comment-message"><p>this link may be helpful</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-7094">
+        <div id="dsq-comment-header-7094" class="dsq-comment-header">
+            <cite id="dsq-cite-7094">
+                <span id="dsq-author-user-7094">Venkatesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7094" class="dsq-comment-body">
+            <div id="dsq-comment-message-7094" class="dsq-comment-message"><p><a href="http://www.youtube.com/watch?v=CB425OsE4Fo" rel="nofollow">http://www.youtube.com/watch?v=CB425OsE4Fo</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-6567">
+        <div id="dsq-comment-header-6567" class="dsq-comment-header">
+            <cite id="dsq-cite-6567">
+                <span id="dsq-author-user-6567">Ratan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6567" class="dsq-comment-body">
+            <div id="dsq-comment-message-6567" class="dsq-comment-message"><p>&#8220;Given strings SUNDAY and SATURDAY. We want to convert SUNDAY into SATURDAY with minimum edits. Let us pick i = 2 and j = 4 i.e. prefix strings are SUN and SATU respectively&#8221;</p>
+<p>in this line change i=3 or prefix as &#8216;SU&#8217;.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-dumanshu even thread-odd thread-alt depth-1" id="dsq-comment-4542">
+        <div id="dsq-comment-header-4542" class="dsq-comment-header">
+            <cite id="dsq-cite-4542">
+                <span id="dsq-author-user-4542">Doom</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4542" class="dsq-comment-body">
+            <div id="dsq-comment-message-4542" class="dsq-comment-message"><p>Usually the costs D, I and R are not same. In such case the problem can be represented as an acyclic directed graph (DAG) with weights on each edge, and finding shortest path gives edit distance.<br />
+How to construct this graph? could you plz give some basic steps? just the logic.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-4540">
+        <div id="dsq-comment-header-4540" class="dsq-comment-header">
+            <cite id="dsq-cite-4540">
+                <span id="dsq-author-user-4540">Evgenia</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4540" class="dsq-comment-body">
+            <div id="dsq-comment-message-4540" class="dsq-comment-message"><p><a href="http://en.wikipedia.org/wiki/Levenshtein_distance" rel="nofollow">http://en.wikipedia.org/wiki/Levenshtein_distance</a>. The improvement of levenshtein text distance is <a href="http://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance" rel="nofollow">http://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-4534">
+        <div id="dsq-comment-header-4534" class="dsq-comment-header">
+            <cite id="dsq-cite-4534">
+                <span id="dsq-author-user-4534">Anonymous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4534" class="dsq-comment-body">
+            <div id="dsq-comment-message-4534" class="dsq-comment-message"><pre> <code language="C">int EDIT[100][100];
+int solve_edit( string a, string b) {
+    for (int j=0;j&lt;=b.size();j++) {
+        EDIT[0][j]=j;
+    }
+    for (int i=1;i&lt;=a.size();i++) {
+        EDIT[i][0]=i;
+        for (int j=1;j&lt;=b.size();j++) {
+            EDIT[i][j]= min( min( EDIT[i][j-1]+1,EDIT[i-1][j]+1),  EDIT[i-1][j-1]+ (int)(a[i-1]!=b[j-1]));
+        }
+    }
+
+    return EDIT[a.size()][b.size()];
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-rajcools odd alt thread-even depth-1" id="dsq-comment-4528">
+        <div id="dsq-comment-header-4528" class="dsq-comment-header">
+            <cite id="dsq-cite-4528">
+                <span id="dsq-author-user-4528">rajcools</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4528" class="dsq-comment-body">
+            <div id="dsq-comment-message-4528" class="dsq-comment-message"><p>in description its written &#8212;<br />
+Combining all the subproblems minimum cost of aligning prefix strings ending at i and j given by</p>
+<p>E(i, j) = min( [E(i-1, j) + D], [E(i, j-1) + I],  [E(i-1, j-1) + I if i,j characters are not same] )</p>
+<p>in &#8212;[E(i-1, j-1) + I if i,j characters are not same] )</p>
+<p>shouldnt here be replace(R) instead of Insert(I)</p>
+<p>else it would be two operations<br />
+[E(i-1, j-1) + I +D  &#8230; we insert one char from target string and delete from original string</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-venki bypostauthor even depth-2" id="dsq-comment-4530">
+        <div id="dsq-comment-header-4530" class="dsq-comment-header">
+            <cite id="dsq-cite-4530">
+http://www.linkedin.com/in/ramanawithu                <span id="dsq-author-user-4530">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4530" class="dsq-comment-body">
+            <div id="dsq-comment-message-4530" class="dsq-comment-message"><p>@rajcools, thanks. It should be replace. I will update.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-iitr-ankur odd alt depth-3" id="dsq-comment-4864">
+        <div id="dsq-comment-header-4864" class="dsq-comment-header">
+            <cite id="dsq-cite-4864">
+                <span id="dsq-author-user-4864">iitr.ankur</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4864" class="dsq-comment-body">
+            <div id="dsq-comment-message-4864" class="dsq-comment-message"><p>Instead of Using DAG, can&#8217;t we simply define 3 different Edit Costs: Edit_Insert(ex. 1), Edit_Delete(2), Edit_Remove(5) and use these in the 3 cases??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/dynamic-programming-set-5-edit-distance/';
+var disqus_identifier = '13178 http://geeksforgeeks.org/?p=13178';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Dynamic Programming | Set 5 (Edit Distance)";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.228 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:24:32 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

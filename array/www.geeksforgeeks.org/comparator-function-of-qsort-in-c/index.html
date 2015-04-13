@@ -1,0 +1,1005 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Comparator function of qsort() in C - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/comparator-function-of-qsort-in-c/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Comparator function of qsort() in C - GeeksforGeeks" />
+<meta property="og:description" content="Standard C library provides qsort() that can be used for sorting an array. As the name suggests, the function uses QuickSort algorithm to sort the given array. Following is prototype of qsort() The key point about qsort() is comparator function comparator. The comparator function takes two arguments and contains logic to decide their relative order &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/comparator-function-of-qsort-in-c/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Sorting" />
+<meta property="article:section" content="C/C++ Puzzles" />
+<meta property="article:published_time" content="2013-03-25T17:53:09+00:00" />
+<meta property="article:modified_time" content="2013-03-25T21:24:28+00:00" />
+<meta property="og:updated_time" content="2013-03-25T21:24:28+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.502 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417112220 210.212.53.139 172.19.11.169';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Comparator function of qsort() in C</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Standard C library provides <a href="http://www.cplusplus.com/reference/cstdlib/qsort/" target="_blank">qsort()</a> that can be used for sorting an array.  As the name suggests, the function uses QuickSort algorithm to sort the given array. Following is prototype of qsort()<span id="more-116095"></span></p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+void qsort (void* base, size_t num, size_t size, 
+            int (*comparator)(const void*,const void*));
+</pre>
+<p>The key point about qsort() is comparator function <em>comparator</em>. The comparator function takes two arguments and contains logic to decide their relative order in sorted output.  The idea is to provide flexibility so that qsort() can be used for any type (including user defined types) and can be used to obtain any desired order (increasing, decreasing or any other).</p>
+<p>The comparator function takes two pointers as arguments (both type-casted to const void*) and defines the order of the elements by returning (in a stable and transitive manner</p>
+<pre>
+int comparator(const void* p1, const void* p2);
+Return value meaning
+<0 The element pointed by p1 goes before the element pointed by p2
+0  The element pointed by p1 is equivalent to the element pointed by p2
+>0 The element pointed by p1 goes after the element pointed by p2
+
+Source: <a href="http://www.cplusplus.com/reference/cstdlib/qsort/" target="_blank">http://www.cplusplus.com/reference/cstdlib/qsort/</a>
+</pre>
+<p>For example, let there be an array of students where following is type of student. </p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+struct Student
+{
+    int age, marks;
+    char name[20];
+};</pre>
+<p>Lets say we need to sort the students based on marks in ascending order. The comparator function will look like:</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+int comparator(const void *p, const void *q) 
+{
+    int l = ((struct Student *)p)-&gt;marks;
+    int r = ((struct Student *)q)-&gt;marks; 
+    return (l - r);
+}
+</pre>
+<p>See following posts for more sample uses of qsort().<br />
+<a href="http://www.geeksforgeeks.org/given-a-sequence-of-words-print-all-anagrams-together-set-2/" target="_blank">Given a sequence of words, print all anagrams together </a><br />
+<a href="http://www.geeksforgeeks.org/dynamic-programming-set-21-box-stacking-problem/" target="_blank">Box Stacking Problem</a><br />
+<a href="http://www.geeksforgeeks.org/closest-pair-of-points/" target="_blank">Closest Pair of Points</a></p>
+<p>Following is an interesting problem that can be easily solved with the help of <em>qsort()</em> and comparator function.<br />
+<strong>Given an array of integers, sort it in such a way that the odd numbers appear first and the even numbers appear later. The odd numbers should be sorted in descending order and the even numbers should be sorted in ascending order.</strong></p>
+<p>The simple approach is to first modify the input array such that the even and odd numbers are segregated followed by applying some sorting algorithm on both parts(odd and even) separately. </p>
+<p>However, there exists an interesting approach with a little modification in comparator function of Quick Sort. The idea is to write a comparator function that takes two addresses p and q as arguments. Let l and r be the number pointed by p and q. The function uses following logic:<br />
+1) If both (l and r) are odd, put the greater of two first.<br />
+2) If both (l and r) are even, put the smaller of two first.<br />
+3) If one of them is even and other is odd, put the odd number first.</p>
+<p>Following is C implementation of the above approach.</p>
+<pre class="brush: cpp; highlight: [4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,42]; title: ; notranslate" title="">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+// This function is used in qsort to decide the relative order
+// of elements at addresses p and q.
+int comparator(const void *p, const void *q)
+{
+    // Get the values at given addresses
+    int l = *(const int *)p;
+    int r = *(const int *)q;
+
+    // both odd, put the greater of two first.
+    if ((l&amp;1) &amp;&amp; (r&amp;1))
+        return (r-l);
+
+    // both even, put the smaller of two first
+    if ( !(l&amp;1) &amp;&amp; !(r&amp;1) )
+        return (l-r);
+
+    // l is even, put r first
+    if (!(l&amp;1))
+        return 1;
+
+    // l is odd, put l first
+    return -1;
+}
+
+// A utility function to print an array
+void printArr(int arr[], int n)
+{
+    int i;
+    for (i = 0; i &lt; n; ++i)
+        printf(&quot;%d &quot;, arr[i]);
+}
+
+// Driver program to test above function
+int main()
+{
+    int arr[] = {1, 6, 5, 2, 3, 9, 4, 7, 8};
+
+    int size = sizeof(arr) / sizeof(arr[0]);
+    qsort((void*)arr, size, sizeof(arr[0]), comparator);
+
+    printf(&quot;Output array is\n&quot;);
+    printArr(arr, size);
+
+    return 0;
+}
+</pre>
+<p>Output:
+<pre>Output array is
+9 7 5 3 1 2 4 6 8</pre>
+<p><strong>Exercise:</strong><br />
+Given an array of integers, sort it in alternate fashion. Alternate fashion means that the elements at even indices are sorted separately and elements at odd indices are sorted separately.</p>
+<p>This article is compiled by <a href="https://www.facebook.com/barnwal.aashish?fref=ts" target="_blank">Aashish Barnwal</a>. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/comparison-float-value-c/" title="Comparison of a float with a value in C">Comparison of a float with a value in C</a></li><li><a href="http://www.geeksforgeeks.org/pure-virtual-destructor-c/" title="Pure virtual destructor in C++">Pure virtual destructor in C++</a></li><li><a href="http://www.geeksforgeeks.org/c-mutable-keyword/" title="C++ mutable keyword">C++ mutable keyword</a></li><li><a href="http://www.geeksforgeeks.org/possible-call-constructor-destructor-explicitly/" title="Is it possible to call constructor and destructor explicitly?">Is it possible to call constructor and destructor explicitly?</a></li><li><a href="http://www.geeksforgeeks.org/multithreading-c-2/" title="Multithreading in C">Multithreading in C</a></li><li><a href="http://www.geeksforgeeks.org/c-prgram-print-range-basic-data-types-without-library-function-constant/" title="How to print range of basic data types without any library function and constant in C?">How to print range of basic data types without any library function and constant in C?</a></li><li><a href="http://www.geeksforgeeks.org/c-final-specifier/" title="C++ final specifier">C++ final specifier</a></li><li><a href="http://www.geeksforgeeks.org/print-substring-of-a-given-string-without-using-any-string-function-and-loop-in-c/" title="Print substring of a given string without using any string function and loop in C">Print substring of a given string without using any string function and loop in C</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/sorting/" rel="tag">Sorting</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fcomparator-function-of-qsort-in-c%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/comparator-function-of-qsort-in-c/" data-text="Comparator function of qsort() in C" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/comparator-function-of-qsort-in-c/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-20596">
+        <div id="dsq-comment-header-20596" class="dsq-comment-header">
+            <cite id="dsq-cite-20596">
+                <span id="dsq-author-user-20596">Aset</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20596" class="dsq-comment-body">
+            <div id="dsq-comment-message-20596" class="dsq-comment-message"><p>This one requires extra O(N) space (as is with separate indices arrays of structs in previous solutions)</p>
+<pre> <code language="C">
+
+// Compare first int value of two ints passed to comparator
+int comparator(const void *p, const void *q) 
+{
+    // Get the values at given addresses
+    int l = *(const int *)p;
+    int r = *(const int *)q;
+
+    return l - r;
+}
+
+int main()
+{
+// ...
+
+// Do two qsort passes, remembering the first pass results
+
+// First pass is going to sort odd indices
+    qsort((void*)arr, size / 2, sizeof(arr[0]) * 2, comparator);
+
+// Remember the order of the odd indices
+    xarr = (int*)calloc(size, sizeof(arr[0]));
+    memcpy((void*)xarr, (const void*)arr, size * sizeof(arr[0]));
+
+// Second pass is sorting even indices
+    qsort((void*)(arr + 1), size / 2, sizeof(arr[0]) * 2, comparator);
+
+// Merge the two arrays
+    for(i = 0; i &lt; size; ++i)
+        if(!(i &amp; 1)) 
+            arr[i] = xarr[i];
+
+// ...
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-ronny odd alt depth-2" id="dsq-comment-20599">
+        <div id="dsq-comment-header-20599" class="dsq-comment-header">
+            <cite id="dsq-cite-20599">
+                <span id="dsq-author-user-20599">Ronny</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20599" class="dsq-comment-body">
+            <div id="dsq-comment-message-20599" class="dsq-comment-message"><p>@aset why did u copied the array into another one &#8220;xarr&#8221;, if you were not going to use it.<br />
+You just copied it but never used it once.<br />
+Looking forward to know the approach.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-20604">
+        <div id="dsq-comment-header-20604" class="dsq-comment-header">
+            <cite id="dsq-cite-20604">
+                <span id="dsq-author-user-20604">Aset</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20604" class="dsq-comment-body">
+            <div id="dsq-comment-message-20604" class="dsq-comment-message"><p>Hi,</p>
+<p>&#8220;xarr&#8221; is used to retain the order of sorted elements with odd (if starting with 1) indices.</p>
+<p>The approach is very simple: instead of sorting individual integers, it sorts the pairs, based on the first integer in pair.</p>
+<p>5 4 3 2 1 9 would become seen to the algorithm as [5 4] [3 2] [1 9]<br />
+after sorting, the pairs will be reordered as follows:<br />
+[1 9] [3 2] [5 4]<br />
+1 9 3 2 5 4<br />
+The &#8220;xarr&#8221; array will store 1 9 3 2 5 4. The odd elements in it are sorted.<br />
+sorting internal pairs would give ya<br />
+1 [9 3] [2 5] [4 END]<br />
+1 [2 5] [4 END] [9 3]<br />
+1 2 5 4 END 9 3<br />
+merging this one with &#8220;xarr&#8221;<br />
+(1) 9 (3) 2 (5) 4<br />
+using only odd indexed members (in parentheses) will give you the result:<br />
+1 2 3 4 5 9</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-ronny odd alt depth-4" id="dsq-comment-20661">
+        <div id="dsq-comment-header-20661" class="dsq-comment-header">
+            <cite id="dsq-cite-20661">
+                <span id="dsq-author-user-20661">Ronny</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20661" class="dsq-comment-body">
+            <div id="dsq-comment-message-20661" class="dsq-comment-message"><p>@aset Thank you very much.<br />
+I got to know a new approach/concept<br />
+Very nice explaination.<br />
+I was trying this for past few days and you cleared most of my doubts.<br />
+But I wanted to know one thing, if we were to sort, say even indices in increasing order and the odd indices in decreasing order,then  how do we go about it.</p>
+<p>One approach would be to initially copy the matrix into another array, for the first array make the odd indices equal to 1 and sort in inc order. Similarly, for the second array, make the elements at the even indices to 1 and sort in decreasing order. Then copy odd indexed elements to original array.</p>
+<p>Any other approach can you suggest. Something which does not involve creating another array, I mean inplace sorting.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-20022">
+        <div id="dsq-comment-header-20022" class="dsq-comment-header">
+            <cite id="dsq-cite-20022">
+                <span id="dsq-author-user-20022">ronny</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20022" class="dsq-comment-body">
+            <div id="dsq-comment-message-20022" class="dsq-comment-message"><p>@geeksforgeeks @kartik @sandeep @kartik @ashishbarnwal</p>
+<p>Plz can anyone explain how to do the exercise question.<br />
+I am stuck at it for the whole day.<br />
+But cannot proceed. How do we handle the index thing.<br />
+I tried incrementing and decrementing the pointer of a and b.<br />
+Any help would be appreciated.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik odd alt depth-2" id="dsq-comment-20066">
+        <div id="dsq-comment-header-20066" class="dsq-comment-header">
+            <cite id="dsq-cite-20066">
+                <span id="dsq-author-user-20066">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20066" class="dsq-comment-body">
+            <div id="dsq-comment-message-20066" class="dsq-comment-message"><p>I can think of two ways:</p>
+<p>One is simple method, modify input array to place the even indexed numbers in first half and odd indexed numbers in second half. Apply qsort() to two parts separately. Re-modify the array to place the numbers separately.<br />
+Input: 10, 5, 4, 12, 3, 8<br />
+This is in the form a1b2c3, convert it to abc123.<br />
+Modify: 10, 4, 3, 5, 12, 8<br />
+Sort two parts: 3, 4, 10, 5, 8, 12<br />
+This is in the form abc123,<br />
+Convert it to a1b2c3.</p>
+<p>Another method (if we are not allowed to separate even and odd elements as first step OR if we are allowed to apply qsort() only once)<br />
+Create an auxiliary array of structures where every element of structure contains index and value.  Now write your comparator method such that it considers indexes while comparing two structure elements.  Sort the array of structures using your comparator method.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-20107">
+        <div id="dsq-comment-header-20107" class="dsq-comment-header">
+            <cite id="dsq-cite-20107">
+                <span id="dsq-author-user-20107">ronny</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20107" class="dsq-comment-body">
+            <div id="dsq-comment-message-20107" class="dsq-comment-message"><p>@kartik<br />
+Hey thanks for your response<br />
+For the first part, I guess modifying the array won&#8217;t be a feasible option.<br />
+And as far as second option/approach you gave, if we create a structure with index stored but doesn&#8217;t the comparator function check for the adjacent elements only. For example I am posting a sample code, correct me if I am wrong, the given code doesn&#8217;t produce the desired result </p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+
+struct array
+{
+        int data;
+        int ind;
+};
+
+int cmp(const struct array * a,const struct array * b)
+{
+    if(a-&gt;ind%2==0 &amp;&amp; b-&gt;ind%2==0)
+      return b-&gt;data-a-&gt;data;    // if even indexed sort in decreasing order
+
+    else if(a-&gt;ind%2!=0 &amp;&amp; b-&gt;ind%2!=0)
+      return a-&gt;data-b-&gt;data;       // if odd indexed sort in increasing order
+
+    else
+      return 0;   // do not change if one is odd-indexed and other is even-indexed
+}
+
+int main()
+{
+    struct array arr[]={{1,0},{2,1},{3,2},{12,3},{5,4},{17,5},{7,6},{14,7}};
+
+    int n=sizeof(arr)/sizeof(arr[0]);
+
+    qsort(arr,n,sizeof(arr[0]),cmp);
+
+    int i;
+    for(i=0;i&lt;n;i++)
+      printf(&quot;%d  &quot;,arr[i].data);
+
+    return 0;
+}
+
+</code> </pre>
+<p>So any input from your side would be very helpful. I am still trying this question as it is a very good post to maneuver the inbuilt qsort according to any condition.<br />
+Thanks for your reply and precious time you spent to answer my queries.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-20269">
+        <div id="dsq-comment-header-20269" class="dsq-comment-header">
+            <cite id="dsq-cite-20269">
+                <span id="dsq-author-user-20269">ronny</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20269" class="dsq-comment-body">
+            <div id="dsq-comment-message-20269" class="dsq-comment-message"><p>@geeksforgeeks @kartik @sandeep @venki @ashishbarnwal @kartik<br />
+Plz help me on this question.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik even depth-5" id="dsq-comment-20289">
+        <div id="dsq-comment-header-20289" class="dsq-comment-header">
+            <cite id="dsq-cite-20289">
+                <span id="dsq-author-user-20289">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20289" class="dsq-comment-body">
+            <div id="dsq-comment-message-20289" class="dsq-comment-message"><p>We will soon be publishing a post on this.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-ultimate_coder odd alt thread-even depth-1" id="dsq-comment-18777">
+        <div id="dsq-comment-header-18777" class="dsq-comment-header">
+            <cite id="dsq-cite-18777">
+                <span id="dsq-author-user-18777">ultimate_coder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18777" class="dsq-comment-body">
+            <div id="dsq-comment-message-18777" class="dsq-comment-message"><pre> <code language="C">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+int comparator(const void * p, const void * q)
+{
+    int l=*((const int *)p);
+    int n=*((const int *)q);
+    if((((const int *)p - (const int *)q)%2)==0)
+    return (l-n);
+    else
+    return 0;
+}
+void printArr(int arr[], int n)
+{
+    int i;
+    for (i = 0; i &lt; n; ++i)
+        printf(&quot;%d &quot;, arr[i]);
+}
+int main()
+{
+    int arr[] = {1, 6, 5, 2, 3, 9, 4, 7, 8};
+
+    int size = sizeof(arr) / sizeof(arr[0]);
+    qsort((void *)arr,size,sizeof(arr[0]),comparator);
+
+    printf(&quot;Output array is\n&quot;);
+    printArr(arr, size);
+
+    return 0;
+}
+
+</code> </pre>
+<p>what&#8217;s wrong in this??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-18743">
+        <div id="dsq-comment-header-18743" class="dsq-comment-header">
+            <cite id="dsq-cite-18743">
+                <span id="dsq-author-user-18743">David F</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18743" class="dsq-comment-body">
+            <div id="dsq-comment-message-18743" class="dsq-comment-message"><p>Here is my straightforward solution in C++</p>
+<p>#include &lt;vector&gt;<br />
+#include &lt;iostream&gt;<br />
+#include &lt;algorithm&gt;</p>
+<p>std::ostream &amp;operator &lt;&lt; (std::ostream &amp;out, const std::vector&lt;int&gt; &amp;vec)<br />
+{<br />
+	std::vector&lt;int&gt;::const_iterator it = vec.begin();<br />
+	out &lt;&lt; &#8216;[&#8216; &lt;&lt; *it++;<br />
+	for ( ; it != vec.end(); ++it)<br />
+	{<br />
+		out &lt;&lt; &quot;, &quot; &lt;&lt; *it;<br />
+	}<br />
+	return out &lt;&lt; &#8216;]';<br />
+}</p>
+<p>bool puzzle_less(const int a, const int b)<br />
+{<br />
+	const bool a_odd = a &amp; 1, b_odd = b &amp; 1;<br />
+	if (a_odd)<br />
+	{<br />
+		if (b_odd)<br />
+			return a &gt; b; // reverse order for odd<br />
+		else<br />
+			return true; // odd before even<br />
+	}<br />
+	else<br />
+	{<br />
+		if (b_odd)<br />
+			return false; // even after odd<br />
+		else<br />
+			return a &lt; b; // forward order for even<br />
+	}<br />
+}</p>
+<p>void puzzle_sort(std::vector&lt;int&gt; &amp;vec)<br />
+{<br />
+	std::sort(vec.begin(), vec.end(), puzzle_less);<br />
+}</p>
+<p>int main()<br />
+{<br />
+	std::vector&lt;int&gt; data;<br />
+	for (int i = -100; i &lt; 100; ++i)<br />
+	{<br />
+		data.push_back(i);<br />
+	}<br />
+	std::cout &lt;&lt; &quot;Before: &quot; &lt;&lt; data &lt;&lt; std::endl;<br />
+	puzzle_sort(data);<br />
+	std::cout &lt;&lt; &quot;After : &quot; &lt;&lt; data &lt;&lt; std::endl;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/comparator-function-of-qsort-in-c/';
+var disqus_identifier = '116095 http://www.geeksforgeeks.org/?p=116095';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Comparator function of qsort() in C";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.189 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:47:00 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

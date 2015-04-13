@@ -1,0 +1,892 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Graph Coloring | Set 2 (Greedy Algorithm) - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/graph-coloring-set-2-greedy-algorithm/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Graph Coloring | Set 2 (Greedy Algorithm) - GeeksforGeeks" />
+<meta property="og:description" content="We introduced graph coloring and applications in previous post. As discussed in the previous post, graph coloring is widely used. Unfortunately, there is no efficient algorithm available for coloring a graph with minimum number of colors as the problem is a known NP Complete problem. There are approximate algorithms to solve the problem though. Following &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/graph-coloring-set-2-greedy-algorithm/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Graph" />
+<meta property="article:tag" content="Greedy Algorithm" />
+<meta property="article:section" content="Graph" />
+<meta property="article:published_time" content="2013-11-14T12:27:07+00:00" />
+<meta property="article:modified_time" content="2014-02-18T14:21:09+00:00" />
+<meta property="og:updated_time" content="2014-02-18T14:21:09+00:00" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/graph_coloring21-300x130.png" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/graph_coloring11-300x130.png" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.514 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111330 210.212.53.139 172.19.11.169';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Graph Coloring | Set 2 (Greedy Algorithm)</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>We introduced <a href="http://www.geeksforgeeks.org/graph-coloring-applications/" target="_blank">graph coloring and applications</a> in previous post. As discussed in the previous post, graph coloring is widely used. <span id="more-123945"></span><!--more-->Unfortunately, there is no efficient algorithm available for coloring a graph with minimum number of colors as the problem is a known <a href="http://www.geeksforgeeks.org/np-completeness-set-1/" target="_blank">NP Complete problem</a>. There are approximate algorithms to solve the problem though. Following is the basic Greedy Algorithm to assign colors. It doesn&#8217;t guarantee to use minimum colors, but it guarantees an upper bound on the number of colors. The basic algorithm never uses more than d+1 colors where d is the maximum degree of a vertex in the given graph.</p>
+<p><strong>Basic Greedy Coloring Algorithm:</strong></p>
+<pre><strong>1.</strong> Color first vertex with first color.
+<strong>2.</strong> Do following for remaining V-1 vertices.
+         <strong> a) </strong>Consider the currently picked vertex and color it with the 
+             lowest numbered color that has not been used on any previously
+             colored vertices adjacent to it. If all previously used colors 
+             appear on vertices adjacent to v, assign a new color to it.</pre>
+<p>Following is C++ implementation of the above Greedy Algorithm.</p>
+<pre class="brush: cpp; highlight: [29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77]; title: ; notranslate" title="">
+// A C++ program to implement greedy algorithm for graph coloring
+#include &lt;iostream&gt;
+#include &lt;list&gt;
+using namespace std;
+
+// A class that represents an undirected graph
+class Graph
+{
+    int V;    // No. of vertices
+    list&lt;int&gt; *adj;    // A dynamic array of adjacency lists
+public:
+    // Constructor and destructor
+    Graph(int V)   { this-&gt;V = V; adj = new list&lt;int&gt;[V]; }
+    ~Graph()       { delete [] adj; }
+
+    // function to add an edge to graph
+    void addEdge(int v, int w);
+
+    // Prints greedy coloring of the vertices
+    void greedyColoring();
+};
+
+void Graph::addEdge(int v, int w)
+{
+    adj[v].push_back(w);
+    adj[w].push_back(v);  // Note: the graph is undirected
+}
+
+// Assigns colors (starting from 0) to all vertices and prints
+// the assignment of colors
+void Graph::greedyColoring()
+{
+    int result[V];
+
+    // Assign the first color to first vertex
+    result[0]  = 0;
+
+    // Initialize remaining V-1 vertices as unassigned
+    for (int u = 1; u &lt; V; u++)
+        result[u] = -1;  // no color is assigned to u
+
+    // A temporary array to store the available colors. True
+    // value of available[cr] would mean that the color cr is
+    // assigned to one of its adjacent vertices
+    bool available[V];
+    for (int cr = 0; cr &lt; V; cr++)
+        available[cr] = false;
+
+    // Assign colors to remaining V-1 vertices
+    for (int u = 1; u &lt; V; u++)
+    {
+        // Process all adjacent vertices and flag their colors
+        // as unavailable
+        list&lt;int&gt;::iterator i;
+        for (i = adj[u].begin(); i != adj[u].end(); ++i)
+            if (result[*i] != -1)
+                available[result[*i]] = true;
+
+        // Find the first available color
+        int cr;
+        for (cr = 0; cr &lt; V; cr++)
+            if (available[cr] == false)
+                break;
+
+        result[u] = cr; // Assign the found color
+
+        // Reset the values back to false for the next iteration
+        for (i = adj[u].begin(); i != adj[u].end(); ++i)
+            if (result[*i] != -1)
+                available[result[*i]] = false;
+    }
+
+    // print the result
+    for (int u = 0; u &lt; V; u++)
+        cout &lt;&lt; &quot;Vertex &quot; &lt;&lt; u &lt;&lt; &quot; ---&gt;  Color &quot;
+             &lt;&lt; result[u] &lt;&lt; endl;
+}
+
+// Driver program to test above function
+int main()
+{
+    Graph g1(5);
+    g1.addEdge(0, 1);
+    g1.addEdge(0, 2);
+    g1.addEdge(1, 2);
+    g1.addEdge(1, 3);
+    g1.addEdge(2, 3);
+    g1.addEdge(3, 4);
+    cout &lt;&lt; &quot;Coloring of Graph 1 \n&quot;;
+    g1.greedyColoring();
+
+    Graph g2(5);
+    g2.addEdge(0, 1);
+    g2.addEdge(0, 2);
+    g2.addEdge(1, 2);
+    g2.addEdge(1, 4);
+    g2.addEdge(2, 4);
+    g2.addEdge(4, 3);
+    cout &lt;&lt; &quot;\nColoring of Graph 2 \n&quot;;
+    g2.greedyColoring();
+
+    return 0;
+}
+</pre>
+<p>Output:</p>
+<pre>Coloring of Graph 1
+Vertex 0 --->  Color 0
+Vertex 1 --->  Color 1
+Vertex 2 --->  Color 2
+Vertex 3 --->  Color 0
+Vertex 4 --->  Color 1
+
+Coloring of Graph 2
+Vertex 0 --->  Color 0
+Vertex 1 --->  Color 1
+Vertex 2 --->  Color 2
+Vertex 3 --->  Color 0
+Vertex 4 --->  Color 3</pre>
+<p>Time Complexity: O(V^2 + E) in worst case.</p>
+<p><strong>Analysis of Basic Algorithm</strong><br />
+The above algorithm doesn&#8217;t always use minimum number of colors. Also, the number of colors used sometime depend on the order in which vertices are processed. For example, consider the following two graphs. Note that in graph on right side, vertices 3 and 4 are swapped.  If we consider the vertices 0, 1, 2, 3, 4 in left graph, we can color the graph using 3 colors. But if we consider the vertices 0, 1, 2, 3, 4 in right graph, we need 4 colors. </p>
+<p><a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/graph_coloring21.png"><img class="alignright  wp-image-123979" alt="graph_coloring2" src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/graph_coloring21-300x130.png" width="240" height="104" /></a></p>
+<p><a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/graph_coloring11.png"><img class=" wp-image-123979 alignleft" alt="graph_coloring2" src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/graph_coloring11-300x130.png" width="240" height="104" /></a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;<br />
+So the order in which the vertices are picked is important.  Many people have suggested different ways to find an ordering that work better than the basic algorithm on average. The most common is <a href="http://mrsleblancsmath.pbworks.com/w/file/fetch/46119304/vertex%20coloring%20algorithm.pdf" target="_blank">Welsh–Powell Algorithm</a> which considers vertices in descending order of degrees.  </p>
+<p><strong>How does the basic algorithm guarantee an upper bound of d+1?</strong><br />
+Here d is the maximum degree in the given graph.  Since d is maximum degree, a vertex cannot be attached to more than d vertices.  When we color a vertex, at most d colors could have already been used by its adjacent.  To color this vertex, we need to pick the smallest numbered color that is not used by the adjacent vertices.  If colors are numbered like 1, 2, &#8230;., then the value of such smallest number must be between 1 to d+1 (Note that d numbers are already picked by adjacent vertices).<br />
+This can also be proved using induction. See <a href="http://www.youtube.com/watch?v=h9wxtqoa1jY" target="_blank">this </a>video lecture for proof. </p>
+<p>We will soon be discussing some interesting facts about chromatic number and graph coloring.</p>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/vertex-cover-problem-set-1-introduction-approximate-algorithm-2/" title="Vertex Cover Problem | Set 1 (Introduction and Approximate Algorithm)">Vertex Cover Problem | Set 1 (Introduction and Approximate Algorithm)</a></li><li><a href="http://www.geeksforgeeks.org/snake-ladder-problem-2/" title="Snake and Ladder Problem">Snake and Ladder Problem</a></li><li><a href="http://www.geeksforgeeks.org/tarjan-algorithm-find-strongly-connected-components/" title="Tarjan&#8217;s Algorithm to find Strongly Connected Components">Tarjan&#8217;s Algorithm to find Strongly Connected Components</a></li><li><a href="http://www.geeksforgeeks.org/shortest-path-exactly-k-edges-directed-weighted-graph/" title="Shortest path with exactly k edges in a directed and weighted graph">Shortest path with exactly k edges in a directed and weighted graph</a></li><li><a href="http://www.geeksforgeeks.org/count-possible-paths-source-destination-exactly-k-edges/" title="Count all possible walks from a source to a destination with exactly k edges">Count all possible walks from a source to a destination with exactly k edges</a></li><li><a href="http://www.geeksforgeeks.org/euler-circuit-directed-graph/" title="Euler Circuit in a Directed Graph">Euler Circuit in a Directed Graph</a></li><li><a href="http://www.geeksforgeeks.org/given-array-strings-find-strings-can-chained-form-circle/" title="Given an array of strings, find if the strings can be chained to form a circle">Given an array of strings, find if the strings can be chained to form a circle</a></li><li><a href="http://www.geeksforgeeks.org/given-sorted-dictionary-find-precedence-characters/" title="Given a sorted dictionary of an alien language, find order of characters">Given a sorted dictionary of an alien language, find order of characters</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/graph/" rel="tag">Graph</a>, <a href="http://www.geeksforgeeks.org/tag/greedy-algorithm/" rel="tag">Greedy Algorithm</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fgraph-coloring-set-2-greedy-algorithm%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/graph-coloring-set-2-greedy-algorithm/" data-text="Graph Coloring | Set 2 (Greedy Algorithm)" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/graph-coloring-set-2-greedy-algorithm/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-33929">
+        <div id="dsq-comment-header-33929" class="dsq-comment-header">
+            <cite id="dsq-cite-33929">
+                <span id="dsq-author-user-33929">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33929" class="dsq-comment-body">
+            <div id="dsq-comment-message-33929" class="dsq-comment-message"><p>Thank for sharing</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-33927">
+        <div id="dsq-comment-header-33927" class="dsq-comment-header">
+            <cite id="dsq-cite-33927">
+                <span id="dsq-author-user-33927">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33927" class="dsq-comment-body">
+            <div id="dsq-comment-message-33927" class="dsq-comment-message"><p>Very good implementation</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-32027">
+        <div id="dsq-comment-header-32027" class="dsq-comment-header">
+            <cite id="dsq-cite-32027">
+                <span id="dsq-author-user-32027">paperapp</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32027" class="dsq-comment-body">
+            <div id="dsq-comment-message-32027" class="dsq-comment-message"><p>It should be d+1 and not d+! in the last paragraph.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-32687">
+        <div id="dsq-comment-header-32687" class="dsq-comment-header">
+            <cite id="dsq-cite-32687">
+                <span id="dsq-author-user-32687">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32687" class="dsq-comment-body">
+            <div id="dsq-comment-message-32687" class="dsq-comment-message"><p>Thanks for pointing this out. We have corrected it.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-29886">
+        <div id="dsq-comment-header-29886" class="dsq-comment-header">
+            <cite id="dsq-cite-29886">
+                <span id="dsq-author-user-29886">rahul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29886" class="dsq-comment-body">
+            <div id="dsq-comment-message-29886" class="dsq-comment-message"><p>@3b775b5255c3588cf67858deca369663:disqus<br />
+whta is the toime complexity ..is it V+E or v^2+e&#8230;as loop for chromatic number will run n time if there is a complete graph&#8230;.kindly share ur thoughts</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-32689">
+        <div id="dsq-comment-header-32689" class="dsq-comment-header">
+            <cite id="dsq-cite-32689">
+                <span id="dsq-author-user-32689">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32689" class="dsq-comment-body">
+            <div id="dsq-comment-message-32689" class="dsq-comment-message"><p>rahul, we have updated the time complexity.  Please see the below comment from laxmi.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-29850">
+        <div id="dsq-comment-header-29850" class="dsq-comment-header">
+            <cite id="dsq-cite-29850">
+                <span id="dsq-author-user-29850">c0d3junki3</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29850" class="dsq-comment-body">
+            <div id="dsq-comment-message-29850" class="dsq-comment-message"><p>Hi, the complexity of your algorithm is O(V^2 + E). You don&#8217;t have to init the entire cr[] array to false in each outer loop iteration, all you have to do is set back to false the previous values that you&#8217;ve set back to true, ie iterate through vertex ii-1 and set all of his neighboring colors to false. This is a common trick and achieves in algorithm and in this case achieves a complexity of O(V + E).</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-29872">
+        <div id="dsq-comment-header-29872" class="dsq-comment-header">
+            <cite id="dsq-cite-29872">
+                <span id="dsq-author-user-29872">laxmi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29872" class="dsq-comment-body">
+            <div id="dsq-comment-message-29872" class="dsq-comment-message"><p>c0d3junki3: Good observation.  The worst case complexity would still be O(V^2 + E) even with your suggestion.  Note that, there is a loop to find next available color.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-29885">
+        <div id="dsq-comment-header-29885" class="dsq-comment-header">
+            <cite id="dsq-cite-29885">
+                <span id="dsq-author-user-29885">guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29885" class="dsq-comment-body">
+            <div id="dsq-comment-message-29885" class="dsq-comment-message"><p>@Geeksforgeeks,kindly update time complexity in the program itself.I have seen a lot of programs aho are having no time and space complexity below them.The algorithm is incomplete without complexity analysis.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-32688">
+        <div id="dsq-comment-header-32688" class="dsq-comment-header">
+            <cite id="dsq-cite-32688">
+                <span id="dsq-author-user-32688">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32688" class="dsq-comment-body">
+            <div id="dsq-comment-message-32688" class="dsq-comment-message"><p>guest, thanks for the feedback.  We have updated the time complexity.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even depth-3" id="dsq-comment-32946">
+        <div id="dsq-comment-header-32946" class="dsq-comment-header">
+            <cite id="dsq-cite-32946">
+                <span id="dsq-author-user-32946">loconet</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32946" class="dsq-comment-body">
+            <div id="dsq-comment-message-32946" class="dsq-comment-message"><p>But the loop to find the next available colour should really be O(d) (where d is the max degree) not O(V) worst case because we know that to vertex colour any graph with this algorithm, we&#8217;ll need at most d+1 colours (not V like the code shows).</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-29873">
+        <div id="dsq-comment-header-29873" class="dsq-comment-header">
+            <cite id="dsq-cite-29873">
+                <span id="dsq-author-user-29873">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29873" class="dsq-comment-body">
+            <div id="dsq-comment-message-29873" class="dsq-comment-message"><p>c0d3junki3 : Thanks for suggesting the optimization.  We have updated the code.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-30025">
+        <div id="dsq-comment-header-30025" class="dsq-comment-header">
+            <cite id="dsq-cite-30025">
+                <span id="dsq-author-user-30025">Lakshminarayana</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30025" class="dsq-comment-body">
+            <div id="dsq-comment-message-30025" class="dsq-comment-message"><p>Can you explain how it will be  O(V^2 + E). is it like outer for loop for V times(vertex 1 to n) and each inner  loop for iterating adjacent  nodes through list ( checking and setting of  available array to true and other to false )  for V times(max adjacent nodes) plus checking available[cr] == false</p>
+<p> max V times . In that case it should be O(V^2+V)=O(V^2).</p>
+<p>Could you please correct me if I am wrong</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-29841">
+        <div id="dsq-comment-header-29841" class="dsq-comment-header">
+            <cite id="dsq-cite-29841">
+                <span id="dsq-author-user-29841">Froskekongen</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29841" class="dsq-comment-body">
+            <div id="dsq-comment-message-29841" class="dsq-comment-message"><p>It would be great if generalisations to d-distance colourings would be covered.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/graph-coloring-set-2-greedy-algorithm/';
+var disqus_identifier = '123945 http://www.geeksforgeeks.org/?p=123945';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Graph Coloring | Set 2 (Greedy Algorithm)";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.187 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:32:10 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

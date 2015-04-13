@@ -1,0 +1,1451 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Merge two BSTs with limited extra space - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/merge-two-bsts-with-limited-extra-space/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Merge two BSTs with limited extra space - GeeksforGeeks" />
+<meta property="og:description" content="Given two Binary Search Trees(BST), print the elements of both BSTs in sorted form. The expected time complexity is O(m+n) where m is the number of nodes in first tree and n is the number of nodes in second tree. Maximum allowed auxiliary space is O(height of the first tree + height of the second &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/merge-two-bsts-with-limited-extra-space/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:section" content="Trees" />
+<meta property="article:published_time" content="2012-06-01T11:13:33+00:00" />
+<meta property="article:modified_time" content="2014-01-04T18:38:58+00:00" />
+<meta property="og:updated_time" content="2014-01-04T18:38:58+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.530 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111275 210.212.53.139 172.19.11.169';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Merge two BSTs with limited extra space</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given two Binary Search Trees(BST), print the elements of both BSTs in sorted form. The expected time complexity is O(m+n) <span id="more-19422"></span>where m is the number of nodes in first tree and n is the number of nodes in second tree. Maximum allowed auxiliary space is O(height of the first tree + height of the second tree). </p>
+<p>Examples:</p>
+<pre>
+First BST 
+       3
+    /     \
+   1       5
+Second BST
+    4
+  /   \
+2       6
+Output: 1 2 3 4 5 6
+
+
+First BST 
+          8
+         / \
+        2   10
+       /
+      1
+Second BST 
+          5
+         / 
+        3  
+       /
+      0
+Output: 0 1 2 3 5 8 10 
+</pre>
+<p>Source: <a href="http://geeksforgeeks.org/forum/topic/google-interview-question-9">Google interview question</a></p>
+<p>A similar question has been discussed earlier. Let us first discuss already discussed methods of the <a href="http://www.geeksforgeeks.org/archives/18611">previous post</a> which was for Balanced BSTs.  The method 1 can be applied here also, but the time complexity will be O(n^2) in worst case.  The method 2 can also be applied here, but the extra space required will be O(n) which violates the constraint given in this question.  Method 3 can be applied here but the step 3 of method 3 can&#8217;t be done in O(n) for an unbalanced BST.</p>
+<p>Thanks to <a href="http://www.geeksforgeeks.org/forums/users/gautam5669/">Kumar</a> for suggesting the following solution.</p>
+<p>The idea is to use <a href="http://www.geeksforgeeks.org/archives/5592">iterative inorder traversal</a>. We use two auxiliary stacks for two BSTs. Since we need to print the elements in sorted form, whenever we get a smaller element from any of the trees, we print it. If the element is greater, then we push it back to stack for the next iteration.</p>
+<pre class="brush: cpp; highlight: [74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176]; title: ; notranslate" title="">
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+
+// Structure of a BST Node
+struct node
+{
+    int data;
+    struct node *left;
+    struct node *right;
+};
+
+//.................... START OF STACK RELATED STUFF....................
+// A stack node
+struct snode
+{
+    struct node  *t;
+    struct snode *next;
+};
+
+// Function to add an elemt k to stack
+void push(struct snode **s, struct node *k)
+{
+    struct snode *tmp = (struct snode *) malloc(sizeof(struct snode));
+
+    //perform memory check here
+    tmp-&gt;t = k;
+    tmp-&gt;next = *s;
+    (*s) = tmp;
+}
+
+// Function to pop an element t from stack
+struct node *pop(struct snode **s)
+{
+    struct  node *t;
+    struct snode *st;
+    st=*s;
+    (*s) = (*s)-&gt;next;
+    t = st-&gt;t;
+    free(st);
+    return t;
+}
+
+// Fucntion to check whether the stack is empty or not
+int isEmpty(struct snode *s)
+{
+    if (s == NULL )
+        return 1;
+
+    return 0;
+}
+//.................... END OF STACK RELATED STUFF....................
+
+
+/* Utility function to create a new Binary Tree node */
+struct node* newNode (int data)
+{
+    struct node *temp = new struct node;
+    temp-&gt;data = data;
+    temp-&gt;left = NULL;
+    temp-&gt;right = NULL;
+    return temp;
+}
+
+/* A utility function to print Inoder traversal of a Binary Tree */
+void inorder(struct node *root)
+{
+    if (root != NULL)
+    {
+        inorder(root-&gt;left);
+        printf(&quot;%d &quot;, root-&gt;data);
+        inorder(root-&gt;right);
+    }
+}
+
+// The function to print data of two BSTs in sorted order
+void  merge(struct node *root1, struct node *root2)
+{
+    // s1 is stack to hold nodes of first BST
+    struct snode *s1 = NULL;
+
+    // Current node of first BST
+    struct node  *current1 = root1;
+
+    // s2 is stack to hold nodes of second BST
+    struct snode *s2 = NULL;
+
+    // Current node of second BST
+    struct node  *current2 = root2;
+
+    // If first BST is empty, then output is inorder
+    // traversal of second BST
+    if (root1 == NULL)
+    {
+        inorder(root2);
+        return;
+    }
+    // If second BST is empty, then output is inorder
+    // traversal of first BST
+    if (root2 == NULL)
+    {
+        inorder(root1);
+        return ;
+    }
+
+    // Run the loop while there are nodes not yet printed.
+    // The nodes may be in stack(explored, but not printed)
+    // or may be not yet explored
+    while (current1 != NULL || !isEmpty(s1) ||
+          current2 != NULL || !isEmpty(s2))
+    {
+        // Following steps follow iterative Inorder Traversal
+        if (current1 != NULL || current2 != NULL )
+        {
+            // Reach the leftmost node of both BSTs and push ancestors of
+            // leftmost nodes to stack s1 and s2 respectively
+            if (current1 != NULL)
+            {
+                push(&amp;s1, current1);
+                current1 = current1-&gt;left;
+            }
+            if (current2 != NULL)
+            {
+                push(&amp;s2, current2);
+                current2 = current2-&gt;left;
+            }
+
+        }
+        else
+        {
+            // If we reach a NULL node and either of the stacks is empty,
+            // then one tree is exhausted, ptint the other tree
+            if (isEmpty(s1))
+            {
+                while (!isEmpty(s2))
+                {
+                    current2 = pop (&amp;s2);
+                    current2-&gt;left = NULL;
+                    inorder(current2);
+                }
+                return ;
+            }
+            if (isEmpty(s2))
+            {
+                while (!isEmpty(s1))
+                {
+                    current1 = pop (&amp;s1);
+                    current1-&gt;left = NULL;
+                    inorder(current1);
+                }
+                return ;
+            }
+
+            // Pop an element from both stacks and compare the
+            // popped elements
+            current1 = pop(&amp;s1);
+            current2 = pop(&amp;s2);
+
+            // If element of first tree is smaller, then print it
+            // and push the right subtree. If the element is larger,
+            // then we push it back to the corresponding stack.
+            if (current1-&gt;data &lt; current2-&gt;data)
+            {
+                printf(&quot;%d &quot;, current1-&gt;data);
+                current1 = current1-&gt;right;
+                push(&amp;s2, current2);
+                current2 = NULL;
+            }
+            else
+            {
+                printf(&quot;%d &quot;, current2-&gt;data);
+                current2 = current2-&gt;right;
+                push(&amp;s1, current1);
+                current1 = NULL;
+            }
+        }
+    }
+}
+
+/* Driver program to test above functions */
+int main()
+{
+    struct node  *root1 = NULL, *root2 = NULL;
+
+    /* Let us create the following tree as first tree
+            3
+          /  \
+         1    5
+     */
+    root1 = newNode(3);
+    root1-&gt;left = newNode(1);
+    root1-&gt;right = newNode(5);
+
+    /* Let us create the following tree as second tree
+            4
+          /  \
+         2    6
+     */
+    root2 = newNode(4);
+    root2-&gt;left = newNode(2);
+    root2-&gt;right = newNode(6);
+
+    // Print sorted nodes of both trees
+    merge(root1, root2);
+
+    return 0;
+}
+</pre>
+<p>Time Complexity: O(m+n)<br />
+Auxiliary Space: O(height of the first tree + height of the second tree)</p>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/perfect-binary-tree-specific-level-order-traversal/" title="Perfect Binary Tree Specific Level Order Traversal">Perfect Binary Tree Specific Level Order Traversal</a></li><li><a href="http://www.geeksforgeeks.org/print-nodes-top-view-binary-tree/" title="Print Nodes in Top View of Binary Tree">Print Nodes in Top View of Binary Tree</a></li><li><a href="http://www.geeksforgeeks.org/k-dimensional-tree/" title="K Dimensional Tree">K Dimensional Tree</a></li><li><a href="http://www.geeksforgeeks.org/convert-binary-tree-threaded-binary-tree/" title="Convert a Binary Tree to Threaded binary tree">Convert a Binary Tree to Threaded binary tree</a></li><li><a href="http://www.geeksforgeeks.org/serialize-deserialize-n-ary-tree/" title="Serialize and Deserialize an N-ary Tree">Serialize and Deserialize an N-ary Tree</a></li><li><a href="http://www.geeksforgeeks.org/serialize-deserialize-binary-tree/" title="Serialize and Deserialize a Binary Tree">Serialize and Deserialize a Binary Tree</a></li><li><a href="http://www.geeksforgeeks.org/given-binary-tree-print-nodes-two-given-level-numbers/" title="Print nodes between two given level numbers of a binary tree">Print nodes between two given level numbers of a binary tree</a></li><li><a href="http://www.geeksforgeeks.org/find-height-binary-tree-represented-parent-array/" title="Find Height of Binary Tree represented by Parent array">Find Height of Binary Tree represented by Parent array</a></li></ul>
+<p></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fmerge-two-bsts-with-limited-extra-space%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/merge-two-bsts-with-limited-extra-space/" data-text="Merge two BSTs with limited extra space" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/merge-two-bsts-with-limited-extra-space/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-34639">
+        <div id="dsq-comment-header-34639" class="dsq-comment-header">
+            <cite id="dsq-cite-34639">
+                <span id="dsq-author-user-34639">AlienOnEarth</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34639" class="dsq-comment-body">
+            <div id="dsq-comment-message-34639" class="dsq-comment-message"><p>@Geeksforgeeks</p>
+<p>I have another recursive solution with o(m+n) time and o(log(m+n)) space complexity (for recursion).</p>
+<p>#include</p>
+<p>#include</p>
+<p>// Structure of a BST Node</p>
+<p>struct node</p>
+<p>{</p>
+<p>    int data;</p>
+<p>    struct node *left;</p>
+<p>    struct node *right;</p>
+<p>};</p>
+<p> int isPrinted = 0;</p>
+<p>/* Utility function to create a new Binary Tree node */</p>
+<p>struct node* newNode (int data)</p>
+<p>{</p>
+<p>    struct node *temp = (struct node*)malloc(sizeof(struct node));</p>
+<p>    temp-&gt;data = data;</p>
+<p>    temp-&gt;left = NULL;</p>
+<p>    temp-&gt;right = NULL;</p>
+<p>    return temp;</p>
+<p>}</p>
+<p>/* A utility function to print Inoder traversal of a Binary Tree */</p>
+<p>void inorder(struct node *root)</p>
+<p>{</p>
+<p>    if (root != NULL)</p>
+<p>    {</p>
+<p>        inorder(root-&gt;left);</p>
+<p>        printf(&#8220;%d&#8211;&gt;&#8221;, root-&gt;data);</p>
+<p>        inorder(root-&gt;right);</p>
+<p>    }</p>
+<p>}</p>
+<p>// The function to print data of two BSTs in sorted order</p>
+<p>void  merge(struct node *root1, struct node *root2, int *n1, int *n2)</p>
+<p>{</p>
+<p>    	// left subtrees</p>
+<p>    	if(root1-&gt;data data)</p>
+<p>    		if(root2-&gt;left)</p>
+<p>    		{</p>
+<p>    			&#8211;(*n2);</p>
+<p>    			merge(root1,root2-&gt;left,n1,n2);</p>
+<p>    		}</p>
+<p>    	if(root1-&gt;data &gt; root2-&gt;data)</p>
+<p>    		if(root1-&gt;left)</p>
+<p>    		{</p>
+<p>    			&#8211;(*n1);</p>
+<p>    			merge(root1-&gt;left,root2,n1,n2);</p>
+<p>    		}</p>
+<p>    	// processing</p>
+<p>    	if(root1-&gt;data data)</p>
+<p>    	{</p>
+<p>    		printf(&#8220;%d&#8211;&gt;&#8221;, root1-&gt;data);</p>
+<p>    		if(root1-&gt;right != NULL)</p>
+<p>    		{</p>
+<p>    			&#8211;(*n1);</p>
+<p>  		  		merge(root1-&gt;right,root2,n1,n2);	</p>
+<p>  		  	}</p>
+<p>    	}	</p>
+<p>    	else if(root1-&gt;data &gt; root2-&gt;data)</p>
+<p>    	{</p>
+<p>    		printf(&#8220;%d&#8211;&gt;&#8221;, root2-&gt;data);</p>
+<p>    		if(root2-&gt;right!=NULL)</p>
+<p>    		{</p>
+<p>    			&#8211;(*n2);</p>
+<p>    			merge(root1,root2-&gt;right,n1,n2);	</p>
+<p>    		}</p>
+<p>    	}</p>
+<p>    	// If first BST is empty, then output is inorder</p>
+<p>    // traversal of second BST</p>
+<p>    if ((*n1)==1 &amp;&amp; !isPrinted)</p>
+<p>    {</p>
+<p>    	isPrinted = 1;</p>
+<p>        inorder(root2);</p>
+<p>        return;</p>
+<p>    }</p>
+<p>    // If second BST is empty, then output is inorder</p>
+<p>    // traversal of first BST</p>
+<p>    else if ((*n2) == 1 &amp;&amp; !isPrinted)</p>
+<p>    {</p>
+<p>        inorder(root1);</p>
+<p>        return ;</p>
+<p>    }</p>
+<p>}</p>
+<p>int size(struct node* root)</p>
+<p>{	</p>
+<p>	if(root == NULL)</p>
+<p>		return 0;</p>
+<p>	return (1 + size(root-&gt;left) + size(root-&gt;right));</p>
+<p>}</p>
+<p>void merger(struct node *root1, struct node *root2)</p>
+<p>{</p>
+<p>	int n1= size(root1);</p>
+<p>	int n2= size(root2);</p>
+<p>	merge(root1, root2, &amp;n1, &amp;n2);</p>
+<p>}</p>
+<p>/* Driver program to test above functions */</p>
+<p>int main()</p>
+<p>{</p>
+<p>    struct node  *root1 = NULL, *root2 = NULL;</p>
+<p>    /* Let us create the following tree as first tree</p>
+<p>            6</p>
+<p>          /  </p>
+<p>        3     8</p>
+<p>            4</p>
+<p>     */</p>
+<p>    root1 = newNode(6);</p>
+<p>    root1-&gt;left = newNode(3);</p>
+<p>        root1-&gt;left-&gt;right = newNode(4);</p>
+<p>    root1-&gt;right = newNode(8);</p>
+<p>    /* Let us create the following tree as second tree</p>
+<p>            7</p>
+<p>          /  </p>
+<p>         5   9</p>
+<p>               10</p>
+<p>     */</p>
+<p>    root2 = newNode(7);</p>
+<p>    root2-&gt;left = newNode(5);</p>
+<p>    root2-&gt;right = newNode(9);</p>
+<p>    root2-&gt;right-&gt;right = newNode(10);</p>
+<p>    // Print sorted nodes of both trees</p>
+<p>    merger(root1, root2);</p>
+<p>    return 0;</p>
+<p>}</p>
+<p>This solution is quite easier than iterative solution. Please consider this.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-31087">
+        <div id="dsq-comment-header-31087" class="dsq-comment-header">
+            <cite id="dsq-cite-31087">
+                <span id="dsq-author-user-31087">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31087" class="dsq-comment-body">
+            <div id="dsq-comment-message-31087" class="dsq-comment-message"><p>why are we calling inorder(current1)  in while loop<br />
+ if (isEmpty(s2))<br />
+            {<br />
+                while (!isEmpty(s1))<br />
+                {<br />
+                    current1 = pop (&amp;s1);<br />
+                    current1-&gt;left = NULL;<br />
+                    inorder(current1);<br />
+                }<br />
+                return ;<br />
+            }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-27597">
+        <div id="dsq-comment-header-27597" class="dsq-comment-header">
+            <cite id="dsq-cite-27597">
+                <span id="dsq-author-user-27597">powerhu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27597" class="dsq-comment-body">
+            <div id="dsq-comment-message-27597" class="dsq-comment-message"><p>C# Code:</p>
+<p>        public static void AddLeftNodes(Node node, Stack s)</p>
+<p>        {</p>
+<p>            while (node != null)</p>
+<p>            {</p>
+<p>                s.Push(node);</p>
+<p>                node = node.left;</p>
+<p>            }            </p>
+<p>        }</p>
+<p>        public static void PopCurrentNode(Stack stack)</p>
+<p>        {</p>
+<p>            Node nd = stack.Pop();</p>
+<p>            Console.Write(nd.value + &#8220;t&#8221;);</p>
+<p>            if (nd.right != null)</p>
+<p>            {</p>
+<p>                AddLeftNodes(nd.right, stack);</p>
+<p>            }</p>
+<p>        }</p>
+<p>        public static void MergeTwoBST(Node a, Node b)</p>
+<p>        {</p>
+<p>            Stack astack = new Stack();</p>
+<p>            Stack bstack = new Stack();</p>
+<p>            AddLeftNodes(a, astack);</p>
+<p>            AddLeftNodes(b, bstack);</p>
+<p>            while (astack.Count &gt; 0 &amp;&amp; bstack.Count &gt; 0)</p>
+<p>            {</p>
+<p>                if (astack.Peek().value &gt; bstack.Peek().value)</p>
+<p>                {</p>
+<p>                    PopCurrentNode(bstack);</p>
+<p>                }</p>
+<p>                else</p>
+<p>                {</p>
+<p>                    PopCurrentNode(astack);</p>
+<p>                }</p>
+<p>            }</p>
+<p>            if (astack.Count &gt; 0)</p>
+<p>            {</p>
+<p>                while (astack.Count &gt; 0)</p>
+<p>                {</p>
+<p>                    PopCurrentNode(astack);</p>
+<p>                }</p>
+<p>            }</p>
+<p>            if (bstack.Count &gt; 0)</p>
+<p>            {</p>
+<p>                while (bstack.Count &gt; 0)</p>
+<p>                {</p>
+<p>                    PopCurrentNode(bstack);</p>
+<p>                }</p>
+<p>            }</p>
+<p>            Console.WriteLine();</p>
+<p>        }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-amit-bgl odd alt thread-odd thread-alt depth-1" id="dsq-comment-25090">
+        <div id="dsq-comment-header-25090" class="dsq-comment-header">
+            <cite id="dsq-cite-25090">
+                <span id="dsq-author-user-25090">Amit Bgl</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-25090" class="dsq-comment-body">
+            <div id="dsq-comment-message-25090" class="dsq-comment-message"><p>wow code <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_biggrin.gif" alt=":D" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-bateesh even thread-even depth-1" id="dsq-comment-21440">
+        <div id="dsq-comment-header-21440" class="dsq-comment-header">
+            <cite id="dsq-cite-21440">
+                <span id="dsq-author-user-21440">bateesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21440" class="dsq-comment-body">
+            <div id="dsq-comment-message-21440" class="dsq-comment-message"><p>@GeeksforGeeks  </p>
+<p>Why Cant we apply 3rd method of previous post.Its 3rd step is just a merging two sorted DLLs.It depends upon the  number of nodes in the list.It will be done in 0(n) regardless of balanced/unbalanced as we have converted it to DLL.The problem can be with step 1 where we convert the BST to DLL.Can you plz explain with one example that why 3rd method of previous post is not feasible here to do in o(m+n).</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-22667">
+        <div id="dsq-comment-header-22667" class="dsq-comment-header">
+            <cite id="dsq-cite-22667">
+                <span id="dsq-author-user-22667">saket</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22667" class="dsq-comment-body">
+            <div id="dsq-comment-message-22667" class="dsq-comment-message"><p>Yes I agre with you. 3rd method of previous post is  feasible and it does in o(m+n).</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-abhishek08aug even thread-odd thread-alt depth-1" id="dsq-comment-18390">
+        <div id="dsq-comment-header-18390" class="dsq-comment-header">
+            <cite id="dsq-cite-18390">
+                <span id="dsq-author-user-18390">abhishek08aug</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18390" class="dsq-comment-body">
+            <div id="dsq-comment-message-18390" class="dsq-comment-message"><p>Intelligent <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_biggrin.gif" alt=":D" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-16417">
+        <div id="dsq-comment-header-16417" class="dsq-comment-header">
+            <cite id="dsq-cite-16417">
+                <span id="dsq-author-user-16417">Arunkumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16417" class="dsq-comment-body">
+            <div id="dsq-comment-message-16417" class="dsq-comment-message"><p>Convert the two BST&#8217;s to DLL inplace then insert the contents of second list into appropriate position of first list&#8230;thn convert it back to bst</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-14259">
+        <div id="dsq-comment-header-14259" class="dsq-comment-header">
+            <cite id="dsq-cite-14259">
+                <span id="dsq-author-user-14259">Rajneesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14259" class="dsq-comment-body">
+            <div id="dsq-comment-message-14259" class="dsq-comment-message"><pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-13458">
+        <div id="dsq-comment-header-13458" class="dsq-comment-header">
+            <cite id="dsq-cite-13458">
+                <span id="dsq-author-user-13458">rahul sundar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13458" class="dsq-comment-body">
+            <div id="dsq-comment-message-13458" class="dsq-comment-message"><p>The easiest approach is<br />
+&#8211; Store in order traversal of 2 trees in 2 desperate arrays<br />
+&#8211; Since the arrays are already sorted, print the smaller elements from both of the arrays until they exhaust. This is possible in order of m or n , whichever is greater. </p>
+<p>The last step ,mentioned above is just a problem of merging 2 sorted arrays!</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-13491">
+        <div id="dsq-comment-header-13491" class="dsq-comment-header">
+            <cite id="dsq-cite-13491">
+                <span id="dsq-author-user-13491">Priso</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13491" class="dsq-comment-body">
+            <div id="dsq-comment-message-13491" class="dsq-comment-message"><p>But, Maximum allowed auxiliary space is O(height of the first tree + height of the second tree). Here, the auxiliary space required would be more i.e., O(m+n)</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-9308">
+        <div id="dsq-comment-header-9308" class="dsq-comment-header">
+            <cite id="dsq-cite-9308">
+                <span id="dsq-author-user-9308">sachin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9308" class="dsq-comment-body">
+            <div id="dsq-comment-message-9308" class="dsq-comment-message"><p>why the method 3 of previous post will not work in O(n) for unbalanced bst?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-9129">
+        <div id="dsq-comment-header-9129" class="dsq-comment-header">
+            <cite id="dsq-cite-9129">
+                <span id="dsq-author-user-9129">yc</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9129" class="dsq-comment-body">
+            <div id="dsq-comment-message-9129" class="dsq-comment-message"><p>Here is a pure iterative algorithm to merge 2 trees. No stack, not recursion. It is based on Morris Traversal (the getNext function is a tweak of the Morris algorithm). Note that since Morris algorithm modifies the tree in the process (but restores it after done), the code guards against the situation when the 2 trees are the same one. Another way is to simply copy trees before calling. </p>
+<p>int getNext(node* &amp;cur,bool&amp; set ){<br />
+  int k=0;<br />
+  set=false;<br />
+  while(cur){<br />
+    if(cur-&gt;left){<br />
+      node *p=cur-&gt;left;<br />
+      while(p-&gt;right &amp;&amp; (p-&gt;right != cur))<br />
+	p=p-&gt;right;<br />
+      if(!p-&gt;right){<br />
+	p-&gt;right=cur;<br />
+	cur=cur-&gt;left;<br />
+      }else{<br />
+	p-&gt;right=0;<br />
+	k=cur-&gt;key;<br />
+	set=true;<br />
+	cur=cur-&gt;right;<br />
+	return k;<br />
+      }<br />
+    }else{<br />
+      k=cur-&gt;key;<br />
+      set=true;<br />
+      cur=cur-&gt;right;<br />
+      return k;<br />
+    }<br />
+  }</p>
+<p>}</p>
+<p>void mergeTree(node *T1, node *T2){<br />
+  node *cur1=T1, *cur2=T2;<br />
+  bool sametree= (cur1 == cur2);<br />
+  bool set1=false,set2=false;<br />
+  bool trigger1=true, trigger2=(sametree?false:true);<br />
+  int k1=0,k2=0;<br />
+  while( trigger1 || trigger2){<br />
+    if(trigger1)<br />
+      k1=getNext(cur1,set1);<br />
+    if(trigger2)<br />
+      k2=getNext(cur2,set2);</p>
+<p>    if(set1 &amp;&amp; set2){<br />
+      if(k1&lt;k2){<br />
+	printf(&quot; %d &quot;, k1);<br />
+	trigger1=true;<br />
+	trigger2=false;<br />
+      }else{<br />
+	printf(&quot; %d &quot;, k2);<br />
+	trigger1=false;<br />
+	trigger2=true;<br />
+      }<br />
+    }else if(set1){<br />
+      printf(&quot; %d &quot;, k1);<br />
+      if(sametree)<br />
+	printf(&quot; %d &quot;, k1);<br />
+      trigger1=true;<br />
+      trigger2=false;<br />
+    }else if(set2){<br />
+      printf(&quot; %d &quot;, k2);<br />
+      trigger1=false;<br />
+      trigger2=true;<br />
+    }else{<br />
+      trigger1=false;<br />
+      trigger2=false;<br />
+    }<br />
+  }<br />
+  printf(&quot;\n&quot;);</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-9111">
+        <div id="dsq-comment-header-9111" class="dsq-comment-header">
+            <cite id="dsq-cite-9111">
+                <span id="dsq-author-user-9111">titan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9111" class="dsq-comment-body">
+            <div id="dsq-comment-message-9111" class="dsq-comment-message"><p>Providing a slightly better coded version of the method that has been provided here.</p>
+<pre> <code language="C">
+void sortedprint(tree *first,tree *second)
+{
+	stack *s1=NULL,*s2=NULL;
+	tree *one,*two;
+	while(!isempty(s1)||!isempty(s2)||first||second)
+	{
+		while(first!=NULL)
+		{
+			s1=push(first,s1);
+			first=first-&gt;left;
+		}
+		while(second!=NULL)
+		{
+			s2=push(second,s2);
+			second=second-&gt;left;
+		}
+		if(!isempty(s1) &amp;&amp;isempty(s2))
+		{
+			one=top(s1);
+			printf(&quot;%d &quot;,one-&gt;val);
+			s1=pop(s1);
+			first=one-&gt;right;
+		}
+		else if(isempty(s1) &amp;&amp; !isempty(s2))
+		{
+			two=top(s2);
+			printf(&quot;%d &quot;,two-&gt;val);
+			s2=pop(s2);
+			second=two-&gt;right;
+		}
+		else
+		{
+			one=top(s1);
+			two=top(s2);
+			if(one-&gt;val&lt;=two-&gt;val)
+			{
+				printf(&quot;%d &quot;,one-&gt;val);
+				s1=pop(s1);
+				first=one-&gt;right;
+			}
+			else
+			{
+				printf(&quot;%d &quot;,two-&gt;val);
+				s2=pop(s2);
+				second=two-&gt;right;
+			}
+		}
+	}
+	printf(&quot;\n&quot;);
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8811">
+        <div id="dsq-comment-header-8811" class="dsq-comment-header">
+            <cite id="dsq-cite-8811">
+                <span id="dsq-author-user-8811">srikanth</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8811" class="dsq-comment-body">
+            <div id="dsq-comment-message-8811" class="dsq-comment-message"><p>it is better  to use newnode function without any arguments.a</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8775">
+        <div id="dsq-comment-header-8775" class="dsq-comment-header">
+            <cite id="dsq-cite-8775">
+                <span id="dsq-author-user-8775">Doom</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8775" class="dsq-comment-body">
+            <div id="dsq-comment-message-8775" class="dsq-comment-message"><p>Given a node pointer of any node in a BST, we can write a method which returns nextInorderTraversalNode in O(1). Now start with the two BST&#8217;s root nodes and compare them. Follow the same procedure as we do in merge of MergeSort. To get the next element call the getNextInorderNode(currNode). We can print the values in O(m+n) with O(1) auxiliary space. Any flaws in this solution?  </p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-8776">
+        <div id="dsq-comment-header-8776" class="dsq-comment-header">
+            <cite id="dsq-cite-8776">
+                <span id="dsq-author-user-8776">Doom</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8776" class="dsq-comment-body">
+            <div id="dsq-comment-message-8776" class="dsq-comment-message"><p>Please ignore my last post. It won&#8217;t work.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-8773">
+        <div id="dsq-comment-header-8773" class="dsq-comment-header">
+            <cite id="dsq-cite-8773">
+                <span id="dsq-author-user-8773">kamal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8773" class="dsq-comment-body">
+            <div id="dsq-comment-message-8773" class="dsq-comment-message"><pre> <code language="C">
+public static void inordermodif(Node root1,Node root2){
+        if(root1!=null &amp;&amp; root2!=null){
+            inorderdisplay(root1.left);
+            inorderdisplay(root2.left);
+            if(root1.data&lt;=root2.data){
+                System.out.println(root1.data);
+                System.out.println(root2.data);
+            }
+            else{
+               System.out.println(root2.data);
+               System.out.println(root1.data);
+            }
+            inorderdisplay(root1.right);
+            inorderdisplay(root2.right);
+        }
+    }
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-8774">
+        <div id="dsq-comment-header-8774" class="dsq-comment-header">
+            <cite id="dsq-cite-8774">
+                <span id="dsq-author-user-8774">kamal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8774" class="dsq-comment-body">
+            <div id="dsq-comment-message-8774" class="dsq-comment-message"><p>sorry for the last post. It doesn&#8217;t work!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8765">
+        <div id="dsq-comment-header-8765" class="dsq-comment-header">
+            <cite id="dsq-cite-8765">
+                <span id="dsq-author-user-8765">Ila</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8765" class="dsq-comment-body">
+            <div id="dsq-comment-message-8765" class="dsq-comment-message"><p>I think you should check if current-&gt; right is not null before pushing it onto the stack.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-8766">
+        <div id="dsq-comment-header-8766" class="dsq-comment-header">
+            <cite id="dsq-cite-8766">
+                <span id="dsq-author-user-8766">Ila</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8766" class="dsq-comment-body">
+            <div id="dsq-comment-message-8766" class="dsq-comment-message"><p>ok got  it.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-8763">
+        <div id="dsq-comment-header-8763" class="dsq-comment-header">
+            <cite id="dsq-cite-8763">
+                <span id="dsq-author-user-8763">Kiran</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8763" class="dsq-comment-body">
+            <div id="dsq-comment-message-8763" class="dsq-comment-message"><p>In your comment inside main: </p>
+<p> Let us create the following tree as second tree<br />
+            2<br />
+          /  \<br />
+         4    6</p>
+<p>This isn&#8217;t a BST.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-8764">
+        <div id="dsq-comment-header-8764" class="dsq-comment-header">
+            <cite id="dsq-cite-8764">
+                <span id="dsq-author-user-8764">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8764" class="dsq-comment-body">
+            <div id="dsq-comment-message-8764" class="dsq-comment-message"><p>There was a typo in comment.  Thanks for poitning this out. We have fixed it now. Keep it up!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8752">
+        <div id="dsq-comment-header-8752" class="dsq-comment-header">
+            <cite id="dsq-cite-8752">
+                <span id="dsq-author-user-8752">rahul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8752" class="dsq-comment-body">
+            <div id="dsq-comment-message-8752" class="dsq-comment-message"><p>Recently found this site, great work, hope i will be able to crack some big company interview <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/merge-two-bsts-with-limited-extra-space/';
+var disqus_identifier = '19422 http://www.geeksforgeeks.org/?p=19422';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Merge two BSTs with limited extra space";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.206 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:31:15 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

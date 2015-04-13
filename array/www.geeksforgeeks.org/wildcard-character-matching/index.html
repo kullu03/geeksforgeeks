@@ -1,0 +1,1626 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>String matching where one string contains wildcard characters - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/wildcard-character-matching/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="String matching where one string contains wildcard characters - GeeksforGeeks" />
+<meta property="og:description" content="Given two strings where first string may contain wild card characters and second string is a normal string. Write a function that returns true if the two strings match. The following are allowed wild card characters in first string. * --&gt; Matches with 0 or more instances of any character or set of characters. ? &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/wildcard-character-matching/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Pattern Searching" />
+<meta property="article:section" content="Strings" />
+<meta property="article:published_time" content="2013-04-11T11:46:36+00:00" />
+<meta property="article:modified_time" content="2013-04-12T20:24:53+00:00" />
+<meta property="og:updated_time" content="2013-04-12T20:24:53+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.479 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417112130 82.69.1.213';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">String matching where one string contains wildcard characters</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given two strings where first string may contain wild card characters and second string is a normal string.  Write a function that returns true if the two strings match.<span id="more-116560"></span>  The following are allowed wild card characters in first string.</p>
+<pre>
+* --> Matches with 0 or more instances of any character or set of characters.
+? --> Matches with any one character.</pre>
+<p>For example, &#8220;g*ks&#8221; matches with &#8220;geeks&#8221; match. And string &#8220;ge?ks*&#8221; matches with &#8220;geeksforgeeks&#8221; (note &#8216;*&#8217; at the end of first string).  But &#8220;g*k&#8221; doesn&#8217;t match with &#8220;gee&#8221; as character &#8216;k&#8217; is not present in second string.</p>
+<pre class="brush: cpp; highlight: [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]; title: ; notranslate" title="">
+// A C program to match wild card characters
+#include &lt;stdio.h&gt;
+#include &lt;stdbool.h&gt;
+
+// The main function that checks if two given strings match. The first
+// string may contain wildcard characters
+bool match(char *first, char * second)
+{
+    // If we reach at the end of both strings, we are done
+    if (*first == '&#92;&#48;' &amp;&amp; *second == '&#92;&#48;')
+        return true;
+
+    // Make sure that the characters after '*' are present in second string.
+    // This function assumes that the first string will not contain two
+    // consecutive '*' 
+    if (*first == '*' &amp;&amp; *(first+1) != '&#92;&#48;' &amp;&amp; *second == '&#92;&#48;')
+        return false;
+
+    // If the first string contains '?', or current characters of both 
+    // strings match
+    if (*first == '?' || *first == *second)
+        return match(first+1, second+1);
+
+    // If there is *, then there are two possibilities
+    // a) We consider current character of second string
+    // b) We ignore current character of second string.
+    if (*first == '*')
+        return match(first+1, second) || match(first, second+1);
+    return false;
+}
+
+// A function to run test cases
+void test(char *first, char *second)
+{  match(first, second)? puts(&quot;Yes&quot;): puts(&quot;No&quot;); }
+
+// Driver program to test above functions
+int main()
+{
+    test(&quot;g*ks&quot;, &quot;geeks&quot;); // Yes
+    test(&quot;ge?ks*&quot;, &quot;geeksforgeeks&quot;); // Yes
+    test(&quot;g*k&quot;, &quot;gee&quot;);  // No because 'k' is not in second
+    test(&quot;*pqrs&quot;, &quot;pqrst&quot;); // No because 't' is not in first
+    test(&quot;abc*bcd&quot;, &quot;abcdhghgbcd&quot;); // Yes
+    test(&quot;abc*c?d&quot;, &quot;abcd&quot;); // No because second must have 2 instances of 'c'
+    test(&quot;*c*d&quot;, &quot;abcd&quot;); // Yes
+    test(&quot;*?c*d&quot;, &quot;abcd&quot;); // Yes
+    return 0;
+}
+</pre>
+<p>Output:
+<pre>Yes
+Yes
+No
+No
+Yes
+No
+Yes
+Yes</pre>
+<p><strong>Exercise</strong><br />
+<strong>1)</strong> In the above solution, all non-wild characters of first string must be there is second string and all characters of second string must match with either a normal character or wildcard character of first string.  Extend the above solution to work like other <a href="http://www.geeksforgeeks.org/tag/pattern-searching/" target="_blank">pattern searching solutions</a> where the first string is pattern and second string is text and we should print all occurrences of first string in second.  </p>
+<p><strong>2) </strong> Write a pattern searching function where the meaning of &#8216;?&#8217; is same, but &#8216;*&#8217; means 0 or more occurrences of the character just before &#8216;*&#8217;.  For example, if first string is &#8216;a*b&#8217;, then it matches with &#8216;aaab&#8217;, but doesn&#8217;t match with &#8216;abb&#8217;.  </p>
+<p>This article is compiled by <a href="https://www.facebook.com/vishal.cs.bits">Vishal Chaudhary</a> and reviewed by GeeksforGeeks team. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-5-longest-common-substring-2/" title="Suffix Tree Application 5 &#8211; Longest Common Substring">Suffix Tree Application 5 &#8211; Longest Common Substring</a></li><li><a href="http://www.geeksforgeeks.org/generalized-suffix-tree-1/" title="Generalized Suffix Tree 1">Generalized Suffix Tree 1</a></li><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-4-build-linear-time-suffix-array/" title="Suffix Tree Application 4 &#8211; Build Linear Time Suffix Array">Suffix Tree Application 4 &#8211; Build Linear Time Suffix Array</a></li><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-3-longest-repeated-substring/" title="Suffix Tree Application 3 &#8211; Longest Repeated Substring">Suffix Tree Application 3 &#8211; Longest Repeated Substring</a></li><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-2-searching-all-patterns/" title="Suffix Tree Application 2 &#8211; Searching All Patterns">Suffix Tree Application 2 &#8211; Searching All Patterns</a></li><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-1-substring-check/" title="Suffix Tree Application 1 &#8211; Substring Check">Suffix Tree Application 1 &#8211; Substring Check</a></li><li><a href="http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-6/" title="Ukkonen&#8217;s Suffix Tree Construction &#8211; Part 6">Ukkonen&#8217;s Suffix Tree Construction &#8211; Part 6</a></li><li><a href="http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-5/" title="Ukkonen&#8217;s Suffix Tree Construction &#8211; Part 5">Ukkonen&#8217;s Suffix Tree Construction &#8211; Part 5</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/pattern-searching/" rel="tag">Pattern Searching</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fwildcard-character-matching%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/wildcard-character-matching/" data-text="String matching where one string contains wildcard characters" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/wildcard-character-matching/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-33453">
+        <div id="dsq-comment-header-33453" class="dsq-comment-header">
+            <cite id="dsq-cite-33453">
+                <span id="dsq-author-user-33453">Skydarkdemon</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33453" class="dsq-comment-body">
+            <div id="dsq-comment-message-33453" class="dsq-comment-message"><p>Thanks for the post. Here is my code that would work for multiple *s also.</p>
+<p>bool isMatch(char *String, char *Pattern)<br />
+{<br />
+//Base case checks<br />
+	if (!String || !Pattern) return false;<br />
+	if (*String == &#8221; &amp;&amp; *Pattern == &#8221;) return true;<br />
+	if (*String == &#8221; || *Pattern == &#8221;) return false;</p>
+<p>	//Actual comparisons<br />
+	if ((*String == *Pattern) || (*Pattern == &#8216;?&#8217;) )<br />
+		return isMatch(String + 1, Pattern + 1);<br />
+	if (*Pattern == &#8216;*&#8217;)<br />
+return (isMatch(String + 1, Pattern) || isMatch (String+1,Pattern+1)|| isMatch(String, Pattern + 1));<br />
+	return false;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-33452">
+        <div id="dsq-comment-header-33452" class="dsq-comment-header">
+            <cite id="dsq-cite-33452">
+                <span id="dsq-author-user-33452">Skydarkdemon</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33452" class="dsq-comment-body">
+            <div id="dsq-comment-message-33452" class="dsq-comment-message"><p>Thanks for the post. Here is my code that would work for multiple *s also.</p>
+<p>bool isMatch(char *String, char *Pattern)<br />
+{<br />
+//Base case checks<br />
+	if (!String || !Pattern) return false;<br />
+	if (*String == &#8221; &amp;&amp; *Pattern == &#8221;) return true;<br />
+	if (*String == &#8221; || *Pattern == &#8221;) return false;</p>
+<p>	//Actual comparisons<br />
+	if ((*String == *Pattern) || (*Pattern == &#8216;?&#8217;) )<br />
+		return isMatch(String + 1, Pattern + 1);<br />
+	if (*Pattern == &#8216;*&#8217;)<br />
+return (isMatch(String + 1, Pattern) || isMatch (String+1,Pattern+1)|| isMatch(String, Pattern + 1));<br />
+	return false;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-31500">
+        <div id="dsq-comment-header-31500" class="dsq-comment-header">
+            <cite id="dsq-cite-31500">
+                <span id="dsq-author-user-31500">sandy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31500" class="dsq-comment-body">
+            <div id="dsq-comment-message-31500" class="dsq-comment-message"><p>What would be the run time complexity<br />
+Is it O(n+m) where n is the length of text and m is the length of pattern</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-31885">
+        <div id="dsq-comment-header-31885" class="dsq-comment-header">
+            <cite id="dsq-cite-31885">
+                <span id="dsq-author-user-31885">teng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31885" class="dsq-comment-body">
+            <div id="dsq-comment-message-31885" class="dsq-comment-message"><p>The algorithm works with O(m+n) run time complexity. However, If we allow the pattern with all *, then at each level we are branching 2 function calls, and that will end up with O(2^n) where n is the length of the pattern (worst case), but we can actually remove all the consecutive * in O(n) time, and then process it.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-30868">
+        <div id="dsq-comment-header-30868" class="dsq-comment-header">
+            <cite id="dsq-cite-30868">
+                <span id="dsq-author-user-30868">Sijiang Du</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30868" class="dsq-comment-body">
+            <div id="dsq-comment-message-30868" class="dsq-comment-message"><p>//The post above fails to deal with &#8220;?&#8221;: test(&#8220;a?cd&#8221;, &#8220;ab123cd&#8221;); // Yes<br />
+//rewrite it as the following<br />
+bool match(char *first, char * second)<br />
+{<br />
+if(*second == &#8221;)<br />
+{<br />
+    if(*first==&#8221;)<br />
+       return true;<br />
+    else if (*first==&#8217;*&#8217;)<br />
+        return match(first+1,second);<br />
+    else<br />
+       return false;<br />
+}</p>
+<p>if(*first==&#8221;) return false;  //because second is not empty </p>
+<p>//first and second strings are not empty from here</p>
+<p>if(*first==&#8217;*&#8217;)<br />
+{<br />
+// Three recursive calls for the cases &#8220;*&#8221; matches zero, one or multiple char<br />
+  return match(first+1, second)||match(first+1, second+1)||match(first, second+1);<br />
+}<br />
+else if(*first==&#8217;?&#8217;)<br />
+{<br />
+// Two recursive calls for the cases &#8220;?&#8221; matches one or multiple char<br />
+  return match(first+1, second+1)||match(first, second+1);<br />
+}<br />
+else if(*first==*second)<br />
+{<br />
+  return match(first+1, second+1);<br />
+}<br />
+else<br />
+   return false;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-29757">
+        <div id="dsq-comment-header-29757" class="dsq-comment-header">
+            <cite id="dsq-cite-29757">
+                <span id="dsq-author-user-29757">annonymoe</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29757" class="dsq-comment-body">
+            <div id="dsq-comment-message-29757" class="dsq-comment-message"><p>test cases<br />
+string1 = ****<br />
+string2 = NULL<br />
+the algo will fail<br />
+dont make the assumption that no two ** or ?? will not occur</p>
+<p>use this code<br />
+bool match(char *first,char *second)<br />
+{<br />
+	if(first[0] == &#8221; &amp;&amp; second[0] == &#8221;)<br />
+		return true;<br />
+	if(first[0]==&#8217;*&#8217;)<br />
+	{<br />
+		if(second[0]==&#8221;)<br />
+			return match(first+1,second) ;<br />
+		else<br />
+		return(match(first+1,second) || match(first,second+1));<br />
+	}<br />
+	else if(first[0]==&#8217;?&#8217;)<br />
+	{<br />
+		if(second[0]==&#8221;)<br />
+			return false;<br />
+		else<br />
+		return(match(first+1,second+1));<br />
+	}<br />
+	else if(first[0]!=&#8221;)<br />
+	{<br />
+		if(second[0]==&#8221;)<br />
+			return false;<br />
+		else<br />
+			return (second[0]==first[0] &amp;&amp; match(first+1,second+1));<br />
+	}<br />
+	else<br />
+		return false;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-27035">
+        <div id="dsq-comment-header-27035" class="dsq-comment-header">
+            <cite id="dsq-cite-27035">
+                <span id="dsq-author-user-27035">Anonymous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27035" class="dsq-comment-body">
+            <div id="dsq-comment-message-27035" class="dsq-comment-message"><p>The program fails for string1 = aa, string2 = a*. It should return true but returns false instead.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-27036">
+        <div id="dsq-comment-header-27036" class="dsq-comment-header">
+            <cite id="dsq-cite-27036">
+                <span id="dsq-author-user-27036">Anonymous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27036" class="dsq-comment-body">
+            <div id="dsq-comment-message-27036" class="dsq-comment-message"><p>I apologize for the above comment this algorithm works just fine!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-27034">
+        <div id="dsq-comment-header-27034" class="dsq-comment-header">
+            <cite id="dsq-cite-27034">
+                <span id="dsq-author-user-27034">Anonymous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27034" class="dsq-comment-body">
+            <div id="dsq-comment-message-27034" class="dsq-comment-message"><p>The program fails for string1 = aa, string2 = a*. It should return true but returns false instead.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-mdev odd alt thread-odd thread-alt depth-1" id="dsq-comment-24822">
+        <div id="dsq-comment-header-24822" class="dsq-comment-header">
+            <cite id="dsq-cite-24822">
+                <span id="dsq-author-user-24822">mdev</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24822" class="dsq-comment-body">
+            <div id="dsq-comment-message-24822" class="dsq-comment-message"><p>Java recursive solution covering all cases&#8230;.</p>
+<pre> <code language="C">
+private static boolean match(String input1, String input2) {
+		if(input1.length() == 0 &amp;&amp; input2.length() == 0)
+			return true;
+		if(input2.length() == 0 &amp;&amp; input1.charAt(0)!='*')
+			return false;
+		if(input1.length() ==0 &amp;&amp; input2.length()!=0)
+			return false;
+		if (input1.charAt(0) == '*' &amp;&amp; input1.length() != 1  &amp;&amp; input2.length() == 0)
+			return false;
+		if(input1.charAt(0) == '*' &amp;&amp; input1.length() ==1  &amp;&amp; input2.length() == 0)
+			return true;
+		else if(input1.charAt(0) == '?'|| input1.charAt(0)==input2.charAt(0))
+			return match(input1.substring(1),input2.substring(1));
+		else if(input1.charAt(0) == '*'){
+			return match(input1,input2.substring(1)) || match(input1.substring(1),input2.substring(0));
+		}
+		else if(input1.charAt(0) != input2.charAt(0))
+			return false;
+		return false;
+	}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-30382">
+        <div id="dsq-comment-header-30382" class="dsq-comment-header">
+            <cite id="dsq-cite-30382">
+                <span id="dsq-author-user-30382">lalu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30382" class="dsq-comment-body">
+            <div id="dsq-comment-message-30382" class="dsq-comment-message"><p>will this work even if more then ** or ?? occurs ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-mdev odd alt thread-even depth-1" id="dsq-comment-24821">
+        <div id="dsq-comment-header-24821" class="dsq-comment-header">
+            <cite id="dsq-cite-24821">
+                <span id="dsq-author-user-24821">mdev</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24821" class="dsq-comment-body">
+            <div id="dsq-comment-message-24821" class="dsq-comment-message"><p>Java recursive solution covering all cases&#8230;.</p>
+<p>private static boolean match(String input1, String input2) {<br />
+		if(input1.length() == 0 &amp;&amp; input2.length() == 0)<br />
+			return true;<br />
+		if(input2.length() == 0 &amp;&amp; input1.charAt(0)!=&#8217;*&#8217;)<br />
+			return false;<br />
+		if(input1.length() ==0 &amp;&amp; input2.length()!=0)<br />
+			return false;<br />
+		if (input1.charAt(0) == &#8216;*&#8217; &amp;&amp; input1.length() != 1  &amp;&amp; input2.length() == 0)<br />
+			return false;<br />
+		if(input1.charAt(0) == &#8216;*&#8217; &amp;&amp; input1.length() ==1  &amp;&amp; input2.length() == 0)<br />
+			return true;<br />
+		else if(input1.charAt(0) == &#8216;?&#8217;|| input1.charAt(0)==input2.charAt(0))<br />
+			return match(input1.substring(1),input2.substring(1));<br />
+		else if(input1.charAt(0) == &#8216;*&#8217;){<br />
+			return match(input1,input2.substring(1)) || match(input1.substring(1),input2.substring(0));<br />
+		}<br />
+		else if(input1.charAt(0) != input2.charAt(0))<br />
+			return false;<br />
+		return false;<br />
+	}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-mdev even thread-odd thread-alt depth-1" id="dsq-comment-24820">
+        <div id="dsq-comment-header-24820" class="dsq-comment-header">
+            <cite id="dsq-cite-24820">
+                <span id="dsq-author-user-24820">mdev</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24820" class="dsq-comment-body">
+            <div id="dsq-comment-message-24820" class="dsq-comment-message"><p>Java recursive solution convering all cases&#8230;.</p>
+<p>private static boolean match(String input1, String input2) {<br />
+		if(input1.length() == 0 &amp;&amp; input2.length() == 0)<br />
+			return true;<br />
+		if(input2.length() == 0 &amp;&amp; input1.charAt(0)!=&#8217;*&#8217;)<br />
+			return false;<br />
+		if(input1.length() ==0 &amp;&amp; input2.length()!=0)<br />
+			return false;<br />
+		if (input1.charAt(0) == &#8216;*&#8217; &amp;&amp; input1.length() != 1  &amp;&amp; input2.length() == 0)<br />
+			return false;<br />
+		if(input1.charAt(0) == &#8216;*&#8217; &amp;&amp; input1.length() ==1  &amp;&amp; input2.length() == 0)<br />
+			return true;<br />
+		else if(input1.charAt(0) == &#8216;?&#8217;|| input1.charAt(0)==input2.charAt(0))<br />
+			return match(input1.substring(1),input2.substring(1));<br />
+		else if(input1.charAt(0) == &#8216;*&#8217;){<br />
+			return match(input1,input2.substring(1)) || match(input1.substring(1),input2.substring(0));<br />
+		}<br />
+		else if(input1.charAt(0) != input2.charAt(0))<br />
+			return false;<br />
+		return false;<br />
+	}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-22412">
+        <div id="dsq-comment-header-22412" class="dsq-comment-header">
+            <cite id="dsq-cite-22412">
+                <span id="dsq-author-user-22412">vikash</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22412" class="dsq-comment-body">
+            <div id="dsq-comment-message-22412" class="dsq-comment-message"><p>Shubham code is not working for case *i?h vikash return false means not matching but actully acording to problem it match</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-27437">
+        <div id="dsq-comment-header-27437" class="dsq-comment-header">
+            <cite id="dsq-cite-27437">
+                <span id="dsq-author-user-27437">Vatsal Shukla</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27437" class="dsq-comment-body">
+            <div id="dsq-comment-message-27437" class="dsq-comment-message"><p>It should be *i*h , However above code will give error for the case of v*, vikash.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-22286">
+        <div id="dsq-comment-header-22286" class="dsq-comment-header">
+            <cite id="dsq-cite-22286">
+                <span id="dsq-author-user-22286">Subhasmita</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22286" class="dsq-comment-body">
+            <div id="dsq-comment-message-22286" class="dsq-comment-message"><p>Time complexity:O(n^2) space:O(1)</p>
+<pre> <code language="C">
+void test(char *first, char *second)
+{
+	while(*first != '&#092;&#048;' &amp;&amp; *second != '&#092;&#048;')
+	{
+		if(*first == *second || *first == '?')
+		{
+			first++;
+			second++;
+		}
+		else 
+		{
+			if(*first != '*')
+			{
+				printf(&quot;NOT matching\n&quot;);
+				return;	
+			}
+			else 
+			{
+				first++;
+				while(*first != *second &amp;&amp; *second != '&#092;&#048;')
+					second++;
+			}	
+		}
+	}
+	if(*second == '&#092;&#048;' &amp;&amp; (*first == '&#092;&#048;' || *first == '*'))   
+		printf(&quot;matching\n&quot;);
+	else
+		printf(&quot;NOT matching\n&quot;);
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-28727">
+        <div id="dsq-comment-header-28727" class="dsq-comment-header">
+            <cite id="dsq-cite-28727">
+                <span id="dsq-author-user-28727">gb2793</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28727" class="dsq-comment-body">
+            <div id="dsq-comment-message-28727" class="dsq-comment-message"><p>your code doesn&#8217;t work for input<br />
+a*b,abb</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-22285">
+        <div id="dsq-comment-header-22285" class="dsq-comment-header">
+            <cite id="dsq-cite-22285">
+                <span id="dsq-author-user-22285">Subhasmita</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22285" class="dsq-comment-body">
+            <div id="dsq-comment-message-22285" class="dsq-comment-message"><p>Another simple iterative approach with time complexity O(n^2) and space O(1):</p>
+<p>void test(char *first, char *second)<br />
+{<br />
+	while(*first != &#8221; &amp;&amp; *second != &#8221;)<br />
+	{<br />
+		if(*first == *second || *first == &#8216;?&#8217;)<br />
+		{<br />
+			first++;<br />
+			second++;<br />
+		}<br />
+		else<br />
+		{<br />
+			if(*first != &#8216;*&#8217;)<br />
+			{<br />
+				printf(&#8220;NOT matching\n&#8221;);<br />
+				return;<br />
+			}<br />
+			else<br />
+			{<br />
+				first++;<br />
+				while(*first != *second &amp;&amp; *second != &#8221;)<br />
+					second++;<br />
+			}<br />
+		}<br />
+	}<br />
+	if(*second == &#8221; &amp;&amp; (*first == &#8221; || *first == &#8216;*&#8217;))<br />
+		printf(&#8220;matching\n&#8221;);<br />
+	else<br />
+		printf(&#8220;NOT matching\n&#8221;);<br />
+}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-28725">
+        <div id="dsq-comment-header-28725" class="dsq-comment-header">
+            <cite id="dsq-cite-28725">
+                <span id="dsq-author-user-28725">gb2793</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28725" class="dsq-comment-body">
+            <div id="dsq-comment-message-28725" class="dsq-comment-message"><p>your code doesn&#8217;t work for input<br />
+a*b,abb</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-codeit01 odd alt thread-odd thread-alt depth-1" id="dsq-comment-21748">
+        <div id="dsq-comment-header-21748" class="dsq-comment-header">
+            <cite id="dsq-cite-21748">
+                <span id="dsq-author-user-21748">codeit01</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21748" class="dsq-comment-body">
+            <div id="dsq-comment-message-21748" class="dsq-comment-message"><p>May the following lines will serve the multiple multiple &#8216;*&#8217; case<br />
+//<br />
+if (*first == &#8216;*&#8217;&#038;&#038;*(first+1) == &#8216;*&#8217;)<br />
+      {<br />
+        while (*(first+1)==&#8217;*&#8217;)<br />
+           first++;<br />
+        first&#8211;;<br />
+        return match(first+1, second) || match(first, second+1);<br />
+//</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-codeit01 even depth-2" id="dsq-comment-21749">
+        <div id="dsq-comment-header-21749" class="dsq-comment-header">
+            <cite id="dsq-cite-21749">
+                <span id="dsq-author-user-21749">codeit01</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21749" class="dsq-comment-body">
+            <div id="dsq-comment-message-21749" class="dsq-comment-message"><p>after return statement closing } for if</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-21539">
+        <div id="dsq-comment-header-21539" class="dsq-comment-header">
+            <cite id="dsq-cite-21539">
+                <span id="dsq-author-user-21539">Akhil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21539" class="dsq-comment-body">
+            <div id="dsq-comment-message-21539" class="dsq-comment-message"><p>A simple iterative code. </p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+#include&lt;string.h&gt;
+#define true 1
+#define false 0
+int isPresent(char *s, char *t)
+{
+    //while both strings are present
+    while(*s &amp;&amp; *t)
+    {
+        if(*s == '*')
+        {
+            while(*s &amp;&amp; *s=='*')
+                s++;
+            if(!*s) // if '*' till end in s
+                return true;
+            while(*t &amp;&amp; *t!=*s)
+                t++;
+        }
+        else if(*s == '?' || *s == *t)
+            (s++,t++);
+        else
+            break;
+    }
+    if(!*s)
+        return true;
+    return false;
+}
+int main()
+{
+    char *s = &quot;ge?k*s&quot;;
+    char *t = &quot;geeksforgeeks&quot;;
+    if(isPresent(s,t))
+        printf(&quot;Present!&quot;);
+    return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-ronny even depth-2" id="dsq-comment-21607">
+        <div id="dsq-comment-header-21607" class="dsq-comment-header">
+            <cite id="dsq-cite-21607">
+                <span id="dsq-author-user-21607">Ronny</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21607" class="dsq-comment-body">
+            <div id="dsq-comment-message-21607" class="dsq-comment-message"><p>@Akhil<br />
+There is a small bug in your program.<br />
+for eg. it fails for some of the test cases like</p>
+<p>char * s=&#8221;ge*s&#8221;<br />
+char * t=&#8221;geeksfor&#8221;;</p>
+<p>For your reference here is the link : <a href="http://ideone.com/UCEcxf" rel="nofollow">http://ideone.com/UCEcxf</a></p>
+<p>The program needs small modification :</p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+#include&lt;string.h&gt;
+
+int check(char * a,char * b)
+{
+    while(*a &amp;&amp; *b)
+     {
+
+        if(*a=='*')
+          {
+              while(*a &amp;&amp; *a=='*')
+                a++;
+
+              if(!*a)
+               return 1;
+
+              while(*b &amp;&amp; *b!=*a)
+                  b++;
+
+          }
+
+        else if (*a=='?' || *a==*b)
+          {
+              a++;
+              b++;
+          }
+        else
+          break;
+     }
+
+    if(!*a &amp;&amp; !*b)
+      return 1;
+    return 0;
+}
+
+int main()
+{
+    char str1[]=&quot;g*ks&quot;;
+    char str2[]=&quot;geeksfor&quot;;
+
+    if(check(str1,str2))
+      printf(&quot;YES\n&quot;);
+    else
+      printf(&quot;NO\n&quot;);
+
+    return 0;
+}
+
+
+</code> </pre>
+<p>Just check for if both strings have ended after the main while loop. This should pass all the conditions. Anyways a good attempt for iterative code.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-21616">
+        <div id="dsq-comment-header-21616" class="dsq-comment-header">
+            <cite id="dsq-cite-21616">
+                <span id="dsq-author-user-21616">Akhil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21616" class="dsq-comment-body">
+            <div id="dsq-comment-message-21616" class="dsq-comment-message"><p>Hi, I am sorry, i couldn&#8217;t get the bug you are talking about.<br />
+In the ideone link, the string should return true, and it is indeed returning true. And as for the above case, the string should again return true, and i ran my code, and found the answer correct.<br />
+Can you elaborate more.<br />
+Thanks. </p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-ronny even depth-4" id="dsq-comment-21621">
+        <div id="dsq-comment-header-21621" class="dsq-comment-header">
+            <cite id="dsq-cite-21621">
+                <span id="dsq-author-user-21621">Ronny</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21621" class="dsq-comment-body">
+            <div id="dsq-comment-message-21621" class="dsq-comment-message"><p>How is g*s and geeksfor matching for you?<br />
+The &#8216;*&#8217; wildcard entry indicates there can be 0 or more instances of character.</p>
+<p>The two strings (one with wildcard and other without wildcard) should match.</p>
+<p>What you are doing is to check whether the first string is prefix of the second one.</p>
+<p>Then going by the definition of the question, to match the above two strings<br />
+g*ks and geeksfor<br />
+* can replaced for &#8221; eek &#8221; which would result in &#8221; geeks &#8221; which is not same as second string &#8220;geeksfor&#8221;.</p>
+<p>For more clarity you can run this test case on the solution given in this post(recursive one), it prints NO whereas your version of program prints PRESENT.</p>
+<p>Just add a check after the while loop to check if both strings have terminated or not.(as shown in the program I posted)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-ronny odd alt depth-4" id="dsq-comment-21623">
+        <div id="dsq-comment-header-21623" class="dsq-comment-header">
+            <cite id="dsq-cite-21623">
+                <span id="dsq-author-user-21623">Ronny</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21623" class="dsq-comment-body">
+            <div id="dsq-comment-message-21623" class="dsq-comment-message"><p>How is g*ks and geeksfor matching for you conceptually ?</p>
+<p>The question asks if both the strings are equal or not.<br />
+What your program does is to check if the first string is prefix of the second.</p>
+<p>By definition, * can be replaced by 0 or more characters.</p>
+<p>for the above eg. if g*ks can be converted to geeksfor, we can replace &#8216;*&#8217; by &#8221; eek &#8221;<br />
+so the first string should become &#8220;geeks&#8221;.<br />
+But one can not match &#8220;geeks&#8221; with &#8220;geeksfor&#8221;.</p>
+<p>For more clarity you can run this test case for the program posted by GeeksforGeeks in this post(recursive one)<br />
+it prints NO there but your program prints PRESENT.</p>
+<p>To sought this out just check if both strings are empty.</p>
+<p>if(!*s &#038;&#038; !*t)<br />
+ return true<br />
+else<br />
+ return false</p>
+<p>Hope you get it!!!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-5" id="dsq-comment-21649">
+        <div id="dsq-comment-header-21649" class="dsq-comment-header">
+            <cite id="dsq-cite-21649">
+                <span id="dsq-author-user-21649">Akhil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21649" class="dsq-comment-body">
+            <div id="dsq-comment-message-21649" class="dsq-comment-message"><p>Okay, Thank you. I realized my mistake. I thought the question is to search a prefix.<br />
+I missed the end &#8216;*&#8217; in &#8220;ge?k*&#8221; matching with &#8220;geeksforgeeks&#8221; presented in the example.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-saimurali odd alt thread-odd thread-alt depth-1" id="dsq-comment-19640">
+        <div id="dsq-comment-header-19640" class="dsq-comment-header">
+            <cite id="dsq-cite-19640">
+                <span id="dsq-author-user-19640">saimurali</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19640" class="dsq-comment-body">
+            <div id="dsq-comment-message-19640" class="dsq-comment-message"><p>what if *first==? and *second==&#8217;\0&#8242;.. which condition satisfy  this condition</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-17904">
+        <div id="dsq-comment-header-17904" class="dsq-comment-header">
+            <cite id="dsq-cite-17904">
+                <span id="dsq-author-user-17904">Vijay</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17904" class="dsq-comment-body">
+            <div id="dsq-comment-message-17904" class="dsq-comment-message"><p>Problem with Java implementation:</p>
+<p>package in.vijay.array.problems;</p>
+<p>public class StringMatchWithWildCard {</p>
+<p>	private static boolean match(char[] arr1, int i, char[] arr2, int j) {<br />
+		if (i &gt;= arr1.length &amp;&amp; j &gt;= arr2.length)<br />
+			return true;</p>
+<p>		char a = arr1[i];<br />
+		char b = arr2[j];</p>
+<p>		if (a == &#8216;*&#8217; &amp;&amp; i + 1 &lt; arr1.length &amp;&amp; j &gt;= arr2.length)<br />
+			return false;</p>
+<p>		if (a == &#8216;?&#8217; || a == b)<br />
+			return match(arr1, i + 1, arr2, j + 1);</p>
+<p>		if (a == &#8216;*&#8217;)<br />
+			return match(arr1, i + 1, arr2, j) || match(arr1, i, arr2, j + 1);</p>
+<p>		return false;<br />
+	}</p>
+<p>	public static void main(String[] args) {<br />
+		match(&quot;ge?ks*&quot;, &quot;geeksforgeeks&quot;); // Yes<br />
+	}</p>
+<p>	public static boolean match(String string, String string2) {<br />
+		boolean match = match(string.toCharArray(), 0, string2.toCharArray(), 0);<br />
+		System.out.println(match);<br />
+		return match;<br />
+	}<br />
+}</p>
+<p>I wrote the above code in Java but I am getting ArrayIndexOutOfBoundsException.<br />
+Even after lot of debugging I could not find the solution.</p>
+<p>It is breaking when &#8220;*&#8221; and &#8220;forgeeks&#8221; is passed as parameters to &#8220;match&#8221;.<br />
+In this case this code will be executed:</p>
+<p>if (*first == &#8216;*&#8217;)<br />
+        return match(first+1, second) || match(first, second+1);<br />
+    return false;</p>
+<p>now when i pass first + 1, I am actually passing an invalid index. And I am not able to think through this.</p>
+<p>Can some one please help.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-18086">
+        <div id="dsq-comment-header-18086" class="dsq-comment-header">
+            <cite id="dsq-cite-18086">
+                <span id="dsq-author-user-18086">cooldude</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18086" class="dsq-comment-body">
+            <div id="dsq-comment-message-18086" class="dsq-comment-message"><p>public boolean wildcardMathcing(String text,String pat,int curText,int curPat)<br />
+	{<br />
+		if(curText==text.length() &amp;&amp; curPat==pat.length())<br />
+			return true;</p>
+<p>		if(curPat==pat.length())<br />
+			return false;</p>
+<p>		if(pat.charAt(curPat)==&#8217;*&#8217; &amp;&amp; curPat!=pat.length()-1 &amp;&amp; curText==text.length())<br />
+			return false;<br />
+		if(pat.charAt(curPat)==&#8217;*&#8217; &amp;&amp; curPat==pat.length()-1 &amp;&amp; curText==text.length())<br />
+			return true;</p>
+<p>		if(pat.charAt(curPat)==&#8217;?&#8217; || pat.charAt(curPat)==text.charAt(curText))<br />
+			return wildcardMathcing(text,pat,curText+1,curPat+1);</p>
+<p>		if(pat.charAt(curPat)!=&#8217;?&#8217; &amp;&amp; pat.charAt(curPat)!=&#8217;*&#8217; &amp;&amp; pat.charAt(curPat)!=text.charAt(curText))<br />
+			return false;</p>
+<p>		if(pat.charAt(curPat)==&#8217;*&#8217;)<br />
+			return wildcardMathcing(text,pat,curText,curPat+1) || wildcardMathcing(text,pat,curText+1,curPat) ;</p>
+<p>		return false;<br />
+	}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-mdev even depth-2" id="dsq-comment-24824">
+        <div id="dsq-comment-header-24824" class="dsq-comment-header">
+            <cite id="dsq-cite-24824">
+                <span id="dsq-author-user-24824">mdev</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24824" class="dsq-comment-body">
+            <div id="dsq-comment-message-24824" class="dsq-comment-message"><p>Java recursive solution covering all cases&#8230;.</p>
+<p>private static boolean match(String input1, String input2) {<br />
+		if(input1.length() == 0 &amp;&amp; input2.length() == 0)<br />
+			return true;<br />
+		if(input2.length() == 0 &amp;&amp; input1.charAt(0)!=&#8217;*&#8217;)<br />
+			return false;<br />
+		if(input1.length() ==0 &amp;&amp; input2.length()!=0)<br />
+			return false;<br />
+		if (input1.charAt(0) == &#8216;*&#8217; &amp;&amp; input1.length() != 1  &amp;&amp; input2.length() == 0)<br />
+			return false;<br />
+		if(input1.charAt(0) == &#8216;*&#8217; &amp;&amp; input1.length() ==1  &amp;&amp; input2.length() == 0)<br />
+			return true;<br />
+		else if(input1.charAt(0) == &#8216;?&#8217;|| input1.charAt(0)==input2.charAt(0))<br />
+			return match(input1.substring(1),input2.substring(1));<br />
+		else if(input1.charAt(0) == &#8216;*&#8217;){<br />
+			return match(input1,input2.substring(1)) || match(input1.substring(1),input2.substring(0));<br />
+		}<br />
+		else if(input1.charAt(0) != input2.charAt(0))<br />
+			return false;<br />
+		return false;<br />
+	}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-sudhindraa odd alt thread-odd thread-alt depth-1" id="dsq-comment-17261">
+        <div id="dsq-comment-header-17261" class="dsq-comment-header">
+            <cite id="dsq-cite-17261">
+                <span id="dsq-author-user-17261">SudhindraA</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17261" class="dsq-comment-body">
+            <div id="dsq-comment-message-17261" class="dsq-comment-message"><p>static bool AreStringsMatching(string str1, string str2)<br />
+        {<br />
+            int i = 0, j = 0;<br />
+            while (i != str1.Length &amp;&amp; j != str2.Length)<br />
+            {<br />
+                if (str1[i] == str2[j])<br />
+                { i++; j++; }<br />
+                else<br />
+                {<br />
+                    if (str1[i] == &#8216;*&#8217;)<br />
+                    {<br />
+                        if (i + 1 == str1.Length)<br />
+                        { i = str1.Length; j = str2.Length; }<br />
+                        else if (str1[i + 1] == str2[j])<br />
+                            i++;<br />
+                        else if (str1[i + 1] == &#8216;?&#8217;)<br />
+                        { i++; j++; }<br />
+                        else<br />
+                            j++;<br />
+                    }<br />
+                    else if (str1[i] == &#8216;?&#8217;)<br />
+                    {<br />
+                        i++; j++;<br />
+                    }<br />
+                    else<br />
+                        return false;<br />
+                }<br />
+            }<br />
+            if (i != str1.Length || str2.Length != j)<br />
+                return false;<br />
+            return true;<br />
+        }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-17258">
+        <div id="dsq-comment-header-17258" class="dsq-comment-header">
+            <cite id="dsq-cite-17258">
+https://freethreads.wordpress.com                <span id="dsq-author-user-17258">Vishal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17258" class="dsq-comment-body">
+            <div id="dsq-comment-message-17258" class="dsq-comment-message"><p>We can also implement an automata (DFA) for the given string with wildcard characters. We can then feed it any string and check for validness.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-vinodhian odd alt thread-odd thread-alt depth-1" id="dsq-comment-17256">
+        <div id="dsq-comment-header-17256" class="dsq-comment-header">
+            <cite id="dsq-cite-17256">
+                <span id="dsq-author-user-17256">vinodhian</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17256" class="dsq-comment-body">
+            <div id="dsq-comment-message-17256" class="dsq-comment-message"><p>The iterative solution,</p>
+<pre> <code language="C">
+
+
+bool match(char *first, char * second)
+{
+    char *temp_first = first;
+    char *temp_second = second;
+    char *t1 = first;
+    char *t2 = second;    
+    while (*temp_first != '&#92;&#48;' &amp;&amp; *second != '&#92;&#48;')
+      {  
+         if ( *temp_first == '*' &amp;&amp; *(temp_first+1) != '&#92;&#48;' &amp;&amp; *temp_second == '&#92;&#48;')
+         return false;
+ 
+         else if (*temp_first == '?' || *temp_first == *temp_second)
+        { temp_first++;, temp_second++; }
+ 
+         else if (*temp_first == '*')
+         {
+           t1 = temp_first;
+           t2 = temp_second + 1;
+            temp_first ++;
+         }
+         else if ( *t1 == '&#92;&#48;')
+         {
+            temp_first = t1;
+            temp_second = t2;
+         }
+         else
+         {
+            return false;
+         }
+     }// end while
+   if ( *temp_first != '&#92;&#48;' || *temp_second != '&#92;&#48;' )
+      return false;
+   else
+      return true;
+}// end match
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-17248">
+        <div id="dsq-comment-header-17248" class="dsq-comment-header">
+            <cite id="dsq-cite-17248">
+                <span id="dsq-author-user-17248">Rainer</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17248" class="dsq-comment-body">
+            <div id="dsq-comment-message-17248" class="dsq-comment-message"><p>Hello,<br />
+could you please explain how this works</p>
+<pre> <code language="C">
+if (*first == '*' &amp;&amp; *(first+1) != '&#092;&#048;' &amp;&amp; *second == '&#092;&#048;')
+</code> </pre>
+<p>if &#8216;*&#8217; is the last char in first and *second is beyond the bounds?<br />
+As far as I can understand, *second will be incremented here</p>
+<pre> <code language="C">
+if (*first == '*')
+        return match(first+1, second) || match(first, second+1);
+</code> </pre>
+<p>without ever being queried. Or is it that this</p>
+<pre> <code language="C">
+*second == '&#092;&#048;'
+</code> </pre>
+<p>actually reacts as well on a pointer value &gt; length of second?<br />
+Sorry, I don&#8217;t understand C very well but am interested in this algorithm.<br />
+Best regards<br />
+Rainer</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-18447">
+        <div id="dsq-comment-header-18447" class="dsq-comment-header">
+            <cite id="dsq-cite-18447">
+                <span id="dsq-author-user-18447">Srb</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18447" class="dsq-comment-body">
+            <div id="dsq-comment-message-18447" class="dsq-comment-message"><p>consider the case<br />
+*first=g*k<br />
+*second=gee</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-30269">
+        <div id="dsq-comment-header-30269" class="dsq-comment-header">
+            <cite id="dsq-cite-30269">
+                <span id="dsq-author-user-30269">maxhammer</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30269" class="dsq-comment-body">
+            <div id="dsq-comment-message-30269" class="dsq-comment-message"><p>hello everyone i know this reply button is for giving with respect to the topic , but idon&#8217;t now how to communicate with all of you guys , so i thought this is the best way to ask a question &#8230;&#8230;&#8230;if you guys think youare programmers then can i ask you guys a programm a code for me i C language &#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/wildcard-character-matching/';
+var disqus_identifier = '116560 http://www.geeksforgeeks.org/?p=116560';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "String matching where one string contains wildcard characters";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.208 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:45:30 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

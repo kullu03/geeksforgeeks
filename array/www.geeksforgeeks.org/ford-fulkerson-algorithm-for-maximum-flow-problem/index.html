@@ -1,0 +1,1101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Ford-Fulkerson Algorithm for Maximum Flow Problem - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/ford-fulkerson-algorithm-for-maximum-flow-problem/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Ford-Fulkerson Algorithm for Maximum Flow Problem - GeeksforGeeks" />
+<meta property="og:description" content="Given a graph which represents a flow network where every edge has a capacity. Also given two vertices source &#8216;s&#8217; and sink &#8216;t&#8217; in the graph, find the maximum possible flow from s to t with following constraints: a) Flow on an edge doesn&#8217;t exceed the given capacity of the edge. b) Incoming flow is &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/ford-fulkerson-algorithm-for-maximum-flow-problem/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Graph" />
+<meta property="article:section" content="Graph" />
+<meta property="article:published_time" content="2013-07-03T22:37:16+00:00" />
+<meta property="article:modified_time" content="2014-02-09T19:34:08+00:00" />
+<meta property="og:updated_time" content="2014-02-09T19:34:08+00:00" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/ford_fulkerson11.png" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/ford_fulkerson2.png" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.496 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417110933 14.198.108.122';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Ford-Fulkerson Algorithm for Maximum Flow Problem</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given a graph which represents a flow network where every edge has a capacity. Also given two vertices <em>source </em> &#8216;s&#8217; and <em>sink</em> &#8216;t&#8217; in the graph, find the maximum possible flow from s to t with following constraints:<span id="more-119346"></span></p>
+<p><strong>a)</strong> Flow on an edge doesn&#8217;t exceed the given capacity of the edge.</p>
+<p><strong>b)</strong> Incoming flow is equal to outgoing flow for every vertex except s and t.</p>
+<p>For example, consider the following graph from CLRS book.<br />
+<a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/ford_fulkerson11.png"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/ford_fulkerson11.png" alt="ford_fulkerson1" width="394" height="183" class="aligncenter size-full wp-image-120173" /></a></p>
+<p>The maximum possible flow in the above graph is 23.<br />
+<a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/ford_fulkerson2.png"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/ford_fulkerson2.png" alt="ford_fulkerson2" width="455" height="186" class="aligncenter size-full wp-image-120170" /></a></p>
+<pre>
+<strong>Ford-Fulkerson Algorithm</strong> 
+The following is simple idea of Ford-Fulkerson algorithm:
+<strong>1)</strong> Start with initial flow as 0.
+<strong>2) </strong>While there is a augmenting path from source to sink. 
+           Add this path-flow to flow.
+<strong>3) </strong>Return flow.</pre>
+<p><strong>Time Complexity:</strong> Time complexity of the above algorithm is O(max_flow * E). We run a loop while there is an augmenting path. In worst case, we may add 1 unit flow in every iteration. Therefore the time complexity becomes O(max_flow * E). </p>
+<p><strong>How to implement the above simple algorithm?  </strong><br />
+Let us first define the concept of Residual Graph which is needed for understanding the implementation.<br />
+<em><strong>Residual Graph</strong></em> of a flow network is a graph which indicates additional possible flow. If there is a path from source to sink in residual graph, then it is possible to add flow.   Every edge of a residual graph has a value called <strong><em>residual capacity</em></strong> which is equal to original capacity of the edge minus current flow. Residual capacity is basically the current capacity of the edge.<br />
+Let us now talk about implementation details. Residual capacity is 0 if there is no edge between to vertices of residual graph. We can initialize the residual graph as original graph as there is no initial flow and initially residual capacity is equal to original capacity.  To find an augmenting path, we can either do a BFS or DFS of the residual graph.  We have used BFS in below implementation. Using BFS, we can find out if there is a path from source to sink. BFS also builds parent[] array. Using the parent[] array, we traverse through the found path and find possible flow through this path by finding minimum residual capacity along the path. We later add the found path flow to overall flow.<br />
+The important thing is, we need to update residual capacities in the residual graph.  We subtract path flow from all edges along the path and we add path flow along the reverse edges We need to add path flow along reverse edges because may later need to send flow in reverse direction (See following video for example).</p>
+<p><a href="http://www.youtube.com/watch?v=-8MwfgB-lyM" target="_blank">http://www.youtube.com/watch?v=-8MwfgB-lyM</a></p>
+<p>Following is C++ implementation of Ford-Fulkerson algorithm.  To keep things simple, graph is represented as a 2D matrix. </p>
+<pre class="brush: cpp; highlight: [48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95]; title: ; notranslate" title="">
+// C++ program for implementation of Ford Fulkerson algorithm
+#include &lt;iostream&gt;
+#include &lt;limits.h&gt;
+#include &lt;string.h&gt;
+#include &lt;queue&gt;
+using namespace std;
+
+// Number of vertices in given graph
+#define V 6
+
+/* Returns true if there is a path from source 's' to sink 't' in
+  residual graph. Also fills parent[] to store the path */
+bool bfs(int rGraph[V][V], int s, int t, int parent[])
+{
+    // Create a visited array and mark all vertices as not visited
+    bool visited[V];
+    memset(visited, 0, sizeof(visited));
+
+    // Create a queue, enqueue source vertex and mark source vertex
+    // as visited
+    queue &lt;int&gt; q;
+    q.push(s);
+    visited[s] = true;
+    parent[s] = -1;
+
+    // Standard BFS Loop
+    while (!q.empty())
+    {
+        int u = q.front();
+        q.pop();
+
+        for (int v=0; v&lt;V; v++)
+        {
+            if (visited[v]==false &amp;&amp; rGraph[u][v] &gt; 0)
+            {
+                q.push(v);
+                parent[v] = u;
+                visited[v] = true;
+            }
+        }
+    }
+
+    // If we reached sink in BFS starting from source, then return
+    // true, else false
+    return (visited[t] == true);
+}
+
+// Returns tne maximum flow from s to t in the given graph
+int fordFulkerson(int graph[V][V], int s, int t)
+{
+    int u, v;
+
+    // Create a residual graph and fill the residual graph with
+    // given capacities in the original graph as residual capacities
+    // in residual graph
+    int rGraph[V][V]; // Residual graph where rGraph[i][j] indicates 
+                     // residual capacity of edge from i to j (if there
+                     // is an edge. If rGraph[i][j] is 0, then there is not)  
+    for (u = 0; u &lt; V; u++)
+        for (v = 0; v &lt; V; v++)
+             rGraph[u][v] = graph[u][v];
+
+    int parent[V];  // This array is filled by BFS and to store path
+
+    int max_flow = 0;  // There is no flow initially
+
+    // Augment the flow while tere is path from source to sink
+    while (bfs(rGraph, s, t, parent))
+    {
+        // Find minimum residual capacity of the edhes along the
+        // path filled by BFS. Or we can say find the maximum flow
+        // through the path found.
+        int path_flow = INT_MAX;
+        for (v=t; v!=s; v=parent[v])
+        {
+            u = parent[v];
+            path_flow = min(path_flow, rGraph[u][v]);
+        }
+
+        // update residual capacities of the edges and reverse edges
+        // along the path
+        for (v=t; v != s; v=parent[v])
+        {
+            u = parent[v];
+            rGraph[u][v] -= path_flow;
+            rGraph[v][u] += path_flow;
+        }
+
+        // Add path flow to overall flow
+        max_flow += path_flow;
+    }
+
+    // Return the overall flow
+    return max_flow;
+}
+
+// Driver program to test above functions
+int main()
+{
+    // Let us create a graph shown in the above example
+    int graph[V][V] = { {0, 16, 13, 0, 0, 0},
+                        {0, 0, 10, 12, 0, 0},
+                        {0, 4, 0, 0, 14, 0},
+                        {0, 0, 9, 0, 0, 20},
+                        {0, 0, 0, 7, 0, 4},
+                        {0, 0, 0, 0, 0, 0}
+                      };
+
+    cout &lt;&lt; &quot;The maximum possible flow is &quot; &lt;&lt; fordFulkerson(graph, 0, 5);
+
+    return 0;
+}
+</pre>
+<p>Output:
+<pre>The maximum possible flow is 23</pre>
+<p>The above implementation of Ford Fulkerson Algorithm is called <strong><a href="http://en.wikipedia.org/wiki/Edmonds%E2%80%93Karp_algorithm" target="_blank">Edmonds-Karp Algorithm</a></strong>.  The idea of Edmonds-Karp is to use BFS in Ford Fulkerson implementation as BFS always picks a path with minimum number of edges.  When BFS is used, the worst case time complexity can be reduced to O(VE<sup>2</sup>). The above implementation uses adjacency matrix representation though where BFS takes O(V<sup>2</sup>) time, the time complexity of the above implementation is O(EV<sup>3</sup>) (Refer <a href="http://www.flipkart.com/introduction-algorithms-3rd/p/itmczynzhyhxv2gs?pid=9788120340077&#038;affid=sandeepgfg" target="_blank">CLRS book</a> for proof of time complexity)</p>
+<p>This is an important problem as it arises in many practical situations.  Examples include, maximizing the transportation with given traffic limits, maximizing packet flow in computer networks. </p>
+<p><strong>Exercise:</strong><br />
+Modify the above implementation so that it that runs in O(VE<sup>2</sup>) time.</p>
+<p><strong>References:</strong><br />
+<a href="http://www.stanford.edu/class/cs97si/08-network-flow-problems.pdf" target="_blank">http://www.stanford.edu/class/cs97si/08-network-flow-problems.pdf</a><br />
+<a href="http://www.flipkart.com/introduction-algorithms-3rd/p/itmczynzhyhxv2gs?pid=9788120340077&#038;affid=sandeepgfg" target="_blank">Introduction to Algorithms 3rd Edition by Clifford Stein, Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest</a></p>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/vertex-cover-problem-set-1-introduction-approximate-algorithm-2/" title="Vertex Cover Problem | Set 1 (Introduction and Approximate Algorithm)">Vertex Cover Problem | Set 1 (Introduction and Approximate Algorithm)</a></li><li><a href="http://www.geeksforgeeks.org/snake-ladder-problem-2/" title="Snake and Ladder Problem">Snake and Ladder Problem</a></li><li><a href="http://www.geeksforgeeks.org/tarjan-algorithm-find-strongly-connected-components/" title="Tarjan&#8217;s Algorithm to find Strongly Connected Components">Tarjan&#8217;s Algorithm to find Strongly Connected Components</a></li><li><a href="http://www.geeksforgeeks.org/shortest-path-exactly-k-edges-directed-weighted-graph/" title="Shortest path with exactly k edges in a directed and weighted graph">Shortest path with exactly k edges in a directed and weighted graph</a></li><li><a href="http://www.geeksforgeeks.org/count-possible-paths-source-destination-exactly-k-edges/" title="Count all possible walks from a source to a destination with exactly k edges">Count all possible walks from a source to a destination with exactly k edges</a></li><li><a href="http://www.geeksforgeeks.org/euler-circuit-directed-graph/" title="Euler Circuit in a Directed Graph">Euler Circuit in a Directed Graph</a></li><li><a href="http://www.geeksforgeeks.org/given-array-strings-find-strings-can-chained-form-circle/" title="Given an array of strings, find if the strings can be chained to form a circle">Given an array of strings, find if the strings can be chained to form a circle</a></li><li><a href="http://www.geeksforgeeks.org/given-sorted-dictionary-find-precedence-characters/" title="Given a sorted dictionary of an alien language, find order of characters">Given a sorted dictionary of an alien language, find order of characters</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/graph/" rel="tag">Graph</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fford-fulkerson-algorithm-for-maximum-flow-problem%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/ford-fulkerson-algorithm-for-maximum-flow-problem/" data-text="Ford-Fulkerson Algorithm for Maximum Flow Problem" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/ford-fulkerson-algorithm-for-maximum-flow-problem/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-33487">
+        <div id="dsq-comment-header-33487" class="dsq-comment-header">
+            <cite id="dsq-cite-33487">
+                <span id="dsq-author-user-33487">xylophone</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33487" class="dsq-comment-body">
+            <div id="dsq-comment-message-33487" class="dsq-comment-message"><p>Why will the algorithm always find the max flow? Can you give an idea for the proof?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-33486">
+        <div id="dsq-comment-header-33486" class="dsq-comment-header">
+            <cite id="dsq-cite-33486">
+                <span id="dsq-author-user-33486">xylophone</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33486" class="dsq-comment-body">
+            <div id="dsq-comment-message-33486" class="dsq-comment-message"><p>Why will the algorithm always find the max flow? Can you give an idea for the proof?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-30770">
+        <div id="dsq-comment-header-30770" class="dsq-comment-header">
+            <cite id="dsq-cite-30770">
+                <span id="dsq-author-user-30770">newone</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30770" class="dsq-comment-body">
+            <div id="dsq-comment-message-30770" class="dsq-comment-message"><p>Hello,<br />
+This code solved half of my problem.Now this is giving a static input ,but can we do the same for dynamic input..I am trying it but have no idea about how to do it.I will be grateful if someone can help me in this.<br />
+Thanks</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-31670">
+        <div id="dsq-comment-header-31670" class="dsq-comment-header">
+            <cite id="dsq-cite-31670">
+                <span id="dsq-author-user-31670">gourav pathak</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31670" class="dsq-comment-body">
+            <div id="dsq-comment-message-31670" class="dsq-comment-message"><p>main()<br />
+{<br />
+       int n;<br />
+       cin&gt;&gt;n;<br />
+       int *arr[n];<br />
+       for(int i=0;i&lt;n;i++)<br />
+       arr[i]=(int *)malloc(n*sizeof(int));<br />
+       for(int i=0;i&lt;n;i++)<br />
+          for(int j=0;j&gt;arr[i][j];<br />
+        int s,t;<br />
+        cin&gt;&gt;s&gt;&gt;t;<br />
+        FordFulkerson(arr,n,s,t);<br />
+}</p>
+<p>//function prototype<br />
+int FordFulkerson(int *arr[],int n,int s,int t);</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-30742">
+        <div id="dsq-comment-header-30742" class="dsq-comment-header">
+            <cite id="dsq-cite-30742">
+                <span id="dsq-author-user-30742">msy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30742" class="dsq-comment-body">
+            <div id="dsq-comment-message-30742" class="dsq-comment-message"><p>how do we send two dimensional array as a parameter without using pointer</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-31669">
+        <div id="dsq-comment-header-31669" class="dsq-comment-header">
+            <cite id="dsq-cite-31669">
+                <span id="dsq-author-user-31669">gourav pathak</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31669" class="dsq-comment-body">
+            <div id="dsq-comment-message-31669" class="dsq-comment-message"><p>It is possible to send two dimensional array as a parameter without using pointers only if you know its dimensions&#8230;otherwise you have to use pointers(e.g void bfs(arr[][9]))&#8230;&#8230;&#8230;You might also store the 2-D array as a 1-D array<br />
+where<br />
+X[i*col+j]=arr[i][j]&#8230;then you simply pass the 1-D array and the dimensions</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-28686">
+        <div id="dsq-comment-header-28686" class="dsq-comment-header">
+            <cite id="dsq-cite-28686">
+                <span id="dsq-author-user-28686">Ram</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28686" class="dsq-comment-body">
+            <div id="dsq-comment-message-28686" class="dsq-comment-message"><p>COMPLEXITY OF BFS IS V2..AND INSIDE LOOP WE ARE TRAVERSING ALL EDGEES ,SO ISNT IT BE E*(V^2)</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-31668">
+        <div id="dsq-comment-header-31668" class="dsq-comment-header">
+            <cite id="dsq-cite-31668">
+                <span id="dsq-author-user-31668">gourav pathak</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31668" class="dsq-comment-body">
+            <div id="dsq-comment-message-31668" class="dsq-comment-message"><p>Yes, you are correct&#8230;but if you use adjacency list representation it will be O(E*max_flow)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-28554">
+        <div id="dsq-comment-header-28554" class="dsq-comment-header">
+            <cite id="dsq-cite-28554">
+                <span id="dsq-author-user-28554">sumit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28554" class="dsq-comment-body">
+            <div id="dsq-comment-message-28554" class="dsq-comment-message"><p>well thanks for the article , but i think it would have been great if the article had discussed on what is augmenting paths first and then delved in Ford-Fulks ago .</p>
+<p>The alos it self is easy to understand if explained properly , unfortunately the materica journals above are cryptic , i rather say listen to the below video to understand the Algo and concept and code above for a  completeness</p>
+<p><a href="http://www.youtube.com/watch?v=J0wzih3_5Wo" rel="nofollow">http://www.youtube.com/watch?v=J0wzih3_5Wo</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-28246">
+        <div id="dsq-comment-header-28246" class="dsq-comment-header">
+            <cite id="dsq-cite-28246">
+                <span id="dsq-author-user-28246">myk</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28246" class="dsq-comment-body">
+            <div id="dsq-comment-message-28246" class="dsq-comment-message"><p>I tried using the graph from Sedgewick&#8217;s lecture from the link you provided, and it returns &#8220;25&#8221; for me, though &#8220;28&#8221; is expected. It seems &#8220;push-back&#8221; logic doesn&#8217;t work.</p>
+<p>The matrix I used:<br />
+		int[][] graph =<br />
+			    { {0, 10, 5, 15,  0,  0,  0,  0},<br />
+                  {0, 0,  4,  0,  9, 15,  0,  0},<br />
+                  {0, 0,  0,  4,  0,  8,  6,  0},<br />
+                  {0, 0,  0,  0,  0,  0, 16,  0},<br />
+                  {0, 0,  0,  0,  0, 15,  0, 10},<br />
+                  {0, 0,  0,  0,  0,  0, 15, 10},<br />
+                  {0, 0,  0,  0,  0,  0,  0, 10},<br />
+                  {0, 0,  0,  0,  0,  0,  0,  0}<br />
+                };</p>
+<p>Can someone please verify this input on using the source provided in the article, as I used java?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-28247">
+        <div id="dsq-comment-header-28247" class="dsq-comment-header">
+            <cite id="dsq-cite-28247">
+                <span id="dsq-author-user-28247">myk</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28247" class="dsq-comment-body">
+            <div id="dsq-comment-message-28247" class="dsq-comment-message"><p>Found a mistake in my input graph. Output is as expected.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-27629">
+        <div id="dsq-comment-header-27629" class="dsq-comment-header">
+            <cite id="dsq-cite-27629">
+http://code-away.tumblr.com/                <span id="dsq-author-user-27629">Olayinka</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27629" class="dsq-comment-body">
+            <div id="dsq-comment-message-27629" class="dsq-comment-message"><p>According to <a href="http://en.wikipedia.org/wiki/Ford%E2%80%93Fulkerson_algorithm" rel="nofollow">Wikipedia</a>, this is Edmonds-Karp algorithm since you use a BFS.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-28122">
+        <div id="dsq-comment-header-28122" class="dsq-comment-header">
+            <cite id="dsq-cite-28122">
+                <span id="dsq-author-user-28122">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28122" class="dsq-comment-body">
+            <div id="dsq-comment-message-28122" class="dsq-comment-message"><p>Thanks for your inputs. We have updated the post.  Appreciate your contribution.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-27286">
+        <div id="dsq-comment-header-27286" class="dsq-comment-header">
+            <cite id="dsq-cite-27286">
+                <span id="dsq-author-user-27286">Nitin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27286" class="dsq-comment-body">
+            <div id="dsq-comment-message-27286" class="dsq-comment-message"><p>How can we be sure that BFS will select different path each time from source to sink?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-27611">
+        <div id="dsq-comment-header-27611" class="dsq-comment-header">
+            <cite id="dsq-cite-27611">
+                <span id="dsq-author-user-27611">vijay</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27611" class="dsq-comment-body">
+            <div id="dsq-comment-message-27611" class="dsq-comment-message"><p>because everytime when </p>
+<p>rGraph[u][v] -= path_flow;<br />
+rGraph[v][u] += path_flow;</p>
+<p>executes,<br />
+the graph changes</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-22173">
+        <div id="dsq-comment-header-22173" class="dsq-comment-header">
+            <cite id="dsq-cite-22173">
+                <span id="dsq-author-user-22173">atul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22173" class="dsq-comment-body">
+            <div id="dsq-comment-message-22173" class="dsq-comment-message"><p>why we are doing below code ? </p>
+<pre> <code language="C">
+rGraph[v][u] += path_flow;
+</code> </pre>
+<p>Suppose there is path from u-&gt;v in original graph that does not mean that there could be any path from v-&gt;u , but we are updating value for path v-&gt;u .. I didn&#8217;t get this.<br />
+please explain</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-22245">
+        <div id="dsq-comment-header-22245" class="dsq-comment-header">
+            <cite id="dsq-cite-22245">
+http://www.sudshekhar.blogspot.com                <span id="dsq-author-user-22245">sudhanshu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22245" class="dsq-comment-body">
+            <div id="dsq-comment-message-22245" class="dsq-comment-message"><p>Because we only consider edges with +ve weight, so one of v-u is definitely an edge. So we subtract path_flow from it. </p>
+<p>At the same time, adding path_flow to the reverse path<br />
+[u-v](which may or may not exist), is to allow for the possibility of reverse flow.</p>
+<p>(i.e. this path would most prob not be used, and the loop where it is used will actually be nullifying the v-u flow and providing input from some other vertex)</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-22248">
+        <div id="dsq-comment-header-22248" class="dsq-comment-header">
+            <cite id="dsq-cite-22248">
+http://www.sudshekhar.blogspot.com                <span id="dsq-author-user-22248">sudhanshu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22248" class="dsq-comment-body">
+            <div id="dsq-comment-message-22248" class="dsq-comment-message"><p>also, adding to both sides, ensures that the flow entering the node is same as the one leaving it!</p>
+<p>#flow property</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-21687">
+        <div id="dsq-comment-header-21687" class="dsq-comment-header">
+            <cite id="dsq-cite-21687">
+                <span id="dsq-author-user-21687">Anonymous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21687" class="dsq-comment-body">
+            <div id="dsq-comment-message-21687" class="dsq-comment-message"><p>Can anyone please tell me how max flow of the above graph is coming 23. I was going through Introduction to Algorithm by cormen, and they have also taken the same example, but their max flow is coming 14 instead of 23 for the same graph.<br />
+Please correct me If I am wrong.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik odd alt depth-2" id="dsq-comment-21690">
+        <div id="dsq-comment-header-21690" class="dsq-comment-header">
+            <cite id="dsq-cite-21690">
+                <span id="dsq-author-user-21690">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21690" class="dsq-comment-body">
+            <div id="dsq-comment-message-21690" class="dsq-comment-message"><p>Looks like you didn&#8217;t read the book carefully.    See the final diagram in second column, there are two arcs with flow 19 and 4 toward t.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-xxmajia even thread-odd thread-alt depth-1" id="dsq-comment-21503">
+        <div id="dsq-comment-header-21503" class="dsq-comment-header">
+            <cite id="dsq-cite-21503">
+                <span id="dsq-author-user-21503">xxmajia</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21503" class="dsq-comment-body">
+            <div id="dsq-comment-message-21503" class="dsq-comment-message"><p>Below is a java version, 2 improvements<br />
+1) return true immediately, when BFS to t<br />
+2) dont need to maintain the &#8220;backward&#8221; edge, instead we use &#8220;Exhaustion&#8221;</p>
+<p>/* Paste your code here (You may delete these lines if not writing code) */<br />
+public static boolean BFS(int[][] matrix, int[] parent, int s, int t) {<br />
+		// reinit parent for each BFS<br />
+		for (int i = 0; i &lt; parent.length; i++) {<br />
+			parent[i] = -1;<br />
+		}</p>
+<p>		boolean[] isVisited = new boolean[parent.length];</p>
+<p>		Queue&lt;Integer&gt; queue = new LinkedList&lt;Integer&gt;();<br />
+		queue.add(s);<br />
+		parent[s] = -1;<br />
+		isVisited[s] = true;</p>
+<p>		while (!queue.isEmpty()) {<br />
+			int cur = queue.poll();</p>
+<p>			for (int i = 0; i &lt; parent.length; i++) {<br />
+				if (!isVisited[i] &amp;&amp; matrix[cur][i] &gt; 0) {<br />
+					isVisited[i] = true;<br />
+					parent[i] = cur;</p>
+<p>					// improvement 1<br />
+					if (i == cur) {<br />
+						return true;<br />
+					}</p>
+<p>					queue.add(i);<br />
+				}<br />
+			}<br />
+		}</p>
+<p>		return isVisited[t];<br />
+	}</p>
+<p>	public static int maxFlow(int[][] graph, int s, int t) {<br />
+		int max = 0;<br />
+		int length = graph.length;<br />
+		int[][] matrix = new int[length][length];<br />
+		for (int i = 0; i &lt; length; i++) {<br />
+			for (int j = 0; j &lt; length; j++) {<br />
+				matrix[i][j] = graph[i][j];<br />
+			}<br />
+		}</p>
+<p>		int[] parent = new int[length];<br />
+		while (BFS(matrix, parent, s, t)) {<br />
+			int flow = Integer.MAX_VALUE;<br />
+			int d = t;<br />
+			while (d != s) {<br />
+				flow = Math.min(flow, matrix[parent[d]][d]);<br />
+				d = parent[d];<br />
+			}</p>
+<p>			max += flow;</p>
+<p>			// generate resigual matrix</p>
+<p>			d = t;<br />
+			while (d != s) {<br />
+				matrix[parent[d]][d] -= flow;<br />
+                                // improvement 2:<br />
+				//matrix[d][parent[d]] += flow;<br />
+				d = parent[d];<br />
+			}<br />
+		}</p>
+<p>		return max;<br />
+	}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-21301">
+        <div id="dsq-comment-header-21301" class="dsq-comment-header">
+            <cite id="dsq-cite-21301">
+                <span id="dsq-author-user-21301">Viky</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21301" class="dsq-comment-body">
+            <div id="dsq-comment-message-21301" class="dsq-comment-message"><p>Awesome <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/ford-fulkerson-algorithm-for-maximum-flow-problem/';
+var disqus_identifier = '119346 http://www.geeksforgeeks.org/?p=119346';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Ford-Fulkerson Algorithm for Maximum Flow Problem";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.197 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:25:33 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

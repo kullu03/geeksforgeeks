@@ -1,0 +1,1323 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Remove duplicates from a sorted linked list - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/remove-duplicates-from-a-sorted-linked-list/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Remove duplicates from a sorted linked list - GeeksforGeeks" />
+<meta property="og:description" content="Write a removeDuplicates() function which takes a list sorted in non-decreasing order and deletes any duplicate nodes from the list. The list should only be traversed once. For example if the linked list is 11-&gt;11-&gt;11-&gt;21-&gt;43-&gt;43-&gt;60 then removeDuplicates() should convert the list to 11-&gt;21-&gt;43-&gt;60. Algorithm: Traverse the list from the head (or start) node. While traversing, &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/remove-duplicates-from-a-sorted-linked-list/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:section" content="Linked Lists" />
+<meta property="article:published_time" content="2010-02-23T21:26:34+00:00" />
+<meta property="article:modified_time" content="2011-01-09T14:35:03+00:00" />
+<meta property="og:updated_time" content="2011-01-09T14:35:03+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.517 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111090 210.212.53.139 172.19.11.169';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Remove duplicates from a sorted linked list</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Write a removeDuplicates() function which takes a list sorted in non-decreasing order and deletes any duplicate nodes from the list. The list should only be traversed once. <span id="more-5075"></span></p>
+<p>For example if the linked list is 11->11->11->21->43->43->60 then removeDuplicates() should convert the list to 11->21->43->60. </p>
+<p><strong>Algorithm:</strong><br />
+Traverse the list from the head (or start) node. While traversing, compare each node with its next node. If data of next node is same as current node then delete the next node. Before we delete a node, we need to store next pointer of the node </p>
+<p><strong>Implementation:</strong><br />
+Functions other than removeDuplicates() are just to create a linked linked list and test removeDuplicates(). </p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+/*Program to remove duplicates from a sorted linked list */
+#include&lt;stdio.h&gt;
+#include&lt;stlib.h&gt;
+
+/* Link list node */
+struct node
+{
+    int data;
+    struct node* next;
+};
+
+/* The function removes duplicates from a sorted list */
+void removeDuplicates(struct node* head)
+{
+  /* Pointer to traverse the linked list */
+  struct node* current = head;
+
+  /* Pointer to store the next pointer of a node to be deleted*/
+  struct node* next_next; 
+  
+  /* do nothing if the list is empty */
+  if(current == NULL) 
+     return; 
+
+  /* Traverse the list till last node */
+  while(current-&gt;next != NULL) 
+  {
+   /* Compare current node with next node */
+    if(current-&gt;data == current-&gt;next-&gt;data) 
+    {
+       /*The sequence of steps is important*/               
+      next_next = current-&gt;next-&gt;next;
+      free(current-&gt;next);
+      current-&gt;next = next_next;  
+    }
+    else /* This is tricky: only advance if no deletion */
+    {
+      current = current-&gt;next; 
+    }
+  }
+}
+
+/* UTILITY FUNCTIONS */
+/* Function to insert a node at the beginging of the linked list */
+void push(struct node** head_ref, int new_data)
+{
+    /* allocate node */
+    struct node* new_node =
+            (struct node*) malloc(sizeof(struct node));
+            
+    /* put in the data  */
+    new_node-&gt;data  = new_data;
+                
+    /* link the old list off the new node */
+    new_node-&gt;next = (*head_ref);     
+        
+    /* move the head to point to the new node */
+    (*head_ref)    = new_node;
+}
+
+/* Function to print nodes in a given linked list */
+void printList(struct node *node)
+{
+  while(node!=NULL)
+  {
+   printf(&quot;%d &quot;, node-&gt;data);
+   node = node-&gt;next;
+  }
+} 
+
+/* Drier program to test above functions*/
+int main()
+{
+  /* Start with the empty list */
+  struct node* head = NULL;
+  
+  /* Let us create a sorted linked list to test the functions
+   Created linked list will be 11-&gt;11-&gt;11-&gt;13-&gt;13-&gt;20 */
+  push(&amp;head, 20);
+  push(&amp;head, 13);
+  push(&amp;head, 13);  
+  push(&amp;head, 11);
+  push(&amp;head, 11);
+  push(&amp;head, 11);                                    
+
+  printf(&quot;\n Linked list before duplicate removal  &quot;);
+  printList(head); 
+
+  /* Remove duplicates from linked list */
+  removeDuplicates(head); 
+
+  printf(&quot;\n Linked list after duplicate removal &quot;);         
+  printList(head);            
+  
+  getchar();
+}
+</pre>
+<p><strong><br />
+Time Complexity:</strong> O(n) where n is number of nodes in the given linked list.</p>
+<p><strong>References:</strong><br />
+<a href="http://cslibrary.stanford.edu/105/LinkedListProblems.pdf">cslibrary.stanford.edu/105/LinkedListProblems.pdf</a></p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/given-linked-list-reverse-alternate-nodes-append-end/" title="Given a linked list, reverse alternate nodes and append at the end">Given a linked list, reverse alternate nodes and append at the end</a></li><li><a href="http://www.geeksforgeeks.org/pairwise-swap-elements-of-a-given-linked-list-by-changing-links/" title="Pairwise swap elements of a given linked list by changing links">Pairwise swap elements of a given linked list by changing links</a></li><li><a href="http://www.geeksforgeeks.org/self-organizing-list-set-1-introduction/" title="Self Organizing List | Set 1 (Introduction)">Self Organizing List | Set 1 (Introduction)</a></li><li><a href="http://www.geeksforgeeks.org/merge-a-linked-list-into-another-linked-list-at-alternate-positions/" title="Merge a linked list into another linked list at alternate positions">Merge a linked list into another linked list at alternate positions</a></li><li><a href="http://www.geeksforgeeks.org/quicksort-on-singly-linked-list/" title="QuickSort on Singly Linked List">QuickSort on Singly Linked List</a></li><li><a href="http://www.geeksforgeeks.org/delete-n-nodes-after-m-nodes-of-a-linked-list/" title="Delete N nodes after M nodes of a linked list">Delete N nodes after M nodes of a linked list</a></li><li><a href="http://www.geeksforgeeks.org/design-a-stack-with-find-middle-operation/" title="Design a stack with operations on middle element">Design a stack with operations on middle element</a></li><li><a href="http://www.geeksforgeeks.org/swap-kth-node-from-beginning-with-kth-node-from-end-in-a-linked-list/" title="Swap Kth node from beginning with Kth node from end in a Linked List">Swap Kth node from beginning with Kth node from end in a Linked List</a></li></ul>
+<p></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fremove-duplicates-from-a-sorted-linked-list%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/remove-duplicates-from-a-sorted-linked-list/" data-text="Remove duplicates from a sorted linked list" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/remove-duplicates-from-a-sorted-linked-list/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-32458">
+        <div id="dsq-comment-header-32458" class="dsq-comment-header">
+            <cite id="dsq-cite-32458">
+                <span id="dsq-author-user-32458">Kunal Arora</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32458" class="dsq-comment-body">
+            <div id="dsq-comment-message-32458" class="dsq-comment-message"><p>We can even use hash table to delete duplicate entries in linked list..<br />
+1.) We will map every value of linked list to hash table.<br />
+2.) While mapping we can compare if the two values hash to same location in       hash table,then we get the address of the two values in linked list and delete one of them.<br />
+3.)Arrange pointers of the linked list .</p>
+<p>Advantage:if there are millions and more elements and few of them are duplicated then it is much optimized then above solution.<br />
+Disadvantage:extra space for hash table implementation<br />
+@GeeksforGeeks please correct me if i am wrong&#8230;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-34479">
+        <div id="dsq-comment-header-34479" class="dsq-comment-header">
+            <cite id="dsq-cite-34479">
+                <span id="dsq-author-user-34479">Jonathan Chen</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34479" class="dsq-comment-body">
+            <div id="dsq-comment-message-34479" class="dsq-comment-message"><p>How is it more optimized? I don&#8217;t think it is. </p>
+<p>The original strategy traverses the list only once. In order to remove duplicates in general, you have to look at every item at least once. </p>
+<p>Your strategy goes through every element once as well. However, the downside is that you also use an auxiliary hashtable which is worse in terms of space complexity.</p>
+<p>If there are millions more elements, your strategy has to traverse through every single one of them, just like the above approach does.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-34549">
+        <div id="dsq-comment-header-34549" class="dsq-comment-header">
+            <cite id="dsq-cite-34549">
+                <span id="dsq-author-user-34549">danny</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34549" class="dsq-comment-body">
+            <div id="dsq-comment-message-34549" class="dsq-comment-message"><p>Yes, you are write It is not much optimized then above algorithm but it&#8217;s another way of doing it and I even mentioned this disadvantage in my post&#8230;. but it can come in handy when linked list is not sorted .</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-32290">
+        <div id="dsq-comment-header-32290" class="dsq-comment-header">
+            <cite id="dsq-cite-32290">
+                <span id="dsq-author-user-32290">Himanshu Dagar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32290" class="dsq-comment-body">
+            <div id="dsq-comment-message-32290" class="dsq-comment-message"><p>can refer to the below code also</p>
+<p><a href="http://ideone.com/BOzFhK" rel="nofollow">http://ideone.com/BOzFhK</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-30889">
+        <div id="dsq-comment-header-30889" class="dsq-comment-header">
+            <cite id="dsq-cite-30889">
+                <span id="dsq-author-user-30889">setu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30889" class="dsq-comment-body">
+            <div id="dsq-comment-message-30889" class="dsq-comment-message"><p>If there are millions of data in it and one number is duplicate somewhere in middle then how we will traverse it one by one then would take lot of time while compilation. please provide a solution for it</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-29884">
+        <div id="dsq-comment-header-29884" class="dsq-comment-header">
+            <cite id="dsq-cite-29884">
+                <span id="dsq-author-user-29884">neo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29884" class="dsq-comment-body">
+            <div id="dsq-comment-message-29884" class="dsq-comment-message"><p>@GeeksforGeeks team the condition in the while statement should contain current!=null also because we are doing current=current-&gt;next in else part ,so if current is null then current-&gt;next in while condition will cause seg fault.please correct me if i am wrong</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-29912">
+        <div id="dsq-comment-header-29912" class="dsq-comment-header">
+            <cite id="dsq-cite-29912">
+                <span id="dsq-author-user-29912">Jayanth</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29912" class="dsq-comment-body">
+            <div id="dsq-comment-message-29912" class="dsq-comment-message"><p>I dont think it is necessary as when &#8220;current-&gt;next&#8221; itself is not null current cannot be null&#8230;So i dont think that check is necessary&#8230;in fact that check is implied&#8230;can u post some test cases where it might fail&#8230;may be i am not seeing something u hav&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-29913">
+        <div id="dsq-comment-header-29913" class="dsq-comment-header">
+            <cite id="dsq-cite-29913">
+                <span id="dsq-author-user-29913">Jayanth</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29913" class="dsq-comment-body">
+            <div id="dsq-comment-message-29913" class="dsq-comment-message"><p>I dont think it is necessary as when &#8220;current-&gt;next&#8221; itself is not null current cannot be null&#8230;So i dont think that check is necessary&#8230;in fact that check is implied&#8230;can u post some test cases where it might fail&#8230;may be i am not seeing something u hav&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-27723">
+        <div id="dsq-comment-header-27723" class="dsq-comment-header">
+            <cite id="dsq-cite-27723">
+                <span id="dsq-author-user-27723">ankit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27723" class="dsq-comment-body">
+            <div id="dsq-comment-message-27723" class="dsq-comment-message"><p><code></p>
+<p>struct treeNode * removeDuplicateFrmOrderedLinkList(struct  treeNode* root)<br />
+{<br />
+    struct treeNode *next=root;<br />
+    struct treeNode *prev=NULL;</p>
+<p>    while(next!=NULL)<br />
+    {<br />
+        prev=next;<br />
+        next=next-&gt;next;</p>
+<p>        while(next!=NULL &amp;&amp; next-&gt;val==prev-&gt;val)<br />
+        {<br />
+            struct treeNode *current=next;<br />
+            next=next-&gt;next;<br />
+            free(current);<br />
+        }<br />
+        prev-&gt;next=next;<br />
+    }</p>
+<p>    return root;</p>
+<p>}</p>
+<p></code></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-21707">
+        <div id="dsq-comment-header-21707" class="dsq-comment-header">
+            <cite id="dsq-cite-21707">
+                <span id="dsq-author-user-21707">Adarsh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21707" class="dsq-comment-body">
+            <div id="dsq-comment-message-21707" class="dsq-comment-message"><pre> <code language="C">
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+typedef struct node
+{
+    int data;
+    struct node *next;
+}node;
+
+
+void insert(node **head_ref, int val)
+{
+    node *curr;
+    node *temp;
+    temp = (node *)malloc(sizeof(node));
+    temp-&gt;data = val;
+    temp-&gt;next = NULL;
+    curr = *head_ref;
+    if (curr == NULL)
+    {
+        *head_ref = temp;
+        return;
+    }
+    else
+    {
+        while(curr-&gt;next != NULL)
+        {
+            curr = curr-&gt;next;
+        }
+        curr-&gt;next = temp;
+        return;
+    }
+
+}
+
+
+void display(node **head_ref)
+{
+    node *temp = NULL;
+    temp = *head_ref;
+    if(temp == NULL)
+    {
+        printf(&quot;Sorry list is empty&quot;);
+        return;
+    }
+    else
+    {
+        while(temp != NULL)
+        {
+            printf(&quot;The value is: %d\n&quot;,temp-&gt;data);
+            temp = temp-&gt;next;
+        }
+    return;
+    }
+}
+
+
+int hashtab(int *hash_ref,int val)
+{
+    int key;
+    key = val%7;
+    if(hash_ref[key] == 0)
+    {
+        hash_ref[key] = val;
+        return 0;
+    }
+    else
+    {
+        while(hash_ref[key] != 0)
+        {
+            if(hash_ref[key] == val)
+                return 1;
+            if(hash_ref[key] == 0)
+                hash_ref[key] = val;
+            key = key+1;
+            return 0;
+        }
+    }
+}
+void remrep(node **head_ref)
+{
+    node *temp = *head_ref;
+    node *prev = *head_ref;
+    int ret;
+    int i,j;
+    int hash[10];
+    for(i = 0;i &lt;10; i++)
+    {
+        hash[i] = 0;   
+    }
+    for(i = 0;i &lt;10; i++)
+    {
+        
+            printf(&quot;the hash is:%d.\n&quot;,hash[i]);
+    }
+    if(NULL == temp)
+    {
+        printf(&quot;The list is empty.\n&quot;);
+        return;
+    }
+    else
+    {
+        while(temp!=NULL)
+        {
+            ret = hashtab(hash,temp-&gt;data);
+            if(ret == 1)
+            {
+                printf(&quot;Repeat is occur.\n&quot;);
+                prev-&gt;next = temp-&gt;next;
+                if(temp-&gt;next != NULL)
+                    temp = temp-&gt;next;
+            }
+            printf(&quot;What.\n&quot;);
+            prev = temp;
+            temp= temp-&gt;next;
+            //printf(&quot;What.\n&quot;);
+        }
+        printf(&quot;In the else.\n&quot;);
+    }
+    return;
+
+}
+
+
+
+main()
+{
+    node *head = NULL;
+    insert(&amp;head, 1);
+    insert(&amp;head, 4);
+    insert(&amp;head, 1);
+    insert(&amp;head, 12);
+    insert(&amp;head, 1);
+    display(&amp;head);
+    remrep(&amp;head);
+    display(&amp;head);
+
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-ultimate_coder even thread-even depth-1" id="dsq-comment-19183">
+        <div id="dsq-comment-header-19183" class="dsq-comment-header">
+            <cite id="dsq-cite-19183">
+                <span id="dsq-author-user-19183">ultimate_coder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19183" class="dsq-comment-body">
+            <div id="dsq-comment-message-19183" class="dsq-comment-message"><pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-19230">
+        <div id="dsq-comment-header-19230" class="dsq-comment-header">
+            <cite id="dsq-cite-19230">
+                <span id="dsq-author-user-19230">trilok</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19230" class="dsq-comment-body">
+            <div id="dsq-comment-message-19230" class="dsq-comment-message"><p>/* The function removes duplicates from a sorted list */<br />
+void removeDuplicates(struct node* head)<br />
+{<br />
+  /* Pointer to traverse the linked list */<br />
+  struct node* current = head;</p>
+<p>  /* Pointer to store the next pointer of a node to be deleted*/<br />
+  struct node* dup_node;</p>
+<p>  /* do nothing if the list is empty */<br />
+  if(current == NULL)<br />
+     return;</p>
+<p>  /* Traverse the list till last node */<br />
+  while(current-&gt;next != NULL)<br />
+  {<br />
+   /* Compare current node with next node till duplicates exist*/<br />
+    while( (current-&gt;next != NULL) &amp;&amp; (current-&gt;data == current-&gt;next-&gt;data) )<br />
+    {<br />
+       /*The sequence of steps is important*/<br />
+      dup_node = current-&gt;next;<br />
+      current-&gt;next = dup_node-&gt;next;<br />
+      free(dup_node);<br />
+    }<br />
+   current = current-&gt;next;<br />
+  }<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-18562">
+        <div id="dsq-comment-header-18562" class="dsq-comment-header">
+            <cite id="dsq-cite-18562">
+                <span id="dsq-author-user-18562">Ujjwal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18562" class="dsq-comment-body">
+            <div id="dsq-comment-message-18562" class="dsq-comment-message"><p>How about using 2 pointers to solve this..!!<br />
+-Both point to head initially.<br />
+-Advance 2nd pointer, if same data, go on advancing 2nd pointer until we get node with different data. Once we get that node, make 1st_node-&gt;next = 2nd_node;<br />
+1st_node = 2nd_node;</p>
+<p>Repeat this till we reach the end of the list..<br />
+Correct me if i m wrong.. <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-22030">
+        <div id="dsq-comment-header-22030" class="dsq-comment-header">
+            <cite id="dsq-cite-22030">
+http://www.geeksforgeeks.org/remove-duplicates-from-a-sorted-linked-list/                <span id="dsq-author-user-22030">Deepak</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22030" class="dsq-comment-body">
+            <div id="dsq-comment-message-22030" class="dsq-comment-message"><p>Your code will remove duplicate nodes but it has wastage of space because you didn&#8217;t free those nodes which have duplicate values.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-17329">
+        <div id="dsq-comment-header-17329" class="dsq-comment-header">
+            <cite id="dsq-cite-17329">
+                <span id="dsq-author-user-17329">Pranav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17329" class="dsq-comment-body">
+            <div id="dsq-comment-message-17329" class="dsq-comment-message"><pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+void removeDuplicates(struct node* head)
+{
+  /* Pointer to traverse the linked list */
+  struct node* p = head;
+  struct node* t=NULL;
+  while(p)
+  {
+     t=p;
+     if(!p-&gt;next)
+        return;
+     p=p-&gt;next;
+     if( t-&gt;data == p-&gt;data )
+     {
+        t-&gt;next = p-&gt;next;
+        free(p);
+        p=t;
+     }
+  }
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-15266">
+        <div id="dsq-comment-header-15266" class="dsq-comment-header">
+            <cite id="dsq-cite-15266">
+http://mystuffs.co.nr                <span id="dsq-author-user-15266">Sunny</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15266" class="dsq-comment-body">
+            <div id="dsq-comment-message-15266" class="dsq-comment-message"><p>Similar code,but instead of next used prev.</p>
+<p>#include &lt;iostream&gt;<br />
+#include &lt;stdlib.h&gt;<br />
+using namespace  std;</p>
+<p>typedef struct link<br />
+{<br />
+	int x;<br />
+	struct link* next;<br />
+}node;</p>
+<p>node* head;<br />
+void add(int a)<br />
+{<br />
+	node* temp=new node;//(node*)malloc(sizeof(node));<br />
+temp-&gt;x=a;<br />
+temp-&gt;next=head;<br />
+head=temp;<br />
+}</p>
+<p>void end(int a)<br />
+{<br />
+node* cur,*temp;<br />
+//node*<br />
+temp=new node;//(node*)malloc(sizeof(node));<br />
+temp-&gt;x=a;<br />
+temp-&gt;next=0;</p>
+<p>cur=head;<br />
+if(head==0)<br />
+{<br />
+head=temp;<br />
+return;<br />
+}<br />
+while(cur-&gt;next!=0)<br />
+{cur=cur-&gt;next;}</p>
+<p>cur-&gt;next=temp;<br />
+}</p>
+<p>void display()<br />
+{<br />
+	node* cur;<br />
+	cur=head;<br />
+cout&lt;&lt;endl;<br />
+	while(cur!=0)<br />
+	{<br />
+		cout&lt;&lt;cur-&gt;x&lt;&lt;&quot; &quot;;<br />
+		cur=cur-&gt;next;<br />
+	}<br />
+}</p>
+<p>void del(int a)<br />
+{<br />
+node * cur,*prev;<br />
+cur=prev=head;</p>
+<p>while(cur!=0)<br />
+{<br />
+if(cur-&gt;x==a)<br />
+{</p>
+<p>if(cur==head)<br />
+{head=cur-&gt;next;<br />
+delete cur; //free(cur);<br />
+return;<br />
+}</p>
+<p>else if(cur-&gt;next==0)<br />
+{<br />
+prev-&gt;next=0;<br />
+delete cur;//free(cur);<br />
+return;<br />
+}</p>
+<p>prev-&gt;next=cur-&gt;next;<br />
+break;<br />
+}<br />
+prev=cur;<br />
+cur=cur-&gt;next;<br />
+}</p>
+<p>delete cur;//free(cur);<br />
+}</p>
+<p>void dup()<br />
+{<br />
+node *cur,*prev;<br />
+prev=cur=head;<br />
+while(cur!=0)<br />
+{<br />
+if(prev-&gt;x==cur-&gt;x)<br />
+del(cur-&gt;x);<br />
+prev=cur;<br />
+cur=cur-&gt;next;<br />
+}</p>
+<p>}</p>
+<p>int main()<br />
+{</p>
+<p>/*int n,ch;<br />
+do<br />
+{<br />
+cout&lt;&lt;&quot;ADD infront(1)/ADD end(2)::&quot;;<br />
+cin&gt;&gt;ch;<br />
+if(ch!=1 &amp;&amp; ch!=2) {cout&lt;&lt;&quot;bye bye!&quot;&lt;&lt;endl;break;}<br />
+cout&lt;&lt;&quot;enter data(in sorted format)::&quot;;<br />
+cin&gt;&gt;n;<br />
+if(ch==1) add(n);<br />
+else if(ch==2) end(n);</p>
+<p>}while(true);<br />
+*/<br />
+end(11);<br />
+end(11);<br />
+end(11);<br />
+end(21);<br />
+end(43);<br />
+end(43);<br />
+end(60);</p>
+<p>display();<br />
+dup();<br />
+display();</p>
+<p>return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-9955">
+        <div id="dsq-comment-header-9955" class="dsq-comment-header">
+            <cite id="dsq-cite-9955">
+                <span id="dsq-author-user-9955">Kunaal Ahuja</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9955" class="dsq-comment-body">
+            <div id="dsq-comment-message-9955" class="dsq-comment-message"><p>This code removes duplicates only if they occur in succession.Otherwise it won&#8217;t work.</p>
+<p>for eg.<br />
+12 2 7 9 12 2 9<br />
+for these set of inputs the code won&#8217;t work</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-13683">
+        <div id="dsq-comment-header-13683" class="dsq-comment-header">
+            <cite id="dsq-cite-13683">
+                <span id="dsq-author-user-13683">hARRY</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13683" class="dsq-comment-body">
+            <div id="dsq-comment-message-13683" class="dsq-comment-message"><p>Hello read the problem statement carefully!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-6458">
+        <div id="dsq-comment-header-6458" class="dsq-comment-header">
+            <cite id="dsq-cite-6458">
+                <span id="dsq-author-user-6458">Tim</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6458" class="dsq-comment-body">
+            <div id="dsq-comment-message-6458" class="dsq-comment-message"><pre> <code language="C">
+int RemoveDuplicates(linklist l){ //array as a helper to store the pointers
+     linklist p = l-&gt;next;
+     linklist a[100] = {0};
+     a[0] = p;
+     int i = 0;
+     int j = 0;
+     
+     while(p != NULL){
+           p = p-&gt;next;
+           if (p == NULL) break;
+           
+           while(j &gt;0 || j == 0 ){
+                 if(p-&gt;data == a[j]-&gt;data)
+                    break;
+                 j--;
+           }
+           
+           if (j &lt; 0){ 
+              i++;
+              a[i] = p;
+           }
+           
+           j = i;
+     }
+     
+     i = 0;
+
+     while (a[i] != 0){
+           a[i]-&gt;next = a[i+1];
+           ++i;
+     }
+     
+     l-&gt;next = a[0];
+     return 0;
+
+}</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-4086">
+        <div id="dsq-comment-header-4086" class="dsq-comment-header">
+            <cite id="dsq-cite-4086">
+                <span id="dsq-author-user-4086">sourabhjakhar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4086" class="dsq-comment-body">
+            <div id="dsq-comment-message-4086" class="dsq-comment-message"><p>this code do not remove the dulpicat if present in the last node</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-shekhu even thread-odd thread-alt depth-1" id="dsq-comment-1347">
+        <div id="dsq-comment-header-1347" class="dsq-comment-header">
+            <cite id="dsq-cite-1347">
+                <span id="dsq-author-user-1347">Shekhu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1347" class="dsq-comment-body">
+            <div id="dsq-comment-message-1347" class="dsq-comment-message"><p>Java code:</p>
+<p>public class ListNode<br />
+{<br />
+   int data;<br />
+   ListNode next;<br />
+}</p>
+<p>public removeDuplicatesSorted( ListNode p )<br />
+{<br />
+  while( p != null )<br />
+  {<br />
+     while( p.next != null &amp;&amp; p.data == p.next.data )<br />
+        p.next = p.next.next;<br />
+     p = p.next;<br />
+  }<br />
+  // this pair of loops is linear: in each while loop iteration we either<br />
+  // (a) delete a node or (b) move to the next node.<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/remove-duplicates-from-a-sorted-linked-list/';
+var disqus_identifier = '5075 http://geeksforgeeks.org/?p=5075';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Remove duplicates from a sorted linked list";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.196 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:28:11 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

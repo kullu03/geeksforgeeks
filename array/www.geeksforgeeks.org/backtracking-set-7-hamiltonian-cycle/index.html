@@ -1,0 +1,1354 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Backtracking | Set 6 (Hamiltonian Cycle) - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/backtracking-set-7-hamiltonian-cycle/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Backtracking | Set 6 (Hamiltonian Cycle) - GeeksforGeeks" />
+<meta property="og:description" content="Hamiltonian Path in an undirected graph is a path that visits each vertex exactly once. A Hamiltonian cycle (or Hamiltonian circuit) is a Hamiltonian Path such that there is an edge (in graph) from the last vertex to the first vertex of the Hamiltonian Path. Determine whether a given graph contains Hamiltonian Cycle or not. &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/backtracking-set-7-hamiltonian-cycle/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Backtracking" />
+<meta property="article:tag" content="Graph" />
+<meta property="article:section" content="Graph" />
+<meta property="article:published_time" content="2012-05-04T12:29:37+00:00" />
+<meta property="article:modified_time" content="2014-02-09T19:36:46+00:00" />
+<meta property="og:updated_time" content="2014-02-09T19:36:46+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.499 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417110976 14.139.226.3 172.18.8.95';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Backtracking | Set 6 (Hamiltonian Cycle)</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p><a href="http://en.wikipedia.org/wiki/Hamiltonian_path">Hamiltonian Path</a> in an undirected graph is a path that visits each vertex exactly once. A Hamiltonian cycle (or Hamiltonian circuit) is a Hamiltonian Path such that there is an edge (in graph) from the last vertex to the first vertex of the Hamiltonian Path.<span id="more-19092"></span> Determine whether a given graph contains Hamiltonian Cycle or not. If it contains, then print the path.  Following are the input and output of the required function.</p>
+<p><em>Input:</em><br />
+A 2D array graph[V][V] where V is the number of vertices in graph and graph[V][V] is adjacency matrix representation of the graph. A value graph[i][j] is 1 if there is a direct edge from i to j, otherwise graph[i][j] is 0.</p>
+<p><em>Output:</em><br />
+An array path[V] that should contain the Hamiltonian Path. path[i] should represent the  ith vertex in the Hamiltonian Path. The code should also return false if there is no Hamiltonian Cycle in the graph.</p>
+<p>For example, a Hamiltonian Cycle in the following graph is {0, 1, 2, 4, 3, 0}. There are more Hamiltonian Cycles in the graph like {0, 3, 4, 2, 1, 0}
+<pre>
+(0)--(1)--(2)
+ |   / \   |
+ |  /   \  | 
+ | /     \ |
+(3)-------(4)
+</pre>
+<p>And the following graph doesn&#8217;t contain any Hamiltonian Cycle.
+<pre>
+(0)--(1)--(2)
+ |   / \   |
+ |  /   \  | 
+ | /     \ |
+(3)      (4) 
+</pre>
+<p><strong>Naive Algorithm</strong><br />
+Generate all possible configurations of vertices and print a configuration that satisfies the given constraints. There will be n! (n factorial) configurations.</p>
+<pre>
+while there are untried conflagrations
+{
+   generate the next configuration
+   if ( there are edges between two consecutive vertices of this
+      configuration and there is an edge from the last vertex to 
+      the first ).
+   {
+      print this configuration;
+      break;
+   }
+}
+</pre>
+<p><strong>Backtracking Algorithm</strong><br />
+Create an empty path array and add vertex 0 to it. Add other vertices, starting from the vertex 1. Before adding a vertex, check for whether it is adjacent to the previously added vertex and not already added. If we find such a vertex, we add the vertex as part of the solution. If we do not find a vertex then we return false.</p>
+<p><strong>Implementation of Backtracking solution</strong><br />
+Following is C/C++ implementation of the Backtracking solution.</p>
+<pre class="brush: cpp; highlight: [9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88]; title: ; notranslate" title="">
+// Program to print Hamiltonian cycle
+#include&lt;stdio.h&gt;
+
+// Number of vertices in the graph
+#define V 5
+
+void printSolution(int path[]);
+
+/* A utility function to check if the vertex v can be added at index 'pos'
+   in the Hamiltonian Cycle constructed so far (stored in 'path[]') */
+bool isSafe(int v, bool graph[V][V], int path[], int pos)
+{
+    /* Check if this vertex is an adjacent vertex of the previously
+       added vertex. */
+    if (graph [ path[pos-1] ][ v ] == 0)
+        return false;
+
+    /* Check if the vertex has already been included.
+      This step can be optimized by creating an array of size V */
+    for (int i = 0; i &lt; pos; i++)
+        if (path[i] == v)
+            return false;
+
+    return true;
+}
+
+/* A recursive utility function to solve hamiltonian cycle problem */
+bool hamCycleUtil(bool graph[V][V], int path[], int pos)
+{
+    /* base case: If all vertices are included in Hamiltonian Cycle */
+    if (pos == V)
+    {
+        // And if there is an edge from the last included vertex to the
+        // first vertex
+        if ( graph[ path[pos-1] ][ path[0] ] == 1 )
+           return true;
+        else
+          return false;
+    }
+
+    // Try different vertices as a next candidate in Hamiltonian Cycle.
+    // We don't try for 0 as we included 0 as starting point in in hamCycle()
+    for (int v = 1; v &lt; V; v++)
+    {
+        /* Check if this vertex can be added to Hamiltonian Cycle */
+        if (isSafe(v, graph, path, pos))
+        {
+            path[pos] = v;
+
+            /* recur to construct rest of the path */
+            if (hamCycleUtil (graph, path, pos+1) == true)
+                return true;
+
+            /* If adding vertex v doesn't lead to a solution,
+               then remove it */
+            path[pos] = -1;
+        }
+    }
+
+    /* If no vertex can be added to Hamiltonian Cycle constructed so far,
+       then return false */
+    return false;
+}
+
+/* This function solves the Hamiltonian Cycle problem using Backtracking.
+  It mainly uses hamCycleUtil() to solve the problem. It returns false
+  if there is no Hamiltonian Cycle possible, otherwise return true and
+  prints the path. Please note that there may be more than one solutions,
+  this function prints one of the feasible solutions. */
+bool hamCycle(bool graph[V][V])
+{
+    int *path = new int[V];
+    for (int i = 0; i &lt; V; i++)
+        path[i] = -1;
+
+    /* Let us put vertex 0 as the first vertex in the path. If there is
+       a Hamiltonian Cycle, then the path can be started from any point
+       of the cycle as the graph is undirected */
+    path[0] = 0;
+    if ( hamCycleUtil(graph, path, 1) == false )
+    {
+        printf(&quot;\nSolution does not exist&quot;);
+        return false;
+    }
+
+    printSolution(path);
+    return true;
+}
+
+/* A utility function to print solution */
+void printSolution(int path[])
+{
+    printf (&quot;Solution Exists:&quot;
+            &quot; Following is one Hamiltonian Cycle \n&quot;);
+    for (int i = 0; i &lt; V; i++)
+        printf(&quot; %d &quot;, path[i]);
+
+    // Let us print the first vertex again to show the complete cycle
+    printf(&quot; %d &quot;, path[0]);
+    printf(&quot;\n&quot;);
+}
+
+// driver program to test above function
+int main()
+{
+   /* Let us create the following graph
+      (0)--(1)--(2)
+       |   / \   |
+       |  /   \  |
+       | /     \ |
+      (3)-------(4)    */
+   bool graph1[V][V] = {{0, 1, 0, 1, 0},
+                      {1, 0, 1, 1, 1},
+                      {0, 1, 0, 0, 1},
+                      {1, 1, 0, 0, 1},
+                      {0, 1, 1, 1, 0},
+                     };
+
+    // Print the solution
+    hamCycle(graph1);
+
+   /* Let us create the following graph
+      (0)--(1)--(2)
+       |   / \   |
+       |  /   \  |
+       | /     \ |
+      (3)       (4)    */
+    bool graph2[V][V] = {{0, 1, 0, 1, 0},
+                      {1, 0, 1, 1, 1},
+                      {0, 1, 0, 0, 1},
+                      {1, 1, 0, 0, 0},
+                      {0, 1, 1, 0, 0},
+                     };
+
+    // Print the solution
+    hamCycle(graph2);
+
+    return 0;
+}
+</pre>
+<p>Output:
+<pre>
+Solution Exists: Following is one Hamiltonian Cycle
+ 0  1  2  4  3  0
+
+Solution does not exist
+</pre>
+<p>Note that the above code always prints cycle starting from 0.  Starting point should not matter as cycle can be started from any point.  If you want to change the starting point, you should make two changes to above code.<br />
+Change    &#8220;path[0] = 0;&#8221;  to &#8220;path[0] = s;&#8221; where s is your new starting point.  Also change loop &#8220;for (int v = 1; v < V; v++)&#8221; in hamCycleUtil() to &#8220;for (int v = 0; v < V; v++)&#8221;.</p>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/vertex-cover-problem-set-1-introduction-approximate-algorithm-2/" title="Vertex Cover Problem | Set 1 (Introduction and Approximate Algorithm)">Vertex Cover Problem | Set 1 (Introduction and Approximate Algorithm)</a></li><li><a href="http://www.geeksforgeeks.org/snake-ladder-problem-2/" title="Snake and Ladder Problem">Snake and Ladder Problem</a></li><li><a href="http://www.geeksforgeeks.org/tarjan-algorithm-find-strongly-connected-components/" title="Tarjan&#8217;s Algorithm to find Strongly Connected Components">Tarjan&#8217;s Algorithm to find Strongly Connected Components</a></li><li><a href="http://www.geeksforgeeks.org/shortest-path-exactly-k-edges-directed-weighted-graph/" title="Shortest path with exactly k edges in a directed and weighted graph">Shortest path with exactly k edges in a directed and weighted graph</a></li><li><a href="http://www.geeksforgeeks.org/count-possible-paths-source-destination-exactly-k-edges/" title="Count all possible walks from a source to a destination with exactly k edges">Count all possible walks from a source to a destination with exactly k edges</a></li><li><a href="http://www.geeksforgeeks.org/euler-circuit-directed-graph/" title="Euler Circuit in a Directed Graph">Euler Circuit in a Directed Graph</a></li><li><a href="http://www.geeksforgeeks.org/given-array-strings-find-strings-can-chained-form-circle/" title="Given an array of strings, find if the strings can be chained to form a circle">Given an array of strings, find if the strings can be chained to form a circle</a></li><li><a href="http://www.geeksforgeeks.org/given-sorted-dictionary-find-precedence-characters/" title="Given a sorted dictionary of an alien language, find order of characters">Given a sorted dictionary of an alien language, find order of characters</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/backtracking/" rel="tag">Backtracking</a>, <a href="http://www.geeksforgeeks.org/tag/graph/" rel="tag">Graph</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fbacktracking-set-7-hamiltonian-cycle%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/backtracking-set-7-hamiltonian-cycle/" data-text="Backtracking | Set 6 (Hamiltonian Cycle)" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/backtracking-set-7-hamiltonian-cycle/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-30322">
+        <div id="dsq-comment-header-30322" class="dsq-comment-header">
+            <cite id="dsq-cite-30322">
+                <span id="dsq-author-user-30322">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30322" class="dsq-comment-body">
+            <div id="dsq-comment-message-30322" class="dsq-comment-message"><p>bool hamCycle(bool graph[V][V],bool*seen,int vertex)</p>
+<p>{<br />
+    int i;<br />
+ for(i=0;i&lt;V;i++)<br />
+ {<br />
+    if(graph[vertex][i]==1 &amp;&amp; seen[i]==false)<br />
+    {<br />
+        seen[i]=true;<br />
+        stack[++top]=i;<br />
+        if(hamCycle(graph,seen,i))<br />
+            return true;<br />
+        else<br />
+            top&#8211;;</p>
+<p>    }<br />
+ }<br />
+ return false;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-30321">
+        <div id="dsq-comment-header-30321" class="dsq-comment-header">
+            <cite id="dsq-cite-30321">
+                <span id="dsq-author-user-30321">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30321" class="dsq-comment-body">
+            <div id="dsq-comment-message-30321" class="dsq-comment-message"><p># include<br />
+  #include<br />
+// Number of vertices in the graph<br />
+#define V 5</p>
+<p>void printSolution(int path[]);</p>
+<p>int stack[V];<br />
+int top;<br />
+bool hamCycle(bool graph[V][V],bool*seen,int vertex)</p>
+<p>{<br />
+    int i;<br />
+ for(i=0;i&lt;V;i++)<br />
+ {<br />
+    if(graph[vertex][i]==1 &amp;&amp; seen[i]==false)<br />
+    {<br />
+        seen[i]=true;<br />
+        stack[++top]=i;<br />
+        if(hamCycle(graph,seen,i))<br />
+            return true;<br />
+        else<br />
+            top&#8211;;</p>
+<p>    }<br />
+ }<br />
+ return false;</p>
+<p>}</p>
+<p>// driver program to test above function<br />
+int main()<br />
+{<br />
+   /* Let us create the following graph<br />
+      (0)&#8211;(1)&#8211;(2)<br />
+       |   /    |<br />
+       |  /     |<br />
+       | /      |<br />
+      (3)&#8212;&#8212;-(4)    */<br />
+   bool graph1[V][V] = {{0, 1, 0, 1, 0},<br />
+                      {1, 0, 1, 1, 1},<br />
+                      {0, 1, 0, 0, 1},<br />
+                      {1, 1, 0, 0, 1},<br />
+                      {0, 1, 1, 1, 0},<br />
+                     };</p>
+<p>    // Print the solution<br />
+                       bool seen[V]={false};<br />
+  seen[0]=true;<br />
+  stack[0]=0;<br />
+    hamCycle(graph1,seen,0)</p>
+<p>       if(top==V)<br />
+        printf(&quot;there exists hamcyclen&quot;);</p>
+<p>int i;</p>
+<p> for(i=0;i &#8220;,stack[i] );<br />
+    return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-29953">
+        <div id="dsq-comment-header-29953" class="dsq-comment-header">
+            <cite id="dsq-cite-29953">
+                <span id="dsq-author-user-29953">da3m0n</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29953" class="dsq-comment-body">
+            <div id="dsq-comment-message-29953" class="dsq-comment-message"><p>Time Complexity please..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-28954">
+        <div id="dsq-comment-header-28954" class="dsq-comment-header">
+            <cite id="dsq-cite-28954">
+                <span id="dsq-author-user-28954">pavansrinivas</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28954" class="dsq-comment-body">
+            <div id="dsq-comment-message-28954" class="dsq-comment-message"><p>Algorithm for finding  whether a graph is Hamiltonian or not:<br />
+Do DFS &amp;maintain count of the adjacent unvisited vertices<br />
+If ( there is no adjacent unvisited vertex){<br />
+if the count is  equal to the num of vertices<br />
+    return true;<br />
+else<br />
+return false;<br />
+}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-30272">
+        <div id="dsq-comment-header-30272" class="dsq-comment-header">
+            <cite id="dsq-cite-30272">
+                <span id="dsq-author-user-30272">Sriharsha g.r.v</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30272" class="dsq-comment-body">
+            <div id="dsq-comment-message-30272" class="dsq-comment-message"><p>hi can u pls elaborate and explain with example..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-20108">
+        <div id="dsq-comment-header-20108" class="dsq-comment-header">
+            <cite id="dsq-cite-20108">
+                <span id="dsq-author-user-20108">Born Actor</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20108" class="dsq-comment-body">
+            <div id="dsq-comment-message-20108" class="dsq-comment-message"><p>/* #include &lt;iostream&gt;<br />
+#include&lt;string&gt;<br />
+#include&lt;sstream&gt;<br />
+#include&lt;iomanip&gt;<br />
+# include &lt;stdio.h&gt;<br />
+# include &lt;math.h&gt;<br />
+#include &lt;vector&gt;<br />
+#include &lt;stdlib.h&gt;<br />
+using namespace std;<br />
+int a[50][50];<br />
+int n;</p>
+<p>std::vector &lt; pair &lt;int, int &gt; &gt;edges;<br />
+int visited[50];<br />
+int cycle(int node);<br />
+void print();<br />
+int main()<br />
+{<br />
+	int i,j;<br />
+	cout&lt;&lt;&quot;enter the size&quot;&lt;&lt;endl;<br />
+	cin&gt;&gt;n;<br />
+	for(i=0;i&lt;n;i++)<br />
+		for(j=0;j&lt;n;j++)<br />
+			cin&gt;&gt;a[i][j];<br />
+	for(i=0;i&lt;n;i++)<br />
+		visited[i]=0;<br />
+	for(i=0;i&lt;n;i++)<br />
+	{<br />
+		for(j=0;j&lt;n;j++)<br />
+		{<br />
+			if(a[i][j]==1)<br />
+				a[j][i]=1;<br />
+		}<br />
+	}<br />
+	cout&lt;&lt;cycle(0)&lt;&lt;endl;<br />
+	print();<br />
+}<br />
+int cycle(int node)<br />
+{<br />
+	visited[node]=1;<br />
+	int flag=0;<br />
+	int j;<br />
+	for(j=0;j&lt;n;j++)<br />
+	{<br />
+		if(a[node][j]==1 &amp;&amp; visited[j]==0)<br />
+		{<br />
+			if(cycle(j)==1)<br />
+			{<br />
+				edges.push_back(make_pair(node,j));<br />
+				return 1;</p>
+<p>			}<br />
+			visited[j]=0;<br />
+		}</p>
+<p>	}<br />
+	for(j=0;j&lt;n;j++)<br />
+	{<br />
+		if(visited[j]==0)<br />
+		{<br />
+			flag=1;<br />
+			break;<br />
+		}<br />
+	}<br />
+	if(flag==0)<br />
+	{<br />
+		if(a[node][0]==1)<br />
+		{<br />
+			edges.push_back(make_pair(node,0));<br />
+			return 1;<br />
+		}<br />
+	}<br />
+	visited[node]=0;<br />
+	return 0;<br />
+}<br />
+void print()<br />
+{<br />
+	int i;<br />
+	cout&lt;&lt;endl&lt;&lt;&quot;The edges between these nodes form the Hamiltonian cycle&quot;&lt;&lt;endl;<br />
+	for(i=edges.size()-1;i&gt;=0;i&#8211;)<br />
+		cout&lt;&lt;edges[i].first&lt;&lt;&quot;  &quot;&lt;&lt;edges[i].second&lt;&lt;&quot;  &quot;&lt;&lt;endl;<br />
+}</p>
+<p> */</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-jainamit0909gmail-com even thread-odd thread-alt depth-1" id="dsq-comment-19680">
+        <div id="dsq-comment-header-19680" class="dsq-comment-header">
+            <cite id="dsq-cite-19680">
+                <span id="dsq-author-user-19680">AMIT</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19680" class="dsq-comment-body">
+            <div id="dsq-comment-message-19680" class="dsq-comment-message"><p>I think a minor improvement is possible&#8230;using a matrix soln to indicate which indices has already been visited,we can find isSafe in O(1)time.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+// Program to print Hamiltonian cycle
+#include&lt;stdio.h&gt;
+
+// Number of vertices in the graph
+#define V 5
+void print(int soln[V])
+{
+    int i,j;
+    printf(&quot;solution exists\n&quot;);
+    for(i=0;i&lt;V;i++,printf(&quot;\n&quot;))
+    //for(j=0;j&lt;V;j++)
+    printf(&quot;%d  &quot;,soln[i]);
+    printf(&quot;\n\n&quot;);
+}
+int findcycle(int graph[V][V],int soln[],int pos,int c,int path[])
+{
+    if(c==V)
+    return graph[pos][0];
+    int i;
+    for(i=0;i&lt;V;i++)
+    {
+        if(graph[pos][i] &amp;&amp; soln[i]==0)
+        {
+            soln[i]=1,path=i;
+            if(findcycle(graph,soln,i,c+1,path))
+            return 1;
+            soln[i]=0;
+        }
+    }
+    return 0;
+}
+void hamCycle(int graph[V][V])
+{
+    int soln[V]={0},path[V]={0};
+    soln[0]=1;
+    if(findcycle(graph,soln,0,1,path))
+    print(path);
+    else printf(&quot;no soln\n&quot;);
+}
+int main()
+{
+   /* Let us create the following graph
+      (0)--(1)--(2)
+       |   / \   |
+       |  /   \  |
+       | /     \ |
+      (3)-------(4)    */
+   int graph1[V][V] = {{0, 1, 0, 1, 0},
+                      {1, 0, 1, 1, 1},
+                      {0, 1, 0, 0, 1},
+                      {1, 1, 0, 0, 1},
+                      {0, 1, 1, 1, 0},
+                     };
+
+    // Print the solution
+    hamCycle(graph1);
+
+   /* Let us create the following graph
+      (0)--(1)--(2)
+       |   / \   |
+       |  /   \  |
+       | /     \ |
+      (3)       (4)    */
+    int graph2[V][V] = {{0, 1, 0, 1, 0},
+                      {1, 0, 1, 1, 1},
+                      {0, 1, 0, 0, 1},
+                      {1, 1, 0, 0, 0},
+                      {0, 1, 1, 0, 0},
+                     };
+
+    // Print the solution
+    hamCycle(graph2);
+
+    return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-29204">
+        <div id="dsq-comment-header-29204" class="dsq-comment-header">
+            <cite id="dsq-cite-29204">
+                <span id="dsq-author-user-29204">begfairouz</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29204" class="dsq-comment-body">
+            <div id="dsq-comment-message-29204" class="dsq-comment-message"><p>Hi,</p>
+<p>In the beggining i have to thank you for your program, it works well.<br />
+But i tried to use it for a graph[V][V] with V=120 but the program doesn&#8217;t return result ( neither positive or negative). Did you try it for big matrices?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-19405">
+        <div id="dsq-comment-header-19405" class="dsq-comment-header">
+            <cite id="dsq-cite-19405">
+http://mahajanneha.blogspot.com/                <span id="dsq-author-user-19405">neham</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19405" class="dsq-comment-body">
+            <div id="dsq-comment-message-19405" class="dsq-comment-message"><p>just a quick question &#8211; Hamiltonian Cycle belongs to NP-Complete problem how can we solve it using backtracking technique?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-18411">
+        <div id="dsq-comment-header-18411" class="dsq-comment-header">
+            <cite id="dsq-cite-18411">
+                <span id="dsq-author-user-18411">NNavneet</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18411" class="dsq-comment-body">
+            <div id="dsq-comment-message-18411" class="dsq-comment-message"><p>why in the input graph[i][i]=1 , if we start with vertex 1 or any other vertex than 0 as starting vertex then code does not return correct path , it actually return that there is no path existing.</p>
+<p>you correct this by making graph[i][i]=0 for all i&#8217;s, and stating the for from v=0 in the hamCycleUtil function<br />
+Here is the code :</p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+#include&lt;iostream&gt; 
+// Number of vertices in the graph
+#define V 5
+using namespace std;
+ 
+void printSolution(int path[])
+{
+	for(int i=0;i&lt;V;i++)
+	{
+		cout&lt;&lt;path[i]&lt;&lt;&quot; &quot;;
+	}
+	cout&lt;&lt;path[0]&lt;&lt;endl;
+}
+ 
+bool hamCycleUtil(bool graph[V][V],int path[],int pos)
+{
+	int flag=0;
+	if(pos==V)
+	{
+		int x= pos-1;
+		if(graph[ path[x] ][path[0]]==true)
+		return true;
+		else
+		return false;
+	}
+	
+	for(int i=0;i&lt;V;i++)
+	{
+	//	if(path[0]!=i)
+	//	{
+		
+		if(graph[path[pos-1]][i]==1)
+		{
+			flag=0;
+			for(int j=0;j&lt;pos;j++)
+			{
+				if(path[j]==i)
+				{
+					flag=1;
+					break;
+				}
+			}
+			if(flag==0)
+			{	
+				path[pos]=i;
+				if(hamCycleUtil(graph,path,pos+1)==true)
+				return true;
+			}
+				path[pos] = -1;
+				
+	//	}
+        }
+	}
+	return false;
+}
+int main()
+{
+   /* Let us create the following graph
+      (0)--(1)--(2)
+       |   / \   |
+       |  /   \  |
+       | /     \ |
+      (3)-------(4)    */
+   bool graph[V][V] = {{0, 1, 0, 1, 0},
+                      {1, 0, 1, 1, 1},
+                      {0, 1, 0, 0, 1},
+                      {1, 1, 0, 0, 1},
+                      {0, 1, 1, 1, 0},
+                     };
+ 
+    // Print the solution
+    int path[V];
+    for(int i=0;i&lt;V;i++)
+    path[i]=-1;
+    path[0]=0;  // put any vertex here 0,1,2,3,4 it works now
+	if(hamCycleUtil(graph,path,1))
+	cout&lt;&lt;&quot;PATH EXIST\n&quot;;
+	else
+	cout&lt;&lt;&quot;NO PATH\n&quot;;
+	printSolution(path);
+    return 0;
+}</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even depth-2" id="dsq-comment-18422">
+        <div id="dsq-comment-header-18422" class="dsq-comment-header">
+            <cite id="dsq-cite-18422">
+                <span id="dsq-author-user-18422">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18422" class="dsq-comment-body">
+            <div id="dsq-comment-message-18422" class="dsq-comment-message"><p>The main task of program is to find out whether a given graph contains Hamiltonian Cycle or not. And if there is a cycle, then print the cycle. The above program always does that. The starting point of cycle doesn&#8217;t matter, a cycle is a cycle and can be printed in any way.</p>
+<p>If you don&#8217;t like 0 as a starting point of cycle, we have added a note below the code to change the starting point <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+<p>Also, we have removed self loops in the matrix representation of graph. Keep it up!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-16419">
+        <div id="dsq-comment-header-16419" class="dsq-comment-header">
+            <cite id="dsq-cite-16419">
+                <span id="dsq-author-user-16419">AAZ</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16419" class="dsq-comment-body">
+            <div id="dsq-comment-message-16419" class="dsq-comment-message"><p>What would be the runtime complexity of the program ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-8999">
+        <div id="dsq-comment-header-8999" class="dsq-comment-header">
+            <cite id="dsq-cite-8999">
+                <span id="dsq-author-user-8999">spark9</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8999" class="dsq-comment-body">
+            <div id="dsq-comment-message-8999" class="dsq-comment-message"><p>IsSafe function complexity can be improved by using better data structures. We can use an array[V] to mark whether a vertex is visited or not. </p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-8709">
+        <div id="dsq-comment-header-8709" class="dsq-comment-header">
+            <cite id="dsq-cite-8709">
+                <span id="dsq-author-user-8709">atul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8709" class="dsq-comment-body">
+            <div id="dsq-comment-message-8709" class="dsq-comment-message"><p>code will not work for all inputs</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-8883">
+        <div id="dsq-comment-header-8883" class="dsq-comment-header">
+            <cite id="dsq-cite-8883">
+                <span id="dsq-author-user-8883">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8883" class="dsq-comment-body">
+            <div id="dsq-comment-message-8883" class="dsq-comment-message"><p>Please provide more details of your comment. Why do think that the code will not work? Do you have some sample graph for which it didn&#8217;t work?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8708">
+        <div id="dsq-comment-header-8708" class="dsq-comment-header">
+            <cite id="dsq-cite-8708">
+                <span id="dsq-author-user-8708">atul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8708" class="dsq-comment-body">
+            <div id="dsq-comment-message-8708" class="dsq-comment-message"><p>why assumption has been made that node 0 is connected to node 1.<br />
+if given graph is the one given below..then code will fail right??</p>
+<pre>
+(0)--(4)--(3)
+ |   / \   |
+ |  /   \  |
+ | /     \ |
+(2)-------(1)  
+</pre>
+<p>/* Paste your code here (You may delete these lines if not writing code) */</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-8717">
+        <div id="dsq-comment-header-8717" class="dsq-comment-header">
+            <cite id="dsq-cite-8717">
+                <span id="dsq-author-user-8717">atul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8717" class="dsq-comment-body">
+            <div id="dsq-comment-message-8717" class="dsq-comment-message"><p>ignore above comment</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-8495">
+        <div id="dsq-comment-header-8495" class="dsq-comment-header">
+            <cite id="dsq-cite-8495">
+                <span id="dsq-author-user-8495">kavish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8495" class="dsq-comment-body">
+            <div id="dsq-comment-message-8495" class="dsq-comment-message"><p>good post&#8230;.a more generalised version of knight&#8217;s tour problem&#8230;</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-8301">
+        <div id="dsq-comment-header-8301" class="dsq-comment-header">
+            <cite id="dsq-cite-8301">
+                <span id="dsq-author-user-8301">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8301" class="dsq-comment-body">
+            <div id="dsq-comment-message-8301" class="dsq-comment-message"><p>How can we extend the solution to start at an arbitrary vertex? One way is to keep track of &#8220;pos&#8221; and wrap back to zero when it crosses array bound, and include in the solution validity whether all the vertices included in the position vector.</p>
+<p>Is there any better way?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-8303">
+        <div id="dsq-comment-header-8303" class="dsq-comment-header">
+            <cite id="dsq-cite-8303">
+                <span id="dsq-author-user-8303">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8303" class="dsq-comment-body">
+            <div id="dsq-comment-message-8303" class="dsq-comment-message"><p>One simple way is to generate the path array as it is being generated in the above code.  Then generate rotations of the path array. Every rotation of the path array will be a Hamiltonian Cycle.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/backtracking-set-7-hamiltonian-cycle/';
+var disqus_identifier = '19092 http://www.geeksforgeeks.org/?p=19092';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Backtracking | Set 6 (Hamiltonian Cycle)";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.194 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:26:17 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

@@ -1,0 +1,3422 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Understanding &quot;extern&quot; keyword in C - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Understanding &quot;extern&quot; keyword in C - GeeksforGeeks" />
+<meta property="og:description" content="I&#8217;m sure that this post will be as interesting and informative to C virgins (i.e. beginners) as it will be to those who are well versed in C. So let me start with saying that extern keyword applies to C variables (data objects) and C functions. Basically extern keyword extends the visibility of the C &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Articles" />
+<meta property="article:tag" content="Tutorial" />
+<meta property="article:section" content="Articles" />
+<meta property="article:published_time" content="2009-07-19T11:12:47+00:00" />
+<meta property="article:modified_time" content="2010-02-14T01:12:19+00:00" />
+<meta property="og:updated_time" content="2010-02-14T01:12:19+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.530 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417110785 106.197.14.147';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Understanding &#8220;extern&#8221; keyword in C</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>I&#8217;m sure that this post will be as interesting and informative to C virgins (i.e. beginners) as it will be to those who are well versed in C. So let me start with saying that extern keyword applies to C variables (data objects) and C functions. <span id="more-840"></span>Basically extern keyword extends the visibility of the C variables and C functions. Probably that&#8217;s is the reason why it was named as extern.</p>
+<p>Though (almost) everyone knows the meaning of declaration and definition of a variable/function yet for the sake of completeness of this post, I would like to clarify them. Declaration of a variable/function simply declares that the variable/function exists somewhere in the program but the memory is not allocated for them. But the declaration of a variable/function serves an important role. And that is the type of the variable/function. Therefore, when a variable is declared, the program knows the data type of that variable. In case of function declaration, the program knows what are the arguments to that functions, their data types, the order of arguments and the return type of the function. So that&#8217;s all about declaration. Coming to the definition, when we define a variable/function, apart from the role of declaration, it also allocates memory for that variable/function. Therefore, we can think of definition as a super set of declaration. (or declaration as a subset of definition). From this explanation, it should be obvious that a variable/function can be declared any number of times but it can be defined only once. (Remember the basic principle that you can&#8217;t have two locations of the same variable/function). So that&#8217;s all about declaration and definition.</p>
+<p>Now coming back to our main objective: Understanding &#8220;extern&#8221; keyword in C. I&#8217;ve explained the role of declaration/definition because it&#8217;s mandatory to understand them to understand the &#8220;extern&#8221; keyword. Let us first take the easy case. Use of extern with C functions. By default, the declaration and definition of a C function have &#8220;extern&#8221; prepended with them. It means even though we don&#8217;t use extern with the declaration/definition of C functions, it is present there. For example, when we write.</p>
+<pre>
+    int foo(int arg1, char arg2);
+</pre>
+<p>There&#8217;s an extern present in the beginning which is hidden and the compiler treats it as below.</p>
+<pre>
+    extern int foo(int arg1, char arg2);
+</pre>
+<p>Same is the case with the definition of a C function (Definition of a C function means writing the body of the function). Therefore whenever we define a C function, an extern is present there in the beginning of the function definition. Since the declaration can be done any number of times and definition can be done only once, we can notice that declaration of a function can be added in several C/H files or in a single C/H file several times. But we notice the actual definition of the function only once (i.e. in one file only). And as the extern extends the visibility to the whole program, the functions can be used (called) anywhere in any of the files of the whole program provided the declaration of the function is known. (By knowing the declaration of the function, C compiler knows that the definition of the function exists and it goes ahead to compile the program). So that&#8217;s all about extern with C functions.</p>
+<p>Now let us the take the second and final case i.e. use of extern with C variables. I feel that it more interesting and information than the previous case where extern is present by default with C functions. So let me ask the question, how would you declare a C variable without defining it? Many of you would see it trivial but it&#8217;s important question to understand extern with C variables. The answer goes as follows.</p>
+<pre>
+    extern int var;
+</pre>
+<p>Here, an integer type variable called var has been declared (remember no definition i.e. no memory allocation for var so far). And we can do this declaration as many times as needed. (remember that declaration can be done any number of times) So far so good. <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+<p>Now how would you define a variable. Now I agree that it is the most trivial question in programming and the answer is as follows.</p>
+<pre>
+    int var;
+</pre>
+<p>Here, an integer type variable called var has been declared as well as defined. (remember that definition is the super set of declaration). Here the memory for var is also allocated. Now here comes the surprise, when we declared/defined a C function, we saw that an extern was present by default. While defining a function, we can prepend it with extern without any issues. But it is not the case with C variables. If we put the presence of extern in variable as default then the memory for them will not be allocated ever, they will be declared only. Therefore, we put extern explicitly for C variables when we want to declare them without defining them. Also, as the extern extends the visibility to the whole program, by externing a variable we can use the variables anywhere in the program provided we know the declaration of them and the variable is defined somewhere.</p>
+<p>Now let us try to understand extern with examples.</p>
+<p>Example 1:</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+int var;
+int main(void)
+{
+   var = 10;
+   return 0;
+}
+</pre>
+<p>Analysis: This program is compiled successfully. Here var is defined (and declared implicitly) globally.</p>
+<p>Example 2:</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+extern int var;
+int main(void)
+{
+  return 0;
+}
+</pre>
+<p>Analysis: This program is compiled successfully. Here var is declared only. Notice var is never used so no problems.</p>
+<p>Example 3:</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+extern int var;
+int main(void)
+{
+ var = 10;
+ return 0;
+}
+</pre>
+<p>Analysis: This program throws error in compilation. Because var is declared but not defined anywhere. Essentially, the var isn&#8217;t allocated any memory. And the program is trying to change the value to 10 of a variable that doesn&#8217;t exist at all.</p>
+<p>Example 4:</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+#include &quot;somefile.h&quot;
+extern int var;
+int main(void)
+{
+ var = 10;
+ return 0;
+}
+</pre>
+<p>Analysis: Supposing that somefile.h has the definition of var. This program will be compiled successfully.</p>
+<p>Example 5:</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+extern int var = 0;
+int main(void)
+{
+ var = 10;
+ return 0;
+}
+</pre>
+<p>Analysis: Guess this program will work? Well, here comes another surprise from C standards. They say that..if a variable is only declared and an initializer is also provided with that declaration, then the memory for that variable will be allocated i.e. that variable will be considered as defined. Therefore, as per the C standard, this program will compile successfully and work.</p>
+<p>So that was a preliminary look at &#8220;extern&#8221; keyword in C.</p>
+<p>I&#8217;m sure that you want to have some take away from the reading of this post. And I would not disappoint you. <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /><br />
+In short, we can say</p>
+<p>1. Declaration can be done any number of times but definition only once.<br />
+2. &#8220;extern&#8221; keyword is used to extend the visibility of variables/functions().<br />
+3. Since functions are visible through out the program by default. The use of extern is not needed in function declaration/definition. Its use is redundant.<br />
+4. When extern is used with a variable, it&#8217;s only declared not defined.<br />
+5. As an exception, when an extern variable is declared with initialization, it is taken as definition of the variable as well.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/problem-binary-search-implementations/" title="A Problem in Many Binary Search Implementations">A Problem in Many Binary Search Implementations</a></li><li><a href="http://www.geeksforgeeks.org/analysis-of-algorithms-set-4-analysis-of-loops/" title="Analysis of Algorithms | Set 4 (Analysis of Loops)">Analysis of Algorithms | Set 4 (Analysis of Loops)</a></li><li><a href="http://www.geeksforgeeks.org/analysis-of-algorithms-set-3asymptotic-notations/" title="Analysis of Algorithms | Set 3 (Asymptotic Notations)">Analysis of Algorithms | Set 3 (Asymptotic Notations)</a></li><li><a href="http://www.geeksforgeeks.org/np-completeness-set-1/" title="NP-Completeness | Set 1 (Introduction)">NP-Completeness | Set 1 (Introduction)</a></li><li><a href="http://www.geeksforgeeks.org/static-vs-dynamic-libraries/" title="Static and Dynamic Libraries | Set 1">Static and Dynamic Libraries | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/the-ubiquitous-binary-search-set-1/" title="The Ubiquitous Binary Search | Set 1">The Ubiquitous Binary Search | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/reservoir-sampling/" title="Reservoir Sampling">Reservoir Sampling</a></li><li><a href="http://www.geeksforgeeks.org/analysis-of-algorithms-set-2-asymptotic-analysis/" title="Analysis of Algorithms | Set 2 (Worst, Average and Best Cases)">Analysis of Algorithms | Set 2 (Worst, Average and Best Cases)</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/articles/" rel="tag">Articles</a>, <a href="http://www.geeksforgeeks.org/tag/tutorial/" rel="tag">Tutorial</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Funderstanding-extern-keyword-in-c%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/" data-text="Understanding &#8220;extern&#8221; keyword in C" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-34661">
+        <div id="dsq-comment-header-34661" class="dsq-comment-header">
+            <cite id="dsq-cite-34661">
+                <span id="dsq-author-user-34661">Rose Robinson</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34661" class="dsq-comment-body">
+            <div id="dsq-comment-message-34661" class="dsq-comment-message"><p>Thanks for a great article! You described everything very thoroughly and I felt like I&#8217;d learned a lot after reading it!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-34524">
+        <div id="dsq-comment-header-34524" class="dsq-comment-header">
+            <cite id="dsq-cite-34524">
+                <span id="dsq-author-user-34524">Mukul Taneja</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34524" class="dsq-comment-body">
+            <div id="dsq-comment-message-34524" class="dsq-comment-message"><p>int var; // its a defination not a declaration right?<br />
+Means you want to say that in general we dont  declare variables..we always define variables and declaration and defination done in function case.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-34520">
+        <div id="dsq-comment-header-34520" class="dsq-comment-header">
+            <cite id="dsq-cite-34520">
+                <span id="dsq-author-user-34520">Vishnu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34520" class="dsq-comment-body">
+            <div id="dsq-comment-message-34520" class="dsq-comment-message"><p>Great</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-34418">
+        <div id="dsq-comment-header-34418" class="dsq-comment-header">
+            <cite id="dsq-cite-34418">
+                <span id="dsq-author-user-34418">Ambadas Hibare</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34418" class="dsq-comment-body">
+            <div id="dsq-comment-message-34418" class="dsq-comment-message"><p>Thank you</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-34356">
+        <div id="dsq-comment-header-34356" class="dsq-comment-header">
+            <cite id="dsq-cite-34356">
+                <span id="dsq-author-user-34356">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34356" class="dsq-comment-body">
+            <div id="dsq-comment-message-34356" class="dsq-comment-message"><p>gcc compiler in ubuntu gave on error on this </p>
+<p>  #include<br />
+   int main()<br />
+  {<br />
+     extern int a =5;<br />
+     a=4;<br />
+     printf(&#8220;%d&#8221;,a);<br />
+     return 0;<br />
+   }</p>
+<p>can someone explain me why while<br />
+declaring extern int a globaly produces a warning but compiles</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-34184">
+        <div id="dsq-comment-header-34184" class="dsq-comment-header">
+            <cite id="dsq-cite-34184">
+                <span id="dsq-author-user-34184">Sudarshan Kj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34184" class="dsq-comment-body">
+            <div id="dsq-comment-message-34184" class="dsq-comment-message"><p>very descriptive explanation .<br />
+thanks!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-34108">
+        <div id="dsq-comment-header-34108" class="dsq-comment-header">
+            <cite id="dsq-cite-34108">
+                <span id="dsq-author-user-34108">Olof</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34108" class="dsq-comment-body">
+            <div id="dsq-comment-message-34108" class="dsq-comment-message"><p>Thank you.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-34084">
+        <div id="dsq-comment-header-34084" class="dsq-comment-header">
+            <cite id="dsq-cite-34084">
+                <span id="dsq-author-user-34084">pulpfree</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34084" class="dsq-comment-body">
+            <div id="dsq-comment-message-34084" class="dsq-comment-message"><p>appreciate it!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-33716">
+        <div id="dsq-comment-header-33716" class="dsq-comment-header">
+            <cite id="dsq-cite-33716">
+                <span id="dsq-author-user-33716">Runcy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33716" class="dsq-comment-body">
+            <div id="dsq-comment-message-33716" class="dsq-comment-message"><p>Excellent stuff!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-33534">
+        <div id="dsq-comment-header-33534" class="dsq-comment-header">
+            <cite id="dsq-cite-33534">
+                <span id="dsq-author-user-33534">Keshav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33534" class="dsq-comment-body">
+            <div id="dsq-comment-message-33534" class="dsq-comment-message"><p>By far the best explanation I have read.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-33059">
+        <div id="dsq-comment-header-33059" class="dsq-comment-header">
+            <cite id="dsq-cite-33059">
+                <span id="dsq-author-user-33059">Aadi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33059" class="dsq-comment-body">
+            <div id="dsq-comment-message-33059" class="dsq-comment-message"><p>very well explained. Thanks very much!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-32003">
+        <div id="dsq-comment-header-32003" class="dsq-comment-header">
+            <cite id="dsq-cite-32003">
+                <span id="dsq-author-user-32003">Shlomo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32003" class="dsq-comment-body">
+            <div id="dsq-comment-message-32003" class="dsq-comment-message"><p>just want to point out that a linkage error will occur and not a compilation error as written above.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-31783">
+        <div id="dsq-comment-header-31783" class="dsq-comment-header">
+            <cite id="dsq-cite-31783">
+                <span id="dsq-author-user-31783">iamkris</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31783" class="dsq-comment-body">
+            <div id="dsq-comment-message-31783" class="dsq-comment-message"><p>how do i use this in keyword analysis, can you give a sample program?  I want to create a program that responds to the questions i ask, there will be possible structure of the question but one possible answer. TY</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-31649">
+        <div id="dsq-comment-header-31649" class="dsq-comment-header">
+            <cite id="dsq-cite-31649">
+                <span id="dsq-author-user-31649">jugal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31649" class="dsq-comment-body">
+            <div id="dsq-comment-message-31649" class="dsq-comment-message"><p>ex-5 gives following error if extern int var = 0; line written inside main function.<br />
+error : ‘var’ has both ‘extern’ and initializer</p>
+<p>int main(void)<br />
+{<br />
+extern int var = 0;<br />
+ var = 10;<br />
+ return 0;<br />
+}</p>
+<p>any one explain why it is happened??</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-32427">
+        <div id="dsq-comment-header-32427" class="dsq-comment-header">
+            <cite id="dsq-cite-32427">
+                <span id="dsq-author-user-32427">Zaigham</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32427" class="dsq-comment-body">
+            <div id="dsq-comment-message-32427" class="dsq-comment-message"><p>Which compiler you are using?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-34221">
+        <div id="dsq-comment-header-34221" class="dsq-comment-header">
+            <cite id="dsq-cite-34221">
+                <span id="dsq-author-user-34221">Mallesh Koujalagi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34221" class="dsq-comment-body">
+            <div id="dsq-comment-message-34221" class="dsq-comment-message"><p>since extern int var = 0; declaration and initialized with { }, which mean not global variable, it act as local variable and if we use extern to local then will definately give error.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-31628">
+        <div id="dsq-comment-header-31628" class="dsq-comment-header">
+            <cite id="dsq-cite-31628">
+                <span id="dsq-author-user-31628">Prateek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31628" class="dsq-comment-body">
+            <div id="dsq-comment-message-31628" class="dsq-comment-message"><p>void main(){<br />
+extern int i; //as per u its only declaration<br />
+int i;// as per u its declaration + definition</p>
+<p>i think that is y i&#8217;m getting the error multiple declarations for i<br />
+how to write code pls help!!<br />
+if i&#8217;m typing ur example 5, then i&#8217;m getting an error, extern variables cannot be initialised&#8230;<br />
+then how to use extern??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-31509">
+        <div id="dsq-comment-header-31509" class="dsq-comment-header">
+            <cite id="dsq-cite-31509">
+                <span id="dsq-author-user-31509">sagar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31509" class="dsq-comment-body">
+            <div id="dsq-comment-message-31509" class="dsq-comment-message"><p>clearly explained !</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-31416">
+        <div id="dsq-comment-header-31416" class="dsq-comment-header">
+            <cite id="dsq-cite-31416">
+                <span id="dsq-author-user-31416">Satya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31416" class="dsq-comment-body">
+            <div id="dsq-comment-message-31416" class="dsq-comment-message"><p>good one</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-31381">
+        <div id="dsq-comment-header-31381" class="dsq-comment-header">
+            <cite id="dsq-cite-31381">
+                <span id="dsq-author-user-31381">xinning wang</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31381" class="dsq-comment-body">
+            <div id="dsq-comment-message-31381" class="dsq-comment-message"><p>great summary.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-31295">
+        <div id="dsq-comment-header-31295" class="dsq-comment-header">
+            <cite id="dsq-cite-31295">
+                <span id="dsq-author-user-31295">av</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31295" class="dsq-comment-body">
+            <div id="dsq-comment-message-31295" class="dsq-comment-message"><p>nice!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-31142">
+        <div id="dsq-comment-header-31142" class="dsq-comment-header">
+            <cite id="dsq-cite-31142">
+                <span id="dsq-author-user-31142">gt</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31142" class="dsq-comment-body">
+            <div id="dsq-comment-message-31142" class="dsq-comment-message"><p>#include<br />
+extern int a;</p>
+<p>int main()</p>
+<p>{</p>
+<p>    extern int a;</p>
+<p>    int a=34;</p>
+<p>    printf(&#8220;%d&#8221;,a);</p>
+<p>    return 0;</p>
+<p>}</p>
+<p>why this code is showing error??</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-31359">
+        <div id="dsq-comment-header-31359" class="dsq-comment-header">
+            <cite id="dsq-cite-31359">
+                <span id="dsq-author-user-31359">RJ</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31359" class="dsq-comment-body">
+            <div id="dsq-comment-message-31359" class="dsq-comment-message"><p>this code shud not give error..may be there is some other mistake..please check it..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-31377">
+        <div id="dsq-comment-header-31377" class="dsq-comment-header">
+            <cite id="dsq-cite-31377">
+                <span id="dsq-author-user-31377">neha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31377" class="dsq-comment-body">
+            <div id="dsq-comment-message-31377" class="dsq-comment-message"><p>extern variable declaration is a promise to the compiler that there would be a definition of a globalvariable some place else. Local variables do not qualify as fulfillments of the promise to the compiler, because they are invisible to linkers. In a sense, extern declarations are similar to forward declarations of functions: you say to the compiler &#8220;I know this function is there, so let me use it now, and let linker take care of locating the actual implementation&#8221;.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-31467">
+        <div id="dsq-comment-header-31467" class="dsq-comment-header">
+            <cite id="dsq-cite-31467">
+                <span id="dsq-author-user-31467">dattu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31467" class="dsq-comment-body">
+            <div id="dsq-comment-message-31467" class="dsq-comment-message"><p>this type of definition showing error ( linker error).why it is showing as error?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-34695">
+        <div id="dsq-comment-header-34695" class="dsq-comment-header">
+            <cite id="dsq-cite-34695">
+                <span id="dsq-author-user-34695">venky</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34695" class="dsq-comment-body">
+            <div id="dsq-comment-message-34695" class="dsq-comment-message"><p>its like neha said, inker looks for that variable definition outside the scope of where it is defined.(depends also on where its defined like ex-5, it is declared &amp; defined in global scope. If you do the same thing inside main it&#8217;ll be throw error, instead of warning.</p>
+<p>try this code for better understanding.</p>
+<p>#include<br />
+int a;<br />
+int main()<br />
+{<br />
+    extern int a;   //looks for a outside of its scope(main function here)<br />
+    int a=34;<br />
+    printf(&#8220;%d&#8221;,a);<br />
+    return 0;<br />
+}<br />
+The above code works&#8230;.<br />
+or<br />
+&#8220;test.c&#8221; has definition of &#8216;a&#8217; inside</p>
+<p>#include<br />
+extern int a;<br />
+int main()<br />
+{<br />
+    extern int a;   //looks for a outside of its scope(main function here)<br />
+    int a=34;<br />
+    printf(&#8220;%d&#8221;,a);<br />
+    return 0;<br />
+}<br />
+If you link the test.c while running the above code, it works&#8230;</p>
+<p>BASICALLY<br />
+1)extern for variable looks for its definition outside its scope.<br />
+2)If above condition fails it allows some wild card entries with warnings.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-31092">
+        <div id="dsq-comment-header-31092" class="dsq-comment-header">
+            <cite id="dsq-cite-31092">
+                <span id="dsq-author-user-31092">codeit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31092" class="dsq-comment-body">
+            <div id="dsq-comment-message-31092" class="dsq-comment-message"><p>is this right?<br />
+extern int var;</p>
+<p>int main(void)</p>
+<p>{</p>
+<p> int var = 10;</p>
+<p> return 0;</p>
+<p>}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-31360">
+        <div id="dsq-comment-header-31360" class="dsq-comment-header">
+            <cite id="dsq-cite-31360">
+                <span id="dsq-author-user-31360">RJ</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31360" class="dsq-comment-body">
+            <div id="dsq-comment-message-31360" class="dsq-comment-message"><p>yes</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-31368">
+        <div id="dsq-comment-header-31368" class="dsq-comment-header">
+            <cite id="dsq-cite-31368">
+                <span id="dsq-author-user-31368">jyoti</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31368" class="dsq-comment-body">
+            <div id="dsq-comment-message-31368" class="dsq-comment-message"><p>no</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-31412">
+        <div id="dsq-comment-header-31412" class="dsq-comment-header">
+            <cite id="dsq-cite-31412">
+                <span id="dsq-author-user-31412">Mallesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31412" class="dsq-comment-body">
+            <div id="dsq-comment-message-31412" class="dsq-comment-message"><p>It&#8217;s right, until and unless var global variable defined (memory location)</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-5" id="dsq-comment-31491">
+        <div id="dsq-comment-header-31491" class="dsq-comment-header">
+            <cite id="dsq-cite-31491">
+                <span id="dsq-author-user-31491">Gaurav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31491" class="dsq-comment-body">
+            <div id="dsq-comment-message-31491" class="dsq-comment-message"><p>Even if we define the extern var. It would not be a problem as the two &#8216;var&#8217; have different scope. local var would take priority unless scope is explicitly specified.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-30818">
+        <div id="dsq-comment-header-30818" class="dsq-comment-header">
+            <cite id="dsq-cite-30818">
+                <span id="dsq-author-user-30818">Ponni</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30818" class="dsq-comment-body">
+            <div id="dsq-comment-message-30818" class="dsq-comment-message"><p>Awesome <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-30695">
+        <div id="dsq-comment-header-30695" class="dsq-comment-header">
+            <cite id="dsq-cite-30695">
+                <span id="dsq-author-user-30695">vidisha bhatnagar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30695" class="dsq-comment-body">
+            <div id="dsq-comment-message-30695" class="dsq-comment-message"><p>thankyu..ur explanation is very gudd</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-30681">
+        <div id="dsq-comment-header-30681" class="dsq-comment-header">
+            <cite id="dsq-cite-30681">
+                <span id="dsq-author-user-30681">Sachin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30681" class="dsq-comment-body">
+            <div id="dsq-comment-message-30681" class="dsq-comment-message"><p>awesome <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-30650">
+        <div id="dsq-comment-header-30650" class="dsq-comment-header">
+            <cite id="dsq-cite-30650">
+                <span id="dsq-author-user-30650">ajay</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30650" class="dsq-comment-body">
+            <div id="dsq-comment-message-30650" class="dsq-comment-message"><p>awesome!!! thanx a lot</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-30645">
+        <div id="dsq-comment-header-30645" class="dsq-comment-header">
+            <cite id="dsq-cite-30645">
+                <span id="dsq-author-user-30645">tarun</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30645" class="dsq-comment-body">
+            <div id="dsq-comment-message-30645" class="dsq-comment-message"><p>thanks a lot dude</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-30613">
+        <div id="dsq-comment-header-30613" class="dsq-comment-header">
+            <cite id="dsq-cite-30613">
+                <span id="dsq-author-user-30613">Sambit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30613" class="dsq-comment-body">
+            <div id="dsq-comment-message-30613" class="dsq-comment-message"><p>Thanks a lot, it was very helpful.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-30546">
+        <div id="dsq-comment-header-30546" class="dsq-comment-header">
+            <cite id="dsq-cite-30546">
+                <span id="dsq-author-user-30546">jinzhi chen</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30546" class="dsq-comment-body">
+            <div id="dsq-comment-message-30546" class="dsq-comment-message"><p>wow, good explanation, thanks!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-30469">
+        <div id="dsq-comment-header-30469" class="dsq-comment-header">
+            <cite id="dsq-cite-30469">
+                <span id="dsq-author-user-30469">gautam chawla</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30469" class="dsq-comment-body">
+            <div id="dsq-comment-message-30469" class="dsq-comment-message"><p>very nice explaination&#8230;keep it up <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-30362">
+        <div id="dsq-comment-header-30362" class="dsq-comment-header">
+            <cite id="dsq-cite-30362">
+                <span id="dsq-author-user-30362">Manohar Singh Aswal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30362" class="dsq-comment-body">
+            <div id="dsq-comment-message-30362" class="dsq-comment-message"><p>nice explanation with example to understand all about using extern keyword.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-30044">
+        <div id="dsq-comment-header-30044" class="dsq-comment-header">
+            <cite id="dsq-cite-30044">
+                <span id="dsq-author-user-30044">hao</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30044" class="dsq-comment-body">
+            <div id="dsq-comment-message-30044" class="dsq-comment-message"><p>Thanks, this helps a lot <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-29466">
+        <div id="dsq-comment-header-29466" class="dsq-comment-header">
+            <cite id="dsq-cite-29466">
+                <span id="dsq-author-user-29466">xiyal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29466" class="dsq-comment-body">
+            <div id="dsq-comment-message-29466" class="dsq-comment-message"><p>Nice, thanks <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-29408">
+        <div id="dsq-comment-header-29408" class="dsq-comment-header">
+            <cite id="dsq-cite-29408">
+                <span id="dsq-author-user-29408">Saadhana</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29408" class="dsq-comment-body">
+            <div id="dsq-comment-message-29408" class="dsq-comment-message"><p>really clear explanation.. Thank you&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-29401">
+        <div id="dsq-comment-header-29401" class="dsq-comment-header">
+            <cite id="dsq-cite-29401">
+                <span id="dsq-author-user-29401">Neda</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29401" class="dsq-comment-body">
+            <div id="dsq-comment-message-29401" class="dsq-comment-message"><p>Thanks, very concise and helpful:)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-29221">
+        <div id="dsq-comment-header-29221" class="dsq-comment-header">
+            <cite id="dsq-cite-29221">
+                <span id="dsq-author-user-29221">Dithya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29221" class="dsq-comment-body">
+            <div id="dsq-comment-message-29221" class="dsq-comment-message"><p>Thanks <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-29201">
+        <div id="dsq-comment-header-29201" class="dsq-comment-header">
+            <cite id="dsq-cite-29201">
+                <span id="dsq-author-user-29201">Yasmin Mohamed</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29201" class="dsq-comment-body">
+            <div id="dsq-comment-message-29201" class="dsq-comment-message"><p>so useful &#8230; thanks <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-28766">
+        <div id="dsq-comment-header-28766" class="dsq-comment-header">
+            <cite id="dsq-cite-28766">
+                <span id="dsq-author-user-28766">kkk</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28766" class="dsq-comment-body">
+            <div id="dsq-comment-message-28766" class="dsq-comment-message"><p>where it is used?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-28652">
+        <div id="dsq-comment-header-28652" class="dsq-comment-header">
+            <cite id="dsq-cite-28652">
+                <span id="dsq-author-user-28652">srikanth</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28652" class="dsq-comment-body">
+            <div id="dsq-comment-message-28652" class="dsq-comment-message"><p>very good post. Helps me a lot to understand.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-28588">
+        <div id="dsq-comment-header-28588" class="dsq-comment-header">
+            <cite id="dsq-cite-28588">
+                <span id="dsq-author-user-28588">jhabar choudhary</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28588" class="dsq-comment-body">
+            <div id="dsq-comment-message-28588" class="dsq-comment-message"><p>nice post</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-28566">
+        <div id="dsq-comment-header-28566" class="dsq-comment-header">
+            <cite id="dsq-cite-28566">
+                <span id="dsq-author-user-28566">Urvish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28566" class="dsq-comment-body">
+            <div id="dsq-comment-message-28566" class="dsq-comment-message"><p>great&#8230;.. </p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-28391">
+        <div id="dsq-comment-header-28391" class="dsq-comment-header">
+            <cite id="dsq-cite-28391">
+                <span id="dsq-author-user-28391">Pri</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28391" class="dsq-comment-body">
+            <div id="dsq-comment-message-28391" class="dsq-comment-message"><p>great post !!! Thank you so much.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-28159">
+        <div id="dsq-comment-header-28159" class="dsq-comment-header">
+            <cite id="dsq-cite-28159">
+                <span id="dsq-author-user-28159">parashar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28159" class="dsq-comment-body">
+            <div id="dsq-comment-message-28159" class="dsq-comment-message"><p>good insight !</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-27895">
+        <div id="dsq-comment-header-27895" class="dsq-comment-header">
+            <cite id="dsq-cite-27895">
+                <span id="dsq-author-user-27895">a.n.saqibdar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27895" class="dsq-comment-body">
+            <div id="dsq-comment-message-27895" class="dsq-comment-message"><p>Nice one&#8230; Thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-27825">
+        <div id="dsq-comment-header-27825" class="dsq-comment-header">
+            <cite id="dsq-cite-27825">
+                <span id="dsq-author-user-27825">sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27825" class="dsq-comment-body">
+            <div id="dsq-comment-message-27825" class="dsq-comment-message"><p>vry nyc article <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /> (y)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-27805">
+        <div id="dsq-comment-header-27805" class="dsq-comment-header">
+            <cite id="dsq-cite-27805">
+                <span id="dsq-author-user-27805">guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27805" class="dsq-comment-body">
+            <div id="dsq-comment-message-27805" class="dsq-comment-message"><p>are we extern it for other data types &#8230;i mean defined in one data type say int and declare in other data type say char..?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-27700">
+        <div id="dsq-comment-header-27700" class="dsq-comment-header">
+            <cite id="dsq-cite-27700">
+                <span id="dsq-author-user-27700">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27700" class="dsq-comment-body">
+            <div id="dsq-comment-message-27700" class="dsq-comment-message"><p>what does it mean by ..we can declare a variable any num of times means u can have like int a; and char a; without error????????</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-28189">
+        <div id="dsq-comment-header-28189" class="dsq-comment-header">
+            <cite id="dsq-cite-28189">
+                <span id="dsq-author-user-28189">Arpit Jain</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28189" class="dsq-comment-body">
+            <div id="dsq-comment-message-28189" class="dsq-comment-message"><p>No. It means you can write `extern int  a` line any number of times in your program.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-31362">
+        <div id="dsq-comment-header-31362" class="dsq-comment-header">
+            <cite id="dsq-cite-31362">
+                <span id="dsq-author-user-31362">RJ</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31362" class="dsq-comment-body">
+            <div id="dsq-comment-message-31362" class="dsq-comment-message"><p>in tat case i can write a=10 many time times..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-27511">
+        <div id="dsq-comment-header-27511" class="dsq-comment-header">
+            <cite id="dsq-cite-27511">
+                <span id="dsq-author-user-27511">Durgesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27511" class="dsq-comment-body">
+            <div id="dsq-comment-message-27511" class="dsq-comment-message"><p>PS: thats why Jay is not getting error</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-27510">
+        <div id="dsq-comment-header-27510" class="dsq-comment-header">
+            <cite id="dsq-cite-27510">
+                <span id="dsq-author-user-27510">Durgesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27510" class="dsq-comment-body">
+            <div id="dsq-comment-message-27510" class="dsq-comment-message"><p>my dear friend int var ; is not a definition its an tentative definition . and all tentative definitions are combined to actual ones when the compiler finds the corresponding real definition and if it does not it initializes it to default value.<br />
+suppose you have a definition of variable in file1.c</p>
+<p>int p=67;</p>
+<p>in file2.c</p>
+<p>you defined:<br />
+int p;<br />
+int main(){</p>
+<p>printf(&#8220;%d&#8221;,p);<br />
+}</p>
+<p>what would be the answer? no it is not the error redefinition of p:P</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-27295">
+        <div id="dsq-comment-header-27295" class="dsq-comment-header">
+            <cite id="dsq-cite-27295">
+                <span id="dsq-author-user-27295">PRATIK</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27295" class="dsq-comment-body">
+            <div id="dsq-comment-message-27295" class="dsq-comment-message"><p>include</p>
+<p>#include</p>
+<p>void increment()</p>
+<p>{</p>
+<p>extern int i=1;</p>
+<p>i=i+1;</p>
+<p>printf(&#8220;%dn&#8221;,i);</p>
+<p>}</p>
+<p>main()</p>
+<p>{</p>
+<p>increment();</p>
+<p>increment();</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-27064">
+        <div id="dsq-comment-header-27064" class="dsq-comment-header">
+            <cite id="dsq-cite-27064">
+                <span id="dsq-author-user-27064">Pixel</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27064" class="dsq-comment-body">
+            <div id="dsq-comment-message-27064" class="dsq-comment-message"><p>Nice Post. Thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-27051">
+        <div id="dsq-comment-header-27051" class="dsq-comment-header">
+            <cite id="dsq-cite-27051">
+                <span id="dsq-author-user-27051">B.Rizzle</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27051" class="dsq-comment-body">
+            <div id="dsq-comment-message-27051" class="dsq-comment-message"><p>Thanks for this post.  You are the man.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-27014">
+        <div id="dsq-comment-header-27014" class="dsq-comment-header">
+            <cite id="dsq-cite-27014">
+                <span id="dsq-author-user-27014">jay</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27014" class="dsq-comment-body">
+            <div id="dsq-comment-message-27014" class="dsq-comment-message"><p>#include<br />
+  int var;<br />
+  int var;<br />
+int var;</p>
+<p>int main(void) {<br />
+    int var = 564 ;<br />
+     printf(&#8220;%d n&#8221;,var); return 0;<br />
+      }</p>
+<p>why it is not giving any error as var is defined and declared three times?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-27065">
+        <div id="dsq-comment-header-27065" class="dsq-comment-header">
+            <cite id="dsq-cite-27065">
+                <span id="dsq-author-user-27065">Pixel</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27065" class="dsq-comment-body">
+            <div id="dsq-comment-message-27065" class="dsq-comment-message"><p>Because &#8220;var&#8221; which is int type variable is declare three time but not defined there is no memory allocated for var.. second paragraph last third line.</p>
+<p>&#8220;variable/function can be declared any number of times but it can be defined only once. (Remember the basic principle that you can’t have two locations of the same variable/function)&#8221;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-27102">
+        <div id="dsq-comment-header-27102" class="dsq-comment-header">
+            <cite id="dsq-cite-27102">
+                <span id="dsq-author-user-27102">jay</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27102" class="dsq-comment-body">
+            <div id="dsq-comment-message-27102" class="dsq-comment-message"><p>int var;<br />
+the var is declared as well as defined as mentioned above</p>
+<p>&#8220;Now how would you define a variable. Now I agree that it is the most<br />
+trivial question in programming and the answer is as follows.</p>
+<p>    int var;</p>
+<p>Here, an integer type variable called var has been declared as well as defined&#8221;<br />
+but you are telling that it is only declared&#8230;.?<br />
+because if we want only declaration it should use extern keyword<br />
+&#8230;&#8230;as<br />
+extern int var;<br />
+it is only declaration&#8230;&#8230;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-27103">
+        <div id="dsq-comment-header-27103" class="dsq-comment-header">
+            <cite id="dsq-cite-27103">
+                <span id="dsq-author-user-27103">Pixel</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27103" class="dsq-comment-body">
+            <div id="dsq-comment-message-27103" class="dsq-comment-message"><p>Its my mistake I perceived int var is written inside the main function..<br />
+Yes, int var is a globle variable which is declared and define at the same time.. </p>
+<p>But as per my understanding a variable can be re define any while any time inside the program if it is globle.  </p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-5" id="dsq-comment-27105">
+        <div id="dsq-comment-header-27105" class="dsq-comment-header">
+            <cite id="dsq-cite-27105">
+                <span id="dsq-author-user-27105">jay</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27105" class="dsq-comment-body">
+            <div id="dsq-comment-message-27105" class="dsq-comment-message"><p>okkkk its the only thought we can give on it&#8230;&#8230;&#8230;&#8230;.</p>
+<p>ok then plz give a thought to this one also&#8230;&#8230;&#8230;.</p>
+<p>#include</p>
+<p>int main(void)<br />
+{<br />
+int foo();<br />
+int foo();<br />
+int foo(){}</p>
+<p>    return 0;<br />
+}<br />
+why it is giving an error as foo() is declared two times and third time it is declared as well as defined&#8230;&#8230;.as extern is added as by default&#8230;&#8230;but if it is outside main() it is working well&#8230;&#8230;.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-5" id="dsq-comment-27117">
+        <div id="dsq-comment-header-27117" class="dsq-comment-header">
+            <cite id="dsq-cite-27117">
+                <span id="dsq-author-user-27117">Pixel</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27117" class="dsq-comment-body">
+            <div id="dsq-comment-message-27117" class="dsq-comment-message"><p>Hello Jay,</p>
+<p>There are two things I want to comment on. First is function should be declared before it getting used and Second one which is applicable in you case is a function definition can not be written inside another function.</p>
+<p>I am seeing why this program is throwing &#8221; static declaration of foo follows non-static declaration&#8221; but as per me this error reporting depends on GCC versions.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-5" id="dsq-comment-27147">
+        <div id="dsq-comment-header-27147" class="dsq-comment-header">
+            <cite id="dsq-cite-27147">
+                <span id="dsq-author-user-27147">jay</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27147" class="dsq-comment-body">
+            <div id="dsq-comment-message-27147" class="dsq-comment-message"><p>#include<br />
+//int foo();<br />
+int main(void)<br />
+{<br />
+       int foo(){}</p>
+<p>}</p>
+<p>as it is running without error &#8230;.so a function can be dfined in another function as contrary to your ssecond comment i.e. &#8221; Second one which is applicable in you case is a function definition can not be written inside another function.</p>
+<p>&#8220;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-5" id="dsq-comment-27201">
+        <div id="dsq-comment-header-27201" class="dsq-comment-header">
+            <cite id="dsq-cite-27201">
+                <span id="dsq-author-user-27201">Pixel</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27201" class="dsq-comment-body">
+            <div id="dsq-comment-message-27201" class="dsq-comment-message"><p>yes jay, A function implementation can be written inside function but it is nothing as just like an local (auto) function, which can be partially said as &#8220;Not a moulder approach even though it is implemented through function&#8221;.<br />
+I have never used this type of coding anywhere.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-5" id="dsq-comment-28190">
+        <div id="dsq-comment-header-28190" class="dsq-comment-header">
+            <cite id="dsq-cite-28190">
+                <span id="dsq-author-user-28190">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28190" class="dsq-comment-body">
+            <div id="dsq-comment-message-28190" class="dsq-comment-message"><p>I don&#8217;t think so c-standard mentions any thing about nested functions. I guess it&#8217;s just a prank with a compiler.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-5" id="dsq-comment-28191">
+        <div id="dsq-comment-header-28191" class="dsq-comment-header">
+            <cite id="dsq-cite-28191">
+                <span id="dsq-author-user-28191">Arpit Jain</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28191" class="dsq-comment-body">
+            <div id="dsq-comment-message-28191" class="dsq-comment-message"><p>If you like your function definition then have to look on this program.</p>
+<p>#include<br />
+void go(void (*foo)()){<br />
+foo();   // to access foo from outside you need to use function pointers. So its better to avoid them.<br />
+}<br />
+int main(void) {<br />
+void foo(){<br />
+		printf(&#8220;From in&#8221;);<br />
+}<br />
+foo();<br />
+go(foo);<br />
+return 0;<br />
+}</p>
+<p>In my opinion you should avoid function pointers</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt depth-3" id="dsq-comment-27282">
+        <div id="dsq-comment-header-27282" class="dsq-comment-header">
+            <cite id="dsq-cite-27282">
+                <span id="dsq-author-user-27282">Mohit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27282" class="dsq-comment-body">
+            <div id="dsq-comment-message-27282" class="dsq-comment-message"><p>Why does it gives error?<br />
+#include<br />
+int main(void) {<br />
+int var;<br />
+int var;<br />
+var = 564 ;<br />
+printf(&#8220;%d n&#8221;,var); return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-28769">
+        <div id="dsq-comment-header-28769" class="dsq-comment-header">
+            <cite id="dsq-cite-28769">
+                <span id="dsq-author-user-28769">kkk</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28769" class="dsq-comment-body">
+            <div id="dsq-comment-message-28769" class="dsq-comment-message"><p>its showing error buddy</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-27004">
+        <div id="dsq-comment-header-27004" class="dsq-comment-header">
+            <cite id="dsq-cite-27004">
+                <span id="dsq-author-user-27004">Sandhya Sasidharan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27004" class="dsq-comment-body">
+            <div id="dsq-comment-message-27004" class="dsq-comment-message"><p>nice post thanks <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-26789">
+        <div id="dsq-comment-header-26789" class="dsq-comment-header">
+            <cite id="dsq-cite-26789">
+                <span id="dsq-author-user-26789">GUNJAN</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26789" class="dsq-comment-body">
+            <div id="dsq-comment-message-26789" class="dsq-comment-message"><p>thanks man great work there really helped a lot</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+<ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-27285">
+        <div id="dsq-comment-header-27285" class="dsq-comment-header">
+            <cite id="dsq-cite-27285">
+                <span id="dsq-author-user-27285">abhishek paweria</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27285" class="dsq-comment-body">
+            <div id="dsq-comment-message-27285" class="dsq-comment-message"><p>hii i would presume as if the variable is static then the compiler won&#8217;t let you use it outside its scope i.e outside its block , so you cannot allocate it memory space<br />
+but if the variable is global then surely it can be used in any scope in the program and it should be because its global<br />
+thats why compiler permits it</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-22386">
+        <div id="dsq-comment-header-22386" class="dsq-comment-header">
+            <cite id="dsq-cite-22386">
+                <span id="dsq-author-user-22386">Shubham</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22386" class="dsq-comment-body">
+            <div id="dsq-comment-message-22386" class="dsq-comment-message"><p>TO use  variable which is declared outside main in one file in second file,we have to include first file in second file.So what is the need for declaring that variable in that second file &#8230;<br />
+more appropriately what is the need of extern keyword</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-22552">
+        <div id="dsq-comment-header-22552" class="dsq-comment-header">
+            <cite id="dsq-cite-22552">
+                <span id="dsq-author-user-22552">garvit sharma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22552" class="dsq-comment-body">
+            <div id="dsq-comment-message-22552" class="dsq-comment-message"><p>Basics:<br />
+&#8212;&#8212;-<br />
+While developing a big software all the functions can not be written in a single [.c] file because doing so will decrease the readability of the software. Also it would become very difficult to understand, reuse and maintain the software code. So to avoid these situations a software is being divided into modules and a module is nothing but the [.c] file which consists of certain functions (subroutines) and global variables.</p>
+<p>Extern in picture:<br />
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;<br />
+Now different modules uses global variables which gets modified by different functions in different modules. To achieve this facility we need to declare those variables as &#8220;extern&#8221;.</p>
+<p>Conc:<br />
+&#8212;-<br />
+If you are curious to know how that works then you should write different modules and manipulate those variables.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-21872">
+        <div id="dsq-comment-header-21872" class="dsq-comment-header">
+            <cite id="dsq-cite-21872">
+                <span id="dsq-author-user-21872">Gagandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21872" class="dsq-comment-body">
+            <div id="dsq-comment-message-21872" class="dsq-comment-message"><p>Greatly explained !</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-19950">
+        <div id="dsq-comment-header-19950" class="dsq-comment-header">
+            <cite id="dsq-cite-19950">
+                <span id="dsq-author-user-19950">garvit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19950" class="dsq-comment-body">
+            <div id="dsq-comment-message-19950" class="dsq-comment-message"><p>Great!! very well teaches the concept of extern.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-ashatm even thread-odd thread-alt depth-1" id="dsq-comment-19938">
+        <div id="dsq-comment-header-19938" class="dsq-comment-header">
+            <cite id="dsq-cite-19938">
+                <span id="dsq-author-user-19938">ashatm</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19938" class="dsq-comment-body">
+            <div id="dsq-comment-message-19938" class="dsq-comment-message"><p>if you try to re declare a local variable it shows an error but an extern variable can be re declared any number of times..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-ashatm odd alt thread-even depth-1" id="dsq-comment-19936">
+        <div id="dsq-comment-header-19936" class="dsq-comment-header">
+            <cite id="dsq-cite-19936">
+                <span id="dsq-author-user-19936">ashatm</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19936" class="dsq-comment-body">
+            <div id="dsq-comment-message-19936" class="dsq-comment-message"><p>isn&#8217;t it wrong that u can declare a function/variable any number of times you want like said by the writer?<br />
+I guess we can declare a variable only once and can overwrite the value stored in it as many times as we like..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-shek8034 even thread-odd thread-alt depth-1" id="dsq-comment-19762">
+        <div id="dsq-comment-header-19762" class="dsq-comment-header">
+            <cite id="dsq-cite-19762">
+                <span id="dsq-author-user-19762">shek8034</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19762" class="dsq-comment-body">
+            <div id="dsq-comment-message-19762" class="dsq-comment-message"><p>Sorry, but i don&#8217;t understand this line :(Second para, last lines)<br />
+&#8220;It should be obvious that a variable/function can be declared any number of times but it can be defined only once.&#8221;</p>
+<p>I think its wrong, because compiler gives error if we try to re-declare a function or a variable&#8230;..<br />
+Correct me if i m wrong ??</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-omsai-jadhav odd alt depth-2" id="dsq-comment-19798">
+        <div id="dsq-comment-header-19798" class="dsq-comment-header">
+            <cite id="dsq-cite-19798">
+                <span id="dsq-author-user-19798">Omsai Jadhav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19798" class="dsq-comment-body">
+            <div id="dsq-comment-message-19798" class="dsq-comment-message"><p>//here is the code i have declared variable x 3 times and<br />
+//defined only once..and its working fine.<br />
+//you can check it out with functions also it must work<br />
+#include<stdio .h><br />
+extern int x;<br />
+extern int x;<br />
+int main()<br />
+{<br />
+    int x=10;<br />
+    printf(&#8220;%d&#8221;,x);<br />
+    return 0;<br />
+}<br />
+extern int x;</stdio></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-shek8034 even depth-3" id="dsq-comment-19810">
+        <div id="dsq-comment-header-19810" class="dsq-comment-header">
+            <cite id="dsq-cite-19810">
+                <span id="dsq-author-user-19810">shek8034</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19810" class="dsq-comment-body">
+            <div id="dsq-comment-message-19810" class="dsq-comment-message"><p>ok. Thats all about variables. What about functions ?<br />
+Can we declare function more than once in same file ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-20042">
+        <div id="dsq-comment-header-20042" class="dsq-comment-header">
+            <cite id="dsq-cite-20042">
+                <span id="dsq-author-user-20042">Anchika</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20042" class="dsq-comment-body">
+            <div id="dsq-comment-message-20042" class="dsq-comment-message"><p>This line is Prefectly right.. because Rule is &#8220;You cannot define more than once but declare just once.&#8221;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-19744">
+        <div id="dsq-comment-header-19744" class="dsq-comment-header">
+            <cite id="dsq-cite-19744">
+                <span id="dsq-author-user-19744">rohit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19744" class="dsq-comment-body">
+            <div id="dsq-comment-message-19744" class="dsq-comment-message"><p>Just Fabulous nice work&#8230;!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-harish-verma odd alt thread-odd thread-alt depth-1" id="dsq-comment-17475">
+        <div id="dsq-comment-header-17475" class="dsq-comment-header">
+            <cite id="dsq-cite-17475">
+                <span id="dsq-author-user-17475">Harish Verma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17475" class="dsq-comment-body">
+            <div id="dsq-comment-message-17475" class="dsq-comment-message"><p>Nice post!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-14985">
+        <div id="dsq-comment-header-14985" class="dsq-comment-header">
+            <cite id="dsq-cite-14985">
+                <span id="dsq-author-user-14985">Adarsh ron</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14985" class="dsq-comment-body">
+            <div id="dsq-comment-message-14985" class="dsq-comment-message"><p>extern int i=0 will not throw error bcoz it is defined with its default initialization value of 0(gets memory in initialized data segment).But extern int i=1 will throw error bcoz it is trying to redefine the default value at declaration time.Note extern int =0 is a special case.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-sanjay-agarwal odd alt depth-2" id="dsq-comment-22242">
+        <div id="dsq-comment-header-22242" class="dsq-comment-header">
+            <cite id="dsq-cite-22242">
+                <span id="dsq-author-user-22242">Sanjay Agarwal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22242" class="dsq-comment-body">
+            <div id="dsq-comment-message-22242" class="dsq-comment-message"><p>Hi Asarsh..I just tested my code which includes &#8220;extern int i = 1&#8243;. But it is not giving any compilation error.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-14780">
+        <div id="dsq-comment-header-14780" class="dsq-comment-header">
+            <cite id="dsq-cite-14780">
+                <span id="dsq-author-user-14780">John A.</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14780" class="dsq-comment-body">
+            <div id="dsq-comment-message-14780" class="dsq-comment-message"><p>extremely useful, and as you said not just to newbies but also to experts. kudos.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-14701">
+        <div id="dsq-comment-header-14701" class="dsq-comment-header">
+            <cite id="dsq-cite-14701">
+                <span id="dsq-author-user-14701">Sourav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14701" class="dsq-comment-body">
+            <div id="dsq-comment-message-14701" class="dsq-comment-message"><p>if i write </p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+
+int main(void)
+{
+	  extern int var=564 ;
+ printf(&quot;%d&quot;,var);
+ return 0;
+}
+</code> </pre>
+<p>then it is showing error like<br />
+Error NONAME00.CPP 5: extern variable cannot be initialized in function main()<br />
+Error NONAME00.CPP 6: Undefined symbol &#8216;var&#8217; in function main()<br />
+ but when i write </p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+ extern int var=564 ;
+int main(void)
+{
+	 
+ printf(&quot;%d&quot;,var);
+ return 0;
+}
+</code> </pre>
+<p>its showing o/p as 564 correctly&#8230;.can u plz explain</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-14907">
+        <div id="dsq-comment-header-14907" class="dsq-comment-header">
+            <cite id="dsq-cite-14907">
+                <span id="dsq-author-user-14907">sreekanth</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14907" class="dsq-comment-body">
+            <div id="dsq-comment-message-14907" class="dsq-comment-message"><p>It would be better if you figure out the problem yourself based on some hints that I shall provide.<br />
+Please analyze the memory layout for the program in terms of storage locations of the variables :- i.e, Uninitialized Data Segment (bss),Initialized data segment and Stack. Further,try to find an explanation yourself based on this storage concept VS the Scope and Lifetime of variables during the program execution.<br />
+Still,if you are unclear ,please ask.  </p>
+<p>Sk</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-14929">
+        <div id="dsq-comment-header-14929" class="dsq-comment-header">
+            <cite id="dsq-cite-14929">
+                <span id="dsq-author-user-14929">John A.</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14929" class="dsq-comment-body">
+            <div id="dsq-comment-message-14929" class="dsq-comment-message"><p>The 1st code is not valid because the C language stipulates that:&#8221; Identifiers declared within a function with the storage class extern must have an<br />
+external definition somewhere<br />
+outside the function in which they are declared.&#8221; C Reference Manual 5th Ed. (page 70); and so you can see that in your case(1st code) the extern variable is declared and defined in main function,&#8230; hope you get that.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-14931">
+        <div id="dsq-comment-header-14931" class="dsq-comment-header">
+            <cite id="dsq-cite-14931">
+                <span id="dsq-author-user-14931">John A.</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14931" class="dsq-comment-body">
+            <div id="dsq-comment-message-14931" class="dsq-comment-message"><p>To complement my previous comment, if you want the 1st code to compile successfully add: int var outside (before) main, so that the code now looks as below:</p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+
+/* This defines the variable outside main function*/
+int var; 
+/*************************************************/
+
+int main(void)
+{
+	extern int var = 564 ;
+	printf(&quot;%d \n&quot;,var);
+	return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-16556">
+        <div id="dsq-comment-header-16556" class="dsq-comment-header">
+            <cite id="dsq-cite-16556">
+                <span id="dsq-author-user-16556">pawankalyan.lovely@gmail.com</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16556" class="dsq-comment-body">
+            <div id="dsq-comment-message-16556" class="dsq-comment-message"><p>what an ans lol&#8230;do u know c&#8230;</p>
+<pre> <code language="C">
+/* Paste your code here (You may dgelete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-20804">
+        <div id="dsq-comment-header-20804" class="dsq-comment-header">
+            <cite id="dsq-cite-20804">
+                <span id="dsq-author-user-20804">sweetgirl</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20804" class="dsq-comment-body">
+            <div id="dsq-comment-message-20804" class="dsq-comment-message"><p>john is right..and pawan do u know c??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-4" id="dsq-comment-22579">
+        <div id="dsq-comment-header-22579" class="dsq-comment-header">
+            <cite id="dsq-cite-22579">
+                <span id="dsq-author-user-22579">John A.</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22579" class="dsq-comment-body">
+            <div id="dsq-comment-message-22579" class="dsq-comment-message"><p>Funny; there&#8217;s no need for you to just make noise, show your code. I think from your code I can tell whether I &#8220;know C&#8221; or not.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-15557">
+        <div id="dsq-comment-header-15557" class="dsq-comment-header">
+            <cite id="dsq-cite-15557">
+http://www.noroadsleft.com/                <span id="dsq-author-user-15557">Amit Dhiman</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15557" class="dsq-comment-body">
+            <div id="dsq-comment-message-15557" class="dsq-comment-message"><p>Because , the variable you are declaring in main() getting its memory allocation on stack it does&#8217;t have scope outside main() . and the variable you are declaring outside main() is in global scope . the initialization of extern variable should be in global scope .</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-25058">
+        <div id="dsq-comment-header-25058" class="dsq-comment-header">
+            <cite id="dsq-cite-25058">
+                <span id="dsq-author-user-25058">Rakesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-25058" class="dsq-comment-body">
+            <div id="dsq-comment-message-25058" class="dsq-comment-message"><p>very well said Amit</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-14438">
+        <div id="dsq-comment-header-14438" class="dsq-comment-header">
+            <cite id="dsq-cite-14438">
+                <span id="dsq-author-user-14438">anonymous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14438" class="dsq-comment-body">
+            <div id="dsq-comment-message-14438" class="dsq-comment-message"><p>Thanks</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-14331">
+        <div id="dsq-comment-header-14331" class="dsq-comment-header">
+            <cite id="dsq-cite-14331">
+                <span id="dsq-author-user-14331">Pushpi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14331" class="dsq-comment-body">
+            <div id="dsq-comment-message-14331" class="dsq-comment-message"><p>Really very nicely explained&#8230; <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+<p>Thanks <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-14147">
+        <div id="dsq-comment-header-14147" class="dsq-comment-header">
+            <cite id="dsq-cite-14147">
+                <span id="dsq-author-user-14147">sourav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14147" class="dsq-comment-body">
+            <div id="dsq-comment-message-14147" class="dsq-comment-message"><p>mind blowing explanation</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-14088">
+        <div id="dsq-comment-header-14088" class="dsq-comment-header">
+            <cite id="dsq-cite-14088">
+                <span id="dsq-author-user-14088">Kedar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14088" class="dsq-comment-body">
+            <div id="dsq-comment-message-14088" class="dsq-comment-message"><p>Very well explained about the linkage topic. </p>
+<p>I would like to just provide a suggestion about the below description given in post:</p>
+<p>extern int var;<br />
+int main(void)<br />
+{<br />
+ var = 10;<br />
+ return 0;<br />
+}</p>
+<p>Analysis: This program throws error in compilation. Because var is declared but not defined anywhere. Essentially, the var isn’t allocated any memory. And the program is trying to change the value to 10 of a variable that doesn’t exist at all.</p>
+<p>In the analysis it says this program throws error in compilation. However, if we analyze it correctly, this not a compile time error. This is an linker error. During compilation it only refers to the declaration of the variable and error is thrown at the time of linking because the memory is not allocated for the variable.</p>
+<p>Please correct me in case I&#8217;m wrong</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-14329">
+        <div id="dsq-comment-header-14329" class="dsq-comment-header">
+            <cite id="dsq-cite-14329">
+                <span id="dsq-author-user-14329">Sunil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14329" class="dsq-comment-body">
+            <div id="dsq-comment-message-14329" class="dsq-comment-message"><p>Yes, as you say it should be linker error and not compilation error.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-15819">
+        <div id="dsq-comment-header-15819" class="dsq-comment-header">
+            <cite id="dsq-cite-15819">
+                <span id="dsq-author-user-15819">prakash</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15819" class="dsq-comment-body">
+            <div id="dsq-comment-message-15819" class="dsq-comment-message"><p>Absolutely agree&#8230; its a linker error not a compiler error</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-10965">
+        <div id="dsq-comment-header-10965" class="dsq-comment-header">
+            <cite id="dsq-cite-10965">
+http://akkjj@hehe.com                <span id="dsq-author-user-10965">Nups</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10965" class="dsq-comment-body">
+            <div id="dsq-comment-message-10965" class="dsq-comment-message"><pre> <code language="C">
+/* Awesome explanation */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-10956">
+        <div id="dsq-comment-header-10956" class="dsq-comment-header">
+            <cite id="dsq-cite-10956">
+                <span id="dsq-author-user-10956">nirav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10956" class="dsq-comment-body">
+            <div id="dsq-comment-message-10956" class="dsq-comment-message"><p>Thanks this helpful for understanding extern keyword ! nice</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-9515">
+        <div id="dsq-comment-header-9515" class="dsq-comment-header">
+            <cite id="dsq-cite-9515">
+                <span id="dsq-author-user-9515">Vikrant</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9515" class="dsq-comment-body">
+            <div id="dsq-comment-message-9515" class="dsq-comment-message"><pre> <code language="C">
+extern int a=0;
+</code> </pre>
+<p>gives error in c/c++<br />
+error:‘var’ has both ‘extern’ and initializer</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-15063">
+        <div id="dsq-comment-header-15063" class="dsq-comment-header">
+            <cite id="dsq-cite-15063">
+http://ffjdfd                <span id="dsq-author-user-15063">Ravi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15063" class="dsq-comment-body">
+            <div id="dsq-comment-message-15063" class="dsq-comment-message"><p>TO turn off the error that you are getting do the following settings<br />
+&#8220;export CFLAGS=&#8221;-Wno-error&#8221; and run gcc command. This time it just gives a warning not an error.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-9366">
+        <div id="dsq-comment-header-9366" class="dsq-comment-header">
+            <cite id="dsq-cite-9366">
+                <span id="dsq-author-user-9366">deepak</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9366" class="dsq-comment-body">
+            <div id="dsq-comment-message-9366" class="dsq-comment-message"><p>gud explanation .. can u please spot some light on difference between global variables and variable declared using extern.<br />
+and if what is its advantage over global variable</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-9371">
+        <div id="dsq-comment-header-9371" class="dsq-comment-header">
+            <cite id="dsq-cite-9371">
+                <span id="dsq-author-user-9371">ravi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9371" class="dsq-comment-body">
+            <div id="dsq-comment-message-9371" class="dsq-comment-message"><p>global and extern are same.  extern is used to refer global variables.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-10154">
+        <div id="dsq-comment-header-10154" class="dsq-comment-header">
+            <cite id="dsq-cite-10154">
+http://www.eespl.com                <span id="dsq-author-user-10154">Ashutosh Dabgotra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10154" class="dsq-comment-body">
+            <div id="dsq-comment-message-10154" class="dsq-comment-message"><p>No, they are not the same&#8230;<br />
+i&#8217;ve explained it below.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-10153">
+        <div id="dsq-comment-header-10153" class="dsq-comment-header">
+            <cite id="dsq-cite-10153">
+http://www.eespl.com                <span id="dsq-author-user-10153">Ashutosh Dabgotra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10153" class="dsq-comment-body">
+            <div id="dsq-comment-message-10153" class="dsq-comment-message"><p>global variable can be used in all the functions in one file only,<br />
+on the other hand an extern variable can be used in all the functions of all the files used in a project.</p>
+<p>eg. if a project named &#8220;Thumb_scanner_module&#8221; contains 6 files i.e. &#8220;main.c&#8221;, &#8220;finger.c&#8221;, &#8220;timer.c&#8221;, &#8220;UART.c&#8221;, &#8220;LCD.c&#8221; and &#8220;key.c&#8221;,<br />
+Now you want to use a common variable in multi files, then you have to use extern variable.<br />
+Say i&#8217;m using a variable named &#8220;Finger_buff[26]&#8221; having datatype unsigned char, and i need this variable in &#8220;main.c&#8221;, &#8220;finger.c&#8221; and in &#8220;timer.c&#8221;, then i need to define this variable in any of these file by using keyword &#8220;unsigned char Finger_buff[26];&#8221; say i defined in &#8220;main.c&#8221;. And then in rest of two files i.e &#8220;finger.c&#8221; and in &#8220;timer.c&#8221; i need to declare the variable by using key word &#8220;extern unsigned char Finger_buff[26]&#8221; Hence in this way the variable &#8220;Finger_buff[26]&#8221; can be used in any function of any of these three files.</p>
+<p>#Note that in any one of the file we need to define the variable, which can be done by writing<br />
+&#8220;unsigned char Finger_buff[26];&#8221;<br />
+not &#8220;extern unsigned char Finger_buff[26];&#8221;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-16343">
+        <div id="dsq-comment-header-16343" class="dsq-comment-header">
+            <cite id="dsq-cite-16343">
+                <span id="dsq-author-user-16343">Gopalakrishnan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16343" class="dsq-comment-body">
+            <div id="dsq-comment-message-16343" class="dsq-comment-message"><p>Very Nice Explanation&#8230;. Thanks</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-9358">
+        <div id="dsq-comment-header-9358" class="dsq-comment-header">
+            <cite id="dsq-cite-9358">
+                <span id="dsq-author-user-9358">a user</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9358" class="dsq-comment-body">
+            <div id="dsq-comment-message-9358" class="dsq-comment-message"><p>Thank you</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-9299">
+        <div id="dsq-comment-header-9299" class="dsq-comment-header">
+            <cite id="dsq-cite-9299">
+                <span id="dsq-author-user-9299">vikash</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9299" class="dsq-comment-body">
+            <div id="dsq-comment-message-9299" class="dsq-comment-message"><p>very well explained.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-9298">
+        <div id="dsq-comment-header-9298" class="dsq-comment-header">
+            <cite id="dsq-cite-9298">
+                <span id="dsq-author-user-9298">vikash</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9298" class="dsq-comment-body">
+            <div id="dsq-comment-message-9298" class="dsq-comment-message"><p>nice</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8989">
+        <div id="dsq-comment-header-8989" class="dsq-comment-header">
+            <cite id="dsq-cite-8989">
+                <span id="dsq-author-user-8989">Vidya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8989" class="dsq-comment-body">
+            <div id="dsq-comment-message-8989" class="dsq-comment-message"><p>wonderful, first time I got to the right link in no time.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-9037">
+        <div id="dsq-comment-header-9037" class="dsq-comment-header">
+            <cite id="dsq-cite-9037">
+                <span id="dsq-author-user-9037">mahesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9037" class="dsq-comment-body">
+            <div id="dsq-comment-message-9037" class="dsq-comment-message"><p>in other file is it necessary to declare variable as extern</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-8919">
+        <div id="dsq-comment-header-8919" class="dsq-comment-header">
+            <cite id="dsq-cite-8919">
+                <span id="dsq-author-user-8919">shazia</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8919" class="dsq-comment-body">
+            <div id="dsq-comment-message-8919" class="dsq-comment-message"><pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+very nice explained...:)
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-8878">
+        <div id="dsq-comment-header-8878" class="dsq-comment-header">
+            <cite id="dsq-cite-8878">
+                <span id="dsq-author-user-8878">Sourav Ghosh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8878" class="dsq-comment-body">
+            <div id="dsq-comment-message-8878" class="dsq-comment-message"><p>hello.</p>
+<p>if you try to declare a variable as extern and try to initialize at the same time, it will obvoiusly throw an error.</p>
+<p>want to try? check this.</p>
+<p>$ gcc &#8211;version<br />
+gcc (GCC) 4.1.2 20080704 (Red Hat 4.1.2-48)<br />
+Copyright (C) 2006 Free Software Foundation, Inc.<br />
+This is free software; see the source for copying conditions.  There is NO<br />
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</p>
+<p>$ ldd &#8211;version<br />
+ldd (GNU libc) 2.5<br />
+Copyright (C) 2006 Free Software Foundation, Inc.<br />
+This is free software; see the source for copying conditions.  There is NO<br />
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.<br />
+Written by Roland McGrath and Ulrich Drepper.</p>
+<p>the code for test1.c</p>
+<pre> <code language="C">
+/* #include&lt;stdio.h&gt;
+
+int main(void)
+{
+        extern int var=1;
+        printf(&quot;\nThe value of var is %d\n&quot;,var);
+        return 0;
+}
+ */
+</code> </pre>
+<p>and the o/p at compilation time</p>
+<p>$ gcc test1.c -o t<br />
+test1.c: In function &#8216;main':<br />
+test1.c:6: error: &#8216;var&#8217; has both &#8216;extern&#8217; and initializer</p>
+<p>Please make me undersatnd. thank you.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-8720">
+        <div id="dsq-comment-header-8720" class="dsq-comment-header">
+            <cite id="dsq-cite-8720">
+                <span id="dsq-author-user-8720">nikita</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8720" class="dsq-comment-body">
+            <div id="dsq-comment-message-8720" class="dsq-comment-message"><p>very good post</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-8858">
+        <div id="dsq-comment-header-8858" class="dsq-comment-header">
+            <cite id="dsq-cite-8858">
+                <span id="dsq-author-user-8858">jayant</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8858" class="dsq-comment-body">
+            <div id="dsq-comment-message-8858" class="dsq-comment-message"><pre> <code language="C">
+/**/
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8450">
+        <div id="dsq-comment-header-8450" class="dsq-comment-header">
+            <cite id="dsq-cite-8450">
+                <span id="dsq-author-user-8450">Jay</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8450" class="dsq-comment-body">
+            <div id="dsq-comment-message-8450" class="dsq-comment-message"><p>Thank you so much. Your explanation was clear as crystal!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8219">
+        <div id="dsq-comment-header-8219" class="dsq-comment-header">
+            <cite id="dsq-cite-8219">
+                <span id="dsq-author-user-8219">parashar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8219" class="dsq-comment-body">
+            <div id="dsq-comment-message-8219" class="dsq-comment-message"><p>well explained !!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8216">
+        <div id="dsq-comment-header-8216" class="dsq-comment-header">
+            <cite id="dsq-cite-8216">
+                <span id="dsq-author-user-8216">satish baganal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8216" class="dsq-comment-body">
+            <div id="dsq-comment-message-8216" class="dsq-comment-message"><p>super explanation,thank you</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8194">
+        <div id="dsq-comment-header-8194" class="dsq-comment-header">
+            <cite id="dsq-cite-8194">
+                <span id="dsq-author-user-8194">Subodh Kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8194" class="dsq-comment-body">
+            <div id="dsq-comment-message-8194" class="dsq-comment-message"><p>excellent explanation&#8230;!!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-7985">
+        <div id="dsq-comment-header-7985" class="dsq-comment-header">
+            <cite id="dsq-cite-7985">
+                <span id="dsq-author-user-7985">alperenc</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7985" class="dsq-comment-body">
+            <div id="dsq-comment-message-7985" class="dsq-comment-message"><p>Very informative. Always wondered what extern is.Thank you very much.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-7794">
+        <div id="dsq-comment-header-7794" class="dsq-comment-header">
+            <cite id="dsq-cite-7794">
+                <span id="dsq-author-user-7794">arpit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7794" class="dsq-comment-body">
+            <div id="dsq-comment-message-7794" class="dsq-comment-message"><p>excellent article&#8230;.really enjoyed reading it.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-7793">
+        <div id="dsq-comment-header-7793" class="dsq-comment-header">
+            <cite id="dsq-cite-7793">
+                <span id="dsq-author-user-7793">prathibha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7793" class="dsq-comment-body">
+            <div id="dsq-comment-message-7793" class="dsq-comment-message"><p>i really liked it, very usefull to me&#8230; thanks a lot </p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-7764">
+        <div id="dsq-comment-header-7764" class="dsq-comment-header">
+            <cite id="dsq-cite-7764">
+                <span id="dsq-author-user-7764">lee</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7764" class="dsq-comment-body">
+            <div id="dsq-comment-message-7764" class="dsq-comment-message"><p>quote&#8221;remember that declaration can be done any number of times&#8221;<br />
+how about redelcaration error ?<br />
+I am confused here.<br />
+Thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-7713">
+        <div id="dsq-comment-header-7713" class="dsq-comment-header">
+            <cite id="dsq-cite-7713">
+                <span id="dsq-author-user-7713">Alireza</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7713" class="dsq-comment-body">
+            <div id="dsq-comment-message-7713" class="dsq-comment-message"><p>What is the &#8220;actual definition of the function&#8221;?</p>
+<p>int foo(int arg1,char arg2); //prototype declaration<br />
+int foo(int arg1,char arg2){/*some codes*/}; //pseudo-definition<br />
+int foo(int arg1,char arg2){/*some codes*/}  //actual definition</p>
+<p>Am I right</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-25064">
+        <div id="dsq-comment-header-25064" class="dsq-comment-header">
+            <cite id="dsq-cite-25064">
+                <span id="dsq-author-user-25064">Rakesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-25064" class="dsq-comment-body">
+            <div id="dsq-comment-message-25064" class="dsq-comment-message"><p>what is the purpose of psedo definition. Please let me know.<br />
+Thanks in Advance</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-7014">
+        <div id="dsq-comment-header-7014" class="dsq-comment-header">
+            <cite id="dsq-cite-7014">
+                <span id="dsq-author-user-7014">Aarthi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7014" class="dsq-comment-body">
+            <div id="dsq-comment-message-7014" class="dsq-comment-message"><p>Excellent explanation. Thank u <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":-)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-7013">
+        <div id="dsq-comment-header-7013" class="dsq-comment-header">
+            <cite id="dsq-cite-7013">
+                <span id="dsq-author-user-7013">Aarthi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7013" class="dsq-comment-body">
+            <div id="dsq-comment-message-7013" class="dsq-comment-message"><pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-6853">
+        <div id="dsq-comment-header-6853" class="dsq-comment-header">
+            <cite id="dsq-cite-6853">
+                <span id="dsq-author-user-6853">Hitesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6853" class="dsq-comment-body">
+            <div id="dsq-comment-message-6853" class="dsq-comment-message"><p>great explanation! eye opener <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-6846">
+        <div id="dsq-comment-header-6846" class="dsq-comment-header">
+            <cite id="dsq-cite-6846">
+http://www.junwatu.com                <span id="dsq-author-user-6846">Eq</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6846" class="dsq-comment-body">
+            <div id="dsq-comment-message-6846" class="dsq-comment-message"><p>Explained very well! Nice post!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-6776">
+        <div id="dsq-comment-header-6776" class="dsq-comment-header">
+            <cite id="dsq-cite-6776">
+                <span id="dsq-author-user-6776">parthi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6776" class="dsq-comment-body">
+            <div id="dsq-comment-message-6776" class="dsq-comment-message"><p>hi,<br />
+  this details easy 2 understand&#8230;<br />
+great explanation</p>
+<p>thanku</p>
+<p>parthi</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-6736">
+        <div id="dsq-comment-header-6736" class="dsq-comment-header">
+            <cite id="dsq-cite-6736">
+                <span id="dsq-author-user-6736">Rudra Pratap</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6736" class="dsq-comment-body">
+            <div id="dsq-comment-message-6736" class="dsq-comment-message"><p>Excellent explanation. Thanks very much.<br />
+God bless u</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-6697">
+        <div id="dsq-comment-header-6697" class="dsq-comment-header">
+            <cite id="dsq-cite-6697">
+                <span id="dsq-author-user-6697">hitesh jhamb</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6697" class="dsq-comment-body">
+            <div id="dsq-comment-message-6697" class="dsq-comment-message"><p>excellent&#8230;. :):)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-6696">
+        <div id="dsq-comment-header-6696" class="dsq-comment-header">
+            <cite id="dsq-cite-6696">
+                <span id="dsq-author-user-6696">hitesh jhamb</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6696" class="dsq-comment-body">
+            <div id="dsq-comment-message-6696" class="dsq-comment-message"><p>excellentt&#8230; :):)</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-6613">
+        <div id="dsq-comment-header-6613" class="dsq-comment-header">
+            <cite id="dsq-cite-6613">
+                <span id="dsq-author-user-6613">vijay</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6613" class="dsq-comment-body">
+            <div id="dsq-comment-message-6613" class="dsq-comment-message"><p>awesome work!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-6603">
+        <div id="dsq-comment-header-6603" class="dsq-comment-header">
+            <cite id="dsq-cite-6603">
+                <span id="dsq-author-user-6603">viewer</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6603" class="dsq-comment-body">
+            <div id="dsq-comment-message-6603" class="dsq-comment-message"><p>Excellent explanation&#8230;&#8230;..</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-6584">
+        <div id="dsq-comment-header-6584" class="dsq-comment-header">
+            <cite id="dsq-cite-6584">
+                <span id="dsq-author-user-6584">Nishant</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6584" class="dsq-comment-body">
+            <div id="dsq-comment-message-6584" class="dsq-comment-message"><p>Good Explanation, Thanks For very informative explanation&#8230;KEEP IT UP</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-6577">
+        <div id="dsq-comment-header-6577" class="dsq-comment-header">
+            <cite id="dsq-cite-6577">
+                <span id="dsq-author-user-6577">ashish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6577" class="dsq-comment-body">
+            <div id="dsq-comment-message-6577" class="dsq-comment-message"><p>Thanks dude i cleared a big confusion of mine</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-6555">
+        <div id="dsq-comment-header-6555" class="dsq-comment-header">
+            <cite id="dsq-cite-6555">
+                <span id="dsq-author-user-6555">Saurabh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6555" class="dsq-comment-body">
+            <div id="dsq-comment-message-6555" class="dsq-comment-message"><p>Thanks dude for the informative article. Things looks so simple when they are crystal clear</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-6521">
+        <div id="dsq-comment-header-6521" class="dsq-comment-header">
+            <cite id="dsq-cite-6521">
+                <span id="dsq-author-user-6521">kannan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6521" class="dsq-comment-body">
+            <div id="dsq-comment-message-6521" class="dsq-comment-message"><p>extraordinary man!!!!</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-6397">
+        <div id="dsq-comment-header-6397" class="dsq-comment-header">
+            <cite id="dsq-cite-6397">
+                <span id="dsq-author-user-6397">suraj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6397" class="dsq-comment-body">
+            <div id="dsq-comment-message-6397" class="dsq-comment-message"><p>awesome man&#8230;&#8230;&#8230;&#8230;&#8230;<br />
+gr8 job&#8230;&#8230;&#8230;&#8230;.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-6332">
+        <div id="dsq-comment-header-6332" class="dsq-comment-header">
+            <cite id="dsq-cite-6332">
+                <span id="dsq-author-user-6332">lalitha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6332" class="dsq-comment-body">
+            <div id="dsq-comment-message-6332" class="dsq-comment-message"><p>excellent.. cleared my doubts</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-6290">
+        <div id="dsq-comment-header-6290" class="dsq-comment-header">
+            <cite id="dsq-cite-6290">
+                <span id="dsq-author-user-6290">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6290" class="dsq-comment-body">
+            <div id="dsq-comment-message-6290" class="dsq-comment-message"><p>Very good and easy to read explanation , the examples were very helpful too .</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-5787">
+        <div id="dsq-comment-header-5787" class="dsq-comment-header">
+            <cite id="dsq-cite-5787">
+                <span id="dsq-author-user-5787">Vivek Pant</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5787" class="dsq-comment-body">
+            <div id="dsq-comment-message-5787" class="dsq-comment-message"><p>great&#8230;nicely explain&#8230;thankx :):):)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-5654">
+        <div id="dsq-comment-header-5654" class="dsq-comment-header">
+            <cite id="dsq-cite-5654">
+                <span id="dsq-author-user-5654">Amlan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5654" class="dsq-comment-body">
+            <div id="dsq-comment-message-5654" class="dsq-comment-message"><p>Example 3 for &#8220;extern variable&#8221; will give linking error, the explanation is correct though.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-geeky_prep odd alt thread-even depth-1" id="dsq-comment-5580">
+        <div id="dsq-comment-header-5580" class="dsq-comment-header">
+            <cite id="dsq-cite-5580">
+                <span id="dsq-author-user-5580">geeky_prep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5580" class="dsq-comment-body">
+            <div id="dsq-comment-message-5580" class="dsq-comment-message"><p>Great one..! Thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-5490">
+        <div id="dsq-comment-header-5490" class="dsq-comment-header">
+            <cite id="dsq-cite-5490">
+                <span id="dsq-author-user-5490">Pawan Thakur</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5490" class="dsq-comment-body">
+            <div id="dsq-comment-message-5490" class="dsq-comment-message"><p>Super awesome explanation mahn you  rock \m/</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-5118">
+        <div id="dsq-comment-header-5118" class="dsq-comment-header">
+            <cite id="dsq-cite-5118">
+http://geeksforgeeks.org/archives/840                <span id="dsq-author-user-5118">shri</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5118" class="dsq-comment-body">
+            <div id="dsq-comment-message-5118" class="dsq-comment-message"><p>thanx !!!<br />
+understood very well !!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-5070">
+        <div id="dsq-comment-header-5070" class="dsq-comment-header">
+            <cite id="dsq-cite-5070">
+                <span id="dsq-author-user-5070">abhishek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5070" class="dsq-comment-body">
+            <div id="dsq-comment-message-5070" class="dsq-comment-message"><p>thanks for ur perfect explanations &#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-5005">
+        <div id="dsq-comment-header-5005" class="dsq-comment-header">
+            <cite id="dsq-cite-5005">
+                <span id="dsq-author-user-5005">Kavitha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5005" class="dsq-comment-body">
+            <div id="dsq-comment-message-5005" class="dsq-comment-message"><p>Thank you so much !  <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-4998">
+        <div id="dsq-comment-header-4998" class="dsq-comment-header">
+            <cite id="dsq-cite-4998">
+                <span id="dsq-author-user-4998">Subi Puthalath</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4998" class="dsq-comment-body">
+            <div id="dsq-comment-message-4998" class="dsq-comment-message"><p>Excellent !</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-4875">
+        <div id="dsq-comment-header-4875" class="dsq-comment-header">
+            <cite id="dsq-cite-4875">
+                <span id="dsq-author-user-4875">Gaurav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4875" class="dsq-comment-body">
+            <div id="dsq-comment-message-4875" class="dsq-comment-message"><p>Excellent explaination with very good examples <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":-)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-4809">
+        <div id="dsq-comment-header-4809" class="dsq-comment-header">
+            <cite id="dsq-cite-4809">
+                <span id="dsq-author-user-4809">sailesh singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4809" class="dsq-comment-body">
+            <div id="dsq-comment-message-4809" class="dsq-comment-message"><p>Brilliant very good post!!!<br />
+KEEP UP THIS GOOD WORK!!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-4799">
+        <div id="dsq-comment-header-4799" class="dsq-comment-header">
+            <cite id="dsq-cite-4799">
+http://chankeypathak.blogspot.com/                <span id="dsq-author-user-4799">Chankey Pathak</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4799" class="dsq-comment-body">
+            <div id="dsq-comment-message-4799" class="dsq-comment-message"><p>This is an interesting issue. For more issues like this refer to &#8220;C traps and pitfalls&#8221; it is awesome.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-4704">
+        <div id="dsq-comment-header-4704" class="dsq-comment-header">
+            <cite id="dsq-cite-4704">
+                <span id="dsq-author-user-4704">Anuj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4704" class="dsq-comment-body">
+            <div id="dsq-comment-message-4704" class="dsq-comment-message"><p>Hi,<br />
+extern int x = 0;//this works only at global scope not in a local scope as we can do with functions.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-4536">
+        <div id="dsq-comment-header-4536" class="dsq-comment-header">
+            <cite id="dsq-cite-4536">
+                <span id="dsq-author-user-4536">Enisha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4536" class="dsq-comment-body">
+            <div id="dsq-comment-message-4536" class="dsq-comment-message"><p>Good explaination !! Thankx for the examples 2 <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-4231">
+        <div id="dsq-comment-header-4231" class="dsq-comment-header">
+            <cite id="dsq-cite-4231">
+                <span id="dsq-author-user-4231">senthil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4231" class="dsq-comment-body">
+            <div id="dsq-comment-message-4231" class="dsq-comment-message"><p>hey nice work ! but extern int i=20;/* it will throw error ,i has both extern and initializer !</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-6354">
+        <div id="dsq-comment-header-6354" class="dsq-comment-header">
+            <cite id="dsq-cite-6354">
+                <span id="dsq-author-user-6354">Rajeev</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6354" class="dsq-comment-body">
+            <div id="dsq-comment-message-6354" class="dsq-comment-message"><p>No it will work fine.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-21198">
+        <div id="dsq-comment-header-21198" class="dsq-comment-header">
+            <cite id="dsq-cite-21198">
+                <span id="dsq-author-user-21198">rocco</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21198" class="dsq-comment-body">
+            <div id="dsq-comment-message-21198" class="dsq-comment-message"><p>try extern i=20 in global scope.it wont throw an error.<br />
+An extern variable when defined can be accessed anywhere in a program.Since extern i=20 in a function means its lifetime is the scope of the function and it cannot be accessed from nywhere in program.Hence an error is thrown out of this ambiguity.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3798">
+        <div id="dsq-comment-header-3798" class="dsq-comment-header">
+            <cite id="dsq-cite-3798">
+                <span id="dsq-author-user-3798">jasmeet</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3798" class="dsq-comment-body">
+            <div id="dsq-comment-message-3798" class="dsq-comment-message"><p>brilliant</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3797">
+        <div id="dsq-comment-header-3797" class="dsq-comment-header">
+            <cite id="dsq-cite-3797">
+                <span id="dsq-author-user-3797">jasmeet</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3797" class="dsq-comment-body">
+            <div id="dsq-comment-message-3797" class="dsq-comment-message"><p>it cleard my doubts.thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3781">
+        <div id="dsq-comment-header-3781" class="dsq-comment-header">
+            <cite id="dsq-cite-3781">
+                <span id="dsq-author-user-3781">jhn</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3781" class="dsq-comment-body">
+            <div id="dsq-comment-message-3781" class="dsq-comment-message"><p>needs more clearance in ur expl</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3647">
+        <div id="dsq-comment-header-3647" class="dsq-comment-header">
+            <cite id="dsq-cite-3647">
+                <span id="dsq-author-user-3647">Kohila Jaya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3647" class="dsq-comment-body">
+            <div id="dsq-comment-message-3647" class="dsq-comment-message"><p>Very nice Explanation&#8230;It is very useful.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3526">
+        <div id="dsq-comment-header-3526" class="dsq-comment-header">
+            <cite id="dsq-cite-3526">
+                <span id="dsq-author-user-3526">ram</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3526" class="dsq-comment-body">
+            <div id="dsq-comment-message-3526" class="dsq-comment-message"><p>brilliant job !!! <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /> Keep posting like this&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3410">
+        <div id="dsq-comment-header-3410" class="dsq-comment-header">
+            <cite id="dsq-cite-3410">
+                <span id="dsq-author-user-3410">kapil gupta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3410" class="dsq-comment-body">
+            <div id="dsq-comment-message-3410" class="dsq-comment-message"><p>nice explanation !! but why this code not works. </p>
+<p>int main(void)<br />
+{<br />
+extern int var=1;<br />
+cout&lt;&lt;var;<br />
+ return 0;<br />
+}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik odd alt depth-2" id="dsq-comment-3416">
+        <div id="dsq-comment-header-3416" class="dsq-comment-header">
+            <cite id="dsq-cite-3416">
+                <span id="dsq-author-user-3416">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3416" class="dsq-comment-body">
+            <div id="dsq-comment-message-3416" class="dsq-comment-message"><p>See @venki&#8217;s comment .</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2599">
+        <div id="dsq-comment-header-2599" class="dsq-comment-header">
+            <cite id="dsq-cite-2599">
+                <span id="dsq-author-user-2599">SHASHANK</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2599" class="dsq-comment-body">
+            <div id="dsq-comment-message-2599" class="dsq-comment-message"><p>thanks nice article&#8230;..short,very clear n informative..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2591">
+        <div id="dsq-comment-header-2591" class="dsq-comment-header">
+            <cite id="dsq-cite-2591">
+                <span id="dsq-author-user-2591">sidhu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2591" class="dsq-comment-body">
+            <div id="dsq-comment-message-2591" class="dsq-comment-message"><p>superb article&#8230;.to the point, unlike some junk floating around in the form of articles&#8230;.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2507">
+        <div id="dsq-comment-header-2507" class="dsq-comment-header">
+            <cite id="dsq-cite-2507">
+                <span id="dsq-author-user-2507">RB</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2507" class="dsq-comment-body">
+            <div id="dsq-comment-message-2507" class="dsq-comment-message"><p>extern int a = 0;<br />
+throws an error, at least on gcc compiler it does. Also, it is not valid according to KnR.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-venki odd alt depth-2" id="dsq-comment-2508">
+        <div id="dsq-comment-header-2508" class="dsq-comment-header">
+            <cite id="dsq-cite-2508">
+http://math-puzzles-computing.blogspot.com/                <span id="dsq-author-user-2508">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2508" class="dsq-comment-body">
+            <div id="dsq-comment-message-2508" class="dsq-comment-message"><p>@RB, thanks for update. It is because extern int is declaration, not definition.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-6883">
+        <div id="dsq-comment-header-6883" class="dsq-comment-header">
+            <cite id="dsq-cite-6883">
+http://www.google.com                <span id="dsq-author-user-6883">priya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6883" class="dsq-comment-body">
+            <div id="dsq-comment-message-6883" class="dsq-comment-message"><p>But when we declare as &#8220;extern int a = 0;&#8221;<br />
+it serves a s the definition also. So </p>
+<pre> <code language="C">
+int main(void)
+{
+extern int var=1;
+cout&lt;&lt;var;
+return 0;
+}
+
+</code> </pre>
+<p>should not throw error.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2441">
+        <div id="dsq-comment-header-2441" class="dsq-comment-header">
+            <cite id="dsq-cite-2441">
+                <span id="dsq-author-user-2441">wilson</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2441" class="dsq-comment-body">
+            <div id="dsq-comment-message-2441" class="dsq-comment-message"><p>very nice explanation&#8230;keep it up</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2391">
+        <div id="dsq-comment-header-2391" class="dsq-comment-header">
+            <cite id="dsq-cite-2391">
+                <span id="dsq-author-user-2391">mohsen</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2391" class="dsq-comment-body">
+            <div id="dsq-comment-message-2391" class="dsq-comment-message"><p>perfect explanations &#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2255">
+        <div id="dsq-comment-header-2255" class="dsq-comment-header">
+            <cite id="dsq-cite-2255">
+                <span id="dsq-author-user-2255">ruchi gaur</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2255" class="dsq-comment-body">
+            <div id="dsq-comment-message-2255" class="dsq-comment-message"><p>awsome! ur explaination cleared all my doubts..thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2254">
+        <div id="dsq-comment-header-2254" class="dsq-comment-header">
+            <cite id="dsq-cite-2254">
+                <span id="dsq-author-user-2254">ruchi gaur</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2254" class="dsq-comment-body">
+            <div id="dsq-comment-message-2254" class="dsq-comment-message"><p>awsome! cleared all my doubts..thnks! <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2030">
+        <div id="dsq-comment-header-2030" class="dsq-comment-header">
+            <cite id="dsq-cite-2030">
+                <span id="dsq-author-user-2030">sekhar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2030" class="dsq-comment-body">
+            <div id="dsq-comment-message-2030" class="dsq-comment-message"><p>you geeks rock</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1819">
+        <div id="dsq-comment-header-1819" class="dsq-comment-header">
+            <cite id="dsq-cite-1819">
+                <span id="dsq-author-user-1819">ishant</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1819" class="dsq-comment-body">
+            <div id="dsq-comment-message-1819" class="dsq-comment-message"><p>awesome&#8230;&#8230;not words to says&#8230;.god bless</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-venki odd alt thread-odd thread-alt depth-1" id="dsq-comment-1668">
+        <div id="dsq-comment-header-1668" class="dsq-comment-header">
+            <cite id="dsq-cite-1668">
+                <span id="dsq-author-user-1668">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1668" class="dsq-comment-body">
+            <div id="dsq-comment-message-1668" class="dsq-comment-message"><p>Good article. I hope the following link will be helpful to the readers of the article.</p>
+<p><a href="http://www.eetimes.com/design/industrial-control/4007522/Linkage-in-C-and-C-" rel="nofollow">http://www.eetimes.com/design/industrial-control/4007522/Linkage-in-C-and-C-</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1653">
+        <div id="dsq-comment-header-1653" class="dsq-comment-header">
+            <cite id="dsq-cite-1653">
+                <span id="dsq-author-user-1653">kishore</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1653" class="dsq-comment-body">
+            <div id="dsq-comment-message-1653" class="dsq-comment-message"><p>very useful indeed <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1552">
+        <div id="dsq-comment-header-1552" class="dsq-comment-header">
+            <cite id="dsq-cite-1552">
+                <span id="dsq-author-user-1552">mani</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1552" class="dsq-comment-body">
+            <div id="dsq-comment-message-1552" class="dsq-comment-message"><p>excellent!!!!!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-37">
+        <div id="dsq-comment-header-37" class="dsq-comment-header">
+            <cite id="dsq-cite-37">
+                <span id="dsq-author-user-37">raj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-37" class="dsq-comment-body">
+            <div id="dsq-comment-message-37" class="dsq-comment-message"><p>good one !!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/';
+var disqus_identifier = '840 http://geeksforgeeks.org/?p=840';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Understanding &#8220;extern&#8221; keyword in C";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.301 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:23:05 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

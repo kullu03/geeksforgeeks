@@ -1,0 +1,1346 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>How to check if two given line segments intersect? - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="How to check if two given line segments intersect? - GeeksforGeeks" />
+<meta property="og:description" content="Given two line segments (p1, q1) and (p2, q2), find if the given line segments intersect with each other. Before we discuss solution, let us define notion of orientation. Orientation of an ordered triplet of points in the plane can be &#8211;counterclockwise &#8211;clockwise &#8211;colinear The following diagram shows different possible orientations of (a, b, c) Note &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="geometric algorithms" />
+<meta property="article:tag" content="MathematicalAlgo" />
+<meta property="article:section" content="Misc" />
+<meta property="article:published_time" content="2013-07-10T23:49:59+00:00" />
+<meta property="article:modified_time" content="2014-02-10T11:27:07+00:00" />
+<meta property="og:updated_time" content="2014-02-10T11:27:07+00:00" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/orientation11-300x91.png" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/GeneralCaseExamples1.png" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/examplesGeneralCase211.png" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/examplesSpecialCase1.png" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.523 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111491 5.12.33.127';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">How to check if two given line segments intersect?</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given two line segments <span style="color: #ff0000;">(p1, q1)</span> and <span style="color: #0000ff;">(p2, q2),</span> find if the given line segments intersect with each other.<span id="more-120479"></span></p>
+<p><span style="font-size: 13px;">Before we discuss solution, let us define notion of <strong>orientation</strong>. </span>Orientation of an ordered triplet of points in the plane can be<br />
+&#8211;counterclockwise<br />
+&#8211;clockwise<br />
+&#8211;colinear<br />
+The following diagram shows different possible orientations of (<span style="color: #0000ff;">a</span>,<span style="color: #ff0000;"> b</span>, <span style="color: #00ff00;">c</span>)</p>
+<p><a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/orientation11.png"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/orientation11-300x91.png" alt="orientation1" width="400" height="122" class="aligncenter size-medium wp-image-120671" /></a></p>
+<p>Note the word &#8216;ordered&#8217; here. Orientation of (a, b, c) may be different from orientation of (c, b, a).</p>
+<p><strong>How is Orientation useful here?</strong><br />
+Two segments<span style="color: #ff0000;"> (p1,q1)</span> and <span style="color: #0000ff;">(p2,q2)</span> intersect if and only if one of the following two conditions is verified</p>
+<p><strong>1. <em>General Case:</em></strong><br />
+&#8211; (<span style="color: #ff0000;">p1</span>, <span style="color: #ff0000;">q1</span>, <span style="color: #0000ff;">p2</span>) and (<span style="color: #ff0000;">p1</span>, <span style="color: #ff0000;">q1</span>, <span style="color: #0000ff;">q2</span>) have different orientations and<br />
+&#8211; (<span style="color: #0000ff;">p2</span>, <span style="color: #0000ff;">q2</span>, <span style="color: #ff0000;">p1</span>) and (<span style="color: #0000ff;">p2</span>, <span style="color: #0000ff;">q2</span>, <span style="color: #ff0000;">q1</span>) have different orientations</p>
+<p><strong>2. <em>Special Case </em></strong><br />
+&#8211; (<span style="color: #ff0000;">p1</span>, <span style="color: #ff0000;">q1</span>, <span style="color: #0000ff;">p2</span>), (<span style="color: #ff0000;">p1</span>, <span style="color: #ff0000;">q1</span>, <span style="color: #0000ff;">q2</span>), (<span style="color: #0000ff;">p2</span>, <span style="color: #0000ff;">q2</span>, <span style="color: #ff0000;">p1</span>), and (<span style="color: #0000ff;">p2</span>, <span style="color: #0000ff;">q2</span>, <span style="color: #ff0000;">q1</span>) are all collinear and<br />
+&#8211; the x-projections of (<span style="color: #ff0000;">p1</span>, <span style="color: #ff0000;">q1</span>) and (<span style="color: #0000ff;">p2</span>, <span style="color: #0000ff;">q2</span>) intersect<br />
+&#8211; the y-projections of (<span style="color: #ff0000;">p1</span>, <span style="color: #ff0000;">q1</span>) and (<span style="color: #0000ff;">p2</span>, <span style="color: #0000ff;">q2</span>) intersect</p>
+<p><em><strong style="font-size: 13px;">Examples of General Case:</strong></em><br />
+<a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/GeneralCaseExamples1.png"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/GeneralCaseExamples1.png" alt="GeneralCaseExamples" width="500" height="167" class="aligncenter size-full wp-image-120673" /></a></p>
+<p><a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/examplesGeneralCase211.png"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/examplesGeneralCase211.png" alt="examplesGeneralCase21" width="500" height="193" class="aligncenter size-full wp-image-120672" /></a></p>
+<p><em><strong style="font-size: 13px;">Examples of Special Case:</strong></em><br />
+<a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/examplesSpecialCase1.png"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/examplesSpecialCase1.png" alt="examplesSpecialCase" width="400" height="128" class="aligncenter size-full wp-image-120674" /></a></p>
+<p>Following is C++ implementation based on above idea.</p>
+<pre class="brush: cpp; highlight: [39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68]; title: ; notranslate" title="">
+// A C++ program to check if two given line segments intersect
+#include &lt;iostream&gt;
+using namespace std;
+
+struct Point
+{
+    int x;
+    int y;
+};
+
+// Given three colinear points p, q, r, the function checks if
+// point q lies on line segment 'pr'
+bool onSegment(Point p, Point q, Point r)
+{
+    if (q.x &lt;= max(p.x, r.x) &amp;&amp; q.x &gt;= min(p.x, r.x) &amp;&amp;
+        q.y &lt;= max(p.y, r.y) &amp;&amp; q.y &gt;= min(p.y, r.y))
+       return true;
+
+    return false;
+}
+
+// To find orientation of ordered triplet (p, q, r).
+// The function returns following values
+// 0 --&gt; p, q and r are colinear
+// 1 --&gt; Clockwise
+// 2 --&gt; Counterclockwise
+int orientation(Point p, Point q, Point r)
+{
+    // See 10th slides from following link for derivation of the formula
+    // http://www.dcs.gla.ac.uk/~pat/52233/slides/Geometry1x1.pdf
+    int val = (q.y - p.y) * (r.x - q.x) -
+              (q.x - p.x) * (r.y - q.y);
+
+    if (val == 0) return 0;  // colinear
+
+    return (val &gt; 0)? 1: 2; // clock or counterclock wise
+}
+
+// The main function that returns true if line segment 'p1q1'
+// and 'p2q2' intersect.
+bool doIntersect(Point p1, Point q1, Point p2, Point q2)
+{
+    // Find the four orientations needed for general and
+    // special cases
+    int o1 = orientation(p1, q1, p2);
+    int o2 = orientation(p1, q1, q2);
+    int o3 = orientation(p2, q2, p1);
+    int o4 = orientation(p2, q2, q1);
+
+    // General case
+    if (o1 != o2 &amp;&amp; o3 != o4)
+        return true;
+
+    // Special Cases
+    // p1, q1 and p2 are colinear and p2 lies on segment p1q1
+    if (o1 == 0 &amp;&amp; onSegment(p1, p2, q1)) return true;
+
+    // p1, q1 and p2 are colinear and q2 lies on segment p1q1
+    if (o2 == 0 &amp;&amp; onSegment(p1, q2, q1)) return true;
+
+    // p2, q2 and p1 are colinear and p1 lies on segment p2q2
+    if (o3 == 0 &amp;&amp; onSegment(p2, p1, q2)) return true;
+
+     // p2, q2 and q1 are colinear and q1 lies on segment p2q2
+    if (o4 == 0 &amp;&amp; onSegment(p2, q1, q2)) return true;
+
+    return false; // Doesn't fall in any of the above cases
+}
+
+// Driver program to test above functions
+int main()
+{
+    struct Point p1 = {1, 1}, q1 = {10, 1};
+    struct Point p2 = {1, 2}, q2 = {10, 2};
+
+    doIntersect(p1, q1, p2, q2)? cout &lt;&lt; &quot;Yes\n&quot;: cout &lt;&lt; &quot;No\n&quot;;
+
+    p1 = {10, 0}, q1 = {0, 10};
+    p2 = {0, 0}, q2 = {10, 10};
+    doIntersect(p1, q1, p2, q2)? cout &lt;&lt; &quot;Yes\n&quot;: cout &lt;&lt; &quot;No\n&quot;;
+
+    p1 = {-5, -5}, q1 = {0, 0};
+    p2 = {1, 1}, q2 = {10, 10};
+    doIntersect(p1, q1, p2, q2)? cout &lt;&lt; &quot;Yes\n&quot;: cout &lt;&lt; &quot;No\n&quot;;
+
+    return 0;
+}
+</pre>
+<p>Output:
+<pre>No
+Yes
+No</pre>
+<p><strong>Sources:</strong><br />
+<a href="http://www.dcs.gla.ac.uk/~pat/52233/slides/Geometry1x1.pdf">http://www.dcs.gla.ac.uk/~pat/52233/slides/Geometry1x1.pdf</a><br />
+<a href="http://www.flipkart.com/introduction-algorithms-3rd/p/itmczynzhyhxv2gs?pid=9788120340077&#038;affid=sandeepgfg" target="_blank">Introduction to Algorithms 3rd Edition by Clifford Stein, Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest</a></p>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/job-sequencing-problem-set-1-greedy-algorithm/" title="Job Sequencing Problem | Set 1 (Greedy Algorithm)">Job Sequencing Problem | Set 1 (Greedy Algorithm)</a></li><li><a href="http://www.geeksforgeeks.org/multiply-two-polynomials-2/" title="Multiply two polynomials">Multiply two polynomials</a></li><li><a href="http://www.geeksforgeeks.org/algorithm-practice-question-beginners-set-1/" title="Algorithm Practice Question for Beginners | Set 1">Algorithm Practice Question for Beginners | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/count-distinct-non-negative-pairs-x-y-satisfy-inequality-xx-yy-n-2/" title="Count Distinct Non-Negative Integer Pairs (x, y) that Satisfy the Inequality x*x + y*y &lt; n">Count Distinct Non-Negative Integer Pairs (x, y) that Satisfy the Inequality x*x + y*y < n</a></li><li><a href="http://www.geeksforgeeks.org/binomial-heap-2/" title="Binomial Heap">Binomial Heap</a></li><li><a href="http://www.geeksforgeeks.org/print-increasing-sequences-length-k-first-n-natural-numbers/" title="Print all increasing sequences of length k from first n natural numbers">Print all increasing sequences of length k from first n natural numbers</a></li><li><a href="http://www.geeksforgeeks.org/find-nth-number-number-system-3-4/" title="Find n&#8217;th number in a number system with only 3 and 4">Find n&#8217;th number in a number system with only 3 and 4</a></li><li><a href="http://www.geeksforgeeks.org/minimum-cost-polygon-triangulation/" title="Minimum Cost Polygon Triangulation">Minimum Cost Polygon Triangulation</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/" rel="tag">geometric algorithms</a>, <a href="http://www.geeksforgeeks.org/tag/mathematicalalgo/" rel="tag">MathematicalAlgo</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fcheck-if-two-given-line-segments-intersect%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/" data-text="How to check if two given line segments intersect?" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-30026">
+        <div id="dsq-comment-header-30026" class="dsq-comment-header">
+            <cite id="dsq-cite-30026">
+                <span id="dsq-author-user-30026">Amit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30026" class="dsq-comment-body">
+            <div id="dsq-comment-message-30026" class="dsq-comment-message"><p>onSsegment should be </p>
+<p>if (  p.x * ( q.y &#8211; r.y ) + q.x * ( r.y &#8211; p.y ) + r.x*( p.y &#8211; q.y)  == 0  )<br />
+         return true;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-27620">
+        <div id="dsq-comment-header-27620" class="dsq-comment-header">
+            <cite id="dsq-cite-27620">
+                <span id="dsq-author-user-27620">Fredrik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27620" class="dsq-comment-body">
+            <div id="dsq-comment-message-27620" class="dsq-comment-message"><p>The code seems to be optimized for the case where the segments do intersect. Any suggestions for optimizing the code for the case where the segments probably do not intersect?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-clotho even thread-even depth-1" id="dsq-comment-23035">
+        <div id="dsq-comment-header-23035" class="dsq-comment-header">
+            <cite id="dsq-cite-23035">
+                <span id="dsq-author-user-23035">clotho</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-23035" class="dsq-comment-body">
+            <div id="dsq-comment-message-23035" class="dsq-comment-message"><p>An easier way:<br />
+Segment L1 has edges A=(a1,a2), A&#8217;=(a1&#8242;,a2&#8242;).<br />
+Segment L2 has edges B=(b1,b2), B&#8217;=(b1&#8242;,b2&#8242;).<br />
+Segment L1 is the set of points tA&#8217;+(1-t)A, where 0< =t<=1.<br />
+Segment L2 is the set of points sB'+(1-s)B, where 0<=s<=1.<br />
+Segment L1 meet segment L2 if and only if for some t and s we have<br />
+tA'+(1-t)A=sB'+(1-s)B<br />
+The solution of this with respect to t and s is</p>
+<p>t=((-b?'a?+b?'b?+b?a?+a?b?'-a?b?-b?b?')/(b?'a?'-b?'a?-b?a?'+b?a?-a?'b?'+a?'b?+a?b?'-a?b?))</p>
+<p>s=((-a?b?+a?'b?-a?a?'+b?a?+a?'a?-b?a?')/(b?'a?'-b?'a?-b?a?'+b?a?-a?'b??+a?'b?+a?b?'-a?b?)) </p>
+<p>So check if the above two numbers are both >=0 and < =1.<br />
+<img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+<ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-32081">
+        <div id="dsq-comment-header-32081" class="dsq-comment-header">
+            <cite id="dsq-cite-32081">
+                <span id="dsq-author-user-32081">GradLifeWoes</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32081" class="dsq-comment-body">
+            <div id="dsq-comment-message-32081" class="dsq-comment-message"><p>That would be the case if they are lines and not line segments.<br />
+Even in the case of lines another check has to be dome to determine that the two lines are not same.<br />
+So we should check they are not collinear and have same slopes to determine that they never intersect.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-22292">
+        <div id="dsq-comment-header-22292" class="dsq-comment-header">
+            <cite id="dsq-cite-22292">
+                <span id="dsq-author-user-22292">sarat G</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22292" class="dsq-comment-body">
+            <div id="dsq-comment-message-22292" class="dsq-comment-message"><p>Hey,</p>
+<p>What&#8217;s the point in doing all this stuff&#8230;if the slopes of two line segments are equal we can they never intersect&#8230;in any other case the two line segments always intersects..</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik odd alt depth-2" id="dsq-comment-22293">
+        <div id="dsq-comment-header-22293" class="dsq-comment-header">
+            <cite id="dsq-cite-22293">
+                <span id="dsq-author-user-22293">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22293" class="dsq-comment-body">
+            <div id="dsq-comment-message-22293" class="dsq-comment-message"><p>That is why the topic says line *Segments* <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-22202">
+        <div id="dsq-comment-header-22202" class="dsq-comment-header">
+            <cite id="dsq-cite-22202">
+                <span id="dsq-author-user-22202">Mohan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22202" class="dsq-comment-body">
+            <div id="dsq-comment-message-22202" class="dsq-comment-message"><p>I appreciate the efforts taken by geeksforgeeks community in posting useful problems and their solutions here but this one was very poorly explained.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-xxmajia odd alt thread-odd thread-alt depth-1" id="dsq-comment-22099">
+        <div id="dsq-comment-header-22099" class="dsq-comment-header">
+            <cite id="dsq-cite-22099">
+                <span id="dsq-author-user-22099">xxmajia</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22099" class="dsq-comment-body">
+            <div id="dsq-comment-message-22099" class="dsq-comment-message"><p>For 10th page of <a href="http://www.dcs.gla.ac.uk/~pat/52233/slides/Geometry1x1.pdf" rel="nofollow">http://www.dcs.gla.ac.uk/~pat/52233/slides/Geometry1x1.pdf</a></p>
+<p>i don&#8217;t get it, its true only when p, q, r &#8216;s x-projection are increasing</p>
+<p>can anyone explain it a little bit?</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik even depth-2" id="dsq-comment-22127">
+        <div id="dsq-comment-header-22127" class="dsq-comment-header">
+            <cite id="dsq-cite-22127">
+                <span id="dsq-author-user-22127">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22127" class="dsq-comment-body">
+            <div id="dsq-comment-message-22127" class="dsq-comment-message"><p>I think CLRS book would be helpful for better understanding.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-21978">
+        <div id="dsq-comment-header-21978" class="dsq-comment-header">
+            <cite id="dsq-cite-21978">
+                <span id="dsq-author-user-21978">IsAs</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21978" class="dsq-comment-body">
+            <div id="dsq-comment-message-21978" class="dsq-comment-message"><p>distance(P1, Q1) = distance between P1 and Q1.<br />
+If point K lies on a line segment then following equation is true : distance(P1,Q1) = distance(P1,K) + distance(K,Q1)</p>
+<p>Find the slopes of two line segments and let&#8217;s say if they are not equal &#8211; then </p>
+<p>1) Form two equations of the form ax+by+c = 0<br />
+2) Compute the intersecting point by solving above line equations.Let&#8217;s call our intersecting point as I.<br />
+3) Verify whether distance(P1, Q1) == distance(P1,I) + distance(I,Q1)<br />
+4) Verify the same with P2 and Q2 as well<br />
+5) If intersecting point lies on both the line segments then above two verifications should succeed</p>
+<p>If slopes are equal then check if their equations are same or not. If equations are different then they are parallel lines &#8211; no intersecting point</p>
+<p>If equations are same then the points are collinear &#8211; verify the following (one of the points of the line segment should lie on the other)</p>
+<p>distance(P1,Q1) == distance(P1,P2) + distance(P2, Q1)<br />
+distance(P1,Q1) == distance(P1,Q2) + distance(Q2, Q1)</p>
+<p>If any of the above statements are true then the line segments intersect</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-21947">
+        <div id="dsq-comment-header-21947" class="dsq-comment-header">
+            <cite id="dsq-cite-21947">
+                <span id="dsq-author-user-21947">blackball</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21947" class="dsq-comment-body">
+            <div id="dsq-comment-message-21947" class="dsq-comment-message"><p>How about this one:</p>
+<pre> <code language="C">
+/* http://stackoverflow.com/questions/563198/how-do-you-detect-where-two-line-segments-intersect */
+
+struct point {
+    float x, y;
+};
+
+static inline int
+line_intersect_2d(struct point a, struct point b,
+                  struct point c, struct point d) {
+    struct point cmp, r, s;
+    cmp.x = c.x - a.x;
+    cmp.y = c.y - a.y;
+    r.x = b.x - a.x;
+    r.y = b.y - a.y;
+    s.x = d.x - c.x;
+    s.y = d.y - c.y;
+
+    const float cmp_xr = cmp.x * r.y - cmp.y * r.x;
+    const float cmp_xs = cmp.x * s.y - cmp.y * s.x;
+    const float r_xs = r.x * s.y - r.y * s.x;
+
+    if (cmp_xr == 0f) {
+        /* colinear, detect if overlap */
+        return ((c.x - a.x &lt; 0f) != (c.x - b.x &lt; 0f)) || ((c.y - a.y &lt; 0f) != (c.y - b.y &lt; 0f));
+    }
+
+    if (r_xs == 0f) {
+        /* parallel */
+        return 0;
+    }
+    const float ir_xs = 1f / r_xs;
+    const float t = cmp_xs * ir_xs;
+    const float u = cmp_xr * ir_xs;
+    
+    return (t &gt;= 0f) &amp;&amp; (t &lt;= 1f) &amp;&amp; (u &gt;= 0f) &amp;&amp; (u &lt;= 1f);
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-dixit-sethi odd alt thread-even depth-1" id="dsq-comment-21906">
+        <div id="dsq-comment-header-21906" class="dsq-comment-header">
+            <cite id="dsq-cite-21906">
+                <span id="dsq-author-user-21906">Dixit Sethi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21906" class="dsq-comment-body">
+            <div id="dsq-comment-message-21906" class="dsq-comment-message"><p>Using basic maths, this can be done easily. </p>
+<p>First take the two points of first line. say (x11, y11) and (x12, y12). This is line segment and we can find the equation of line passing through these points. </p>
+<p>eqn: &#8220;y*(x12-x11)- x*(y12-y11) + x11(y12-y11) &#8211; y11(x12-x11)&#8221;. </p>
+<p>This eqn will equate to zero if x and y are points lying anywhere on the line (not just the line segment). If the point (x,y) is above the line, then eqn value is positive and if the point is below the line, then it is negative. </p>
+<p>For cases like example 1, we need the two endpoints of the second line on the opposite sides of the first line and vice versa. Check the value of the equation of first line for the two (x,y) end points of the second line. The two eqn values must be opposite in sign. Similarly check the two endpoints of the first line with the eqn of second line. These eqn values must also be opposite in sign. If thats the case, line segments are intersecting. Example 3 will fail in this case, stating it non intersecting.</p>
+<p>Now, the case of both the endpoints of one line segment lying on the line of other line segment (special case example 1 and 2). This will cause all four equation values to be zero. This is handled separately in the code and as all the points are collinear check is done for one of the endpoints lying between the endpoints of other line.</p>
+<p>The case of only one endpoint lying on the second line is left (example 2 and 4). This will include example 4 and 2. Say res11 is result of endpoint 1 of line 2 put in eqn of line 1, res12 is result of endpoint 2 of line 2 put in eqn of line 1 and similarly res21 and res22. res12 will be zero. For example 2, res21 ans res22 will be of opposite sign and for example 4, they will be of same sign. If one of them is also zero, then we have a common endpoint. This case is checked along with first case in the code.</p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+
+typedef struct point_str
+{
+	int x;
+	int y;
+}point;
+
+int eqn(point a, point b, int x, int y)
+{
+	int res = y*(b.x - a.x) - x*(b.y - a.y) + a.x*(b.y - a.y) - a.y*(b.x - a.x);
+	return res;
+}
+
+int check_intersection(point a1, point b1, point a2, point b2)
+{
+	int i, j, x1, x2;
+	int res1a2, res1b2, res2a1, res2b1;
+
+	res1a2 = eqn(a1, b1, a2.x, a2.y);
+	res1b2 = eqn(a1, b1, b2.x, b2.y);
+	res2a1 = eqn(a2, b2, a1.x, a1.y);
+	res2b1 = eqn(a2, b2, b1.x, b1.y);
+
+	if(!res1a2 &amp;&amp; !res1b2 &amp;&amp; !res2a1 &amp;&amp; !res2b1)
+	{
+		x1 = a1.x&lt;b1.x ? a1.x:b1.x;
+		x2 = a1.x&gt;b1.x ? a1.x:b1.x;
+		
+		if((a2.x&gt;x1 &amp;&amp; a2.x&lt;x2) || (b2.x&gt;x1 &amp;&amp; b2.x&lt;x2))
+			return 1;
+		else return 0;
+	}
+
+	if(res1a2*res1b2&lt;=0 &amp;&amp; res2a1*res2b1&lt;=0)
+		return 1;
+	else return 0;
+}
+
+int main()
+{
+	point a1, b1, a2, b2;
+
+	printf(&quot;Enter coordinates of first line\n&quot;);
+	scanf(&quot;%d%d%d%d&quot;, &amp;a1.x, &amp;a1.y, &amp;b1.x, &amp;b1.y);
+
+	printf(&quot;\n&quot;);
+
+	printf(&quot;Enter coordinates of second line\n&quot;);
+	scanf(&quot;%d%d%d%d&quot;, &amp;a2.x, &amp;a2.y, &amp;b2.x, &amp;b2.y);
+
+
+
+	if(check_intersection(a1,b1, a2, b2))
+		printf(&quot;They intersect !! \n&quot;);
+	else 
+		printf(&quot;They dont intersect !!\n&quot;);
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-21898">
+        <div id="dsq-comment-header-21898" class="dsq-comment-header">
+            <cite id="dsq-cite-21898">
+                <span id="dsq-author-user-21898">Parin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21898" class="dsq-comment-body">
+            <div id="dsq-comment-message-21898" class="dsq-comment-message"><p>How is orientation calculated?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor odd alt depth-2" id="dsq-comment-21899">
+        <div id="dsq-comment-header-21899" class="dsq-comment-header">
+            <cite id="dsq-cite-21899">
+                <span id="dsq-author-user-21899">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21899" class="dsq-comment-body">
+            <div id="dsq-comment-message-21899" class="dsq-comment-message"><p>Please see slide 10 of the following link</p>
+<p><a href="http://www.dcs.gla.ac.uk/~pat/52233/slides/Geometry1x1.pdf" rel="nofollow">http://www.dcs.gla.ac.uk/~pat/52233/slides/Geometry1x1.pdf</a></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-21901">
+        <div id="dsq-comment-header-21901" class="dsq-comment-header">
+            <cite id="dsq-cite-21901">
+                <span id="dsq-author-user-21901">Parin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21901" class="dsq-comment-body">
+            <div id="dsq-comment-message-21901" class="dsq-comment-message"><p>Suppose the points are P1(-5,-5) P2(0,0) P3(-4,-3).<br />
+Then this is counterclockwise.But, here slope of p2p3 won&#8217;t be greater then slope of p1p2.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik odd alt depth-4" id="dsq-comment-21903">
+        <div id="dsq-comment-header-21903" class="dsq-comment-header">
+            <cite id="dsq-cite-21903">
+                <span id="dsq-author-user-21903">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21903" class="dsq-comment-body">
+            <div id="dsq-comment-message-21903" class="dsq-comment-message"><p>The program seems to be printing counterclockwise only.  See <a href="http://ideone.com/6DuGJ5" rel="nofollow">http://ideone.com/6DuGJ5</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-hitesh-dholaria even thread-even depth-1" id="dsq-comment-21884">
+        <div id="dsq-comment-header-21884" class="dsq-comment-header">
+            <cite id="dsq-cite-21884">
+http://in.linkedin.com/in/hiteshdholaria                <span id="dsq-author-user-21884">Hitesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21884" class="dsq-comment-body">
+            <div id="dsq-comment-message-21884" class="dsq-comment-message"><p>If you want to apply your basic math skills, then solve an interesting problem called Convex-Hull Problem.</p>
+<p>In which you would find some interesting small problems like:</p>
+<p>	&#8211; Check whether the particular point lies inside the given polygon<br />
+	&#8211; Find an angle between the 3 input points<br />
+	&#8211; Given the input points, rearrange them in specific order to form the largest possible polygon ( in terms of its area )<br />
+	&#8211; Solve the 2 lines for possible intersection</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor odd alt depth-2" id="dsq-comment-21894">
+        <div id="dsq-comment-header-21894" class="dsq-comment-header">
+            <cite id="dsq-cite-21894">
+                <span id="dsq-author-user-21894">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21894" class="dsq-comment-body">
+            <div id="dsq-comment-message-21894" class="dsq-comment-message"><p>@Hitesh: Thanks for sharing your inputs.<br />
+We have published an article on point and polygon problem.<br />
+We will soon be covering Convex Hull problem also.</p>
+<p>You can also publish an article by mailing it to <a href="mailto:contribute@geeksforgeeks.org">contribute@geeksforgeeks.org</a>.</p>
+<p>Keep it up!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-21882">
+        <div id="dsq-comment-header-21882" class="dsq-comment-header">
+            <cite id="dsq-cite-21882">
+                <span id="dsq-author-user-21882">Uddhav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21882" class="dsq-comment-body">
+            <div id="dsq-comment-message-21882" class="dsq-comment-message"><p>I did not understand this condition  &#8221; q.y = min(r.y, r.y) &#8221; ?<br />
+Why use max and min functions between same two values ??</p>
+<p>Thank you</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-hitesh-dholaria odd alt thread-even depth-1" id="dsq-comment-21879">
+        <div id="dsq-comment-header-21879" class="dsq-comment-header">
+            <cite id="dsq-cite-21879">
+http://in.linkedin.com/in/hiteshdholaria                <span id="dsq-author-user-21879">Hitesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21879" class="dsq-comment-body">
+            <div id="dsq-comment-message-21879" class="dsq-comment-message"><pre> <code language="C">
+class Point {
+	
+	private double x;
+	private double y;
+
+	public Point( ) {
+
+	}
+
+	public Point( double x, double y ) {
+
+		this.x = x;
+		this.y = y;
+
+	}
+
+	public double getX( ) {
+
+		return x;
+
+	}
+
+	public double getY( ) {
+
+		return y;
+
+	}
+
+	public void setX( double x ) {
+
+		this.x = x;
+
+	}
+
+	public void setY( double y ) {
+
+		this.y = y;
+
+	}
+
+	public void print( ) {
+
+		System.out.print( &quot;(&quot; + x + &quot;, &quot; + y + &quot;) &quot; );
+
+	}
+
+	public void println( ) {
+
+		System.out.println( &quot;(&quot; + x + &quot;, &quot; + y + &quot;)&quot; );
+
+	}
+
+	public String toString( ) {
+
+		return &quot;(&quot; + ( float ) x + &quot;, &quot; + ( float ) y + &quot;)&quot;;
+
+	}
+
+	public Point clone( ) {
+
+		return ( new Point( x, y ) );
+
+	}
+
+}
+
+public class LineSegmentsIntersection {
+
+	// Check whether the first argument value lies between the other two argument values
+
+	public static boolean isBetween( double a, double b, double c ) {
+
+		if( ( b &lt;= a &amp;&amp; a &lt;= c ) || ( c &lt;= a &amp;&amp; a &lt;= b ) ) {
+
+			return true;
+
+		}
+
+		return false;
+	}
+
+
+	// Check whether the point A lies in between the argument points B &amp; C
+
+	// Return true, if the point A lies inside the the imaginary rectangle, which is parallel to both the axis and drawn taking the points B and C as the opposite corner points
+
+	public static boolean isBetween( Point a, Point b, Point c ) {
+
+		if( isBetween( a.getY( ), b.getY( ), c.getY( ) ) &amp;&amp; isBetween( a.getX( ), b.getX( ), c.getX( ) ) ) {
+
+			return true;
+
+		}
+
+		return false;
+
+	}
+
+	// Calculate the slope of the line AB
+
+	public static float slope( Point a, Point b ) {
+
+		if( ( float ) a.getX( ) == ( float ) b.getX( ) ) {
+
+			return Float.POSITIVE_INFINITY;
+
+		}
+
+		return ( ( float ) ( a.getY( ) - b.getY( ) ) / ( float ) ( a.getX( ) - b.getX( ) ) );
+	}
+
+	public static void main( String[ ] args ) {
+
+		// Line segment PQ
+
+		Point p = new Point( 0, 10 );
+		Point q = new Point( 7, 2 );
+
+		// Line segment RS
+
+		Point r = new Point( 1, 4 );
+		Point s = new Point( 8, 8 );
+
+		// Intersection point
+
+		Point i = new Point( );
+
+		float m = 0;		// Slope of line segment PQ
+		float n = 0;		// Slope of line segment RS
+
+
+		// Check for parallel line segments
+
+		if( slope( p, q ) == slope( r, s ) ) {
+
+			System.out.println( &quot;\nERROR: Line segments are parallel!&quot; );
+			return;
+
+		}
+
+
+		// Find out the intersection point of the lines PQ and RS
+
+		if( slope( p, q ) == Float.POSITIVE_INFINITY ) {
+
+			n = slope( r, s );
+
+			i.setX( p.getX( ) );
+			i.setY( n * i.getX( ) + r.getY( ) - n * r.getX( ) );
+
+		} else if( slope( r, s ) == Float.POSITIVE_INFINITY ) {
+
+			m = slope( p, q );
+
+			i.setX( r.getX( ) );
+			i.setY( m * i.getX( ) + p.getY( ) - m * p.getX( ) );
+
+		} else {
+
+			m = slope( p, q );
+			n = slope( r, s );
+
+			i.setX( ( r.getY( ) - n * r.getX( ) - p.getY( ) + m * p.getX( ) ) / ( m - n )  );
+			i.setY( m * i.getX( ) + p.getY( ) - m * p.getX( ) );
+
+		}
+
+
+		// Check whether the calculated intersection point lies on the line segments or not
+
+		if( isBetween( i, p, q ) &amp;&amp; isBetween( i, r, s ) ) {
+
+			System.out.println( &quot;\nIntersection point = &quot; + i );
+
+		} else {
+
+			System.out.println( &quot;\nERROR: There's no intersection between the given line segments!&quot; );
+
+		}
+
+	}
+
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-21870">
+        <div id="dsq-comment-header-21870" class="dsq-comment-header">
+            <cite id="dsq-cite-21870">
+                <span id="dsq-author-user-21870">Pratik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21870" class="dsq-comment-body">
+            <div id="dsq-comment-message-21870" class="dsq-comment-message"><p>Here orientation is nothing but the cross product.<br />
+Orientation (p,q,r ) is cross product of Vector(p to q ) and Vector( p to r ).</p>
+<p>But yeah. Good code!!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-22088">
+        <div id="dsq-comment-header-22088" class="dsq-comment-header">
+            <cite id="dsq-cite-22088">
+                <span id="dsq-author-user-22088">timus</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22088" class="dsq-comment-body">
+            <div id="dsq-comment-message-22088" class="dsq-comment-message"><p>THANKs, this really helped&#8230;.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-21858">
+        <div id="dsq-comment-header-21858" class="dsq-comment-header">
+            <cite id="dsq-cite-21858">
+                <span id="dsq-author-user-21858">abhilash</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21858" class="dsq-comment-body">
+            <div id="dsq-comment-message-21858" class="dsq-comment-message"><p>in frst if statement what is the point of keeping<br />
+q.x = min(p.x, r.x) &amp;&amp;<br />
+        q.y = min(r.y, r.y)</p>
+<p>you can simply keep q.x==max(p.x,r.x)&amp;&amp;q.y==min(r.y,r.y) </p>
+<p> i dont know about the implementation of the program i was just curious to know in code optimization</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-21852">
+        <div id="dsq-comment-header-21852" class="dsq-comment-header">
+            <cite id="dsq-cite-21852">
+                <span id="dsq-author-user-21852">cvr</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21852" class="dsq-comment-body">
+            <div id="dsq-comment-message-21852" class="dsq-comment-message"><p>good code</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/';
+var disqus_identifier = '120479 http://www.geeksforgeeks.org/?p=120479';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "How to check if two given line segments intersect?";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.209 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:34:51 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

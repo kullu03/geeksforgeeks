@@ -1,0 +1,3314 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>The Great Tree-List Recursion Problem. - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/the-great-tree-list-recursion-problem/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="The Great Tree-List Recursion Problem. - GeeksforGeeks" />
+<meta property="og:description" content="Asked by Varun Bhatia. Question: Write a recursive function treeToList(Node root) that takes an ordered binary tree and rearranges the internal pointers to make a circular doubly linked list out of the tree nodes. The”previous” pointers should be stored in the “small” field and the “next” pointers should be stored in the “large” field. The &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/the-great-tree-list-recursion-problem/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:section" content="Linked Lists" />
+<meta property="article:section" content="Trees" />
+<meta property="article:published_time" content="2009-08-15T03:21:02+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.524 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417110782 121.242.198.2';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">The Great Tree-List Recursion Problem.</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Asked by Varun Bhatia.</p>
+<p><strong>Question:</strong><br />
+Write a recursive function treeToList(Node root) that takes an ordered binary tree and rearranges the internal pointers to make a circular doubly linked list out of the tree nodes. <span id="more-1148"></span>The”previous” pointers should be stored in the “small” field and the “next” pointers should be stored in the “large” field. The list should be arranged so that the nodes are in increasing order. Return the head pointer to the new list.</p>
+<p>This is very well explained and implemented at <a href="http://cslibrary.stanford.edu/109/TreeListRecursion.html">http://cslibrary.stanford.edu/109/TreeListRecursion.html</a></p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/given-linked-list-reverse-alternate-nodes-append-end/" title="Given a linked list, reverse alternate nodes and append at the end">Given a linked list, reverse alternate nodes and append at the end</a></li><li><a href="http://www.geeksforgeeks.org/pairwise-swap-elements-of-a-given-linked-list-by-changing-links/" title="Pairwise swap elements of a given linked list by changing links">Pairwise swap elements of a given linked list by changing links</a></li><li><a href="http://www.geeksforgeeks.org/self-organizing-list-set-1-introduction/" title="Self Organizing List | Set 1 (Introduction)">Self Organizing List | Set 1 (Introduction)</a></li><li><a href="http://www.geeksforgeeks.org/merge-a-linked-list-into-another-linked-list-at-alternate-positions/" title="Merge a linked list into another linked list at alternate positions">Merge a linked list into another linked list at alternate positions</a></li><li><a href="http://www.geeksforgeeks.org/quicksort-on-singly-linked-list/" title="QuickSort on Singly Linked List">QuickSort on Singly Linked List</a></li><li><a href="http://www.geeksforgeeks.org/delete-n-nodes-after-m-nodes-of-a-linked-list/" title="Delete N nodes after M nodes of a linked list">Delete N nodes after M nodes of a linked list</a></li><li><a href="http://www.geeksforgeeks.org/design-a-stack-with-find-middle-operation/" title="Design a stack with operations on middle element">Design a stack with operations on middle element</a></li><li><a href="http://www.geeksforgeeks.org/swap-kth-node-from-beginning-with-kth-node-from-end-in-a-linked-list/" title="Swap Kth node from beginning with Kth node from end in a Linked List">Swap Kth node from beginning with Kth node from end in a Linked List</a></li></ul>
+<p></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fthe-great-tree-list-recursion-problem%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/the-great-tree-list-recursion-problem/" data-text="The Great Tree-List Recursion Problem." data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/the-great-tree-list-recursion-problem/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-32457">
+        <div id="dsq-comment-header-32457" class="dsq-comment-header">
+            <cite id="dsq-cite-32457">
+                <span id="dsq-author-user-32457">bhopu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32457" class="dsq-comment-body">
+            <div id="dsq-comment-message-32457" class="dsq-comment-message"><p>sorry&#8230; it&#8217;s using in order traversal&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-32456">
+        <div id="dsq-comment-header-32456" class="dsq-comment-header">
+            <cite id="dsq-cite-32456">
+                <span id="dsq-author-user-32456">bhopu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32456" class="dsq-comment-body">
+            <div id="dsq-comment-message-32456" class="dsq-comment-message"><p>we can use preserve the current node and it&#8217;s previous node during post order traversal  and make  DDL..!!</p>
+<p>#include</p>
+<p>struct tree {</p>
+<p>       int data;</p>
+<p>       struct  tree *next,*prv;</p>
+<p>    };</p>
+<p>    /* function to create tree */</p>
+<p>    struct tree *insert(struct tree *root,int key){</p>
+<p>        struct tree *ptr;</p>
+<p>        if(root==NULL){</p>
+<p>            ptr=(struct tree *)malloc(sizeof(struct tree));</p>
+<p>            ptr-&gt;data=key;</p>
+<p>            ptr-&gt;next=NULL;</p>
+<p>            ptr-&gt;prv=NULL;</p>
+<p>            return ptr;</p>
+<p>        }else if(root-&gt;data&gt;key)</p>
+<p>           root-&gt;prv=insert(root-&gt;prv,key);</p>
+<p>           else if(root-&gt;datanext=insert(root-&gt;next,key);</p>
+<p>           else</p>
+<p>           printf(&#8220;duplicate&#8221;);</p>
+<p>           return root;</p>
+<p>    }</p>
+<p>    /*traversing og tree*/</p>
+<p>    traverse_tree(struct tree *root){</p>
+<p>      if(root==NULL)</p>
+<p>      return 0;</p>
+<p>      traverse_tree(root-&gt;prv);</p>
+<p>      printf(&#8221; %d-&gt;&#8221;,root-&gt;data);</p>
+<p>      traverse_tree(root-&gt;next);</p>
+<p>      return 0;</p>
+<p>    }</p>
+<p>    /* traversing in DDL*/</p>
+<p>    traverse_DDL(struct tree *head,struct tree *tail){</p>
+<p>        struct tree *q=head;</p>
+<p>        printf(&#8221; %d-&gt;&#8221;,head-&gt;data);</p>
+<p>        q=head-&gt;next;</p>
+<p>        while(q!=head){</p>
+<p>            printf(&#8221; %d-&gt;&#8221;,q-&gt;data);</p>
+<p>            q=q-&gt;next;</p>
+<p>        }</p>
+<p>    }</p>
+<p>    /* function to make doubly linked list **DDL_head stro the head of list.</p>
+<p>       *root is root of tree ,*par store parent,**ppreviose stores the previouse</p>
+<p>       node that used to connect with current root node</p>
+<p>    */</p>
+<p>    struct tree *make_DDL(struct tree *root,struct tree **DDL_head,struct tree *par,struct tree **previous){</p>
+<p>        static int i=0;</p>
+<p>        if(root==NULL){</p>
+<p>            if(i==0)</p>
+<p>            {</p>
+<p>                *DDL_head=par;</p>
+<p>                i=1;</p>
+<p>            }</p>
+<p>        return root;</p>
+<p>        }</p>
+<p>        make_DDL(root-&gt;prv,DDL_head,root,previous);</p>
+<p>         if((*previous)!=NULL){</p>
+<p>         (*previous)-&gt;next=root;</p>
+<p>         root-&gt;prv=*previous;</p>
+<p>         }</p>
+<p>         *previous=root;    </p>
+<p>        make_DDL(root-&gt;next,DDL_head,root,previous);</p>
+<p>        return root;</p>
+<p>    }</p>
+<p>    main(){</p>
+<p>        struct tree *root=NULL,*DDL_head,*previous=NULL,*tail;</p>
+<p>        root=insert(root,353);</p>
+<p>        root=insert(root,5);</p>
+<p>        root=insert(root,35);</p>
+<p>         traverse_tree(root);</p>
+<p>         printf(&#8221; n&#8221;);</p>
+<p>         tail=make_DDL(root,&amp;DDL_head,NULL,&amp;previous);</p>
+<p>         printf(&#8221; nn&#8221;);</p>
+<p>         /*make circular */</p>
+<p>         DDL_head-&gt;prv=tail;</p>
+<p>         tail-&gt;next=DDL_head;</p>
+<p>        // printf(&#8220;nn %d   %d&#8221;,DDL_head-&gt;prv-&gt;data,tail-&gt;next-&gt;data);</p>
+<p>         traverse_DDL(DDL_head,tail);</p>
+<p>    }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-32336">
+        <div id="dsq-comment-header-32336" class="dsq-comment-header">
+            <cite id="dsq-cite-32336">
+                <span id="dsq-author-user-32336">manish kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32336" class="dsq-comment-body">
+            <div id="dsq-comment-message-32336" class="dsq-comment-message"><p>we can easily do same via making separate doubly link list  via in-order traversal and delete current tree.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-28948">
+        <div id="dsq-comment-header-28948" class="dsq-comment-header">
+            <cite id="dsq-cite-28948">
+                <span id="dsq-author-user-28948">Yash Girdhar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28948" class="dsq-comment-body">
+            <div id="dsq-comment-message-28948" class="dsq-comment-message"><p>Following is the code : The convert function takes a tree and 2 null pointers and sets the first pointer to the head and the second to the tail.</p>
+<p><code></p>
+<p>node* convert(node *start, node** tail, node** head){<br />
+    printf("for %dn",start-&gt;data);<br />
+    if(!start-&gt;left &amp;&amp; !start-&gt;right){<br />
+        printf("leafn");<br />
+        if((*tail)){<br />
+            printf("tail now= %dn",(*tail)-&gt;data);<br />
+            (*tail)-&gt;right = start;<br />
+            start-&gt;left = (*tail);<br />
+            (*tail)=start;<br />
+            printf("new tail=%dn",(*tail)-&gt;data );<br />
+        }<br />
+        else{<br />
+            printf("no tailn");<br />
+            (*tail) = start;<br />
+            (*tail)-&gt;right = (*tail)-&gt;left = NULL;<br />
+            (*head) = start;<br />
+            (*head)-&gt;right = (*head)-&gt;left = NULL;<br />
+            printf("new tail=%dn",(*tail)-&gt;data );<br />
+        }<br />
+        return (*tail);<br />
+    }</p>
+<p>    if(start-&gt;left){<br />
+        convert(start-&gt;left,tail,head);<br />
+        if(start-&gt;left==(*tail)){<br />
+            (*tail)-&gt;right = start;<br />
+            (*tail) = start;<br />
+        }<br />
+        else if(start-&gt;left-&gt;right == (*tail)){<br />
+            (*tail)-&gt;right = start;<br />
+            start-&gt;left = (*tail);<br />
+            (*tail) = start;<br />
+        }<br />
+    }<br />
+    if(start-&gt;right){<br />
+        convert(start-&gt;right,tail,head);<br />
+        // if(start-&gt;right==(*tail))<br />
+            // (*tail)-&gt;left = start;<br />
+    }</p>
+<p>    return (*tail);<br />
+}<br />
+</code></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-28113">
+        <div id="dsq-comment-header-28113" class="dsq-comment-header">
+            <cite id="dsq-cite-28113">
+                <span id="dsq-author-user-28113">Vivek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28113" class="dsq-comment-body">
+            <div id="dsq-comment-message-28113" class="dsq-comment-message"><p>struct node { int data; struct node * small; struct node * large; };<br />
+// converts ordered tree to dll.<br />
+void TreetoList(struct node *root, struct node **sml)<br />
+{</p>
+<p>  if(root)<br />
+   {<br />
+      TreetoList(((root)-&gt;small),sml);</p>
+<p>        if(*sml)<br />
+           {<br />
+                (*sml)-&gt;large= root;<br />
+                 (root)-&gt;small = *sml;<br />
+                  *sml= root;<br />
+          }</p>
+<p>       else<br />
+             {<br />
+                 (root)-&gt;small= *sml;<br />
+                  *sml = root;<br />
+            }</p>
+<p>      TreetoList(((root)-&gt;large), sml);<br />
+   }</p>
+<p>}<br />
+// converts dll into circular dll.<br />
+struct node *tree_to_circdll(struct node **root)<br />
+{<br />
+     struct node *temp=NULL, *t;</p>
+<p>       TreetoList(*root,&amp;temp);<br />
+        while(*root)<br />
+           {<br />
+                    t=*root;<br />
+               (*root)=(*root)-&gt;small;<br />
+           }<br />
+     temp-&gt;large=t;<br />
+      t-&gt;small = temp;<br />
+      return t;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-sumit5113 odd alt thread-odd thread-alt depth-1" id="dsq-comment-24618">
+        <div id="dsq-comment-header-24618" class="dsq-comment-header">
+            <cite id="dsq-cite-24618">
+                <span id="dsq-author-user-24618">sumit5113</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24618" class="dsq-comment-body">
+            <div id="dsq-comment-message-24618" class="dsq-comment-message"><pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-sumit5113 even thread-even depth-1" id="dsq-comment-24617">
+        <div id="dsq-comment-header-24617" class="dsq-comment-header">
+            <cite id="dsq-cite-24617">
+                <span id="dsq-author-user-24617">sumit5113</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24617" class="dsq-comment-body">
+            <div id="dsq-comment-message-24617" class="dsq-comment-message"><p>The logic is very simple, we can do inorder traversal and somehow we have to track the inorder-predecessor/inorder-successor. The following logic is implemented in a non-recursive way. </p>
+<pre> <code language="Java">
+
+class NodeTree{
+	Int data;
+	NodeTree small;//left
+	NodeTree large;//right
+}
+
+//logic is very simple do the inorder tarversal, and modify the large and small pointer
+NodeTree treeToList(NodeTree treeRoot){
+
+	If(treeRoot==null)
+	  return;
+	Boolean isFirstTimeVisted=false;
+	Stack tracedStackedNode=new Stack();
+	NodeTree current=treeRoot;
+	NodeTree lastVisitedInOrdrTrvrsl=null;
+	NodeTree headNode=null;
+	do{
+	If(current!=null){
+	tracedStackedNode.push(current);
+	current=current.small;
+	}else{
+	current=tracedStackedNode.pop();
+	If(!isFirstTimeVisted){
+	  isFirstTimeVisited=true;
+              headNode=current;
+	}
+	If(lastVisitedInOrdrTrvrsl!=null)
+	lastVisitedInOrdrTrvrsl-&gt;large=current;
+	    
+	    current-&gt;small=lastVisitedOrdrTrvrsl;
+	lastVisitedInOrdrTrvrsl=current;
+	current=current.large;
+	}
+	
+	
+	}while(!tracedStackedNode.isEmpty())
+
+//since we have to create the circular doubly-linked list
+   headNode.small=lastVisited;
+   lastVisted.large=headNode;
+
+	return headNode;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-pranjalgupta odd alt thread-odd thread-alt depth-1" id="dsq-comment-22510">
+        <div id="dsq-comment-header-22510" class="dsq-comment-header">
+            <cite id="dsq-cite-22510">
+                <span id="dsq-author-user-22510">pranjalgupta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22510" class="dsq-comment-body">
+            <div id="dsq-comment-message-22510" class="dsq-comment-message"><p>void greatlist(tree* root, tree** head)<br />
+{<br />
+    static tree* prev=NULL;<br />
+    if(root==NULL)<br />
+    return;<br />
+    tree* next;<br />
+    if(root->left)<br />
+    greatlist(root->left, head);<br />
+    if(prev==NULL)<br />
+    {<br />
+        *head=root;<br />
+        (*head)->left=root;<br />
+        root->right=root;<br />
+        prev=root;<br />
+        return;<br />
+    }<br />
+    else<br />
+    {<br />
+        prev->right=root;<br />
+        root->left=prev;<br />
+        prev=root;<br />
+        (*head)->left=root;<br />
+        next=root->right;<br />
+        root->right=*head;<br />
+    }<br />
+    greatlist(next, head);</p>
+<p>}</p>
+<p>The implementation for this ques becomes relatively easier if we apply modified in-order traversal.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-20577">
+        <div id="dsq-comment-header-20577" class="dsq-comment-header">
+            <cite id="dsq-cite-20577">
+                <span id="dsq-author-user-20577">Cracker</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20577" class="dsq-comment-body">
+            <div id="dsq-comment-message-20577" class="dsq-comment-message"><pre> <code language="C">
+/*void bin_ddl(struct tnode **root)
+{
+
+     if(*root == NULL)
+     {
+             return;
+     }
+             
+     bin_ddl(&amp;(*root)-&gt;lwr);
+             
+     if(head == NULL)
+     {
+              tail = head = *root;
+     }
+              
+     else
+     {
+              tail-&gt;hghr = *root;
+              (*root)-&gt;lwr = tail;
+              tail = tail-&gt;hghr;
+     }
+                                
+     bin_ddl(&amp;(*root)-&gt;hghr);
+             
+} */
+</code> </pre>
+<p>Please correct this code , i have tried my best&#8230;,tail and head are global pointers</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-20421">
+        <div id="dsq-comment-header-20421" class="dsq-comment-header">
+            <cite id="dsq-cite-20421">
+                <span id="dsq-author-user-20421">Manish Kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20421" class="dsq-comment-body">
+            <div id="dsq-comment-message-20421" class="dsq-comment-message"><pre> <code language="C">
+/*
+ TreeList.c
+ 
+ C code version of the great Tree-List recursion problem.
+ See http://cslibrary.stanford.edu/109/ for the full
+ discussion and the Java solution.
+ 
+ This code is free for any purpose.
+ Feb 22, 2000
+ Nick Parlante nick.parlante@cs.stanford.edu
+*/
+
+
+#include &lt;stdio.h&gt;
+#include &lt;stddef.h&gt;
+#include &lt;stdlib.h&gt;
+
+/* The node type from which both the tree and list are built */
+struct node {
+    int data;
+    struct node* small;
+    struct node* large;
+};
+typedef struct node* Node;
+
+
+
+/*
+ helper function -- given two list nodes, join them
+ together so the second immediately follow the first.
+ Sets the .next of the first and the .previous of the second.
+*/
+static void join(Node a, Node b) {
+    a-&gt;large = b;
+    b-&gt;small = a;
+}
+
+
+/*
+ helper function -- given two circular doubly linked
+ lists, append them and return the new list.
+*/
+static Node append(Node a, Node b) {
+    Node aLast, bLast;
+    
+    if (a==NULL) return(b);
+    if (b==NULL) return(a);
+    
+    aLast = a-&gt;small;
+    bLast = b-&gt;small;
+    
+    join(aLast, b);
+    join(bLast, a);
+    
+    return(a);
+}
+
+
+/*
+ --Recursion--
+ Given an ordered binary tree, recursively change it into
+ a circular doubly linked list which is returned.
+*/
+static Node treeToList(Node root) {
+    Node aList, bList;
+    
+    if (root==NULL) return(NULL);
+
+    /* recursively solve subtrees -- leap of faith! */
+    aList = treeToList(root-&gt;small);
+    bList = treeToList(root-&gt;large);
+    
+    /* Make a length-1 list ouf of the root */
+    root-&gt;small = root;
+    root-&gt;large = root;
+
+    /* Append everything together in sorted order */
+    aList = append(aList, root);
+    aList = append(aList, bList);
+    
+    return(aList);
+
+
+
+/* Create a new node */
+static Node newNode(int data) {
+    Node node = (Node) malloc(sizeof(struct node));
+    node-&gt;data = data;
+    node-&gt;small = NULL;
+    node-&gt;large = NULL;
+    return(node);
+}
+
+
+/* Add a new node into a tree */
+static void treeInsert(Node* rootRef, int data) {
+    Node root = *rootRef;
+    if (root == NULL) *rootRef = newNode(data);
+    else {
+        if (data &lt;= root-&gt;data) treeInsert(&amp;(root-&gt;small), data);
+        else treeInsert(&amp;(root-&gt;large), data);
+    }
+}
+
+
+static void printList(Node head) {
+    Node current = head;
+    
+    while(current != NULL) {
+        printf(&quot;%d &quot;, current-&gt;data);
+        current = current-&gt;large;
+        if (current == head) break;
+    }
+    printf(&quot;\n&quot;);
+}
+
+
+/* Demo that the code works */
+int main() {
+    Node root = NULL;
+    Node head;
+    
+    treeInsert(&amp;root, 4);
+    treeInsert(&amp;root, 2);
+    treeInsert(&amp;root, 1);
+    treeInsert(&amp;root, 3);
+    treeInsert(&amp;root, 5);
+    
+    head = treeToList(root);
+    
+    printList(head);    /* prints: 1 2 3 4 5  */
+    
+    return(0);
+}
+ 
+ 
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-sagar2693 even thread-even depth-1" id="dsq-comment-18571">
+        <div id="dsq-comment-header-18571" class="dsq-comment-header">
+            <cite id="dsq-cite-18571">
+                <span id="dsq-author-user-18571">sagar2693</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18571" class="dsq-comment-body">
+            <div id="dsq-comment-message-18571" class="dsq-comment-message"><p>can this b a possible sol :<br />
+ we populate all nodes in the tree with their inorder successors using reverse inorder traversal&#8230;.<br />
+then we can traverse all nodes using these modified values of right pointers (keeping 2 ptrs prev and current as we do in a LL) and write statement like cur->left=prev to link a node with its inorder predecessor(its previous node) and then join last and head node with eachother&#8230;&#8230;.<br />
+plz correct me if i am wrong&#8230;..</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-sagar2693 odd alt depth-2" id="dsq-comment-18611">
+        <div id="dsq-comment-header-18611" class="dsq-comment-header">
+            <cite id="dsq-cite-18611">
+                <span id="dsq-author-user-18611">sagar2693</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18611" class="dsq-comment-body">
+            <div id="dsq-comment-message-18611" class="dsq-comment-message"><p>#include&lt;iostream&gt;<br />
+using namespace std;<br />
+struct node{<br />
+   	int data;<br />
+	struct node *left;<br />
+	struct node *right;<br />
+};<br />
+struct node *newnode(int n){<br />
+	struct node *cur=new node;<br />
+	cur-&gt;left=cur-&gt;right=NULL;<br />
+	cur-&gt;data=n;<br />
+	return cur;<br />
+}<br />
+struct node *insert(struct node *root, int n){<br />
+	if(root==NULL)<br />
+	return newnode(n);<br />
+	struct node *temp;<br />
+	if(root-&gt;data&gt;n){<br />
+		temp=insert(root-&gt;left,n);<br />
+		root-&gt;left=temp;<br />
+	}<br />
+	else{<br />
+		temp=insert(root-&gt;right,n);<br />
+		root-&gt;right=temp;<br />
+	}<br />
+	return root;<br />
+}<br />
+struct node* find_minelement(struct node *root){<br />
+	if(root==NULL)<br />
+	return NULL;<br />
+	struct node *temp=root;<br />
+	while(temp-&gt;left!=NULL)<br />
+	temp=temp-&gt;left;<br />
+	return temp;<br />
+}<br />
+void printlist(struct node *head){<br />
+ struct node *temp=head;<br />
+ do{<br />
+	cout&lt;&lt;temp-&gt;data&lt;&lt;&#8216; &#8216;;<br />
+	temp=temp-&gt;right;<br />
+ }while(temp!=head);<br />
+}<br />
+void populateNext(struct node* p,struct node **t){<br />
+	if (p){<br />
+        populateNext(p-&gt;right,t);<br />
+        p-&gt;right =*t;<br />
+        *t = p;<br />
+        populateNext(p-&gt;left,t);<br />
+    }<br />
+}<br />
+struct node *finalshape(struct node *head){<br />
+	struct node *cur=head,*prev;<br />
+	while(cur!=NULL){<br />
+		prev=cur;<br />
+		cur=cur-&gt;right;<br />
+		if(cur!=NULL)<br />
+		cur-&gt;left=prev;<br />
+	}<br />
+	head-&gt;left=prev;<br />
+	prev-&gt;right=head;<br />
+	return head;<br />
+}<br />
+void treetolist(struct node *root){<br />
+    struct node *head=find_minelement(root);<br />
+	struct node *temp=NULL;<br />
+	populateNext(root,&amp;temp);<br />
+	finalshape(head);<br />
+	cout&lt;&lt;&quot;the LL obtained is \n&quot;;<br />
+	printlist(head);<br />
+}<br />
+int main(){<br />
+    struct node *root=NULL;<br />
+	root=insert(root,5);<br />
+	root=insert(root,10);<br />
+	root=insert(root,4);<br />
+	root=insert(root,7);<br />
+	root=insert(root,15);<br />
+	root=insert(root,4);<br />
+	treetolist(root);<br />
+	cout&lt;&lt;&quot;\n\n&#8230;&#8230;..press enter to exit&#8230;&#8230;..&quot;;<br />
+	cin.get();<br />
+	return 0;<br />
+}</p>
+<p>plz comment if  whether itz correct or not&#8230;&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-abhishek08aug even thread-odd thread-alt depth-1" id="dsq-comment-17832">
+        <div id="dsq-comment-header-17832" class="dsq-comment-header">
+            <cite id="dsq-cite-17832">
+                <span id="dsq-author-user-17832">abhishek08aug</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17832" class="dsq-comment-body">
+            <div id="dsq-comment-message-17832" class="dsq-comment-message"><p>Here is my approach without the &#8220;Leap of Faith&#8221;: <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+
+/* Structure of a node in tree/doubly linked list */
+struct node {
+  int data;
+  struct node * left;
+  struct node * right;
+};
+
+/* Function to insert a value in BST */
+void insert_node(struct node ** root_ref, int value) {
+  struct node * new_node=NULL;
+  if(*root_ref==NULL) {
+    new_node=(struct node *)malloc(sizeof(struct node));
+    new_node-&gt;data=value;
+    new_node-&gt;left=NULL;
+    new_node-&gt;right=NULL;
+    *root_ref=new_node;
+  } else if(value&lt;=(*root_ref)-&gt;data) {
+    insert_node(&amp;((*root_ref)-&gt;left), value);
+  } else if(value&gt;(*root_ref)-&gt;data) {
+    insert_node(&amp;((*root_ref)-&gt;right), value);
+  }
+}
+
+/* Function to print BST using inorder traversal*/
+void inorder_print(struct node * root) {
+  if(root==NULL) {
+    return;
+  } else {
+    inorder_print(root-&gt;left);
+    printf(&quot;%d &quot;, root-&gt;data);
+    inorder_print(root-&gt;right);
+  }
+}
+
+/* Function to return address of maximum value node in BST */
+struct node * max_node(struct node * root) {
+  if(root==NULL) {
+    return NULL;
+  } else if(root-&gt;right==NULL) {
+    return root;
+  } else {
+    return max_node(root-&gt;right);
+  }
+}
+
+/* Function to return address of minimum value node in BST */
+struct node * min_node(struct node * root) {
+  if(root==NULL) {
+    return NULL;
+  } else if(root-&gt;left==NULL) {
+    return root;
+  } else {
+    return max_node(root-&gt;left);
+  }
+}
+
+/* Function to convert a BST into doubly linked list and return its head pointer */
+struct node * convert_into_dll(struct node ** root_ref) {
+  struct node * root=*root_ref;
+  
+  if(root==NULL) {
+    return;
+  } else {
+  }
+
+  struct node * left=root-&gt;left;
+  struct node * right=root-&gt;right;
+  struct node * max_in_left_subtree=max_node(left);
+  struct node * min_in_right_subtree=min_node(right);
+  struct node * min_in_left_subtree=min_node(left);
+ 
+  root-&gt;left=max_in_left_subtree;
+  root-&gt;right=min_in_right_subtree;
+
+  if(left!=NULL) {
+    convert_into_dll(&amp;left);
+  }
+  if(right!=NULL) {
+    convert_into_dll(&amp;right);
+  }
+
+  if(max_in_left_subtree!=NULL) {
+    max_in_left_subtree-&gt;right=root;
+  }
+  if(min_in_right_subtree!=NULL) {
+    min_in_right_subtree-&gt;left=root;
+  }
+
+  return min_in_left_subtree;
+}
+
+/* Function to print a doubly linked list */
+void print_list(struct node * head) {
+  while(head!=NULL) {
+    printf(&quot;%d &quot;, head-&gt;data);
+    head=head-&gt;right;
+  }
+}
+
+/* Driver function */
+int main() {
+  struct node * root=NULL;
+
+  insert_node(&amp;root, 40);
+  insert_node(&amp;root, 30);
+  insert_node(&amp;root, 50);
+  insert_node(&amp;root, 25);
+  insert_node(&amp;root, 35);
+  insert_node(&amp;root, 45);
+  insert_node(&amp;root, 55);
+  insert_node(&amp;root, 60);
+  insert_node(&amp;root, 65);
+  insert_node(&amp;root, 70);
+  insert_node(&amp;root, 75);
+
+  inorder_print(root);
+  printf(&quot;\n&quot;);
+
+  root=convert_into_dll(&amp;root);
+  print_list(root);
+
+  return 0;
+}
+</code> </pre>
+<p>25 30 35 40 45 50 55 60 65 70 75<br />
+25 30 35 40 45 50 55 60 65 70 75</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-abhishek08aug odd alt depth-2" id="dsq-comment-17836">
+        <div id="dsq-comment-header-17836" class="dsq-comment-header">
+            <cite id="dsq-cite-17836">
+                <span id="dsq-author-user-17836">abhishek08aug</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17836" class="dsq-comment-body">
+            <div id="dsq-comment-message-17836" class="dsq-comment-message"><p>Convert a tree into a Circular Doubly Linked List:</p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+
+/* Structure of a node in tree/doubly linked list */
+struct node {
+  int data;
+  struct node * left;
+  struct node * right;
+};
+
+/* Function to insert a value in BST */
+void insert_node(struct node ** root_ref, int value) {
+  struct node * new_node=NULL;
+  if(*root_ref==NULL) {
+    new_node=(struct node *)malloc(sizeof(struct node));
+    new_node-&gt;data=value;
+    new_node-&gt;left=NULL;
+    new_node-&gt;right=NULL;
+    *root_ref=new_node;
+  } else if(value&lt;=(*root_ref)-&gt;data) {
+    insert_node(&amp;((*root_ref)-&gt;left), value);
+  } else if(value&gt;(*root_ref)-&gt;data) {
+    insert_node(&amp;((*root_ref)-&gt;right), value);
+  }
+}
+
+/* Function to print BST using inorder traversal*/
+void inorder_print(struct node * root) {
+  if(root==NULL) {
+    return;
+  } else {
+    inorder_print(root-&gt;left);
+    printf(&quot;%d &quot;, root-&gt;data);
+    inorder_print(root-&gt;right);
+  }
+}
+
+/* Function to return address of maximum value node in BST */
+struct node * max_node(struct node * root) {
+  if(root==NULL) {
+    return NULL;
+  } else if(root-&gt;right==NULL) {
+    return root;
+  } else {
+    return max_node(root-&gt;right);
+  }
+}
+
+/* Function to return address of minimum value node in BST */
+struct node * min_node(struct node * root) {
+  if(root==NULL) {
+    return NULL;
+  } else if(root-&gt;left==NULL) {
+    return root;
+  } else {
+    return max_node(root-&gt;left);
+  }
+}
+
+/* Function to convert a BST into doubly linked list and return its head pointer */
+struct node * convert_into_dll(struct node ** root_ref) {
+  struct node * root=*root_ref;
+  
+  if(root==NULL) {
+    return root;
+  } else {
+  }
+
+  struct node * left=root-&gt;left;
+  struct node * right=root-&gt;right;
+  struct node * max_in_left_subtree=max_node(left);
+  struct node * min_in_right_subtree=min_node(right);
+  struct node * min_in_left_subtree=min_node(left);
+ 
+  root-&gt;left=max_in_left_subtree;
+  root-&gt;right=min_in_right_subtree;
+
+  if(left!=NULL) {
+    convert_into_dll(&amp;left);
+  }
+  if(right!=NULL) {
+    convert_into_dll(&amp;right);
+  }
+
+  if(max_in_left_subtree!=NULL) {
+    max_in_left_subtree-&gt;right=root;
+  }
+  if(min_in_right_subtree!=NULL) {
+    min_in_right_subtree-&gt;left=root;
+  }
+
+  return min_in_left_subtree;
+}
+
+/* Function to get the last node of a doubly linked list */
+struct node * get_last_node_in_dll(struct node * head) {
+  if(head==NULL || head-&gt;right==NULL) {
+    return head;
+  } else {
+    return get_last_node_in_dll(head-&gt;right);
+  }
+}
+
+/* Function to convert a BST into circular doubly linked list */
+void convert_into_circular_dll(struct node ** root_ref) {
+  *root_ref=convert_into_dll(root_ref);
+  struct node * last_node_in_dll=get_last_node_in_dll(*root_ref);
+  (*root_ref)-&gt;left=last_node_in_dll;
+  last_node_in_dll-&gt;right=*root_ref;
+}
+
+/* Function to print a circular doubly linked list using right pointer*/
+void print_list_using_right(struct node * head) {
+  if(head==NULL) {
+    return;
+  }
+  printf(&quot;%d &quot;, head-&gt;data);
+  struct node * current=head-&gt;right;
+  while(current!=head) {
+    printf(&quot;%d &quot;, current-&gt;data);
+    current=current-&gt;right;
+  }
+}
+
+/* Function to print a circular doubly linked list using left pointer*/
+void print_list_using_left(struct node * head) {
+  if(head==NULL) {
+    return;
+  }
+  struct node * current=head-&gt;left;
+  do {
+    printf(&quot;%d &quot;, current-&gt;data);
+    current=current-&gt;left;
+  }while(current!=head-&gt;left);
+}
+
+/* Function to print a circular doubly linked list using left pointer*/
+void print_list_nodes(struct node * head, int count) {
+  if(head==NULL) {
+    return;
+  }
+  int i=1;
+  struct node * current=head;
+  while(current!=NULL &amp;&amp; i&lt;=count) {
+    printf(&quot;%d &quot;, current-&gt;data);
+    current=current-&gt;left;
+  }
+}
+
+/* Driver function */
+int main() {
+  struct node * root=NULL;
+
+  insert_node(&amp;root, 40);
+  insert_node(&amp;root, 30);
+  insert_node(&amp;root, 50);
+  insert_node(&amp;root, 25);
+  insert_node(&amp;root, 35);
+  insert_node(&amp;root, 45);
+  insert_node(&amp;root, 55);
+  insert_node(&amp;root, 60);
+  insert_node(&amp;root, 65);
+  insert_node(&amp;root, 70);
+  insert_node(&amp;root, 75);
+  insert_node(&amp;root, 100);
+
+  inorder_print(root);
+  printf(&quot;\n&quot;);
+
+  convert_into_circular_dll(&amp;root);
+  print_list_using_right(root);
+  printf(&quot;\n&quot;);
+  print_list_using_left(root);
+
+  return 0;
+}
+</code> </pre>
+<p>25 30 35 40 45 50 55 60 65 70 75 100<br />
+25 30 35 40 45 50 55 60 65 70 75 100<br />
+100 75 70 65 60 55 50 45 40 35 30 25</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-16614">
+        <div id="dsq-comment-header-16614" class="dsq-comment-header">
+            <cite id="dsq-cite-16614">
+                <span id="dsq-author-user-16614">stupid</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16614" class="dsq-comment-body">
+            <div id="dsq-comment-message-16614" class="dsq-comment-message"><pre> <code language="C">
+struct node * dllStart;
+struct node * prev;
+void treetoDLL(struct node * root){
+     if(root == NULL){
+             return;
+     }
+     treetoDLL(root-&gt;left);
+     if(dllStart == NULL){
+                 dllStart = root;
+                 dllStart-&gt;left = NULL;
+     }
+     if(prev !=NULL){
+             struct node * temp = root;
+             prev-&gt;right = temp;
+             temp-&gt;left = prev;
+             
+     }
+     prev = root;
+     treetoDLL(root-&gt;right);
+}
+void printDLL(){
+     if(dllStart == NULL){
+                 return;
+     }
+     else{
+      while(dllStart){
+                            printf(&quot;%d  &quot;,dllStart-&gt;data);
+                            dllStart = dllStart-&gt;right;
+      }    
+     }
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-15800">
+        <div id="dsq-comment-header-15800" class="dsq-comment-header">
+            <cite id="dsq-cite-15800">
+                <span id="dsq-author-user-15800">sush</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15800" class="dsq-comment-body">
+            <div id="dsq-comment-message-15800" class="dsq-comment-message"><pre> <code language="C">
+struct node* TL	(struct node *r)//main function
+{
+	struct node* t;
+	return TtoL(r,&amp;t);
+}
+struct node* TtoL(struct node* r,struct node** t)//returns tail(of list created from root) saved in *t
+{
+	if(!r)
+	{*t=NULL;return r;}
+	struct node* h1,*t1,*h2,*t2;
+	h1=TtoL(r-&gt;left,t);
+	t1=*t;
+	*t=NULL;
+	h2=TtoL(r-&gt;right,t);
+	if(h1)
+	{
+		t1-&gt;right=r;r-&gt;left=t1;//r-&gt;prev=t1;t1-&gt;next=r;
+	}
+	else
+	{
+		r-&gt;left=NULL;//r-&gt;prev=NULL;
+		h1=r;
+	}
+	if(h2)
+	{
+		r-&gt;right=h2;h2-&gt;left=r;//r-&gt;next=h2;h2-&gt;prev=r;
+	}
+	else
+	{
+		r-&gt;right=NULL;//r-&gt;next=NULL;
+		*t=r;
+	}
+	//make circular
+	/*uncomment these two lines if you want to make it circular
+	h1-&gt;left=*t;
+	(*t)-&gt;right=h1;
+	*/
+	return h1;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-15464">
+        <div id="dsq-comment-header-15464" class="dsq-comment-header">
+            <cite id="dsq-cite-15464">
+                <span id="dsq-author-user-15464">Nikin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15464" class="dsq-comment-body">
+            <div id="dsq-comment-message-15464" class="dsq-comment-message"><pre> <code language="C">
+
+void join(node *a, node *b)
+{
+a-&gt;right = b;
+b-&gt;left = a;
+}
+
+node* append(node *sr1, node *sr2)
+{
+if(sr1 == NULL) return sr2;
+if(sr2 == NULL) return sr1;
+
+Node* aLast = a-&gt;left;
+Node* bLast = b-&gt;left;
+
+join(aLast, b);
+join(bLast, a);
+
+}
+
+
+node* treeToList(node *sr)
+{
+if(sr == NULL) return NULL;
+
+node* aList = treeToList(sr-&gt;left);
+node* bList = treeToList(sr-&gt;right);
+
+sr-&gt;left = sr;
+sr-&gt;right = sr;
+
+aList = append(aList, sr);
+aList = append(aList, bList);
+
+return aList;
+
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-15423">
+        <div id="dsq-comment-header-15423" class="dsq-comment-header">
+            <cite id="dsq-cite-15423">
+                <span id="dsq-author-user-15423">nir</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15423" class="dsq-comment-body">
+            <div id="dsq-comment-message-15423" class="dsq-comment-message"><p>#include<br />
+#include<br />
+using namespace std;</p>
+<p>struct node<br />
+{<br />
+    int data;<br />
+    node *left;<br />
+    node *right;<br />
+}*root,*first;</p>
+<p>node* insert(int data,node *temp)<br />
+{<br />
+	if(temp == NULL)<br />
+	 {<br />
+	     temp = new node;<br />
+	     temp-&gt;data = data;<br />
+	     temp-&gt;right = NULL;<br />
+	     temp-&gt;left = NULL;<br />
+	 }<br />
+	else if(data data)<br />
+	 {<br />
+	    temp-&gt;left = insert(data,temp-&gt;left);<br />
+	 }<br />
+	else<br />
+	{<br />
+		temp-&gt;right = insert(data,temp-&gt;right);<br />
+	}<br />
+	return temp;<br />
+} </p>
+<p>void convert()<br />
+{<br />
+	node *current,*prev,*prev1;</p>
+<p>	current = root;<br />
+	prev = NULL;<br />
+	first = NULL;</p>
+<p>	while(current!=NULL)<br />
+	{<br />
+	   if(current-&gt;left == NULL || current-&gt;left == root)<br />
+	    {</p>
+<p>			if(first == NULL)<br />
+			{<br />
+				first = current;<br />
+				first-&gt;left = NULL;<br />
+			}<br />
+			if(current-&gt;left != root)<br />
+				current-&gt;left = prev;<br />
+			else<br />
+			    root-&gt;right = current;<br />
+			prev = current;<br />
+			current= current-&gt;right;	</p>
+<p>		}<br />
+	   else<br />
+	   {</p>
+<p>		  prev = current-&gt;left;<br />
+		  while(prev-&gt;right != NULL &amp;&amp; prev-&gt;right != current)<br />
+		   prev = prev-&gt;right;<br />
+		  if(prev-&gt;right == NULL)<br />
+		   {<br />
+			  prev-&gt;right = current;<br />
+			  prev1 = current;<br />
+			  current = current-&gt;left;<br />
+			  prev1-&gt;left = prev;<br />
+		   }</p>
+<p>		  else<br />
+		  {<br />
+			  //cout&lt;data;<br />
+			  current-&gt;left = prev;<br />
+			  prev = current;<br />
+			  current = current-&gt;right;<br />
+		  }<br />
+	   }</p>
+<p>	}<br />
+}<br />
+int main()<br />
+{</p>
+<p>    int data;<br />
+    node *temp;<br />
+    cin&gt;&gt;data;<br />
+    while(data &gt; 0)<br />
+    {<br />
+	   root = insert(data,root);<br />
+	   cin&gt;&gt;data;<br />
+	}<br />
+ if(root-&gt;right != NULL)<br />
+	 {  temp = root-&gt;right;<br />
+	   while(temp-&gt;left != NULL)<br />
+		 temp = temp-&gt;left;<br />
+	   temp-&gt;left = root;<br />
+    }<br />
+  convert();<br />
+   temp = first;<br />
+   while(temp!=NULL)<br />
+    {<br />
+	  cout&lt;data&lt;right;<br />
+	  Sleep(1);<br />
+	}<br />
+   return 0;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-15104">
+        <div id="dsq-comment-header-15104" class="dsq-comment-header">
+            <cite id="dsq-cite-15104">
+                <span id="dsq-author-user-15104">Vishal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15104" class="dsq-comment-body">
+            <div id="dsq-comment-message-15104" class="dsq-comment-message"><pre> <code language="C">
+// program to convert complete binary tree into a  doubly linked list in place
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+struct node 
+{
+	int data;
+	struct node * left;
+	struct node * right;
+};
+typedef struct node node;
+node * newnode(int data);
+node * todll(node * root);
+void print(node *head);
+void preorder(node* root);
+int main()
+{
+	node * root = NULL;
+	root = newnode(4);
+	root-&gt;right = newnode(5);
+	root-&gt;left = newnode(6);
+	root-&gt;left-&gt;left = newnode(7);
+	root-&gt;left-&gt;right = newnode(8);
+	root-&gt;left-&gt;right-&gt;left = newnode(60);
+	root-&gt;left-&gt;right-&gt;right = newnode(80);
+	root-&gt;right-&gt;left = newnode(9);
+	root-&gt;right-&gt;right = newnode(10);
+	root-&gt;right-&gt;right-&gt;left = newnode(11);
+	root-&gt;right-&gt;right-&gt;right = newnode(12);
+	preorder(root);
+	printf(&quot;\n&quot;);
+	node * head = todll(root);//now the head contains the head of dll and no tree exists now
+	print(head);
+}
+node * newnode(int data)
+{
+	node * new = (node *)malloc(sizeof(node));
+	new-&gt;data = data;
+	new-&gt;right = NULL;
+	new-&gt;left = NULL;
+	return new;
+}
+void preorder(node* root)
+{
+	if(root == NULL) return;
+	printf(&quot;%d &quot;,root-&gt;data);
+	preorder(root-&gt;left);
+	preorder(root-&gt;right);
+}
+void print(node *head)
+{
+	while(head!=NULL)
+	{
+		printf(&quot;%d &quot;,head-&gt;data);
+		head = head-&gt;right;
+	}
+	printf(&quot;\n&quot;);
+}
+node * todll(node * root)
+{
+	if(root == NULL) return NULL;
+	node * a = todll(root-&gt;left);
+	node * b = todll(root-&gt;right);
+	if(a!=NULL &amp;&amp; b != NULL)
+	{
+		while(a-&gt;right != NULL) a = a-&gt;right;
+		a-&gt;right = root;
+		root-&gt;left = a;
+		b-&gt;left = root;
+		root-&gt;right = b;
+	}
+	if(a == NULL &amp;&amp; b == NULL)
+	{
+		root-&gt;left = NULL;
+		root-&gt;right = NULL;
+		return root;
+	}
+	while(a-&gt;left != NULL) a = a-&gt;left;
+	root = a;
+	return root;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-14767">
+        <div id="dsq-comment-header-14767" class="dsq-comment-header">
+            <cite id="dsq-cite-14767">
+                <span id="dsq-author-user-14767">Kamal Wadhwa</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14767" class="dsq-comment-body">
+            <div id="dsq-comment-message-14767" class="dsq-comment-message"><p>In my solution i have used inorder traversal which gives me number from smaller to larger in the ordered binary tree. i haven&#8217;t made a new structure for doubly Link-List rather i used the structure of tree in which the node contains data, left and right. Any comments to make it better or suggestion will be great. Thanks in advance <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+<pre> <code language="CPP">
+
+#include&lt;iostream&gt;
+#include&lt;stdlib.h&gt;
+
+using namespace std;
+
+struct node* linkNode;
+
+struct node
+{
+	int data;
+	node* left;
+	node* right;
+	
+};
+
+struct node* newNode(int data)
+{
+	struct node* node = (struct node*) malloc(sizeof(struct node));
+	
+	node-&gt;data = data;
+	node-&gt;left = NULL;
+	node-&gt;right = NULL;
+}
+
+void dispLinkList()
+{
+	while(linkNode-&gt;left != NULL)
+		linkNode = linkNode-&gt;left;
+	
+	struct node* temp = linkNode;
+	while(temp != NULL)
+	{
+		cout &lt;&lt; temp-&gt;data &lt;&lt; &quot; &quot;;
+		temp = temp-&gt;right;
+	}
+}
+
+void treeToList(struct node* root)
+{
+	if(root == NULL)
+		return;
+		
+	treeToList(root-&gt;left);
+	
+	if(linkNode == NULL)
+		linkNode = newNode(root-&gt;data);
+
+	else
+	{
+		struct node* tempNode = newNode(root-&gt;data);		
+		tempNode-&gt;left = linkNode;
+		linkNode-&gt;right = tempNode;		
+		linkNode = linkNode-&gt;right;		
+		
+	}
+	
+	treeToList(root-&gt;right);
+	
+}
+
+
+
+int main(void)
+{
+	struct node* root = newNode(4);
+	root-&gt;left = newNode(2);
+	root-&gt;right = newNode(5);
+	root-&gt;left-&gt;left = newNode(1);
+	root-&gt;left-&gt;right = newNode(3);		
+	
+	treeToList(root);
+	dispLinkList();
+	return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-10758">
+        <div id="dsq-comment-header-10758" class="dsq-comment-header">
+            <cite id="dsq-cite-10758">
+                <span id="dsq-author-user-10758">Jatin Jindal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10758" class="dsq-comment-body">
+            <div id="dsq-comment-message-10758" class="dsq-comment-message"><p>Hello everyone,</p>
+<p>Please see below code for Tree to list implementation using In order traversal:</p>
+<pre> <code language="C">
+#include &lt;stdio.h&gt;
+#include &lt;iostream&gt;
+#include &lt;stdlib.h&gt;
+
+using namespace std;
+
+typedef struct node{
+    int data;
+    struct node* smaller;
+    struct node* larger;
+}*Node;
+
+/*Making a doubly linked list*/
+void convert2list(Node newN,Node* head,Node* tail)
+{
+    if((*head)==NULL)
+    {
+        *head=newN;
+        *tail=newN;
+    }
+    else
+    {
+        (*tail)-&gt;larger=newN;
+        newN-&gt;smaller=(*tail);
+        *tail=newN;
+    }
+}
+
+/*In order traversal*/
+void tree2list(Node root,Node* head,Node* tail)
+{
+    if(root)
+    {
+        tree2list(root-&gt;smaller,head,tail);
+        convert2list(root,head,tail);
+        tree2list(root-&gt;larger,head,tail);
+    }
+}
+
+void printList(Node head)
+{
+    Node temp=head;
+    while(temp-&gt;larger!=head)
+        {
+            cout&lt;&lt;temp-&gt;data;
+            temp=temp-&gt;larger;
+        }
+    cout&lt;&lt;temp-&gt;data;
+}
+
+/*Connecting the head and tail to make it a circular list*/
+void connectHT(Node head,Node tail)
+{
+    tail-&gt;larger=head;
+    head-&gt;smaller=tail;
+}
+
+/* Create a new node */
+static Node newNode(int data)
+{
+Node node = (Node) malloc(sizeof(struct node));
+node-&gt;data = data;
+node-&gt;smaller = NULL;
+node-&gt;larger = NULL;
+return(node);
+}
+/* Add a new node into a tree */
+static void treeInsert(Node* rootRef, int data)
+{
+Node root = *rootRef;
+    if (root == NULL)
+        *rootRef=newNode(data);
+    else
+    {
+        if (data &lt;= root-&gt;data)
+            treeInsert(&amp;(root-&gt;smaller), data);
+        else
+            treeInsert(&amp;(root-&gt;larger), data);
+    }
+}
+
+int main()
+{
+Node head=NULL;
+Node tail=NULL;
+Node root=NULL;
+
+treeInsert(&amp;root,11);
+treeInsert(&amp;root,5);
+treeInsert(&amp;root,3);
+treeInsert(&amp;root,9);
+treeInsert(&amp;root,1);
+treeInsert(&amp;root,4);
+treeInsert(&amp;root,7);
+treeInsert(&amp;root,10);
+treeInsert(&amp;root,15);
+treeInsert(&amp;root,13);
+treeInsert(&amp;root,17);
+tree2list(root,&amp;head,&amp;tail);
+connectHT(head,tail);
+printList(head);
+return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-10061">
+        <div id="dsq-comment-header-10061" class="dsq-comment-header">
+            <cite id="dsq-cite-10061">
+                <span id="dsq-author-user-10061">Rishabh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10061" class="dsq-comment-body">
+            <div id="dsq-comment-message-10061" class="dsq-comment-message"><p>This solution is for the doubly-linked list(non-circular). I am passing the node and its parent as parameters in the recursive function. Find the comments inline.</p>
+<pre> <code language="C">
+Node* function(Node* root, Node* parent)
+{
+    if(root is the leaf) return root;
+    
+    //handling the left subtree case
+    Node* temp1 = function(root-&gt;left, root);
+    root-&gt;left = temp1;
+    temp1-&gt;right = root;
+
+    //handling the right subtree case
+    Node* temp2 = function(root-&gt;right,root);
+    root-&gt;right= temp2;
+    temp2-&gt;right = root;
+
+    return temp2;
+    //this return ensures that the current root's parent gets the correct node as its &quot;right node&quot;.
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-10214">
+        <div id="dsq-comment-header-10214" class="dsq-comment-header">
+            <cite id="dsq-cite-10214">
+                <span id="dsq-author-user-10214">tiger</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10214" class="dsq-comment-body">
+            <div id="dsq-comment-message-10214" class="dsq-comment-message"><p>Is this code correct?? Nobody has posted replies yet???</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-10976">
+        <div id="dsq-comment-header-10976" class="dsq-comment-header">
+            <cite id="dsq-cite-10976">
+http://roomforcreativity.wordpress.com                <span id="dsq-author-user-10976">cyclotrojan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10976" class="dsq-comment-body">
+            <div id="dsq-comment-message-10976" class="dsq-comment-message"><p>Its incorrect. Consider some node n, initially n.next points to its right child and when n is recursively passed to its parent then n.next starts pointing to the parent, breaking the chain with its right child.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8920">
+        <div id="dsq-comment-header-8920" class="dsq-comment-header">
+            <cite id="dsq-cite-8920">
+                <span id="dsq-author-user-8920">BOB</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8920" class="dsq-comment-body">
+            <div id="dsq-comment-message-8920" class="dsq-comment-message"><p>/*<br />
+ The tree is converted to dll where the h is the head and tail if the tail of the list.The tree pointers are used as left as prev and right as next<br />
+*/</p>
+<p>void convertTreeToList(node* t, node **h,node **tail)<br />
+ {<br />
+    if(t!=NULL)<br />
+    {<br />
+     convertTreeToList(t -&gt; left,h,tail);<br />
+     if(*h==NULL)<br />
+     {<br />
+      *h=t;<br />
+      *tail=t;<br />
+     }<br />
+     else<br />
+     {<br />
+      (*tail)-&gt;right=t;<br />
+      t-&gt;left=*tail;<br />
+       *tail=t;<br />
+     }<br />
+     convertTreeToList(t -&gt; right,h,tail);<br />
+    }<br />
+ }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-7377">
+        <div id="dsq-comment-header-7377" class="dsq-comment-header">
+            <cite id="dsq-cite-7377">
+                <span id="dsq-author-user-7377">nitin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7377" class="dsq-comment-body">
+            <div id="dsq-comment-message-7377" class="dsq-comment-message"><pre> <code language="C">
+struct node *append(struct node *a,struct node *b)
+{
+    if(a==NULL) return b;
+    if(b==NULL) return a;
+    struct node *aLeft=a-&gt;left;
+    struct node *bLeft=b-&gt;left;
+    aLeft-&gt;right=b;
+    b-&gt;laeft=aLeft;
+    a-&gt;left=bLeft;
+    bLeft-&gt;right=a;
+    return a;
+}
+
+struct node *TreeToList(struct node *root)
+{
+    if(root=NULL) return NULL;
+    struct node *aList=TreeToList(root-&gt;left);
+    struct node *bList=TreeToList(root-&gt;right);
+    root-&gt;left=root;
+    root-&gt;right=root;
+    aList=append(aList,root);
+    aList=append(aList,bList);
+    return aList;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-6415">
+        <div id="dsq-comment-header-6415" class="dsq-comment-header">
+            <cite id="dsq-cite-6415">
+                <span id="dsq-author-user-6415">Anuj Bansal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6415" class="dsq-comment-body">
+            <div id="dsq-comment-message-6415" class="dsq-comment-message"><p>The algorithm maintains a global stack and two global pointers list (which points to doubly connected linked list formed at the end of the algorithm)  and temp (which is a temporary pointer used in the list). After the tree creation, I call the function addtoList which will push the nodes of the tree into the stack for every left subtree of a node and would pop the stack once it find the left subtree as NULL and then call another function MakeList which connects the right subtree of the node to the list and hence calls addtoList again to parse and connect the left subtree of this right subtree.</p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+#include&lt;conio.h&gt;
+#include&lt;stdlib.h&gt;
+
+struct node {
+	int info;
+	struct node *left;
+	struct node *right;
+};
+typedef struct node *NODEPTR;
+
+struct stack {
+	NODEPTR ptr;
+	struct stack *next;
+};
+typedef struct stack *STACK;
+
+STACK st = NULL;
+
+NODEPTR pop() {
+	if(st == NULL)
+		return (NODEPTR) NULL;
+	else {
+		STACK p = st;
+		NODEPTR q = st-&gt;ptr;
+		st = st-&gt;next;
+		free(p);
+		return q;
+	}
+}
+
+STACK getstacknode (NODEPTR p) {
+	STACK q = (STACK) malloc(sizeof(struct stack));
+	q-&gt;ptr = p;
+	q-&gt;next = NULL;
+	return q;
+}
+
+void push(NODEPTR p) {
+	if(st == NULL) {
+		st = getstacknode(p);
+	}
+	else {
+		STACK q = getstacknode(p);
+		q-&gt;next = st;
+		st = q;
+	}
+}
+
+int empty() {
+	return st == NULL ? 1 : 0;
+}
+
+NODEPTR getnode(int x) {
+	NODEPTR ptr;
+	ptr = (NODEPTR) malloc(sizeof(struct node));
+	ptr-&gt;info = x;
+	ptr-&gt;left = NULL;
+	ptr-&gt;right = NULL;
+	return ptr;
+}
+
+void insert(NODEPTR *root , int x) {
+	if(*root == NULL) {
+		*root = getnode(x);
+		return;
+	}
+	else {
+		if( x &lt; (*root)-&gt;info)
+			insert( &amp;((*root)-&gt;left) , x);
+		else
+			insert( &amp;((*root)-&gt;right) , x);
+	}
+}
+
+void inorder(NODEPTR root) {
+	if(root != NULL) {
+		inorder(root-&gt;left);
+		printf(&quot;%d,&quot; , root-&gt;info);
+		inorder(root-&gt;right);
+	}
+}
+
+NODEPTR list = NULL;
+NODEPTR temp = NULL;
+
+void addtoList(NODEPTR root);
+
+void Makelist(NODEPTR p) {
+	if(list == NULL) {
+		list = p;
+		temp = p;
+		list-&gt;left = p;
+		list-&gt;right = p;
+	}
+	else {
+		NODEPTR q = p-&gt;right;
+		temp-&gt;right = p;
+		list-&gt;left = p;
+		p-&gt;left = temp;
+		p-&gt;right = list;
+		temp = p;
+		addtoList(q);
+	}
+}
+
+void addtoList(NODEPTR root) {
+	if(root) {
+		NODEPTR p = root;
+		while (p) {
+			push(p);
+			p = p-&gt;left;
+		}
+		do {
+			p = pop();
+			Makelist(p);
+		} while(!empty());
+	}
+}
+
+void printList(NODEPTR list) {
+	printf(&quot;%d,&quot;,list-&gt;info);
+	for(NODEPTR p = list-&gt;right; p!=list; p = p-&gt;right)
+		printf(&quot;%d,&quot;, p-&gt;info);
+}
+
+void main()
+{
+clrscr();
+NODEPTR root = NULL;
+insert(&amp;(root), 12);
+insert(&amp;(root), 6);
+insert(&amp;(root), 13);
+insert(&amp;(root), 14);
+insert(&amp;(root), 5);
+insert(&amp;(root), 8);
+insert(&amp;(root), 7);
+insert(&amp;(root), 10);
+insert(&amp;(root), 9);
+insert(&amp;(root), 11);
+insert(&amp;(root), 4);
+insert(&amp;(root), 2);
+insert(&amp;(root), 1);
+insert(&amp;(root), 3);
+insert(&amp;(root), 16);
+insert(&amp;(root), 15);
+insert(&amp;(root), 17);
+
+inorder(root);
+printf(&quot;\n&quot;);
+addtoList(root);
+printList(list);
+
+getch();
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-6373">
+        <div id="dsq-comment-header-6373" class="dsq-comment-header">
+            <cite id="dsq-cite-6373">
+                <span id="dsq-author-user-6373">mohit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6373" class="dsq-comment-body">
+            <div id="dsq-comment-message-6373" class="dsq-comment-message"><p>Node list_head=NULL;<br />
+void tree_list(Node n,Node *last)<br />
+{<br />
+	if(n==NULL) return ;</p>
+<p>	tree_list(n-&gt;l,last);</p>
+<p>	if(*last)<br />
+		(*last)-&gt;r=n;<br />
+	n-&gt;l=*last;<br />
+	*last=n;<br />
+	if(list_head==NULL)<br />
+		list_head=n;<br />
+	tree_list(n-&gt;r,last);<br />
+return ;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-6367">
+        <div id="dsq-comment-header-6367" class="dsq-comment-header">
+            <cite id="dsq-cite-6367">
+                <span id="dsq-author-user-6367">mohit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6367" class="dsq-comment-body">
+            <div id="dsq-comment-message-6367" class="dsq-comment-message"><pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+List tree_to_list(Node n)
+{
+	if(n==NULL) return NULL;
+	List llst=tree_to_list(n-&gt;l);
+	
+	List nd=(List )calloc(1,sizeof(struct llist ));
+	nd-&gt;v=n-&gt;v;
+	if(my_head==NULL)
+		my_head=nd;
+	
+	if(llst!=NULL)
+		(llst)-&gt;next=nd;
+	List rlst=tree_to_list(n-&gt;r);
+	if(rlst!=NULL)
+		nd-&gt;next=(rlst);
+	return (nd);
+	
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-5344">
+        <div id="dsq-comment-header-5344" class="dsq-comment-header">
+            <cite id="dsq-cite-5344">
+                <span id="dsq-author-user-5344">Ankur</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5344" class="dsq-comment-body">
+            <div id="dsq-comment-message-5344" class="dsq-comment-message"><p>I was thinking of one approach..Need your feedback frnds </p>
+<p>To do this in O(n)  I will convert this BST into Circular Linked List and then make the head-&gt;left-&gt;right = NULL and head-&gt;left = NULL </p>
+<p>to convert BST into Circular DLL here is a working code </p>
+<p> struct node* treeToList(struct node* root){<br />
+    struct node* node1 = NULL;<br />
+    struct node* node2 = NULL;<br />
+    if(root==NULL)  return NULL;<br />
+    node1 = treeToList(root-&gt;left);<br />
+    node2 = treeToList(root-&gt;right);<br />
+    if(!node1 &amp;&amp; !node2){<br />
+         root-&gt;left = root;<br />
+	 root-&gt;right = root;<br />
+	 return root;<br />
+    }<br />
+    if(node1 &amp;&amp; node2){<br />
+	root-&gt;right = node2;<br />
+	root-&gt;left = node1-&gt;left;<br />
+	node1-&gt;left-&gt;right =root;<br />
+	node1-&gt;left = node2-&gt;left;<br />
+	node2-&gt;left-&gt;right = node1;<br />
+	node2-&gt;left = root;<br />
+	return node1;<br />
+    }<br />
+    if(!node2){<br />
+        root-&gt;right = node1;<br />
+	root-&gt;left = node1-&gt;left;<br />
+	node1-&gt;left-&gt;right =root;<br />
+	node1-&gt;left  = root;<br />
+	return node1;<br />
+    }<br />
+    if(!node1){<br />
+        root-&gt;right = node2;<br />
+	root-&gt;left = node2-&gt;left;<br />
+        //root-&gt;right = node2-&gt;right;<br />
+	node2-&gt;left-&gt;right = root;<br />
+	node2-&gt;left= root;<br />
+        return root;<br />
+    }<br />
+}
+<pre> <code language="C"></code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-5340">
+        <div id="dsq-comment-header-5340" class="dsq-comment-header">
+            <cite id="dsq-cite-5340">
+                <span id="dsq-author-user-5340">Swapnil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5340" class="dsq-comment-body">
+            <div id="dsq-comment-message-5340" class="dsq-comment-message"><p>#include &#8220;bst.cpp&#8221;</p>
+<p>struct mypair{<br />
+	BST *left;<br />
+	BST * right;<br />
+};</p>
+<p>mypair convert_to_dll(BST *T){</p>
+<p>	mypair left_pointer;<br />
+	mypair right_pointer;</p>
+<p>	mypair new_mypair;</p>
+<p>	if(T-&gt;left == NULL &amp;&amp; T-&gt;right == NULL){<br />
+		new_mypair.left = T;<br />
+		new_mypair.right = T;<br />
+	}</p>
+<p>	else if(T-&gt;left == NULL){</p>
+<p>		right_pointer = convert_to_dll(T-&gt;right);<br />
+		// for values coming from right pointer&#8230;<br />
+		T-&gt;right = right_pointer.left;<br />
+		right_pointer.left-&gt;left = T;</p>
+<p>		new_mypair.left = T;<br />
+		new_mypair.right = right_pointer.right;</p>
+<p>	}</p>
+<p>	else if(T-&gt;right == NULL){</p>
+<p>		left_pointer = convert_to_dll(T-&gt;left);<br />
+		// for values coming from left pointer&#8230;<br />
+		left_pointer.right-&gt;right = T;<br />
+		T-&gt;left = left_pointer.right;</p>
+<p>		new_mypair.left = left_pointer.left;<br />
+		new_mypair.right = T;<br />
+	}</p>
+<p>	else {<br />
+		left_pointer = convert_to_dll(T-&gt;left);<br />
+		// for values coming from left pointer&#8230;<br />
+		left_pointer.right-&gt;right = T;<br />
+		T-&gt;left = left_pointer.right;</p>
+<p>		right_pointer = convert_to_dll(T-&gt;right);<br />
+		// for values coming from right pointer&#8230;<br />
+		T-&gt;right = right_pointer.left;<br />
+		right_pointer.left-&gt;left = T;</p>
+<p>		new_mypair.left = left_pointer.left;<br />
+		new_mypair.right = right_pointer.right;<br />
+	}</p>
+<p>	return new_mypair;</p>
+<p>}</p>
+<p>int main(){</p>
+<p>	BST *T = NULL;</p>
+<p>	int n;<br />
+	cin &gt;&gt; n;<br />
+	int temp;</p>
+<p>	for(int i = 0 ; i &gt; temp;<br />
+		T = insert(T,temp);<br />
+	}</p>
+<p>	inline_traversal(T);<br />
+	cout&lt;right != NULL){<br />
+		cout &lt;value &lt;&#8220;;<br />
+		T=T-&gt;right;<br />
+	}<br />
+	cout &lt;value &lt;left != NULL){<br />
+		cout &lt;value &lt;&#8220;;<br />
+		T=T-&gt;left;<br />
+	}<br />
+	cout &lt;value &lt;&lt;endl;</p>
+<p>	return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-rajcools odd alt thread-odd thread-alt depth-1" id="dsq-comment-4859">
+        <div id="dsq-comment-header-4859" class="dsq-comment-header">
+            <cite id="dsq-cite-4859">
+                <span id="dsq-author-user-4859">rajcools</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4859" class="dsq-comment-body">
+            <div id="dsq-comment-message-4859" class="dsq-comment-message"><p>Here is the full working code for bst to dll without using recursion<br />
+i have found inorder successor based on Morris traversal and then found inorder predecessors for left pointers.<br />
+Then I have modified pointers according to inorder traversal that we are making of a binary search tree.<br />
+All code is in RDTraversal function</p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+
+/* A binary tree tNode has data, pointer to left child
+   and a pointer to right child */
+struct tNode
+{
+   int data;
+   struct tNode* left;
+   struct tNode* right;
+};
+
+/* Function to convert BST into sorted dll */
+struct tNode* RDTraversal(struct tNode *root)
+{
+  struct tNode *current,*pre,*prev,*temp;
+
+  if(root == NULL)
+     return NULL; 
+
+  current = root;
+  prev=NULL;   //previous node
+  temp = root;             // temp node which is the starting point of dll
+  while(temp-&gt;left!= NULL)
+  temp = temp-&gt;left;
+  while(current != NULL)
+  {
+    if(current-&gt;left == NULL)
+    {
+      printf(&quot; %d &quot;, current-&gt;data);
+      current-&gt;left=prev;
+      if(prev != NULL)
+      prev-&gt;right=current;
+      prev=current;
+      current = current-&gt;right;
+
+    }
+    else
+    {
+      /* Find the inorder predecessor of current */
+      pre = current-&gt;left;
+      while(pre-&gt;right != NULL &amp;&amp; pre-&gt;right != current)
+        pre = pre-&gt;right;
+
+      /* Make current as right child of its inorder predecessor */
+      if(pre-&gt;right == NULL)
+      {
+        pre-&gt;right = current;
+        current = current-&gt;left;
+      }
+
+      /* Revert the changes made in if part to restore the original
+        tree i.e., fix the right child of predecssor */
+      else
+      {
+        //pre-&gt;right = NULL;
+        current-&gt;left=pre;                 //pre or prev both will work
+        printf(&quot; %d &quot;,current-&gt;data);
+        prev=current;
+        current = current-&gt;right;
+      } /* End of if condition pre-&gt;right == NULL */
+    } /* End of if condition current-&gt;left == NULL*/
+  } /* End of while */
+  return temp;
+}
+
+/* UTILITY FUNCTIONS */
+/* Helper function that allocates a new tNode with the
+   given data and NULL left and right pointers. */
+struct tNode* newtNode(int data)
+{
+  struct tNode* tNode = (struct tNode*)
+                       malloc(sizeof(struct tNode));
+  tNode-&gt;data = data;
+  tNode-&gt;left = NULL;
+  tNode-&gt;right = NULL;
+
+  return(tNode);
+}
+/* Driver program to test above functions*/
+int main()
+{
+
+  printf(&quot;Holla player \n&quot;);
+  struct tNode *root = newtNode(4);
+  root-&gt;left        = newtNode(2);
+  root-&gt;right       = newtNode(6);
+  root-&gt;left-&gt;left  = newtNode(1);
+  root-&gt;left-&gt;right = newtNode(3);
+  root-&gt;right-&gt;left = newtNode(5);
+  root-&gt;right-&gt;right = newtNode(7);
+  struct tNode *temp=RDTraversal(root);
+  printf(&quot;\n&quot;);
+ while(temp != NULL)
+ {
+            printf(&quot;%d &quot;,temp-&gt;data);
+            temp = temp -&gt;right;
+   }
+  getchar();
+  return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-rajcools even depth-2" id="dsq-comment-4868">
+        <div id="dsq-comment-header-4868" class="dsq-comment-header">
+            <cite id="dsq-cite-4868">
+                <span id="dsq-author-user-4868">rajcools</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4868" class="dsq-comment-body">
+            <div id="dsq-comment-message-4868" class="dsq-comment-message"><p>@moderators guys dont we need to publish this???</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-rajcools odd alt depth-3" id="dsq-comment-4869">
+        <div id="dsq-comment-header-4869" class="dsq-comment-header">
+            <cite id="dsq-cite-4869">
+                <span id="dsq-author-user-4869">rajcools</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4869" class="dsq-comment-body">
+            <div id="dsq-comment-message-4869" class="dsq-comment-message"><p>well i take back my last comment. Not me to suggest <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even depth-4" id="dsq-comment-4981">
+        <div id="dsq-comment-header-4981" class="dsq-comment-header">
+            <cite id="dsq-cite-4981">
+                <span id="dsq-author-user-4981">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4981" class="dsq-comment-body">
+            <div id="dsq-comment-message-4981" class="dsq-comment-message"><p>@rajcools:  Apologies for the delayed reply.  The code looks fine. We will test it further for more cases and publish as a separate post.  You are always welcome to suggest new posts and ideas.  Keep it up!!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-5" id="dsq-comment-21013">
+        <div id="dsq-comment-header-21013" class="dsq-comment-header">
+            <cite id="dsq-cite-21013">
+                <span id="dsq-author-user-21013">rakitic</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21013" class="dsq-comment-body">
+            <div id="dsq-comment-message-21013" class="dsq-comment-message"><p>what i understand from problem is , we have to traverse in_order and append nodes in doubly linked list simultaneously , please tell if i understand the problem correct so i can start implementing. </p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2615">
+        <div id="dsq-comment-header-2615" class="dsq-comment-header">
+            <cite id="dsq-cite-2615">
+                <span id="dsq-author-user-2615">Arvind</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2615" class="dsq-comment-body">
+            <div id="dsq-comment-message-2615" class="dsq-comment-message"><p>Writing code in java.<br />
+Structure of a node of tree:</p>
+<pre> <code language="Java">
+Class Node
+{
+  Node left; //this will become previous pointer of link list
+  Node right; //this will become next pointer of link list
+  int data;
+  Node(data)
+  {
+    this.data=data;
+    this.left=null;
+    this.right=null;
+  }
+
+  //Concept:
+  // traverse tree left &amp; right recursively.
+ //  Finally at every level, break the link of current node with the tree.    
+  // you will have threee lists.Add them in proper sequence.
+
+  Node treeToList(Node root)
+  {
+    if(root==null)
+      return null;
+
+    Node aList = treeToList(root.left);
+    Node bList = treeToList(root.right);
+
+    root.left = root;
+    root.right = root;
+
+    //Now append three Lists.
+    aList = append(aList,root); //this will append root to aList.
+    aList = append(aList,bList);
+
+    return aList;
+  }
+
+   //This method would append two circular doubley link lists
+  Node append(Node aList, Node bList)
+  {
+     Node aLastNode = aList.left;
+     Node bLastNode = bList.left;
+
+    // join aLastNode to B's first node
+   aLastNode.right = bList;
+   bList.left = aLastNode;
+  
+   //Join bLastNode to A's first node
+   // this one you have to do :-)
+
+   //finally
+   return aList;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2383">
+        <div id="dsq-comment-header-2383" class="dsq-comment-header">
+            <cite id="dsq-cite-2383">
+http://sumitnee.blogspot.com                <span id="dsq-author-user-2383">long_road</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2383" class="dsq-comment-body">
+            <div id="dsq-comment-message-2383" class="dsq-comment-message"><pre> <code language="C">
+struct tree* tree_to_list(struct tree *root,struct tree *node)
+{
+        if (root==NULL){
+                if(node!=NULL) node-&gt;small=root;
+                return node;
+        }
+        struct tree *r=tree_to_list(root-&gt;large,node);
+        root-&gt;large=r;
+        if(r!=NULL) r-&gt;small=root;
+        return tree_to_list(root-&gt;small,root);
+
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-2384">
+        <div id="dsq-comment-header-2384" class="dsq-comment-header">
+            <cite id="dsq-cite-2384">
+http://sumitnee.blogspot.com                <span id="dsq-author-user-2384">long_road</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2384" class="dsq-comment-body">
+            <div id="dsq-comment-message-2384" class="dsq-comment-message"><p>initial calling<br />
+struct tree *list=tree_to_list(root,NULL);</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-5260">
+        <div id="dsq-comment-header-5260" class="dsq-comment-header">
+            <cite id="dsq-cite-5260">
+                <span id="dsq-author-user-5260">Dreamer</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5260" class="dsq-comment-body">
+            <div id="dsq-comment-message-5260" class="dsq-comment-message"><p>This method seems to me perfect and easy. But there are no comments on this. Am i missing something??</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-5342">
+        <div id="dsq-comment-header-5342" class="dsq-comment-header">
+            <cite id="dsq-cite-5342">
+                <span id="dsq-author-user-5342">elrack</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5342" class="dsq-comment-body">
+            <div id="dsq-comment-message-5342" class="dsq-comment-message"><p>It doesn&#8217;t perform it in-place.<br />
+And also:</p>
+<pre> <code language="C">
+struct tree *r=tree_to_list(root-&gt;large,node); 
+</code> </pre>
+<p>This statement returns local storage.  It will &#8220;work&#8221; but it won&#8217;t &#8220;work-work&#8221;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-5343">
+        <div id="dsq-comment-header-5343" class="dsq-comment-header">
+            <cite id="dsq-cite-5343">
+                <span id="dsq-author-user-5343">elrack</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5343" class="dsq-comment-body">
+            <div id="dsq-comment-message-5343" class="dsq-comment-message"><pre> <code language="C">
+?struct tree *r=tree_to_list(root-&gt;large,node);
+</code> </pre>
+<p>that statement puts pointers to storage which are only local to the function within the global list. (make it some alloc routine)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2056">
+        <div id="dsq-comment-header-2056" class="dsq-comment-header">
+            <cite id="dsq-cite-2056">
+http://sachingupta.tk                <span id="dsq-author-user-2056">sachin gupta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2056" class="dsq-comment-body">
+            <div id="dsq-comment-message-2056" class="dsq-comment-message"><pre> <code language="C">
+/* The node type from which both the tree and list are built */
+struct node {
+    int data;
+    struct node* small;
+    struct node* large;
+};
+typedef struct node* Node;
+
+
+
+/*
+ helper function -- given two list nodes, join them
+ together so the second immediately follow the first.
+ Sets the .next of the first and the .previous of the second.
+*/
+static void join(Node a, Node b) {
+    a-&gt;large = b;
+    b-&gt;small = a;
+}
+
+
+/*
+ helper function -- given two circular doubly linked
+ lists, append them and return the new list.
+*/
+static Node append(Node a, Node b) {
+    Node aLast, bLast;
+    
+    if (a==NULL) return(b);
+    if (b==NULL) return(a);
+    
+    aLast = a-&gt;small;
+    bLast = b-&gt;small;
+    
+    join(aLast, b);
+    join(bLast, a);
+    
+    return(a);
+}
+
+
+/*
+ --Recursion--
+ Given an ordered binary tree, recursively change it into
+ a circular doubly linked list which is returned.
+*/
+static Node treeToList(Node root) {
+    Node aList, bList;
+    
+    if (root==NULL) return(NULL);
+
+    /* recursively solve subtrees -- leap of faith! */
+    aList = treeToList(root-&gt;small);
+    bList = treeToList(root-&gt;large);
+    
+    /* Make a length-1 list ouf of the root */
+    root-&gt;small = root;
+    root-&gt;large = root;
+
+    /* Append everything together in sorted order */
+    aList = append(aList, root);
+    aList = append(aList, bList);
+    
+    return(aList);
+
+
+
+/* Create a new node */
+static Node newNode(int data) {
+    Node node = (Node) malloc(sizeof(struct node));
+    node-&gt;data = data;
+    node-&gt;small = NULL;
+    node-&gt;large = NULL;
+    return(node);
+}
+
+
+/* Add a new node into a tree */
+static void treeInsert(Node* rootRef, int data) {
+    Node root = *rootRef;
+    if (root == NULL) *rootRef = newNode(data);
+    else {
+        if (data data) treeInsert(&amp;(root-&gt;small), data);
+        else treeInsert(&amp;(root-&gt;large), data);
+    }
+}
+
+
+static void printList(Node head) {
+    Node current = head;
+    
+    while(current != NULL) {
+        printf(&quot;%d &quot;, current-&gt;data);
+        current = current-&gt;large;
+        if (current == head) break;
+    }
+    printf(&quot;\n&quot;);
+}
+
+
+/* Demo that the code works */
+int main() {
+    Node root = NULL;
+    Node head;
+    
+    treeInsert(&amp;root, 4);
+    treeInsert(&amp;root, 2);
+    treeInsert(&amp;root, 1);
+    treeInsert(&amp;root, 3);
+    treeInsert(&amp;root, 5);
+    
+    head = treeToList(root);
+    
+    printList(head);    /* prints: 1 2 3 4 5  */
+    
+    return(0);
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-3844">
+        <div id="dsq-comment-header-3844" class="dsq-comment-header">
+            <cite id="dsq-cite-3844">
+                <span id="dsq-author-user-3844">varnika</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3844" class="dsq-comment-body">
+            <div id="dsq-comment-message-3844" class="dsq-comment-message"><p>great solution.well thought and coded.</p>
+<p>but is it inplace ?aren&#8217;t u supposed not to create a new DLL and push values in it.Just arrange the pointers somehow inplace.</p>
+<p>what is this code doing diffrent than &#8220;taking an inorder and keep pushing it into a circular DLL&#8221;?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-4455">
+        <div id="dsq-comment-header-4455" class="dsq-comment-header">
+            <cite id="dsq-cite-4455">
+                <span id="dsq-author-user-4455">defrager</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4455" class="dsq-comment-body">
+            <div id="dsq-comment-message-4455" class="dsq-comment-message"><p>@sachin:</p>
+<p>You just copied the code from the Stanford site..!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-582">
+        <div id="dsq-comment-header-582" class="dsq-comment-header">
+            <cite id="dsq-cite-582">
+http://avidullu.wordpress.com                <span id="dsq-author-user-582">Avi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-582" class="dsq-comment-body">
+            <div id="dsq-comment-message-582" class="dsq-comment-message"><p>I found this (pre-order traversal) method more easy to convert the tree to dll. </p>
+<pre> <code language="C">
+
+node *find_max_iter(node *start)
+{
+        if (start == NULL)
+                return start;
+        while (start-&gt;right)
+                start = start-&gt;right;
+        return start;
+}
+
+node *find_min_iter(node *start)
+{
+        if (start == NULL)
+                return start;
+        while (start-&gt;left)
+                start = start-&gt;left;
+        return start;
+}
+
+void treetodll(node * root) {
+        if ( root == NULL)
+                return ;
+        node *tmp_r, *tmp_l;
+        tmp_l = find_max_iter(root-&gt;left);
+        tmp_r = find_min_iter(root-&gt;right);
+        treetodll(root-&gt;left);
+        treetodll(root-&gt;right);
+        root-&gt;left = tmp_l;root-&gt;right = tmp_r;
+        if (tmp_l != NULL)
+                tmp_l-&gt;right = root;
+        if (tmp_r != NULL)
+                tmp_r-&gt;left = root;
+        return ;
+}
+
+main() {
+        // insert elements code here
+        treetodll(root);
+        while ( root-&gt;left ) {
+                root = root-&gt;left;
+        }
+        // root is now at head of list
+}
+
+</code> </pre>
+<p>PS: I have not checked it rigorously <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-devendraiiit even depth-2" id="dsq-comment-2025">
+        <div id="dsq-comment-header-2025" class="dsq-comment-header">
+            <cite id="dsq-cite-2025">
+http://web.iiit.ac.in/~singh_parmar                <span id="dsq-author-user-2025">devendraiiit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2025" class="dsq-comment-body">
+            <div id="dsq-comment-message-2025" class="dsq-comment-message"><p>root is not at head of list, so before sending to function<br />
+we have to do remember starting node of linked by..</p>
+<p>Node *NewLinked;<br />
+NewLinked=find_min(root);<br />
+treetodll(root);<br />
+(or we can traverse back as we have doubly linked list finally)<br />
+correct me if i m wrong</p>
+<p>now NewLinked point to starting to node</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-2026">
+        <div id="dsq-comment-header-2026" class="dsq-comment-header">
+            <cite id="dsq-cite-2026">
+http://avidullu.wordpress.com                <span id="dsq-author-user-2026">Avi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2026" class="dsq-comment-body">
+            <div id="dsq-comment-message-2026" class="dsq-comment-message"><p>yes, I didn&#8217;t provide the main function, it would do either of the two ways. Anyways we get a doubly linked list, you can traverse and connect head with tail. <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-3847">
+        <div id="dsq-comment-header-3847" class="dsq-comment-header">
+            <cite id="dsq-cite-3847">
+http://ashutosh7s.blogspot.com/                <span id="dsq-author-user-3847">WgpShashank</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3847" class="dsq-comment-body">
+            <div id="dsq-comment-message-3847" class="dsq-comment-message"><p>@avi..</p>
+<p>your solution is not optimized.as you calling min &amp; max for each node in the tree..isn&#8217;t it..??</p>
+<p>see the function treetodll(node)..???</p>
+<p>we should remove these part of code ..or think some other way you wants to provide the solution</p>
+<p>let me know if i interpreted it as wrong&#8230;??</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-3851">
+        <div id="dsq-comment-header-3851" class="dsq-comment-header">
+            <cite id="dsq-cite-3851">
+http://avidullu.wordpress.com                <span id="dsq-author-user-3851">Avi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3851" class="dsq-comment-body">
+            <div id="dsq-comment-message-3851" class="dsq-comment-message"><p>&#8220;or think some other way&#8221;<br />
+Please come up with an optimized solution first and then question the existing approach.<br />
+On second thought, mine is the <b>only correct</b> solution on the page, if you have an <b>optimized</b> code please post, I&#8217;d be happy to review.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-4028">
+        <div id="dsq-comment-header-4028" class="dsq-comment-header">
+            <cite id="dsq-cite-4028">
+http://androidshashank.blogspot.com/                <span id="dsq-author-user-4028">WgpShashank</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4028" class="dsq-comment-body">
+            <div id="dsq-comment-message-4028" class="dsq-comment-message"><p>@avi..sorry for delay..in responding..let me explain for every node you are calling find_min_iter &amp; find_max_iter function recursively..so whats the complexity of this..in worst case isn&#8217;t O(n^2)&#8230;e.g. for n nodes your calling n times max,min function so its O(n^2) as i can say.. &amp; you can see the example for such question how optimization is done..here </p>
+<p>1. <a href="http://geeksforgeeks.org/?p=5687" rel="nofollow">http://geeksforgeeks.org/?p=5687</a><br />
+2. <a href="http://geeksforgeeks.org/?p=5230" rel="nofollow">http://geeksforgeeks.org/?p=5230</a></p>
+<p>let me know if u interpreted wrong ??</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-5" id="dsq-comment-4034">
+        <div id="dsq-comment-header-4034" class="dsq-comment-header">
+            <cite id="dsq-cite-4034">
+http://avidullu.wordpress.com                <span id="dsq-author-user-4034">Avi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4034" class="dsq-comment-body">
+            <div id="dsq-comment-message-4034" class="dsq-comment-message"><p>I see the posts that you gave in the comment but if you notice, the problem here is very different. In both the solutions you gave in the comment, a value was uniquely required for the entire tree. Here we require max and min for each node. The only way to save some time would be DP. But it would incur extra space cost of O(n) which is forbidden by the problem. Hope you get my point. If I am still not making myself clear, then please post a working C code or at least a pseudo code for the approach you suggest.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even depth-4" id="dsq-comment-4880">
+        <div id="dsq-comment-header-4880" class="dsq-comment-header">
+            <cite id="dsq-cite-4880">
+http://shashank7s.blogspot.com                <span id="dsq-author-user-4880">WgpShashank</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4880" class="dsq-comment-body">
+            <div id="dsq-comment-message-4880" class="dsq-comment-message"><p>I was Thinking about this since when i saw this problem few months back . Although it can easily be seen modification of in-order traversal of tree but designing the efficient algorithm &amp; writing quality production code is not easy task for this problem  because ultimately we have to play with pointers (and reading Yashwanth Kanithkar&#8217;s Playing With Pointers is not Sufficient to solve this problem :))   </p>
+<p>It Can be solved using simple &amp; nice in-order Traversal .once you do inorder traversal of tree u will find nodes left to the root are from left subtree &amp; nodes right to root are from right subtree &amp; this is what property of in-order tree traversal. isn&#8217;t it ?</p>
+<p>so as we traverse the tree in-order, we can modify a node’s left pointer to point to its predecessor. We also have to modify the predecessor’s right pointer to point to the current node to maintain the doubly linked list behavior. </p>
+<p>To make it circular we need to update the current node’s right pointer to point back to the head and the head’s left pointer to point to current node in each recursive call. </p>
+<p>finally we will have Circular Doubly Linked List where head will be head of Doubly Linked List Just Run It With </p>
+<p>Sample Teat Case<br />
+<a href="http://4.bp.blogspot.com/-KOrJLbSaKQw/Tjk-UcA_XhI/AAAAAAAAEEk/Sr6ufKrZrfo/s1600/treelist.png" rel="nofollow">Convert Me to Circular DLL </a></p>
+<p>Below is the pseudo code for the same </p>
+<pre> <code language="C">
+
+// We Will Keep Three Variable 
+//root: Current tree node
+//pre: this pointer should have the address of in-order predecessor of root
+//head: this denoted head of final link list
+
+treeToDoublyList(Node root,Node pre, Node head) 
+{
+   if (!root) return;
+ treeToDoublyList(root-&gt;left, prev, head);//call left subtree
+
+   // current node's left points to previous node
+   root-&gt;left = pre;
+   if (pre)
+       pre-&gt;right = root; 
+      // previous node's right points to current node
+   else
+      head = root;        
+     // if previous is NULL that current node is head
+
+   //Now we need to make list created till now as circular
+   head-&gt;left = root;
+   root-&gt;right = head;
+
+//For right-subtree/parent, current node is in-order predecessor
+   pre = root;
+   treeToDoublyList(root-&gt;right, pree, head);
+}
+
+</code> </pre>
+<p>initialize pre=head=null;</p>
+<p>Time Complexity O(N)</p>
+<p>What Do You Say ??</p>
+<p>Shashank</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-5" id="dsq-comment-4983">
+        <div id="dsq-comment-header-4983" class="dsq-comment-header">
+            <cite id="dsq-cite-4983">
+                <span id="dsq-author-user-4983">reema</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4983" class="dsq-comment-body">
+            <div id="dsq-comment-message-4983" class="dsq-comment-message"><p>@WgpShashank&#8230;its Really Awesome, How You Came to This approach please reply asap ??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-5" id="dsq-comment-10123">
+        <div id="dsq-comment-header-10123" class="dsq-comment-header">
+            <cite id="dsq-cite-10123">
+                <span id="dsq-author-user-10123">rimpy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10123" class="dsq-comment-body">
+            <div id="dsq-comment-message-10123" class="dsq-comment-message"><p>best solution i have ever seen for this problem , keep it up shashank <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-5" id="dsq-comment-14761">
+        <div id="dsq-comment-header-14761" class="dsq-comment-header">
+            <cite id="dsq-cite-14761">
+                <span id="dsq-author-user-14761">nikhil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14761" class="dsq-comment-body">
+            <div id="dsq-comment-message-14761" class="dsq-comment-message"><p>the approach is awesome but there is a bug in this code..<br />
+after assigning root-&gt;right=head, u are calling recursive function with root-&gt;right which now points to the head.<br />
+thanks</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-580">
+        <div id="dsq-comment-header-580" class="dsq-comment-header">
+            <cite id="dsq-cite-580">
+                <span id="dsq-author-user-580">sirji</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-580" class="dsq-comment-body">
+            <div id="dsq-comment-message-580" class="dsq-comment-message"><p>Start doing in-order traversal on the binary tree recursively, when after coming out recursive call set the next and previous pointers of double linked list between the parent and child nodes.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/the-great-tree-list-recursion-problem/';
+var disqus_identifier = '1148 http://geeksforgeeks.org/?p=1148';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "The Great Tree-List Recursion Problem.";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.235 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:23:02 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

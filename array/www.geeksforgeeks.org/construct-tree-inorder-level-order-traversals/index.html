@@ -1,0 +1,1464 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Construct a tree from Inorder and Level order traversals - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/construct-tree-inorder-level-order-traversals/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Construct a tree from Inorder and Level order traversals - GeeksforGeeks" />
+<meta property="og:description" content="Given inorder and level-order traversals of a Binary Tree, construct the Binary Tree. Following is an example to illustrate the problem. Input: Two arrays that represent Inorder and level order traversals of a Binary Tree in[] = {4, 8, 10, 12, 14, 20, 22}; level[] = {20, 8, 22, 4, 12, 10, 14}; Output: Construct &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/construct-tree-inorder-level-order-traversals/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:section" content="Trees" />
+<meta property="article:published_time" content="2014-03-31T12:44:56+00:00" />
+<meta property="article:modified_time" content="2014-03-31T17:33:33+00:00" />
+<meta property="og:updated_time" content="2014-03-31T17:33:33+00:00" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/BinaryTree4.png" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.514 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111260 210.212.53.139 172.19.11.169';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Construct a tree from Inorder and Level order traversals</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given inorder and level-order traversals of a Binary Tree, construct the Binary Tree. Following is an example to illustrate the problem.<span id="more-127686"></span></p>
+<p><a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/BinaryTree4.png"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/BinaryTree4.png" alt="BinaryTree" width="228" height="200" class="alignright size-full wp-image-127754" /></a></p>
+<pre>
+Input: Two arrays that represent Inorder
+       and level order traversals of a 
+       Binary Tree
+in[]    = {4, 8, 10, 12, 14, 20, 22};
+level[] = {20, 8, 22, 4, 12, 10, 14};
+
+Output: Construct the tree represented 
+        by the two arrays.
+        For the above two arrays, the 
+        constructed tree is shown in 
+        the diagram on right side
+</pre>
+<p><em><strong>We strongly recommend to minimize the browser and try this yourself first.</strong></em><br />
+The following post can be considered as a prerequisite for this. </p>
+<p><a href="http://www.geeksforgeeks.org/construct-tree-from-given-inorder-and-preorder-traversal/" target="_blank">Construct Tree from given Inorder and Preorder traversals</a></p>
+<p>Let us consider the above example.</p>
+<p>in[]    = {4, 8, 10, 12, 14, 20, 22};<br />
+level[] = {20, 8, 22, 4, 12, 10, 14};</p>
+<p>In a Levelorder sequence, the first element is the root of the tree. So we know &#8217;20&#8217; is root for given sequences. By searching &#8217;20&#8217; in Inorder sequence, we can find out all elements on left side of ‘20’ are in left subtree and elements on right are in right subtree. So we know below structure now.</p>
+<pre>
+             20
+           /    \
+          /      \ 
+ {4,8,10,12,14}  {22}   
+</pre>
+<p>Let us call {4,8,10,12,14} as left subarray in Inorder traversal and {22} as right subarray in Inorder traversal.<br />
+In level order traversal, keys of left and right subtrees are not consecutive. So we extract all nodes from level order traversal which are in left subarray of Inorder traversal.  To construct the left subtree of root, we recur for the extracted elements from level order traversal and left subarray of inorder traversal.  In the above example, we recur for following two arrays.
+<pre>
+// Recur for following arrays to construct the left subtree
+In[]    = {4, 8, 10, 12, 14}
+level[] = {8, 4, 12, 10, 14} </pre>
+<p>Similarly, we recur for following two arrays and construct the right subtree.
+<pre>
+// Recur for following arrays to construct the right subtree
+In[]    = {22}
+level[] = {22} </pre>
+<p>Following is C++ implementation of the above approach. </p>
+<pre class="brush: cpp; highlight: [42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80]; title: ; notranslate" title="">
+/* program to construct tree using inorder and levelorder traversals */
+#include &lt;iostream&gt;
+using namespace std;
+
+/* A binary tree node */
+struct Node
+{
+    int key;
+    struct Node* left, *right;
+};
+
+/* Function to find index of value in arr[start...end] */
+int search(int arr[], int strt, int end, int value)
+{
+    for (int i = strt; i &lt;= end; i++)
+        if (arr[i] == value)
+            return i;
+    return -1;
+}
+
+// n is size of level[], m is size of in[] and m &lt; n. This
+// function extracts keys from level[] which are present in
+// in[].  The order of extracted keys must be maintained
+int *extrackKeys(int in[], int level[], int m, int n)
+{
+    int *newlevel = new int[m], j = 0;
+    for (int i = 0; i &lt; n; i++)
+        if (search(in, 0, m-1, level[i]) != -1)
+            newlevel[j] = level[i], j++;
+    return newlevel;
+}
+
+/* function that allocates a new node with the given key  */
+Node* newNode(int key)
+{
+    Node *node = new Node;
+    node-&gt;key = key;
+    node-&gt;left = node-&gt;right = NULL;
+    return (node);
+}
+
+/* Recursive function to construct binary tree of size n from
+   Inorder traversal in[] and Level Order traversal level[].
+   inSrt and inEnd are start and end indexes of array in[]
+   Initial values of inStrt and inEnd should be 0 and n -1.
+   The function doesn't do any error checking for cases
+   where inorder and levelorder do not form a tree */
+Node* buildTree(int in[], int level[], int inStrt, int inEnd, int n)
+{
+
+    // If start index is more than the end index
+    if (inStrt &gt; inEnd)
+        return NULL;
+
+    /* The first node in level order traversal is root */
+    Node *root = newNode(level[0]);
+
+    /* If this node has no children then return */
+    if (inStrt == inEnd)
+        return root;
+
+    /* Else find the index of this node in Inorder traversal */
+    int inIndex = search(in, inStrt, inEnd, root-&gt;key);
+
+    // Extract left subtree keys from level order traversal
+    int *llevel  = extrackKeys(in, level, inIndex, n);
+
+    // Extract right subtree keys from level order traversal
+    int *rlevel  = extrackKeys(in + inIndex + 1, level, n-inIndex-1, n);
+
+    /* construct left and right subtress */
+    root-&gt;left = buildTree(in, llevel, inStrt, inIndex-1, n);
+    root-&gt;right = buildTree(in, rlevel, inIndex+1, inEnd, n);
+
+    // Free memory to avoid memory leak
+    delete [] llevel;
+    delete [] rlevel;
+
+    return root;
+}
+
+/* Uti;ity function to print inorder traversal of binary tree */
+void printInorder(Node* node)
+{
+    if (node == NULL)
+       return;
+    printInorder(node-&gt;left);
+    cout &lt;&lt; node-&gt;key &lt;&lt; &quot; &quot;;
+    printInorder(node-&gt;right);
+}
+
+/* Driver program to test above functions */
+int main()
+{
+    int in[]    = {4, 8, 10, 12, 14, 20, 22};
+    int level[] = {20, 8, 22, 4, 12, 10, 14};
+    int n = sizeof(in)/sizeof(in[0]);
+    Node *root = buildTree(in, level, 0, n - 1, n);
+
+    /* Let us test the built tree by printing Insorder traversal */
+    cout &lt;&lt; &quot;Inorder traversal of the constructed tree is \n&quot;;
+    printInorder(root);
+
+    return 0;
+}
+</pre>
+<p>Output:
+<pre>Inorder traversal of the constructed tree is
+4 8 10 12 14 20 22</pre>
+<p>An upper bound on time complexity of above method is O(n<sup>3</sup>).  In the main recursive function, extractNodes() is called which takes O(n<sup>2</sup>) time.</p>
+<p>The code can be optimized in many ways and there may be better solutions.  Looking for improvements and other optimized approaches to solve this problem.</p>
+<p>This article is contributed by <strong>Abhay Rathi</strong>. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/perfect-binary-tree-specific-level-order-traversal/" title="Perfect Binary Tree Specific Level Order Traversal">Perfect Binary Tree Specific Level Order Traversal</a></li><li><a href="http://www.geeksforgeeks.org/print-nodes-top-view-binary-tree/" title="Print Nodes in Top View of Binary Tree">Print Nodes in Top View of Binary Tree</a></li><li><a href="http://www.geeksforgeeks.org/k-dimensional-tree/" title="K Dimensional Tree">K Dimensional Tree</a></li><li><a href="http://www.geeksforgeeks.org/convert-binary-tree-threaded-binary-tree/" title="Convert a Binary Tree to Threaded binary tree">Convert a Binary Tree to Threaded binary tree</a></li><li><a href="http://www.geeksforgeeks.org/serialize-deserialize-n-ary-tree/" title="Serialize and Deserialize an N-ary Tree">Serialize and Deserialize an N-ary Tree</a></li><li><a href="http://www.geeksforgeeks.org/serialize-deserialize-binary-tree/" title="Serialize and Deserialize a Binary Tree">Serialize and Deserialize a Binary Tree</a></li><li><a href="http://www.geeksforgeeks.org/given-binary-tree-print-nodes-two-given-level-numbers/" title="Print nodes between two given level numbers of a binary tree">Print nodes between two given level numbers of a binary tree</a></li><li><a href="http://www.geeksforgeeks.org/find-height-binary-tree-represented-parent-array/" title="Find Height of Binary Tree represented by Parent array">Find Height of Binary Tree represented by Parent array</a></li></ul>
+<p></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fconstruct-tree-inorder-level-order-traversals%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/construct-tree-inorder-level-order-traversals/" data-text="Construct a tree from Inorder and Level order traversals" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/construct-tree-inorder-level-order-traversals/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-34402">
+        <div id="dsq-comment-header-34402" class="dsq-comment-header">
+            <cite id="dsq-cite-34402">
+                <span id="dsq-author-user-34402">alien</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34402" class="dsq-comment-body">
+            <div id="dsq-comment-message-34402" class="dsq-comment-message"><p>nice solution</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-34389">
+        <div id="dsq-comment-header-34389" class="dsq-comment-header">
+            <cite id="dsq-cite-34389">
+                <span id="dsq-author-user-34389">disqus_0z6aYV2hDC</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34389" class="dsq-comment-body">
+            <div id="dsq-comment-message-34389" class="dsq-comment-message"><p>For lines:<br />
+root-&gt;left = buildTree(in, llevel, inStrt, inIndex-1, n);<br />
+root-&gt;right = buildTree(in, rlevel, inIndex+1, inEnd, n);</p>
+<p>The last argument, &#8216;n&#8217; is the size of the level order array passed. But llevel and rlevel both are less than &#8216;n&#8217;, won&#8217;t we get array out of bounds error in the calls?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-34300">
+        <div id="dsq-comment-header-34300" class="dsq-comment-header">
+            <cite id="dsq-cite-34300">
+                <span id="dsq-author-user-34300">Gaurav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34300" class="dsq-comment-body">
+            <div id="dsq-comment-message-34300" class="dsq-comment-message"><p>Here is N^2 algo that I developed.<br />
+Space Complexity N</p>
+<p>public class BuildATree {</p>
+<p>	int in[] = { 4, 8, 10, 12, 14, 20, 22 };</p>
+<p>	int level[] = { 20, 8, 22, 4, 12, 10, 14 };</p>
+<p>	private HashMap map = new HashMap();</p>
+<p>	private Node root;</p>
+<p>	class Node {</p>
+<p>		int data;</p>
+<p>		Node left;</p>
+<p>		Node right;</p>
+<p>		public Node(int data) {</p>
+<p>			this.data = data;</p>
+<p>		}</p>
+<p>	}</p>
+<p>	public void startBuildingTree() {</p>
+<p>		for (int i = 0; i &lt; in.length; i++) {</p>
+<p>			map.put(in[i], i);</p>
+<p>		}</p>
+<p>		for (int i = 0; i &lt; level.length; i++) {</p>
+<p>			insert(level[i]);</p>
+<p>		}</p>
+<p>	}</p>
+<p>	void insert(int data) {</p>
+<p>		if (root == null) {</p>
+<p>			root = new Node(data);</p>
+<p>			return;</p>
+<p>		}</p>
+<p>		Node n = root;</p>
+<p>		int index = map.get(data);</p>
+<p>		while (true) {</p>
+<p>			int i = map.get(n.data);</p>
+<p>			if (index <i> i) {</p>
+<p>				if (n.right != null) {</p>
+<p>					n = n.right;</p>
+<p>				} else {</p>
+<p>					n.right = new Node(data);</p>
+<p>					return;</p>
+<p>				}</p>
+<p>			}</p>
+<p>		}</p>
+<p>	}</p>
+<p>	public void travarse() {</p>
+<p>		travarse(root);</p>
+<p>	}</p>
+<p>	public void travarse(Node n) {</p>
+<p>		if (n == null) {</p>
+<p>			return;</p>
+<p>		}</p>
+<p>		travarse(n.left);</p>
+<p>		System.out.print(&#8221; &#8221; + n.data);</p>
+<p>		travarse(n.right);</p>
+<p>	}</p>
+<p>}</i></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-34301">
+        <div id="dsq-comment-header-34301" class="dsq-comment-header">
+            <cite id="dsq-cite-34301">
+                <span id="dsq-author-user-34301">Gaurav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34301" class="dsq-comment-body">
+            <div id="dsq-comment-message-34301" class="dsq-comment-message"><p>here is the code</p>
+<p><a href="http://ideone.com/NCpOWN" rel="nofollow">http://ideone.com/NCpOWN</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-34161">
+        <div id="dsq-comment-header-34161" class="dsq-comment-header">
+            <cite id="dsq-cite-34161">
+                <span id="dsq-author-user-34161">Gaurav Gulzar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34161" class="dsq-comment-body">
+            <div id="dsq-comment-message-34161" class="dsq-comment-message"><p><a href="http://ideone.com/CLC9VI" rel="nofollow">http://ideone.com/CLC9VI</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-34156">
+        <div id="dsq-comment-header-34156" class="dsq-comment-header">
+            <cite id="dsq-cite-34156">
+                <span id="dsq-author-user-34156">Isha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34156" class="dsq-comment-body">
+            <div id="dsq-comment-message-34156" class="dsq-comment-message"><p>Some part of the code is not displayed properly in the comment box and I am not able to change that.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-34158">
+        <div id="dsq-comment-header-34158" class="dsq-comment-header">
+            <cite id="dsq-cite-34158">
+                <span id="dsq-author-user-34158">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34158" class="dsq-comment-body">
+            <div id="dsq-comment-message-34158" class="dsq-comment-message"><p>Isha, we have removed the previous comment.  Could you please post the code on ideone.com and share the link here?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-34160">
+        <div id="dsq-comment-header-34160" class="dsq-comment-header">
+            <cite id="dsq-cite-34160">
+                <span id="dsq-author-user-34160">Isha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34160" class="dsq-comment-body">
+            <div id="dsq-comment-message-34160" class="dsq-comment-message"><p>Here is the link:</p>
+<p><a href="http://ideone.com/WxZurW" rel="nofollow">http://ideone.com/WxZurW</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-34154">
+        <div id="dsq-comment-header-34154" class="dsq-comment-header">
+            <cite id="dsq-cite-34154">
+                <span id="dsq-author-user-34154">Isha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34154" class="dsq-comment-body">
+            <div id="dsq-comment-message-34154" class="dsq-comment-message"><p>We can do it in O(n^2) time complexity and O(n) space complexity.</p>
+<p>Algorithm: We create three queues, one will store the tree nodes and other will store the starting index and the ending index of the range(as derived from inorder array) for that node. For ex: </p>
+<p>int in[] = {4, 8, 10, 12, 14, 20, 22};</p>
+<p>int lev[] = {20, 8, 22, 4, 12, 10, 14}; </p>
+<p>For root, 20 starting index will be 0 and ending index will be 6. For node 8 the staring index will be 0 and the ending index will be 4, likewise. So basically range of a node N implies the index range in inorder traversal which contains all the nodes in the left and right subtree of that node N.</p>
+<p>First we create the root(lev[0]) and then push it in the queue for tree node, and we push its range in the respective queues. Then we move to the next element in the level order array and check if this value lies in the range of the node that is at the rear of the queue. IF it does then we create the tree node corresponding to this value and make this node the left/right child depending on its positioning before/after the root&#8217;s value in the given range. If this node was the right child of the root(node at the rear of the queue) then we popup the root from the queue as we have completed the creation of its child. We push the child node in the queue along with its range in the respective queue. If the next element dint lie in the range of the root node(node at the rear of the queue) then we simply pop-out that root node from the queue (node at the rear of the queue) and check for the next node in the queue if the element of lev[] array lies in its range or not. We do this till the queue is empty or we have reached the end of lev[] array.</p>
+<p>Since all the nodes are pushed in the queue once and for each node in the queue we search for its left child and then its right child in the range provided for that node so there will be at max 2*n traversal for each node. Hence time complexity will be O(n^2).</p>
+<p>Here is the code:</p>
+<p>#include </p>
+<p>#include </p>
+<p>using namespace std;</p>
+<p>struct btree{</p>
+<p>	int data;</p>
+<p>	struct btree *left;</p>
+<p>	struct btree *right;</p>
+<p>};</p>
+<p>struct treeNode{</p>
+<p>	struct btree *root;</p>
+<p>	struct treeNode *next;</p>
+<p>};</p>
+<p>struct node{</p>
+<p>	int data;</p>
+<p>	struct node *next;</p>
+<p>};</p>
+<p>struct queueTreeNode{</p>
+<p>	struct treeNode *front,*rear;</p>
+<p>};</p>
+<p>struct queueNode{</p>
+<p>	struct node *front,*rear;</p>
+<p>};</p>
+<p>void pushTreeNode(struct queueTreeNode *q, struct btree *n)</p>
+<p>{</p>
+<p>	struct treeNode *tn=(struct treeNode*)malloc(sizeof(struct treeNode));</p>
+<p>	tn-&gt;root=n;</p>
+<p>	if(q-&gt;front==NULL)</p>
+<p>	{</p>
+<p>		q-&gt;front=q-&gt;rear=tn;</p>
+<p>		return;</p>
+<p>	}</p>
+<p>	q-&gt;front-&gt;next=tn;</p>
+<p>	q-&gt;front=tn;</p>
+<p>	return;</p>
+<p>}</p>
+<p>void pushNode(struct queueNode *q, int data)</p>
+<p>{</p>
+<p>	struct node *n=(struct node *)malloc(sizeof(struct node));</p>
+<p>	n-&gt;data=data;</p>
+<p>	if(q-&gt;front==NULL)</p>
+<p>	{</p>
+<p>		q-&gt;front=q-&gt;rear=n;</p>
+<p>		return;</p>
+<p>	}</p>
+<p>	q-&gt;front-&gt;next=n;</p>
+<p>	q-&gt;front=n;</p>
+<p>	return;</p>
+<p>}</p>
+<p>struct btree* popTreeNode(struct queueTreeNode *q)</p>
+<p>{</p>
+<p>	struct treeNode *tn=q-&gt;rear;</p>
+<p>	struct btree *root= tn-&gt;root;</p>
+<p>	if(q-&gt;front==q-&gt;rear)</p>
+<p>	{</p>
+<p>		q-&gt;front=q-&gt;rear=NULL;</p>
+<p>		free(tn);</p>
+<p>		return root;</p>
+<p>	}</p>
+<p>	q-&gt;rear=q-&gt;rear-&gt;next;</p>
+<p>	free(tn);</p>
+<p>	return root;</p>
+<p>}</p>
+<p>struct btree* getRearTreeNode(struct queueTreeNode *q)</p>
+<p>{</p>
+<p>	struct treeNode *tn=q-&gt;rear;</p>
+<p>	struct btree *root= tn-&gt;root;</p>
+<p>	return root;</p>
+<p>}</p>
+<p>int getRearNode(struct queueNode *q)</p>
+<p>{</p>
+<p>	struct node *n=q-&gt;rear;</p>
+<p>	int data= n-&gt;data;</p>
+<p>	return data;</p>
+<p>}</p>
+<p>int popNode(struct queueNode *q)</p>
+<p>{</p>
+<p>	struct node *n=q-&gt;rear;</p>
+<p>	int data= n-&gt;data;</p>
+<p>	if(q-&gt;front==q-&gt;rear)</p>
+<p>	{</p>
+<p>		q-&gt;front=q-&gt;rear=NULL;</p>
+<p>		free(n);</p>
+<p>		return data;</p>
+<p>	}</p>
+<p>	q-&gt;rear=q-&gt;rear-&gt;next;</p>
+<p>	free(n);</p>
+<p>	return data;</p>
+<p>}</p>
+<p>bool isEmptyQueueTreeNode(struct queueTreeNode *q)</p>
+<p>{</p>
+<p>	return q-&gt;front==NULL?true:false;</p>
+<p>}</p>
+<p>bool isEmptyQueueNode(struct queueNode *q)</p>
+<p>{</p>
+<p>	return q-&gt;front==NULL?true:false;</p>
+<p>}</p>
+<p>struct btree *newBtreeNode(int data)</p>
+<p>{</p>
+<p>	struct btree *root=(struct btree*)malloc(sizeof(struct btree));</p>
+<p>	root-&gt;left=root-&gt;right=NULL;</p>
+<p>	root-&gt;data=data;</p>
+<p>	return root;</p>
+<p>}</p>
+<p>struct queueNode *initializeQueueNode()</p>
+<p>{</p>
+<p>	struct queueNode *q=(struct queueNode*)malloc(sizeof(struct queueNode));</p>
+<p>	q-&gt;front=q-&gt;rear=NULL;</p>
+<p>	return q;</p>
+<p>}</p>
+<p>struct queueTreeNode *initializeQueueTreeNode()</p>
+<p>{</p>
+<p>	struct queueTreeNode *q=(struct queueTreeNode*)malloc(sizeof(struct queueTreeNode));</p>
+<p>	q-&gt;front=q-&gt;rear=NULL;</p>
+<p>	return q;</p>
+<p>}</p>
+<p>/* We are searching in the inorder array if the nxtElement appears in the given range. We store the index of its occurrence in variable childIndex. We also take note of index of the root data to check if the nxtElement is the left or right child of the root. IF there isnt any occurrence of nxtElement in the range then childIndex will be -1. */</p>
+<p>void search(int in[],int rootData,int nxtElement,  int leftRange,int rightRange,int *rootIndex, int *childIndex)</p>
+<p>{</p>
+<p>	int i;</p>
+<p>	for(i=leftRange;i&lt;=rightRange;i++)</p>
+<p>	{</p>
+<p>		if(rootData==in[i]) </p>
+<p>		{</p>
+<p>			*rootIndex=i;</p>
+<p>		}</p>
+<p>		else if(nxtElement==in[i])</p>
+<p>		{</p>
+<p>			*childIndex=i;</p>
+<p>		}</p>
+<p>	}</p>
+<p>	return;</p>
+<p>}</p>
+<p>struct btree* constructTreeLevelInorder(int lev[], int in[], int n)</p>
+<p>{</p>
+<p>	struct btree *root, *head;</p>
+<p>	int i=1, rootIndex,childIndex, nxtElement;</p>
+<p>	struct queueNode *qLeftRange=initializeQueueNode();</p>
+<p>	struct queueNode *qRightRange=initializeQueueNode();</p>
+<p>	struct queueTreeNode *qTreeNode=initializeQueueTreeNode();</p>
+<p>	head=newBtreeNode(lev[0]);</p>
+<p>	pushTreeNode(qTreeNode,head);</p>
+<p>	pushNode(qLeftRange,0);</p>
+<p>	pushNode(qRightRange,n-1);</p>
+<p>	while(!isEmptyQueueTreeNode(qTreeNode) &amp;&amp; idata,nxtElement, leftRange,rightRange,&amp;rootIndex, &amp;childIndex);</p>
+<p>	//	cout&lt;data:  &#8220;&lt;data&lt;&lt;&quot; nxtElement: &quot;&lt;&lt;nxtElement&lt;&lt;&quot; leftRange: &quot;&lt;&lt;leftRange&lt;&lt;&quot;  rightRange: &quot;&lt;&lt;rightRange&lt;&lt;&quot;  rootIndex: &quot;&lt;&lt;rootIndex&lt;&lt;&quot;  childIndex: &quot;&lt;&lt;childIndex&lt;&lt;endl;</p>
+<p>		/* If childIndex is not -1, then we know that the nxtElement is either left or right child of the root. If nxtElement is the right child of the root then we pop out the root from the queue. If the nxtElement lies before th root in the given range an we already have root&#039;s left assigned to some value, it means that the nxtElement is the left child of left child of the root and hence we pop-out the root. */</p>
+<p>		if(childIndex!=-1)</p>
+<p>		{</p>
+<p>			if(rootIndexright=newBtreeNode(nxtElement);</p>
+<p>				i++;</p>
+<p>				pushTreeNode(qTreeNode,root-&gt;right);</p>
+<p>				pushNode(qLeftRange,rootIndex+1);</p>
+<p>				pushNode(qRightRange,rightRange);</p>
+<p>				popTreeNode(qTreeNode);</p>
+<p>				popNode(qLeftRange);</p>
+<p>				popNode(qRightRange);</p>
+<p>			}</p>
+<p>			else if(rootIndex&gt;childIndex)</p>
+<p>			{</p>
+<p>				if(root-&gt;left==NULL)</p>
+<p>				{</p>
+<p>					root-&gt;left=newBtreeNode(nxtElement);</p>
+<p>					i++;</p>
+<p>					pushTreeNode(qTreeNode,root-&gt;left);</p>
+<p>					pushNode(qLeftRange,leftRange);</p>
+<p>					pushNode(qRightRange,rootIndex-1);</p>
+<p>				}</p>
+<p>				else</p>
+<p>				{</p>
+<p>					popTreeNode(qTreeNode);</p>
+<p>					popNode(qLeftRange);</p>
+<p>					popNode(qRightRange);</p>
+<p>				}</p>
+<p>			}</p>
+<p>		}</p>
+<p>		/* If the childIndex is -1, then the next element is neither left/right child of the root and hence we pop up the root from the queue.*/</p>
+<p>		else </p>
+<p>		{</p>
+<p>			popTreeNode(qTreeNode);</p>
+<p>			popNode(qLeftRange);</p>
+<p>			popNode(qRightRange);</p>
+<p>		}</p>
+<p>	}</p>
+<p>	return head;</p>
+<p>}</p>
+<p>void printInorder(struct btree* r)</p>
+<p>{</p>
+<p>    if (r == NULL)</p>
+<p>       return;</p>
+<p>    printInorder(r-&gt;left);</p>
+<p>    cout &lt;data &lt;right);</p>
+<p>}</p>
+<p>int main() {</p>
+<p>	int in[]={4, 8, 10, 12, 14, 20, 22};</p>
+<p>	int lev[]={20, 8, 22, 4, 12, 10, 14};</p>
+<p>	//int in[]={5,6};</p>
+<p>	//int lev[]={6,5};</p>
+<p>    int i,n = sizeof(in)/sizeof(in[0]);</p>
+<p>    struct btree *r=constructTreeLevelInorder(lev, in, n);</p>
+<p>    cout &lt;&lt; &quot;Inorder traversal of the constructed tree is n&quot;;</p>
+<p>    printInorder(r);</p>
+<p>	return 0;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-34153">
+        <div id="dsq-comment-header-34153" class="dsq-comment-header">
+            <cite id="dsq-cite-34153">
+                <span id="dsq-author-user-34153">Isha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34153" class="dsq-comment-body">
+            <div id="dsq-comment-message-34153" class="dsq-comment-message"><p>We can do it in O(n^2) time complexity and O(n) space complexity.</p>
+<p>Algorithm: We create three queues, one will store the tree nodes and other will store the starting index and the ending index of the range(as derived from inorder array) for that node. For ex: </p>
+<p>int in[] = {4, 8, 10, 12, 14, 20, 22};</p>
+<p>int lev[] = {20, 8, 22, 4, 12, 10, 14}; </p>
+<p>For root, 20 starting index will be 0 and ending index will be 6. For node 8 the staring index will be 0 and the ending index will be 4, likewise. So basically range of a node N implies the index range in inorder traversal which contains all the nodes in the left and right subtree of that node N.</p>
+<p>First we create the root(lev[0]) and then push it in the queue for tree node, and we push its range in the respective queues. Then we move to the next element in the level order array and check if this value lies in the range of the node that is at the rear of the queue. IF it does then we create the tree node corresponding to this value and make this node the left/right child depending on its positioning before/after the root&#8217;s value in the given range. If this node was the right child of the root(node at the rear of the queue) then we popup the root from the queue as we have completed the creation of its child. We push the child node in the queue along with its range in the respective queue. If the next element dint lie in the range of the root node(node at the rear of the queue) then we simply pop-out that root node from the queue (node at the rear of the queue) and check for the next node in the queue if the element of lev[] array lies in its range or not. We do this till the queue is empty or we have reached the end of lev[] array.</p>
+<p>Since all the nodes are pushed in the queue once and for each node in the queue we search for its left child and then its right child in the range provided for that node so there will be at max 2*n traversal for each node. Hence time complexity will be O(n^2).</p>
+<p>Here is the code:</p>
+<p>#include </p>
+<p>#include </p>
+<p>using namespace std;</p>
+<p>struct btree{</p>
+<p>	int data;</p>
+<p>	struct btree *left;</p>
+<p>	struct btree *right;</p>
+<p>};</p>
+<p>struct treeNode{</p>
+<p>	struct btree *root;</p>
+<p>	struct treeNode *next;</p>
+<p>};</p>
+<p>struct node{</p>
+<p>	int data;</p>
+<p>	struct node *next;</p>
+<p>};</p>
+<p>struct queueTreeNode{</p>
+<p>	struct treeNode *front,*rear;</p>
+<p>};</p>
+<p>struct queueNode{</p>
+<p>	struct node *front,*rear;</p>
+<p>};</p>
+<p>void pushTreeNode(struct queueTreeNode *q, struct btree *n)</p>
+<p>{</p>
+<p>	struct treeNode *tn=(struct treeNode*)malloc(sizeof(struct treeNode));</p>
+<p>	tn-&gt;root=n;</p>
+<p>	if(q-&gt;front==NULL)</p>
+<p>	{</p>
+<p>		q-&gt;front=q-&gt;rear=tn;</p>
+<p>		return;</p>
+<p>	}</p>
+<p>	q-&gt;front-&gt;next=tn;</p>
+<p>	q-&gt;front=tn;</p>
+<p>	return;</p>
+<p>}</p>
+<p>void pushNode(struct queueNode *q, int data)</p>
+<p>{</p>
+<p>	struct node *n=(struct node *)malloc(sizeof(struct node));</p>
+<p>	n-&gt;data=data;</p>
+<p>	if(q-&gt;front==NULL)</p>
+<p>	{</p>
+<p>		q-&gt;front=q-&gt;rear=n;</p>
+<p>		return;</p>
+<p>	}</p>
+<p>	q-&gt;front-&gt;next=n;</p>
+<p>	q-&gt;front=n;</p>
+<p>	return;</p>
+<p>}</p>
+<p>struct btree* popTreeNode(struct queueTreeNode *q)</p>
+<p>{</p>
+<p>	struct treeNode *tn=q-&gt;rear;</p>
+<p>	struct btree *root= tn-&gt;root;</p>
+<p>	if(q-&gt;front==q-&gt;rear)</p>
+<p>	{</p>
+<p>		q-&gt;front=q-&gt;rear=NULL;</p>
+<p>		free(tn);</p>
+<p>		return root;</p>
+<p>	}</p>
+<p>	q-&gt;rear=q-&gt;rear-&gt;next;</p>
+<p>	free(tn);</p>
+<p>	return root;</p>
+<p>}</p>
+<p>struct btree* getRearTreeNode(struct queueTreeNode *q)</p>
+<p>{</p>
+<p>	struct treeNode *tn=q-&gt;rear;</p>
+<p>	struct btree *root= tn-&gt;root;</p>
+<p>	return root;</p>
+<p>}</p>
+<p>int getRearNode(struct queueNode *q)</p>
+<p>{</p>
+<p>	struct node *n=q-&gt;rear;</p>
+<p>	int data= n-&gt;data;</p>
+<p>	return data;</p>
+<p>}</p>
+<p>int popNode(struct queueNode *q)</p>
+<p>{</p>
+<p>	struct node *n=q-&gt;rear;</p>
+<p>	int data= n-&gt;data;</p>
+<p>	if(q-&gt;front==q-&gt;rear)</p>
+<p>	{</p>
+<p>		q-&gt;front=q-&gt;rear=NULL;</p>
+<p>		free(n);</p>
+<p>		return data;</p>
+<p>	}</p>
+<p>	q-&gt;rear=q-&gt;rear-&gt;next;</p>
+<p>	free(n);</p>
+<p>	return data;</p>
+<p>}</p>
+<p>bool isEmptyQueueTreeNode(struct queueTreeNode *q)</p>
+<p>{</p>
+<p>	return q-&gt;front==NULL?true:false;</p>
+<p>}</p>
+<p>bool isEmptyQueueNode(struct queueNode *q)</p>
+<p>{</p>
+<p>	return q-&gt;front==NULL?true:false;</p>
+<p>}</p>
+<p>struct btree *newBtreeNode(int data)</p>
+<p>{</p>
+<p>	struct btree *root=(struct btree*)malloc(sizeof(struct btree));</p>
+<p>	root-&gt;left=root-&gt;right=NULL;</p>
+<p>	root-&gt;data=data;</p>
+<p>	return root;</p>
+<p>}</p>
+<p>struct queueNode *initializeQueueNode()</p>
+<p>{</p>
+<p>	struct queueNode *q=(struct queueNode*)malloc(sizeof(struct queueNode));</p>
+<p>	q-&gt;front=q-&gt;rear=NULL;</p>
+<p>	return q;</p>
+<p>}</p>
+<p>struct queueTreeNode *initializeQueueTreeNode()</p>
+<p>{</p>
+<p>	struct queueTreeNode *q=(struct queueTreeNode*)malloc(sizeof(struct queueTreeNode));</p>
+<p>	q-&gt;front=q-&gt;rear=NULL;</p>
+<p>	return q;</p>
+<p>}</p>
+<p>/* We are searching in the inorder array if the nxtElement appears in the given range. We store the index of its occurrence in variable childIndex. We also take note of index of the root data to check if the nxtElement is the left or right child of the root. IF there isnt any occurrence of nxtElement in the range then childIndex will be -1. */</p>
+<p>void search(int in[],int rootData,int nxtElement,  int leftRange,int rightRange,int *rootIndex, int *childIndex)</p>
+<p>{</p>
+<p>	int i;</p>
+<p>	for(i=leftRange;i&lt;=rightRange;i++)</p>
+<p>	{</p>
+<p>		if(rootData==in[i]) </p>
+<p>		{</p>
+<p>			*rootIndex=i;</p>
+<p>		}</p>
+<p>		else if(nxtElement==in[i])</p>
+<p>		{</p>
+<p>			*childIndex=i;</p>
+<p>		}</p>
+<p>	}</p>
+<p>	return;</p>
+<p>}</p>
+<p>struct btree* constructTreeLevelInorder(int lev[], int in[], int n)</p>
+<p>{</p>
+<p>	struct btree *root, *head;</p>
+<p>	int i=1, rootIndex,childIndex, nxtElement;</p>
+<p>	struct queueNode *qLeftRange=initializeQueueNode();</p>
+<p>	struct queueNode *qRightRange=initializeQueueNode();</p>
+<p>	struct queueTreeNode *qTreeNode=initializeQueueTreeNode();</p>
+<p>	head=newBtreeNode(lev[0]);</p>
+<p>	pushTreeNode(qTreeNode,head);</p>
+<p>	pushNode(qLeftRange,0);</p>
+<p>	pushNode(qRightRange,n-1);</p>
+<p>	while(!isEmptyQueueTreeNode(qTreeNode) &amp;&amp; idata,nxtElement, leftRange,rightRange,&amp;rootIndex, &amp;childIndex);</p>
+<p>	//	cout&lt;data:  &#8220;&lt;data&lt;&lt;&quot; nxtElement: &quot;&lt;&lt;nxtElement&lt;&lt;&quot; leftRange: &quot;&lt;&lt;leftRange&lt;&lt;&quot;  rightRange: &quot;&lt;&lt;rightRange&lt;&lt;&quot;  rootIndex: &quot;&lt;&lt;rootIndex&lt;&lt;&quot;  childIndex: &quot;&lt;&lt;childIndex&lt;&lt;endl;</p>
+<p>		/* If childIndex is not -1, then we know that the nxtElement is either left or right child of the root. If nxtElement is the right child of the root then we pop out the root from the queue. If the nxtElement lies before th root in the given range an we already have root&#039;s left assigned to some value, it means that the nxtElement is the left child of left child of the root and hence we pop-out the root. */</p>
+<p>		if(childIndex!=-1)</p>
+<p>		{</p>
+<p>			if(rootIndexright=newBtreeNode(nxtElement);</p>
+<p>				i++;</p>
+<p>				pushTreeNode(qTreeNode,root-&gt;right);</p>
+<p>				pushNode(qLeftRange,rootIndex+1);</p>
+<p>				pushNode(qRightRange,rightRange);</p>
+<p>				popTreeNode(qTreeNode);</p>
+<p>				popNode(qLeftRange);</p>
+<p>				popNode(qRightRange);</p>
+<p>			}</p>
+<p>			else if(rootIndex&gt;childIndex)</p>
+<p>			{</p>
+<p>				if(root-&gt;left==NULL)</p>
+<p>				{</p>
+<p>					root-&gt;left=newBtreeNode(nxtElement);</p>
+<p>					i++;</p>
+<p>					pushTreeNode(qTreeNode,root-&gt;left);</p>
+<p>					pushNode(qLeftRange,leftRange);</p>
+<p>					pushNode(qRightRange,rootIndex-1);</p>
+<p>				}</p>
+<p>				else</p>
+<p>				{</p>
+<p>					popTreeNode(qTreeNode);</p>
+<p>					popNode(qLeftRange);</p>
+<p>					popNode(qRightRange);</p>
+<p>				}</p>
+<p>			}</p>
+<p>		}</p>
+<p>		/* If the childIndex is -1, then the next element is neither left/right child of the root and hence we pop up the root from the queue.*/</p>
+<p>		else </p>
+<p>		{</p>
+<p>			popTreeNode(qTreeNode);</p>
+<p>			popNode(qLeftRange);</p>
+<p>			popNode(qRightRange);</p>
+<p>		}</p>
+<p>	}</p>
+<p>	return head;</p>
+<p>}</p>
+<p>void printInorder(struct btree* r)</p>
+<p>{</p>
+<p>    if (r == NULL)</p>
+<p>       return;</p>
+<p>    printInorder(r-&gt;left);</p>
+<p>    cout &lt;data &lt;right);</p>
+<p>}</p>
+<p>int main() {</p>
+<p>	int in[]={4, 8, 10, 12, 14, 20, 22};</p>
+<p>	int lev[]={20, 8, 22, 4, 12, 10, 14};</p>
+<p>	//int in[]={5,6};</p>
+<p>	//int lev[]={6,5};</p>
+<p>    int i,n = sizeof(in)/sizeof(in[0]);</p>
+<p>    struct btree *r=constructTreeLevelInorder(lev, in, n);</p>
+<p>    cout &lt;&lt; &quot;Inorder traversal of the constructed tree is n&quot;;</p>
+<p>    printInorder(r);</p>
+<p>	return 0;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-34139">
+        <div id="dsq-comment-header-34139" class="dsq-comment-header">
+            <cite id="dsq-cite-34139">
+                <span id="dsq-author-user-34139">meh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34139" class="dsq-comment-body">
+            <div id="dsq-comment-message-34139" class="dsq-comment-message"><p>I have an O(n^2) solution that could be made O(n) when using a hashmap to find the index of the current item in level_order in the inorder collection.</p>
+<p>The idea is basically to keep track of the items in the current level and the next level of the tree while at the same time keeping the indexes in the inorder collection where the sub-trees of the current root lies.</p>
+<p>The solution is iterative similar to the approach when trying to print a tree level by level.</p>
+<p>Time complexity: O(n^2) // May be improved to O(n) with hashmap</p>
+<p>Space complexity: O(lgn) // May be worsened to O(n) with hashmap</p>
+<p>Code: <a href="https://ideone.com/UoaEe1" rel="nofollow">https://ideone.com/UoaEe1</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-34137">
+        <div id="dsq-comment-header-34137" class="dsq-comment-header">
+            <cite id="dsq-cite-34137">
+                <span id="dsq-author-user-34137">gg</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34137" class="dsq-comment-body">
+            <div id="dsq-comment-message-34137" class="dsq-comment-message"><p>No need for extractLeaves function</p>
+<p><a href="http://ideone.com/CLC9VI" rel="nofollow">http://ideone.com/CLC9VI</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-34130">
+        <div id="dsq-comment-header-34130" class="dsq-comment-header">
+            <cite id="dsq-cite-34130">
+                <span id="dsq-author-user-34130">L_Earner</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34130" class="dsq-comment-body">
+            <div id="dsq-comment-message-34130" class="dsq-comment-message"><p>//Program to create a binary tree from inorder and level order traversal</p>
+<p>#include</p>
+<p>#include</p>
+<p>int in[]    = {4, 8, 10, 12, 14, 20, 22};</p>
+<p>int level[] = {20, 8, 22, 4, 12, 10, 14};</p>
+<p>int n;</p>
+<p>//Declare a tree node</p>
+<p>struct tree</p>
+<p>{</p>
+<p>	 int data;</p>
+<p>	 struct tree *left;</p>
+<p>	 struct tree *right;</p>
+<p>};</p>
+<p>  struct tree *root;</p>
+<p>// A utility function to create a new Binary Tree node</p>
+<p>struct tree *newnode(int item)</p>
+<p>{</p>
+<p>	 struct tree *temp =  (struct tree *)malloc(sizeof(struct tree));</p>
+<p>	 temp-&gt;data = item;</p>
+<p>	 temp-&gt;left = temp-&gt;right = NULL;</p>
+<p>	 return temp;</p>
+<p>}</p>
+<p> // Function for inorder traversal</p>
+<p>void inorder(struct tree* root)</p>
+<p>{</p>
+<p>	 if (root)</p>
+<p>	 {</p>
+<p>		  inorder(root-&gt;left);</p>
+<p>		  printf( &#8220;%d t &#8220;, root-&gt;data);</p>
+<p>		  inorder(root-&gt;right);</p>
+<p>	 }</p>
+<p>}</p>
+<p>//search in inorder array</p>
+<p>  int search_lt(int num,int left,int right){</p>
+<p>		 int i;</p>
+<p>		 for(i=left;iright || leftn-1)</p>
+<p>	  return NULL;</p>
+<p>	//Finds first node in levelorder next to index &#8216;local'(including local)</p>
+<p>	//which ets a match in inorder array from index &#8216;left&#8217; to &#8216;right&#8217;</p>
+<p>	//</p>
+<p>	 while(mid==-1 &amp;&amp; localleft=create_tree(left,mid-1,local);</p>
+<p>	temp-&gt;right=create_tree(mid+1,right,local);</p>
+<p>		 return temp;</p>
+<p> }</p>
+<p>void main(){</p>
+<p>  n=sizeof(in)/sizeof(in[0]);</p>
+<p>root=create_tree(0,n-1,0);</p>
+<p>  inorder(root);</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-34129">
+        <div id="dsq-comment-header-34129" class="dsq-comment-header">
+            <cite id="dsq-cite-34129">
+                <span id="dsq-author-user-34129">ATUL</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34129" class="dsq-comment-body">
+            <div id="dsq-comment-message-34129" class="dsq-comment-message"><p>use map in extractKeys function to reduce its complexity to O(n) instead of O(n^2).</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-34099">
+        <div id="dsq-comment-header-34099" class="dsq-comment-header">
+            <cite id="dsq-cite-34099">
+                <span id="dsq-author-user-34099">Ravi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34099" class="dsq-comment-body">
+            <div id="dsq-comment-message-34099" class="dsq-comment-message"><p>well done abhay!  solution looks good time complexity wise, you can save some auxiliary space.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-34100">
+        <div id="dsq-comment-header-34100" class="dsq-comment-header">
+            <cite id="dsq-cite-34100">
+                <span id="dsq-author-user-34100">abhay</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34100" class="dsq-comment-body">
+            <div id="dsq-comment-message-34100" class="dsq-comment-message"><p>could you provide more details, how can space be saved?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-34407">
+        <div id="dsq-comment-header-34407" class="dsq-comment-header">
+            <cite id="dsq-cite-34407">
+                <span id="dsq-author-user-34407">pramendra rathi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34407" class="dsq-comment-body">
+            <div id="dsq-comment-message-34407" class="dsq-comment-message"><p>yoou can save space by removing the llevel and rlevel array. and by passing the start and end index of levelorder array in function as you are passing for inorder array.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/construct-tree-inorder-level-order-traversals/';
+var disqus_identifier = '127686 http://www.geeksforgeeks.org/?p=127686';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Construct a tree from Inorder and Level order traversals";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.203 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:31:00 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

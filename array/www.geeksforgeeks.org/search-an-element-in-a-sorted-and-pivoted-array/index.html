@@ -1,0 +1,2609 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Search an element in a sorted and pivoted array - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/search-an-element-in-a-sorted-and-pivoted-array/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Search an element in a sorted and pivoted array - GeeksforGeeks" />
+<meta property="og:description" content="Question: An element in a sorted array can be found in O(log n) time via binary search. But suppose I rotate the sorted array at some pivot unknown to you beforehand. So for instance, 1 2 3 4 5 might become 3 4 5 1 2. Devise a way to find an element in the &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/search-an-element-in-a-sorted-and-pivoted-array/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="array" />
+<meta property="article:section" content="Arrays" />
+<meta property="article:published_time" content="2009-08-15T00:57:34+00:00" />
+<meta property="article:modified_time" content="2013-06-12T13:02:05+00:00" />
+<meta property="og:updated_time" content="2013-06-12T13:02:05+00:00" />
+<meta property="og:image" content="http://geeksforgeeks.org/wp-content/uploads/2009/08/sortedPivotedArray.gif" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.503 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111411 210.212.53.139 172.19.11.169';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Search an element in a sorted and pivoted array</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p><strong>Question:</strong><br />
+An element in a sorted array can be found in O(log n) time via binary search. But suppose I rotate the sorted array at some pivot unknown to you beforehand.  <span id="more-1068"></span>So for instance, 1 2 3 4 5 might become 3 4 5 1 2. Devise a way to find an element in the rotated array in O(log n) time.</p>
+<p><img src="http://geeksforgeeks.org/wp-content/uploads/2009/08/sortedPivotedArray.gif" alt="sortedPivotedArray" title="sortedPivotedArray" width="396" height="130" class="aligncenter size-full wp-image-1146" /></p>
+<p><strong>Solution:</strong><br />
+Thanks to Ajay Mishra for initial solution.</p>
+<p><strong>Algorithm:</strong><br />
+Find the pivot point, divide the array in two sub-arrays and call binary search.<br />
+The main idea for finding pivot is &#8211; for a sorted (in increasing order) and pivoted array, pivot element is the only only element for which next element to it is smaller than it.<br />
+Using above criteria and binary search methodology we can get pivot element in O(logn) time</p>
+<pre>
+Input arr[] = {3, 4, 5, 1, 2}
+Element to Search = 1
+  1) Find out pivot point and divide the array in two 
+      sub-arrays. (pivot = 2) /*Index of 5*/
+  2) Now call binary search for one of the two sub-arrays.
+      (a) <strong>If </strong>element is greater than 0th element then 
+             search in left array
+      (b) <strong>Else</strong> Search in right array 
+          (1 will go in else as 1 < 0th element(3))
+  3) <strong>If </strong>element is found in selected sub-array then return index 
+     <strong>Else </strong>return -1.
+</pre>
+<p><strong>Implementation:</strong></p>
+<pre class="brush: cpp; highlight: [7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44]; title: ; notranslate" title="">
+/* Program to search an element in a sorted and pivoted array*/
+#include &lt;stdio.h&gt;
+
+int findPivot(int[], int, int);
+int binarySearch(int[], int, int, int);
+
+/* Searches an element no in a pivoted sorted array arrp[]
+   of size arr_size */
+int pivotedBinarySearch(int arr[], int arr_size, int no)
+{
+   int pivot = findPivot(arr, 0, arr_size-1);
+
+   // If we didn't find a pivot, then array is not rotated at all
+   if (pivot == -1)
+     return binarySearch(arr, 0, arr_size-1, no);
+
+   // If we found a pivot, then first compare with pivot and then
+   // search in two subarrays around pivot
+   if (arr[pivot] == no)
+     return pivot;
+   if (arr[0] &lt;= no)
+     return binarySearch(arr, 0, pivot-1, no);
+   else
+     return binarySearch(arr, pivot+1, arr_size-1, no);
+}
+
+/* Function to get pivot. For array 3, 4, 5, 6, 1, 2 it will
+   return 3. If array is not rotated at all, then it returns -1 */
+int findPivot(int arr[], int low, int high)
+{
+   // base cases
+   if (high &lt; low)  return -1;
+   if (high == low) return low;
+
+   int mid = (low + high)/2;   /*low + (high - low)/2;*/
+   if (mid &lt; high &amp;&amp; arr[mid] &gt; arr[mid + 1])
+     return mid;
+   if (mid &gt; low &amp;&amp; arr[mid] &lt; arr[mid - 1])
+     return (mid-1);
+   if (arr[low] &gt;= arr[mid])
+     return findPivot(arr, low, mid-1);
+   else
+     return findPivot(arr, mid + 1, high);
+}
+
+/* Standard Binary Search function*/
+int binarySearch(int arr[], int low, int high, int no)
+{
+   if (high &lt; low)
+       return -1;
+   int mid = (low + high)/2;  /*low + (high - low)/2;*/
+   if (no == arr[mid])
+     return mid;
+   if (no &gt; arr[mid])
+     return binarySearch(arr, (mid + 1), high, no);
+   else
+     return binarySearch(arr, low, (mid -1), no);
+}
+
+
+/* Driver program to check above functions */
+int main()
+{
+   // Let us search 3 in below array
+   int arr1[] = {5, 6, 7, 8, 9, 10, 1, 2, 3};
+   int arr_size = sizeof(arr1)/sizeof(arr1[0]);
+   int no = 3;
+   printf(&quot;Index of the element is %d\n&quot;,  pivotedBinarySearch(arr1, arr_size, no));
+
+    // Let us search 3 in below array
+   int arr2[] = {3, 4, 5, 1, 2};
+   arr_size = sizeof(arr2)/sizeof(arr2[0]);
+   printf(&quot;Index of the element is %d\n&quot;,  pivotedBinarySearch(arr2, arr_size, no));
+
+   // Let us search for 4 in above array
+   no = 4;
+   printf(&quot;Index of the element is %d\n&quot;,  pivotedBinarySearch(arr2, arr_size, no));
+
+   // Let us search 0 in below array
+   int arr3[] = {1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1};
+   no = 0;
+   arr_size = sizeof(arr3)/sizeof(arr3[0]);
+   printf(&quot;Index of the element is %d\n&quot;,  pivotedBinarySearch(arr3, arr_size, no));
+
+   // Let us search 3 in below array
+   int arr4[] = {2, 3, 0, 2, 2, 2, 2, 2, 2, 2};
+   no = 3;
+   arr_size = sizeof(arr4)/sizeof(arr4[0]);
+   printf(&quot;Index of the element is %d\n&quot;,  pivotedBinarySearch(arr4, arr_size, no));
+
+   // Let us search 2 in above array
+   no = 2;
+   printf(&quot;Index of the element is %d\n&quot;,  pivotedBinarySearch(arr4, arr_size, no));
+
+   // Let us search 3 in below array
+   int arr5[] = {1, 2, 3, 4};
+   no = 3;
+   arr_size = sizeof(arr5)/sizeof(arr5[0]);
+   printf(&quot;Index of the element is %d\n&quot;,  pivotedBinarySearch(arr5, arr_size, no));
+
+   return 0;
+}
+</pre>
+<p>Output:
+<pre>Index of the element is 8
+Index of the element is 0
+Index of the element is 1
+Index of the element is 3
+Index of the element is 1
+Index of the element is 0
+Index of the element is 2</pre>
+<p>Please note that the solution may not work for cases where the input array has duplicates. </p>
+<p><strong>Time Complexity</strong> O(logn)</p>
+<p>Please write comments if you find any bug in above codes/algorithms, or find other ways to solve the same problem.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array-set-2-expected-linear-time/" title="K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)">K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)</a></li><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array/" title="K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1">K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/time-complexity-insertion-sort-inversions/" title="Time complexity of insertion sort when there are O(n) inversions?">Time complexity of insertion sort when there are O(n) inversions?</a></li><li><a href="http://www.geeksforgeeks.org/check-two-given-sets-disjoint/" title="How to check if two given sets are disjoint?">How to check if two given sets are disjoint?</a></li><li><a href="http://www.geeksforgeeks.org/minimum-number-platforms-required-railwaybus-station/" title="Minimum Number of Platforms Required for a Railway/Bus Station">Minimum Number of Platforms Required for a Railway/Bus Station</a></li><li><a href="http://www.geeksforgeeks.org/given-two-sorted-arrays-number-x-find-pair-whose-sum-closest-x/" title="Find the closest pair from two sorted arrays">Find the closest pair from two sorted arrays</a></li><li><a href="http://www.geeksforgeeks.org/print-elements-sorted-order-row-column-wise-sorted-matrix/" title="Print all elements in sorted order from row and column wise sorted matrix">Print all elements in sorted order from row and column wise sorted matrix</a></li><li><a href="http://www.geeksforgeeks.org/length-largest-subarray-contiguous-elements-set-1/" title="Length of the largest subarray with contiguous elements | Set 1">Length of the largest subarray with contiguous elements | Set 1</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/array/" rel="tag">array</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fsearch-an-element-in-a-sorted-and-pivoted-array%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/search-an-element-in-a-sorted-and-pivoted-array/" data-text="Search an element in a sorted and pivoted array" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/search-an-element-in-a-sorted-and-pivoted-array/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-34653">
+        <div id="dsq-comment-header-34653" class="dsq-comment-header">
+            <cite id="dsq-cite-34653">
+                <span id="dsq-author-user-34653">Isha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34653" class="dsq-comment-body">
+            <div id="dsq-comment-message-34653" class="dsq-comment-message"><p>The above given code doesn&#8217;t work for test cases like:</p>
+<p>{1,1,1,1,1,1,1,1,1, 1, 1, 0, 1, 1}, {2,2,2,2,2,2,2,2,2, 3, 0, 2}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-34544">
+        <div id="dsq-comment-header-34544" class="dsq-comment-header">
+            <cite id="dsq-cite-34544">
+                <span id="dsq-author-user-34544">Rohit Kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34544" class="dsq-comment-body">
+            <div id="dsq-comment-message-34544" class="dsq-comment-message"><p>#include </p>
+<p>#include </p>
+<p>int main()</p>
+<p>{</p>
+<p>    int first,last,mid,pivot;</p>
+<p>    int i,x,b[10],n,cnt=0;</p>
+<p>    int a[]={5, 6, 7,8,9,10,11,15, 1, 2, 3};</p>
+<p>   n=sizeof(a)/sizeof(int);</p>
+<p>   first=0;last=n-1;</p>
+<p>   while(firsta[mid+1]){pivot=mid;break;}</p>
+<p>      else if(a[mid-1]&gt;a[mid]){pivot=mid-1;break;}</p>
+<p>      else if(a[mid]<a>=a[0])</p>
+<p>   { last=pivot;first=0;</p>
+<p>       while(firstx)last=mid-1;</p>
+<p>           else first=mid+1;</p>
+<p>       }</p>
+<p>   }</p>
+<p>   else</p>
+<p>   {</p>
+<p>       last=n-1;first=pivot+1;</p>
+<p>       while(firstx)last=mid-1;</p>
+<p>           else first=mid+1;</p>
+<p>       }</p>
+<p>   }</p>
+<p>if(cnt==0)printf(&#8220;item not found&#8221;);</p>
+<p>    return 0;</p>
+<p>}</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-32330">
+        <div id="dsq-comment-header-32330" class="dsq-comment-header">
+            <cite id="dsq-cite-32330">
+http://opensourceforgeeks.blogspot.in/                <span id="dsq-author-user-32330">Aniket Thakur</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32330" class="dsq-comment-body">
+            <div id="dsq-comment-message-32330" class="dsq-comment-message"><p>Java Code &#8212;&#8211;&gt; <a href="http://opensourceforgeeks.blogspot.in/2014/02/search-element-in-sorted-and-pivoted.html" rel="nofollow">http://opensourceforgeeks.blogspot.in/2014/02/search-element-in-sorted-and-pivoted.html</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-31717">
+        <div id="dsq-comment-header-31717" class="dsq-comment-header">
+            <cite id="dsq-cite-31717">
+                <span id="dsq-author-user-31717">Uma Trika</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31717" class="dsq-comment-body">
+            <div id="dsq-comment-message-31717" class="dsq-comment-message"><p>A very simple solution is here : </p>
+<p>void find_num(int a[], int start, int end, int num)<br />
+{<br />
+    int mid;<br />
+    if(start &gt; end)<br />
+    return ;</p>
+<p>    mid = (end+start)/2;<br />
+    if(a[mid] == num)<br />
+    {<br />
+        printf(&#8220;Num: %d is found at: %dn&#8221;, num, mid);<br />
+        return;<br />
+    }<br />
+    if( (num &lt; a[start] &amp;&amp; num <a> num &amp;&amp; num &gt; a[mid-1]) || (num&gt; a[start] &amp;&amp; num &gt; a[mid] ))<br />
+    {<br />
+        find_num(a, mid+1, end, num);<br />
+    }<br />
+    else<br />
+    {<br />
+        find_num(a, start, mid-1, num);<br />
+    }</p>
+<p>}</a></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-33099">
+        <div id="dsq-comment-header-33099" class="dsq-comment-header">
+            <cite id="dsq-cite-33099">
+                <span id="dsq-author-user-33099">mad_monkey</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33099" class="dsq-comment-body">
+            <div id="dsq-comment-message-33099" class="dsq-comment-message"><p>It&#8217;s wrong.. watch out for the corner cases&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-30860">
+        <div id="dsq-comment-header-30860" class="dsq-comment-header">
+            <cite id="dsq-cite-30860">
+                <span id="dsq-author-user-30860">Utkarsh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30860" class="dsq-comment-body">
+            <div id="dsq-comment-message-30860" class="dsq-comment-message"><p>try the code for the array &#8211; 1,2,3<br />
+And the findPivot() returns 2, instead it should return -1.<br />
+Even though the answer would return the same but it would unnecessarily go into extra iterations.<br />
+The base case in findPivot() should be<br />
+if (arr[high] &lt; arr[low])  return -1;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-30085">
+        <div id="dsq-comment-header-30085" class="dsq-comment-header">
+            <cite id="dsq-cite-30085">
+                <span id="dsq-author-user-30085">Amit Baghel</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30085" class="dsq-comment-body">
+            <div id="dsq-comment-message-30085" class="dsq-comment-message"><p>Visited <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_biggrin.gif" alt=":D" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-29708">
+        <div id="dsq-comment-header-29708" class="dsq-comment-header">
+            <cite id="dsq-cite-29708">
+                <span id="dsq-author-user-29708">Naved Alam</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29708" class="dsq-comment-body">
+            <div id="dsq-comment-message-29708" class="dsq-comment-message"><p>Good work. Have a look at my approach at <a href="http://knavite.blogspot.in/2013/11/searching-element-in-rotated-sorted.html" rel="nofollow">http://knavite.blogspot.in/2013/11/searching-element-in-rotated-sorted.html</a> . Please give feedback.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-28752">
+        <div id="dsq-comment-header-28752" class="dsq-comment-header">
+            <cite id="dsq-cite-28752">
+                <span id="dsq-author-user-28752">gb2793</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28752" class="dsq-comment-body">
+            <div id="dsq-comment-message-28752" class="dsq-comment-message"><p>@5d9df33f458fe136466ba62520777a26:disqus  your suggestion is wrong..<br />
+the code(after removing &#8216;=&#8217; in last condition of pivot function) fails for the following test cases..<br />
+{1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1}&#8230; no.= 0<br />
+{2, 3, 0, 2, 2, 2, 2, 2, 2, 2}..no.= 3</p>
+<p>@bef33b2217708f3a0807940c9de88fbd:disqus i think this code doesn&#8217;t work for duplicate values..<br />
+plz correct me if i am wrong..</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-28753">
+        <div id="dsq-comment-header-28753" class="dsq-comment-header">
+            <cite id="dsq-cite-28753">
+                <span id="dsq-author-user-28753">adarsh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28753" class="dsq-comment-body">
+            <div id="dsq-comment-message-28753" class="dsq-comment-message"><p>@9ff12bcf79c45debe893c2ec32fd8e10:disqus you are right. But then the code will still fail for the test case i mentioned. I think this code may not be valid for duplicate cases.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-28737">
+        <div id="dsq-comment-header-28737" class="dsq-comment-header">
+            <cite id="dsq-cite-28737">
+                <span id="dsq-author-user-28737">adarsh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28737" class="dsq-comment-body">
+            <div id="dsq-comment-message-28737" class="dsq-comment-message"><p>@bef33b2217708f3a0807940c9de88fbd:disqus   you code gives wrong pivot value for test case 3 3 3 3 3 4 5 6. Pivot returned is 0 whereas it should be 7.<br />
+Suggest changing the following line in findPivot function,<br />
+if(arr[low] &gt;= arr[mid]) to if(arr[low] &gt; arr[mid]).<br />
+(remove the &#8216;=&#8217;)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-28736">
+        <div id="dsq-comment-header-28736" class="dsq-comment-header">
+            <cite id="dsq-cite-28736">
+                <span id="dsq-author-user-28736">adarsh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28736" class="dsq-comment-body">
+            <div id="dsq-comment-message-28736" class="dsq-comment-message"><p>@bef33b2217708f3a0807940c9de88fbd:disqus<br />
+you code gives wrong pivot value for test case 3 3 3 3 3 4 5 6. Pivot returned is 0 whereas it should be 7.<br />
+Suggest changing the following line in findPivot function,<br />
+if(arr[low] &gt;= arr[mid]) to if(arr[low] &gt; arr[mid]).<br />
+(remove the &#8216;=&#8217;).</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-28335">
+        <div id="dsq-comment-header-28335" class="dsq-comment-header">
+            <cite id="dsq-cite-28335">
+                <span id="dsq-author-user-28335">Avinash Nigam</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28335" class="dsq-comment-body">
+            <div id="dsq-comment-message-28335" class="dsq-comment-message"><p>Extension of binary search</p>
+<p><code></p>
+<p>public static int findElementInRotatedSorted(int[] a, int start, int end, int key)</p>
+<p>	{</p>
+<p>		if (end &lt; start)</p>
+<p>		{</p>
+<p>			return -1;</p>
+<p>		}</p>
+<p>		int middle = (start + end) / 2;</p>
+<p>		if (a[middle] == key)</p>
+<p>		{</p>
+<p>			return middle;</p>
+<p>		}</p>
+<p>		if (a[start] &lt;= a[middle])</p>
+<p>		{</p>
+<p>			if (key <a>= a[start])</p>
+<p>			{</p>
+<p>				return findElementInRotatedSorted(a, start, middle - 1, key);</p>
+<p>			}</p>
+<p>			else</p>
+<p>			{</p>
+<p>				return findElementInRotatedSorted(a, middle + 1, end, key);</p>
+<p>			}</p>
+<p>		}</p>
+<p>		else</p>
+<p>		{</p>
+<p>			if (a[middle] &lt; key &amp;&amp; key &lt;= a[end])</p>
+<p>			{</p>
+<p>				return findElementInRotatedSorted(a, middle + 1, end, key);</p>
+<p>			}</p>
+<p>			else</p>
+<p>			{</p>
+<p>				return findElementInRotatedSorted(a, start, middle - 1, key);</p>
+<p>			}</p>
+<p>		}</p>
+<p>	}</p>
+<p></a></code></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+<ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-28572">
+        <div id="dsq-comment-header-28572" class="dsq-comment-header">
+            <cite id="dsq-cite-28572">
+                <span id="dsq-author-user-28572">Ankit Chaudhary</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28572" class="dsq-comment-body">
+            <div id="dsq-comment-message-28572" class="dsq-comment-message"><p>This is not valid input.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-24598">
+        <div id="dsq-comment-header-24598" class="dsq-comment-header">
+            <cite id="dsq-cite-24598">
+                <span id="dsq-author-user-24598">Soumya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24598" class="dsq-comment-body">
+            <div id="dsq-comment-message-24598" class="dsq-comment-message"><pre> <code language="C">
+Does not work for an array which contains all elements in decending order.
+
+To find 3 in the array {7,6,5,4,3,2,1}, the above code return -1.
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-24597">
+        <div id="dsq-comment-header-24597" class="dsq-comment-header">
+            <cite id="dsq-cite-24597">
+                <span id="dsq-author-user-24597">Soumya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24597" class="dsq-comment-body">
+            <div id="dsq-comment-message-24597" class="dsq-comment-message"><p>Does not work for an array which contains all elements in decending order.</p>
+<p>To find 3 in the array {7,6,5,4,3,2,1}, the above code return -1.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-24594">
+        <div id="dsq-comment-header-24594" class="dsq-comment-header">
+            <cite id="dsq-cite-24594">
+                <span id="dsq-author-user-24594">Soumya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24594" class="dsq-comment-body">
+            <div id="dsq-comment-message-24594" class="dsq-comment-message"><p>It does not work for an array which contains all elements in decending order. For example,</p>
+<p>   int arr1[] = {7,6,5,4,3,2,1};<br />
+   int no = 3;</p>
+<p>The above code return -1 as return index. If we think correctly, the above array has been rotated by n(size of the array) times.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-nishant08 odd alt thread-even depth-1" id="dsq-comment-21606">
+        <div id="dsq-comment-header-21606" class="dsq-comment-header">
+            <cite id="dsq-cite-21606">
+                <span id="dsq-author-user-21606">nishant08</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21606" class="dsq-comment-body">
+            <div id="dsq-comment-message-21606" class="dsq-comment-message"><pre> <code language="C">
+#include&lt;stdio.h&gt;
+int pivott(int [], int);
+int binaryy( int [], int , int, int );
+main()
+{
+	int a[10],i,pivot,n,res;
+	int s;
+	scanf(&quot;%d&quot;, &amp;n);
+	for(i=0;i&lt;n;i++)
+	scanf(&quot;%d&quot;, &amp;a[i]);
+	
+	printf(&quot;enter search-&quot;);
+	scanf(&quot;%d&quot;, &amp;s);
+	
+	pivot=pivott(a,n);
+
+	res=binaryy(a,pivot,s,n);
+	
+	printf(&quot;\n%d is on position %d\n&quot;,s,res);
+	
+}
+	
+int pivott(int a[],int n)
+{
+	int i;
+	for(i=0;i&lt;n;i++)
+	{
+		if(a[i]&lt;a[i+1])
+		continue;
+		else
+		break;
+	}
+return i;
+}
+
+int binaryy(int a[],int pivot, int s,int n)
+{
+	
+	int mid,low,high;	
+	if(a[pivot]==s)
+	return pivot;
+	
+	else if(a[0]&lt;=s)
+	{
+		low=0;
+		high= pivot;
+		while(low&lt;high)
+		{
+			mid=low+(high)/2;
+			if(a[mid]==s)
+			return mid;
+			
+			else if(a[mid]&lt;s)
+			low++;
+			else
+			high--;
+		}
+
+
+	}
+
+		
+	
+	else
+	{
+		low=pivot;
+		high=n;
+		while(low&lt;high)
+		{
+			mid=low+(high-1)/2;
+			if(a[mid]==s)
+			return mid;
+			
+			if(a[mid]&lt;s)
+			low++;
+			else
+			high--;
+		}
+	}
+	return -1;
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-33778">
+        <div id="dsq-comment-header-33778" class="dsq-comment-header">
+            <cite id="dsq-cite-33778">
+                <span id="dsq-author-user-33778">Girish Reddy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33778" class="dsq-comment-body">
+            <div id="dsq-comment-message-33778" class="dsq-comment-message"><p>Finding the pivot element takes O(n) time in your case.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-innosam odd alt thread-odd thread-alt depth-1" id="dsq-comment-21528">
+        <div id="dsq-comment-header-21528" class="dsq-comment-header">
+            <cite id="dsq-cite-21528">
+                <span id="dsq-author-user-21528">innosam</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21528" class="dsq-comment-body">
+            <div id="dsq-comment-message-21528" class="dsq-comment-message"><p>Check out this recursive solution, it could be easily converted into iterative.<br />
+The good thing about this is, its easy to comprehend.<br />
+<a href="http://innosamcodes.wordpress.com/searching-an-element-in-a-rotated-sorted-array/" rel="nofollow">http://innosamcodes.wordpress.com/searching-an-element-in-a-rotated-sorted-array/</a></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-innosam even depth-2" id="dsq-comment-21533">
+        <div id="dsq-comment-header-21533" class="dsq-comment-header">
+            <cite id="dsq-cite-21533">
+                <span id="dsq-author-user-21533">innosam</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21533" class="dsq-comment-body">
+            <div id="dsq-comment-message-21533" class="dsq-comment-message"><pre> <code language="C">
+int rotbsearch(std::vector&lt;int&gt; &amp;v, int l1, int l2, int value){
+ if(l1 &gt; l2) return -1;
+ if(v[l1] &lt; v[l2]  or l1 == l2){
+   if(value &lt; v[l1] and value &gt; v[l2]) return -1;
+   int m = (l1+l2)/2;
+ 
+   if(value &lt; v[m]) return rotbsearch(v,l1,m-1,value);
+   else if(value &gt; v[m]) return rotbsearch(v,m+1,l2,value);
+   else return m;
+ 
+ }
+ int r = rotbsearch(v, l1, (l1+l2)/2, value);
+  if(r != -1) return r;
+  r = rotbsearch(v,  (l1+l2)/2+1, l2, value);
+  if(r != -1) return r;
+ 
+  return -1;
+}
+</code> </pre>
+<p><a href="http://innosamcodes.wordpress.com/2013/07/06/searching-an-element-in-a-rotated-sorted-array/" rel="nofollow">http://innosamcodes.wordpress.com/2013/07/06/searching-an-element-in-a-rotated-sorted-array/</a><br />
+Try this link for more info</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-19631">
+        <div id="dsq-comment-header-19631" class="dsq-comment-header">
+            <cite id="dsq-cite-19631">
+                <span id="dsq-author-user-19631">Sandy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19631" class="dsq-comment-body">
+            <div id="dsq-comment-message-19631" class="dsq-comment-message"><p>Another implementation for non duplicate inputs works in O(lgn)</p>
+<p>def findElem(array, elem, start,end):<br />
+     if not array or start&gt;end or start&lt;0 or end&gt;=len(array):<br />
+             return -1<br />
+     mid = (start+end)/2<br />
+     if array[mid]==elem:<br />
+             return mid<br />
+     elif (elem&lt;array[mid] and elem&lt;=array[end]) or (elem&gt;array[mid] and elem&lt;=array[end]):<br />
+             return findElem(array,elem,mid+1, end)<br />
+     elif (elem&lt;array[mid] and elem&gt;array[end]) or (elem&gt;array[mid] and elem&gt;array[end]):<br />
+             return findElem(array,elem,start,mid-1)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-19367">
+        <div id="dsq-comment-header-19367" class="dsq-comment-header">
+            <cite id="dsq-cite-19367">
+                <span id="dsq-author-user-19367">tintin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19367" class="dsq-comment-body">
+            <div id="dsq-comment-message-19367" class="dsq-comment-message"><p>@GeeksforGeeks &#8211; Please look into the code for the method findPitvot(). It fails for very simple test cases like {7,8,9,10,1,2,3,4,5,6}. Please rectify it asap.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor odd alt depth-2" id="dsq-comment-19622">
+        <div id="dsq-comment-header-19622" class="dsq-comment-header">
+            <cite id="dsq-cite-19622">
+                <span id="dsq-author-user-19622">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19622" class="dsq-comment-body">
+            <div id="dsq-comment-message-19622" class="dsq-comment-message"><p>Thanks for pointing this out. We have updated the code to handle this case as well. Keep it up!!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-19638">
+        <div id="dsq-comment-header-19638" class="dsq-comment-header">
+            <cite id="dsq-cite-19638">
+                <span id="dsq-author-user-19638">ronny</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19638" class="dsq-comment-body">
+            <div id="dsq-comment-message-19638" class="dsq-comment-message"><p>@geeksforgeeks<br />
+could you please specify where have you updated the code.<br />
+Thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-19627">
+        <div id="dsq-comment-header-19627" class="dsq-comment-header">
+            <cite id="dsq-cite-19627">
+                <span id="dsq-author-user-19627">Sandy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19627" class="dsq-comment-body">
+            <div id="dsq-comment-message-19627" class="dsq-comment-message"><p>for which number search does it fails for you</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-19280">
+        <div id="dsq-comment-header-19280" class="dsq-comment-header">
+            <cite id="dsq-cite-19280">
+                <span id="dsq-author-user-19280">code1234</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19280" class="dsq-comment-body">
+            <div id="dsq-comment-message-19280" class="dsq-comment-message"><p>#include<br />
+int search(int a[],int n,int x)<br />
+{<br />
+	int lower=0,upper=n-1,mid=(upper+lower)/2;<br />
+	while(lower&lt;=upper)<br />
+	{<br />
+		mid=(lower+upper)/2;<br />
+		if(a[mid]==x)<br />
+			return mid+1;<br />
+		else if(x&lt;a[mid])<br />
+		{<br />
+			//planning to search lower half?<br />
+			if(x<a>a[upper])<br />
+				upper=mid-1;<br />
+			else lower=mid+1;<br />
+		}<br />
+	}<br />
+}<br />
+int main()<br />
+{<br />
+	int a[]={3,4,5,6,1,2};<br />
+	printf(&#8220;Position:%d&#8221;,search(a,6,3));<br />
+	return 0;<br />
+}</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-jainamit0909gmail-com odd alt thread-odd thread-alt depth-1" id="dsq-comment-19232">
+        <div id="dsq-comment-header-19232" class="dsq-comment-header">
+            <cite id="dsq-cite-19232">
+                <span id="dsq-author-user-19232">AMIT</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19232" class="dsq-comment-body">
+            <div id="dsq-comment-message-19232" class="dsq-comment-message"><p>The function findPivot doesn&#8217;t work for simple input like<br />
+7,8,9,10,1,2,3,4,5,6&#8230;It returns -1&#8230;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-jainamit0909gmail-com even depth-2" id="dsq-comment-19233">
+        <div id="dsq-comment-header-19233" class="dsq-comment-header">
+            <cite id="dsq-cite-19233">
+                <span id="dsq-author-user-19233">AMIT</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19233" class="dsq-comment-body">
+            <div id="dsq-comment-message-19233" class="dsq-comment-message"><pre> <code language="C">
+/* Program to search an element in a sorted and pivoted array*/
+#include &lt;stdio.h&gt;
+
+int findPivot(int[], int, int);
+int binarySearch(int[], int, int, int);
+
+/* Searches an element no in a pivoted sorted array arrp[]
+   of size arr_size */
+int pivotedBinarySearch(int arr[], int arr_size, int no)
+{
+   int pivot = findPivot(arr, 0, arr_size-1);
+    printf(&quot;pivot=%d\n&quot;,pivot);
+   // If we didn't find a pivot, then array is not rotated at all
+   if (pivot == -1)
+     return binarySearch(arr, 0, arr_size-1, no);
+
+   // If we found a pivot, then first compare with pivot and then
+   // search in two subarrays around pivot
+   if (arr[pivot] == no)
+     return pivot;
+   if (arr[0] &lt;= no)
+     return binarySearch(arr, 0, pivot-1, no);
+   else
+     return binarySearch(arr, pivot+1, arr_size-1, no);
+}
+
+/* Function to get pivot. For array 3, 4, 5, 6, 1, 2 it will
+   return 3. If array is not rotated at all, then it returns -1 */
+int findPivot(int arr[], int low, int high)
+{
+   // base cases
+   if (high &lt; low)  return -1;
+   if (high == low) return low;
+
+   int mid = (low + high)/2;   /*low + (high - low)/2;*/
+   if (mid &lt; high &amp;&amp; arr[mid] &gt; arr[mid + 1])
+     return mid;
+   if (arr[low] &gt;= arr[mid])
+     return findPivot(arr, low, mid-1);
+   else
+     return findPivot(arr, mid + 1, high);
+}
+
+/* Standard Binary Search function*/
+int binarySearch(int arr[], int low, int high, int no)
+{
+   if (high &lt; low)
+       return -1;
+   int mid = (low + high)/2;  /*low + (high - low)/2;*/
+   if (no == arr[mid])
+     return mid;
+   if (no &gt; arr[mid])
+     return binarySearch(arr, (mid + 1), high, no);
+   else
+     return binarySearch(arr, low, (mid -1), no);
+}
+
+
+/* Driver program to check above functions */
+int main()
+{
+   // Let us search 3 in below array
+   int arr1[] = {7, 8, 9, 10, 1, 2, 3,4,5,6};
+   int arr_size = sizeof(arr1)/sizeof(arr1[0]);
+   int no = 3;
+   printf(&quot;Index of the element is %d\n&quot;,  pivotedBinarySearch(arr1, arr_size, no));
+
+    // Let us search 3 in below array
+   int arr2[] = {3, 4, 5, 1, 2};
+   arr_size = sizeof(arr2)/sizeof(arr2[0]);
+   printf(&quot;Index of the element is %d\n&quot;,  pivotedBinarySearch(arr2, arr_size, no));
+
+   // Let us search for 4 in above array
+   no = 4;
+   printf(&quot;Index of the element is %d\n&quot;,  pivotedBinarySearch(arr2, arr_size, no));
+
+   // Let us search 0 in below array
+   int arr3[] = {1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1};
+   no = 0;
+   arr_size = sizeof(arr3)/sizeof(arr3[0]);
+   printf(&quot;Index of the element is %d\n&quot;,  pivotedBinarySearch(arr3, arr_size, no));
+
+   // Let us search 3 in below array
+   int arr4[] = {2, 3, 0, 2, 2, 2, 2, 2, 2, 2};
+   no = 3;
+   arr_size = sizeof(arr4)/sizeof(arr4[0]);
+   printf(&quot;Index of the element is %d\n&quot;,  pivotedBinarySearch(arr4, arr_size, no));
+
+   // Let us search 2 in above array
+   no = 2;
+   printf(&quot;Index of the element is %d\n&quot;,  pivotedBinarySearch(arr4, arr_size, no));
+
+
+   // Let us search 3 in below array
+   int arr5[] = {1, 2, 3, 4};
+   no = 3;
+   arr_size = sizeof(arr5)/sizeof(arr5[0]);
+   printf(&quot;Index of the element is %d\n&quot;,  pivotedBinarySearch(arr5, arr_size, no));
+
+   return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor odd alt depth-2" id="dsq-comment-19625">
+        <div id="dsq-comment-header-19625" class="dsq-comment-header">
+            <cite id="dsq-cite-19625">
+                <span id="dsq-author-user-19625">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19625" class="dsq-comment-body">
+            <div id="dsq-comment-message-19625" class="dsq-comment-message"><p>@AMIT: Thanks for pointing this out.  We have fixed the code.  Please see <a href="http://ideone.com/TxrsQQ" rel="nofollow">http://ideone.com/TxrsQQ</a> for a sample run.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-_naive_ even thread-even depth-1" id="dsq-comment-18870">
+        <div id="dsq-comment-header-18870" class="dsq-comment-header">
+            <cite id="dsq-cite-18870">
+                <span id="dsq-author-user-18870">_naive_</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18870" class="dsq-comment-body">
+            <div id="dsq-comment-message-18870" class="dsq-comment-message"><p>I think the function findPivot isn&#8217;t working correctly for input arr[] = {1,2,3,4,5};<br />
+its returning -1 instead of 4.<br />
+answer plzzzz</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor odd alt depth-2" id="dsq-comment-18903">
+        <div id="dsq-comment-header-18903" class="dsq-comment-header">
+            <cite id="dsq-cite-18903">
+                <span id="dsq-author-user-18903">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18903" class="dsq-comment-body">
+            <div id="dsq-comment-message-18903" class="dsq-comment-message"><p>Please take a closer look at the code.  That is how findPivot() is designed and used.  If there is no rotation, then findPivot() returns -1.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-w-devarshi even thread-odd thread-alt depth-1" id="dsq-comment-17910">
+        <div id="dsq-comment-header-17910" class="dsq-comment-header">
+            <cite id="dsq-cite-17910">
+                <span id="dsq-author-user-17910">w.devarshi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17910" class="dsq-comment-body">
+            <div id="dsq-comment-message-17910" class="dsq-comment-message"><p>1)Compare with the element to be searched(s) with the middle most  element.<br />
+2)If BS has to be done on lower half, then compare s with the starting element of array.<br />
+     i) if s<a [0], then do BS on other half(larger half)<br />
+     ii)   else, do BS on the same half<br />
+3)If BS has to be done on the larger half, then compare s with the last element of array<br />
+     i) if s>a[size],then do BS on other half(smaller)<br />
+     ii) else, do BS on the same half.</p>
+<pre> <code language="C">
+#include &lt;iostream&gt;
+using namespace std;
+
+int binary(int *a,int s,int e, int q)
+{
+    int mid=(s+e)/2;
+    if(e&lt;=s) return -1;
+    if(a[mid]==q) return mid;
+    if(s+1==e &amp;&amp; a[e]==q) return e;
+    if(a[mid]&gt;=q)
+    {
+        if(a[s]&gt;q) binary(a,mid, e, q);
+        else binary( a, s, mid, q);
+    }
+    else
+    {
+        if(a[e]&gt;=q) binary( a, mid, e, q);
+        else binary( a, s, mid, q);
+    }
+}
+
+int main()
+{
+    int a[]={3, 4, 5, 1, 2};
+    int q;
+    cout&lt;&lt;&quot;enter the Query&quot;&lt;&lt;endl;
+    cin&gt;&gt;q;
+    if(binary(a,0,4,q)!=-1) cout&lt;&lt;binary(a,0,4,q);
+    else cout&lt;&lt;&quot;element does not exist&quot;;
+}
+
+</code> </pre>
+<p></a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-16449">
+        <div id="dsq-comment-header-16449" class="dsq-comment-header">
+            <cite id="dsq-cite-16449">
+                <span id="dsq-author-user-16449">Abhi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16449" class="dsq-comment-body">
+            <div id="dsq-comment-message-16449" class="dsq-comment-message"><p>I didn&#8217;t go through all the comments but I think the catch is we don&#8217;t know if the array is increasing or decreasing. This has to be checked beforehand. It can be done by checking the 1st, mid n last element with their next elements. Two of them will give the same sequence either increasing or decreasing which will be the order of the initial array and then we can do the rest.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-aygul even thread-odd thread-alt depth-1" id="dsq-comment-15624">
+        <div id="dsq-comment-header-15624" class="dsq-comment-header">
+            <cite id="dsq-cite-15624">
+                <span id="dsq-author-user-15624">aygul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15624" class="dsq-comment-body">
+            <div id="dsq-comment-message-15624" class="dsq-comment-message"><p>Referring to full iterative solution by @Ankit and full recursive solution by @Ankit Malthora, I implemented a hybrid of those solutions in c#. I could not find a better way to handle the input containing the same element in the start, middle and end. So I recursively search upper and lower portions of the array in this case. So the worst case goes to O(N)</p>
+<p>Any sugestions to reduce the worst case ???</p>
+<pre> <code language="C">
+public static int BinarySearchPivoted(int[] a, int k, int s, int e)
+{
+    int m;
+    while (s &lt;= e)
+    {
+        m = (s + e) / 2;
+        if (a[m] == k) return m;
+
+        if (a[s] == a[e] &amp;&amp; a[m] == a[e])
+        {
+            int i1 = BinarySearchPivoted(a, k, s, m - 1);
+            int i2 = BinarySearchPivoted(a, k, m + 1, e);
+            return i1 &gt; i2 ? i1 : i2;
+        }
+
+        if (a[s] &lt;= a[m])
+            if (a[s] &lt;= k &amp;&amp; k &lt; a[m])
+                e = m - 1;
+            else
+                s = m + 1;
+        else
+            if (a[m] &lt; k &amp;&amp; k &lt;= a[e])
+                s = m + 1;
+            else
+                e = m - 1;
+    }
+    return -1;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-13696">
+        <div id="dsq-comment-header-13696" class="dsq-comment-header">
+            <cite id="dsq-cite-13696">
+                <span id="dsq-author-user-13696">Ankit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13696" class="dsq-comment-body">
+            <div id="dsq-comment-message-13696" class="dsq-comment-message"><p>try this&#8230;.<br />
+we can do this search without fnding pivot&#8230;</p>
+<p>int rotated_binary_search(int A[], int N, int key) {<br />
+  int L = 0;<br />
+  int R = N &#8211; 1;</p>
+<p>  while (L &lt; = R) {<br />
+    int M = L + ((R &#8211; L) / 2);<br />
+    if (A[M] == key) return M;<br />
+    if (A[L] &lt; = A[M]) {<br />
+      if (A[L] &lt; = key &amp;&amp; key &lt; A[M])<br />
+        R = M &#8211; 1;<br />
+      else<br />
+        L = M + 1;<br />
+    }<br />
+    else {<br />
+      if (A[M] &lt; key &amp;&amp; key &lt; = A[R])<br />
+        L = M + 1;<br />
+      else<br />
+        R = M &#8211; 1;<br />
+    }<br />
+  }<br />
+  return -1;<br />
+}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-aygul even depth-2" id="dsq-comment-14816">
+        <div id="dsq-comment-header-14816" class="dsq-comment-header">
+            <cite id="dsq-cite-14816">
+                <span id="dsq-author-user-14816">aygul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14816" class="dsq-comment-body">
+            <div id="dsq-comment-message-14816" class="dsq-comment-message"><p>Great method, working for all cases. Thanks&#8230;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-15575">
+        <div id="dsq-comment-header-15575" class="dsq-comment-header">
+            <cite id="dsq-cite-15575">
+                <span id="dsq-author-user-15575">Ankit Malhtora</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15575" class="dsq-comment-body">
+            <div id="dsq-comment-message-15575" class="dsq-comment-message"><p>This code will not work for array with multiple repeating elements as seen below.</p>
+<pre> <code language="C">
+int main()
+{
+   int term[] = {2, 3, 0, 2, 2, 2, 2, 2, 2, 2}, n = 3,
+   count = sizeof(term)/sizeof(int), i;
+   for (i = 0; i != count; i++)
+     cout &lt;&lt; term[i] &lt;&lt; ' ';
+   cout &lt;&lt; endl;
+   cout &lt;&lt; &quot;Index of &quot;&lt;&lt; n &lt;&lt;&quot; is &quot;&lt;&lt; rotated_binary_search (term, count, n) &lt;&lt; endl;
+   return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-aygul even depth-4" id="dsq-comment-15576">
+        <div id="dsq-comment-header-15576" class="dsq-comment-header">
+            <cite id="dsq-cite-15576">
+                <span id="dsq-author-user-15576">aygul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15576" class="dsq-comment-body">
+            <div id="dsq-comment-message-15576" class="dsq-comment-message"><p>You are right, it is not working for repeating elements&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-aygul odd alt depth-4" id="dsq-comment-15577">
+        <div id="dsq-comment-header-15577" class="dsq-comment-header">
+            <cite id="dsq-cite-15577">
+                <span id="dsq-author-user-15577">aygul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15577" class="dsq-comment-body">
+            <div id="dsq-comment-message-15577" class="dsq-comment-message"><p>But even the given solution is not working for that input. <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+<p>Is it ? It fails in findPivot function while checking arr[mid+1] with mid = 9 while arr has 10 elements.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even depth-5" id="dsq-comment-15594">
+        <div id="dsq-comment-header-15594" class="dsq-comment-header">
+            <cite id="dsq-cite-15594">
+                <span id="dsq-author-user-15594">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15594" class="dsq-comment-body">
+            <div id="dsq-comment-message-15594" class="dsq-comment-message"><p>@aygul: Thanks for pointing this out.  We have updated the original code to handle this case.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-aygul odd alt depth-5" id="dsq-comment-15610">
+        <div id="dsq-comment-header-15610" class="dsq-comment-header">
+            <cite id="dsq-cite-15610">
+                <span id="dsq-author-user-15610">aygul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15610" class="dsq-comment-body">
+            <div id="dsq-comment-message-15610" class="dsq-comment-message"><p>@GeeksforGeeks: sorry but the code is not totally fixed. You just handled the case for that input. Consider this input :<br />
+2,2,2,2,2,3,0,2,2,2<br />
+this time your fixed findPivot will return -1 which is not correct. So it will try to find the given key with regular binary search.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even depth-5" id="dsq-comment-15638">
+        <div id="dsq-comment-header-15638" class="dsq-comment-header">
+            <cite id="dsq-cite-15638">
+                <span id="dsq-author-user-15638">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15638" class="dsq-comment-body">
+            <div id="dsq-comment-message-15638" class="dsq-comment-message"><p>@aygul: Thanks for pointing this out. We have added a note for this.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-15066">
+        <div id="dsq-comment-header-15066" class="dsq-comment-header">
+            <cite id="dsq-cite-15066">
+                <span id="dsq-author-user-15066">nomind</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15066" class="dsq-comment-body">
+            <div id="dsq-comment-message-15066" class="dsq-comment-message"><p>Nice Solution.</p>
+<p>@GeeksForGeeks Please include these solution</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-13646">
+        <div id="dsq-comment-header-13646" class="dsq-comment-header">
+            <cite id="dsq-cite-13646">
+                <span id="dsq-author-user-13646">Ankit Malhotra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13646" class="dsq-comment-body">
+            <div id="dsq-comment-message-13646" class="dsq-comment-message"><p>Improved function to accept count of elements instead of start and end.</p>
+<pre> <code language="C">
+#include &lt;iostream&gt;
+using namespace::std;
+
+long pivotedBinarySearch(long term[], long count, long element)
+{
+  if (count &lt; 1) return -1;
+  long start = 0, end = count - 1, mid = count/2;
+
+  if (term[mid] == element)
+    return mid;
+
+  // pivoted forward
+  if (term[start] &gt; term[mid])
+  {
+    if (element &gt; term [mid] &amp;&amp; element &lt; term[start])
+      return pivotedBinarySearch (term + mid + 1, count - (mid + 1), element);
+    else
+      return pivotedBinarySearch (term, mid, element);
+  }
+  else
+  {
+    // pivoted back
+    if (term[mid] &gt; term[end])
+    {
+      if (element &lt; term [mid] &amp;&amp; element &gt; term[end])
+        return pivotedBinarySearch (term, mid, element);
+      else
+        return pivotedBinarySearch (term + mid + 1, count - (mid + 1), element);
+    }
+    else
+    {
+      // may be pivoted either way with lot of equals eg (2, 1, 2, 2,
+2) or (2, 2, 2, 3, 2)
+      if(term[start] == term[end])
+      {
+        long t1 = pivotedBinarySearch (term, mid, element);
+        long t2 = pivotedBinarySearch (term + mid + 1, count - (mid + 1), element);
+        return (t1 &gt; t2 ? t1 : t2);
+      }
+      // Not pivoted
+      else
+      {
+        if (term[mid] &lt; element)
+          return pivotedBinarySearch (term + mid + 1, count - (mid + 1), element);
+        else
+          return pivotedBinarySearch (term, mid, element);
+      }
+    }
+  }
+  return -1;
+}
+
+int main()
+{
+   long term[] = {2, 3, 0, 2, 2, 2, 2, 2, 2, 2}, n = 3,
+   count = sizeof(term)/sizeof(long);
+   for (unsigned long i = 0; i ! = count; i++)
+     cout &lt;&lt; term[i] &lt;&lt; ' ';
+   cout &lt;&lt; endl;
+   cout &lt;&lt; &quot;Index of &quot;&lt;&lt; n &lt;&lt;&quot; is &quot;&lt;&lt; pivotedBinarySearch (term, count, n) &lt;&lt; endl;
+   return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-aygul odd alt depth-2" id="dsq-comment-15621">
+        <div id="dsq-comment-header-15621" class="dsq-comment-header">
+            <cite id="dsq-cite-15621">
+                <span id="dsq-author-user-15621">aygul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15621" class="dsq-comment-body">
+            <div id="dsq-comment-message-15621" class="dsq-comment-message"><p>@ankit: This code has O(N) worst case running time.<br />
+consider searching 3 in 2,2,2,2,2,2,2,2</p>
+<p>You will always go here and look all af the elements in the array.<br />
+if(term[start] == term[end])<br />
+      {<br />
+        long t1 = pivotedBinarySearch (term, mid, element);<br />
+        long t2 = pivotedBinarySearch (term + mid + 1, count &#8211; (mid + 1), element);<br />
+        return (t1 > t2 ? t1 : t2);<br />
+      }</p>
+<p>But I could not figure out how to resolve the corner case for 2, 3, 0, 2, 2, 2, 2, 2, 2, 2<br />
+an still keep O(logN).</p>
+<p>So can this problem have a O(logN) wortcase solution at all ??</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-15655">
+        <div id="dsq-comment-header-15655" class="dsq-comment-header">
+            <cite id="dsq-cite-15655">
+                <span id="dsq-author-user-15655">Ankit Malhotra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15655" class="dsq-comment-body">
+            <div id="dsq-comment-message-15655" class="dsq-comment-message"><p>I am not sure about the complexity for the aolution first. My approach always is to first always handle all the cases of a problem. All kinds of input need to be handled. </p>
+<p>@GeeksforGeeks, I hope you admit that this has to be done first, or the relevant constraints of the problem should be mentioned.</p>
+<p>@aygul : Technically the input 2,2,&#8230;..2 does not even meet the criteria of the problem input as this input can never be considered as pivot sorted.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-aygul odd alt depth-4" id="dsq-comment-15751">
+        <div id="dsq-comment-header-15751" class="dsq-comment-header">
+            <cite id="dsq-cite-15751">
+                <span id="dsq-author-user-15751">aygul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15751" class="dsq-comment-body">
+            <div id="dsq-comment-message-15751" class="dsq-comment-message"><p>Whether or not you take that input as pivot sorted (it is obviously a valid input btw), the worst case running time for the code you suggest is O(n). But as I said before I could not see a better way than your approach to handle too much duplicates.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-13096">
+        <div id="dsq-comment-header-13096" class="dsq-comment-header">
+            <cite id="dsq-cite-13096">
+                <span id="dsq-author-user-13096">Ankit Malhotra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13096" class="dsq-comment-body">
+            <div id="dsq-comment-message-13096" class="dsq-comment-message"><p>Checked the previous solutions and duplicate handling was not<br />
+complete. Looking at all cases including handling of duplicates, and<br />
+have made O(log(n)) with all cases tested thoroughly as follows.</p>
+<pre> <code language="CPP">
+
+// Program to search an element in a sorted and pivoted array
+#include &lt;cstdio&gt;
+#include &lt;iostream&gt;
+#define higher(a, b) (a &gt; b ? a : b)
+
+int pivotedBinarySearch(int term[], int start, int end, int element)
+{
+  int mid = start + ((end - start)/2);
+  if(start &gt; end) return -1;
+  if(term[mid] == element) return mid;
+
+  if(term[start] &gt; term[mid]) // pivoted forward
+    if(element &gt; term [mid] &amp;&amp; element &lt; term[start])
+      return pivotedBinarySearch(term, mid + 1, end, element);
+    else return pivotedBinarySearch(term, start, mid - 1, element);
+
+  else if(term[mid] &gt; term[end]) // pivoted back
+    if(element &lt; term [mid] &amp;&amp; element &gt; term[end])
+      return pivotedBinarySearch(term, start, mid - 1, element);
+    else return pivotedBinarySearch(term, mid + 1, end, element);
+
+  // may be pivoted either way with lot of equals eg (2, 1, 2, 2, 2)
+or (2, 2, 2, 3, 2)
+  else if(term[start] == term[end])
+    return higher(pivotedBinarySearch(term, start, mid - 1, element),
+pivotedBinarySearch(term, mid + 1, end, element));
+  // Not Pivoted.
+    else if(term[mid] &lt; element) return pivotedBinarySearch(term, mid
++ 1, end, element);
+    else return pivotedBinarySearch(term, start, mid - 1, element);
+
+  return -1;
+}
+
+/* Driver program to check above functions */
+int main()
+{
+   int term[] = {2, 3, 0, 2, 2, 2, 2, 2, 2, 2}, n = 3;
+   int count = sizeof(term)/sizeof(int);
+   printf(&quot;Index of the element is %d.&quot;, pivotedBinarySearch(term, 0,
+count - 1, n));
+   std::cout &lt;&lt; std::endl;
+   return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-11476">
+        <div id="dsq-comment-header-11476" class="dsq-comment-header">
+            <cite id="dsq-cite-11476">
+                <span id="dsq-author-user-11476">sreeram</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11476" class="dsq-comment-body">
+            <div id="dsq-comment-message-11476" class="dsq-comment-message"><p>while checking for pivot a[mid] &gt;a[mid+1]  </p>
+<p>doesnt it fail if the array is not all rotated ..since we are accessing mid+1 location ???</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-10544">
+        <div id="dsq-comment-header-10544" class="dsq-comment-header">
+            <cite id="dsq-cite-10544">
+                <span id="dsq-author-user-10544">Sunny</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10544" class="dsq-comment-body">
+            <div id="dsq-comment-message-10544" class="dsq-comment-message"><p>@geeksforgeeks: The solution provided above would hit &#8220;array out of bound&#8221; error if array size is 1 or 2.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-9634">
+        <div id="dsq-comment-header-9634" class="dsq-comment-header">
+            <cite id="dsq-cite-9634">
+                <span id="dsq-author-user-9634">ANkit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9634" class="dsq-comment-body">
+            <div id="dsq-comment-message-9634" class="dsq-comment-message"><p>Your code is unable to find the pivot in case i supply the array as 1,1,1,0,1,1,1,1,1,1,1</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-9207">
+        <div id="dsq-comment-header-9207" class="dsq-comment-header">
+            <cite id="dsq-cite-9207">
+                <span id="dsq-author-user-9207">anon</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9207" class="dsq-comment-body">
+            <div id="dsq-comment-message-9207" class="dsq-comment-message"><p>The given method won&#8217;t work for arrays containing duplicate elements. Consider a sorted and rotated array [1,3,1,1,1] and search for 3. The given method will return -1 .</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8354">
+        <div id="dsq-comment-header-8354" class="dsq-comment-header">
+            <cite id="dsq-cite-8354">
+                <span id="dsq-author-user-8354">limpbizkit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8354" class="dsq-comment-body">
+            <div id="dsq-comment-message-8354" class="dsq-comment-message"><p>Hi, will the code work for<br />
+1 2 3 4 5 6 7 8 9 10<br />
+I mean if the array is  rotated by 0</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-8356">
+        <div id="dsq-comment-header-8356" class="dsq-comment-header">
+            <cite id="dsq-cite-8356">
+                <span id="dsq-author-user-8356">limpbizkit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8356" class="dsq-comment-body">
+            <div id="dsq-comment-message-8356" class="dsq-comment-message"><p>yes , it will.. i got right now</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-huha odd alt thread-even depth-1" id="dsq-comment-7940">
+        <div id="dsq-comment-header-7940" class="dsq-comment-header">
+            <cite id="dsq-cite-7940">
+                <span id="dsq-author-user-7940">huha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7940" class="dsq-comment-body">
+            <div id="dsq-comment-message-7940" class="dsq-comment-message"><pre> <code language="C">
+#include&lt;stdio.h&gt;
+#include&lt;conio.h&gt;
+
+int search(int arr[],int l,int h,int num)
+{
+    if(l&lt;=h)
+    {
+            int m=(l+h)/2;
+            if(num==arr[m]) {printf(&quot;found at %d\n&quot;,m); }
+                       if(num&gt;arr[l]&amp;&amp;num&lt;arr[m])
+            {
+                            search(arr,l,m-1,num);
+                            }
+            else if(num&lt;arr[l]&amp;&amp;num&gt;arr[m])
+            {
+                 search(arr,m+1,h,num);
+                 }
+            else if(num&gt;arr[l]&amp;&amp;num&gt;arr[m])
+            {
+                 printf(&quot;reached&quot;);
+                 if(arr[l]&lt;=arr[m])
+                 search(arr,m+1,h,num);
+                 else
+                 search(arr,l,m-1,num);
+                 }
+            else
+            {
+                if(arr[l]&lt;=arr[m])
+                search(arr,m+1,h,num);
+                 else
+                 search(arr,l,m-1,num);
+                 }
+                 }
+   //return -1;
+}
+    
+
+int main()
+{
+    int arr[5]={3,4,5,6,2};
+  search(arr,0,4,2);
+    getch();
+}
+    
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-huha even depth-2" id="dsq-comment-7941">
+        <div id="dsq-comment-header-7941" class="dsq-comment-header">
+            <cite id="dsq-cite-7941">
+                <span id="dsq-author-user-7941">huha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7941" class="dsq-comment-body">
+            <div id="dsq-comment-message-7941" class="dsq-comment-message"><p>kindly comment on any missing cases</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-11994">
+        <div id="dsq-comment-header-11994" class="dsq-comment-header">
+            <cite id="dsq-cite-11994">
+http://www.geeksforgeeks.org/archives/1068                <span id="dsq-author-user-11994">xin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11994" class="dsq-comment-body">
+            <div id="dsq-comment-message-11994" class="dsq-comment-message"><p>still not work for : 1,1,1,0,1,1,1,1,1,1,1</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-7922">
+        <div id="dsq-comment-header-7922" class="dsq-comment-header">
+            <cite id="dsq-cite-7922">
+                <span id="dsq-author-user-7922">Nargis</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7922" class="dsq-comment-body">
+            <div id="dsq-comment-message-7922" class="dsq-comment-message"><p>An element in a sorted array can be found using binary search. But now we rotate that array at<br />
+some unknown index. For example, 1 2 3 4 5 might become 3 4 5 1 2. Devise a method to find<br />
+an element in this array.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-5373">
+        <div id="dsq-comment-header-5373" class="dsq-comment-header">
+            <cite id="dsq-cite-5373">
+                <span id="dsq-author-user-5373">Amit Gupta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5373" class="dsq-comment-body">
+            <div id="dsq-comment-message-5373" class="dsq-comment-message"><p>Hey Guys, I&#8217;ve  come up with a simpler function,<br />
+hope you guys have no trouble understanding it.<br />
+It&#8217;s as follows :
+<pre> <code language="C">
+int pivotedBinarySearch (int *a, int lo, int hi, int key) {
+	int mid;
+	if (lo &lt;= hi) {
+		mid = lo + (hi-lo)/2;
+		if (a[mid] == key) 
+			return mid;
+		if (a[mid]  a[mid]) &amp;&amp; (key &lt;= a[hi]))
+			return pivotedBinarySearch(a,mid+1,hi,key);
+			else
+			return pivotedBinarySearch(a,lo,mid-1,key);			
+		}
+		if (a[lo] = a[lo]) &amp;&amp; (key &lt; a[mid])) 
+			return pivotedBinarySearch(a,lo,mid-1,key);
+			else 
+			return pivotedBinarySearch(a,mid+1,hi,key);
+		}
+	}
+	else 
+	return -1;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-5046">
+        <div id="dsq-comment-header-5046" class="dsq-comment-header">
+            <cite id="dsq-cite-5046">
+                <span id="dsq-author-user-5046">Hello</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5046" class="dsq-comment-body">
+            <div id="dsq-comment-message-5046" class="dsq-comment-message"><p><a href="http://www.techjobinterview.com/2011/08/28/rotating-a-sorted-array/" rel="nofollow">http://www.techjobinterview.com/2011/08/28/rotating-a-sorted-array/</a></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-5482">
+        <div id="dsq-comment-header-5482" class="dsq-comment-header">
+            <cite id="dsq-cite-5482">
+                <span id="dsq-author-user-5482">shady</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5482" class="dsq-comment-body">
+            <div id="dsq-comment-message-5482" class="dsq-comment-message"><p>yup, that&#8217;s better</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-11470">
+        <div id="dsq-comment-header-11470" class="dsq-comment-header">
+            <cite id="dsq-cite-11470">
+                <span id="dsq-author-user-11470">VikasG</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11470" class="dsq-comment-body">
+            <div id="dsq-comment-message-11470" class="dsq-comment-message"><p>Link not working.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2146">
+        <div id="dsq-comment-header-2146" class="dsq-comment-header">
+            <cite id="dsq-cite-2146">
+                <span id="dsq-author-user-2146">bunty</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2146" class="dsq-comment-body">
+            <div id="dsq-comment-message-2146" class="dsq-comment-message"><p>I have another approach which also take only O(log n), but uses binarysearch and PivotedBinarySearch()</p>
+<pre> <code language="C">
+int PivotedBinarySearch(arr, lo, high, num)
+{
+ int mid = (lo+hi)/2;
+
+ if (arr[mid]==num)
+    return mid;
+
+ if (num &lt; arr[mid])
+ {
+  /* Possible that elements on left may be normal sorted or may
+  be pivoted sorted. So num can be in any half */
+  if (ar[lo] &lt; arr[mid])
+   {
+    /* Normal Sorted */
+     if (a[lo]  num) 
+     /* Num is in second half and is in between mid and hi */
+     return binarysearch(arr, mid+1, hi, num);
+    else
+      PivotedBinarySearch(arr, lo, mid-1, num);
+   }
+ }
+else // if (num &gt; a[mid])
+{
+ /* Similar checks as of earlier conditions */
+ if (a[mid] &lt; a[hi])
+ { /* Normal sorted */
+   if (num &lt; a[hi])
+    return binarysearch(arr, mid+1, hi, num);
+   else
+    /* num is in second pivoted half */
+    PivotedBinarySearch(arr, lo, mid-1, num);
+ }
+ else
+ { /* Pivoted search */
+  if (a[lo] &lt; num)
+   return binarysearch(arr, lo, mid-1, num);
+  else
+   PivotedBinarySearch(arr, mid+1, hi, num);
+ }
+} 
+}
+</code> </pre>
+<p>Please let me know if I am correct or wrong..</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-2147">
+        <div id="dsq-comment-header-2147" class="dsq-comment-header">
+            <cite id="dsq-cite-2147">
+                <span id="dsq-author-user-2147">bunty</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2147" class="dsq-comment-body">
+            <div id="dsq-comment-message-2147" class="dsq-comment-message"><pre> <code language="C">
+// missed &lt; in between a[lo] and num
+//if (a[lo] &lt; num)
+
+/* Possible that elements on left may be normal sorted or may
+be pivoted sorted. So num can be in any half */
+if (ar[lo] &lt; arr[mid])
+{
+/* Normal Sorted */
+if (a[lo] &lt; num)
+/* Num is in second half and is in between mid and hi */
+return binarysearch(arr, mid+1, hi, num);
+else
+PivotedBinarySearch(arr, lo, mid-1, num);
+}
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-2151">
+        <div id="dsq-comment-header-2151" class="dsq-comment-header">
+            <cite id="dsq-cite-2151">
+                <span id="dsq-author-user-2151">bunty</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2151" class="dsq-comment-body">
+            <div id="dsq-comment-message-2151" class="dsq-comment-message"><p>Corrected the above code, as it missed few conditions:</p>
+<pre> <code language="C">
+int PivotedBinarySearch(arr, lo, high, num)
+{
+ int mid = (lo+hi)/2;
+ 
+ if (arr[mid]==num)
+    return mid;
+ 
+ if (num &lt; arr[mid])
+ {
+  /* Possible that elements on left may be normal  sorted or may be pivoted sorted. So num can be in any half */
+  if (ar[lo] &lt; arr[mid])
+   {
+    /* Normal Sorted */
+    if (a[lo] &lt; num)
+     /* Num is in first half and is in between lo and 
+     mid */
+     return binarysearch(arr, lo, mid-1, num);
+    else
+      PivotedBinarySearch(arr, mid+1, hi, num);
+   }
+  else // Pivoted sorted
+   {
+    if (num &lt;a&gt; a[mid])
+{
+ /* Similar checks as of earlier conditions */
+ if (a[mid] &lt; a[hi])
+ { /* Normal sorted */
+   if (num &lt; a[hi])
+    return binarysearch(arr, mid+1, hi, num);
+   else
+    /* num is in second pivoted half */
+    PivotedBinarySearch(arr, lo, mid-1, num);
+ }
+ else
+ { /* Pivoted search */
+  if (a[lo] &lt; num)
+   return binarysearch(arr, lo, mid-1, num);
+  else
+   PivotedBinarySearch(arr, mid+1, hi, num);
+ }
+}
+}
+</code> </pre>
+<p>Please ignore all other comment and code posted, by bunty, on 5th Sep. Those have missed few conditions.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2054">
+        <div id="dsq-comment-header-2054" class="dsq-comment-header">
+            <cite id="dsq-cite-2054">
+                <span id="dsq-author-user-2054">anonymous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2054" class="dsq-comment-body">
+            <div id="dsq-comment-message-2054" class="dsq-comment-message"><p>Tushar&#8217;s solution is completely correct..the extra time for finding pivot can be removed using his method</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1470">
+        <div id="dsq-comment-header-1470" class="dsq-comment-header">
+            <cite id="dsq-cite-1470">
+                <span id="dsq-author-user-1470">help please</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1470" class="dsq-comment-body">
+            <div id="dsq-comment-message-1470" class="dsq-comment-message"><p>is it possible to get the index of pivot point that is index of 5 in log n time&#8230;?</p>
+<p>help plz</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-sandeep even thread-odd thread-alt depth-1" id="dsq-comment-622">
+        <div id="dsq-comment-header-622" class="dsq-comment-header">
+            <cite id="dsq-cite-622">
+                <span id="dsq-author-user-622">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-622" class="dsq-comment-body">
+            <div id="dsq-comment-message-622" class="dsq-comment-message"><p>@Tushar<br />
+I tried below program with Dev CPP compiler.</p>
+<pre> <code language="C">int pivotarray(int arr[],int left,int right,int k)
+{
+    int middle = (left + right)/2;
+ 
+        if(arr[middle] == k)
+        {
+    return middle;
+   }
+ 
+   if(left &gt; right)
+   {
+    return -1;
+   }
+ 
+   if(arr[middle] &gt; arr[right])
+   {
+        if(arr[middle] &gt;  k &amp;&amp; arr[left] &lt;= k)
+      {
+        return pivotarray(arr,left,middle-1,k);
+      }
+      else
+      {
+        return pivotarray(arr,middle+1,right,k);
+      }
+   }
+   else if(arr[middle] &lt; arr[left])
+   {
+    if(arr[middle] = k)
+      {
+        return pivotarray(arr,middle+1,right,k);
+      }
+      else
+      {
+        return pivotarray(arr,left,middle-1,k);
+      }
+   }
+   else
+   {
+    if(arr[middle] &lt; k)
+      {
+        return pivotarray(arr,middle+1,right,k);
+      }
+      else
+      {
+        return pivotarray(arr,left,middle-1,k);
+      }
+   }
+}
+ 
+int main()
+{
+   int arr[10] = {3, 4, 5, 6, 7, 1, 2};
+   printf(&quot;Index is %d&quot;, pivotarray(arr, 0, 6, 4));
+   getchar();
+   return 0;
+}</code> </pre>
+<p>The program prints correct results for all test cases except 4. For 4, it prints -1. Could you provide the compiler name you used for testing?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-15496">
+        <div id="dsq-comment-header-15496" class="dsq-comment-header">
+            <cite id="dsq-cite-15496">
+                <span id="dsq-author-user-15496">Anurag</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15496" class="dsq-comment-body">
+            <div id="dsq-comment-message-15496" class="dsq-comment-message"><p>I tried below case and it is not woking</p>
+<pre> <code language="C">
+ int arr[10] = { 6, 7, 1, 2, 3, 4, 5 };
+int key = 5;
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-608">
+        <div id="dsq-comment-header-608" class="dsq-comment-header">
+            <cite id="dsq-cite-608">
+                <span id="dsq-author-user-608">Tushar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-608" class="dsq-comment-body">
+            <div id="dsq-comment-message-608" class="dsq-comment-message"><p>hey I have this solution which does not have to find a pivot element.</p>
+<p>Here at every loop one we can have the following<br />
+1) left side is still pivoted while right side is normal sorted<br />
+we check if the number to be searched is in right side sorted range and move accordingly<br />
+2) left side is normal sorted while right side is pivoted<br />
+we check if the number to be sorted is in left side sorted range and move accordingly<br />
+3) it is normal sorted<br />
+move like a normal binary search. </p>
+<pre> <code language="C">
+int pivotarray(int arr[],int left,int right,int k)
+{
+	int middle = (left + right)/2;
+	
+        if(arr[middle] == k)
+        {
+   	return middle;
+   }
+
+   if(left &gt; right)
+   {
+   	return -1;
+   }
+
+
+   if(arr[middle] &gt; arr[right])
+   {
+    	if(arr[middle] &gt;  k &amp;&amp; arr[left] &lt;= k)
+      {
+      	pivotarray(arr,left,middle-1,k);
+      }
+      else
+      {
+      	pivotarray(arr,middle+1,right,k);
+      }
+   }
+   else if(arr[middle] &lt; arr[left])
+   {
+   	if(arr[middle] = k)
+      {
+      	pivotarray(arr,middle+1,right,k);
+      }
+      else
+      {
+      	pivotarray(arr,left,middle-1,k);
+      }
+   }
+   else
+   {
+   	if(arr[middle] &lt; k)
+      {
+      	pivotarray(arr,middle+1,right,k);
+      }
+      else
+      {
+      	pivotarray(arr,left,middle-1,k);
+      }
+   }
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-609">
+        <div id="dsq-comment-header-609" class="dsq-comment-header">
+            <cite id="dsq-cite-609">
+                <span id="dsq-author-user-609">Tushar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-609" class="dsq-comment-body">
+            <div id="dsq-comment-message-609" class="dsq-comment-message"><p>Running time of this algo is same O(logn)</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-sandeep even depth-3" id="dsq-comment-610">
+        <div id="dsq-comment-header-610" class="dsq-comment-header">
+            <cite id="dsq-cite-610">
+                <span id="dsq-author-user-610">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-610" class="dsq-comment-body">
+            <div id="dsq-comment-message-610" class="dsq-comment-message"><p>@Tushar:</p>
+<p>The code doesn&#8217;t work for below example.</p>
+<pre> <code language="C">
+int main()
+{
+   int arr[10] = {3, 4, 5, 6, 7, 1, 2};
+   printf(&quot;Index is %d&quot;, pivotarray(arr, 0, 6, 7));
+   getchar();
+   return 0;
+}</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-tushar-roy-25 odd alt depth-4" id="dsq-comment-611">
+        <div id="dsq-comment-header-611" class="dsq-comment-header">
+            <cite id="dsq-cite-611">
+                <span id="dsq-author-user-611">tushar.roy.25</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-611" class="dsq-comment-body">
+            <div id="dsq-comment-message-611" class="dsq-comment-message"><p>It worked for me. It gave answer 4 which is the index of 7.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even thread-odd thread-alt depth-1" id="dsq-comment-141">
+        <div id="dsq-comment-header-141" class="dsq-comment-header">
+            <cite id="dsq-cite-141">
+                <span id="dsq-author-user-141">geeksforgeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-141" class="dsq-comment-body">
+            <div id="dsq-comment-message-141" class="dsq-comment-message"><p>@Neeraj Kumar:  Thanks for writing to us.</p>
+<p>An algorithm can be said to be using binary search methodology if size of the working array is reduced to half on the basis of some criteria, and checking for criteria takes O(1) time. </p>
+<p>In pivot finding algorithm findPivot(), criteria is to compare arr[mid] with a[mid+1] and a[low], and on the basis of comparison results we reduce the input set to half in each recursive step.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-140">
+        <div id="dsq-comment-header-140" class="dsq-comment-header">
+            <cite id="dsq-cite-140">
+                <span id="dsq-author-user-140">Neeraj Kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-140" class="dsq-comment-body">
+            <div id="dsq-comment-message-140" class="dsq-comment-message"><p>I fail to understand that how you can get the pivot element in log(n) time.The pivot could be anywhere in the array.and secondly , the binary search methodology works only if an array is completely sorted.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-tushar-roy-25 even thread-odd thread-alt depth-1" id="dsq-comment-627">
+        <div id="dsq-comment-header-627" class="dsq-comment-header">
+            <cite id="dsq-cite-627">
+                <span id="dsq-author-user-627">Tushar Roy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-627" class="dsq-comment-body">
+            <div id="dsq-comment-message-627" class="dsq-comment-message"><pre> <code language="C">
+ 
+   else if(arr[middle] &lt; arr[left])
+   {
+   	if(arr[middle] &lt; k &amp;&amp; arr[right] &gt;= k)
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-tushar-roy-25 odd alt thread-even depth-1" id="dsq-comment-628">
+        <div id="dsq-comment-header-628" class="dsq-comment-header">
+            <cite id="dsq-cite-628">
+                <span id="dsq-author-user-628">Tushar Roy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-628" class="dsq-comment-body">
+            <div id="dsq-comment-message-628" class="dsq-comment-message"><p>This last one is the correct one. Had probs with this editor.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/search-an-element-in-a-sorted-and-pivoted-array/';
+var disqus_identifier = '1068 http://geeksforgeeks.org/?p=1068';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Search an element in a sorted and pivoted array";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.242 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:33:31 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

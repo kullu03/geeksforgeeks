@@ -1,0 +1,2347 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Merge a linked list into another linked list at alternate positions - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/merge-a-linked-list-into-another-linked-list-at-alternate-positions/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Merge a linked list into another linked list at alternate positions - GeeksforGeeks" />
+<meta property="og:description" content="Given two linked lists, insert nodes of second list into first list at alternate positions of first list. For example, if first list is 5-&gt;7-&gt;17-&gt;13-&gt;11 and second is 12-&gt;10-&gt;2-&gt;4-&gt;6, the first list should become 5-&gt;12-&gt;7-&gt;10-&gt;17-&gt;2-&gt;13-&gt;4-&gt;11-&gt;6 and second list should become empty. The nodes of second list should only be inserted when there are positions available. &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/merge-a-linked-list-into-another-linked-list-at-alternate-positions/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:section" content="Linked Lists" />
+<meta property="article:published_time" content="2013-08-20T21:27:34+00:00" />
+<meta property="article:modified_time" content="2013-08-20T22:29:37+00:00" />
+<meta property="og:updated_time" content="2013-08-20T22:29:37+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.499 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417110937 71.204.144.236';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Merge a linked list into another linked list at alternate positions</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given two linked lists, insert nodes of second list into first list at alternate positions of first list.<span id="more-122125"></span><br />
+For example, if first list is 5->7->17->13->11 and second is 12->10->2->4->6, the first list should become 5->12->7->10->17->2->13->4->11->6 and second list should become empty. The nodes of second list should only be inserted when there are positions available.  For example, if the first list is 1->2->3 and second list is 4->5->6->7->8, then first list should become 1->4->2->5->3->6 and second list to 7->8.</p>
+<p>Use of extra space is not allowed (Not allowed to create additional nodes), i.e., insertion must be done in-place. Expected time complexity is O(n) where n is number of nodes in first list.  </p>
+<p>The idea is to run a loop while there are available positions in first loop and insert nodes of second list by changing pointers.  Following is C implementation of this approach.</p>
+<pre class="brush: cpp; highlight: [33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59]; title: ; notranslate" title="">
+// C implementation of above program.
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+// A nexted list node
+struct node
+{
+    int data;
+    struct node *next;
+};
+
+/* Function to insert a node at the beginning */
+void push(struct node ** head_ref, int new_data)
+{
+    struct node* new_node = (struct node*) malloc(sizeof(struct node));
+    new_node-&gt;data  = new_data;
+    new_node-&gt;next = (*head_ref);
+    (*head_ref)  = new_node;
+}
+
+/* Utility function to print a singly linked list */
+void printList(struct node *head)
+{
+    struct node *temp = head;
+    while (temp != NULL)
+    {
+        printf(&quot;%d &quot;, temp-&gt;data);
+        temp = temp-&gt;next;
+    }
+    printf(&quot;\n&quot;);
+}
+
+// Main function that inserts nodes of linked list q into p at alternate
+// positions. Since head of first list never changes and head of second list 
+// may change, we need single pointer for first list and double pointer for 
+// second list.
+void merge(struct node *p, struct node **q)
+{
+     struct node *p_curr = p, *q_curr = *q;
+     struct node *p_next, *q_next;
+
+     // While therre are avialable positions in p
+     while (p_curr != NULL &amp;&amp; q_curr != NULL)
+     {
+         // Save next pointers
+         p_next = p_curr-&gt;next;
+         q_next = q_curr-&gt;next;
+
+         // Make q_curr as next of p_curr
+         q_curr-&gt;next = p_next;  // Change next pointer of q_curr
+         p_curr-&gt;next = q_curr;  // Change next pointer of p_curr
+
+         // Update current pointers for next iteration
+         p_curr = p_next;
+         q_curr = q_next;
+    }
+
+    *q = q_curr; // Update head pointer of second list
+}
+
+// Driver program to test above functions
+int main()
+{
+     struct node *p = NULL, *q = NULL;
+     push(&amp;p, 3);
+     push(&amp;p, 2);
+     push(&amp;p, 1);
+     printf(&quot;First Linked List:\n&quot;);
+     printList(p);
+
+     push(&amp;q, 8);
+     push(&amp;q, 7);
+     push(&amp;q, 6);
+     push(&amp;q, 5);
+     push(&amp;q, 4);
+     printf(&quot;Second Linked List:\n&quot;);
+     printList(q);
+
+     merge(p, &amp;q);
+
+     printf(&quot;Modified First Linked List:\n&quot;);
+     printList(p);
+
+     printf(&quot;Modified Second Linked List:\n&quot;);
+     printList(q);
+
+     getchar();
+     return 0;
+}
+</pre>
+<p>Output:
+<pre>First Linked List:
+1 2 3
+Second Linked List:
+4 5 6 7 8
+Modified First Linked List:
+1 4 2 5 3 6
+Modified Second Linked List:
+7 8 </pre>
+<p>This article is contributed by <strong><a href="https://www.facebook.com/chandra.prakash.52643?fref=ts" target="_blank">Chandra Prakash</a></strong>. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/given-linked-list-reverse-alternate-nodes-append-end/" title="Given a linked list, reverse alternate nodes and append at the end">Given a linked list, reverse alternate nodes and append at the end</a></li><li><a href="http://www.geeksforgeeks.org/pairwise-swap-elements-of-a-given-linked-list-by-changing-links/" title="Pairwise swap elements of a given linked list by changing links">Pairwise swap elements of a given linked list by changing links</a></li><li><a href="http://www.geeksforgeeks.org/self-organizing-list-set-1-introduction/" title="Self Organizing List | Set 1 (Introduction)">Self Organizing List | Set 1 (Introduction)</a></li><li><a href="http://www.geeksforgeeks.org/quicksort-on-singly-linked-list/" title="QuickSort on Singly Linked List">QuickSort on Singly Linked List</a></li><li><a href="http://www.geeksforgeeks.org/delete-n-nodes-after-m-nodes-of-a-linked-list/" title="Delete N nodes after M nodes of a linked list">Delete N nodes after M nodes of a linked list</a></li><li><a href="http://www.geeksforgeeks.org/design-a-stack-with-find-middle-operation/" title="Design a stack with operations on middle element">Design a stack with operations on middle element</a></li><li><a href="http://www.geeksforgeeks.org/swap-kth-node-from-beginning-with-kth-node-from-end-in-a-linked-list/" title="Swap Kth node from beginning with Kth node from end in a Linked List">Swap Kth node from beginning with Kth node from end in a Linked List</a></li><li><a href="http://www.geeksforgeeks.org/quicksort-for-linked-list/" title="QuickSort on Doubly Linked List">QuickSort on Doubly Linked List</a></li></ul>
+<p></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fmerge-a-linked-list-into-another-linked-list-at-alternate-positions%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/merge-a-linked-list-into-another-linked-list-at-alternate-positions/" data-text="Merge a linked list into another linked list at alternate positions" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/merge-a-linked-list-into-another-linked-list-at-alternate-positions/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-34206">
+        <div id="dsq-comment-header-34206" class="dsq-comment-header">
+            <cite id="dsq-cite-34206">
+                <span id="dsq-author-user-34206">Pranav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34206" class="dsq-comment-body">
+            <div id="dsq-comment-message-34206" class="dsq-comment-message"><p>node* mergeAlt(node* p,node* q)<br />
+{<br />
+    if(p==NULL)<br />
+        return q;<br />
+    if(q==NULL)<br />
+        return p;<br />
+    //1-2-3-4<br />
+    //6-7-8-9-10<br />
+    node* temp = p;<br />
+    node* p_prev = p;<br />
+    while(p!=NULL &amp;&amp; q!=NULL)<br />
+    {<br />
+    node* p_nxt = p-&gt;next;<br />
+    node* q_nxt = q-&gt;next;</p>
+<p>    p-&gt;next = q;<br />
+    q-&gt;next = p_nxt;<br />
+    p_prev = p;<br />
+    p = p_nxt;<br />
+    q = q_nxt;<br />
+    }</p>
+<p>//if first list is smaller than last list<br />
+    if(p==NULL)<br />
+    {<br />
+        while(q!=NULL)<br />
+        {<br />
+            p_prev-&gt;next = q;<br />
+            q=q-&gt;next;<br />
+            p_prev = p_prev-&gt;next;<br />
+        }<br />
+    }</p>
+<p>    return temp;</p>
+<p>}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-34208">
+        <div id="dsq-comment-header-34208" class="dsq-comment-header">
+            <cite id="dsq-cite-34208">
+                <span id="dsq-author-user-34208">Pranav Sawant</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34208" class="dsq-comment-body">
+            <div id="dsq-comment-message-34208" class="dsq-comment-message"><p>Apologies for this,<br />
+please refer the below mentioned code</p>
+<p>node* mergeAlt(node* p,node* q)<br />
+{<br />
+    if(p==NULL)<br />
+        return q;<br />
+    if(q==NULL)<br />
+        return p;<br />
+    //1-2-3-4<br />
+    //6-7-8-9-10<br />
+    node* temp = p;</p>
+<p>    while(p!=NULL &amp;&amp; q!=NULL)<br />
+    {<br />
+    node* p_nxt = p-&gt;next;<br />
+    node* q_nxt = q-&gt;next;</p>
+<p>    p-&gt;next = q;<br />
+    q-&gt;next = p_nxt;<br />
+    if(p_nxt==NULL)<br />
+        q-&gt;next = q_nxt;</p>
+<p>    p = p_nxt;<br />
+    q = q_nxt;<br />
+    }</p>
+<p>    return temp;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-34149">
+        <div id="dsq-comment-header-34149" class="dsq-comment-header">
+            <cite id="dsq-cite-34149">
+                <span id="dsq-author-user-34149">Tarzan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34149" class="dsq-comment-body">
+            <div id="dsq-comment-message-34149" class="dsq-comment-message"><p>This solution does not consider the case where the first list is empty while the second list is not.</p>
+<p>void merge(struct node **p, struct node **q){</p>
+<p>    if(*p==NULL){<br />
+           *p = *q;<br />
+           return;<br />
+    }</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-34207">
+        <div id="dsq-comment-header-34207" class="dsq-comment-header">
+            <cite id="dsq-cite-34207">
+                <span id="dsq-author-user-34207">Pranav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34207" class="dsq-comment-body">
+            <div id="dsq-comment-message-34207" class="dsq-comment-message"><p>node* mergeAlt(node* p,node* q)</p>
+<p>{</p>
+<p>    if(p==NULL)</p>
+<p>        return q;</p>
+<p>    if(q==NULL)</p>
+<p>        return p;</p>
+<p>    //1-2-3-4</p>
+<p>    //6-7-8-9-10</p>
+<p>    node* temp = p;</p>
+<p>    node* p_prev = p;</p>
+<p>    while(p!=NULL &amp;&amp; q!=NULL)</p>
+<p>    {</p>
+<p>    node* p_nxt = p-&gt;next;</p>
+<p>    node* q_nxt = q-&gt;next;</p>
+<p>    p-&gt;next = q;</p>
+<p>    q-&gt;next = p_nxt;</p>
+<p>    if(p_nxt==NULL)</p>
+<p>        q-&gt;next = q_nxt;</p>
+<p>    //p_prev = q-&gt;next;</p>
+<p>    p = p_nxt;</p>
+<p>    q = q_nxt;</p>
+<p>    }</p>
+<p>    return temp;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-32960">
+        <div id="dsq-comment-header-32960" class="dsq-comment-header">
+            <cite id="dsq-cite-32960">
+                <span id="dsq-author-user-32960">jim302</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32960" class="dsq-comment-body">
+            <div id="dsq-comment-message-32960" class="dsq-comment-message"><p>Above program fails when first list has less node than second list.<br />
+Example:<br />
+ firstlist:1-&gt;2-&gt;NULL<br />
+ secondlist: 11-&gt;12-&gt;13-&gt;14-&gt;NULL<br />
+Please check once.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-32908">
+        <div id="dsq-comment-header-32908" class="dsq-comment-header">
+            <cite id="dsq-cite-32908">
+                <span id="dsq-author-user-32908">Kunal Arora</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32908" class="dsq-comment-body">
+            <div id="dsq-comment-message-32908" class="dsq-comment-message"><p>Simple Implementation with O(1) space complexity&#8230;&#8230;..<br />
+Please suggest me if you find some fault</p>
+<p>void merge(struct node *head,struct node **root)<br />
+{<br />
+struct node *p=head,*q,*t=(*root);<br />
+while(p)<br />
+{<br />
+if(t!=NULL)<br />
+{<br />
+q=t;<br />
+t=t-&gt;next;<br />
+q-&gt;next=p-&gt;next;<br />
+p-&gt;next=q;<br />
+}<br />
+p=p-&gt;next-&gt;next;<br />
+}<br />
+*root=t;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-32109">
+        <div id="dsq-comment-header-32109" class="dsq-comment-header">
+            <cite id="dsq-cite-32109">
+                <span id="dsq-author-user-32109">Abhilash Kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32109" class="dsq-comment-body">
+            <div id="dsq-comment-message-32109" class="dsq-comment-message"><p>in the solution given above the header value of q is updated .<br />
+is it necessary to do this .</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-32067">
+        <div id="dsq-comment-header-32067" class="dsq-comment-header">
+            <cite id="dsq-cite-32067">
+                <span id="dsq-author-user-32067">Anand</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32067" class="dsq-comment-body">
+            <div id="dsq-comment-message-32067" class="dsq-comment-message"><p>/*Merge a linked list into another linked list at alternate positions*/<br />
+#include<br />
+#include<br />
+#include</p>
+<p>struct l<br />
+{<br />
+    int data;<br />
+    struct l *link;<br />
+};</p>
+<p>void add(struct l **,int );<br />
+void merge(struct l**,struct l **);<br />
+void display(struct l*);</p>
+<p>int main()<br />
+{<br />
+  struct l *r2,*r1;<br />
+  r1 = NULL;<br />
+  add(&amp;r1,1);<br />
+  add(&amp;r1,2);<br />
+  add(&amp;r1,3);<br />
+  add(&amp;r1,4);<br />
+  add(&amp;r1,5);<br />
+  add(&amp;r1,6);</p>
+<p>  r2 = NULL;<br />
+  add(&amp;r2,11);<br />
+  add(&amp;r2,22);<br />
+  add(&amp;r2,33);<br />
+  add(&amp;r2,44);<br />
+  add(&amp;r2,55);<br />
+    add(&amp;r2,66);</p>
+<p>    merge(&amp;r1,&amp;r2);<br />
+  display(r1);<br />
+  getch();<br />
+  return 1;<br />
+}</p>
+<p>void add(struct l** u,int data)<br />
+{<br />
+    struct l *temp;</p>
+<p>    if(*u == NULL)<br />
+    {<br />
+        *u =  (struct l*)malloc(sizeof(struct l));<br />
+        (*u)-&gt;data = data;<br />
+        (*u)-&gt;link = NULL;<br />
+    }<br />
+    else<br />
+    {<br />
+        temp = *u;</p>
+<p>        while(temp-&gt;link!=NULL)<br />
+            temp = temp-&gt;link;</p>
+<p>        temp-&gt;link = (struct l*)malloc(sizeof(struct l));<br />
+        temp = temp-&gt;link;<br />
+        temp-&gt;data = data;<br />
+        temp-&gt;link = NULL;<br />
+    }<br />
+}</p>
+<p>void display(struct l* u)<br />
+{<br />
+    while(u!=NULL)<br />
+    {    printf(&#8220;%d &#8220;,u-&gt;data);<br />
+      u = u-&gt;link;<br />
+    }<br />
+}</p>
+<p>void merge(struct l** l1,struct l** l2)<br />
+{<br />
+  struct l *t1,*t2,*s;<br />
+  s = (*l1);</p>
+<p>  while((*l1)-&gt;link!=NULL &amp;&amp; (*l2)-&gt;link!=NULL)<br />
+  {<br />
+      t1 = (*l1)-&gt;link;<br />
+      t2 = (*l2)-&gt;link;<br />
+      (*l1)-&gt;link = (*l2);<br />
+      (*l2)-&gt;link = t1;<br />
+      (*l1) = t1;<br />
+      (*l2) = t2;<br />
+  }</p>
+<p>  if((*l2)-&gt;link!=NULL)<br />
+  {<br />
+      (*l1)-&gt;link = (*l2);<br />
+  }<br />
+  (*l1) = s;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-31838">
+        <div id="dsq-comment-header-31838" class="dsq-comment-header">
+            <cite id="dsq-cite-31838">
+                <span id="dsq-author-user-31838">yogeshgfg</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31838" class="dsq-comment-body">
+            <div id="dsq-comment-message-31838" class="dsq-comment-message"><p>struct node* mergeAlternative ( struct node* start1, struct node* start2 )<br />
+{<br />
+    if(( start1 == NULL)||(start2 == NULL) )<br />
+    {<br />
+        return start1;<br />
+    }<br />
+    else{<br />
+        struct node* temp = start1-&gt;next;<br />
+        start1-&gt;next = start2;<br />
+        mergeAlternative(start2,temp);<br />
+        return start1;<br />
+    }<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-31742">
+        <div id="dsq-comment-header-31742" class="dsq-comment-header">
+            <cite id="dsq-cite-31742">
+                <span id="dsq-author-user-31742">Ravindra Patidar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31742" class="dsq-comment-body">
+            <div id="dsq-comment-message-31742" class="dsq-comment-message"><p>#include<br />
+#include<br />
+struct node<br />
+{<br />
+    struct node *next;<br />
+    int data;<br />
+};<br />
+struct node *newnode(int data)<br />
+{<br />
+    struct node *newnode=(struct node *)malloc(sizeof(struct node));<br />
+    newnode-&gt;next=NULL;<br />
+    newnode-&gt;data=data;<br />
+}<br />
+int main()<br />
+{<br />
+    struct node *start1,*start2,*temp,*temp2,*temp3,*temp4;<br />
+    int l1=0,l2=0,i,k;<br />
+    start1=newnode(1);<br />
+    start1-&gt;next=newnode(2);<br />
+    start1-&gt;next-&gt;next=newnode(3);<br />
+    start2=newnode(4);<br />
+    start2-&gt;next=newnode(5);<br />
+    start2-&gt;next-&gt;next=newnode(6);<br />
+    start2-&gt;next-&gt;next-&gt;next=newnode(7);<br />
+    temp=start1;<br />
+    while(temp)<br />
+    {<br />
+        l1++;<br />
+        temp=temp-&gt;next;<br />
+    }<br />
+    temp=start2;<br />
+    while(temp)<br />
+    {<br />
+        l2++;<br />
+        temp=temp-&gt;next;<br />
+    }<br />
+    if(l1&gt;l2)<br />
+    k=l2;<br />
+    else<br />
+    k=l1;<br />
+    i=0;<br />
+    temp3=start1;</p>
+<p>    while(inext;<br />
+        temp4=start2-&gt;next;<br />
+        start1-&gt;next=start2;<br />
+        start2-&gt;next=temp2;<br />
+        start1=temp2;<br />
+        start2=temp4;<br />
+  i++;</p>
+<p>   }<br />
+   printf(&#8220;nMERGE LIST IS:&#8221;);<br />
+   while(temp3)<br />
+   {<br />
+       printf(&#8220;%d&#8221;,temp3-&gt;data);<br />
+       temp3=temp3-&gt;next;<br />
+   }<br />
+   printf(&#8220;nSECOND LIST:&#8221;);<br />
+   while(start2)<br />
+   {<br />
+       printf(&#8220;%d&#8221;,start2-&gt;data);<br />
+       start2=start2-&gt;next;<br />
+   }</p>
+<p>   return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-31721">
+        <div id="dsq-comment-header-31721" class="dsq-comment-header">
+            <cite id="dsq-cite-31721">
+                <span id="dsq-author-user-31721">Shalvi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31721" class="dsq-comment-body">
+            <div id="dsq-comment-message-31721" class="dsq-comment-message"><p>Here is my code (Recursive way) &#8211;</p>
+<p>#include<br />
+using namespace std;<br />
+struct node<br />
+{<br />
+    int data;<br />
+    struct node* next;<br />
+};</p>
+<p>void createNode(int data, node** start)<br />
+{<br />
+    node* temp=new node();<br />
+    temp-&gt;data=data;<br />
+    temp-&gt;next=NULL;<br />
+    if(*start==NULL)<br />
+      {<br />
+         *start=temp;<br />
+      }<br />
+    else<br />
+      {<br />
+        node *t=*start;<br />
+        while(t-&gt;next!=NULL)<br />
+          {<br />
+               t=t-&gt;next;<br />
+          }<br />
+         t-&gt;next=temp;<br />
+       }<br />
+}</p>
+<p>void print(node* start)<br />
+{<br />
+    node* temp=start;<br />
+    while(temp!=NULL)<br />
+      {<br />
+           cout&lt;data&lt;next;<br />
+      }</p>
+<p>}</p>
+<p>node* mergeList(node * headA, node * headB)<br />
+{<br />
+    if((headB)==NULL)<br />
+      {<br />
+         return headA;<br />
+       }<br />
+    else if((headA)==NULL)<br />
+      {<br />
+         return headB;<br />
+      }<br />
+    else<br />
+      {<br />
+         node* tA=headA-&gt;next;<br />
+         node* tB=headB-&gt;next;<br />
+         headA-&gt;next=headB;<br />
+         headA-&gt;next-&gt;next=mergeList(tA,tB);<br />
+         return headA;<br />
+       }<br />
+}</p>
+<p>int main()<br />
+{<br />
+   node * headA=NULL, *headB=NULL;<br />
+   //creating list 1<br />
+   createNode(5,&amp;headA);<br />
+   createNode(7,&amp;headA);<br />
+   createNode(17,&amp;headA);<br />
+   createNode(13,&amp;headA);<br />
+   createNode(11,&amp;headA);</p>
+<p>   //Creating list 2<br />
+   createNode(12,&amp;headB);<br />
+   createNode(10,&amp;headB);<br />
+   createNode(2,&amp;headB);<br />
+   createNode(4,&amp;headB);<br />
+   createNode(6,&amp;headB);</p>
+<p>   //Merging List 1 and List 2<br />
+   headA=mergeList(headA,headB);</p>
+<p>  //Printing modified list<br />
+   print(headA);</p>
+<p>   return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-31503">
+        <div id="dsq-comment-header-31503" class="dsq-comment-header">
+            <cite id="dsq-cite-31503">
+                <span id="dsq-author-user-31503">Harsha Shetty</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31503" class="dsq-comment-body">
+            <div id="dsq-comment-message-31503" class="dsq-comment-message"><p>Here&#8217;s my code.. Seems to be working well &#8230;</p>
+<p>public static void mergeSecondToFirst(SLinkedList list1, SLinkedList list2) {</p>
+<p>		Node first = list1.getHead();</p>
+<p>		Node firstPrev = list1.getHead();</p>
+<p>		Node second = list2.getHead();</p>
+<p>		while(first != null) {</p>
+<p>			firstPrev = first;</p>
+<p>			first = first.getNext();</p>
+<p>			if(second != null) {</p>
+<p>				firstPrev.setNext(second);</p>
+<p>				second = second.getNext();</p>
+<p>				firstPrev.getNext().setNext(first);</p>
+<p>			}</p>
+<p>		}</p>
+<p>		list2.setHead(second);</p>
+<p>	}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-31221">
+        <div id="dsq-comment-header-31221" class="dsq-comment-header">
+            <cite id="dsq-cite-31221">
+                <span id="dsq-author-user-31221">mrigank</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31221" class="dsq-comment-body">
+            <div id="dsq-comment-message-31221" class="dsq-comment-message"><p>#include</p>
+<p>struct node</p>
+<p>{</p>
+<p>    int data;</p>
+<p>    struct node *next;</p>
+<p>};</p>
+<p>void insert(struct node **,int);</p>
+<p>struct node* alloc(int);</p>
+<p>void displayfirst(struct node*);</p>
+<p>void displaysecond(struct node*);</p>
+<p>void merge(struct node**, struct node**);</p>
+<p>int main()</p>
+<p>{</p>
+<p>        int m,n;</p>
+<p>        struct node *head1,*head2;</p>
+<p>        head1=NULL;</p>
+<p>        head2=NULL;</p>
+<p>        insert(&amp;head1,1);</p>
+<p>        insert(&amp;head1,2);</p>
+<p>        insert(&amp;head1,3);</p>
+<p>        displayfirst(head1);</p>
+<p>        insert(&amp;head2,4);</p>
+<p>        insert(&amp;head2,5);</p>
+<p>        insert(&amp;head2,6);</p>
+<p>        insert(&amp;head2,7);</p>
+<p>         insert(&amp;head2,8);</p>
+<p>        displaysecond(head2);</p>
+<p>        merge(&amp;head1,&amp;head2);</p>
+<p>        displayfirst(head1);</p>
+<p>        displaysecond(head2);</p>
+<p>        //scanf(&#8220;%d&#8221;,&amp;n);</p>
+<p>}</p>
+<p>void insert(struct node **h1, int n)</p>
+<p>{</p>
+<p>    struct node *temp, *save;</p>
+<p>    temp=NULL; //</p>
+<p>    save=NULL; //</p>
+<p>    if(*h1==NULL)</p>
+<p>    {</p>
+<p>        temp=alloc(n);</p>
+<p>        *h1=temp;</p>
+<p>    }</p>
+<p>    else</p>
+<p>    {</p>
+<p>        save=*h1;</p>
+<p>        while(save-&gt;next!=NULL)</p>
+<p>            save=save-&gt;next;</p>
+<p>        temp=alloc(n);</p>
+<p>        save-&gt;next=temp;</p>
+<p>    }</p>
+<p>}</p>
+<p>struct node* alloc(int n)</p>
+<p>{</p>
+<p>    struct node  *temp;</p>
+<p>    temp=malloc(sizeof(struct node));</p>
+<p>    temp-&gt;data=n;</p>
+<p>    temp-&gt;next=NULL;</p>
+<p>    return temp;</p>
+<p>}</p>
+<p>void displayfirst(struct node *head1)</p>
+<p>{</p>
+<p>    struct node *save,*save2;</p>
+<p>    save=head1;</p>
+<p>    printf(&#8220;nnFirst link list isn&#8221;);</p>
+<p>    if(head1==NULL)</p>
+<p>    {</p>
+<p>        printf(&#8220;nnEmptynn&#8221;);</p>
+<p>    }</p>
+<p>    else{</p>
+<p>    while(save!=NULL)</p>
+<p>    {</p>
+<p>        printf(&#8220;%d-&gt; &#8220;,save-&gt;data);</p>
+<p>        save=save-&gt;next;</p>
+<p>    }</p>
+<p>    }</p>
+<p>}</p>
+<p>void displaysecond(struct node *head2)</p>
+<p>{</p>
+<p>struct node*save2;</p>
+<p>save2=head2;</p>
+<p>    printf(&#8220;nnSecond link list isn&#8221;);</p>
+<p>    if(head2==NULL)</p>
+<p>    {</p>
+<p>        printf(&#8220;Emptynn&#8221;);</p>
+<p>    }</p>
+<p>    else{</p>
+<p>    while(save2!=NULL)</p>
+<p>    {</p>
+<p>        printf(&#8220;%d-&gt; &#8220;,save2-&gt;data);</p>
+<p>        save2=save2-&gt;next;</p>
+<p>    }</p>
+<p>    }</p>
+<p>}</p>
+<p>void merge(struct node **h1,struct node **h2)</p>
+<p>{</p>
+<p>    struct node *s1=NULL, *s2=NULL,*temp=NULL;</p>
+<p>    s1=*h1;</p>
+<p>    s2=*h2;</p>
+<p>    temp=s2-&gt;next;</p>
+<p>    while(temp!=NULL &amp;&amp; s1!=NULL)</p>
+<p>    {</p>
+<p>        //*h2=*h2-&gt;next;</p>
+<p>        temp=s2-&gt;next;</p>
+<p>        s2-&gt;next=s1-&gt;next;</p>
+<p>        s1-&gt;next=s2;</p>
+<p>        s1=s1-&gt;next-&gt;next;</p>
+<p>        *h2=temp;</p>
+<p>        s2=*h2;</p>
+<p>    }</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-30964">
+        <div id="dsq-comment-header-30964" class="dsq-comment-header">
+            <cite id="dsq-cite-30964">
+                <span id="dsq-author-user-30964">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30964" class="dsq-comment-body">
+            <div id="dsq-comment-message-30964" class="dsq-comment-message"><p>#include<br />
+#include<br />
+//Author-Vikas<br />
+//Note-We are appending new elements at the end<br />
+using namespace std;<br />
+struct node<br />
+{<br />
+node *next;<br />
+int data;</p>
+<p>};<br />
+void traverse(node *);<br />
+void merge(node *,node **);<br />
+void insert(node **,int );<br />
+//Driver method to test the programme<br />
+int main()<br />
+{<br />
+node *root1=NULL,*root2=NULL;<br />
+int x;<br />
+cout&lt;&lt;endl&lt;&lt;&quot;Data for first Linked list&quot;&lt;&lt;endl;<br />
+insert(&amp;root1,92);<br />
+cout&lt;&lt;endl&lt;&lt;&quot;Here is your first linked list&quot;;<br />
+traverse(root1);<br />
+cout&lt;&lt;endl&lt;&lt;&quot;Data for second linked list&quot;&lt;&lt;endl;<br />
+insert(&amp;root2,546);<br />
+insert(&amp;root2,5);<br />
+insert(&amp;root2,78);<br />
+insert(&amp;root2,7);<br />
+insert(&amp;root2,90);<br />
+cout&lt;&lt;endl&lt;&lt;&quot;Here is your second linked list&quot;;<br />
+traverse(root2);<br />
+merge(root1,&amp;root2);<br />
+cout&lt;&lt;endl&lt;next=NULL;<br />
+tmp-&gt;data=x;<br />
+*p=tmp;<br />
+}//endif<br />
+else<br />
+insert(&amp;((*p)-&gt;next),x);<br />
+}//end insert<br />
+//just to show the elements of the linked list<br />
+void traverse(node *p)<br />
+{<br />
+if(p!=NULL)<br />
+{<br />
+cout&lt;&lt;endl&lt;data;<br />
+traverse(p-&gt;next);<br />
+}//end if<br />
+}//end traverse</p>
+<p>void merge(node *a,node **p)<br />
+{<br />
+static node **start=p;<br />
+node *b=*p;<br />
+if(a!=NULL &amp;&amp; b!=NULL)<br />
+{<br />
+node *a1=a-&gt;next;<br />
+node *b1=b-&gt;next;</p>
+<p>//This is when both the linked list are of equal lenths<br />
+if(a1==NULL &amp;&amp; b1==NULL)<br />
+{<br />
+a-&gt;next=b;<br />
+*start=NULL;<br />
+}//end if<br />
+//This is when first linked list is greater than that of second<br />
+//right<br />
+if(a1!=NULL &amp;&amp; b1==NULL)<br />
+{<br />
+a-&gt;next=b;<br />
+b-&gt;next=a1;<br />
+*start=NULL;<br />
+}//END IF<br />
+//This is when second linked list is greater than first</p>
+<p>else if(a1==NULL &amp;&amp; b1!=NULL)<br />
+{</p>
+<p>a-&gt;next=b;<br />
+b-&gt;next=NULL;<br />
+*start =  b1;<br />
+}<br />
+else<br />
+{<br />
+a-&gt;next=b;<br />
+b-&gt;next=a1;<br />
+//recursive call<br />
+merge(a1,&amp;b1);<br />
+}//END ELSE<br />
+}//ENDif<br />
+}//end merge</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-30963">
+        <div id="dsq-comment-header-30963" class="dsq-comment-header">
+            <cite id="dsq-cite-30963">
+                <span id="dsq-author-user-30963">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30963" class="dsq-comment-body">
+            <div id="dsq-comment-message-30963" class="dsq-comment-message"><p>//Try the recursive solution</p>
+<p>#include<br />
+#include<br />
+//Author-Vikas<br />
+//Note-We are appending new elements at the end<br />
+using namespace std;<br />
+struct node<br />
+{<br />
+node *next;<br />
+int data;</p>
+<p>};<br />
+void traverse(node *);<br />
+void merge(node *,node **);<br />
+void insert(node **,int );<br />
+//Driver method to test the programme<br />
+int main()<br />
+{<br />
+node *root1=NULL,*root2=NULL;<br />
+int x;<br />
+cout&lt;&lt;endl&lt;&lt;&quot;Data for first Linked list&quot;&lt;&lt;endl;<br />
+insert(&amp;root1,92);<br />
+cout&lt;&lt;endl&lt;&lt;&quot;Here is your first linked list&quot;;<br />
+traverse(root1);<br />
+cout&lt;&lt;endl&lt;&lt;&quot;Data for second linked list&quot;&lt;&lt;endl;<br />
+insert(&amp;root2,546);<br />
+insert(&amp;root2,5);<br />
+insert(&amp;root2,78);<br />
+insert(&amp;root2,7);<br />
+insert(&amp;root2,90);<br />
+cout&lt;&lt;endl&lt;&lt;&quot;Here is your second linked list&quot;;<br />
+traverse(root2);<br />
+merge(root1,&amp;root2);<br />
+cout&lt;&lt;endl&lt;next=NULL;<br />
+tmp-&gt;data=x;<br />
+*p=tmp;<br />
+}//endif<br />
+else<br />
+insert(&amp;((*p)-&gt;next),x);<br />
+}//end insert<br />
+//just to show the elements of the linked list<br />
+void traverse(node *p)<br />
+{<br />
+if(p!=NULL)<br />
+{<br />
+cout&lt;&lt;endl&lt;data;<br />
+traverse(p-&gt;next);<br />
+}//end if<br />
+}//end traverse</p>
+<p>void merge(node *a,node **p)<br />
+{<br />
+static node **start=p;<br />
+node *b=*p;<br />
+if(a!=NULL &amp;&amp; b!=NULL)<br />
+{<br />
+node *a1=a-&gt;next;<br />
+node *b1=b-&gt;next;</p>
+<p>//This is when both the linked list are of equal lenths<br />
+if(a1==NULL &amp;&amp; b1==NULL)<br />
+{<br />
+a-&gt;next=b;<br />
+*start=NULL;<br />
+}//end if<br />
+//This is when first linked list is greater than that of second<br />
+//right<br />
+if(a1!=NULL &amp;&amp; b1==NULL)<br />
+{<br />
+a-&gt;next=b;<br />
+b-&gt;next=a1;<br />
+*start=NULL;<br />
+}//END IF<br />
+//This is when second linked list is greater than first</p>
+<p>else if(a1==NULL &amp;&amp; b1!=NULL)<br />
+{</p>
+<p>a-&gt;next=b;<br />
+b-&gt;next=NULL;<br />
+*start =  b1;<br />
+}<br />
+else<br />
+{<br />
+a-&gt;next=b;<br />
+b-&gt;next=a1;<br />
+//recursive call<br />
+merge(a1,&amp;b1);<br />
+}//END ELSE<br />
+}//ENDif<br />
+}//end merge</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-30137">
+        <div id="dsq-comment-header-30137" class="dsq-comment-header">
+            <cite id="dsq-cite-30137">
+                <span id="dsq-author-user-30137">Raunak Lakhwani</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30137" class="dsq-comment-body">
+            <div id="dsq-comment-message-30137" class="dsq-comment-message"><p>class Node {</p>
+<p>	int data;</p>
+<p>	Node next;</p>
+<p>}</p>
+<p>public class Main {</p>
+<p>	static Node headFirst, headSecond;</p>
+<p>	/**</p>
+<p>	 * @param args</p>
+<p>	 */</p>
+<p>	public static void main(String[] args) {</p>
+<p>		// 1st Test Case</p>
+<p>		headFirst = new Node();</p>
+<p>		headFirst.data = 5;</p>
+<p>		headFirst.next = new Node();</p>
+<p>		headFirst.next.data = 7;</p>
+<p>		headFirst.next.next = new Node();</p>
+<p>		headFirst.next.next.data = 17;</p>
+<p>		headFirst.next.next.next = new Node();</p>
+<p>		headFirst.next.next.next.data = 13;</p>
+<p>		headFirst.next.next.next.next = new Node();</p>
+<p>		headFirst.next.next.next.next.data = 11;</p>
+<p>		headSecond = new Node();</p>
+<p>		headSecond.data = 12;</p>
+<p>		headSecond.next = new Node();</p>
+<p>		headSecond.next.data = 10;</p>
+<p>		headSecond.next.next = new Node();</p>
+<p>		headSecond.next.next.data = 2;</p>
+<p>		headSecond.next.next.next = new Node();</p>
+<p>		headSecond.next.next.next.data = 4;</p>
+<p>		headSecond.next.next.next.next = new Node();</p>
+<p>		headSecond.next.next.next.next.data = 6;</p>
+<p>		// 2nd Test Case</p>
+<p>		/*</p>
+<p>		 * headFirst = new Node(); headFirst.data = 5; headFirst.next = new</p>
+<p>		 * Node(); headFirst.next.data = 7; headFirst.next.next = new Node();</p>
+<p>		 * headFirst.next.next.data = 17; headFirst.next.next.next = new Node();</p>
+<p>		 * headFirst.next.next.next.data = 13; headFirst.next.next.next.next =</p>
+<p>		 * new Node(); headFirst.next.next.next.next.data = 11;</p>
+<p>		 * </p>
+<p>		 * headSecond = new Node(); headSecond.data = 12; headSecond.next = new</p>
+<p>		 * Node(); headSecond.next.data = 10; headSecond.next.next = new Node();</p>
+<p>		 * headSecond.next.next.data = 2;</p>
+<p>		 */</p>
+<p>		// 3rd Test Case</p>
+<p>		/*</p>
+<p>		 * headFirst = new Node(); headFirst.data = 5; headFirst.next = new</p>
+<p>		 * Node(); headFirst.next.data = 7; headFirst.next.next = new Node();</p>
+<p>		 * headFirst.next.next.data = 17;</p>
+<p>		 * </p>
+<p>		 * headSecond = new Node(); headSecond.data = 12; headSecond.next = new</p>
+<p>		 * Node(); headSecond.next.data = 10; headSecond.next.next = new Node();</p>
+<p>		 * headSecond.next.next.data = 2; headSecond.next.next.next = new</p>
+<p>		 * Node(); headSecond.next.next.next.data = 4;</p>
+<p>		 * headSecond.next.next.next.next = new Node();</p>
+<p>		 * headSecond.next.next.next.next.data = 6;</p>
+<p>		 */</p>
+<p>		merge();</p>
+<p>		while (headFirst != null) {</p>
+<p>			System.out.print(headFirst.data + &#8221;    &#8220;);</p>
+<p>			headFirst = headFirst.next;</p>
+<p>		}</p>
+<p>		System.out.println();</p>
+<p>		while (headSecond != null) {</p>
+<p>			System.out.print(headSecond.data + &#8221;    &#8220;);</p>
+<p>			headSecond = headSecond.next;</p>
+<p>		}</p>
+<p>	}</p>
+<p>	public static void merge() {</p>
+<p>		Node startFirst = headFirst;</p>
+<p>		while (startFirst != null &amp;&amp; headSecond != null) {</p>
+<p>			Node startFirstTemp = startFirst.next;</p>
+<p>			Node startSecondTemp = headSecond.next;</p>
+<p>			startFirst.next = headSecond;</p>
+<p>			headSecond.next = startFirstTemp;</p>
+<p>			headSecond = startSecondTemp;</p>
+<p>			startFirst = startFirstTemp;</p>
+<p>		}</p>
+<p>	}</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-29554">
+        <div id="dsq-comment-header-29554" class="dsq-comment-header">
+            <cite id="dsq-cite-29554">
+                <span id="dsq-author-user-29554">Uma Trika</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29554" class="dsq-comment-body">
+            <div id="dsq-comment-message-29554" class="dsq-comment-message"><p>void merge(node *first, node *second)</p>
+<p>{</p>
+<p>        node *temp_first = first;</p>
+<p>        node *temp_second = *second;</p>
+<p>        node *temp_1, *temp_2;</p>
+<p>        while(temp_first &amp;&amp; temp_second)</p>
+<p>        {</p>
+<p>                temp_1 = temp_first-&gt;next;</p>
+<p>                temp_2 = temp_second-&gt;next;</p>
+<p>                temp_first-&gt;next = temp_second;</p>
+<p>                temp_first = temp_first-&gt;next;</p>
+<p>                temp_first-&gt;next = temp_1;</p>
+<p>                temp_second = temp_2;</p>
+<p>                if(temp_1)</p>
+<p>                temp_first = temp_1;</p>
+<p>        }</p>
+<p>        if(temp_2)</p>
+<p>        temp_first-&gt;next = temp_2;</p>
+<p>        else</p>
+<p>        temp_first-&gt;next = NULL;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-29016">
+        <div id="dsq-comment-header-29016" class="dsq-comment-header">
+            <cite id="dsq-cite-29016">
+                <span id="dsq-author-user-29016">discent</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29016" class="dsq-comment-body">
+            <div id="dsq-comment-message-29016" class="dsq-comment-message"><p>Below Will print first Linked List as Merged linked List and second list as NULL if both are of equal length or second linked list is of smaller length else rest of the second list will be printed :</p>
+<p>#include</p>
+<p>using namespace std;</p>
+<p>class AlternateMergedList{</p>
+<p>private:</p>
+<p>        struct node{</p>
+<p>                int data;</p>
+<p>                struct node *next;</p>
+<p>        };</p>
+<p>        node *firstHead;</p>
+<p>        node *secHead;</p>
+<p>        node *newNode;</p>
+<p>        node *firstCurrent;</p>
+<p>        node *secCurrent;</p>
+<p>        node **listPointer;</p>
+<p>public:</p>
+<p>        void createList( int );</p>
+<p>        void mergeList( );</p>
+<p>        void display();</p>
+<p>        AlternateMergedList(){</p>
+<p>                firstHead = NULL;</p>
+<p>                secHead   = NULL;</p>
+<p>                firstCurrent = NULL;</p>
+<p>                secCurrent = NULL;</p>
+<p>                listPointer = NULL;</p>
+<p>        }</p>
+<p>};</p>
+<p>void AlternateMergedList::display(){</p>
+<p>        firstCurrent = firstHead;</p>
+<p>        while( NULL != firstCurrent ){</p>
+<p>                cout&lt;data&lt;&#8220;;</p>
+<p>                firstCurrent = firstCurrent-&gt;next;</p>
+<p>        }</p>
+<p>        cout&lt;&lt;&quot;NULL&quot;&lt;&lt;endl;</p>
+<p>        secCurrent = secHead;</p>
+<p>        while( NULL != secCurrent ){</p>
+<p>                cout&lt;data&lt;&#8220;;</p>
+<p>                secCurrent = secCurrent-&gt;next;</p>
+<p>        }</p>
+<p>        cout&lt;&lt;&quot;NULL&quot;&lt;next;</p>
+<p>                temp2 = secCurrent-&gt;next;</p>
+<p>                firstCurrent-&gt;next = secCurrent;</p>
+<p>                secCurrent-&gt;next = temp1;</p>
+<p>                firstCurrent = temp1;</p>
+<p>                secCurrent = temp2;</p>
+<p>                secHead = secCurrent;</p>
+<p>                                                                                                                                           1,1           Top</p>
+<p>        }</p>
+<p>}</p>
+<p>void AlternateMergedList::createList( int listNum ){</p>
+<p>int item = 0;</p>
+<p>if( 0 == listNum ){</p>
+<p>        if( NULL == firstHead ){</p>
+<p>                listPointer = &amp;firstCurrent;</p>
+<p>                cout&lt;&lt;&quot;Enter First List items. To terminate input, enter -1&quot;&lt;&lt;endl;</p>
+<p>        }</p>
+<p>}</p>
+<p>else if ( 1 == listNum ){</p>
+<p>        if( NULL == secHead ){</p>
+<p>                listPointer = &amp;secCurrent;</p>
+<p>                cout&lt;&lt;&quot;Enter Second List items. To terminate input, enter -1&quot;&lt;&gt;item;</p>
+<p>         if( -1 != item )</p>
+<p>        {</p>
+<p>                if ( NULL == *listPointer ){</p>
+<p>                        newNode = new node;</p>
+<p>                        newNode-&gt;data = item;</p>
+<p>                        if( 0 == listNum )</p>
+<p>                                firstHead = newNode;</p>
+<p>                        else</p>
+<p>                                secHead = newNode;</p>
+<p>                        *listPointer = newNode;</p>
+<p>                }</p>
+<p>                else{</p>
+<p>                        newNode = new node;</p>
+<p>                        newNode-&gt;data = item;</p>
+<p>                        (*listPointer)-&gt;next = newNode;</p>
+<p>                        *listPointer = newNode;</p>
+<p>                }</p>
+<p>                newNode-&gt;next = NULL;</p>
+<p>                createList( listNum );</p>
+<p>        }</p>
+<p>listPointer = NULL;</p>
+<p>}</p>
+<p>int main(){</p>
+<p>AlternateMergedList list;</p>
+<p>list.createList( 0 );</p>
+<p>list.createList( 1 );</p>
+<p>list.mergeList();</p>
+<p>list.display();</p>
+<p>return 0;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-28794">
+        <div id="dsq-comment-header-28794" class="dsq-comment-header">
+            <cite id="dsq-cite-28794">
+                <span id="dsq-author-user-28794">tarun</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28794" class="dsq-comment-body">
+            <div id="dsq-comment-message-28794" class="dsq-comment-message"><p><code><br />
+void merge(struct node *head1,struct node **head2Ref)<br />
+{<br />
+	struct node *temp2=*head2Ref;</p>
+<p>	while(head1!=NULL &amp;&amp; *head2Ref!=NULL)<br />
+	{<br />
+		*head2Ref=temp2-&gt;next;<br />
+		temp2-&gt;next=head1-&gt;next;<br />
+		head1-&gt;next=temp2;<br />
+		head1=head1-&gt;next-&gt;next;<br />
+		temp2=head2;<br />
+	}<br />
+}<br />
+</code></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-28773">
+        <div id="dsq-comment-header-28773" class="dsq-comment-header">
+            <cite id="dsq-cite-28773">
+                <span id="dsq-author-user-28773">Debojit Choudhury</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28773" class="dsq-comment-body">
+            <div id="dsq-comment-message-28773" class="dsq-comment-message"><p>public class LinkedListProblem2<br />
+{</p>
+<p>public static void main(String[] args)<br />
+{<br />
+Node headerNode1 = new Node(1, createLinkedList(7, 1));<br />
+Node headerNode2 = new Node(8, createLinkedList(3, 8));<br />
+display(headerNode1, headerNode2);<br />
+headerNode2 = insertLinkedList2Into1(headerNode1, headerNode2);<br />
+display(headerNode1, headerNode2);<br />
+}</p>
+<p>private static Node createLinkedList(int numberOfNodes, int startingNode)<br />
+{<br />
+int data = numberOfNodes + startingNode &#8211; 1;<br />
+Node node = new Node(data, null);<br />
+for (int i = data &#8211; 1; i &gt; startingNode; i&#8211;)<br />
+{<br />
+Node previousNode = new Node(i, node);<br />
+node = previousNode;<br />
+}<br />
+return node;<br />
+}</p>
+<p>private static void display(Node&#8230; nodes)<br />
+{<br />
+int i = 1;<br />
+for (Node headerNode : nodes)<br />
+{<br />
+display(headerNode, &#8220;List&#8221; + i + &#8220;: &#8220;);<br />
+i++;<br />
+}<br />
+}</p>
+<p>private static void display(Node headerNode, String listName)<br />
+{<br />
+System.out.print(listName);<br />
+if (headerNode == null)<br />
+{<br />
+return;<br />
+}<br />
+while (headerNode.nextNode != null)<br />
+{<br />
+System.out.print(headerNode.data + &#8220;-&gt;&#8221;);<br />
+headerNode = headerNode.nextNode;<br />
+}<br />
+System.out.println(headerNode.data);<br />
+}</p>
+<p>private static Node insertLinkedList2Into1(Node headerNode1, Node headerNode2)<br />
+{<br />
+if (headerNode1 == null || headerNode2 == null)<br />
+{<br />
+return headerNode2;<br />
+}<br />
+Node tempNode1 = headerNode1.nextNode;<br />
+Node tempNode2 = headerNode2.nextNode;<br />
+headerNode1.nextNode = headerNode2;<br />
+headerNode2.nextNode = tempNode1;<br />
+return insertLinkedList2Into1(tempNode1, tempNode2);<br />
+}</p>
+<p>private static class Node<br />
+{<br />
+private int data;<br />
+private Node nextNode;<br />
+private Node(int data, Node nextNode)<br />
+{<br />
+this.data = data;<br />
+this.nextNode = nextNode;<br />
+}<br />
+}</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-28749">
+        <div id="dsq-comment-header-28749" class="dsq-comment-header">
+            <cite id="dsq-cite-28749">
+                <span id="dsq-author-user-28749">sk</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28749" class="dsq-comment-body">
+            <div id="dsq-comment-message-28749" class="dsq-comment-message"><p>I see that new nodes are created. But no new nodes should be created, right?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-28746">
+        <div id="dsq-comment-header-28746" class="dsq-comment-header">
+            <cite id="dsq-cite-28746">
+                <span id="dsq-author-user-28746">Monty</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28746" class="dsq-comment-body">
+            <div id="dsq-comment-message-28746" class="dsq-comment-message"><p>It will work correctly for any size of arrays.<br />
+<code></p>
+<p>void merge(struct node **i, struct node **j)<br />
+{<br />
+     struct node *k, *l, *m=*i;<br />
+     while((*i)-&gt;next!=NULL &amp;&amp; (*j)-&gt;next!=NULL)<br />
+     {<br />
+              k=(*i)-&gt;next;<br />
+              (*i)-&gt;next=(*j);<br />
+              l=(*j)-&gt;next;<br />
+              (*j)-&gt;next=k;<br />
+              (*i)=k;<br />
+              (*j)=l;<br />
+     }<br />
+     if((*i)-&gt;next==NULL)</p>
+<p>     {<br />
+         (*i)-&gt;next=(*j);<br />
+         k=(*j)-&gt;next;<br />
+         (*j)-&gt;next=NULL;<br />
+    }<br />
+     else if((*j)-&gt;next==NULL)<br />
+     {<br />
+              k=(*i)-&gt;next;<br />
+              (*i)-&gt;next=(*j);<br />
+     }<br />
+     else return;<br />
+        cout&lt;&lt;&quot;Merged list: &quot;;<br />
+     display(m);<br />
+     cout&lt;&lt;&quot;Remaining list: &quot;;<br />
+               display(k);</p>
+<p>}</p>
+<p></code></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-28745">
+        <div id="dsq-comment-header-28745" class="dsq-comment-header">
+            <cite id="dsq-cite-28745">
+                <span id="dsq-author-user-28745">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28745" class="dsq-comment-body">
+            <div id="dsq-comment-message-28745" class="dsq-comment-message"><p>I think this will work correctly-<br />
+<code><br />
+#include<br />
+using namespace std;<br />
+void display(struct node*);<br />
+struct node<br />
+{<br />
+   int data;<br />
+  struct node *next;<br />
+};<br />
+void merge(struct node **i, struct node **j)<br />
+{<br />
+     struct node *k, *l, *m=*i;<br />
+     while((*i)-&gt;next!=NULL &amp;&amp; (*j)-&gt;next!=NULL)<br />
+     {<br />
+              k=(*i)-&gt;next;<br />
+              (*i)-&gt;next=(*j);<br />
+              l=(*j)-&gt;next;<br />
+              (*j)-&gt;next=k;<br />
+              (*i)=k;<br />
+              (*j)=l;<br />
+     }<br />
+     if((*i)-&gt;next==NULL)<br />
+     {<br />
+         (*i)-&gt;next=(*j);<br />
+         k=(*j)-&gt;next;<br />
+         (*j)-&gt;next=NULL;<br />
+    }<br />
+     else if((*j)-&gt;next==NULL)<br />
+     {<br />
+              k=(*i)-&gt;next;<br />
+              (*i)-&gt;next=(*j);<br />
+     }<br />
+     else return;<br />
+        cout&lt;&lt;&quot;Merged list: &quot;;<br />
+     display(m);<br />
+     cout&lt;data=val;<br />
+     p-&gt;next=NULL;<br />
+     if(*ptr==NULL) *ptr=p;<br />
+     else{<br />
+           while((*ptr)-&gt;next!=NULL)<br />
+             *ptr=(*ptr)-&gt;next;<br />
+             (*ptr)-&gt;next=p;<br />
+             *ptr=q;<br />
+      }<br />
+}<br />
+void display(struct node *ptr)<br />
+{<br />
+     while(ptr!=NULL)<br />
+     {<br />
+             cout&lt;&lt;&quot; |&quot;&lt;data&lt;next;<br />
+}<br />
+cout&lt;&lt;endl;<br />
+}<br />
+int main()<br />
+{<br />
+    int num1, num2, val;<br />
+        struct node *ptr1=NULL, *ptr2=NULL;<br />
+        cout&lt;&lt;&quot;Enter the number of element in the 1st list &quot;&lt;&gt;num1;<br />
+        for(int i=0; i&lt;num1 ; i++)<br />
+        {<br />
+                cout&lt;&gt;val;<br />
+                insert(&amp;ptr1, val);<br />
+        }<br />
+        display(ptr1);<br />
+cout&lt;&lt;&quot;Enter the number of element in the 2nd list &quot;&lt;&gt;num2;<br />
+        for(int i=0; i&lt;num2 ; i++)<br />
+        {<br />
+                cout&lt;&gt;val;<br />
+                insert(&amp;ptr2, val);<br />
+        }<br />
+display(ptr2);<br />
+merge(&amp;ptr1, &amp;ptr2);<br />
+        system("pause");<br />
+}</p>
+<p></code></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-28744">
+        <div id="dsq-comment-header-28744" class="dsq-comment-header">
+            <cite id="dsq-cite-28744">
+                <span id="dsq-author-user-28744">Monty</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28744" class="dsq-comment-body">
+            <div id="dsq-comment-message-28744" class="dsq-comment-message"><p>The program will not give correct output if list one is grater then list two.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-28219">
+        <div id="dsq-comment-header-28219" class="dsq-comment-header">
+            <cite id="dsq-cite-28219">
+                <span id="dsq-author-user-28219">Progs</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28219" class="dsq-comment-body">
+            <div id="dsq-comment-message-28219" class="dsq-comment-message"><p>hey what if LinkedList B is larger it is should be merge with first one or nop?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-27234">
+        <div id="dsq-comment-header-27234" class="dsq-comment-header">
+            <cite id="dsq-cite-27234">
+                <span id="dsq-author-user-27234">naveen shukla</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27234" class="dsq-comment-body">
+            <div id="dsq-comment-message-27234" class="dsq-comment-message"><p>Recursive implementation </p>
+<p>void merge( struct node *head1, struct node **head2 ) {<br />
+     if ( head1 == NULL || *head2 == NULL ) {<br />
+          return;<br />
+     }<br />
+     struct node *temp = head1-&gt;next;<br />
+     head1-&gt;next = *head2;<br />
+     *head2 = (*head2)-&gt;next;<br />
+     head1-&gt;next-&gt;next = temp;<br />
+     merge(temp,head2);<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-27025">
+        <div id="dsq-comment-header-27025" class="dsq-comment-header">
+            <cite id="dsq-cite-27025">
+                <span id="dsq-author-user-27025">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27025" class="dsq-comment-body">
+            <div id="dsq-comment-message-27025" class="dsq-comment-message"><p><code></p>
+<p>node* join_ll(node *s1,node *s2)<br />
+{<br />
+    node *p,*q,*t1=s1;<br />
+    p=s1;<br />
+    q=s2;<br />
+    while(t1!=NULL)<br />
+    {<br />
+        if(p!=NULL)<br />
+        {<br />
+            t1=p-&gt;next;<br />
+            p-&gt;next=q;<br />
+            p=t1;<br />
+            t1=q-&gt;next;<br />
+            q-&gt;next=p;<br />
+            q=t1;<br />
+        }<br />
+        else<br />
+        break;<br />
+    }<br />
+    return q;<br />
+}</p>
+<p></code></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-27024">
+        <div id="dsq-comment-header-27024" class="dsq-comment-header">
+            <cite id="dsq-cite-27024">
+                <span id="dsq-author-user-27024">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27024" class="dsq-comment-body">
+            <div id="dsq-comment-message-27024" class="dsq-comment-message"><p><code></p>
+<p>node* join_ll(node *s1,node *s2)<br />
+{<br />
+    node *p,*q,*t1=s1;<br />
+    p=s1;<br />
+    q=s2;<br />
+    while(t1!=NULL)<br />
+    {<br />
+        if(p!=NULL)<br />
+        {<br />
+            t1=p-&gt;next;<br />
+            p-&gt;next=q;<br />
+            p=t1;<br />
+            t1=q-&gt;next;<br />
+            q-&gt;next=p;<br />
+            q=t1;<br />
+        }<br />
+        else<br />
+        break;<br />
+    }<br />
+    return q;<br />
+}</p>
+<p></code></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-27022">
+        <div id="dsq-comment-header-27022" class="dsq-comment-header">
+            <cite id="dsq-cite-27022">
+                <span id="dsq-author-user-27022">saurabh verma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27022" class="dsq-comment-body">
+            <div id="dsq-comment-message-27022" class="dsq-comment-message"><p><code><br />
+#include<br />
+#include<br />
+#include<br />
+#include<br />
+struct node<br />
+{<br />
+    int data;<br />
+    struct node *next;<br />
+};<br />
+typedef struct node node;<br />
+node *create_ll()<br />
+{<br />
+    node *t,*p,*s=NULL;<br />
+    do{<br />
+        p=t;<br />
+        t=(node*)malloc(sizeof(node));<br />
+        printf("enter datan");<br />
+        scanf("%d",&amp;t-&gt;data);<br />
+        t-&gt;next=NULL;<br />
+        if(s==NULL)<br />
+        {<br />
+            s=t;<br />
+        }<br />
+        else<br />
+        {<br />
+            p-&gt;next=t;<br />
+        }<br />
+        printf("do u want to continue y/nn");<br />
+       }while('y'==getch());<br />
+        return s;<br />
+}<br />
+void print(node *s)<br />
+{       printf("----------------------LINKLIST---------------------n");<br />
+    while(s!=NULL)<br />
+    {<br />
+        printf("%dt",s-&gt;data);<br />
+        s=s-&gt;next;<br />
+    }<br />
+}<br />
+node* reverse(node *s)<br />
+{<br />
+    node *p=s,*q=s;<br />
+    p=s-&gt;next;<br />
+    q=p-&gt;next;<br />
+    s-&gt;next=NULL;<br />
+    while(p!=NULL)<br />
+    {<br />
+        p-&gt;next=s;<br />
+        s=p;<br />
+        p=q;<br />
+        if(q!=NULL)<br />
+        q=q-&gt;next;<br />
+    }<br />
+    return s;<br />
+}<br />
+node* join_ll(node *s1,node *s2)<br />
+{<br />
+    node *p,*q,*t1=s1;<br />
+    p=s1;<br />
+    q=s2;<br />
+    while(t1!=NULL)<br />
+    {<br />
+        if(p!=NULL)<br />
+        {<br />
+            t1=p-&gt;next;<br />
+            p-&gt;next=q;<br />
+            p=t1;<br />
+            t1=q-&gt;next;<br />
+            q-&gt;next=p;<br />
+            q=t1;<br />
+        }<br />
+        else<br />
+        break;<br />
+    }<br />
+    return q;<br />
+}<br />
+void main()<br />
+{<br />
+    int a;<br />
+    char c;<br />
+    node *s1=NULL,*s2=NULL;<br />
+    int k;<br />
+    clrscr();<br />
+    do{<br />
+        printf("npress 1 to create_lln");<br />
+        printf("press 2 to create_ll2n");<br />
+        printf("press 3 to print_ll1n");<br />
+        printf("press 4 to print_ll2n");<br />
+        printf("press 5 to reverse1n");<br />
+        printf("press 6 to reverse2n");<br />
+        printf("press 7 to join_lln");<br />
+        printf("press 8 to exitn");<br />
+        scanf("%d",&amp;a);<br />
+ switch(a)<br />
+        {<br />
+            case 1:<br />
+            s1=create_ll();<br />
+            break;<br />
+            case 2:<br />
+            s2=create_ll();<br />
+            break;<br />
+            case 3:<br />
+            print(s1);<br />
+            break;<br />
+            case 4:<br />
+            print(s2);<br />
+            break;<br />
+            case 5:<br />
+            s1=reverse(s1);<br />
+            break;<br />
+            case 6:<br />
+            s2=reverse(s2);<br />
+            break;<br />
+            case 7:<br />
+            s2=join_ll(s1,s2);<br />
+            break;<br />
+            case 8:<br />
+            exit(1);<br />
+            default:<br />
+            printf("wrong choicen");<br />
+        }<br />
+    }while(1);<br />
+}</code></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-26895">
+        <div id="dsq-comment-header-26895" class="dsq-comment-header">
+            <cite id="dsq-cite-26895">
+                <span id="dsq-author-user-26895">Chandu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26895" class="dsq-comment-body">
+            <div id="dsq-comment-message-26895" class="dsq-comment-message"><p>void merge(struct node *p, struct node **q)<br />
+{<br />
+   struct node *q_prev=NULL;</p>
+<p>   while(p!=NULL &amp;&amp; (*q)!=NULL)<br />
+   {<br />
+    q_prev = *q;<br />
+    *q = (*q)-&gt;next;</p>
+<p>    q_prev-&gt;next = p-&gt;next;<br />
+    p-&gt;next = q_prev;<br />
+    p = p-&gt;next-&gt;next;<br />
+   }<br />
+}</p>
+<p>// Working for all the corner cases. Uses only one extra node pointer <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-26731">
+        <div id="dsq-comment-header-26731" class="dsq-comment-header">
+            <cite id="dsq-cite-26731">
+                <span id="dsq-author-user-26731">suhas meena</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26731" class="dsq-comment-body">
+            <div id="dsq-comment-message-26731" class="dsq-comment-message"><p>i was trying to do this with just two pointers but could not find solution</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-26812">
+        <div id="dsq-comment-header-26812" class="dsq-comment-header">
+            <cite id="dsq-cite-26812">
+                <span id="dsq-author-user-26812">panda</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26812" class="dsq-comment-body">
+            <div id="dsq-comment-message-26812" class="dsq-comment-message"><pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+<p>#include<br />
+#include<br />
+struct node<br />
+{<br />
+int data;<br />
+struct node *next;<br />
+};<br />
+struct node *create(struct node *,int );<br />
+struct node *change(struct node *,struct node *);<br />
+int main()<br />
+{<br />
+struct node *head1=NULL,*head2=NULL,*p;<br />
+int n1,n2;<br />
+scanf(&#8220;%d%d&#8221;,&amp;n1,&amp;n2);<br />
+head1=create(head1,n1);<br />
+head2=create(head2,n2);<br />
+head2=change(head1,head2);<br />
+p=head1;<br />
+while(p!=NULL)<br />
+{<br />
+printf(&#8220;%3d&#8221;,p-&gt;data);<br />
+p=p-&gt;next;<br />
+}<br />
+printf(&#8220;\n&#8221;);<br />
+p=head2;<br />
+while(p!=NULL)<br />
+{<br />
+printf(&#8220;%3d&#8221;,p-&gt;data);<br />
+p=p-&gt;next;<br />
+}<br />
+return 0;<br />
+}<br />
+struct node *create(struct node *head,int n)<br />
+{<br />
+    int i,v;<br />
+    struct node *temp,*p;<br />
+    for(i=0;idata=v;<br />
+temp-&gt;next=NULL;<br />
+if(head==NULL)<br />
+head=temp;<br />
+else<br />
+{<br />
+p=head;<br />
+while(p-&gt;next!=NULL)<br />
+p=p-&gt;next;<br />
+p-&gt;next=temp;<br />
+}<br />
+}<br />
+return head;<br />
+}<br />
+struct node *change(struct node *p1,struct node *p2)<br />
+{<br />
+    struct node *r,*q;<br />
+    while(p1-&gt;next!=NULL)<br />
+    {<br />
+        if(p2==NULL)<br />
+        return p2;<br />
+        q=p1-&gt;next;<br />
+        r=p2-&gt;next;<br />
+        p1-&gt;next=p2;<br />
+        p2-&gt;next=q;<br />
+        p1=p1-&gt;next-&gt;next;<br />
+        p2=r;<br />
+    }<br />
+    r=p2-&gt;next;<br />
+    p1-&gt;next=p2;<br />
+    p2-&gt;next=NULL;<br />
+    return r;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-26707">
+        <div id="dsq-comment-header-26707" class="dsq-comment-header">
+            <cite id="dsq-cite-26707">
+                <span id="dsq-author-user-26707">Saurabh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26707" class="dsq-comment-body">
+            <div id="dsq-comment-message-26707" class="dsq-comment-message"><p>While should condition should be<br />
+p_curr!=NULL &amp;&amp; q_curr!=NULL</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor odd alt depth-2" id="dsq-comment-26710">
+        <div id="dsq-comment-header-26710" class="dsq-comment-header">
+            <cite id="dsq-cite-26710">
+                <span id="dsq-author-user-26710">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26710" class="dsq-comment-body">
+            <div id="dsq-comment-message-26710" class="dsq-comment-message"><p>Thanks for pointing this out.  We have updated the code.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/merge-a-linked-list-into-another-linked-list-at-alternate-positions/';
+var disqus_identifier = '122125 http://www.geeksforgeeks.org/?p=122125';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Merge a linked list into another linked list at alternate positions";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.211 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:25:38 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

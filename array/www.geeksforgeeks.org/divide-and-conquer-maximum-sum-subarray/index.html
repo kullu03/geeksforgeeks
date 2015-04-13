@@ -1,0 +1,1324 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Divide and Conquer | Set 3 (Maximum Subarray Sum) - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/divide-and-conquer-maximum-sum-subarray/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Divide and Conquer | Set 3 (Maximum Subarray Sum) - GeeksforGeeks" />
+<meta property="og:description" content="You are given a one dimensional array that may contain both positive and negative integers, find the sum of contiguous subarray of numbers which has the largest sum. For example, if the given array is {-2, -5, 6, -2, -3, 1, 5, -6}, then the maximum subarray sum is 7 (see highlighted elements). The naive &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/divide-and-conquer-maximum-sum-subarray/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Divide and Conquer" />
+<meta property="article:section" content="Arrays" />
+<meta property="article:published_time" content="2013-03-16T16:39:26+00:00" />
+<meta property="article:modified_time" content="2013-03-31T00:25:55+00:00" />
+<meta property="og:updated_time" content="2013-03-31T00:25:55+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.490 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417110846 14.139.155.210';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Divide and Conquer | Set 3 (Maximum Subarray Sum)</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>You are given a one dimensional array that may contain both positive and negative integers, find the sum of contiguous subarray of numbers which has the largest sum.<span id="more-115840"></span></p>
+<p>For example, if the given array is {-2, -5, <strong>6, -2, -3, 1, 5</strong>, -6}, then the maximum subarray sum is 7 (see highlighted elements).</p>
+<p><strong>The naive method </strong> is to run two loops. The outer loop picks the beginning element, the inner loop finds the maximum possible sum with first element picked by outer loop and compares this maximum with the overall maximum. Finally return the overall maximum. The time complexity of the Naive method is O(n^2).</p>
+<p>Using <strong>Divide and Conquer</strong> approach, we can find the maximum subarray sum in O(nLogn) time. Following is the Divide and Conquer algorithm.</p>
+<p><strong>1)</strong> Divide the given array in two halves<br />
+<strong>2)</strong> Return the maximum of following three<br />
+&#8230;.<strong>a)</strong> Maximum subarray sum in left half (Make a recursive call)<br />
+&#8230;.<strong>b)</strong> Maximum subarray sum in right half (Make a recursive call)<br />
+&#8230;.<strong>c)</strong> Maximum subarray sum such that the subarray crosses the midpoint</p>
+<p>The lines 2.a and 2.b are simple recursive calls. How to find maximum subarray sum such that the subarray crosses the midpoint? We can easily find the crossing sum in linear time.  The idea is simple, find the maximum sum starting from mid point and ending at some point on left of mid, then find the maximum sum starting from mid + 1 and ending with sum point on right of mid + 1. Finally, combine the two and return. </p>
+<pre class="brush: cpp; highlight: [38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55]; title: ; notranslate" title="">
+// A Divide and Conquer based program for maximum subarray sum problem
+#include &lt;stdio.h&gt;
+#include &lt;limits.h&gt;
+
+// A utility funtion to find maximum of two integers
+int max(int a, int b) { return (a &gt; b)? a : b; }
+
+// A utility funtion to find maximum of three integers
+int max(int a, int b, int c) { return max(max(a, b), c); }
+
+// Find the maximum possible sum in arr[] auch that arr[m] is part of it
+int maxCrossingSum(int arr[], int l, int m, int h)
+{
+    // Include elements on left of mid.
+    int sum = 0;
+    int left_sum = INT_MIN;
+    for (int i = m; i &gt;= l; i--)
+    {
+        sum = sum + arr[i];
+        if (sum &gt; left_sum)
+          left_sum = sum;
+    }
+
+    // Include elements on right of mid
+    sum = 0;
+    int right_sum = INT_MIN;
+    for (int i = m+1; i &lt;= h; i++)
+    {
+        sum = sum + arr[i];
+        if (sum &gt; right_sum)
+          right_sum = sum;
+    }
+
+    // Return sum of elements on left and right of mid
+    return left_sum + right_sum;
+}
+
+// Returns sum of maxium sum subarray in aa[l..h]
+int maxSubArraySum(int arr[], int l, int h)
+{
+   // Base Case: Only one element
+   if (l == h)
+     return arr[l];
+
+   // Find middle point
+   int m = (l + h)/2;
+
+   /* Return maximum of following three possible cases
+      a) Maximum subarray sum in left half
+      b) Maximum subarray sum in right half
+      c) Maximum subarray sum such that the subarray crosses the midpoint */
+   return max(maxSubArraySum(arr, l, m),
+              maxSubArraySum(arr, m+1, h),
+              maxCrossingSum(arr, l, m, h));
+}
+
+/*Driver program to test maxSubArraySum*/
+int main()
+{
+   int arr[] = {2, 3, 4, 5, 7};
+   int n = sizeof(arr)/sizeof(arr[0]);
+   int max_sum = maxSubArraySum(arr, 0, n-1);
+   printf(&quot;Maximum contiguous sum is %d\n&quot;, max_sum);
+   getchar();
+   return 0;
+}
+</pre>
+<p><strong>Time Complexity:</strong> maxSubArraySum() is a recursive method and time complexity can be expressed as following recurrence relation.<br />
+T(n) = 2T(n/2) + <img src="http://d2o58evtke57tz.cloudfront.net/wp-content/ql-cache/quicklatex.com-2dd9d505adf5381835b8f13594a885b0_l3.png" class="ql-img-inline-formula " alt="&#92;&#84;&#104;&#101;&#116;&#97;&#40;&#110;&#41;" title="Rendered by QuickLaTeX.com" height="18" width="38" style="vertical-align: -4px;"/><br />
+The above recurrence is similar to <a href="http://geeksquiz.com/merge-sort/" target="_blank">Merge Sort</a> and can be solved either using Recurrence Tree method or Master method. It falls in case II of Master Method and solution of the recurrence is <img src="http://d2o58evtke57tz.cloudfront.net/wp-content/ql-cache/quicklatex.com-bf83da81f16bb122612584bddcf43bb6_l3.png" class="ql-img-inline-formula " alt="&#92;&#84;&#104;&#101;&#116;&#97;&#40;&#110;&#76;&#111;&#103;&#110;&#41;" title="Rendered by QuickLaTeX.com" height="18" width="78" style="vertical-align: -4px;"/>. </p>
+<p><a href="http://www.geeksforgeeks.org/largest-sum-contiguous-subarray/" target="_blank"><strong>The Kadane&#8217;s Algorithm </strong></a> for this problem takes O(n) time. Therefore  the Kadane&#8217;s algorithm is better than the Divide and Conquer approach,  but this problem can be considered as a good example to show power of Divide and Conquer. The above simple approach where we divide the array in two halves, reduces the time complexity from O(n^2) to O(nLogn).</p>
+<p><strong>References:</strong><br />
+<a href="http://www.flipkart.com/introduction-algorithms-8120340078/p/itmczynzhyhxv2gs?pid=9788120340077&amp;affid=sandeepgfg">Introduction to Algorithms by Clifford Stein, Thomas H. Cormen, Charles E. Leiserson, Ronald L.<br />
+</a></p>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array-set-2-expected-linear-time/" title="K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)">K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)</a></li><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array/" title="K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1">K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/time-complexity-insertion-sort-inversions/" title="Time complexity of insertion sort when there are O(n) inversions?">Time complexity of insertion sort when there are O(n) inversions?</a></li><li><a href="http://www.geeksforgeeks.org/check-two-given-sets-disjoint/" title="How to check if two given sets are disjoint?">How to check if two given sets are disjoint?</a></li><li><a href="http://www.geeksforgeeks.org/minimum-number-platforms-required-railwaybus-station/" title="Minimum Number of Platforms Required for a Railway/Bus Station">Minimum Number of Platforms Required for a Railway/Bus Station</a></li><li><a href="http://www.geeksforgeeks.org/given-two-sorted-arrays-number-x-find-pair-whose-sum-closest-x/" title="Find the closest pair from two sorted arrays">Find the closest pair from two sorted arrays</a></li><li><a href="http://www.geeksforgeeks.org/print-elements-sorted-order-row-column-wise-sorted-matrix/" title="Print all elements in sorted order from row and column wise sorted matrix">Print all elements in sorted order from row and column wise sorted matrix</a></li><li><a href="http://www.geeksforgeeks.org/length-largest-subarray-contiguous-elements-set-1/" title="Length of the largest subarray with contiguous elements | Set 1">Length of the largest subarray with contiguous elements | Set 1</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/divide-and-conquer/" rel="tag">Divide and Conquer</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fdivide-and-conquer-maximum-sum-subarray%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/divide-and-conquer-maximum-sum-subarray/" data-text="Divide and Conquer | Set 3 (Maximum Subarray Sum)" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/divide-and-conquer-maximum-sum-subarray/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-32918">
+        <div id="dsq-comment-header-32918" class="dsq-comment-header">
+            <cite id="dsq-cite-32918">
+                <span id="dsq-author-user-32918">Sameer Sharma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32918" class="dsq-comment-body">
+            <div id="dsq-comment-message-32918" class="dsq-comment-message"><p>it supposed to be the maximum array<br />
+output:<br />
+Here is the array with the maximum sum<br />
+22 + 500 + -67 + 1 = 456</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-32917">
+        <div id="dsq-comment-header-32917" class="dsq-comment-header">
+            <cite id="dsq-cite-32917">
+                <span id="dsq-author-user-32917">Sameer Sharma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32917" class="dsq-comment-body">
+            <div id="dsq-comment-message-32917" class="dsq-comment-message"><p>hey, can some one help me please!!!</p>
+<p>I have a problem where i have to implement 2D Array so i can get output of 456</p>
+<p>Here&#8217;s my CODE:</p>
+<p>#include    </p>
+<p>using namespace std;</p>
+<p>// constants</p>
+<p>#define NUM_ARRAYS          5</p>
+<p>#define NUM_ELEMS           4</p>
+<p>// function prototypes (fill in any missing formal parameter lists)</p>
+<p>int     CalcArraySum(int  array[], int  numItems);</p>
+<p>void    DispArray(int  array[], int  numItems);</p>
+<p>int     FindMaxArray(0);</p>
+<p>// ==== main ==================================================================</p>
+<p>//</p>
+<p>// ============================================================================</p>
+<p>int     main(void)</p>
+<p>{</p>
+<p>	int         intArrays[NUM_ARRAYS][NUM_ELEMS] = {</p>
+<p>                                                        {10, 20, 30, 40} // 100</p>
+<p>                                                      , {1, 2, 3, 4}     // 10</p>
+<p>                                                      , {5, 2, -8, 22}   // 21</p>
+<p>                                                      , {99, 3, 10, 34}  // 146</p>
+<p>                                                      , {22, 500, -67, 1}// 456</p>
+<p>                                                       };</p>
+<p>    int         *arrayPtr;</p>
+<p>    int         sum;</p>
+<p>	int			intArrays;</p>
+<p>    sum = FindMaxArray(intArrays, NUM_ARRAYS, &amp;arrayPtr);</p>
+<p>    cout &lt;&lt; &quot;Here is the array with the maximum sum:n&quot;;</p>
+<p>    DispArray(arrayPtr, NUM_ELEMS);</p>
+<p>    cout &lt;&lt; &quot; = &quot; &lt;&lt; sum &lt;&lt; endl;</p>
+<p>    return  0;</p>
+<p>}  // end of &quot;main&quot;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-31522">
+        <div id="dsq-comment-header-31522" class="dsq-comment-header">
+            <cite id="dsq-cite-31522">
+                <span id="dsq-author-user-31522">Aggie</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31522" class="dsq-comment-body">
+            <div id="dsq-comment-message-31522" class="dsq-comment-message"><p>This problem can be solved in O(n) time.<br />
+the code is as following:</p>
+<p>int maxSubArray(int A[], int n) {</p>
+<p>        int result,i,cur;</p>
+<p>        result=INT_MIN;</p>
+<p>        cur=0;</p>
+<p>        for(i=0;iresult) result=cur;                   </p>
+<p>            if(cur&lt;0) cur=0;                 </p>
+<p>        }</p>
+<p>        return result;</p>
+<p>    }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-30778">
+        <div id="dsq-comment-header-30778" class="dsq-comment-header">
+            <cite id="dsq-cite-30778">
+                <span id="dsq-author-user-30778">Nakul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30778" class="dsq-comment-body">
+            <div id="dsq-comment-message-30778" class="dsq-comment-message"><p>This program can&#8217;t be done in O(n) time. And if done then there will be cases on which the algorithm fails. The efficient one is O(nlogn) algorithm.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-30784">
+        <div id="dsq-comment-header-30784" class="dsq-comment-header">
+            <cite id="dsq-cite-30784">
+                <span id="dsq-author-user-30784">prashant saxena</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30784" class="dsq-comment-body">
+            <div id="dsq-comment-message-30784" class="dsq-comment-message"><p>Check the link mentioned in the text about Kadane&#8217;s Algorithm. I think its done correctly in o(n).</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-30760">
+        <div id="dsq-comment-header-30760" class="dsq-comment-header">
+            <cite id="dsq-cite-30760">
+                <span id="dsq-author-user-30760">prashant saxena</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30760" class="dsq-comment-body">
+            <div id="dsq-comment-message-30760" class="dsq-comment-message"><p>Yes the algo is wrong. You can&#8217;t apply divide and conquer here. Your Max sum could as well be Left_MAx+Right_MAx depending on the indices taken to calculate left+Right.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-30761">
+        <div id="dsq-comment-header-30761" class="dsq-comment-header">
+            <cite id="dsq-cite-30761">
+                <span id="dsq-author-user-30761">Kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30761" class="dsq-comment-body">
+            <div id="dsq-comment-message-30761" class="dsq-comment-message"><p>This algo is taken from CLRS book.  So can&#8217;t be wrong, there may be some slight confusion though.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-30766">
+        <div id="dsq-comment-header-30766" class="dsq-comment-header">
+            <cite id="dsq-cite-30766">
+                <span id="dsq-author-user-30766">prashant saxena</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30766" class="dsq-comment-body">
+            <div id="dsq-comment-message-30766" class="dsq-comment-message"><p>Ah.. yeah looks correct.. the case I mentioned will be taken care by non recursive function call crossingmax function&#8230; my bad. Thanks for correcting me</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-29259">
+        <div id="dsq-comment-header-29259" class="dsq-comment-header">
+            <cite id="dsq-cite-29259">
+                <span id="dsq-author-user-29259">Faisal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29259" class="dsq-comment-body">
+            <div id="dsq-comment-message-29259" class="dsq-comment-message"><p>The Algorithm you provide here, is not correct. Test the following case:<br />
+[-2, -5, 6, -2, 3, -10, 5, -6] <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-27711">
+        <div id="dsq-comment-header-27711" class="dsq-comment-header">
+            <cite id="dsq-cite-27711">
+                <span id="dsq-author-user-27711">Test</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27711" class="dsq-comment-body">
+            <div id="dsq-comment-message-27711" class="dsq-comment-message"><p>with the method of Dynamic programming</p>
+<p>==========================</p>
+<p>#include</p>
+<p>#include</p>
+<p>#include</p>
+<p>#define TRUE 1</p>
+<p>void main()</p>
+<p>{</p>
+<p>	int *A=NULL;</p>
+<p>	int n=0;</p>
+<p>	int i,;</p>
+<p>	int *S = NULL;</p>
+<p>	int *started_here=NULL;</p>
+<p>	printf(&#8220;n Enter the element n&#8221;);</p>
+<p>	scanf(&#8220;%d&#8221;, &amp;n);</p>
+<p>	int max_sub_seq_sum=0;</p>
+<p>	int start_here=0;</p>
+<p>	int end_here=0;</p>
+<p>	int temp=0;</p>
+<p>	A= (int*)malloc( n * sizeof(int) );</p>
+<p>	printf(&#8220;n Enter the %d elements &#8220;, n);</p>
+<p>	S= (int*)malloc( n * sizeof(int) );</p>
+<p>	started_here= (int*)malloc( n * sizeof(int) );</p>
+<p>	for(i=0; i&lt;n; i++)</p>
+<p>		scanf(&quot;%d&quot;, &amp;A[i]);</p>
+<p>	printf(&quot;n The entered elements are :n&quot;);</p>
+<p>	for(i=0; i&lt;n; i++)</p>
+<p>		printf(&quot;%dt&quot;, A[i]);</p>
+<p>	for(i=0; i A[i] )</p>
+<p>				temp= (S[i-1] + A[i]) ;</p>
+<p>			else</p>
+<p>			{</p>
+<p>				temp= A[i];</p>
+<p>				//start_here= i;</p>
+<p>				started_here[i]= TRUE;</p>
+<p>			}</p>
+<p>			S[i]= temp;</p>
+<p>			if(max_sub_seq_sum =0; i&#8211;)</p>
+<p>	{</p>
+<p>		if(started_here[i] == TRUE)</p>
+<p>		{</p>
+<p>			start_here=i;</p>
+<p>			break;</p>
+<p>		}</p>
+<p>	}</p>
+<p>	printf(&#8220;n The Maximal Sub sequence Sum is=%dn&#8221;,max_sub_seq_sum);</p>
+<p>	printf(&#8220;n Starting Position of seq=%d, ending position of seq=%dn&#8221;, start_here,end_here);</p>
+<p>	for(i= start_here; i&lt;=end_here; i++)</p>
+<p>	{</p>
+<p>		printf(&quot;%dt&quot;,A[i]);</p>
+<p>	}</p>
+<p>	getch();</p>
+<p>	free(A);</p>
+<p>	free(S);</p>
+<p>	free(started_here);</p>
+<p>}</p>
+<p>==========================</p>
+<p>output :</p>
+<p>========</p>
+<p> Enter the element n 8</p>
+<p> Enter the 8 elements</p>
+<p>-2  -5  6  -2  -3  1  5  -6</p>
+<p> The entered elements are :</p>
+<p>-2      -5      6       -2      -3      1       5       -6</p>
+<p> The Maximal Sub sequence Sum is=7</p>
+<p> Starting Position of seq=2, ending position of seq=6</p>
+<p>6       -2      -3      1       5</p>
+<p>========</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-27284">
+        <div id="dsq-comment-header-27284" class="dsq-comment-header">
+            <cite id="dsq-cite-27284">
+                <span id="dsq-author-user-27284">mrn</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27284" class="dsq-comment-body">
+            <div id="dsq-comment-message-27284" class="dsq-comment-message"><p>int max=0,prev=a[0];<br />
+for(int i=1;i&lt;n;i++)<br />
+{<br />
+if(prev+a[i]&lt;0)<br />
+  prev=0;<br />
+else{<br />
+  prev=prev+a[i];<br />
+  if(max&lt; prev)<br />
+      max=prev;<br />
+    }<br />
+	}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-18805">
+        <div id="dsq-comment-header-18805" class="dsq-comment-header">
+            <cite id="dsq-cite-18805">
+                <span id="dsq-author-user-18805">numid</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18805" class="dsq-comment-body">
+            <div id="dsq-comment-message-18805" class="dsq-comment-message"><p>I think it can be done in a batter way,please point out any invalid test case if any</p>
+<pre> <code language="C">
+/*You are given a one dimensional array that may contain both positive and negative integers, 
+find the sum of contiguous subarray of numbers which has the largest sum.*/
+
+#include&lt;iostream&gt;
+
+using namespace std;
+
+int main()
+{
+    int arr[]={-2,-5,6,-2,-3,1,-10,-20,5,9,-7,-8,8,14};
+    int i,size,ptr,qtr,sum,prev,diff;
+    size=sizeof(arr)/sizeof(arr[0]);
+    ptr=0;
+    qtr=size-1;
+    
+    while(arr[ptr]&lt;=0)
+          ptr++;
+          
+    while(arr[qtr]&lt;=0)
+          qtr--;
+          
+    sum=0;prev=0;     
+    diff=arr[ptr];
+    for(i=ptr+1;i&lt;=qtr;i++)
+    {
+          diff+=arr[i];                      
+          if(arr[i] &gt; 0)
+          {
+                    if(diff &gt; 0)
+                    {
+                            sum+=diff;
+                            diff=0;
+                    }
+                    else
+                    {
+                         if(sum &gt; prev)
+                                prev=sum;
+                         sum=0;
+                         diff=0;
+                         i--;
+                    }
+          }
+    }
+    if(sum &gt; prev)
+           cout&lt;&lt;&quot;\nSum is : &quot;&lt;&lt;sum;
+    else
+           cout&lt;&lt;&quot;\nSum is : &quot;&lt;&lt;prev;                                 
+                       
+    getchar();
+    return 0;
+}
+
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-30777">
+        <div id="dsq-comment-header-30777" class="dsq-comment-header">
+            <cite id="dsq-cite-30777">
+                <span id="dsq-author-user-30777">Nakul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30777" class="dsq-comment-body">
+            <div id="dsq-comment-message-30777" class="dsq-comment-message"><p>When the input is {-2,-5,6} the output is shown by above program is 0 whereas it should be 6.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-18508">
+        <div id="dsq-comment-header-18508" class="dsq-comment-header">
+            <cite id="dsq-cite-18508">
+http://www.cse.iitb.ac.in/~saha/                <span id="dsq-author-user-18508">subhasish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18508" class="dsq-comment-body">
+            <div id="dsq-comment-message-18508" class="dsq-comment-message"><p>It can be done in O(n)</p>
+<p>The time comlexity O(nLogn) is only because of the O(n) part in the recursion. If it were O(1) then we would get total time complexity O(n).</p>
+<p>The idea is to propagate the maximum sum from left end, right end to top.</p>
+<p>So the method will return a structure of four elements :<br />
+l : max sum from left<br />
+r : max sum from right<br />
+m : max mum<br />
+t : total sum</p>
+<p>For base case (single element) every thing will be equal to that element</p>
+<p>Now combine step will be as follows :</p>
+<pre> <code language="C">
+t = L.t + R.t
+l = ((L.t+R.l)&gt;L.l) ?(L.t+R.l) : L.l;
+r = ((R.t+L.r)&gt;R.r) ?(R.t+L.r) : R.r; 
+m = max(L.m, R.m, L.r+R.l);
+</code> </pre>
+<p>So the combine step becomes O(1), overall time complexity becomes O(n)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-abhishek08aug even thread-even depth-1" id="dsq-comment-17774">
+        <div id="dsq-comment-header-17774" class="dsq-comment-header">
+            <cite id="dsq-cite-17774">
+                <span id="dsq-author-user-17774">abhishek08aug</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17774" class="dsq-comment-body">
+            <div id="dsq-comment-message-17774" class="dsq-comment-message"><p>Intelligent <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_biggrin.gif" alt=":D" class="wp-smiley" /></p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-ravisingh3531 odd alt thread-odd thread-alt depth-1" id="dsq-comment-17302">
+        <div id="dsq-comment-header-17302" class="dsq-comment-header">
+            <cite id="dsq-cite-17302">
+                <span id="dsq-author-user-17302">ravisingh3531</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17302" class="dsq-comment-body">
+            <div id="dsq-comment-message-17302" class="dsq-comment-message"><p>The  O(n) solution for above problem without divide and concurs</p>
+<pre> <code language="C">
+#include &lt;stdio.h&gt;
+#define SIZE 9
+int main()
+{
+	int array[SIZE] ={1, 2, 3, -4, -5, -6, 7, 8, 9}; 
+	int index;
+	int finalsum = 0;
+	int sum=0,temp;
+	int flag = 0;
+	for(index=0;index&lt;SIZE;index++)
+	{
+		if(flag == 0)
+		{
+			if(array[index] &gt; 0)
+			{
+				sum = sum + array[index];
+				flag = 1;
+			}
+		}
+		else
+		{
+			temp = sum;
+			sum = sum + array[index];
+			if(temp &gt; sum)
+			{
+				if(temp &gt; finalsum)
+				{
+					finalsum = temp;
+				}
+			}
+			else if(temp &lt; sum)
+			{
+				if(sum &gt; finalsum)
+				{
+					finalsum = sum;
+				}
+			}
+			if(sum &lt; 0)
+			{
+				sum = 0;
+			}
+		}
+	}
+	printf(&quot;The final sum %d&quot;,finalsum);
+	return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-30776">
+        <div id="dsq-comment-header-30776" class="dsq-comment-header">
+            <cite id="dsq-cite-30776">
+                <span id="dsq-author-user-30776">Nakul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30776" class="dsq-comment-body">
+            <div id="dsq-comment-message-30776" class="dsq-comment-message"><p>if the input array is {-2,-5,6} the output should be 6 but it shows 0 which is incorrect.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-sandip odd alt thread-even depth-1" id="dsq-comment-16576">
+        <div id="dsq-comment-header-16576" class="dsq-comment-header">
+            <cite id="dsq-cite-16576">
+                <span id="dsq-author-user-16576">Sandip</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16576" class="dsq-comment-body">
+            <div id="dsq-comment-message-16576" class="dsq-comment-message"><p>You could reduce the time to merge the solution of sub problems to constant time and hence the complexity of overall algorithm to O(n).</p>
+<p>For that you would need to additionally return 1) Optimal solution including starting element in subarray, 2) Optimal solution including end element in subarray.</p>
+<p>Here is the C# code.</p>
+<p>class Program<br />
+{<br />
+	class Solution<br />
+	{<br />
+		internal int StartIndex { get; set; }<br />
+		internal int EndIndex { get; set; }<br />
+		internal int Sum { get; set; }</p>
+<p>		internal void CopyValues(Solution s)<br />
+		{<br />
+			StartIndex = s.StartIndex;<br />
+			EndIndex = s.EndIndex;<br />
+			Sum = s.Sum;<br />
+		}<br />
+	}</p>
+<p>	private static Solution[] FindMaxSumSubarray(int[] array, int startIndex, int endIndex)<br />
+	{<br />
+		if (startIndex == endIndex)<br />
+		{<br />
+			return new[]<br />
+				{new Solution {StartIndex = startIndex, EndIndex = endIndex, Sum = array[startIndex]},<br />
+				new Solution {StartIndex = startIndex, EndIndex = endIndex, Sum = array[startIndex]},<br />
+				new Solution {StartIndex = startIndex, EndIndex = endIndex, Sum = array[startIndex]}};<br />
+		}<br />
+		int m = (startIndex + endIndex) /2;<br />
+		var subSolution1 = FindMaxSumSubarray(array, startIndex, m);<br />
+		var subSolution2 = FindMaxSumSubarray(array, m + 1, endIndex);</p>
+<p>		if (subSolution1[0].EndIndex == m &amp;&amp; subSolution2[0].Sum &gt; 0)<br />
+		{<br />
+			subSolution1[0].EndIndex = subSolution2[0].EndIndex;<br />
+			subSolution1[0].Sum += subSolution2[0].Sum;<br />
+		}</p>
+<p>		if (subSolution2[2].StartIndex == m + 1 &amp;&amp; subSolution1[2].Sum &gt; 0)<br />
+		{<br />
+			subSolution2[2].StartIndex = subSolution1[2].StartIndex;<br />
+			subSolution2[2].Sum += subSolution1[2].Sum;<br />
+		}</p>
+<p>		var bestSubSolution = GetBestSolution(subSolution1[0], subSolution1[1], subSolution2[1], subSolution2[2]);<br />
+		return new[] { subSolution1[0], bestSubSolution, subSolution2[2] };<br />
+	}</p>
+<p>	private static Solution GetBestSolution(Solution s1, Solution s2, Solution s3, Solution s4)<br />
+	{<br />
+		if (s1.Sum &gt; s2.Sum) s2.CopyValues(s1);<br />
+		if (s4.Sum &gt; s3.Sum) s3.CopyValues(s4);<br />
+		return s2.Sum &gt; s3.Sum ? s2 : s3;<br />
+	}</p>
+<p>	static void Main(string[] args)<br />
+	{<br />
+		int[] arr = {2, 3, -4, 5, 7};<br />
+		Solution[] solution = FindMaxSumSubarray(arr, 0, arr.Length &#8211; 1);<br />
+		Console.WriteLine(&quot;Maximum contiguous sum is {0}&quot;, solution[1].Sum);</p>
+<p>		arr = new []{2, 3, -6, 5, 7};<br />
+		solution = FindMaxSumSubarray(arr, 0, arr.Length &#8211; 1);<br />
+		Console.WriteLine(&quot;Maximum contiguous sum is {0}&quot;, solution[1].Sum);<br />
+	}<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-rspr even thread-odd thread-alt depth-1" id="dsq-comment-16445">
+        <div id="dsq-comment-header-16445" class="dsq-comment-header">
+            <cite id="dsq-cite-16445">
+                <span id="dsq-author-user-16445">rspr</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16445" class="dsq-comment-body">
+            <div id="dsq-comment-message-16445" class="dsq-comment-message"><p>find the O(n) solution for the above problem:</p>
+<pre> <code language="C">
+/*-2 -5 6 -2 -3 1 5 -6
+-2 -5 6 4  1  2 7 1
+sum = 7
+*/
+#include&lt;stdio.h&gt;
+int A[100];
+int find_largest_sum(int A[],int n_elements){
+
+	int largest=A[0];
+	int tmp=A[0];
+	for(int i=1;i&lt;n_elements;++i)
+	{
+		if(tmp+A[i] &gt; A[i])
+			tmp+=A[i];
+		else
+			tmp=A[i];
+		
+		if(tmp&gt;largest)
+			largest=tmp;	
+	}
+	return largest;
+		
+}
+int main(){
+	int count;
+	printf(&quot;Enter the no. of elements\n&quot;);
+	scanf(&quot;%d&quot;,&amp;count);
+	for(int i=0;i&lt;count;++i)
+		scanf(&quot;%d&quot;,&amp;A[i]);
+	int l_sum=find_largest_sum(A,count);
+	printf(&quot;largest sum is %d\n&quot;,l_sum);
+	return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-gm odd alt depth-2" id="dsq-comment-17263">
+        <div id="dsq-comment-header-17263" class="dsq-comment-header">
+            <cite id="dsq-cite-17263">
+                <span id="dsq-author-user-17263">GM</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17263" class="dsq-comment-body">
+            <div id="dsq-comment-message-17263" class="dsq-comment-message"><p>I think u missed to update largest in your code.</p>
+<pre> <code language="C">
+if(tmp+A[i] &gt; A[i])
+            tmp+=A[i];
+        else
+            if(tmp&gt;largest)
+                largest = tmp;
+            tmp=A[i];
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-16438">
+        <div id="dsq-comment-header-16438" class="dsq-comment-header">
+            <cite id="dsq-cite-16438">
+                <span id="dsq-author-user-16438">Ravi Chandra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16438" class="dsq-comment-body">
+            <div id="dsq-comment-message-16438" class="dsq-comment-message"><p>My suggestion is re-post the same problem with the updated solution.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor odd alt depth-2" id="dsq-comment-16446">
+        <div id="dsq-comment-header-16446" class="dsq-comment-header">
+            <cite id="dsq-cite-16446">
+                <span id="dsq-author-user-16446">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16446" class="dsq-comment-body">
+            <div id="dsq-comment-message-16446" class="dsq-comment-message"><p>@Ravi Chandra: The O(n) solution is already published <a href="http://www.geeksforgeeks.org/largest-sum-contiguous-subarray/" rel="nofollow">here</a>.  The main idea of this post is to show a good and simple example of Divide and Conquer.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-tsndiffopera even thread-odd thread-alt depth-1" id="dsq-comment-16428">
+        <div id="dsq-comment-header-16428" class="dsq-comment-header">
+            <cite id="dsq-cite-16428">
+http://www.tsndiffopera.in/                <span id="dsq-author-user-16428">Sai Nikhil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16428" class="dsq-comment-body">
+            <div id="dsq-comment-message-16428" class="dsq-comment-message"><p>D&#038;C is O(nlg(n)), where as kadane(DP) is just O(n), so why use former instead of later?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-16416">
+        <div id="dsq-comment-header-16416" class="dsq-comment-header">
+            <cite id="dsq-cite-16416">
+http://pnadityalabs.com/                <span id="dsq-author-user-16416">Aditya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16416" class="dsq-comment-body">
+            <div id="dsq-comment-message-16416" class="dsq-comment-message"><p>We can solve it with the complicity of &#8216;n&#8217; ! </p>
+<p>n log n is expensive and big head to deal</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-16412">
+        <div id="dsq-comment-header-16412" class="dsq-comment-header">
+            <cite id="dsq-cite-16412">
+                <span id="dsq-author-user-16412">Siva Krishna</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16412" class="dsq-comment-body">
+            <div id="dsq-comment-message-16412" class="dsq-comment-message"><p>I think max_cross_sum is not the correct way.Let us take the initial array as [ 1 2 3 -4 -5 -6 7 8 9 ] now consider the cross sum it is 30(6(left)+24(right)) but here the sum came from left:[1 2 3]and right:[7 8 9] which was not the crossing sum&#8230;</p>
+<p>/* Paste your code here (You may delete these lines if not writing code) */<br />
+[/source code]</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/divide-and-conquer-maximum-sum-subarray/';
+var disqus_identifier = '115840 http://www.geeksforgeeks.org/?p=115840';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Divide and Conquer | Set 3 (Maximum Subarray Sum)";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 1.008 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:24:07 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

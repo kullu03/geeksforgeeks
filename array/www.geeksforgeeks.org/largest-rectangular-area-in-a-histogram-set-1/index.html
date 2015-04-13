@@ -1,0 +1,1164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Largest Rectangular Area in a Histogram | Set 1 - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/largest-rectangular-area-in-a-histogram-set-1/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Largest Rectangular Area in a Histogram | Set 1 - GeeksforGeeks" />
+<meta property="og:description" content="Find the largest rectangular area possible in a given histogram where the largest rectangle can be made of a number of contiguous bars. For simplicity, assume that all bars have same width and the width is 1 unit. For example, consider the following histogram with 7 bars of heights {6, 2, 5, 4, 5, 2, &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/largest-rectangular-area-in-a-histogram-set-1/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Divide and Conquer" />
+<meta property="article:section" content="Misc" />
+<meta property="article:published_time" content="2013-04-08T11:28:15+00:00" />
+<meta property="article:modified_time" content="2013-04-08T15:49:03+00:00" />
+<meta property="og:updated_time" content="2013-04-08T15:49:03+00:00" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/histogram1.png" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.521 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417113027 210.212.53.139 172.19.11.169';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Largest Rectangular Area in a Histogram | Set 1</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Find the largest rectangular area possible in a given histogram where the largest rectangle can be made of a number of contiguous bars. For simplicity, assume that all bars have same width and the width is 1 unit. <span id="more-116623"></span></p>
+<p>For example, consider the following histogram with 7 bars of heights {6, 2, 5, 4, 5, 2, 6}. The largest possible rectangle possible is 12 (see the below figure, the max area rectangle is highlighted in red)</p>
+<p><a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/histogram1.png"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/histogram1.png" alt="histogram" width="334" height="300" class="aligncenter size-full wp-image-116597" /></a></p>
+<p>A <strong>simple solution</strong> is to one by one consider all bars as starting points and calculate area of all rectangles starting with every bar. Finally return maximum of all possible areas. Time complexity of this solution would be O(n^2).</p>
+<p>We can use <strong><a href="http://www.geeksforgeeks.org/divide-and-conquer-set-1-find-closest-pair-of-points/" target="_blank">Divide and Conquer</a> </strong>to solve this in O(nLogn) time.  The idea is to find the minimum value in the given array. Once we have index of the minimum value, the max area is maximum of following three values.<br />
+<strong>a)</strong> Maximum area in left side of minimum value (Not including the min value)<br />
+<strong>b)</strong> Maximum area in right side of minimum value  (Not including the min value)<br />
+<strong>c)</strong> Number of bars multiplied by minimum value.<br />
+The areas in left and right of minimum value bar can be calculated recursively. If we use linear search to find the minimum value, then the worst case time complexity of this algorithm becomes O(n^2). In worst case, we always have (n-1) elements in one side and 0 elements in other side and if the finding minimum takes O(n) time, we get the recurrence similar to worst case of Quick Sort.<br />
+How to find the minimum efficiently?  <a href="http://www.geeksforgeeks.org/segment-tree-set-1-range-minimum-query/" target="_blank">Range Minimum Query using Segment Tree</a> can be used for this. We build segment tree of the given histogram heights.  Once the segment tree is built, all <a href="http://www.geeksforgeeks.org/segment-tree-set-1-range-minimum-query/">range minimum queries take O(Logn) time</a>.  So over all complexity of the algorithm becomes.</p>
+<p>Overall Time = Time to build Segment Tree + Time to recursively find maximum area</p>
+<p><a href="http://www.geeksforgeeks.org/segment-tree-set-1-sum-of-given-range/">Time to build segment tree is O(n)</a>. Let the time to recursively find max area be T(n).  It can be written as following.<br />
+T(n) = O(Logn) + T(n-1)<br />
+The solution of above recurrence is O(nLogn).  So overall time is O(n) + O(nLogn) which is O(nLogn).</p>
+<p>Following is C++ implementation of the above algorithm.</p>
+<pre class="brush: cpp; highlight: [98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129]; title: ; notranslate" title="">
+// A Divide and Conquer Program to find maximum rectangular area in a histogram
+#include &lt;math.h&gt;
+#include &lt;limits.h&gt;
+#include &lt;iostream&gt;
+using namespace std;
+
+// A utility function to find minimum of three integers
+int max(int x, int y, int z)
+{  return max(max(x, y), z); }
+
+// A utility function to get minimum of two numbers in hist[]
+int minVal(int *hist, int i, int j)
+{
+    if (i == -1) return j;
+    if (j == -1) return i;
+    return (hist[i] &lt; hist[j])? i : j;
+}
+
+// A utility function to get the middle index from corner indexes.
+int getMid(int s, int e)
+{   return s + (e -s)/2; }
+
+/*  A recursive function to get the index of minimum value in a given range of
+    indexes. The following are parameters for this function.
+
+    hist   --&gt; Input array for which segment tree is built
+    st    --&gt; Pointer to segment tree
+    index --&gt; Index of current node in the segment tree. Initially 0 is
+             passed as root is always at index 0
+    ss &amp; se  --&gt; Starting and ending indexes of the segment represented by
+                 current node, i.e., st[index]
+    qs &amp; qe  --&gt; Starting and ending indexes of query range */
+int RMQUtil(int *hist, int *st, int ss, int se, int qs, int qe, int index)
+{
+    // If segment of this node is a part of given range, then return the
+    // min of the segment
+    if (qs &lt;= ss &amp;&amp; qe &gt;= se)
+        return st[index];
+
+    // If segment of this node is outside the given range
+    if (se &lt; qs || ss &gt; qe)
+        return -1;
+
+    // If a part of this segment overlaps with the given range
+    int mid = getMid(ss, se);
+    return minVal(hist, RMQUtil(hist, st, ss, mid, qs, qe, 2*index+1),
+                  RMQUtil(hist, st, mid+1, se, qs, qe, 2*index+2));
+}
+
+// Return index of minimum element in range from index qs (quey start) to
+// qe (query end).  It mainly uses RMQUtil()
+int RMQ(int *hist, int *st, int n, int qs, int qe)
+{
+    // Check for erroneous input values
+    if (qs &lt; 0 || qe &gt; n-1 || qs &gt; qe)
+    {
+        cout &lt;&lt; &quot;Invalid Input&quot;;
+        return -1;
+    }
+
+    return RMQUtil(hist, st, 0, n-1, qs, qe, 0);
+}
+
+// A recursive function that constructs Segment Tree for hist[ss..se].
+// si is index of current node in segment tree st
+int constructSTUtil(int hist[], int ss, int se, int *st, int si)
+{
+    // If there is one element in array, store it in current node of
+    // segment tree and return
+    if (ss == se)
+       return (st[si] = ss);
+
+    // If there are more than one elements, then recur for left and
+    // right subtrees and store the minimum of two values in this node
+    int mid = getMid(ss, se);
+    st[si] =  minVal(hist, constructSTUtil(hist, ss, mid, st, si*2+1),
+                     constructSTUtil(hist, mid+1, se, st, si*2+2));
+    return st[si];
+}
+
+/* Function to construct segment tree from given array. This function
+   allocates memory for segment tree and calls constructSTUtil() to
+   fill the allocated memory */
+int *constructST(int hist[], int n)
+{
+    // Allocate memory for segment tree
+    int x = (int)(ceil(log2(n))); //Height of segment tree
+    int max_size = 2*(int)pow(2, x) - 1; //Maximum size of segment tree
+    int *st = new int[max_size];
+
+    // Fill the allocated memory st
+    constructSTUtil(hist, 0, n-1, st, 0);
+
+    // Return the constructed segment tree
+    return st;
+}
+
+// A recursive function to find the maximum rectangular area.
+// It uses segment tree 'st' to find the minimum value in hist[l..r]
+int getMaxAreaRec(int *hist, int *st, int n, int l, int r)
+{
+    // Base cases
+    if (l &gt; r)  return INT_MIN;
+    if (l == r)  return hist[l];
+
+    // Find index of the minimum value in given range
+    // This takes O(Logn)time
+    int m = RMQ(hist, st, n, l, r);
+
+    /* Return maximum of following three possible cases
+       a) Maximum area in Left of min value (not including the min)
+       a) Maximum area in right of min value (not including the min)
+       c) Maximum area including min */
+    return max(getMaxAreaRec(hist, st, n, l, m-1),
+               getMaxAreaRec(hist, st, n, m+1, r),
+               (r-l+1)*(hist[m]) );
+}
+
+// The main function to find max area
+int getMaxArea(int hist[], int n)
+{
+    // Build segment tree from given array. This takes
+    // O(n) time
+    int *st = constructST(hist, n);
+
+    // Use recursive utility function to find the
+    // maximum area
+    return getMaxAreaRec(hist, st, n, 0, n-1);
+}
+
+// Driver program to test above functions
+int main()
+{
+    int hist[] =  {6, 1, 5, 4, 5, 2, 6};
+    int n = sizeof(hist)/sizeof(hist[0]);
+    cout &lt;&lt; &quot;Maximum area is &quot; &lt;&lt; getMaxArea(hist, n);
+    return 0;
+}
+</pre>
+<p>Output:
+<pre>Maximum area is 12</pre>
+<p>This problem can be solved in linear time.  We will soon be publishing the linear time solution as next set.</p>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/job-sequencing-problem-set-1-greedy-algorithm/" title="Job Sequencing Problem | Set 1 (Greedy Algorithm)">Job Sequencing Problem | Set 1 (Greedy Algorithm)</a></li><li><a href="http://www.geeksforgeeks.org/multiply-two-polynomials-2/" title="Multiply two polynomials">Multiply two polynomials</a></li><li><a href="http://www.geeksforgeeks.org/algorithm-practice-question-beginners-set-1/" title="Algorithm Practice Question for Beginners | Set 1">Algorithm Practice Question for Beginners | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/count-distinct-non-negative-pairs-x-y-satisfy-inequality-xx-yy-n-2/" title="Count Distinct Non-Negative Integer Pairs (x, y) that Satisfy the Inequality x*x + y*y &lt; n">Count Distinct Non-Negative Integer Pairs (x, y) that Satisfy the Inequality x*x + y*y < n</a></li><li><a href="http://www.geeksforgeeks.org/binomial-heap-2/" title="Binomial Heap">Binomial Heap</a></li><li><a href="http://www.geeksforgeeks.org/print-increasing-sequences-length-k-first-n-natural-numbers/" title="Print all increasing sequences of length k from first n natural numbers">Print all increasing sequences of length k from first n natural numbers</a></li><li><a href="http://www.geeksforgeeks.org/find-nth-number-number-system-3-4/" title="Find n&#8217;th number in a number system with only 3 and 4">Find n&#8217;th number in a number system with only 3 and 4</a></li><li><a href="http://www.geeksforgeeks.org/minimum-cost-polygon-triangulation/" title="Minimum Cost Polygon Triangulation">Minimum Cost Polygon Triangulation</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/divide-and-conquer/" rel="tag">Divide and Conquer</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Flargest-rectangular-area-in-a-histogram-set-1%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/largest-rectangular-area-in-a-histogram-set-1/" data-text="Largest Rectangular Area in a Histogram | Set 1" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/largest-rectangular-area-in-a-histogram-set-1/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-31516">
+        <div id="dsq-comment-header-31516" class="dsq-comment-header">
+            <cite id="dsq-cite-31516">
+                <span id="dsq-author-user-31516">zealfire</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31516" class="dsq-comment-body">
+            <div id="dsq-comment-message-31516" class="dsq-comment-message"><p>//would be great if someone verifies this solution<br />
+#include</p>
+<p>#include</p>
+<p>using namespace std;</p>
+<p>int find1(int arr[],int l,int mid,int h)</p>
+<p>{</p>
+<p>	int k1=0,key,l1;</p>
+<p>	if((h-l)%2!=0)</p>
+<p>	mid=mid+1;</p>
+<p>	key=min(min(arr[mid],arr[mid-1]),arr[mid+1]);</p>
+<p>	l1=mid;</p>
+<p>	while(l1&gt;=0)</p>
+<p>	{</p>
+<p>	if(arr[l1]&gt;=key)</p>
+<p>	{</p>
+<p>		l1&#8211;;</p>
+<p>		k1++;</p>
+<p>	}</p>
+<p>	else</p>
+<p>	break;</p>
+<p>	}</p>
+<p>	l1=mid+1;</p>
+<p>	while(l1=key)</p>
+<p>	{</p>
+<p>		l1++;</p>
+<p>		k1++;</p>
+<p>	}</p>
+<p>	else</p>
+<p>	break;</p>
+<p>	}</p>
+<p>	//printf(&#8220;%dn&#8221;,k1*key);</p>
+<p>	return k1*key;</p>
+<p>}</p>
+<p>int find(int arr[],int l,int h)</p>
+<p>{</p>
+<p>	if(l==h)</p>
+<p>	return arr[l];</p>
+<p>	int mid=(l+h)/2;</p>
+<p>	return max(max(find(arr,l,mid),find(arr,mid+1,h)),find1(arr,l,mid,h));</p>
+<p>}</p>
+<p>int main()</p>
+<p>{</p>
+<p>	int arr[7],i;</p>
+<p>	for(i=0;i&lt;7;i++)</p>
+<p>	{</p>
+<p>		scanf(&quot;%d&quot;,&amp;arr[i]);</p>
+<p>	}</p>
+<p>	printf(&quot;%d&quot;,find(arr,0,6));</p>
+<p>	return 0;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-26260">
+        <div id="dsq-comment-header-26260" class="dsq-comment-header">
+            <cite id="dsq-cite-26260">
+                <span id="dsq-author-user-26260">A Kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26260" class="dsq-comment-body">
+            <div id="dsq-comment-message-26260" class="dsq-comment-message"><p>A very simple iterativer approach without stack and recursion . Please correct me if I am wrong. </p>
+<pre> <code language="C">
+#include &quot;stdio.h&quot;
+int getMaxArea(int hist[], int n )
+{
+	int height;
+	int hist_index =0;
+	int width =0;
+	int maxRect =0;
+	int rect ; 
+
+	for(int i = 0 ;i&lt; n ; i++)
+	{
+		width = 0;
+		height = hist[i]; 
+		hist_index = i;
+		//move left  till start 
+		while(height &lt;=  hist[hist_index]  &amp;&amp; hist_index&gt;=0)
+		{			
+			width++;
+			hist_index --;
+		}
+		//move right till end
+		hist_index = i+1;
+		while(height &lt;=  hist[hist_index] &amp;&amp; hist_index &lt; n)
+		{			
+			width++;
+			hist_index ++;
+		}
+		rect = height*width;
+		if(maxRect &lt; rect ) maxRect = rect ; 
+	}
+	return maxRect; 
+}
+
+int main()
+{
+	int hist[] = {1,2,1,1,3,4,3,3,4,5,2,1,2,3}; // Output -&gt;18
+				// Input {6, 2, 5, 4, 5, 1, 6}; Output -&gt;12 
+    int n = sizeof(hist)/sizeof(hist[0]);
+    printf(&quot; Maxt rect Area  = %d \n\n&quot; ,getMaxArea(hist, n));
+    return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-27371">
+        <div id="dsq-comment-header-27371" class="dsq-comment-header">
+            <cite id="dsq-cite-27371">
+                <span id="dsq-author-user-27371">pefullarton</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27371" class="dsq-comment-body">
+            <div id="dsq-comment-message-27371" class="dsq-comment-message"><p>Yes this is correct, but the complexity is O(n^2).</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-innosam odd alt thread-even depth-1" id="dsq-comment-23150">
+        <div id="dsq-comment-header-23150" class="dsq-comment-header">
+            <cite id="dsq-cite-23150">
+                <span id="dsq-author-user-23150">innosam</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-23150" class="dsq-comment-body">
+            <div id="dsq-comment-message-23150" class="dsq-comment-message"><p>A straight forward  Recursive solution based on the first approach:<br />
+  <a href="http://wp.me/3bJAF" rel="nofollow">http://wp.me/3bJAF</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-17911">
+        <div id="dsq-comment-header-17911" class="dsq-comment-header">
+            <cite id="dsq-cite-17911">
+                <span id="dsq-author-user-17911">Rohit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17911" class="dsq-comment-body">
+            <div id="dsq-comment-message-17911" class="dsq-comment-message"><pre> <code language="C">
+public static int LargestHist(int[] arr)
+		{
+			int curSide,curArea;
+			curSide=arr[0];curArea=arr[0];
+			int maxArea=arr[0],n=1;
+			for(int i=1;i&lt;arr.length;i++)
+			{
+				n++;
+				curSide=Math.min(curSide,arr[i]);
+				curArea=curSide*n;
+				System.out.println(curArea);
+				if(curArea&gt;maxArea)
+				{
+					maxArea=curArea;
+		
+				}
+				else if(n&gt;1)
+				{
+					n=0;
+					curSide=Integer.MAX_VALUE;
+					curArea=1;
+				}
+				System.out.println(maxArea);
+			}
+			
+			return maxArea;
+		}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-17866">
+        <div id="dsq-comment-header-17866" class="dsq-comment-header">
+            <cite id="dsq-cite-17866">
+                <span id="dsq-author-user-17866">Sachin Jain</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17866" class="dsq-comment-body">
+            <div id="dsq-comment-message-17866" class="dsq-comment-message"><p>#include &lt;iostream&gt;<br />
+#include &lt;vector&gt;<br />
+#include &lt;stack&gt;</p>
+<p>int getMaxRectArea(std::vector&lt;int&gt;&amp; histogram) ;</p>
+<p>int main()<br />
+{<br />
+ 	int input[] = {6, 2, 5, 4, 5, 1, 6} ;<br />
+ 	// int input[] = {6, 2, 5, 4, 5, 2, 6} ;<br />
+ 	// int input[] = {6, 1, 5, 4, 5, 2, 6} ;<br />
+ 	// int input[] = {3, 4, 5, 6, 5, 4, 3} ;<br />
+ 	std::vector&lt;int&gt; histogram(input, input + sizeof(input) / sizeof(int)) ;</p>
+<p>	std::cout &lt;&lt; getMaxRectArea(histogram) &lt;&lt; std::endl ;</p>
+<p> 	return 0 ;<br />
+}</p>
+<p>int getMaxRectArea(std::vector&lt;int&gt;&amp; histogram)<br />
+{<br />
+ 	switch( histogram.size() )<br />
+	{<br />
+ 		case 0 :	return 0 ;</p>
+<p> 		case 1 :	return histogram[0] ;<br />
+	}</p>
+<p> 	int size = histogram.size() ;</p>
+<p> 	int *maxRectAreatoRight = new int[size] ;<br />
+ 	int *maxRectAreatoLeft = new int[size] ;<br />
+ 	int maxRectArea = 0 ;<br />
+ 	std::stack&lt;int&gt; indexes;</p>
+<p> 	indexes.push(0);</p>
+<p> 	for ( int i = 1 ; i &lt; size ; i++ )<br />
+ 	{<br />
+	 	while ( !indexes.empty() &amp;&amp; histogram[i] &lt; histogram[indexes.top()] )<br />
+	 	{<br />
+		   	 maxRectAreatoRight[indexes.top()] = histogram[indexes.top()] * ( i &#8211; indexes.top() ) ;<br />
+		   	 indexes.pop() ;<br />
+	 	}</p>
+<p>	 	indexes.push(i) ;<br />
+	}</p>
+<p> 	while ( !indexes.empty() )<br />
+ 	{<br />
+	 	  maxRectAreatoRight[indexes.top()] = histogram[indexes.top()] * ( size &#8211; indexes.top() ) ;<br />
+   	 	  indexes.pop() ;<br />
+  	}</p>
+<p> 	indexes.push(size &#8211; 1);</p>
+<p> 	for ( int i = size &#8211; 2 ; i &gt;= 0 ; i&#8211; )<br />
+ 	{<br />
+	 	while ( !indexes.empty() &amp;&amp; histogram[i] &lt; histogram[indexes.top()] )<br />
+	 	{<br />
+		   	 maxRectAreatoLeft[indexes.top()] = histogram[indexes.top()] * ( indexes.top() &#8211; i ) ;<br />
+		   	 indexes.pop() ;<br />
+	 	}</p>
+<p>	 	indexes.push(i) ;<br />
+	}</p>
+<p> 	while ( !indexes.empty() )<br />
+ 	{<br />
+	 	  maxRectAreatoLeft[indexes.top()] = histogram[indexes.top()] * ( indexes.top() + 1 ) ;<br />
+   	 	  indexes.pop() ;<br />
+  	}</p>
+<p>  	for ( int i = 0 ; i &lt; size ; i++ )<br />
+  	{<br />
+	 	int currentRectArea = maxRectAreatoLeft[i] + maxRectAreatoRight[i] &#8211; histogram[i] ;<br />
+	 	if ( maxRectArea &lt; currentRectArea )<br />
+	 	   maxRectArea = currentRectArea ;<br />
+	}</p>
+<p> 	return maxRectArea;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-17216">
+        <div id="dsq-comment-header-17216" class="dsq-comment-header">
+            <cite id="dsq-cite-17216">
+http://github.com/pathikrit                <span id="dsq-author-user-17216">Pathikrit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17216" class="dsq-comment-body">
+            <div id="dsq-comment-message-17216" class="dsq-comment-message"><p>Here is a short 2-liner in Scala:</p>
+<p> def maxRectangleInHistogram(heights: Seq[Int]): Int = if (heights isEmpty) 0 else {<br />
+    val (left, smallest :: right) = heights splitAt (heights indexOf heights.min)<br />
+    Seq(maxRectangleInHistogram(left), smallest * heights.length, maxRectangleInHistogram(right)).max<br />
+  } </p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-rax odd alt thread-even depth-1" id="dsq-comment-17204">
+        <div id="dsq-comment-header-17204" class="dsq-comment-header">
+            <cite id="dsq-cite-17204">
+                <span id="dsq-author-user-17204">Rax</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17204" class="dsq-comment-body">
+            <div id="dsq-comment-message-17204" class="dsq-comment-message"><p>Java Solution:</p>
+<p>public class MaxArea {</p>
+<p>	/**<br />
+	 * @param args<br />
+	 */<br />
+	public static void main(String[] args) {<br />
+		// TODO Auto-generated method stub<br />
+		int[] a = {6, 2, 5, 4, 5, 2, 6};<br />
+		System.out.println(new MaxArea().findMaxArea(a));<br />
+	}</p>
+<p>	public int findMaxArea(int[] A){<br />
+		int max_Area = Integer.MIN_VALUE;<br />
+		int n = A.length;<br />
+		if(n==0)return 0;<br />
+		LLStack stack = new LLStack();<br />
+		int continuosSubArray [] = new int[n];<br />
+		for (int i = 0; i < n; i++) {<br />
+			while(!stack.isEmpty()&#038;&#038; A[i]<= A[(Integer)stack.top()]){<br />
+				stack.pop();<br />
+			}<br />
+			if(stack.isEmpty()){<br />
+				continuosSubArray[i] = i;<br />
+			}else{<br />
+				continuosSubArray[i] = i-(Integer)stack.top()-1;<br />
+			}<br />
+			stack.push(i);<br />
+		}<br />
+		while(!stack.isEmpty()){<br />
+			stack.pop();<br />
+		}<br />
+		for (int i = n-1; i >= 0; i&#8211;) {<br />
+			while(!stack.isEmpty() &#038;&#038; A[i]<= A[(Integer)stack.top()]){<br />
+				stack.pop();<br />
+			}<br />
+			if(stack.isEmpty()){<br />
+				continuosSubArray[i] = continuosSubArray[i] + n-1-i;<br />
+			}else{<br />
+				continuosSubArray[i] = continuosSubArray[i] + (Integer)stack.top() &#8211; i &#8211; 1;<br />
+			}<br />
+			stack.push(i);<br />
+		}<br />
+		for (int i = 0; i < n; i++) {<br />
+			max_Area = Math.max(max_Area, (continuosSubArray[i]+1)*A[i]);<br />
+		}<br />
+		return max_Area;</p>
+<p>	}</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-17186">
+        <div id="dsq-comment-header-17186" class="dsq-comment-header">
+            <cite id="dsq-cite-17186">
+                <span id="dsq-author-user-17186">anonymous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17186" class="dsq-comment-body">
+            <div id="dsq-comment-message-17186" class="dsq-comment-message"><p>Please correct me If I am wrong</p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+#include&lt;conio.h&gt;
+int max(int a,int b){
+    return a&gt;b?a:b;
+}
+int max(int a,int b,int c){
+     return max(max(a, b), c);
+}
+
+int findMinIndex(int a[],int start,int end){
+    int i;
+    int min = a[start];
+    int min_index = start;
+    for(i=start+1;i&lt;end;i++){
+                           if(a[i]&lt;min){
+                                        min = a[i];
+                                        min_index = i;
+                           }
+    }
+    return min_index;
+}
+int findArea(int a[],int min,int start,int end){
+    return a[min]*((end-start)+1);
+}
+int count =0;
+int findMaxArea(int a[],int start,int end){
+    if(start&gt;end){
+                  return 0;
+    }
+    int min_index = findMinIndex(a,start,end);
+    //printf(&quot;%d . %d    min = %d , start = %d, end = %d \n&quot;,count,findArea(a,min_index,start,end),a[min_index],start,end);
+    count++;
+    return max(findMaxArea(a,start,min_index-1),findArea(a,min_index,start,end),findMaxArea(a,min_index+1,end));
+}
+int main(){
+    int hist[] =  {3, 4, 5, 6, 5, 4, 3};
+    int n = sizeof(hist)/sizeof(hist[0]);
+    printf(&quot;%d&quot;,findMaxArea(hist,0, n));
+    getchar();
+    return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-kk-nitrkl odd alt thread-even depth-1" id="dsq-comment-17170">
+        <div id="dsq-comment-header-17170" class="dsq-comment-header">
+            <cite id="dsq-cite-17170">
+                <span id="dsq-author-user-17170">kk.nitrkl</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17170" class="dsq-comment-body">
+            <div id="dsq-comment-message-17170" class="dsq-comment-message"><p>This doesn&#8217;t seem correct. try data {3, 4, 5, 6, 5, 4, 3}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even depth-2" id="dsq-comment-17171">
+        <div id="dsq-comment-header-17171" class="dsq-comment-header">
+            <cite id="dsq-cite-17171">
+                <span id="dsq-author-user-17171">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17171" class="dsq-comment-body">
+            <div id="dsq-comment-message-17171" class="dsq-comment-message"><p>Thanks for pointing this out. There was a flaw in the previous approach.  We have updated the post with a new approach and code.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-34626">
+        <div id="dsq-comment-header-34626" class="dsq-comment-header">
+            <cite id="dsq-cite-34626">
+                <span id="dsq-author-user-34626">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34626" class="dsq-comment-body">
+            <div id="dsq-comment-message-34626" class="dsq-comment-message"><p>can this code work if we have  a histogram array with zero entry?????thanks &#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/largest-rectangular-area-in-a-histogram-set-1/';
+var disqus_identifier = '116623 http://www.geeksforgeeks.org/?p=116623';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Largest Rectangular Area in a Histogram | Set 1";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.194 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-28 00:00:27 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

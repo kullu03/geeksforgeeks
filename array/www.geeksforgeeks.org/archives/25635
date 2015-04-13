@@ -1,0 +1,1393 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Inplace M x N size matrix transpose | Updated - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/inplace-m-x-n-size-matrix-transpose/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Inplace M x N size matrix transpose | Updated - GeeksforGeeks" />
+<meta property="og:description" content="About four months of gap (missing GFG), a new post. Given an M x N matrix, transpose the matrix without auxiliary memory.It is easy to transpose matrix using an auxiliary array. If the matrix is symmetric in size, we can transpose the matrix inplace by mirroring the 2D array across it&#8217;s diagonal (try yourself). How &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/inplace-m-x-n-size-matrix-transpose/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:section" content="Arrays" />
+<meta property="article:published_time" content="2012-10-16T06:56:44+00:00" />
+<meta property="article:modified_time" content="2013-06-24T14:18:04+00:00" />
+<meta property="og:updated_time" content="2013-06-24T14:18:04+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.503 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111503 24.63.145.205';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Inplace M x N size matrix transpose | Updated</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>About four months of gap (missing GFG), a new post. Given an M x N matrix, transpose the matrix without auxiliary memory.<span id="more-25635"></span>It is easy to transpose matrix using an auxiliary array. If the matrix is symmetric in size, we can transpose the matrix inplace by mirroring the 2D array across it&#8217;s diagonal (try yourself). How to transpose an arbitrary size matrix inplace? See the following matrix,</p>
+<pre>a b c       a d g j
+d e f  ==&gt;  b e h k
+g h i       c f i l
+j k l</pre>
+<p>As per 2D numbering in C/C++, corresponding location mapping looks like,</p>
+<pre>Org element New
+ 0     a     0
+ 1     b     4
+ 2     c     8
+ 3     d     1
+ 4     e     5
+ 5     f     9
+ 6     g     2
+ 7     h     6
+ 8     i    10
+ 9     j     3
+ 10    k     7
+ 11    l    11</pre>
+<p>Note that the first and last elements stay in their original location. We can easily see the transformation forms few permutation cycles. 1-&gt;4-&gt;5-&gt;9-&gt;3-&gt;1  &#8211; Total 5 elements form the cycle 2-&gt;8-&gt;10-&gt;7-&gt;6-&gt;2 &#8211; Another 5 elements form the cycle 0  &#8211; Self cycle 11 &#8211; Self cycle From the above example, we can easily devise an algorithm to move the elements along these cycles. <em>How can we generate permutation cycles?</em> Number of elements in both the matrices are constant, given by N = R * C, where R is row count and C is column count. An element at location <em>ol</em> (old location in R x C matrix), moved to <em>nl</em> (new location in C x R matrix). We need to establish relation between <em>ol, nl, R</em> and <em>C</em>. Assume <em>ol = A[or][oc]</em>. In C/C++ we can calculate the element address as,</p>
+<pre>ol = or x C + oc (ignore base reference for simplicity)</pre>
+<p>It is to be moved to new location <em>nl</em> in the transposed matrix, say <em>nl = A[nr][nc]</em>, or in C/C++ terms</p>
+<pre>nl = nr x R + nc (R - column count, C is row count as the matrix is transposed)</pre>
+<p>Observe, <em>nr = oc </em>and<em> nc = or</em>, so replacing these for <em>nl</em>,</p>
+<pre>nl = oc x R + or -----&gt; [eq 1]</pre>
+<p>after solving for relation between <em>ol</em> and <em>nl</em>, we get</p>
+<pre>ol     = or x C     + oc
+ol x R = or x C x R + oc x R
+       = or x N     + oc x R    (from the fact R * C = N)
+       = or x N     + (nl - or) --- from [eq 1]
+       = or x (N-1) + nl</pre>
+<p>OR,</p>
+<pre>nl = ol x R - or x (N-1)</pre>
+<p>Note that the values of <em>nl</em> and <em>ol</em> never go beyond <em>N-1</em>, so considering modulo division on both the sides by (<em>N-1</em>), we get the following based on properties of congruence,</p>
+<pre>nl mod (N-1) = (ol x R - or x (N-1)) mod (N-1)
+             = (ol x R) mod (N-1) - or x (N-1) mod(N-1)
+             = ol x R mod (N-1), since second term evaluates to zero
+nl = (ol x R) mod (N-1), since <em>nl</em> is always less than <em>N-1</em></pre>
+<p><strong>A curious reader might have observed the significance of above relation. Every location is scaled by a factor of R (row size). It is obvious from the matrix that every location is displaced by scaled factor of R. The actual multiplier depends on congruence class of (N-1), i.e. the multiplier can be both -ve and +ve value of the congruent class.</strong>Hence every location transformation is simple modulo division. These modulo divisions form cyclic permutations. We need some book keeping information to keep track of already moved elements. Here is code for inplace matrix transformation,</p>
+<pre class="brush: cpp; highlight: [23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57]; title: ; notranslate" title="">
+// Program for in-place matrix transpose
+#include &lt;stdio.h&gt;
+#include &lt;iostream&gt;
+#include &lt;bitset&gt;
+#define HASH_SIZE 128
+
+using namespace std;
+
+// A utility function to print a 2D array of size nr x nc and base address A
+void Print2DArray(int *A, int nr, int nc)
+{
+    for(int r = 0; r &lt; nr; r++)
+    {
+        for(int c = 0; c &lt; nc; c++)
+            printf(&quot;%4d&quot;, *(A + r*nc + c));
+
+        printf(&quot;\n&quot;);
+    }
+
+    printf(&quot;\n\n&quot;);
+}
+
+// Non-square matrix transpose of matrix of size r x c and base address A
+void MatrixInplaceTranspose(int *A, int r, int c)
+{
+    int size = r*c - 1;
+    int t; // holds element to be replaced, eventually becomes next element to move
+    int next; // location of 't' to be moved
+    int cycleBegin; // holds start of cycle
+    int i; // iterator
+    bitset&lt;HASH_SIZE&gt; b; // hash to mark moved elements
+
+    b.reset();
+    b[0] = b[size] = 1;
+    i = 1; // Note that A[0] and A[size-1] won't move
+    while (i &lt; size)
+    {
+        cycleBegin = i;
+        t = A[i];
+        do
+        {
+            // Input matrix [r x c]
+            // Output matrix 1
+            // i_new = (i*r)%(N-1)
+            next = (i*r)%size;
+            swap(A[next], t);
+            b[i] = 1;
+            i = next;
+        }
+        while (i != cycleBegin);
+
+        // Get Next Move (what about querying random location?)
+        for (i = 1; i &lt; size &amp;&amp; b[i]; i++)
+            ;
+        cout &lt;&lt; endl;
+    }
+}
+
+// Driver program to test above function
+int main(void)
+{
+    int r = 5, c = 6;
+    int size = r*c;
+    int *A = new int[size];
+
+    for(int i = 0; i &lt; size; i++)
+        A[i] = i+1;
+
+    Print2DArray(A, r, c);
+    MatrixInplaceTranspose(A, r, c);
+    Print2DArray(A, c, r);
+
+    delete[] A;
+
+    return 0;
+}
+</pre>
+<p>Output:</p>
+<pre>   1   2   3   4   5   6
+   7   8   9  10  11  12
+  13  14  15  16  17  18
+  19  20  21  22  23  24
+  25  26  27  28  29  30
+
+   1   7  13  19  25
+   2   8  14  20  26
+   3   9  15  21  27
+   4  10  16  22  28
+   5  11  17  23  29
+   6  12  18  24  30</pre>
+<p><strong>Extension: 17 &#8211; March &#8211; 2013</strong> Some <a href="http://www.geeksforgeeks.org/inplace-m-x-n-size-matrix-transpose/#comment-15647" target="_blank">readers</a> identified similarity between the matrix transpose and <a href="http://www.geeksforgeeks.org/an-in-place-algorithm-for-string-transformation/" target="_blank">string transformation</a>. Without much theory I am presenting the problem and solution. In given array of elements like [a1b2c3d4e5f6g7h8i9j1k2l3m4]. Convert it to [abcdefghijklm1234567891234]. The program should run inplace. What we need is an inplace transpose. Given below is code.</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+#include &lt;stdio.h&gt;
+#include &lt;iostream&gt;
+#include &lt;bitset&gt;
+#define HASH_SIZE 128
+
+using namespace std;
+
+typedef char data_t;
+
+void Print2DArray(char A[], int nr, int nc) {
+   int size = nr*nc;
+   for(int i = 0; i &lt; size; i++)
+      printf(&quot;%4c&quot;, *(A + i));
+
+   printf(&quot;\n&quot;);
+}
+
+void MatrixTransposeInplaceArrangement(data_t A[], int r, int c) {
+   int size = r*c - 1;
+   data_t t; // holds element to be replaced, eventually becomes next element to move
+   int next; // location of 't' to be moved
+   int cycleBegin; // holds start of cycle
+   int i; // iterator
+   bitset&lt;HASH_SIZE&gt; b; // hash to mark moved elements
+
+   b.reset();
+   b[0] = b[size] = 1;
+   i = 1; // Note that A[0] and A[size-1] won't move
+   while( i &lt; size ) {
+      cycleBegin = i;
+      t = A[i];
+      do {
+         // Input matrix [r x c]
+         // Output matrix 1
+         // i_new = (i*r)%size
+         next = (i*r)%size;
+         swap(A[next], t);
+         b[i] = 1;
+         i = next;
+      } while( i != cycleBegin );
+
+      // Get Next Move (what about querying random location?)
+      for(i = 1; i &lt; size &amp;&amp; b[i]; i++)
+         ;
+      cout &lt;&lt; endl;
+   }
+}
+
+void Fill(data_t buf[], int size) {
+   // Fill abcd ...
+   for(int i = 0; i &lt; size; i++)
+   buf[i] = 'a'+i;
+
+   // Fill 0123 ...
+   buf += size;
+   for(int i = 0; i &lt; size; i++)
+      buf[i] = '0'+i;
+}
+
+void TestCase_01(void) {
+   int r = 2, c = 10;
+   int size = r*c;
+   data_t *A = new data_t[size];
+
+   Fill(A, c);
+
+   Print2DArray(A, r, c), cout &lt;&lt; endl;
+   MatrixTransposeInplaceArrangement(A, r, c);
+   Print2DArray(A, c, r), cout &lt;&lt; endl;
+
+   delete[] A;
+}
+
+int main() {
+   TestCase_01();
+
+   return 0;
+}
+</pre>
+<p>The post is incomplete without mentioning two links.</p>
+<p>1. Aashish covered good theory behind cycle leader algorithm. See his post on <a href="http://www.geeksforgeeks.org/an-in-place-algorithm-for-string-transformation/" target="_blank">string transformation</a>.</p>
+<p>2. As usual, <a href="http://effprog.wordpress.com" target="_blank">Sambasiva</a> demonstrated his exceptional skills in recursion to the <a href="http://effprog.wordpress.com/2010/08/02/in-a-given-array-of-elements-like-a1-a2-a3-a4-an-b1-b2-b3-b4-bn-c1-c2-c3-c4-cn-without-taking-a-extra-memory-how-to-merge-like-a1-b1-c1-a2-b2-c2-a3-b3-c/" target="_blank">problem</a>. Ensure to understand his solution.</p>
+<p>— <a href="http://www.linkedin.com/in/ramanawithu" target="_blank">Venki</a>. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array-set-2-expected-linear-time/" title="K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)">K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)</a></li><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array/" title="K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1">K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/time-complexity-insertion-sort-inversions/" title="Time complexity of insertion sort when there are O(n) inversions?">Time complexity of insertion sort when there are O(n) inversions?</a></li><li><a href="http://www.geeksforgeeks.org/check-two-given-sets-disjoint/" title="How to check if two given sets are disjoint?">How to check if two given sets are disjoint?</a></li><li><a href="http://www.geeksforgeeks.org/minimum-number-platforms-required-railwaybus-station/" title="Minimum Number of Platforms Required for a Railway/Bus Station">Minimum Number of Platforms Required for a Railway/Bus Station</a></li><li><a href="http://www.geeksforgeeks.org/given-two-sorted-arrays-number-x-find-pair-whose-sum-closest-x/" title="Find the closest pair from two sorted arrays">Find the closest pair from two sorted arrays</a></li><li><a href="http://www.geeksforgeeks.org/print-elements-sorted-order-row-column-wise-sorted-matrix/" title="Print all elements in sorted order from row and column wise sorted matrix">Print all elements in sorted order from row and column wise sorted matrix</a></li><li><a href="http://www.geeksforgeeks.org/length-largest-subarray-contiguous-elements-set-1/" title="Length of the largest subarray with contiguous elements | Set 1">Length of the largest subarray with contiguous elements | Set 1</a></li></ul>
+<p></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Finplace-m-x-n-size-matrix-transpose%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/inplace-m-x-n-size-matrix-transpose/" data-text="Inplace M x N size matrix transpose | Updated" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/inplace-m-x-n-size-matrix-transpose/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-33332">
+        <div id="dsq-comment-header-33332" class="dsq-comment-header">
+            <cite id="dsq-cite-33332">
+                <span id="dsq-author-user-33332">???</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33332" class="dsq-comment-body">
+            <div id="dsq-comment-message-33332" class="dsq-comment-message"><p>I was wandering the time complexity of &#8221; Matrix Inplace Transpose&#8221; this function.</p>
+<p>especially here,<br />
+do<br />
+{<br />
+// Input matrix [r x c]<br />
+// Output matrix 1<br />
+// i_new = (i*r)%(N-1)<br />
+next = (i*r)%size;<br />
+swap(A[next], t);<br />
+b[i] = 1;<br />
+i = next;<br />
+}</p>
+<p>how can we judge the big O of this code.???</p>
+<p>and I don&#8217;t know the</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-28781">
+        <div id="dsq-comment-header-28781" class="dsq-comment-header">
+            <cite id="dsq-cite-28781">
+                <span id="dsq-author-user-28781">Anil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28781" class="dsq-comment-body">
+            <div id="dsq-comment-message-28781" class="dsq-comment-message"><p>The mentioned program for string transformation is giving wrong answer. Check it out the mention Fill() function, </p>
+<p>void Fill(data_t buf[], int size) {<br />
+//    buf[]=&#8221;a0b1c2d3e4f5g6h7i8j9&#8243;;<br />
+   for(int i = 0; i &lt; size; i++) {<br />
+    i%2 == 0 ? buf[i] = &#039;a&#039;+i/2 : buf[i] = &#039;0&#039;+i/2;<br />
+   }<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-28515">
+        <div id="dsq-comment-header-28515" class="dsq-comment-header">
+            <cite id="dsq-cite-28515">
+                <span id="dsq-author-user-28515">venkat</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28515" class="dsq-comment-body">
+            <div id="dsq-comment-message-28515" class="dsq-comment-message"><p>In the question &#8221; Given an M x N matrix, transpose the matrix without auxiliary memory&#8221;? .  But , in this approach we used O(N) memory for bitset.<br />
+  Can anyone explain</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-22978">
+        <div id="dsq-comment-header-22978" class="dsq-comment-header">
+            <cite id="dsq-cite-22978">
+                <span id="dsq-author-user-22978">Rohit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22978" class="dsq-comment-body">
+            <div id="dsq-comment-message-22978" class="dsq-comment-message"><p>@Venki: Code given for string transformation takes input as abcdefghij0123456789 instead of a0b1c2d3e4f5g6h7i8j9 and produces output as a0b1c2d3e4f5g6h7i8j9 instead of abcdefghij0123456789(as opposed to the problem statement). I have changed only the Fill() function to make the correct input as a0b1c2d3e4f5g6h7i8j9 but then given code doesn&#8217;t produce the correct output. Can you please tell me what is the issue? Is it the code or I am missing something?</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+<p>#include<br />
+#include<br />
+#include<br />
+#define HASH_SIZE 128</p>
+<p>using namespace std;</p>
+<p>typedef char data_t;</p>
+<p>void Print2DArray(char A[], int nr, int nc) {<br />
+   int size = nr*nc;<br />
+   for(int i = 0; i &lt; size; i++)<br />
+      printf(&quot;%4c&quot;, *(A + i));</p>
+<p>   printf(&quot;\n&quot;);<br />
+}</p>
+<p>void MatrixTransposeInplaceArrangement(data_t A[], int r, int c) {<br />
+   int size = r*c &#8211; 1;<br />
+   data_t t; // holds element to be replaced, eventually becomes next element to move<br />
+   int next; // location of &#039;t&#039; to be moved<br />
+   int cycleBegin; // holds start of cycle<br />
+   int i; // iterator<br />
+   bitset b; // hash to mark moved elements</p>
+<p>   b.reset();<br />
+   b[0] = b[size] = 1;<br />
+   i = 1; // Note that A[0] and A[size-1] won&#8217;t move<br />
+   while( i &lt; size ) {<br />
+      cycleBegin = i;<br />
+      t = A[i];<br />
+      do {<br />
+         // Input matrix [r x c]<br />
+         // Output matrix 1<br />
+         // i_new = (i*r)%size<br />
+         next = (i*r)%size;<br />
+         swap(A[next], t);<br />
+         b[i] = 1;<br />
+         i = next;<br />
+      } while( i != cycleBegin );</p>
+<p>      // Get Next Move (what about querying random location?)<br />
+      for(i = 1; i &lt; size &amp;&amp; b[i]; i++)<br />
+         ;<br />
+      cout &lt;&lt; endl;<br />
+   }<br />
+}</p>
+<p>void Fill(data_t buf[], int size) {<br />
+   // Fill abcd &#8230;<br />
+   buf[0] = &#039;a&#039;;<br />
+   buf [1] = &#039;0&#039;;<br />
+   for(int i = 2; i &lt; size; i++){<br />
+   buf[i] = buf[i-2]+ 1;<br />
+   //buf[i+1] =<br />
+   }<br />
+   // Fill 0123 &#8230;<br />
+   //buf += size;<br />
+  // for(int i = 0; i &lt; size; i++)<br />
+      //buf[i] = &#039;0&#039;+i;<br />
+}</p>
+<p>void TestCase_01(void) {<br />
+   int r = 2, c = 10;<br />
+   int size = r*c;<br />
+   data_t *A = new data_t[size];</p>
+<p>   Fill(A, size);</p>
+<p>   Print2DArray(A, r, c), cout &lt;&lt; endl;<br />
+   MatrixTransposeInplaceArrangement(A, r, c);<br />
+   Print2DArray(A, c, r), cout &lt;&lt; endl;</p>
+<p>   delete[] A;<br />
+}</p>
+<p>int main() {<br />
+   TestCase_01();</p>
+<p>   return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-22977">
+        <div id="dsq-comment-header-22977" class="dsq-comment-header">
+            <cite id="dsq-cite-22977">
+                <span id="dsq-author-user-22977">Rohit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22977" class="dsq-comment-body">
+            <div id="dsq-comment-message-22977" class="dsq-comment-message"><p>@Venki: Code given for string transformation takes input as abcdefghij0123456789 instead of a0b1c2d3e4f5g6h7i8j9 and produces output as a0b1c2d3e4f5g6h7i8j9 instead of abcdefghij0123456789(as opposed to the problem statement). I have changed only the Fill() function to make the correct input as a0b1c2d3e4f5g6h7i8j9 but then given code doesn&#8217;t produce the correct output. Can you please tell me what is the issue? Is it the code or I am missing something?</p>
+<pre> <code language="C"></code> </pre>
+<p>/* Paste your code here (You may delete these lines if not writing code) */</p>
+<p>#include<br />
+#include<br />
+#include<br />
+#define HASH_SIZE 128</p>
+<p>using namespace std;</p>
+<p>typedef char data_t;</p>
+<p>void Print2DArray(char A[], int nr, int nc) {<br />
+   int size = nr*nc;<br />
+   for(int i = 0; i &lt; size; i++)<br />
+      printf(&quot;%4c&quot;, *(A + i));</p>
+<p>   printf(&quot;\n&quot;);<br />
+}</p>
+<p>void MatrixTransposeInplaceArrangement(data_t A[], int r, int c) {<br />
+   int size = r*c &#8211; 1;<br />
+   data_t t; // holds element to be replaced, eventually becomes next element to move<br />
+   int next; // location of &#039;t&#039; to be moved<br />
+   int cycleBegin; // holds start of cycle<br />
+   int i; // iterator<br />
+   bitset b; // hash to mark moved elements</p>
+<p>   b.reset();<br />
+   b[0] = b[size] = 1;<br />
+   i = 1; // Note that A[0] and A[size-1] won&#8217;t move<br />
+   while( i &lt; size ) {<br />
+      cycleBegin = i;<br />
+      t = A[i];<br />
+      do {<br />
+         // Input matrix [r x c]<br />
+         // Output matrix 1<br />
+         // i_new = (i*r)%size<br />
+         next = (i*r)%size;<br />
+         swap(A[next], t);<br />
+         b[i] = 1;<br />
+         i = next;<br />
+      } while( i != cycleBegin );</p>
+<p>      // Get Next Move (what about querying random location?)<br />
+      for(i = 1; i &lt; size &amp;&amp; b[i]; i++)<br />
+         ;<br />
+      cout &lt;&lt; endl;<br />
+   }<br />
+}</p>
+<p>void Fill(data_t buf[], int size) {<br />
+   // Fill abcd &#8230;<br />
+   buf[0] = &#039;a&#039;;<br />
+   buf [1] = &#039;0&#039;;<br />
+   for(int i = 2; i &lt; size; i++){<br />
+   buf[i] = buf[i-2]+ 1;<br />
+   //buf[i+1] =<br />
+   }<br />
+   // Fill 0123 &#8230;<br />
+   //buf += size;<br />
+  // for(int i = 0; i &lt; size; i++)<br />
+      //buf[i] = &#039;0&#039;+i;<br />
+}</p>
+<p>void TestCase_01(void) {<br />
+   int r = 2, c = 10;<br />
+   int size = r*c;<br />
+   data_t *A = new data_t[size];</p>
+<p>   Fill(A, size);</p>
+<p>   Print2DArray(A, r, c), cout &lt;&lt; endl;<br />
+   MatrixTransposeInplaceArrangement(A, r, c);<br />
+   Print2DArray(A, c, r), cout &lt;&lt; endl;</p>
+<p>   delete[] A;<br />
+}</p>
+<p>int main() {<br />
+   TestCase_01();</p>
+<p>   return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-22976">
+        <div id="dsq-comment-header-22976" class="dsq-comment-header">
+            <cite id="dsq-cite-22976">
+                <span id="dsq-author-user-22976">Rohit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22976" class="dsq-comment-body">
+            <div id="dsq-comment-message-22976" class="dsq-comment-message"><p>@Venki: The code provided for string transformation takes the input arrays as abcdefghij0123456789 instead of a0b1c2d3e4f5g6h7i8j9 and produces output as a0b1c2d3e4f5g6h7i8j9 instead of abcdefghij0123456789(opposed to what mentioned in the problem statement). I have changed only the Fill() function to make the correct input as a0b1c2d3e4f5g6h7i8j9, but then given code does not produce the correct output! Can you please let me know what is the issue? Is it the code or I am missing something? </p>
+<pre> <code language="C"></code> </pre>
+<p>/* Paste your code here (You may delete these lines if not writing code) */<br />
+#include<br />
+#include<br />
+#include<br />
+#define HASH_SIZE 128</p>
+<p>using namespace std;</p>
+<p>typedef char data_t;</p>
+<p>void Print2DArray(char A[], int nr, int nc) {<br />
+   int size = nr*nc;<br />
+   for(int i = 0; i &lt; size; i++)<br />
+      printf(&quot;%4c&quot;, *(A + i));</p>
+<p>   printf(&quot;\n&quot;);<br />
+}</p>
+<p>void MatrixTransposeInplaceArrangement(data_t A[], int r, int c) {<br />
+   int size = r*c &#8211; 1;<br />
+   data_t t; // holds element to be replaced, eventually becomes next element to move<br />
+   int next; // location of &#039;t&#039; to be moved<br />
+   int cycleBegin; // holds start of cycle<br />
+   int i; // iterator<br />
+   bitset b; // hash to mark moved elements</p>
+<p>   b.reset();<br />
+   b[0] = b[size] = 1;<br />
+   i = 1; // Note that A[0] and A[size-1] won&#8217;t move<br />
+   while( i &lt; size ) {<br />
+      cycleBegin = i;<br />
+      t = A[i];<br />
+      do {<br />
+         // Input matrix [r x c]<br />
+         // Output matrix 1<br />
+         // i_new = (i*r)%size<br />
+         next = (i*r)%size;<br />
+         swap(A[next], t);<br />
+         b[i] = 1;<br />
+         i = next;<br />
+      } while( i != cycleBegin );</p>
+<p>      // Get Next Move (what about querying random location?)<br />
+      for(i = 1; i &lt; size &amp;&amp; b[i]; i++)<br />
+         ;<br />
+      cout &lt;&lt; endl;<br />
+   }<br />
+}</p>
+<p>void Fill(data_t buf[], int size) {<br />
+   // Fill abcd &#8230;<br />
+   buf[0] = &#039;a&#039;;<br />
+   buf [1] = &#039;0&#039;;<br />
+   for(int i = 2; i &lt; size; i++){<br />
+   buf[i] = buf[i-2]+ 1;<br />
+   //buf[i+1] =<br />
+   }<br />
+   // Fill 0123 &#8230;<br />
+   //buf += size;<br />
+  // for(int i = 0; i &lt; size; i++)<br />
+      //buf[i] = &#039;0&#039;+i;<br />
+}</p>
+<p>void TestCase_01(void) {<br />
+   int r = 2, c = 10;<br />
+   int size = r*c;<br />
+   data_t *A = new data_t[size];</p>
+<p>   Fill(A, size);</p>
+<p>   Print2DArray(A, r, c), cout &lt;&lt; endl;<br />
+   MatrixTransposeInplaceArrangement(A, r, c);<br />
+   Print2DArray(A, c, r), cout &lt;&lt; endl;</p>
+<p>   delete[] A;<br />
+}</p>
+<p>int main() {<br />
+   TestCase_01();</p>
+<p>   return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-21212">
+        <div id="dsq-comment-header-21212" class="dsq-comment-header">
+            <cite id="dsq-cite-21212">
+                <span id="dsq-author-user-21212">srinivas</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21212" class="dsq-comment-body">
+            <div id="dsq-comment-message-21212" class="dsq-comment-message"><p>Can u explain why bitset b will use only 128 bits? If it is used to mark the moved elements, then O(N) space will be required for bitset itself. Then it cannot be considered as inplace transpose, since auxiliary O(N) space is used.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-18123">
+        <div id="dsq-comment-header-18123" class="dsq-comment-header">
+            <cite id="dsq-cite-18123">
+                <span id="dsq-author-user-18123">cooldude</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18123" class="dsq-comment-body">
+            <div id="dsq-comment-message-18123" class="dsq-comment-message"><p>We can also do inplace image rotation by 90 degrees by first inplace transpose of array followed by swapping first and last columns and so on</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-abhishek08aug even thread-even depth-1" id="dsq-comment-17759">
+        <div id="dsq-comment-header-17759" class="dsq-comment-header">
+            <cite id="dsq-cite-17759">
+                <span id="dsq-author-user-17759">abhishek08aug</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17759" class="dsq-comment-body">
+            <div id="dsq-comment-message-17759" class="dsq-comment-message"><p>Intelligent <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_biggrin.gif" alt=":D" class="wp-smiley" /></p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-17283">
+        <div id="dsq-comment-header-17283" class="dsq-comment-header">
+            <cite id="dsq-cite-17283">
+                <span id="dsq-author-user-17283">rahul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17283" class="dsq-comment-body">
+            <div id="dsq-comment-message-17283" class="dsq-comment-message"><p>@venki:-Nice post.plz tell me how this statement</p>
+<p> next = (i*r)%size;<br />
+ensures that in one cycle no two elements map to same location..i mean say cycle is<br />
+x-&gt;y-&gt;z-&gt;a-&gt;b<br />
+how this code ensures that in one cycle no elemt is repeated</p>
+<p>like we cant have x-&gt;y-&gt;z-&gt;a-&gt;y-&gt;x</p>
+<p>as it is not happening but i want to know how it is working.<br />
+And how swap is implemented..Is it swapping two variables?We are just passing values.<br />
+And y we need to swap?We can simple put value and new index and save old value to move it next.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-15647">
+        <div id="dsq-comment-header-15647" class="dsq-comment-header">
+            <cite id="dsq-cite-15647">
+https://github.com/aishwarya4444                <span id="dsq-author-user-15647">Aishwarya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15647" class="dsq-comment-body">
+            <div id="dsq-comment-message-15647" class="dsq-comment-message"><p>Now I can answer a question which was asked in an interview. Here is the question :</p>
+<p>In given array of elements like [a1,a2,a3,..an,b1,b2,b3,..bn,c1,c2,c3,&#8230;cn] Write a program to merge them like [a1,b1,c1,a2,b2,c2,&#8230;an,bn,cn].</p>
+<p>PS: Do it without using extra memory<br />
+Sample Testcases:<br />
+Input #00:<br />
+{1,2,3,4,5,6,7,8,9,10,11,12}<br />
+Output #00:<br />
+{1,5,9,2,6,10,3,7,11,4,8,12}<br />
+Explanation:<br />
+Here as you can notice, the array is of the form<br />
+{a1,a2,a3,a4,b1,b2,b3,b4,c1,c2,c3,c4}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-venki bypostauthor odd alt depth-2" id="dsq-comment-16440">
+        <div id="dsq-comment-header-16440" class="dsq-comment-header">
+            <cite id="dsq-cite-16440">
+http://www.linkedin.com/in/ramanawithu                <span id="dsq-author-user-16440">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16440" class="dsq-comment-body">
+            <div id="dsq-comment-message-16440" class="dsq-comment-message"><p>@Aishwarya, I have extended the post to cover inplace merging of string. Hope it helps the readers.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-11836">
+        <div id="dsq-comment-header-11836" class="dsq-comment-header">
+            <cite id="dsq-cite-11836">
+                <span id="dsq-author-user-11836">kiran</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11836" class="dsq-comment-body">
+            <div id="dsq-comment-message-11836" class="dsq-comment-message"><p>@venki:<br />
+Great post.<br />
+For selecting the next move. starting point in the loop can be cycleBegin</p>
+<pre> <code language="C">
+// Get Next Move (what about querying random location?)
+        for (i = cycleBegin; i &lt; size &amp;&amp; b[i]; i++)
+</code> </pre>
+<p>Please correct me if I am missing something</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-11853">
+        <div id="dsq-comment-header-11853" class="dsq-comment-header">
+            <cite id="dsq-cite-11853">
+                <span id="dsq-author-user-11853">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11853" class="dsq-comment-body">
+            <div id="dsq-comment-message-11853" class="dsq-comment-message"><p>Yes, thanks. This can be one way. But I suspect that there might be some missing elements in the cycles, say, there are some uncovered elements between two cycleBegins. Perhaps those missing would be covered as move forward. Overall I see it as an improvement.</p>
+<p>A deterministic random number generator can do well. As long as there are reset elements in the hash, we query a random location repeatedly till we find hash location with zero value. The quality of query depends on probability distribution of random number generator.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-12093">
+        <div id="dsq-comment-header-12093" class="dsq-comment-header">
+            <cite id="dsq-cite-12093">
+                <span id="dsq-author-user-12093">MJ</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12093" class="dsq-comment-body">
+            <div id="dsq-comment-message-12093" class="dsq-comment-message"><p>Can you plz put the code for choosing next move?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-11814">
+        <div id="dsq-comment-header-11814" class="dsq-comment-header">
+            <cite id="dsq-cite-11814">
+                <span id="dsq-author-user-11814">Nicam</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11814" class="dsq-comment-body">
+            <div id="dsq-comment-message-11814" class="dsq-comment-message"><p>I believe a simple two for loops will do, no need to do such math conversions. If in place transpose is needed, make sure the source matrix has the size of [max(row, col)][max(row, col)].</p>
+<pre> <code language="Java">
+public void transpose(int[][] matrix) {
+		int min = Math.min(matrix.length, matrix[0].length);
+		int max = Math.max(matrix.length, matrix[0].length);
+		
+		for (int i = 0; i &lt; min; ++i) {
+			for (int j = i+1; j &lt; max; ++j) {
+				int tmp = matrix[i][j];
+				matrix[i][j] = matrix[j][i];
+				matrix[j][i] = tmp;
+			}
+		}
+	}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-11815">
+        <div id="dsq-comment-header-11815" class="dsq-comment-header">
+            <cite id="dsq-cite-11815">
+                <span id="dsq-author-user-11815">Aashish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11815" class="dsq-comment-body">
+            <div id="dsq-comment-message-11815" class="dsq-comment-message"><p>This will consume space. e.g. For transposing a matrix of size 4000 x 2, you need a space of 4000 x 4000.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-11831">
+        <div id="dsq-comment-header-11831" class="dsq-comment-header">
+            <cite id="dsq-cite-11831">
+http://osjayaprakash.blogspot.com                <span id="dsq-author-user-11831">Jayaprakash Sundararaj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11831" class="dsq-comment-body">
+            <div id="dsq-comment-message-11831" class="dsq-comment-message"><p>@Venki, @admin : Nicam&#8217;s solution seems to ok and easy enough. Why do we need such a complex method to do the transpose? I dont see any memory improvement -OR- run time improvement over Nicam&#8217;s solution.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-11851">
+        <div id="dsq-comment-header-11851" class="dsq-comment-header">
+            <cite id="dsq-cite-11851">
+                <span id="dsq-author-user-11851">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11851" class="dsq-comment-body">
+            <div id="dsq-comment-message-11851" class="dsq-comment-message"><p>@Jayaprakash, note that @Nicam&#8217;s approach is nothing special. I have mentioned it in the content itself as an exercise. It is an implementation of square matrix transpose, which is simple. I don&#8217;t see why the math here is complex, infact it was a fun to me while deriving these equations.</p>
+<p>An example output makes Nicam&#8217;s method more clear.</p>
+<p>Consider 2 x 3 size matrix. It appears as (row major),</p>
+<p>1   2   3 |  4   5   6 |  0   0   0</p>
+<p>Note that the zeros are excess room for making the matrix a perfect square. After transpose it appears,</p>
+<p>1   4   0 |  2   5   0 |  3   6   0</p>
+<p>We have to omit last element (in general |M-N| elements) to treat the matrix as 3 x 2 size matrix. Infact, we need to move these zero to right end to make the matrix as per C/C++ row major representation.</p>
+<p>The whole intention behind the algorithm is transpose of non-square matrix. Hope it makes clear.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-14129">
+        <div id="dsq-comment-header-14129" class="dsq-comment-header">
+            <cite id="dsq-cite-14129">
+http://osjayaprakash.blogspot.com                <span id="dsq-author-user-14129">Jayaprakash S</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14129" class="dsq-comment-body">
+            <div id="dsq-comment-message-14129" class="dsq-comment-message"><p>@venki agree.. Thank you</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-11797">
+        <div id="dsq-comment-header-11797" class="dsq-comment-header">
+            <cite id="dsq-cite-11797">
+                <span id="dsq-author-user-11797">a2</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11797" class="dsq-comment-body">
+            <div id="dsq-comment-message-11797" class="dsq-comment-message"><p>Can the following code be improved any further ?</p>
+<pre> <code language="C">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+void printm(int* A,int r,int c)
+{
+	for(int i=0;i&lt;r;i++)
+	{
+		for(int j=0;j&lt;c;j++)
+			printf(&quot; %d &quot;,*(A+(i*c)+j));
+		printf(&quot;\n&quot;);
+	}
+}
+
+void transpose(int* mat,int row ,int col)
+{
+	int* temp=(int*)malloc(sizeof(int)*(row*col));
+
+	for(int i=0;i&lt;col;i++)
+		for(int j=0;j&lt;row;j++)
+			temp[(i*row)+j]=mat[(j*col)+i];
+
+	printm(temp,col,row);
+}
+
+int main ()
+{
+	int row=3;
+	int col=5;
+	int size=row*col;
+	int* A = (int*)malloc(sizeof(int)*size);
+    for(int i=0;i&lt;row;i++)
+	   for(int j=0;j&lt;col;j++)
+		   A[(i*col) +j]=(i+j+1);
+	printf(&quot;\nBefore transpose - \n\n&quot;);
+	printm(A,row,col);
+    printf(&quot;\nAfter transpose - \n\n&quot;);
+    transpose(A,row,col);
+    getchar();
+	return 0;
+}
+
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-11798">
+        <div id="dsq-comment-header-11798" class="dsq-comment-header">
+            <cite id="dsq-cite-11798">
+                <span id="dsq-author-user-11798">a2</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11798" class="dsq-comment-body">
+            <div id="dsq-comment-message-11798" class="dsq-comment-message"><p>Obviously I have tried the naive approach !</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-11784">
+        <div id="dsq-comment-header-11784" class="dsq-comment-header">
+            <cite id="dsq-cite-11784">
+                <span id="dsq-author-user-11784">sreeram</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11784" class="dsq-comment-body">
+            <div id="dsq-comment-message-11784" class="dsq-comment-message"><p>awesome &#8230;every time i see this question i redirect to wiki for that ccycles and leave it ..now i am clear &#8230;thnx a lot venki &#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/inplace-m-x-n-size-matrix-transpose/';
+var disqus_identifier = '25635 http://www.geeksforgeeks.org/?p=25635';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Inplace M x N size matrix transpose | Updated";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.206 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:35:03 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

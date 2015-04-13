@@ -1,0 +1,2430 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Run Length Encoding  - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/run-length-encoding/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Run Length Encoding  - GeeksforGeeks" />
+<meta property="og:description" content="Given an input string, write a function that returns the Run Length Encoded string for the input string. For example, if the input string is &#8220;wwwwaaadexxxxxx&#8221;, then the function should return &#8220;w4a3d1e1x6&#8243;. Algorithm: a) Pick the first character from source string. b) Append the picked character to the destination string. c) Count the number of &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/run-length-encoding/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:section" content="Strings" />
+<meta property="article:published_time" content="2010-05-15T01:08:31+00:00" />
+<meta property="article:modified_time" content="2012-02-09T23:31:48+00:00" />
+<meta property="og:updated_time" content="2012-02-09T23:31:48+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.486 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417112471 14.139.251.107';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Run Length Encoding</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given an input string, write a function that returns the <a href="http://en.wikipedia.org/wiki/Run-length_encoding">Run Length Encoded</a> string for the input string.<span id="more-7418"></span></p>
+<p>For example, if the input string is &#8220;wwwwaaadexxxxxx&#8221;, then the function should return &#8220;w4a3d1e1x6&#8243;.</p>
+<p>Algorithm:<br />
+a) Pick the first character from source string.<br />
+b) Append the picked character to the destination string.<br />
+c) Count the number of subsequent occurrences of the picked character and append the count to destination string.<br />
+d) Pick the next character and repeat steps b) c) and d) if end of string is NOT reached.</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+#include&lt;stdio.h&gt;
+#include&lt;string.h&gt;
+#include&lt;stdlib.h&gt;
+#define MAX_RLEN 50
+
+/* Returns the Run Length Encoded string for the 
+   source string src */
+char *encode(char *src)
+{     
+  int rLen;
+  char count[MAX_RLEN];
+  int len = strlen(src);
+  
+  /* If all characters in the source string are different, 
+    then size of destination string would be twice of input string.
+    For example if the src is &quot;abcd&quot;, then dest would be &quot;a1b1c1d1&quot;
+    For other inputs, size would be less than twice.  */
+  char *dest = (char *)malloc(sizeof(char)*(len*2 + 1));
+ 
+  int i, j = 0, k;
+
+  /* traverse the input string one by one */ 
+  for(i = 0; i &lt; len; i++)
+  {
+
+    /* Copy the first occurrence of the new character */ 
+    dest[j++] = src[i];
+    
+    /* Count the number of occurrences of the new character */
+    rLen = 1;     
+    while(i + 1 &lt; len &amp;&amp; src[i] == src[i+1])
+    {
+      rLen++;
+      i++;
+    }   
+	
+    /* Store rLen in a character array count[] */
+    sprintf(count, &quot;%d&quot;, rLen);
+
+    /* Copy the count[] to destination */
+    for(k = 0; *(count+k); k++, j++)
+    { 
+      dest[j] = count[k]; 
+    } 
+  }	 
+
+  /*terminate the destination string */ 
+  dest[j] = '&#92;&#48;';
+  return dest;
+}     
+
+/*driver program to test above function */
+int main()
+{
+  char str[] = &quot;geeksforgeeks&quot;;    
+  char *res = encode(str);
+  printf(&quot;%s&quot;, res);
+  getchar();
+}
+</pre>
+<p>Time Complexity: O(n)</p>
+<p>References:<br />
+<a href="http://en.wikipedia.org/wiki/Run-length_encoding">http://en.wikipedia.org/wiki/Run-length_encoding</a></p>
+<p>Please write comments if you find the above code/algorithm incorrect, or find better ways to solve the same problem.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-5-longest-common-substring-2/" title="Suffix Tree Application 5 &#8211; Longest Common Substring">Suffix Tree Application 5 &#8211; Longest Common Substring</a></li><li><a href="http://www.geeksforgeeks.org/generalized-suffix-tree-1/" title="Generalized Suffix Tree 1">Generalized Suffix Tree 1</a></li><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-4-build-linear-time-suffix-array/" title="Suffix Tree Application 4 &#8211; Build Linear Time Suffix Array">Suffix Tree Application 4 &#8211; Build Linear Time Suffix Array</a></li><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-3-longest-repeated-substring/" title="Suffix Tree Application 3 &#8211; Longest Repeated Substring">Suffix Tree Application 3 &#8211; Longest Repeated Substring</a></li><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-2-searching-all-patterns/" title="Suffix Tree Application 2 &#8211; Searching All Patterns">Suffix Tree Application 2 &#8211; Searching All Patterns</a></li><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-1-substring-check/" title="Suffix Tree Application 1 &#8211; Substring Check">Suffix Tree Application 1 &#8211; Substring Check</a></li><li><a href="http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-6/" title="Ukkonen&#8217;s Suffix Tree Construction &#8211; Part 6">Ukkonen&#8217;s Suffix Tree Construction &#8211; Part 6</a></li><li><a href="http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-5/" title="Ukkonen&#8217;s Suffix Tree Construction &#8211; Part 5">Ukkonen&#8217;s Suffix Tree Construction &#8211; Part 5</a></li></ul>
+<p></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Frun-length-encoding%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/run-length-encoding/" data-text="Run Length Encoding" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/run-length-encoding/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-33255">
+        <div id="dsq-comment-header-33255" class="dsq-comment-header">
+            <cite id="dsq-cite-33255">
+                <span id="dsq-author-user-33255">BalaKrishna Reddy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33255" class="dsq-comment-body">
+            <div id="dsq-comment-message-33255" class="dsq-comment-message"><p>import java.util.regex.Matcher;</p>
+<p>import java.util.regex.Pattern;</p>
+<p>public class RunLengthEncoding {</p>
+<p>	public static void main(String[] args) {</p>
+<p>		String s = &#8220;abcccccddegffff&#8221;;</p>
+<p>		Pattern pattern = Pattern.compile(&#8220;(\w)\1*&#8221;);</p>
+<p>		Matcher matcher = pattern.matcher(s);</p>
+<p>		StringBuilder sb = new StringBuilder();</p>
+<p>		String subString = null;</p>
+<p>		while(matcher.find()){</p>
+<p>			subString = matcher.group();</p>
+<p>			sb.append(String.valueOf(subString.charAt(0)) + String.valueOf(subString.length()));</p>
+<p>		}</p>
+<p>		System.out.println(sb.toString());</p>
+<p>		System.out.println(&#8220;program terminated&#8221;);</p>
+<p>	}</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-33005">
+        <div id="dsq-comment-header-33005" class="dsq-comment-header">
+            <cite id="dsq-cite-33005">
+                <span id="dsq-author-user-33005">ram93</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33005" class="dsq-comment-body">
+            <div id="dsq-comment-message-33005" class="dsq-comment-message"><p>#include</p>
+<p>#include</p>
+<p>int main()</p>
+<p>{</p>
+<p>    int i,j,k,l;</p>
+<p>    char str[30];</p>
+<p>    gets(str);</p>
+<p>    l=strlen(str);</p>
+<p>    for(i=0;i&lt;l;i++) </p>
+<p>    {                  </p>
+<p>              j=0;</p>
+<p>              for(k=i;k&lt;l ; k++)</p>
+<p>              {</p>
+<p>                 if(str[k]== str[i])</p>
+<p>                 j++;                </p>
+<p>                 else</p>
+<p>                 break;</p>
+<p>              }</p>
+<p>              printf(&quot;%c%d&quot;,str[i],j);</p>
+<p>              i=k-1;</p>
+<p>    }</p>
+<p>    getch();</p>
+<p>    return 0;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-31003">
+        <div id="dsq-comment-header-31003" class="dsq-comment-header">
+            <cite id="dsq-cite-31003">
+                <span id="dsq-author-user-31003">shiv</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31003" class="dsq-comment-body">
+            <div id="dsq-comment-message-31003" class="dsq-comment-message"><p>Why isnt dest being freed anywhere?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-30066">
+        <div id="dsq-comment-header-30066" class="dsq-comment-header">
+            <cite id="dsq-cite-30066">
+                <span id="dsq-author-user-30066">tczf1128</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30066" class="dsq-comment-body">
+            <div id="dsq-comment-message-30066" class="dsq-comment-message"><p>should be O(N^2)</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-32589">
+        <div id="dsq-comment-header-32589" class="dsq-comment-header">
+            <cite id="dsq-cite-32589">
+                <span id="dsq-author-user-32589">Abhay</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32589" class="dsq-comment-body">
+            <div id="dsq-comment-message-32589" class="dsq-comment-message"><p>it is (N) as you can see there are two nested loop bt the len value is incrementing in every loop and and will increment upto lenght only so it is clearly o(N)&#8230;!!!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-30059">
+        <div id="dsq-comment-header-30059" class="dsq-comment-header">
+            <cite id="dsq-cite-30059">
+                <span id="dsq-author-user-30059">sp00ky</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30059" class="dsq-comment-body">
+            <div id="dsq-comment-message-30059" class="dsq-comment-message"><p>public static String encode(String str){</p>
+<p>		String newstr=&#8221;&#8221;;</p>
+<p>		char alpha=str.charAt(0);</p>
+<p>		int count=1;</p>
+<p>		for(int i=1;i&lt;str.length();i++){<br />
+    if(str.charAt(i)==alpha){<br />
+         count++;<br />
+     }</p>
+<p>     else{<br />
+         newstr+=(alpha+Integer.toString(count));<br />
+         alpha=str.charAt(i);<br />
+         count=1;<br />
+     }<br />
+     if(i==str.length()-1){<br />
+          newstr+=(alpha+Integer.toString(count));<br />
+      }<br />
+}<br />
+return newstr;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-30031">
+        <div id="dsq-comment-header-30031" class="dsq-comment-header">
+            <cite id="dsq-cite-30031">
+                <span id="dsq-author-user-30031">chandu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30031" class="dsq-comment-body">
+            <div id="dsq-comment-message-30031" class="dsq-comment-message"><p>#include</p>
+<p>#include</p>
+<p>void main()</p>
+<p>{</p>
+<p>	char a[]=&#8221;wwwwaaadexxxxxx&#8221;;</p>
+<p>	char s=a[0];</p>
+<p>	int n=sizeof(a)/sizeof(a[0]);</p>
+<p>	int count=0,i;</p>
+<p>	for(i=0;i&lt;n-1;i++)</p>
+<p>	{</p>
+<p>		if(a[i]==a[0]) </p>
+<p>		{</p>
+<p>			count++;</p>
+<p>			if (a[i]!=a[i+1])</p>
+<p>			{</p>
+<p>				printf(&quot;%c%d&quot;,a[i],count);</p>
+<p>				a[0]=a[i+1];</p>
+<p>				count=0;</p>
+<p>			}</p>
+<p>		}</p>
+<p>	}</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-29213">
+        <div id="dsq-comment-header-29213" class="dsq-comment-header">
+            <cite id="dsq-cite-29213">
+                <span id="dsq-author-user-29213">coder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29213" class="dsq-comment-body">
+            <div id="dsq-comment-message-29213" class="dsq-comment-message"><p>@d4868dd64c637016efc578852ad7cd68:disqus<br />
+what should be complexity of this code??</p>
+<p>#include</p>
+<p>#include</p>
+<p>#include</p>
+<p>int main()</p>
+<p>{</p>
+<p>    char str1[]=&#8221;wwwwaaadexxxxxx&#8221;;</p>
+<p>    char str2[20];</p>
+<p>    int i=0;</p>
+<p>    int j=0;</p>
+<p>    int count=1;</p>
+<p>    puts(&#8220;Your Input String is:&#8221;);</p>
+<p>    puts(str1);</p>
+<p>    while(str1[j]!=&#8221;)</p>
+<p>    {</p>
+<p>               str2[i++]=str1[j];</p>
+<p>               while(str1[j]==str1[j+1])</p>
+<p>               {</p>
+<p>               count++;</p>
+<p>               j++;</p>
+<p>               }</p>
+<p>               str2[i++]=&#8217;0&#8217;+count;</p>
+<p>               count=1;</p>
+<p>               j++;</p>
+<p>    }</p>
+<p>    str2[i]=&#8221;;</p>
+<p>   printf(&#8220;nnRLE:%s&#8221;,str2);</p>
+<p>getchar();</p>
+<p>return 0;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-29212">
+        <div id="dsq-comment-header-29212" class="dsq-comment-header">
+            <cite id="dsq-cite-29212">
+                <span id="dsq-author-user-29212">coder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29212" class="dsq-comment-body">
+            <div id="dsq-comment-message-29212" class="dsq-comment-message"><p>#include</p>
+<p>#include</p>
+<p>#include</p>
+<p>int main()</p>
+<p>{</p>
+<p>    char str1[]=&#8221;wwaaabb&#8221;;</p>
+<p>    char str2[20];</p>
+<p>    int i=0;</p>
+<p>    int j=0;</p>
+<p>    int count=1;</p>
+<p>    puts(&#8220;Your Input String is:&#8221;);</p>
+<p>    puts(str1);</p>
+<p>    while(str1[j]!=&#8221;)</p>
+<p>    {</p>
+<p>               str2[i++]=str1[j];</p>
+<p>               while(str1[j]==str1[j+1])</p>
+<p>               {</p>
+<p>               count++;</p>
+<p>               j++;</p>
+<p>               }</p>
+<p>               str2[i++]=&#8217;0&#8217;+count;</p>
+<p>               count=1;</p>
+<p>               j++;</p>
+<p>    }</p>
+<p>    str2[i]=&#8221;;</p>
+<p>   printf(&#8220;nnRLE:%s&#8221;,str2);</p>
+<p>   char a=&#8217;0&#8217;+4;</p>
+<p>   printf(&#8220;nnn%c %d&#8221;,a,a);</p>
+<p>getchar();</p>
+<p>return 0;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-29211">
+        <div id="dsq-comment-header-29211" class="dsq-comment-header">
+            <cite id="dsq-cite-29211">
+                <span id="dsq-author-user-29211">coder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29211" class="dsq-comment-body">
+            <div id="dsq-comment-message-29211" class="dsq-comment-message"><p>@d4868dd64c637016efc578852ad7cd68:disqus:how is that its complexity is O(n) as per my observation it should be O(n2). as there are two nesting loops</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-28971">
+        <div id="dsq-comment-header-28971" class="dsq-comment-header">
+            <cite id="dsq-cite-28971">
+                <span id="dsq-author-user-28971">vibhu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28971" class="dsq-comment-body">
+            <div id="dsq-comment-message-28971" class="dsq-comment-message"><p>/*most simplified code*/</p>
+<p>#include<br />
+#include<br />
+#include<br />
+#include<br />
+#include<br />
+#include<br />
+using namespace std;<br />
+void runlengthencoding(string&amp; me)<br />
+{<br />
+ int i;<br />
+ string ptr;<br />
+ int count;<br />
+ for(i=0;i&lt;me.size();i++)<br />
+ {<br />
+   count=1;<br />
+   ptr+=me[i];<br />
+   while(me[i+1]==me[i]&amp;&amp;(i+1)10)<br />
+     {<br />
+       num=num/10;<br />
+       k++;<br />
+     }<br />
+  while(1)<br />
+  {<br />
+     if(count&lt;10)<br />
+     {<br />
+       ptr+=char(count+48);<br />
+       break;<br />
+     }<br />
+     ptr+=char(num+48);<br />
+     int t=pow(10,k);<br />
+     count=count%t;<br />
+     k=k-1;<br />
+     num=(count)/(pow(10,k));<br />
+   }<br />
+ }<br />
+ cout&lt;&lt;ptr;<br />
+}<br />
+int main()<br />
+{<br />
+string me=&quot;eeeeeeeeeeeeeeeeeeeeeeedjfkndfkjnd&quot;;<br />
+runlengthencoding(me);<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-28770">
+        <div id="dsq-comment-header-28770" class="dsq-comment-header">
+            <cite id="dsq-cite-28770">
+                <span id="dsq-author-user-28770">asunel</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28770" class="dsq-comment-body">
+            <div id="dsq-comment-message-28770" class="dsq-comment-message"><p>Run length encoding using only source string!! But, there are following two restrictions:<br />
+1) If it is allowed that if a character occurs only once, then its not necessary to print 1.</p>
+<p>2) First REPEATING character of the source string occurs at least thrice. (Note: This restriction may be removed, but I am not getting how to do it <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_sad.gif" alt=":(" class="wp-smiley" />   )</p>
+<p><code><br />
+#include<br />
+#include<br />
+#include</p>
+<p>char *encode(char *src)<br />
+{<br />
+  int rLen, i, j = 0, k;<br />
+  int len = strlen(src);</p>
+<p>  for(i = 0; i &lt; len; i++)<br />
+  {<br />
+    src[j++] = src[i];<br />
+    rLen = 1;<br />
+    while(i + 1 1)<br />
+    {<br />
+   	k= sprintf(src+j, "%d", rLen);<br />
+ 	j=j+k;<br />
+ }<br />
+  }  </p>
+<p>  src[j] = '';<br />
+  return src;<br />
+}     </p>
+<p>int main()<br />
+{<br />
+  char str[] = "aabcd";<br />
+  char *res = encode(str);<br />
+  printf("%s", res);<br />
+  getchar();<br />
+}<br />
+</code></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-28680">
+        <div id="dsq-comment-header-28680" class="dsq-comment-header">
+            <cite id="dsq-cite-28680">
+                <span id="dsq-author-user-28680">iamcoded</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28680" class="dsq-comment-body">
+            <div id="dsq-comment-message-28680" class="dsq-comment-message"><p>what does sprintf() do?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-27778">
+        <div id="dsq-comment-header-27778" class="dsq-comment-header">
+            <cite id="dsq-cite-27778">
+                <span id="dsq-author-user-27778">prabhat</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27778" class="dsq-comment-body">
+            <div id="dsq-comment-message-27778" class="dsq-comment-message"><p>Hope my had been this much simple but it is having some white spaces also in the input.<br />
+Like IF i/p is AABB C C C DDDDDE =&gt; o/p A2B2 C C C D5E<br />
+spent last 8 hours trying to figure out the algo behind it .</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-27776">
+        <div id="dsq-comment-header-27776" class="dsq-comment-header">
+            <cite id="dsq-cite-27776">
+                <span id="dsq-author-user-27776">shashi kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27776" class="dsq-comment-body">
+            <div id="dsq-comment-message-27776" class="dsq-comment-message"><p>public static void main(String[] args){<br />
+        String S=&#8221;wwwwaaadexxxxxx&#8221;;<br />
+        String b=runLen(S);<br />
+        System.out.print(b);<br />
+    }</p>
+<p>    static String runLen(String S){<br />
+        int l=S.length();<br />
+        int i=0;<br />
+        String S1=&#8221;&#8221;;<br />
+        while(i&lt;l-1){<br />
+            int count=1;<br />
+            while(i&lt;l-1 &amp;&amp; S.charAt(i)==S.charAt(i+1)){<br />
+                count++;<br />
+                i++;<br />
+            }<br />
+            S1=S1+S.charAt(i)+count;<br />
+            i++;<br />
+        }<br />
+        return S1;<br />
+    }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-20105">
+        <div id="dsq-comment-header-20105" class="dsq-comment-header">
+            <cite id="dsq-cite-20105">
+                <span id="dsq-author-user-20105">Vaidyanathan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20105" class="dsq-comment-body">
+            <div id="dsq-comment-message-20105" class="dsq-comment-message"><p>If all characters in the source string are different,<br />
+    then size of destination string would be twice of input string.<br />
+    For example if the src is &#8220;abcd&#8221;, then dest would be &#8220;a1b1c1d1&#8243;<br />
+    For other inputs, size would be less than twice.  */</p>
+<p>This may not be true , because if you have &gt;= ten characters for each character it can be atmost 3n !! Correct me if i am wrong <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-ronny even depth-2" id="dsq-comment-20885">
+        <div id="dsq-comment-header-20885" class="dsq-comment-header">
+            <cite id="dsq-cite-20885">
+                <span id="dsq-author-user-20885">Ronny</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20885" class="dsq-comment-body">
+            <div id="dsq-comment-message-20885" class="dsq-comment-message"><p>@Vaidyanathan<br />
+If there are more than ten characters, then no doubt we&#8217;ll use 3 characters : one for character and 2 for occurrence but you are forgetting the fact that you are replacing more than TEN characters for these 3 characters, so overall you are reducing the length of the string.<br />
+Hope it helps.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-19980">
+        <div id="dsq-comment-header-19980" class="dsq-comment-header">
+            <cite id="dsq-cite-19980">
+                <span id="dsq-author-user-19980">kaushik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19980" class="dsq-comment-body">
+            <div id="dsq-comment-message-19980" class="dsq-comment-message"><pre> <code language="C">
+/kaushik sahu
+
+#include&lt;stdio.h&gt;
+#include&lt;conio.h&gt;
+
+int main () 
+{
+    char *str1 = &quot;wwwwkkshhhhhhhhaa&quot;;
+    char str2[50];
+    int i=0,j=0,count;
+    
+    for(i=0;*(str1+i) != '&#092;&#048;';i++)
+    {
+        str2[j++] = *(str1+i);
+        count = 1;
+        while(*(str1 + i+1) == *(str1 + i))
+        {
+            count++;
+            i++;             
+        }
+        str2[j++] = count+48;
+    }
+    str2[j++] = '&#092;&#048;';
+    
+    printf(&quot;%s&quot;,str2);
+    
+    getch();
+    return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-iftekhar09 even thread-even depth-1" id="dsq-comment-19295">
+        <div id="dsq-comment-header-19295" class="dsq-comment-header">
+            <cite id="dsq-cite-19295">
+                <span id="dsq-author-user-19295">iftekhar09</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19295" class="dsq-comment-body">
+            <div id="dsq-comment-message-19295" class="dsq-comment-message"><p>#include <iostream .h><br />
+#include <conio .h><br />
+#include <stdlib .h><br />
+#include <string .h><br />
+void encode(char *str)<br />
+{<br />
+int n=strlen(str);<br />
+int i=0,count=0,k=0,j=0;<br />
+char temp;<br />
+int *sum=(int*)malloc(sizeof(int)*n);<br />
+while(i<n)<br />
+{<br />
+temp=*(str+i);<br />
+while(*(str+i)==temp)<br />
+{<br />
+i++;<br />
+count++;<br />
+}<br />
+sum[k++]=count;<br />
+*(str+j)=*(str+i-1);<br />
+j++;<br />
+count=0;<br />
+}<br />
+for(int g=0;g<k;g++)<br />
+{<br />
+cout<<*(str+g);<br />
+cout<<sum[g];<br />
+}<br />
+}<br />
+void main()<br />
+{<br />
+clrscr();<br />
+char s[]=&#8221;wwwwwaaaabbbbccckka&#8221;;<br />
+encode(s);<br />
+getch();<br />
+}</string></stdlib></conio></iostream></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-anmoldhuria odd alt thread-odd thread-alt depth-1" id="dsq-comment-18833">
+        <div id="dsq-comment-header-18833" class="dsq-comment-header">
+            <cite id="dsq-cite-18833">
+                <span id="dsq-author-user-18833">anmoldhuria</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18833" class="dsq-comment-body">
+            <div id="dsq-comment-message-18833" class="dsq-comment-message"><p>#include<stdio .h><br />
+#include<string .h><br />
+#include<stdlib .h><br />
+// run length encoding<br />
+int main()<br />
+    {<br />
+         char str[50] = &#8220;waaaaaaaaaadex&#8221;;<br />
+         int len=strlen(str);<br />
+         char stack[50];<br />
+         char *dest=(char *)malloc(sizeof(char)*2*len+1);<br />
+         int i=0,j=-1,k=0,top=-1;<br />
+         printf(&#8220;%s\n&#8221;, str);</p>
+<p>        while(str[i])<br />
+        {<br />
+            if(str[i] != str[i+1]) {</p>
+<p>                    dest[k++]=str[i];<br />
+                    int n=i-j;<br />
+					while(n>0)<br />
+                    {<br />
+						int d=n%10;<br />
+						stack[++top]=d+&#8217;0&#8242;;<br />
+						n/=10;<br />
+					}<br />
+					while(top)<br />
+					dest[k++]=stack[top&#8211;];<br />
+                    j=i;<br />
+            }<br />
+            i++;<br />
+        }<br />
+        dest[k]=&#8217;\0&#8242;;<br />
+        printf(&#8220;%s\n&#8221;,dest);<br />
+        getchar();<br />
+        return 0;<br />
+    }</stdlib></string></stdio></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-abhishek08aug even thread-even depth-1" id="dsq-comment-17975">
+        <div id="dsq-comment-header-17975" class="dsq-comment-header">
+            <cite id="dsq-cite-17975">
+                <span id="dsq-author-user-17975">abhishek08aug</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17975" class="dsq-comment-body">
+            <div id="dsq-comment-message-17975" class="dsq-comment-message"><p>Will need some more work if there are &gt;=10 occurrences of the same character together:</p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;string.h&gt;
+
+char * encode_string(char * src) {
+  int src_len=strlen(src);
+  char * dest=(char *)malloc(sizeof(char)*(src_len*2+1));
+  char * current_write_address=dest;
+  int i;
+  int current_char_len=0;
+  char * int_to_char=(char *)malloc(sizeof(char));
+  for(i=0; i&lt;src_len; i++){
+    *current_write_address=*(src+i);
+    current_write_address++;
+    current_char_len=1;
+    while(i+1&lt;src_len &amp;&amp; *(src+i+1)==*(src+i)) {
+      current_char_len++;
+      i++;
+    }
+    sprintf(int_to_char, &quot;%d&quot;, current_char_len);
+    *current_write_address=*int_to_char;
+    current_write_address++;
+  }
+  *current_write_address='&#092;&#048;';
+  return dest;
+}
+
+int main() {
+  char * str=(char *)malloc(sizeof(char)*40);
+  strcpy(str, &quot;geeksforgeeks&quot;);
+  str=encode_string(str);
+  printf(&quot;Encoded string is: %s\n&quot;, str);
+  return 0;
+}
+</code> </pre>
+<p>Encoded string is: g1e2k1s1f1o1r1g1e2k1s1</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-17049">
+        <div id="dsq-comment-header-17049" class="dsq-comment-header">
+            <cite id="dsq-cite-17049">
+                <span id="dsq-author-user-17049">Hanish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17049" class="dsq-comment-body">
+            <div id="dsq-comment-message-17049" class="dsq-comment-message"><p>We can avoid the use of array count[MAX_RLEN] as</p>
+<p>k = sprintf(dest+j , &#8220;%d&#8221;, rLen);<br />
+j+=k;</p>
+<p>for storing the R_LEN in dest directly</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-15925">
+        <div id="dsq-comment-header-15925" class="dsq-comment-header">
+            <cite id="dsq-cite-15925">
+                <span id="dsq-author-user-15925">Star_Trek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15925" class="dsq-comment-body">
+            <div id="dsq-comment-message-15925" class="dsq-comment-message"><p>What if the input is abcab&#8230;.<br />
+is der any way of solving ds in a better and efficient way other than sorting the string first and applyng RLE on it????</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-15924">
+        <div id="dsq-comment-header-15924" class="dsq-comment-header">
+            <cite id="dsq-cite-15924">
+                <span id="dsq-author-user-15924">Star_Trek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15924" class="dsq-comment-body">
+            <div id="dsq-comment-message-15924" class="dsq-comment-message"><p>if we have the input as abcda<br />
+then output should be a2b1c1d1</p>
+<p>is there any way to solve this problem in a better tym complexity other than sorting the array first and executing RUN LENGTH ENCODING on it????</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-13873">
+        <div id="dsq-comment-header-13873" class="dsq-comment-header">
+            <cite id="dsq-cite-13873">
+                <span id="dsq-author-user-13873">Gates</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13873" class="dsq-comment-body">
+            <div id="dsq-comment-message-13873" class="dsq-comment-message"><p>How to implement this without using extra string??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-10609">
+        <div id="dsq-comment-header-10609" class="dsq-comment-header">
+            <cite id="dsq-cite-10609">
+                <span id="dsq-author-user-10609">FirstTime</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10609" class="dsq-comment-body">
+            <div id="dsq-comment-message-10609" class="dsq-comment-message"><pre> <code language="C">
+#include &quot;stdio.h&quot;
+#include &quot;string.h&quot;
+
+char* Encode(char* pStr)
+{
+	char curr = *pStr;
+	char * pEncoded = (char*)malloc((strlen(pStr)*2) +1);
+	int count = 1;
+	int i = 0;
+
+	while (*pStr)
+	{
+		if (curr == *(++pStr)) {
+			count++;
+		} else {
+			pEncoded[i++] = curr;
+			pEncoded[i++] = (count + '0'); // Get ASCII value of int
+			count = 1;
+			curr = *pStr;
+		}
+	}
+	return pEncoded;
+}
+
+
+void main()
+{
+	printf(&quot;Encoding :[This is a string] \t[%s]\n&quot;, Encode(&quot;This is a string&quot;));
+    printf(&quot;Encoding :[aaabbbbbccccaaaa] \t[%s]\n&quot;, Encode(&quot;aaabbbbbccccaaaa&quot;));
+    printf(&quot;Encoding :[a]                \t[%s]\n&quot;, Encode(&quot;a&quot;));
+    printf(&quot;Encoding :[]                 \t[%s]\n&quot;, Encode(&quot;&quot;));
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-9559">
+        <div id="dsq-comment-header-9559" class="dsq-comment-header">
+            <cite id="dsq-cite-9559">
+                <span id="dsq-author-user-9559">Newbee</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9559" class="dsq-comment-body">
+            <div id="dsq-comment-message-9559" class="dsq-comment-message"><p>char* encode(char*);<br />
+int main()<br />
+{<br />
+char *s=&#8221;aaaeeebbcdda&#8221;;<br />
+char *t;<br />
+t=encode(s);<br />
+printf(&#8220;%s&#8221;,t);<br />
+getch();<br />
+return 0;<br />
+}</p>
+<p>char* encode(char *src)<br />
+{<br />
+int len=strlen(src);<br />
+char*dest=(char*)malloc(sizeof(char)*(len*2+1));<br />
+int i=0,j,k=0;<br />
+char count;</p>
+<p>while(i&lt;len)<br />
+{<br />
+count=&#039;1&#039;;</p>
+<p>for(j=i+1;j&lt;len+1;j++)<br />
+  {<br />
+if(src[i]==src[j])<br />
+    count++;</p>
+<p>else<br />
+   {<br />
+dest[k]=src[i];<br />
+dest[k+1]=count;<br />
+k=k+2;</p>
+<p>break;}<br />
+}<br />
+i=j;<br />
+}      </p>
+<p>dest[k]=&#039;&#039;;<br />
+return dest;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-chinnisasi odd alt thread-odd thread-alt depth-1" id="dsq-comment-7758">
+        <div id="dsq-comment-header-7758" class="dsq-comment-header">
+            <cite id="dsq-cite-7758">
+                <span id="dsq-author-user-7758">chinnisasi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7758" class="dsq-comment-body">
+            <div id="dsq-comment-message-7758" class="dsq-comment-message"><pre> <code language="C">
+#include &lt;iostream&gt;
+using namespace std;
+
+int main(){
+    int i;
+    char temp; 
+    int count;
+    char a[] = &quot;aaabbccc&quot;;
+    int size = sizeof(a)/sizeof(a[0]);
+    for(i =0; i &lt; size;i++){
+        count = 0;
+        temp = a[i];
+        cout&lt;&lt;temp;
+        while(a[i] == temp){
+           count++;
+           i = i+ 1;
+            
+        }
+        i = i -1;
+        if(a[i] != '&#92;&#48;')
+           cout&lt;&lt;count;
+        
+    }
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-chinnisasi even depth-2" id="dsq-comment-7759">
+        <div id="dsq-comment-header-7759" class="dsq-comment-header">
+            <cite id="dsq-cite-7759">
+                <span id="dsq-author-user-7759">chinnisasi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7759" class="dsq-comment-body">
+            <div id="dsq-comment-message-7759" class="dsq-comment-message"><p>i am sry.. for uploading  thrice.. there is some problem in uploading..</p>
+<pre> <code language="C"></code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-chinnisasi odd alt thread-even depth-1" id="dsq-comment-7757">
+        <div id="dsq-comment-header-7757" class="dsq-comment-header">
+            <cite id="dsq-cite-7757">
+                <span id="dsq-author-user-7757">chinnisasi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7757" class="dsq-comment-body">
+            <div id="dsq-comment-message-7757" class="dsq-comment-message"><pre> <code language="C">
+#include &lt;iostream&gt;
+using namespace std;
+
+int main(){
+    int i;
+    char temp; 
+    int count;
+    char a[] = &quot;aaabbccc&quot;;
+    int size = sizeof(a)/sizeof(a[0]);
+    for(i =0; i &lt; 9;i++){
+        count = 0;
+        temp = a[i];
+        cout&lt;&lt;temp;
+        while(a[i] == temp){
+           count++;
+           i = i+ 1;
+            
+        }
+        i = i -1;
+        if(a[i] != '&#92;&#48;')
+           cout&lt;&lt;count;
+        
+    }
+
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-chinnisasi even depth-2" id="dsq-comment-7760">
+        <div id="dsq-comment-header-7760" class="dsq-comment-header">
+            <cite id="dsq-cite-7760">
+                <span id="dsq-author-user-7760">chinnisasi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7760" class="dsq-comment-body">
+            <div id="dsq-comment-message-7760" class="dsq-comment-message"><p>please ignore this post</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-psychocoder odd alt thread-odd thread-alt depth-1" id="dsq-comment-7427">
+        <div id="dsq-comment-header-7427" class="dsq-comment-header">
+            <cite id="dsq-cite-7427">
+                <span id="dsq-author-user-7427">PsychoCoder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7427" class="dsq-comment-body">
+            <div id="dsq-comment-message-7427" class="dsq-comment-message"><p>Little typo in documentation !!<br />
+For example if the src is &#8220;abcd&#8221;, then dest would be &#8220;a1b1c1&#8243;</p>
+<p>while allocating the size of the destination array.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-psychocoder even depth-2" id="dsq-comment-7428">
+        <div id="dsq-comment-header-7428" class="dsq-comment-header">
+            <cite id="dsq-cite-7428">
+                <span id="dsq-author-user-7428">PsychoCoder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7428" class="dsq-comment-body">
+            <div id="dsq-comment-message-7428" class="dsq-comment-message"><p>it would be</p>
+<p>For example if the src is &#8220;abcd&#8221;, then dest would be &#8220;a1b1c1d1&#8243;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor odd alt depth-3" id="dsq-comment-7430">
+        <div id="dsq-comment-header-7430" class="dsq-comment-header">
+            <cite id="dsq-cite-7430">
+                <span id="dsq-author-user-7430">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7430" class="dsq-comment-body">
+            <div id="dsq-comment-message-7430" class="dsq-comment-message"><p>@PsychoCoder: Thanks for pointing out the typo.  We have corrected it.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-6924">
+        <div id="dsq-comment-header-6924" class="dsq-comment-header">
+            <cite id="dsq-cite-6924">
+                <span id="dsq-author-user-6924">tuhin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6924" class="dsq-comment-body">
+            <div id="dsq-comment-message-6924" class="dsq-comment-message"><p>#include<br />
+#include<br />
+#include</p>
+<p>char *runlength(char *s)<br />
+{<br />
+     int n = strlen(s);<br />
+     char *dest;<br />
+     dest = (char*)malloc(sizeof(char)*(2*n));<br />
+     int count=0;<br />
+     int i=0,j=0;<br />
+     char ch;<br />
+     while(*(s+i)!=&#8221;)<br />
+     {<br />
+         dest[j] = *(s+i);<br />
+         j++;<br />
+         ch = *(s+i);<br />
+         while(*(s+i)==ch)<br />
+         {<br />
+             count++;<br />
+             i++;<br />
+         }<br />
+         dest[j] = (char)(count+48);<br />
+         j++;<br />
+         count = 0;<br />
+     }<br />
+     dest[j]=&#8221;;<br />
+     return dest;<br />
+}</p>
+<p>void main()<br />
+{<br />
+    char *s;<br />
+    s = (char*)malloc(sizeof(char));<br />
+    char *s1;<br />
+    printf(&#8220;enter the string whose run length encoding\n&#8221;);<br />
+    scanf(&#8220;%s&#8221;,s);<br />
+    s1 = runlength(s);<br />
+    printf(&#8220;%s&#8221;,s1);</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-6781">
+        <div id="dsq-comment-header-6781" class="dsq-comment-header">
+            <cite id="dsq-cite-6781">
+                <span id="dsq-author-user-6781">sudhanshu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6781" class="dsq-comment-body">
+            <div id="dsq-comment-message-6781" class="dsq-comment-message"><p>char *encode(char *src)<br />
+{<br />
+  int rLen;<br />
+  int len = strlen(src);</p>
+<p>  /* If all characters in the source string are different,<br />
+    then size of destination string would be twice of input string.<br />
+    For example if the src is &#8220;abcd&#8221;, then dest would be &#8220;a1b1c1&#8243;<br />
+    For other inputs, size would be less than twice.  */<br />
+  char *dest = (char *)malloc(sizeof(char)*(len*2 + 1));</p>
+<p>  int i, j = 0, k;</p>
+<p>  /* traverse the input string one by one */<br />
+  for(i = 0; i &lt; len; i++)<br />
+  {</p>
+<p>    /* Copy the first occurrence of the new character */<br />
+    dest[j++] = src[i];</p>
+<p>    /* Count the number of occurrences of the new character */<br />
+    rLen = 1;<br />
+    while(i + 1 &lt; len &amp;&amp; src[i] == src[i+1])<br />
+    {<br />
+      rLen++;<br />
+      i++;<br />
+    }<br />
+dest[j++]=&#039;0&#039;+rLen;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-6780">
+        <div id="dsq-comment-header-6780" class="dsq-comment-header">
+            <cite id="dsq-cite-6780">
+                <span id="dsq-author-user-6780">sudhanshu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6780" class="dsq-comment-body">
+            <div id="dsq-comment-message-6780" class="dsq-comment-message"><p>in the given solution, no need to take the count[]&#8230;<br />
+dest[j++]=&#8217;0&#8217;+rLen;<br />
+will work..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-6585">
+        <div id="dsq-comment-header-6585" class="dsq-comment-header">
+            <cite id="dsq-cite-6585">
+                <span id="dsq-author-user-6585">Priyanka</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6585" class="dsq-comment-body">
+            <div id="dsq-comment-message-6585" class="dsq-comment-message"><pre> <code language="C">
+#include&lt;stdio.h&gt;
+#define SIZE 50
+void runlen(char *a,char *b)
+{
+int i,j,count=1;
+char c=a[0];
+b[0]=c;
+for(i=1,j=1;a[i];i++)
+{
+	if(a[i]==c)
+	count++;	
+	else
+	{
+	b[j++]=count+'0';
+	b[j++]=c=a[i];
+	count=1;
+	}
+}
+if(!isdigit(b[j-1]))
+b[j++]=count+'0';
+b[j++]=NULL;
+}
+void main()
+{
+char a[SIZE],b[SIZE];
+gets(a);
+runlen(a,b);
+puts(b);
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-5764">
+        <div id="dsq-comment-header-5764" class="dsq-comment-header">
+            <cite id="dsq-cite-5764">
+                <span id="dsq-author-user-5764">Sunny</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5764" class="dsq-comment-body">
+            <div id="dsq-comment-message-5764" class="dsq-comment-message"><p>Java solution<br />
+Use hash map.<br />
+pick the character and make it as key.<br />
+initially the value is 1 for the key<br />
+Run the array if key is already there increment the value by 1<br />
+then display the map using the iterator for map.entry</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-4230">
+        <div id="dsq-comment-header-4230" class="dsq-comment-header">
+            <cite id="dsq-cite-4230">
+                <span id="dsq-author-user-4230">vasu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4230" class="dsq-comment-body">
+            <div id="dsq-comment-message-4230" class="dsq-comment-message"><pre> <code language="C">
+// not efficient but okay code
+//input: aaabbc--&gt;output:a3b2c1
+char * run_lenght(const char *str, char *tmp){
+	int len=strlen(str);
+	int i,k=0;
+        char count='1';
+        for(i=0;i&lt;len;i++){
+		if(str[i]==str[i+1])count++;
+		
+		else{
+			tmp[k++]=str[i];
+			tmp[k++]=count;
+		    count='1';
+		}
+	}
+	tmp[k]='';
+	return tmp;
+}
+main(){
+	char str[100];
+	char *tmp;
+	int len;
+	gets(str);
+	printf(&quot;\n%s\n&quot;,str);
+	len=strlen(str);
+	tmp=(char *)malloc(sizeof(char)*(len*2+1));
+    run_lenght(str,tmp);
+    printf(&quot;%s\n&quot;,tmp);
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-4310">
+        <div id="dsq-comment-header-4310" class="dsq-comment-header">
+            <cite id="dsq-cite-4310">
+                <span id="dsq-author-user-4310">nameless</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4310" class="dsq-comment-body">
+            <div id="dsq-comment-message-4310" class="dsq-comment-message"><p>tmp[k]=&#8221;;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3802">
+        <div id="dsq-comment-header-3802" class="dsq-comment-header">
+            <cite id="dsq-cite-3802">
+                <span id="dsq-author-user-3802">seeker7</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3802" class="dsq-comment-body">
+            <div id="dsq-comment-message-3802" class="dsq-comment-message"><p>For the Solution given ,i think the complexity should be O(n^2),as we scan each character of the string using for loop and then count its occurrence in while loop ,so in worst case it is O(n^2)</p>
+<p>But if we use if statement instead then its complexity is linear</p>
+<p>PLEASE CORRECT ME,IF i am wrong.<br />
+THANKS</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-sandeep even depth-2" id="dsq-comment-3812">
+        <div id="dsq-comment-header-3812" class="dsq-comment-header">
+            <cite id="dsq-cite-3812">
+                <span id="dsq-author-user-3812">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3812" class="dsq-comment-body">
+            <div id="dsq-comment-message-3812" class="dsq-comment-message"><p>@seeker7: please take a closer look at the program.  The value of i is incremented in both for and while loops. So the statements inside the while loop are executed at most O(n) times. Therefore, time complexity is O(n).</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-3835">
+        <div id="dsq-comment-header-3835" class="dsq-comment-header">
+            <cite id="dsq-cite-3835">
+                <span id="dsq-author-user-3835">ricky</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3835" class="dsq-comment-body">
+            <div id="dsq-comment-message-3835" class="dsq-comment-message"><p>@sandeep..can you plz through some more light how the time complixty of abocve code in O(n)..its seems to be &gt; O(n)..as i think..cau u right doen the timje complixty releation i mean like T(n) =aT(n/b) + c..plraes reply ASAP..</p>
+<p>Thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-3" id="dsq-comment-4948">
+        <div id="dsq-comment-header-4948" class="dsq-comment-header">
+            <cite id="dsq-cite-4948">
+                <span id="dsq-author-user-4948">aparna</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4948" class="dsq-comment-body">
+            <div id="dsq-comment-message-4948" class="dsq-comment-message"><p>The complexity is definitely greater than O(n) !</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-wgpshashank odd alt thread-odd thread-alt depth-1" id="dsq-comment-2712">
+        <div id="dsq-comment-header-2712" class="dsq-comment-header">
+            <cite id="dsq-cite-2712">
+http://www.wgpshashank.co.cc                <span id="dsq-author-user-2712">wgpshashank</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2712" class="dsq-comment-body">
+            <div id="dsq-comment-message-2712" class="dsq-comment-message"><p>@suresh,devendraiit..xcellent job..keep goin on.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-wgpshashank even depth-2" id="dsq-comment-2713">
+        <div id="dsq-comment-header-2713" class="dsq-comment-header">
+            <cite id="dsq-cite-2713">
+http://www.wgpshashank.co.cc                <span id="dsq-author-user-2713">wgpshashank</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2713" class="dsq-comment-body">
+            <div id="dsq-comment-message-2713" class="dsq-comment-message"><p>@geeksfrogeek ..i think devendraiit solution is right is dare any flaw in that also its has </p>
+<p>Time Complexcity is O(n)<br />
+space complexcity O(1)</p>
+<p> which Better then any other solution provided is ..if any thing wrong with this ..plz let me know&#8230;asap</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2440">
+        <div id="dsq-comment-header-2440" class="dsq-comment-header">
+            <cite id="dsq-cite-2440">
+                <span id="dsq-author-user-2440">Kehar Singh and Vivek Yadav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2440" class="dsq-comment-body">
+            <div id="dsq-comment-message-2440" class="dsq-comment-message"><pre> <code language="CPP">
+#include&lt;iostream&gt;
+using namespace std;
+
+char *Func(char *str)
+{
+    char *temp=new char[20];
+    int cur,next,count=1,n=0;
+    for(cur=0,next=1;str[cur]!=0;cur++,next++)
+    {
+        count++;
+        if(str[cur]!=str[next])
+        {
+          temp[n]=str[cur];
+          temp[n+1]='0'+count;
+          n+=2;
+          count=0;
+        }
+    }
+    temp[n]=0;
+    return temp;
+}
+int main()
+{
+    char str[]=&quot;wwwwaaadexxxxxx&quot;;
+    cout&lt;&lt;Func(str)&lt;&lt;endl;
+    system(&quot;pause&quot;);
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2162">
+        <div id="dsq-comment-header-2162" class="dsq-comment-header">
+            <cite id="dsq-cite-2162">
+                <span id="dsq-author-user-2162">Rohit Prasda</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2162" class="dsq-comment-body">
+            <div id="dsq-comment-message-2162" class="dsq-comment-message"><pre> <code language="C">#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+
+
+struct node{
+    char data;
+    struct node *left;
+    struct node *right;
+    int frequency;
+};
+
+struct node *newNode(char data){
+    struct node *newnode=(struct node *)malloc(sizeof(struct node));
+    newnode-&gt;frequency=0;
+    newnode-&gt;data=data;
+    newnode-&gt;frequency++;
+    newnode-&gt;left=NULL;
+    newnode-&gt;right=NULL;
+    
+}
+
+struct node *incr(struct node *root){
+    root-&gt;frequency++;
+}
+ 
+
+
+struct node* insertinottree(struct node *root,char data){     
+    if(root==NULL){
+               return(newNode(data));
+    }
+    else{
+    if (root-&gt;data&lt;data)
+      root-&gt;left=insertinottree(root-&gt;left,data) ;
+      else
+    if (root-&gt;data&gt;data)
+      root-&gt;right=insertinottree(root-&gt;right,data);
+      else
+    if(root-&gt;data=data)
+     root=incr(root);
+    }
+    return (root);
+}
+
+
+
+void printtree(struct node *root){
+    if (root==NULL)
+        return;
+        
+            printtree(root-&gt;left);
+            printf(&quot;%c&quot;, root-&gt;data);
+              printf(&quot;%d-&quot;, root-&gt;frequency);
+            printtree(root-&gt;right);
+            
+    }
+    
+void printpreorder(struct node *root){
+    
+if (root==NULL)
+        return;
+        else{
+            printf(&quot;%c&quot;, root-&gt;data);
+            printf(&quot;%d-&quot;,root-&gt;frequency);
+            printtree(root-&gt;right);
+            printtree(root-&gt;left);                    
+        }
+    }     
+
+int main(){
+    
+    struct node *root=NULL;
+        char arr[10];
+arr[]={(fill in the characters}
+        char *a=&quot;abbcskd&quot;;
+    for(int i=0;i&lt;10;i++)
+      root=insertinottree(root,arr[i]);
+      
+    printpreorder(root);  
+      
+    //printf(&quot;%s&quot;,a);
+    
+    getchar();
+    
+    return 0;
+}
+</code> </pre>
+<p>Solution is O(nlogn)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1974">
+        <div id="dsq-comment-header-1974" class="dsq-comment-header">
+            <cite id="dsq-cite-1974">
+                <span id="dsq-author-user-1974">pooja</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1974" class="dsq-comment-body">
+            <div id="dsq-comment-message-1974" class="dsq-comment-message"><p>I was asked a similar question during an interview. I had to implement the RLE on the input string. ie. i was told not to use a destination string. is it possible?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-ashish even depth-2" id="dsq-comment-2210">
+        <div id="dsq-comment-header-2210" class="dsq-comment-header">
+            <cite id="dsq-cite-2210">
+                <span id="dsq-author-user-2210">Ashish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2210" class="dsq-comment-body">
+            <div id="dsq-comment-message-2210" class="dsq-comment-message"><p>@pooja</p>
+<p>it is possible but that time your time complexity will be very high. you must do insertion in the array to do this you must also have sufficient memory in your array.</p>
+<p>time complexity will be O(N<del>2</del>)</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-2277">
+        <div id="dsq-comment-header-2277" class="dsq-comment-header">
+            <cite id="dsq-cite-2277">
+http://harshachandra.org                <span id="dsq-author-user-2277">Harsha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2277" class="dsq-comment-body">
+            <div id="dsq-comment-message-2277" class="dsq-comment-message"><p>I don&#8217;t think you would need O(n). One pass to pre-process the input and another to Start from right end at index = (unique character count) x 2. Though trivial yet worth mentioning thing is &#8221; will be at index = (unique character count) x 2 + 1.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-2278">
+        <div id="dsq-comment-header-2278" class="dsq-comment-header">
+            <cite id="dsq-cite-2278">
+http://harshachandra.org                <span id="dsq-author-user-2278">Harsha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2278" class="dsq-comment-body">
+            <div id="dsq-comment-message-2278" class="dsq-comment-message"><p>Sorry! for the type I meant, I don&#8217;t think you would need O(n^2) and O(n) would do instead.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-3179">
+        <div id="dsq-comment-header-3179" class="dsq-comment-header">
+            <cite id="dsq-cite-3179">
+                <span id="dsq-author-user-3179">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3179" class="dsq-comment-body">
+            <div id="dsq-comment-message-3179" class="dsq-comment-message"><p>@Pooja,<br />
+I/P: ABCDE<br />
+O/P: A1B1C1D1E1</p>
+<p>For input like above Input string can&#8217;t be used to store encoded string. String has to be expanded. I guess interviewer must have asked you to ignore the count of a character if it is 1. Then it is possible.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-3832">
+        <div id="dsq-comment-header-3832" class="dsq-comment-header">
+            <cite id="dsq-cite-3832">
+                <span id="dsq-author-user-3832">Cracker</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3832" class="dsq-comment-body">
+            <div id="dsq-comment-message-3832" class="dsq-comment-message"><p>can u explain whyu have used count array every time we in storing the value will always store in 1ts 1st index ..no we cann use simple avarible to hold current rlen value..instead of array ..plz clarify ..if m wrong..???</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor odd alt depth-4" id="dsq-comment-3833">
+        <div id="dsq-comment-header-3833" class="dsq-comment-header">
+            <cite id="dsq-cite-3833">
+                <span id="dsq-author-user-3833">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3833" class="dsq-comment-body">
+            <div id="dsq-comment-message-3833" class="dsq-comment-message"><p>@Cracker: If the number is greater than 9 then we need more than one characters to hold the character count. It might be any big number and might need any number of characters.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even depth-3" id="dsq-comment-3854">
+        <div id="dsq-comment-header-3854" class="dsq-comment-header">
+            <cite id="dsq-cite-3854">
+                <span id="dsq-author-user-3854">Cracker</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3854" class="dsq-comment-body">
+            <div id="dsq-comment-message-3854" class="dsq-comment-message"><p>sprintf(count, &#8220;%d&#8221;, rLen); </p>
+<p>can u explain this statement..i have doubt in this..what its doin is converting int to char &amp; strring it in charc arr starting from zero index&#8230;i wanst s to ask is it storing int value evrytime @ zero index or its stroring on incermenting index e.g. 1 dan 2 &#8230;&amp; n-1 index..so on..if this is the case then for loop below it..will take O(n) time ..is&#8217;t it..??&#8230;it will take too much time..we r repeating in side the for .loop same thing..isn&#8217;t it..plz clarify..??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-gr8guy odd alt depth-3" id="dsq-comment-7743">
+        <div id="dsq-comment-header-7743" class="dsq-comment-header">
+            <cite id="dsq-cite-7743">
+                <span id="dsq-author-user-7743">gr8guy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7743" class="dsq-comment-body">
+            <div id="dsq-comment-message-7743" class="dsq-comment-message"><p>Could you please tell the algo , if we are given extra space , abcd$$$$  = a1b1c1d1<br />
+could it be done in linear time ??</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1614">
+        <div id="dsq-comment-header-1614" class="dsq-comment-header">
+            <cite id="dsq-cite-1614">
+                <span id="dsq-author-user-1614">Usman</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1614" class="dsq-comment-body">
+            <div id="dsq-comment-message-1614" class="dsq-comment-message"><p>there is a simpler way to copy count to the destination string without having a count array. when you sprintf the value to the destination, append it with  and then if it is double digits, increment dest counter (j) until  encountered. Here is the code&#8230;</p>
+<pre> <code language="C">
+int encode(__in char *src, __out char **dest, __out int &amp;cchDest)
+{
+	int iErrorCode = 0;
+	*dest = NULL;
+	cchDest = 0;
+	if (!src)
+	{
+		iErrorCode = 0x80070057;
+		goto exit;
+	}
+	int srcLen = strlen(src);
+	if (srcLen == 0)
+	{
+		goto exit;
+	}
+	else
+	{
+		*dest = (char *) malloc(sizeof(char)*srcLen*2+1);
+		if (!dest)
+		{
+			iErrorCode = 0x8000400E;
+			goto exit;
+		}
+		int j =0 ;
+		for (int i = 0; i &lt; srcLen; i++)
+		{
+			int count = 0;
+			(*dest)[j] = src[i];
+			i++;
+			j++;
+			count++;
+
+			while (src[i] == src[i-1])
+			{
+				i++;
+				count++;
+			}
+			sprintf((*dest)+j,&quot;%d&quot;,count);
+			while((*dest)[j] != '')
+				j++;
+		}
+		(*dest)[j] = '';
+	}
+
+exit:
+	return iErrorCode;
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-27154">
+        <div id="dsq-comment-header-27154" class="dsq-comment-header">
+            <cite id="dsq-cite-27154">
+                <span id="dsq-author-user-27154">rustam</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27154" class="dsq-comment-body">
+            <div id="dsq-comment-message-27154" class="dsq-comment-message"><p>#include<br />
+#include<br />
+#include<br />
+using namespace std;<br />
+void count_str(char *str)<br />
+{<br />
+     int buff[256]={0};<br />
+     int check=0,res=0;<br />
+     char *start=str;<br />
+     char temp;<br />
+     while(*(str+check))<br />
+     {<br />
+          temp=*(str+check);<br />
+          if(buff[temp]==0)<br />
+           {<br />
+              ++buff[temp];<br />
+              *(str+res)=temp;//*(str+res)  //copy creating new string<br />
+              res++;<br />
+              check++;<br />
+           }<br />
+           else<br />
+           {   //!=0<br />
+              ++buff[temp];<br />
+              check++;<br />
+              }<br />
+     }<br />
+     *(str+res)=&#8221;;<br />
+     while(*str)<br />
+     {<br />
+       //char *t=str;<br />
+        cout&lt;&lt;*str&lt;&lt;buff[*str];<br />
+        str++;<br />
+     }<br />
+}   </p>
+<p>int main()<br />
+{<br />
+    char a[]=&quot;geeksforgeeksorg&quot;;<br />
+    count_str(a);<br />
+    getch();<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1203">
+        <div id="dsq-comment-header-1203" class="dsq-comment-header">
+            <cite id="dsq-cite-1203">
+                <span id="dsq-author-user-1203">suresh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1203" class="dsq-comment-body">
+            <div id="dsq-comment-message-1203" class="dsq-comment-message"><pre> <code language="C">
+#include&lt;stdio.h&gt;
+// run length encoding
+int main()
+    {
+         char str[50] = &quot;wwwwwwaaadexxxxxx&quot;;
+         int i=0,j=-1;
+         printf(&quot;%s\n&quot;, str);
+
+        while(str[i++])
+        {
+            if(str[i] != str[i+1]) {
+
+                    printf(&quot;%c%d&quot;,str[i],i-j);
+                    j=i;
+            }
+        }
+
+        return 0;
+    }
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-abhimanu odd alt depth-2" id="dsq-comment-1213">
+        <div id="dsq-comment-header-1213" class="dsq-comment-header">
+            <cite id="dsq-cite-1213">
+                <span id="dsq-author-user-1213">abhimanu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1213" class="dsq-comment-body">
+            <div id="dsq-comment-message-1213" class="dsq-comment-message"><p>Short &amp; Sweet solution by Suresh <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-devendraiiit even depth-2" id="dsq-comment-1216">
+        <div id="dsq-comment-header-1216" class="dsq-comment-header">
+            <cite id="dsq-cite-1216">
+http://web.iiit.ac.in/~singh_parmar                <span id="dsq-author-user-1216">devendraiiit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1216" class="dsq-comment-body">
+            <div id="dsq-comment-message-1216" class="dsq-comment-message"><p>The above solution will not work for<br />
+  1.  str[]=&#8221;a&#8221;;<br />
+  2.  str[]=&#8221;waabc&#8221;;  ..</p>
+<p>Here is slightly modified code </p>
+<pre> <code language="C">#include&lt;stdio.h&gt;
+// run length encoding
+int main()
+    {
+         char str[50] = &quot;wwwwwwaaadexxxxxx&quot;;
+         int i=0,j=-1;
+         printf(&quot;%s\n&quot;, str);
+ 
+        while(str[i])
+        {
+            if(str[i] != str[i+1]) {
+ 
+                    printf(&quot;%c%d&quot;,str[i],i-j);
+                    j=i;
+            }
+            i++;
+        }
+        getchar();
+        return 0;
+    }
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-1221">
+        <div id="dsq-comment-header-1221" class="dsq-comment-header">
+            <cite id="dsq-cite-1221">
+                <span id="dsq-author-user-1221">suresh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1221" class="dsq-comment-body">
+            <div id="dsq-comment-message-1221" class="dsq-comment-message"><p>Yeah. The incremental should be after if condition.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-4244">
+        <div id="dsq-comment-header-4244" class="dsq-comment-header">
+            <cite id="dsq-cite-4244">
+                <span id="dsq-author-user-4244">Terminal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4244" class="dsq-comment-body">
+            <div id="dsq-comment-message-4244" class="dsq-comment-message"><p>These sort or algo are meant to compress the text. You must store the result somewhere either in-place or some additional space. Alone printing it won&#8217;t suffice.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-7482">
+        <div id="dsq-comment-header-7482" class="dsq-comment-header">
+            <cite id="dsq-cite-7482">
+                <span id="dsq-author-user-7482">S J</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7482" class="dsq-comment-body">
+            <div id="dsq-comment-message-7482" class="dsq-comment-message"><pre> <code language="C">
+#include&lt;stdio.h&gt;
+#include&lt;string.h&gt;
+#include&lt;stdlib.h&gt;
+main()
+{
+	int n, i, j=0, k, l=0, h,ctr=0;
+	char str[100]=&quot; &quot;,str1[100]=&quot; &quot;;
+	printf(&quot;Enter the string\n&quot;);
+	gets(str);
+	l=strlen(str);
+	for(i=0;i&lt;l;i++)
+	{
+		
+		if(str[i]!=str[i+1])
+		{
+			str1[j]=str[i];j++;	
+			str1[j]=(i+1)-ctr+'0';
+			ctr=i+1;
+			j++;
+		}
+	}
+	str1[j]='&#092;&#048;';
+	printf(&quot;%s\n&quot;,str1);
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-15525">
+        <div id="dsq-comment-header-15525" class="dsq-comment-header">
+            <cite id="dsq-cite-15525">
+                <span id="dsq-author-user-15525">Murali</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15525" class="dsq-comment-body">
+            <div id="dsq-comment-message-15525" class="dsq-comment-message"><p>The above solution will not work for the following test case:</p>
+<p>if the character is occurring more than 9 times.</p>
+<p>Ex: aaaaaaaaaabcccccc</p>
+<p>o/p: a:b1c6</p>
+<p>Can you verify?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-5" id="dsq-comment-15526">
+        <div id="dsq-comment-header-15526" class="dsq-comment-header">
+            <cite id="dsq-cite-15526">
+                <span id="dsq-author-user-15526">Murali</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15526" class="dsq-comment-body">
+            <div id="dsq-comment-message-15526" class="dsq-comment-message"><p>The reason I have found is that </p>
+<p>The ascii value of char &#8216;0&#8217; is 48.</p>
+<p>So if the ctr is 10 then 48+10 = 58.</p>
+<p>The equivalent char value for the ascii is :</p>
+<p>Can you verify?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/run-length-encoding/';
+var disqus_identifier = '7418 http://geeksforgeeks.org/?p=7418';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Run Length Encoding";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.229 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:51:12 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

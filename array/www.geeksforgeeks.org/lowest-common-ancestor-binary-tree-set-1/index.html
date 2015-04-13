@@ -1,0 +1,1127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Lowest Common Ancestor in a Binary Tree | Set 1 - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/lowest-common-ancestor-binary-tree-set-1/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lowest Common Ancestor in a Binary Tree | Set 1 - GeeksforGeeks" />
+<meta property="og:description" content="Given a binary tree (not a binary search tree) and two values say n1 and n2, write a program to find the least common ancestor. Following is definition of LCA from Wikipedia: Let T be a rooted tree. The lowest common ancestor between two nodes n1 and n2 is defined as the lowest node in &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/lowest-common-ancestor-binary-tree-set-1/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:section" content="Trees" />
+<meta property="article:published_time" content="2014-02-22T12:11:52+00:00" />
+<meta property="article:modified_time" content="2014-02-23T16:36:02+00:00" />
+<meta property="og:updated_time" content="2014-02-23T16:36:02+00:00" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/lca.png" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.534 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111251 210.212.53.139 172.19.11.169';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Lowest Common Ancestor in a Binary Tree | Set 1</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given a binary tree (not a binary search tree) and two values say n1 and n2, write a program to find the least common ancestor.<span id="more-127045"></span></p>
+<p><em><strong>Following is definition of LCA from <a href="http://en.wikipedia.org/wiki/Lowest_common_ancestor" target="_blank">Wikipedia</a>:</strong></em><br />
+Let T be a rooted tree. The lowest common ancestor between two nodes n1 and n2 is defined as the lowest node in T that has both n1 and n2 as descendants (where we allow a node to be a descendant of itself).</p>
+<p>The LCA of n1 and n2 in T is the shared ancestor of n1 and n2 that is located farthest from the root. Computation of lowest common ancestors may be useful, for instance, as part of a procedure for determining the distance between pairs of nodes in a tree: the distance from n1 to n2 can be computed as the distance from the root to n1, plus the distance from the root to n2, minus twice the distance from the root to their lowest common ancestor. (Source <a href="http://en.wikipedia.org/wiki/Lowest_common_ancestor" target="_blank">Wiki</a>)</p>
+<p><a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/lca.png"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/lca.png" alt="lca" width="435" height="179" class="aligncenter size-full wp-image-127053" /></a></p>
+<p>We have discussed an efficient solution to find <a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/" target="_blank">LCA in Binary Search Tree</a>.  In Binary Search Tree, using BST properties, we can find LCA in O(h) time where h is height of tree.  Such an implementation is not possible in Binary Tree as keys Binary Tree nodes don&#8217;t follow any order. Following are different approaches to find LCA in Binary Tree.</p>
+<p><strong>Method 1 (By Storing root to n1 and root to n2 paths):</strong><br />
+Following is simple O(n) algorithm to find LCA of n1 and n2.<br />
+<strong>1) </strong>Find path from root to n1 and store it in a vector or array.<br />
+<strong>2) </strong>Find path from root to n2 and store it in another vector or array.<br />
+<strong>3)</strong> Traverse both paths till the values in arrays are same. Return the common element just before the mismatch.  </p>
+<p>Following is C++ implementation of above algorithm.</p>
+<pre class="brush: cpp; highlight: [48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66]; title: ; notranslate" title="">
+// A O(n) solution to find LCA of two given values n1 and n2
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+// A Bianry Tree node
+struct Node
+{
+    int key;
+    struct Node *left, *right;
+};
+
+// Utility function creates a new binary tree node with given key
+Node * newNode(int k)
+{
+    Node *temp = new Node;
+    temp-&gt;key = k;
+    temp-&gt;left = temp-&gt;right = NULL;
+    return temp;
+}
+
+// Finds the path from root node to given root of the tree, Stores the
+// path in a vector path[], returns true if path exists otherwise false
+bool findPath(Node *root, vector&lt;int&gt; &amp;path, int k)
+{
+    // base case
+    if (root == NULL) return false;
+
+    // Store this node in path vector. The node will be removed if
+    // not in path from root to k
+    path.push_back(root-&gt;key);
+
+    // See if the k is same as root's key
+    if (root-&gt;key == k)
+        return true;
+
+    // Check if k is found in left or right sub-tree
+    if ( (root-&gt;left &amp;&amp; findPath(root-&gt;left, path, k)) ||
+         (root-&gt;right &amp;&amp; findPath(root-&gt;right, path, k)) )
+        return true;
+
+    // If not present in subtree rooted with root, remove root from
+    // path[] and return false
+    path.pop_back();
+    return false;
+}
+
+// Returns LCA if node n1, n2 are present in the given binary tree,
+// otherwise return -1
+int findLCA(Node *root, int n1, int n2)
+{
+    // to store paths to n1 and n2 from the root
+    vector&lt;int&gt; path1, path2;
+
+    // Find paths from root to n1 and root to n1. If either n1 or n2
+    // is not present, return -1
+    if ( !findPath(root, path1, n1) || !findPath(root, path2, n2))
+          return -1;
+
+    /* Compare the paths to get the first different value */
+    int i;
+    for (i = 0; i &lt; path1.size() &amp;&amp; i &lt; path2.size() ; i++)
+        if (path1[i] != path2[i])
+            break;
+    return path1[i-1];
+}
+
+// Driver program to test above functions
+int main()
+{
+    // Let us create the Binary Tree shown in above diagram.
+    Node * root = newNode(1);
+    root-&gt;left = newNode(2);
+    root-&gt;right = newNode(3);
+    root-&gt;left-&gt;left = newNode(4);
+    root-&gt;left-&gt;right = newNode(5);
+    root-&gt;right-&gt;left = newNode(6);
+    root-&gt;right-&gt;right = newNode(7);
+    cout &lt;&lt; &quot;LCA(4, 5) = &quot; &lt;&lt; findLCA(root, 4, 5);
+    cout &lt;&lt; &quot;\nLCA(4, 6) = &quot; &lt;&lt; findLCA(root, 4, 6);
+    cout &lt;&lt; &quot;\nLCA(3, 4) = &quot; &lt;&lt; findLCA(root, 3, 4);
+    cout &lt;&lt; &quot;\nLCA(2, 4) = &quot; &lt;&lt; findLCA(root, 2, 4);
+    return 0;
+}
+</pre>
+<p>Output:
+<pre>LCA(4, 5) = 2
+LCA(4, 6) = 1
+LCA(3, 4) = 1
+LCA(2, 4) = 2 </pre>
+<p><em><strong>Time Complexity:</strong> </em>Time complexity of the above solution is O(n). The tree is traversed twice, and then path arrays are compared.<br />
+Thanks to <em>Ravi Chandra Enaganti</em> for suggesting the initial solution based on this method. </p>
+<p></br><br />
+<strong>Method 2 (Using Single Traversal)</strong><br />
+The method 1 finds LCA in O(n) time, but requires three tree traversals plus extra spaces for path arrays. If we assume that the keys n1 and n2 are present in Binary Tree, we can find LCA using single traversal of Binary Tree and without extra storage for path arrays.<br />
+The idea is to traverse the tree starting from root.  If any of the given keys (n1 and n2) matches with root, then root is LCA (assuming that both keys are present).  If root doesn&#8217;t match with any of the keys, we recur for left and right subtree.   The node which has one key present in its left subtree and the other key present in right subtree is the LCA.  If both keys lie in left subtree, then left subtree has LCA also, otherwise LCA lies in right subtree.</p>
+<pre class="brush: cpp; highlight: [21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45]; title: ; notranslate" title="">
+/* Program to find LCA of n1 and n2 using one traversal of Binary Tree */
+#include &lt;iostream&gt;
+using namespace std;
+
+// A Binary Tree Node
+struct Node
+{
+    struct Node *left, *right;
+    int key;
+};
+
+// Utility function to create a new tree Node
+Node* newNode(int key)
+{
+    Node *temp = new Node;
+    temp-&gt;key = key;
+    temp-&gt;left = temp-&gt;right = NULL;
+    return temp;
+}
+
+// This function returns pointer to LCA of two given values n1 and n2.
+// This function assumes that n1 and n2 are present in Binary Tree
+struct Node *findLCA(struct Node* root, int n1, int n2)
+{
+    // Base case
+    if (root == NULL) return NULL;
+
+    // If either n1 or n2 matches with root's key, report
+    // the presence by returning root (Note that if a key is
+    // ancestor of other, then the ancestor key becomes LCA
+    if (root-&gt;key == n1 || root-&gt;key == n2)
+        return root;
+
+    // Look for keys in left and right subtrees
+    Node *left_lca  = findLCA(root-&gt;left, n1, n2);
+    Node *right_lca = findLCA(root-&gt;right, n1, n2);
+
+    // If both of the above calls return Non-NULL, then one key
+    // is present in once subtree and other is present in other,
+    // So this node is the LCA
+    if (left_lca &amp;&amp; right_lca)  return root;
+
+    // Otherwise check if left subtree or right subtree is LCA
+    return (left_lca != NULL)? left_lca: right_lca;
+}
+
+// Driver program to test above functions
+int main()
+{
+    // Let us create binary tree given in the above example
+    Node * root = newNode(1);
+    root-&gt;left = newNode(2);
+    root-&gt;right = newNode(3);
+    root-&gt;left-&gt;left = newNode(4);
+    root-&gt;left-&gt;right = newNode(5);
+    root-&gt;right-&gt;left = newNode(6);
+    root-&gt;right-&gt;right = newNode(7);
+    cout &lt;&lt; &quot;LCA(4, 5) = &quot; &lt;&lt; findLCA(root, 4, 5)-&gt;key;
+    cout &lt;&lt; &quot;\nLCA(4, 6) = &quot; &lt;&lt; findLCA(root, 4, 6)-&gt;key;
+    cout &lt;&lt; &quot;\nLCA(3, 4) = &quot; &lt;&lt; findLCA(root, 3, 4)-&gt;key;
+    cout &lt;&lt; &quot;\nLCA(2, 4) = &quot; &lt;&lt; findLCA(root, 2, 4)-&gt;key;
+    return 0;
+}</pre>
+<p>Output:
+<pre>LCA(4, 5) = 2
+LCA(4, 6) = 1
+LCA(3, 4) = 1
+LCA(2, 4) = 2 </pre>
+<p>Thanks to <em>Atul Singh</em> for suggesting this solution. </p>
+<p><em><strong>Time Complexity:</strong> </em>Time complexity of the above solution is O(n) as the method does a simple tree traversal in bottom up fashion.<br />
+Note that the above method assumes that keys are present in Binary Tree.  If one key is present and other is absent, then it returns the present key as LCA (Ideally should have returned NULL).<br />
+We can extend this method to handle all cases by passing two boolean variables v1 and v2.  v1 is set as true when n1 is present in tree and v2 is set as true if n2 is present in tree.</p>
+<pre class="brush: cpp; highlight: [22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89]; title: ; notranslate" title="">
+/* Program to find LCA of n1 and n2 using one traversal of Binary Tree.
+   It handles all cases even when n1 or n2 is not there in Binary Tree */
+#include &lt;iostream&gt;
+using namespace std;
+
+// A Binary Tree Node
+struct Node
+{
+    struct Node *left, *right;
+    int key;
+};
+
+// Utility function to create a new tree Node
+Node* newNode(int key)
+{
+    Node *temp = new Node;
+    temp-&gt;key = key;
+    temp-&gt;left = temp-&gt;right = NULL;
+    return temp;
+}
+
+// This function returns pointer to LCA of two given values n1 and n2.
+// v1 is set as true by this function if n1 is found
+// v2 is set as true by this function if n2 is found
+struct Node *findLCAUtil(struct Node* root, int n1, int n2, bool &amp;v1, bool &amp;v2)
+{
+    // Base case
+    if (root == NULL) return NULL;
+
+    // If either n1 or n2 matches with root's key, report the presence
+    // by setting v1 or v2 as true and return root (Note that if a key
+    // is ancestor of other, then the ancestor key becomes LCA)
+    if (root-&gt;key == n1)
+    {
+        v1 = true;
+        return root;
+    }
+    if (root-&gt;key == n2)
+    {
+        v2 = true;
+        return root;
+    }
+
+    // Look for keys in left and right subtrees
+    Node *left_lca  = findLCAUtil(root-&gt;left, n1, n2, v1, v2);
+    Node *right_lca = findLCAUtil(root-&gt;right, n1, n2, v1, v2);
+
+    // If both of the above calls return Non-NULL, then one key
+    // is present in once subtree and other is present in other,
+    // So this node is the LCA
+    if (left_lca &amp;&amp; right_lca)  return root;
+
+    // Otherwise check if left subtree or right subtree is LCA
+    return (left_lca != NULL)? left_lca: right_lca;
+}
+
+// Returns true if key k is present in tree rooted with root
+bool find(Node *root, int k)
+{
+    // Base Case
+    if (root == NULL)
+        return false;
+
+    // If key is present at root, or in left subtree or right subtree,
+    // return true;
+    if (root-&gt;key == k || find(root-&gt;left, k) ||  find(root-&gt;right, k))
+        return true;
+
+    // Else return false
+    return false;
+}
+
+// This function returns LCA of n1 and n2 only if both n1 and n2 are present
+// in tree, otherwise returns NULL;
+Node *findLCA(Node *root, int n1, int n2)
+{
+    // Initialize n1 and n2 as not visited
+    bool v1 = false, v2 = false;
+
+    // Find lca of n1 and n2 using the technique discussed above
+    Node *lca = findLCAUtil(root, n1, n2, v1, v2);
+
+    // Return LCA only if both n1 and n2 are present in tree
+    if (v1 &amp;&amp; v2 || v1 &amp;&amp; find(lca, n2) || v2 &amp;&amp; find(lca, n1))
+        return lca;
+
+    // Else return NULL
+    return NULL;
+}
+
+// Driver program to test above functions
+int main()
+{
+    // Let us create binary tree given in the above example
+    Node * root = newNode(1);
+    root-&gt;left = newNode(2);
+    root-&gt;right = newNode(3);
+    root-&gt;left-&gt;left = newNode(4);
+    root-&gt;left-&gt;right = newNode(5);
+    root-&gt;right-&gt;left = newNode(6);
+    root-&gt;right-&gt;right = newNode(7);
+    Node *lca =  findLCA(root, 4, 5);
+    if (lca != NULL)
+       cout &lt;&lt; &quot;LCA(4, 5) = &quot; &lt;&lt; lca-&gt;key;
+    else
+       cout &lt;&lt; &quot;Keys are not present &quot;;
+
+    lca =  findLCA(root, 4, 10);
+    if (lca != NULL)
+       cout &lt;&lt; &quot;\nLCA(4, 10) = &quot; &lt;&lt; lca-&gt;key;
+    else
+       cout &lt;&lt; &quot;\nKeys are not present &quot;;
+
+    return 0;
+}</pre>
+<p>Output:
+<pre>LCA(4, 5) = 2
+Keys are not present </pre>
+<p>Thanks to Dhruv for suggesting this extended solution.  </p>
+<p>We will soon be discussing more solutions to this problem.  Solutions considering the following.<br />
+<strong>1) </strong>If there are many LCA queries and we can take some extra preprocessing time to reduce the time taken to find LCA.<br />
+<strong>2) </strong>If parent pointer is given with every node.</p>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/perfect-binary-tree-specific-level-order-traversal/" title="Perfect Binary Tree Specific Level Order Traversal">Perfect Binary Tree Specific Level Order Traversal</a></li><li><a href="http://www.geeksforgeeks.org/print-nodes-top-view-binary-tree/" title="Print Nodes in Top View of Binary Tree">Print Nodes in Top View of Binary Tree</a></li><li><a href="http://www.geeksforgeeks.org/k-dimensional-tree/" title="K Dimensional Tree">K Dimensional Tree</a></li><li><a href="http://www.geeksforgeeks.org/convert-binary-tree-threaded-binary-tree/" title="Convert a Binary Tree to Threaded binary tree">Convert a Binary Tree to Threaded binary tree</a></li><li><a href="http://www.geeksforgeeks.org/serialize-deserialize-n-ary-tree/" title="Serialize and Deserialize an N-ary Tree">Serialize and Deserialize an N-ary Tree</a></li><li><a href="http://www.geeksforgeeks.org/serialize-deserialize-binary-tree/" title="Serialize and Deserialize a Binary Tree">Serialize and Deserialize a Binary Tree</a></li><li><a href="http://www.geeksforgeeks.org/given-binary-tree-print-nodes-two-given-level-numbers/" title="Print nodes between two given level numbers of a binary tree">Print nodes between two given level numbers of a binary tree</a></li><li><a href="http://www.geeksforgeeks.org/find-height-binary-tree-represented-parent-array/" title="Find Height of Binary Tree represented by Parent array">Find Height of Binary Tree represented by Parent array</a></li></ul>
+<p></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Flowest-common-ancestor-binary-tree-set-1%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/lowest-common-ancestor-binary-tree-set-1/" data-text="Lowest Common Ancestor in a Binary Tree | Set 1" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/lowest-common-ancestor-binary-tree-set-1/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-33992">
+        <div id="dsq-comment-header-33992" class="dsq-comment-header">
+            <cite id="dsq-cite-33992">
+                <span id="dsq-author-user-33992">sandy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33992" class="dsq-comment-body">
+            <div id="dsq-comment-message-33992" class="dsq-comment-message"><p>ListNode LCA(BinaryTreeNode root , BinaryTreeNode a , BinaryTreeNode b  ){</p>
+<p>if(root==null) return ;</p>
+<p>if(root ==a || root==b) return root;</p>
+<p>ListNode left = LCA(root.getleft(),a,b);</p>
+<p>ListNode right = LCA(root.getright(),a,b);</p>
+<p>if(left &amp;&amp; right)  return root;</p>
+<p>else return left?left:right ;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-33069">
+        <div id="dsq-comment-header-33069" class="dsq-comment-header">
+            <cite id="dsq-cite-33069">
+                <span id="dsq-author-user-33069">techomaniac</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33069" class="dsq-comment-body">
+            <div id="dsq-comment-message-33069" class="dsq-comment-message"><p>Guys I think I have a different solution for this. You can do this by using level order traversal. The time complexity wll be O(n) and space complexity will be O(1). First check with level order traversal which of n1 or n2 is higher level. Now say if n1 is higher then check whether n2 lies in the same subtree from the root. If it is in diffrent subtree from the root then root node is LCA else parent of n1 is LCA.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-33242">
+        <div id="dsq-comment-header-33242" class="dsq-comment-header">
+            <cite id="dsq-cite-33242">
+                <span id="dsq-author-user-33242">Kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33242" class="dsq-comment-body">
+            <div id="dsq-comment-message-33242" class="dsq-comment-message"><p>How can we do level order traversal in O(n) time and O(1) space, it is not possible as far as I know</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-33469">
+        <div id="dsq-comment-header-33469" class="dsq-comment-header">
+            <cite id="dsq-cite-33469">
+                <span id="dsq-author-user-33469">wliao</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33469" class="dsq-comment-body">
+            <div id="dsq-comment-message-33469" class="dsq-comment-message"><p>I think this method would work iff assuming the level orders of n1 and n2 are the same. If they aren&#8217;t there will be a problem, like finding lca of 4, 7.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-33470">
+        <div id="dsq-comment-header-33470" class="dsq-comment-header">
+            <cite id="dsq-cite-33470">
+                <span id="dsq-author-user-33470">wliao</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33470" class="dsq-comment-body">
+            <div id="dsq-comment-message-33470" class="dsq-comment-message"><p>Oops, I meant iff the level orders are NOT the same.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-33019">
+        <div id="dsq-comment-header-33019" class="dsq-comment-header">
+            <cite id="dsq-cite-33019">
+                <span id="dsq-author-user-33019">Rahul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33019" class="dsq-comment-body">
+            <div id="dsq-comment-message-33019" class="dsq-comment-message"><p>3rd method is awesome, can get the answer in just one traversal <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-32945">
+        <div id="dsq-comment-header-32945" class="dsq-comment-header">
+            <cite id="dsq-cite-32945">
+                <span id="dsq-author-user-32945">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32945" class="dsq-comment-body">
+            <div id="dsq-comment-message-32945" class="dsq-comment-message"><p>I do not think these 3 methods work well if there exist duplicates in the tree. Please consider the following tree:<br />
+    Node * root = newNode(1);<br />
+    root-&gt;left = newNode(11);<br />
+    root-&gt;right = newNode(11);<br />
+    root-&gt;left-&gt;left = newNode(11);<br />
+    root-&gt;left-&gt;right = newNode(12);<br />
+    root-&gt;left-&gt;right-&gt;left = newNode(6);<br />
+    root-&gt;left-&gt;right-&gt;right = newNode(11);<br />
+LCA of 6 and 11 should be 12, but method 1 returns 11, method 2 and improved method 2 return 1. I think the reason is that these three methods are trying to find LCA in top down fashion. I believe we need to find LCA in bottom up fashion in order to eliminate fictitious LCA. Please correct me if I am wrong.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-32949">
+        <div id="dsq-comment-header-32949" class="dsq-comment-header">
+            <cite id="dsq-cite-32949">
+                <span id="dsq-author-user-32949">micintosh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32949" class="dsq-comment-body">
+            <div id="dsq-comment-message-32949" class="dsq-comment-message"><p>I made the comment above, and it is wrong; sorry about that.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-32862">
+        <div id="dsq-comment-header-32862" class="dsq-comment-header">
+            <cite id="dsq-cite-32862">
+                <span id="dsq-author-user-32862">bani</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32862" class="dsq-comment-body">
+            <div id="dsq-comment-message-32862" class="dsq-comment-message"><p>Suppose we have only 1 of the 2 nodes present in our tree &#8230; how to come to a solution in just a single traversal of our binary tree&#8230;..???</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-32865">
+        <div id="dsq-comment-header-32865" class="dsq-comment-header">
+            <cite id="dsq-cite-32865">
+                <span id="dsq-author-user-32865">Kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32865" class="dsq-comment-body">
+            <div id="dsq-comment-message-32865" class="dsq-comment-message"><p>Doesn&#8217;t look possible to find lca if one of the keys is absent.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-32873">
+        <div id="dsq-comment-header-32873" class="dsq-comment-header">
+            <cite id="dsq-cite-32873">
+                <span id="dsq-author-user-32873">Swarup Mallick</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32873" class="dsq-comment-body">
+            <div id="dsq-comment-message-32873" class="dsq-comment-message"><p>I think the assumption is both n1 and n2 must present.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-32868">
+        <div id="dsq-comment-header-32868" class="dsq-comment-header">
+            <cite id="dsq-cite-32868">
+                <span id="dsq-author-user-32868">Dhruv</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32868" class="dsq-comment-body">
+            <div id="dsq-comment-message-32868" class="dsq-comment-message"><p>You can take 2 booleans indicating whether n1 and n2 are present or not . And finally after the traversal ,use them at the end to make decisions.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-32888">
+        <div id="dsq-comment-header-32888" class="dsq-comment-header">
+            <cite id="dsq-cite-32888">
+                <span id="dsq-author-user-32888">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32888" class="dsq-comment-body">
+            <div id="dsq-comment-message-32888" class="dsq-comment-message"><p>Dhruv, thanks for sharing your thoughts.  We have added extended solution to the original post.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-32930">
+        <div id="dsq-comment-header-32930" class="dsq-comment-header">
+            <cite id="dsq-cite-32930">
+                <span id="dsq-author-user-32930">bani</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32930" class="dsq-comment-body">
+            <div id="dsq-comment-message-32930" class="dsq-comment-message"><p>GeeksforGeeks ,@Dhruv , i dont feel taking 2 variables would work ..<br />
+Suppose that in the given figure (at the top of this page )we need to find the lca of 2 and 4 &#8230; as per the 3rd solution since node with 2 will be encountered first the variable v1 will be set&#8230;. at that time 4 has not been discovered so no chance of setting v2&#8230; according to this condition </p>
+<p>if (root-&gt;key == n1)<br />
+    {<br />
+        v1 = true;<br />
+return root;<br />
+}</p>
+<p>after finding 2 we will return &#8230;since 4 lies one level down 2 so its v2 will never be set in this case&#8230;.</p>
+<p>I think the 3rd solution will also be flawing in this case&#8230;</p>
+<p>this flaw arises even if 2 nodes lie in the tree but their boolean variables cant be set&#8230;<br />
+the answer would be NULL in that case&#8230;.<br />
+we need some work to be done to solve this edge case&#8230;.<br />
+what do u say??</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-5" id="dsq-comment-32931">
+        <div id="dsq-comment-header-32931" class="dsq-comment-header">
+            <cite id="dsq-cite-32931">
+                <span id="dsq-author-user-32931">bani</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32931" class="dsq-comment-body">
+            <div id="dsq-comment-message-32931" class="dsq-comment-message"><p>okk i got the essence of your code..its too awesome &#8230;but still cant it be done in a single traversal ??? I think in the worst case the 3rd method would take 3 traversals &#8230;a better approach would be 2 initially search if both the nodes are present in the tree or not and then answer out&#8230;.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-5" id="dsq-comment-32932">
+        <div id="dsq-comment-header-32932" class="dsq-comment-header">
+            <cite id="dsq-cite-32932">
+                <span id="dsq-author-user-32932">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32932" class="dsq-comment-body">
+            <div id="dsq-comment-message-32932" class="dsq-comment-message"><p>bani, please take a closer look.  When we find either n1 or n2, we stop at that node in findLCAUtil().<br />
+In findLCA(), we traverse only only the subtree rooted with either n1 or n2.   So in worst case, we visit every node once, except one node that has n1 or n2.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even depth-4" id="dsq-comment-33052">
+        <div id="dsq-comment-header-33052" class="dsq-comment-header">
+            <cite id="dsq-cite-33052">
+                <span id="dsq-author-user-33052">Gopal Shankar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33052" class="dsq-comment-body">
+            <div id="dsq-comment-message-33052" class="dsq-comment-message"><p>Isn&#8217;t single Boolean serve the purpose ? I see that except for following return path, other two return path does not speak that both keys are present.</p>
+<p>    // If both of the above calls return Non-NULL, then one key<br />
+    // is present in once subtree and other is present in other,<br />
+    // So this node is the LCA<br />
+    if (left_lca &amp;&amp; right_lca)<br />
+    {<br />
+       found= true;   // new flag ?<br />
+       return root;<br />
+    }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/lowest-common-ancestor-binary-tree-set-1/';
+var disqus_identifier = '127045 http://www.geeksforgeeks.org/?p=127045';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Lowest Common Ancestor in a Binary Tree | Set 1";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.201 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:30:51 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

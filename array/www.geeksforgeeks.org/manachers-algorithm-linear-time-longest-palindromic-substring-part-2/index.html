@@ -1,0 +1,649 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Manacher&#039;s Algorithm - Linear Time Longest Palindromic Substring - Part 2 - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="Manacher&#039;s Algorithm - Linear Time Longest Palindromic Substring"/>
+<link rel="canonical" href="http://www.geeksforgeeks.org/manachers-algorithm-linear-time-longest-palindromic-substring-part-2/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Manacher&#039;s Algorithm - Linear Time Longest Palindromic Substring - Part 2 - GeeksforGeeks" />
+<meta property="og:description" content="Manacher&#039;s Algorithm - Linear Time Longest Palindromic Substring" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/manachers-algorithm-linear-time-longest-palindromic-substring-part-2/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:section" content="Strings" />
+<meta property="article:published_time" content="2014-12-16T17:57:51+00:00" />
+<meta property="article:modified_time" content="2014-12-23T19:43:36+00:00" />
+<meta property="og:updated_time" content="2014-12-23T19:43:36+00:00" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/lps6-300x128.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/lps7-300x96.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/lps91-300x94.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/lps10-300x67.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/lps11-300x28.jpg" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/lps8-300x26.jpg" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.481 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1419345437 122.172.97.175';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Manacher&#8217;s Algorithm &#8211; Linear Time Longest Palindromic Substring &#8211; Part 2</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>In <a href="http://www.geeksforgeeks.org/manachers-algorithm-linear-time-longest-palindromic-substring-part-1/" target="_blank">Manacher&#8217;s Algorithm &#8211; Part 1</a>, we gone through some of the basics and LPS length array.<br />
+Here we will see how to calculate LPS length array efficiently.<span id="more-133174"></span></p>
+<p>To calculate LPS array efficiently, we need to understand how LPS length for any position may relate to LPS length value of any previous already calculated position.<br />
+For string “abaaba”, we see following:</p>
+<pre>                    <a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/lps6.jpg"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/lps6-300x128.jpg" alt="Manacher's Algorithm – Linear Time Longest Palindromic Substring" width="300" height="128" class="alignnone size-medium wp-image-133175" /></a></pre>
+<p>If we look around position 3:</p>
+<ul>
+<li>LPS length value at position 2 and position 4 are same</li>
+<li>LPS length value at position 1 and position 5 are same</li>
+</ul>
+<p>We calculate LPS length values from left to right starting from position 0, so we can see if we already know LPS length values at positions 1, 2 and 3 already then we may not need to calculate LPS length at positions 4 and 5 because they are equal to LPS length values at corresponding positions on left side of position 3.</p>
+<p>If we look around position 6:</p>
+<ul>
+<li>LPS length value at position 5 and position 7 are same</li>
+<li>LPS length value at position 4 and position 8 are same</li>
+</ul>
+<p>&#8230;&#8230;&#8230;&#8230;. and so on.<br />
+If we already know LPS length values at positions 1, 2, 3, 4, 5 and 6 already then we may not need to calculate LPS length at positions 7, 8, 9, 10 and 11 because they are equal to LPS length values at corresponding positions on left side of position 6.<br />
+For string “abababa”, we see following:</p>
+<pre>                    <a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/lps7.jpg"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/lps7-300x96.jpg" alt="Manacher's Algorithm – Linear Time Longest Palindromic Substring" width="300" height="96" class="alignnone size-medium wp-image-133177" /></a></pre>
+<p>If we already know LPS length values at positions 1, 2, 3, 4, 5, 6 and 7 already then we may not need to calculate LPS length at positions 8, 9, 10, 11, 12 and 13 because they are equal to LPS length values at corresponding positions on left side of position 7.</p>
+<p>Can you see why LPS length values are symmetric around positions 3, 6, 9 in string “abaaba”? That’s because there is a palindromic substring around these positions. Same is the case in string “abababa” around position 7.<br />
+Is it always true that LPS length values around at palindromic center position are always symmetric (same)?<br />
+Answer is NO.<br />
+Look at positions 3 and 11 in string “abababa”. Both positions have LPS length 3. Immediate left and right positions are symmetric (with value 0), but not the next one. Positions 1 and 5 (around position 3) are not symmetric. Similarly, positions 9 and 13 (around position 11) are not symmetric.</p>
+<p>At this point, we can see that if there is a palindrome in a string centered at some position, then LPS length values around the center position may or may not be symmetric depending on some situation. If we can identify the situation when left and right positions WILL BE SYMMETRIC around the center position, we NEED NOT calculate LPS length of the right position because it will be exactly same as LPS value of corresponding position on the left side which is already known. And this fact where we are avoiding LPS length computation at few positions makes Manacher&#8217;s Algorithm linear.</p>
+<p>In situations when left and right positions WILL NOT BE SYMMETRIC around the center position, we compare characters in left and right side to find palindrome, but here also algorithm tries to avoid certain no of comparisons. We will see all these scenarios soon.</p>
+<p>Let’s introduce few terms to proceed further:</p>
+<pre>                          (click to see it clearly)
+                    <a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/lps91.jpg"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/lps91-300x94.jpg" alt="Manacher's Algorithm – Linear Time Longest Palindromic Substring" width="300" height="94" class="alignnone size-medium wp-image-133184" /></a></pre>
+<ul>
+<li><strong>centerPosition</strong> – This is the position for which LPS length is calculated and let’s say LPS length at centerPosition is d (i.e. L[centerPosition] = d)</li>
+<li><strong>centerRightPosition</strong> – This is the position which is right to the centerPosition and d position away from centerPosition (i.e. <strong>centerRightPosition = centerPosition + d</strong>)</li>
+<li><strong>centerLeftPosition</strong> – This is the position which is left to the centerPosition and d position away from centerPosition (i.e. <strong>centerLeftPosition = centerPosition &#8211; d</strong>)</li>
+<li><strong>currentRightPosition</strong> – This is the position which is right of the centerPosition for which LPS length is not yet known and has to be calculated</li>
+<li><strong>currentLeftPosition</strong> – This is the position on the left side of centerPosition which corresponds to the currentRightPosition<br />
+<strong>centerPosition  &#8211; currentLeftPosition = currentRightPosition – centerPosition</strong><br />
+<strong>currentLeftPosition = 2* centerPosition  &#8211; currentRightPosition</strong></li>
+<li><strong>i-left palindrome</strong> – The palindrome i positions left of centerPosition, i.e. at currentLeftPosition</li>
+<li><strong>i-right palindrome</strong> – The palindrome i positions right of centerPosition, i.e. at currentRightPosition</li>
+<li><strong>center palindrome</strong> &#8211; The palindrome at centerPosition</li>
+</ul>
+<p>When we are at centerPosition for which LPS length is known, then we also know LPS length of all positions smaller than centerPosition. Let’s say LPS length at centerPosition is d, i.e.<br />
+L[centerPosition] = d</p>
+<p>It means that substring between positions “centerPosition-d” to “centerPosition+d” is a palindrom.<br />
+Now we proceed further to calculate LPS length of positions greater than centerPosition.<br />
+Let’s say we are at currentRightPosition ( &gt; centerPosition) where we need to find LPS length.<br />
+For this we look at LPS length of currentLeftPosition which is already calculated.</p>
+<p>If LPS length of currentLeftPosition is less than “centerRightPosition – currentRightPosition”, then LPS length of currentRightPosition will be equal to LPS length of currentLeftPosition. So<br />
+L[currentRightPosition] = L[currentLeftPosition] if L[currentLeftPosition] &lt; centerRightPosition – currentRightPosition. This is <strong>Case 1</strong>.</p>
+<p>Let’s consider below scenario for string “abababa”:</p>
+<pre>                          (click to see it clearly)
+                    <a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/lps10.jpg"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/lps10-300x67.jpg" alt="Manacher's Algorithm – Linear Time Longest Palindromic Substring" width="300" height="67" class="alignnone size-medium wp-image-133186" /></a></pre>
+<p>We have calculated LPS length up-to position 7 where L[7] = 7, if we consider position 7 as centerPosition, then centerLeftPosition will be 0 and centerRightPosition will be 14.<br />
+Now we need to calculate LPS length of other positions on the right of centerPosition.</p>
+<p>For currentRightPosition = 8, currentLeftPosition is 6 and L[currentLeftPosition] = 0<br />
+Also centerRightPosition – currentRightPosition = 14 – 8 = 6<br />
+Case 1 applies here and so L[currentRightPosition] = L[8] = 0<br />
+Case 1 applies to positions 10 and 12, so,<br />
+L[10] = L[4] = 0<br />
+L[12] = L[2] = 0</p>
+<p>If we look at position 9, then:<br />
+currentRightPosition = 9<br />
+currentLeftPosition = 2* centerPosition  &#8211; currentRightPosition = 2*7 – 9 = 5<br />
+centerRightPosition – currentRightPosition = 14 – 9 = 5</p>
+<p>Here L[currentLeftPosition] = centerRightPosition – currentRightPosition, so Case 1 doesn’t apply here. Also note that centerRightPosition is the extreme end position of the string. That means center palindrome is suffix of input string. In that case, L[currentRightPosition] = L[currentLeftPosition]. This is <strong>Case 2</strong>.</p>
+<p>Case 2 applies to positions 9, 11, 13 and 14, so:<br />
+L[9] = L[5] = 5<br />
+L[11] = L[3] = 3<br />
+L[13] = L[1] = 1<br />
+L[14] = L[0] = 0</p>
+<p>What is really happening in Case 1 and Case 2? This is just utilizing the palindromic symmetric property and without any character match, it is finding LPS length of new positions.</p>
+<p>When a bigger length palindrome contains a smaller length palindrome centered at left side of it’s own center, then based on symmetric property, there will be another same smaller palindrome centered on the right of bigger palindrome center. If left side smaller palindrome is not prefix of bigger palindrome, then <strong>Case 1</strong> applies and if it is a prefix AND bigger palindrome is suffix of the input string itself, then <strong>Case 2</strong> applies.</p>
+<p><em>The longest palindrome i places to the right of the current center (the i-right palindrome) is as long as the longest palindrome i places to the left of the current center (the i-left palindrome) if the i-left palindrome is completely contained in the longest palindrome around the current center (the center palindrome) and the i-left palindrome is not a prefix of the center palindrome (<strong>Case 1</strong>) or (i.e. when i-left palindrome is a prefix of center palindrome) if the center palindrome is a suffix of the entire string (<strong>Case 2</strong>).</em></p>
+<p>In Case 1 and Case 2, i-right palindrome can’t expand more than corresponding i-left palindrome (can you visualize why it can’t expand more?), and so LPS length of i-right palindrome is exactly same as LPS length of i-left palindrome.</p>
+<p>Here both i-left and i-right palindromes are completely contained in center palindrome (i.e. L[currentLeftPosition] &lt;= centerRightPosition – currentRightPosition)<br />
+Now if i-left palindrome is not a prefix of center palindrome (L[currentLeftPosition] &lt; centerRightPosition – currentRightPosition), that means that i-left palindrome was not able to expand up-to position centerLeftPosition. </p>
+<p>If we look at following with centerPosition = 11, then</p>
+<pre>                          (click to see it clearly)
+                    <a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/lps11.jpg"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/lps11-300x28.jpg" alt="Manacher's Algorithm – Linear Time Longest Palindromic Substring" width="300" height="28" class="alignnone size-medium wp-image-133190" /></a></pre>
+<p>centerLeftPosition would be 11 &#8211; 9 = 2, and centerRightPosition would be 11 + 9 = 20<br />
+If we take currentRightPosition = 15, it’s currentLeftPosition is 7. Case 1 applies here and so L[15] = 3. i-left palindrome at position 7 is “bab” which is completely contained in center palindrome at position 11 (which is &#8220;dbabcbabd&#8221;). We can see that i-right palindrome (at position 15) can’t expand more than i-left palindrome (at position 7). </p>
+<p>If there was a possibility of expansion, i-left palindrome could have expanded itself more already. But there is no such possibility as i-left palindrome is prefix of center palindrome. So due to symmetry property, i-right palindrome will be exactly same as i-left palindrome and it can&#8217;t expand more. This makes L[currentRightPosition] = L[currentLeftPosition] in Case 1.</p>
+<p>Now if we consider centerPosition = 19, then centerLeftPosition = 12 and centerRightPosition = 26<br />
+If we take currentRightPosition = 23, it’s currentLeftPosition is 15. Case 2 applies here and so L[23] = 3. i-left palindrome at position 15 is “bab” which is completely contained in center palindrome at position 19 (which is &#8220;babdbab&#8221;). In Case 2, where i-left palindrome is prefix of center palindrome, i-right palindrome can’t expand more than length of i-left palindrome because center palindrome is suffix of input string so there are no more character left to compare and expand. This makes L[currentRightPosition] = L[currentLeftPosition] in Case 2.</p>
+<p><strong>Case 1: </strong> L[currentRightPosition] = L[currentLeftPosition] applies when:</p>
+<ul>
+<li>i-left palindrome is completely contained in center palindrome</li>
+<li>i-left palindrome is NOT a prefix of center palindrome</li>
+</ul>
+<p>Both above conditions are satisfied when<br />
+L[currentLeftPosition] &lt; centerRightPosition – currentRightPosition</p>
+<p><strong>Case 2: </strong> L[currentRightPosition] = L[currentLeftPosition] applies when:</p>
+<ul>
+<li>i-left palindrome is prefix of center palindrome (means completely contained also)</li>
+<li>center palindrome is suffix of input string</li>
+</ul>
+<p>Above conditions are satisfied when<br />
+L[currentLeftPosition] = centerRightPosition – currentRightPosition (For 1<sup>st</sup> condition) AND<br />
+centerRightPosition = 2*N where N is input string length N (For 2<sup>nd</sup> condition).</p>
+<p><strong>Case 3: </strong> L[currentRightPosition] &gt; = L[currentLeftPosition] applies when:</p>
+<ul>
+<li>i-left palindrome is prefix of center palindrome (and so i-left palindrome is completely contained in center palindrome)</li>
+<li>center palindrome is NOT suffix of input string</li>
+</ul>
+<p>Above conditions are satisfied when<br />
+L[currentLeftPosition] = centerRightPosition – currentRightPosition (For 1<sup>st</sup> condition) AND<br />
+centerRightPosition &lt; 2*N where N is input string length N (For 2<sup>nd</sup> condition).<br />
+In this case, there is a possibility of i-right palindrome expansion and so length of i-right palindrome is at least as long as length of i-left palindrome.</p>
+<p><strong>Case 4: </strong> L[currentRightPosition] &gt; = centerRightPosition – currentRightPosition applies when:</p>
+<ul>
+<li>i-left palindrome is NOT completely contained in center palindrome</li>
+</ul>
+<p>Above condition is satisfied when<br />
+L[currentLeftPosition] &gt; centerRightPosition – currentRightPosition<br />
+In this case, length of i-right palindrome is at least as long (centerRightPosition – currentRightPosition) and there is a possibility of i-right palindrome expansion.</p>
+<p>In following figure, </p>
+<pre>                          (click to see it clearly)
+                    <a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/lps8.jpg"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/lps8-300x26.jpg" alt="Manacher's Algorithm – Linear Time Longest Palindromic Substring" width="300" height="26" class="alignnone size-medium wp-image-133194" /></a></pre>
+<p>If we take center position 7, then Case 3 applies at currentRightPosition 11 because i-left palindrome at currentLeftPosition 3 is a prefix of center palindrome and i-right palindrome is not suffix of input string, so here L[11] = 9, which is greater than i-left palindrome length L[3] = 3. In the case, it is guaranteed that L[11] will be at least 3, and so in implementation, we 1<sup>st</sup> set L[11] = 3 and then we try to expand it by comparing characters in left and right side starting from distance 4 (As up-to distance 3, it is already known that characters will match).</p>
+<p>If we take center position 11, then Case 4 applies at currentRightPosition 15 because L[currentLeftPosition] = L[7] = 7 &gt; centerRightPosition – currentRightPosition = 20 – 15 = 5. In the case, it is guaranteed that L[15] will be at least 5, and so in implementation, we 1<sup>st</sup> set L[15] = 5 and then we try to expand it by comparing characters in left and right side starting from distance 5 (As up-to distance 5, it is already known that characters will match).</p>
+<p>Now one point left to discuss is, when we work at one center position and compute LPS lengths for different rightPositions, how to know that what would be next center position. We change centerPosition to currentRightPosition if palindrome centered at currentRightPosition expands beyond centerRightPosition.</p>
+<p>Here we have seen four different cases on how LPS length of a position will depend on a previous position&#8217;s LPS length.<br />
+In <a href="http://www.geeksforgeeks.org/manachers-algorithm-linear-time-longest-palindromic-substring-part-3-2/" target="_blank">Part 3</a>, we have discussed code implementation of it and also we have looked at these four cases in a different way and implement that too.</p>
+<p>This article is contributed by <strong>Anurag Singh</strong>. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above<!--more--></p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/print-possible-strings-can-made-placing-spaces/" title="Print all possible strings that can be made by placing spaces">Print all possible strings that can be made by placing spaces</a></li><li><a href="http://www.geeksforgeeks.org/manachers-algorithm-linear-time-longest-palindromic-substring-part-4/" title="Manacher&#8217;s Algorithm &#8211; Linear Time Longest Palindromic Substring &#8211; Part 4">Manacher&#8217;s Algorithm &#8211; Linear Time Longest Palindromic Substring &#8211; Part 4</a></li><li><a href="http://www.geeksforgeeks.org/longest-even-length-substring-sum-first-second-half/" title="Longest Even Length Substring such that Sum of First and Second Half is same">Longest Even Length Substring such that Sum of First and Second Half is same</a></li><li><a href="http://www.geeksforgeeks.org/manachers-algorithm-linear-time-longest-palindromic-substring-part-3-2/" title="Manacher&#8217;s Algorithm &#8211; Linear Time Longest Palindromic Substring &#8211; Part 3">Manacher&#8217;s Algorithm &#8211; Linear Time Longest Palindromic Substring &#8211; Part 3</a></li><li><a href="http://www.geeksforgeeks.org/manachers-algorithm-linear-time-longest-palindromic-substring-part-1/" title="Manacher&#8217;s Algorithm &#8211; Linear Time Longest Palindromic Substring &#8211; Part 1">Manacher&#8217;s Algorithm &#8211; Linear Time Longest Palindromic Substring &#8211; Part 1</a></li><li><a href="http://www.geeksforgeeks.org/check-given-sentence-given-set-simple-grammer-rules/" title="Check a given sentence for a given set of simple grammer rules">Check a given sentence for a given set of simple grammer rules</a></li><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-5-longest-common-substring-2/" title="Suffix Tree Application 5 &#8211; Longest Common Substring">Suffix Tree Application 5 &#8211; Longest Common Substring</a></li><li><a href="http://www.geeksforgeeks.org/generalized-suffix-tree-1/" title="Generalized Suffix Tree 1">Generalized Suffix Tree 1</a></li></ul>
+<p></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fmanachers-algorithm-linear-time-longest-palindromic-substring-part-2%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/manachers-algorithm-linear-time-longest-palindromic-substring-part-2/" data-text="Manacher&#8217;s Algorithm &#8211; Linear Time Longest Palindromic Substring &#8211; Part 2" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/manachers-algorithm-linear-time-longest-palindromic-substring-part-2/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/manachers-algorithm-linear-time-longest-palindromic-substring-part-2/';
+var disqus_identifier = '133174 http://www.geeksforgeeks.org/?p=133174';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Manacher&#8217;s Algorithm &#8211; Linear Time Longest Palindromic Substring &#8211; Part 2";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.184 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-12-23 20:07:17 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

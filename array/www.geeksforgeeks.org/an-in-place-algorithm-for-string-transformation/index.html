@@ -1,0 +1,2623 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>An in-place algorithm for String Transformation - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/an-in-place-algorithm-for-string-transformation/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="An in-place algorithm for String Transformation - GeeksforGeeks" />
+<meta property="og:description" content="Given a string, move all even positioned elements to end of string. While moving elements, keep the relative order of all even positioned and odd positioned elements same. For example, if the given string is &#8220;a1b2c3d4e5f6g7h8i9j1k2l3m4&#8243;, convert it to &#8220;abcdefghijklm1234567891234&#8243; in-place and in O(n) time complexity. Below are the steps: 1. Cut out the largest &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/an-in-place-algorithm-for-string-transformation/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:section" content="Strings" />
+<meta property="article:published_time" content="2012-10-15T11:56:09+00:00" />
+<meta property="article:modified_time" content="2012-12-16T12:52:10+00:00" />
+<meta property="og:updated_time" content="2012-12-16T12:52:10+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.502 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417114082 210.212.53.139 172.19.11.169';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">An in-place algorithm for String Transformation</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given a string, move all even positioned elements to end of string.  While moving elements, keep the relative order of all even positioned and odd positioned elements same. <span id="more-25494"></span> For example, if the given string is &#8220;a1b2c3d4e5f6g7h8i9j1k2l3m4&#8243;, convert it to &#8220;abcdefghijklm1234567891234&#8243; in-place and in O(n) time complexity.</p>
+<p>Below are the steps:</p>
+<p><strong>1.</strong> Cut out the largest prefix sub-string of size of the form 3^k + 1.  In this step, we find the largest non-negative integer k such that 3^k+1 is smaller than or equal to n (length of string)</p>
+<p><strong>2. </strong>Apply cycle leader iteration algorithm ( it has been discussed below ), starting with index 1, 3, 9&#8230;&#8230; to this sub-string. Cycle leader iteration algorithm moves all the items of this sub-string to their correct positions, i.e. all the alphabets are shifted to the left half of the sub-string and all the digits are shifted to the right half of this sub-string.</p>
+<p><strong>3.</strong> Process the remaining sub-string recursively using steps#1 and #2.</p>
+<p><strong>4.</strong> Now, we only need to join the processed sub-strings together. Start from any end ( say from left ), pick two sub-strings and apply the below steps:</p>
+<p>&#8230;.<strong>4.1 </strong> Reverse the second half of first sub-string.<br />
+&#8230;.<strong>4.2</strong>  Reverse the first half of second sub-string.<br />
+&#8230;.<strong>4.3</strong>  Reverse the second half of first sub-string and first half of second sub-string together.</p>
+<p><strong>5.</strong> Repeat step#4 until all sub-strings are joined. It is similar to k-way merging where first sub-string is joined with second. The resultant is merged with third and so on.</p>
+<p>Let us understand it with an example:</p>
+<p>Please note that we have used values like 10, 11 12 in the below example. Consider these values as single characters only.  These values are used for better readability.</p>
+<pre>
+0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
+a 1 b 2 c 3 d 4 e 5 f  6  g  7  h  8  i  9  j  10 k  11 l  12 m  13</pre>
+<p>After breaking into size of the form 3^k + 1, two sub-strings are formed of size 10 each. The third sub-string is formed of size 4 and the fourth sub-string is formed of size 2.
+<pre>
+0 1 2 3 4 5 6 7 8 9         
+a 1 b 2 c 3 d 4 e 5         
+
+10 11 12 13 14 15 16 17 18 19          
+f  6  g  7  h  8  i  9  j  10           
+
+20 21 22 23 
+k  11 l  12 
+
+24 25
+m  13</pre>
+<p>After applying cycle leader iteration algorithm to first sub-string:
+<pre>
+0 1 2 3 4 5 6 7 8 9          
+a b c d e 1 2 3 4 5          
+
+10 11 12 13 14 15 16 17 18 19          
+f  6  g  7  h  8  i  9  j  10 
+
+20 21 22 23 
+k  11 l  12 
+
+24 25
+m  13</pre>
+<p>After applying cycle leader iteration algorithm to second sub-string:
+<pre>
+0 1 2 3 4 5 6 7 8 9          
+a b c d e 1 2 3 4 5          
+
+10 11 12 13 14 15 16 17 18 19           
+f  g  h  i  j  6  7  8  9  10 
+
+20 21 22 23 
+k  11 l  12 
+
+24 25
+m 13</pre>
+<p>After applying cycle leader iteration algorithm to third sub-string:
+<pre>
+0 1 2 3 4 5 6 7 8 9          
+a b c d e 1 2 3 4 5          
+
+10 11 12 13 14 15 16 17 18 19            
+f  g  h  i  j  6  7  8  9  10
+
+20 21 22 23 
+k  l  11 12 
+
+24 25
+m  13</pre>
+<p>After applying cycle leader iteration algorithm to fourth sub-string:
+<pre>
+0 1 2 3 4 5 6 7 8 9  
+a b c d e 1 2 3 4 5  
+
+10 11 12 13 14 15 16 17 18 19             
+f  g  h  i  j  6  7  8  9  10   
+
+20 21 22 23 
+k  l  11 12 
+
+24 25
+m  13</pre>
+<p></br><br />
+<em>Joining first sub-string and second sub-string:</em><br />
+1. Second half of first sub-string and first half of second sub-string reversed.
+<pre>
+0 1 2 3 4 5 6 7 8 9          
+a b c d e 5 4 3 2 1            &lt;--------- First Sub-string  
+
+10 11 12 13 14 15 16 17 18 19             
+j  i  h  g  f  6  7  8  9  10  &lt;--------- Second Sub-string  
+
+20 21 22 23 
+k  l  11 12 
+
+24 25
+m  13</pre>
+<p>2. Second half of first sub-string and first half of second sub-string reversed together( They are merged, i.e. there are only three sub-strings now ).
+<pre>
+0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
+a b c d e f g h i j 1  2  3  4  5  6  7  8  9  10
+
+20 21 22 23 
+k  l  11 12 
+
+24 25
+m  13</pre>
+<p></br><br />
+Joining first sub-string and second sub-string:<br />
+1. Second half of first sub-string and first half of second sub-string reversed.
+<pre>
+0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
+a b c d e f g h i j 10 9  8  7  6  5  4  3  2  1 &lt;--------- First Sub-string  
+
+20 21 22 23 
+l  k  11 12                                      &lt;--------- Second Sub-string
+
+24 25
+m  13</pre>
+<p>2. Second half of first sub-string and first half of second sub-string reversed together( They are merged, i.e. there are only two sub-strings now ).
+<pre>
+0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23  
+a b c d e f g h i j k  l  1  2  3  4  5  6  7  8  9  10 11 12  
+
+24 25
+m  13 </pre>
+<p></br><br />
+<em>Joining first sub-string and second sub-string:</em><br />
+1. Second half of first sub-string and first half of second sub-string reversed.
+<pre>
+0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 
+a b c d e f g h i j k  l  12 11 10 9  8  7  6  5  4  3  2  1 &lt;----- First Sub-string
+
+24 25
+m  13   &lt;----- Second Sub-string </pre>
+<p>2. Second half of first sub-string and first half of second sub-string reversed together( They are merged, i.e. there is only one sub-string now ).
+<pre>
+0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
+a b c d e f g h i j k  l  m  1  2  3  4  5  6  7  8  9  10 11 12 13</pre>
+<p>Since all sub-strings have been joined together, we are done.</p>
+<p></br><br />
+<strong>How does cycle leader iteration algorithm work?</strong></p>
+<p>Let us understand it with an example:</p>
+<pre>
+Input:
+0 1 2 3 4 5 6 7 8 9
+a 1 b 2 c 3 d 4 e 5
+
+Output:
+0 1 2 3 4 5 6 7 8 9 
+a b c d e 1 2 3 4 5
+
+Old index    New index
+0		0
+1		5
+2		1
+3		6
+4		2
+5		7
+6		3
+7		8
+8		4
+9		9</pre>
+<p>Let len be the length of the string. If we observe carefully, we find that the new index is given by below formula:</p>
+<pre>
+if( oldIndex is odd )
+	newIndex = len / 2 + oldIndex / 2;
+else
+        newIndex = oldIndex / 2;</pre>
+<p>So, the problem reduces to shifting the elements to new indexes based on the above formula.</p>
+<p>Cycle leader iteration algorithm will be applied starting from the indices of the form 3^k, starting with k = 0.</p>
+<p>Below are the steps:</p>
+<p><strong>1.</strong> Find new position for item at position i. Before putting this item at new position, keep the back-up of element at new position. Now, put the item at new position.</p>
+<p><strong>2.</strong> Repeat step#1 for new position until a cycle is completed, i.e. until the procedure comes back to the starting position.</p>
+<p><strong>3.</strong> Apply cycle leader iteration algorithm to the next index of the form 3^k. Repeat this step until 3^k &lt; len. </p>
+<p>Consider input array of size 28:</p>
+<p>The first cycle leader iteration, starting with index 1:</p>
+<p>1-&gt;14-&gt;7-&gt;17-&gt;22-&gt;11-&gt;19-&gt;23-&gt;25-&gt;26-&gt;13-&gt;20-&gt;10-&gt;5-&gt;16-&gt;8-&gt;4-&gt;2-&gt;1</p>
+<p>The second cycle leader iteration, starting with index 3:</p>
+<p>3-&gt;15-&gt;21-&gt;24-&gt;12-&gt;6-&gt;3</p>
+<p>The third cycle leader iteration, starting with index 9:</p>
+<p>9-&gt;18-&gt;9</p>
+<p>Based on the above algorithm, below is the code:</p>
+<pre class="brush: cpp; highlight: [24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87]; title: ; notranslate" title="">
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;math.h&gt;
+
+// A utility function to swap characters
+void swap ( char* a, char* b )
+{
+    char t = *a;
+    *a = *b;
+    *b = t;
+}
+
+// A utility function to reverse string str[low..high]
+void reverse ( char* str, int low, int high )
+{
+    while ( low &lt; high )
+    {
+        swap( &amp;str[low], &amp;str[high] );
+        ++low;
+        --high;
+    }
+}
+
+// Cycle leader algorithm to move all even positioned elements
+// at the end.
+void cycleLeader ( char* str, int shift, int len )
+{
+    int j;
+    char item;
+
+    for (int i = 1; i &lt; len; i *= 3 )
+    {
+        j = i;
+
+        item = str[j + shift];
+        do
+        {
+            // odd index
+            if ( j &amp; 1 )
+                j = len / 2 + j / 2;
+            // even index
+            else
+                j /= 2;
+
+            // keep the back-up of element at new position
+            swap (&amp;str[j + shift], &amp;item);
+        }
+        while ( j != i );
+    }
+}
+
+// The main function to transform a string. This function mainly uses
+// cycleLeader() to transform
+void moveNumberToSecondHalf( char* str )
+{
+    int k, lenFirst;
+
+    int lenRemaining = strlen( str );
+    int shift = 0;
+
+    while ( lenRemaining )
+    {
+        k = 0;
+
+        // Step 1: Find the largest prefix subarray of the form 3^k + 1
+        while ( pow( 3, k ) + 1 &lt;= lenRemaining )
+            k++;
+        lenFirst = pow( 3, k - 1 ) + 1;
+        lenRemaining -= lenFirst;
+
+        // Step 2: Apply cycle leader algorithm for the largest subarrau
+        cycleLeader ( str, shift, lenFirst );
+
+        // Step 4.1: Reverse the second half of first subarray
+        reverse ( str, shift / 2, shift - 1 );
+
+        // Step 4.2: Reverse the first half of second sub-string.
+        reverse ( str, shift, shift + lenFirst / 2 - 1 );
+
+        // Step 4.3 Reverse the second half of first sub-string and first
+        // half of second sub-string together
+        reverse ( str, shift / 2, shift + lenFirst / 2 - 1 );
+
+        // Increase the length of first subarray
+        shift += lenFirst;
+    }
+}
+
+// Driver program to test above function
+int main()
+{
+    char str[] = &quot;a1b2c3d4e5f6g7&quot;;
+    moveNumberToSecondHalf( str );
+    printf( &quot;%s&quot;, str );
+    return 0;
+}
+</pre>
+<p>Click <a href="https://ideone.com/Ezd2d" target="_blank">here</a> to see various test cases.</p>
+<p><strong>Notes:</strong><br />
+<strong>1.</strong> If the array size is already in the form 3^k + 1, We can directly apply cycle leader iteration algorithm. There is no need of joining.</p>
+<p><strong>2.</strong> Cycle leader iteration algorithm is only applicable to arrays of size of the form 3^k + 1.</p>
+<p><em>How is the time complexity O(n) ?</em><br />
+Each item in a cycle is shifted at most once. Thus time complexity of the cycle leader algorithm is O(n). The time complexity of the reverse operation is O(n). We will soon update the mathematical proof of the time complexity of the algorithm.</p>
+<p><em>Exercise:  </em><br />
+Given string in the form &#8220;abcdefg1234567&#8243;, convert it to &#8220;a1b2c3d4e5f6g7&#8243; in-place and in O(n) time complexity.</p>
+<p><strong>References:</strong><br />
+<a href="http://arxiv.org/pdf/0805.1598v1.pdf">A Simple In-Place Algorithm for In-Shu?e.</a></p>
+<p>__<a href="http://www.facebook.com/barnwal.aashish" target="_blank">Aashish Barnwal</a>.Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-5-longest-common-substring-2/" title="Suffix Tree Application 5 &#8211; Longest Common Substring">Suffix Tree Application 5 &#8211; Longest Common Substring</a></li><li><a href="http://www.geeksforgeeks.org/generalized-suffix-tree-1/" title="Generalized Suffix Tree 1">Generalized Suffix Tree 1</a></li><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-4-build-linear-time-suffix-array/" title="Suffix Tree Application 4 &#8211; Build Linear Time Suffix Array">Suffix Tree Application 4 &#8211; Build Linear Time Suffix Array</a></li><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-3-longest-repeated-substring/" title="Suffix Tree Application 3 &#8211; Longest Repeated Substring">Suffix Tree Application 3 &#8211; Longest Repeated Substring</a></li><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-2-searching-all-patterns/" title="Suffix Tree Application 2 &#8211; Searching All Patterns">Suffix Tree Application 2 &#8211; Searching All Patterns</a></li><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-1-substring-check/" title="Suffix Tree Application 1 &#8211; Substring Check">Suffix Tree Application 1 &#8211; Substring Check</a></li><li><a href="http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-6/" title="Ukkonen&#8217;s Suffix Tree Construction &#8211; Part 6">Ukkonen&#8217;s Suffix Tree Construction &#8211; Part 6</a></li><li><a href="http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-5/" title="Ukkonen&#8217;s Suffix Tree Construction &#8211; Part 5">Ukkonen&#8217;s Suffix Tree Construction &#8211; Part 5</a></li></ul>
+<p></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fan-in-place-algorithm-for-string-transformation%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/an-in-place-algorithm-for-string-transformation/" data-text="An in-place algorithm for String Transformation" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/an-in-place-algorithm-for-string-transformation/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-33361">
+        <div id="dsq-comment-header-33361" class="dsq-comment-header">
+            <cite id="dsq-cite-33361">
+                <span id="dsq-author-user-33361">Teegan.</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33361" class="dsq-comment-body">
+            <div id="dsq-comment-message-33361" class="dsq-comment-message"><p>The algo in the paper is actualy different, which affects the time complexity. You need to do the three reverses first, and then do the cycle leader for the first part etc.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-33435">
+        <div id="dsq-comment-header-33435" class="dsq-comment-header">
+            <cite id="dsq-cite-33435">
+                <span id="dsq-author-user-33435">Careegan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33435" class="dsq-comment-body">
+            <div id="dsq-comment-message-33435" class="dsq-comment-message"><p>Yes, as given the algorithm is not O(n). It is possibly Omega(n logn).</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-33437">
+        <div id="dsq-comment-header-33437" class="dsq-comment-header">
+            <cite id="dsq-cite-33437">
+                <span id="dsq-author-user-33437">Careegan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33437" class="dsq-comment-body">
+            <div id="dsq-comment-message-33437" class="dsq-comment-message"><p>(The paper has it right, though)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-33359">
+        <div id="dsq-comment-header-33359" class="dsq-comment-header">
+            <cite id="dsq-cite-33359">
+                <span id="dsq-author-user-33359">Saurabh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33359" class="dsq-comment-body">
+            <div id="dsq-comment-message-33359" class="dsq-comment-message"><p>Since the input to be segregated is a String like &#8220;a5b6c7d8&#8243; we can use String&#8217;s substring method to handpick numbers from the string and append them at the end of the string in a single for loop.</p>
+<p>Time complexity: O(n)<br />
+space complexity: O(1)</p>
+<p>Example:</p>
+<p>i here denotes the index of the character in the string</p>
+<p>i=1 &#8212; input: a5b6c7d8 (Append 5 to the end of string) output: ab6c7d85<br />
+i=2 &#8212; input: ab6c7d85 (Append 6 to the end of string) output: abc7d856<br />
+i=3 &#8212; input: abc7d856 (Append 7 to the end of string) output: abcd8567<br />
+i=4 &#8212; input: abcd8567 (Append 8 to the end of string) output: abcd5678</p>
+<p>Java Code is:<br />
+public class SegregateCharAndNumbers {<br />
+private static String input=&#8221;a5b6c7d8&#8243;;</p>
+<p>public static void main(String[] args) {<br />
+System.out.println(&#8220;String before change = &#8221; + input);</p>
+<p>for(int i=1; i&lt;input.length()/2+1;i++) {<br />
+input = input.substring(0,i) + input.substring(i+1, input.length()) + input.charAt(i);<br />
+}<br />
+System.out.println(&quot;String after Input = &quot; + input);<br />
+}<br />
+}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-33360">
+        <div id="dsq-comment-header-33360" class="dsq-comment-header">
+            <cite id="dsq-cite-33360">
+                <span id="dsq-author-user-33360">Saurabh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33360" class="dsq-comment-body">
+            <div id="dsq-comment-message-33360" class="dsq-comment-message"><p>Code was not saved correctly. Here is the link for ideone</p>
+<p><a href="https://ideone.com/TDq0Wj" rel="nofollow">https://ideone.com/TDq0Wj</a></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-33366">
+        <div id="dsq-comment-header-33366" class="dsq-comment-header">
+            <cite id="dsq-cite-33366">
+                <span id="dsq-author-user-33366">Pavi.8081</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33366" class="dsq-comment-body">
+            <div id="dsq-comment-message-33366" class="dsq-comment-message"><p>Good try Saurabh.<br />
+But what you have suggested is not inplace.<br />
+Thats because you are using method substring, which creates new string everytime. Am I right?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-33394">
+        <div id="dsq-comment-header-33394" class="dsq-comment-header">
+            <cite id="dsq-cite-33394">
+                <span id="dsq-author-user-33394">Saurabh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33394" class="dsq-comment-body">
+            <div id="dsq-comment-message-33394" class="dsq-comment-message"><p>ah ha .. you are right .. how can I miss that &#8230; humm .. even if we try stringBuilder and try something like this, SB.subString would still create new string internally &#8230; got it .. thanks for pointing it out <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /> </p>
+<p>String temp = null;<br />
+for(int i=1; i&lt;inputBuilder.length()/2+1;i++) {<br />
+temp = inputBuilder.substring(0,i) + inputBuilder.substring(i+1, inputBuilder.length()) + inputBuilder.charAt(i);<br />
+inputBuilder.delete(0, inputBuilder.length());<br />
+inputBuilder.append(temp);<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-33328">
+        <div id="dsq-comment-header-33328" class="dsq-comment-header">
+            <cite id="dsq-cite-33328">
+                <span id="dsq-author-user-33328">cinderilla</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33328" class="dsq-comment-body">
+            <div id="dsq-comment-message-33328" class="dsq-comment-message"><p>Why would cycle leader algorithm only apply to the array with size of 3^k+1?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-31685">
+        <div id="dsq-comment-header-31685" class="dsq-comment-header">
+            <cite id="dsq-cite-31685">
+                <span id="dsq-author-user-31685">Ambu Sreedharan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31685" class="dsq-comment-body">
+            <div id="dsq-comment-message-31685" class="dsq-comment-message"><p>void stringSeperate(string&amp; A){</p>
+<p>    if(A.length() &lt; 3) return;</p>
+<p>    for(int i = 0, j = 0; i<a>=j+1; m&#8211;){</p>
+<p>            A[m+1] = A[m];</p>
+<p>        }</p>
+<p>        if(j&lt;i)A[j+1] = temp;</p>
+<p>        cout&lt;&lt;A&lt;&lt;&quot;n&quot;;</p>
+<p>    }</p>
+<p>}</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-30430">
+        <div id="dsq-comment-header-30430" class="dsq-comment-header">
+            <cite id="dsq-cite-30430">
+                <span id="dsq-author-user-30430">wgpshashank</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30430" class="dsq-comment-body">
+            <div id="dsq-comment-message-30430" class="dsq-comment-message"><p>Just played this , you can modified below to get desired result <a href="https://ideone.com/NBxoRL" rel="nofollow">https://ideone.com/NBxoRL</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-27352">
+        <div id="dsq-comment-header-27352" class="dsq-comment-header">
+            <cite id="dsq-cite-27352">
+                <span id="dsq-author-user-27352">trying</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27352" class="dsq-comment-body">
+            <div id="dsq-comment-message-27352" class="dsq-comment-message"><p>Nice question here:  </p>
+<p><a href="http://stackoverflow.com/questions/12338654/move-all-odd-positioned-element-to-left-half-and-even-positioned-to-right-half-i" rel="nofollow">http://stackoverflow.com/questions/12338654/move-all-odd-positioned-element-to-left-half-and-even-positioned-to-right-half-i</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-26911">
+        <div id="dsq-comment-header-26911" class="dsq-comment-header">
+            <cite id="dsq-cite-26911">
+                <span id="dsq-author-user-26911">skrauniyar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26911" class="dsq-comment-body">
+            <div id="dsq-comment-message-26911" class="dsq-comment-message"><p>I am wondering that why we need to do all these stuff. we can directly get the result by applying cycle leader iteration algorithm. here I have pasted my code, and for simplicity I have initialized the string. please correct me if I am wrong or any possible changes..</p>
+<p>#include<br />
+#include<br />
+#include<br />
+using namespace std;</p>
+<p>int main()<br />
+{<br />
+char str[]=&#8221;a1b2c3d4e5f6g7h8i9j0k&#8221;;<br />
+char opstr[sizeof(str) + 1]; //opstr is output char array<br />
+int length=strlen(str);<br />
+    int i;<br />
+if(length%2==0){     //if string length is even<br />
+for(i=0;i&lt;length;i++) {<br />
+if(i%2==0) {<br />
+opstr[i/2]=str[i];<br />
+}<br />
+else {<br />
+opstr[i/2+length/2]=str[i];<br />
+}<br />
+}<br />
+}<br />
+else {                           // if string length is odd<br />
+for(i=0;i&lt;length;i++) {<br />
+if(i%2==0) {<br />
+opstr[i/2]=str[i];<br />
+}<br />
+else {<br />
+opstr[i/2+length/2+1]=str[i];<br />
+}<br />
+}<br />
+}<br />
+opstr[i]=&#039;&#039;;<br />
+cout&lt;&lt;opstr;<br />
+return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-24749">
+        <div id="dsq-comment-header-24749" class="dsq-comment-header">
+            <cite id="dsq-cite-24749">
+                <span id="dsq-author-user-24749">raj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24749" class="dsq-comment-body">
+            <div id="dsq-comment-message-24749" class="dsq-comment-message"><pre> <code language="C">
+void trans1(char *str)
+{
+    int n=strlen(str);
+    int al=0;
+    int num=(n/2);
+    int next=num+1;
+    int c=0;
+    while(num&lt;n)
+    {
+        char temp;
+        temp=str[num];
+        str[num]=str[num-1];
+        str[num-1]=temp;
+        num--;
+        c++;
+        if(num==al)
+        {
+            num=next;
+            al++;
+            next++;
+        }
+    }
+   printf(&quot;\n%s&quot;,str) ;
+   printf(&quot;\n%d&quot;,c);
+}
+
+</code> </pre>
+<p>I/P:abcdefghijklm1234567891234<br />
+o/p:1234567891234abcdefghijklm</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-24738">
+        <div id="dsq-comment-header-24738" class="dsq-comment-header">
+            <cite id="dsq-cite-24738">
+                <span id="dsq-author-user-24738">raj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24738" class="dsq-comment-body">
+            <div id="dsq-comment-message-24738" class="dsq-comment-message"><pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+void trans(char *str)
+{
+    int al=2;
+    int num=1;
+    int next=4;
+    int n=strlen(str);
+    while(al&gt;num &amp;&amp; al&lt;n)
+    {
+        char temp;
+        temp=str[al-1];
+        str[al-1]=str[al];
+        str[al]=temp;
+        al--;
+        if(al==num)
+        {al=next;
+        next=next+2;
+        num++;
+        }
+     }
+    printf(&quot;%s\n&quot;,str);
+   }
+
+</code> </pre>
+<p>I dont know the complexity of this code .. think its O(nlogn)??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-gargsanjay even thread-odd thread-alt depth-1" id="dsq-comment-21470">
+        <div id="dsq-comment-header-21470" class="dsq-comment-header">
+            <cite id="dsq-cite-21470">
+                <span id="dsq-author-user-21470">gargsanjay</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21470" class="dsq-comment-body">
+            <div id="dsq-comment-message-21470" class="dsq-comment-message"><p>dont u think we first apply cycle leader theorem on the remaining array and den do the reverse thing??<br />
+reverse is done just after cycle applied on first subarray. </p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-abhishek08aug odd alt thread-even depth-1" id="dsq-comment-17999">
+        <div id="dsq-comment-header-17999" class="dsq-comment-header">
+            <cite id="dsq-cite-17999">
+                <span id="dsq-author-user-17999">abhishek08aug</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17999" class="dsq-comment-body">
+            <div id="dsq-comment-message-17999" class="dsq-comment-message"><p>Intelligent <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_biggrin.gif" alt=":D" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-17444">
+        <div id="dsq-comment-header-17444" class="dsq-comment-header">
+            <cite id="dsq-cite-17444">
+                <span id="dsq-author-user-17444">stranger</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17444" class="dsq-comment-body">
+            <div id="dsq-comment-message-17444" class="dsq-comment-message"><p>The above code is not O(n). It takes (logn-1)*n/4. So, time complexity is O(nlogn).</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik odd alt depth-2" id="dsq-comment-17454">
+        <div id="dsq-comment-header-17454" class="dsq-comment-header">
+            <cite id="dsq-cite-17454">
+                <span id="dsq-author-user-17454">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17454" class="dsq-comment-body">
+            <div id="dsq-comment-message-17454" class="dsq-comment-message"><p>@stranger: Thanks for inputs.  We will check it.  Could you please let us know how did you get (logn-1)*n/4?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-sabawat even thread-even depth-1" id="dsq-comment-17050">
+        <div id="dsq-comment-header-17050" class="dsq-comment-header">
+            <cite id="dsq-cite-17050">
+                <span id="dsq-author-user-17050">sabawat</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17050" class="dsq-comment-body">
+            <div id="dsq-comment-message-17050" class="dsq-comment-message"><p>#include<stdio .h><br />
+#include<stdlib .h><br />
+#include<string .h></p>
+<p>void fun(char *str);</p>
+<p>int main ()<br />
+{</p>
+<p>    char str[]=&#8221;S1A2B3A4W5A6T7&#8243;;</p>
+<p>    printf(&#8220;Original string     %s\n&#8221;, str);<br />
+    fun(str);<br />
+    printf(&#8220;Transformed string  %s\n&#8221;, str);<br />
+    return 0;<br />
+}</p>
+<p>void fun (char *str)<br />
+{<br />
+    int  i = 0, j, beg = 0, len;<br />
+    char temp;</p>
+<p>    len = strlen(str);<br />
+    j   = len &#8211; 1;</p>
+<p>    if (len % 2 == 1)<br />
+	j += 1;</p>
+<p>    while (beg < j){</p>
+<p>	i   = ++beg;<br />
+	j&#8211;;<br />
+	while (i < j){</p>
+<p>	    temp     = str[i+1];<br />
+	    str[i+1] = str[i];<br />
+	    str[i]   = temp;<br />
+	    i++;<br />
+	    i++;<br />
+	}<br />
+    }</p>
+<p>    return;<br />
+}</p>
+<p>OUTPUT:<br />
+Original string     S1A2B3A4W5A6T7<br />
+Transformed string  SABAWAT1234567</string></stdlib></stdio></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-28464">
+        <div id="dsq-comment-header-28464" class="dsq-comment-header">
+            <cite id="dsq-cite-28464">
+                <span id="dsq-author-user-28464">tausif akram</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28464" class="dsq-comment-body">
+            <div id="dsq-comment-message-28464" class="dsq-comment-message"><p>space is not o(1)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-15556">
+        <div id="dsq-comment-header-15556" class="dsq-comment-header">
+            <cite id="dsq-cite-15556">
+                <span id="dsq-author-user-15556">Niraj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15556" class="dsq-comment-body">
+            <div id="dsq-comment-message-15556" class="dsq-comment-message"><p>I have one solution , can you guys think about this solution ???</p>
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</p>
+<p>take 2nd element into temp variable and shift all elements one left and  put temp variable at the last position . now increase the value i and do the same procedure for all i &lt;= n/2 .</p>
+<p>Example ..</p>
+<p>a1b2c3d4e5 , temp = 1 , i=1</p>
+<p>ab2c3d4e51 , temp =2 , i=2<br />
+abc3d4e512  , temp=3 , i=3<br />
+abcd4e5123  ,temp = 4 , i=4<br />
+abcde51234  , temp =5, i=5<br />
+abcde12345    </p>
+<p>while(i&lt;= n/2 )<br />
+{<br />
+      temp=str[i];<br />
+      j=i;<br />
+      while(j&lt;n-1)<br />
+           str[j]=str[j+1];</p>
+<p>      str[j]=temp;<br />
+      i++;</p>
+<p>}<br />
+/* Paste your code here (You may delete these lines if not writing code) */</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-autoalgorithmist bypostauthor odd alt depth-2" id="dsq-comment-15565">
+        <div id="dsq-comment-header-15565" class="dsq-comment-header">
+            <cite id="dsq-cite-15565">
+http://www.facebook.com/barnwal.aashish                <span id="dsq-author-user-15565">Aashish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15565" class="dsq-comment-body">
+            <div id="dsq-comment-message-15565" class="dsq-comment-message"><p>It seems there are some issues with your logic/code snippet. Can you post the complete code?<br />
+See <a href="https://ideone.com/RVhXsH" rel="nofollow">here</a>.<br />
+It spins infinitely. Also the complexity seems to be O(n^2).</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-15597">
+        <div id="dsq-comment-header-15597" class="dsq-comment-header">
+            <cite id="dsq-cite-15597">
+                <span id="dsq-author-user-15597">Niraj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15597" class="dsq-comment-body">
+            <div id="dsq-comment-message-15597" class="dsq-comment-message"><p>#include </p>
+<p>int main()<br />
+{<br />
+    int i, j, n;<br />
+    char temp;<br />
+    char str[] = &#8220;a1b2c3d4e567&#8243;;//&#8221;abcdefghijklm1234567891234&#8243;;</p>
+<p>    n = strlen(str);<br />
+    i = 1;<br />
+    while(i &lt;= n/2 )<br />
+    {<br />
+        temp = str[i];<br />
+        j = i;<br />
+        while(j&lt;n-1) {<br />
+            str[j] = str[j+1];<br />
+             j++;<br />
+        }<br />
+        str[j] = temp;<br />
+        i++;</p>
+<p>    }</p>
+<p>    printf(&quot;%s&quot;, str);</p>
+<p>    return 0;<br />
+}</p>
+<p>o/p=abcde6123457   </p>
+<p>You were missing one thing , J has to be increased .</p>
+<p>True its taking O(n^2) but very simple to understand and better to implement .</p>
+<p>@Ashish if you want me any clarification please let me know .</p>
+<p>/* Paste your code here (You may delete these lines if not writing code) */</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-15600">
+        <div id="dsq-comment-header-15600" class="dsq-comment-header">
+            <cite id="dsq-cite-15600">
+                <span id="dsq-author-user-15600">Niraj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15600" class="dsq-comment-body">
+            <div id="dsq-comment-message-15600" class="dsq-comment-message"><p>if you have string like abcdef123456 and you need to convert it into form like  a1b2c3d4e5f6 . </p>
+<p>then this algo will give correct result with time complexity O(n^2) .</p>
+<p>#include<br />
+#include<br />
+int main()<br />
+{<br />
+    char a[]=&#8221;abcdefgh12345678&#8243; ,temp ;<br />
+    int i,n,j,k;</p>
+<p>    n=strlen(a);<br />
+    i=1;<br />
+    j=n/2;<br />
+    while(ii) {<br />
+                  a[k]=a[k-1];<br />
+                  k&#8211;;<br />
+           }<br />
+     a[k]=temp;<br />
+     i=i+2;<br />
+     j=j+1;<br />
+     }</p>
+<p>     printf(&#8220;%s&#8221;,a);</p>
+<p>    return 0;<br />
+}</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-autoalgorithmist bypostauthor even depth-4" id="dsq-comment-15605">
+        <div id="dsq-comment-header-15605" class="dsq-comment-header">
+            <cite id="dsq-cite-15605">
+http://www.facebook.com/barnwal.aashish                <span id="dsq-author-user-15605">Aashish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15605" class="dsq-comment-body">
+            <div id="dsq-comment-message-15605" class="dsq-comment-message"><p>The first solution seems to be working. We will look into this further. However the in-place algorithm is interesting. We will suggest you to go through it once. You will learn many things.<br />
+The second solution to convert &#8220;abcdef123456&#8243; to &#8220;a1b2c3d4e5f6&#8243; is missing the outer loop.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-5" id="dsq-comment-15608">
+        <div id="dsq-comment-header-15608" class="dsq-comment-header">
+            <cite id="dsq-cite-15608">
+                <span id="dsq-author-user-15608">Niraj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15608" class="dsq-comment-body">
+            <div id="dsq-comment-message-15608" class="dsq-comment-message"><p>I have for one very good in place solution in O(N) , i will share that solution to you very soon .</p>
+<p>I am pasting the second solution for converting &#8220;abcdef123456&#8243; to &#8220;a1b2c3d4e5f6&#8243; .<br />
+i think it will give correct result .</p>
+<p>@Ashish are youtalking about the solution which you have given ????</p>
+<p>#include<br />
+#include<br />
+int main()<br />
+{<br />
+char a[]=&#8221;abcdefghi1234567810&#8243; ,temp ;<br />
+int i,n,j,k;</p>
+<p>n=strlen(a);<br />
+i=1;<br />
+j=n/2;</p>
+<p>while(ii) {<br />
+a[k]=a[k-1];<br />
+k&#8211;;<br />
+}<br />
+a[k]=temp;<br />
+i=i+2;<br />
+j=j+1;<br />
+}</p>
+<p>printf(&#8220;%s&#8221;,a);</p>
+<p>return 0;</p>
+<p>}</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-31888">
+        <div id="dsq-comment-header-31888" class="dsq-comment-header">
+            <cite id="dsq-cite-31888">
+                <span id="dsq-author-user-31888">teng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31888" class="dsq-comment-body">
+            <div id="dsq-comment-message-31888" class="dsq-comment-message"><p>this is definitely O(N^2) in worst case&#8230;.you need to shift the whole array whenever you discover an integer at position i that you need to put it at the end of the array, and shift all N &#8211; i items</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-15138">
+        <div id="dsq-comment-header-15138" class="dsq-comment-header">
+            <cite id="dsq-cite-15138">
+                <span id="dsq-author-user-15138">pranav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15138" class="dsq-comment-body">
+            <div id="dsq-comment-message-15138" class="dsq-comment-message"><p>public String splitEvenOdd(String word)<br />
+	{<br />
+		int tempLength=word.length()-1;<br />
+		int flag=0;</p>
+<p>		for(int i=0;i&lt;=tempLength;i++)<br />
+		{</p>
+<p>			if((i+1)%2==0 &amp;&amp; flag==0)<br />
+			{<br />
+				word=word+word.charAt(i);<br />
+				word=word.substring(0, i)+word.substring(i+1,word.length());<br />
+				tempLength=tempLength-1;<br />
+				flag=1;<br />
+			}<br />
+			else if(i%2==0 &amp;&amp; flag==1)<br />
+			{<br />
+				word=word+word.charAt(i);<br />
+				word=word.substring(0, i)+word.substring(i+1,word.length());<br />
+				tempLength=tempLength-1;<br />
+				flag=0;<br />
+			}</p>
+<p>		}<br />
+		return word;<br />
+	}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-14336">
+        <div id="dsq-comment-header-14336" class="dsq-comment-header">
+            <cite id="dsq-cite-14336">
+                <span id="dsq-author-user-14336">ravi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14336" class="dsq-comment-body">
+            <div id="dsq-comment-message-14336" class="dsq-comment-message"><p>o(n/2) solution&#8230;why you all moving to complex.correct me if i am wrong.</p>
+<pre> <code language="C">
+/* #include&lt;stdio.h&gt;
+#include&lt;conio.h&gt;
+#include&lt;string.h&gt;
+int main()
+{
+    int n,i;
+    char a[100],b[100],c[100];
+    scanf(&quot;%s&quot;,&amp;a);
+    for(i=0;i&lt;strlen(a)-1;i+=2)
+    {
+        b[i/2]=a[i];
+        c[i/2]=a[i+1];
+        }
+        b[i/2]=c[i/2] = '&#092;&#048;';
+        for(i=0;b[i]!='&#092;&#048;';i++)
+        printf(&quot;%c&quot;,b[i]);
+            for(i=0;c[i]!='&#092;&#048;';i++)
+        printf(&quot;%c&quot;,c[i]);
+        getch();
+        return 0;
+        }              
+*/
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-14337">
+        <div id="dsq-comment-header-14337" class="dsq-comment-header">
+            <cite id="dsq-cite-14337">
+                <span id="dsq-author-user-14337">Kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14337" class="dsq-comment-body">
+            <div id="dsq-comment-message-14337" class="dsq-comment-message"><p>@ravi:  Please note the word &#8220;in-place&#8221; in title.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-14334">
+        <div id="dsq-comment-header-14334" class="dsq-comment-header">
+            <cite id="dsq-cite-14334">
+                <span id="dsq-author-user-14334">ravi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14334" class="dsq-comment-body">
+            <div id="dsq-comment-message-14334" class="dsq-comment-message"><p>O(N/2) Solution&#8230;..Why you all moving so complex??</p>
+<p>#include<br />
+#include<br />
+#include<br />
+int main()<br />
+{<br />
+    int n,i;<br />
+    char a[100],b[100],c[100];<br />
+    scanf(&#8220;%s&#8221;,&amp;a);<br />
+    for(i=0;i&lt;strlen(a)-1;i+=2)<br />
+    {<br />
+        b[i/2]=a[i];<br />
+        c[i/2]=a[i+1];<br />
+        }<br />
+        b[i/2]=c[i/2] = &#039;&#039;;<br />
+        for(i=0;b[i]!=&#039;&#039;;i++)<br />
+        printf(&quot;%c&quot;,b[i]);<br />
+            for(i=0;c[i]!=&#039;&#039;;i++)<br />
+        printf(&quot;%c&quot;,c[i]);<br />
+        getch();<br />
+        return 0;<br />
+        }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-14025">
+        <div id="dsq-comment-header-14025" class="dsq-comment-header">
+            <cite id="dsq-cite-14025">
+                <span id="dsq-author-user-14025">Pavan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14025" class="dsq-comment-body">
+            <div id="dsq-comment-message-14025" class="dsq-comment-message"><p>In the program posted, the line lenFirst = pow( 3, k &#8211; 1 ) + 1;<br />
+in the void moveNumberToSecondHalf( char* str ); function should be modified to lenFirst = pow( 3, k ) + 1;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-14044">
+        <div id="dsq-comment-header-14044" class="dsq-comment-header">
+            <cite id="dsq-cite-14044">
+                <span id="dsq-author-user-14044">Ankit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14044" class="dsq-comment-body">
+            <div id="dsq-comment-message-14044" class="dsq-comment-message"><p>First read the code carefully.<br />
+&#8220;while loop&#8221; just above the line you mentioned will be terminated with an increment in the value of k from the required value&#8230;that&#8217;s why it is used pow(3,k-1) in next line.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-14024">
+        <div id="dsq-comment-header-14024" class="dsq-comment-header">
+            <cite id="dsq-cite-14024">
+                <span id="dsq-author-user-14024">Pavan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14024" class="dsq-comment-body">
+            <div id="dsq-comment-message-14024" class="dsq-comment-message"><p>In the program posted, the line lenFirst = pow( 3, k &#8211; 1 ) + 1; in<br />
+the function void moveNumberToSecondHalf( char* str ); should be modified to lenFirst = pow( 3, k ) + 1;.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-13858">
+        <div id="dsq-comment-header-13858" class="dsq-comment-header">
+            <cite id="dsq-cite-13858">
+                <span id="dsq-author-user-13858">Amature</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13858" class="dsq-comment-body">
+            <div id="dsq-comment-message-13858" class="dsq-comment-message"><p>#include<br />
+#include<br />
+#include<br />
+int main()<br />
+{<br />
+    char c[]=&#8221;a1b2c3d4e5f6g7h8i9j1k2l3m4&#8243;;<br />
+    int n=1;<br />
+    int i=0,j=0,ind=0;<br />
+    while(ind&lt;strlen(c)-2)<br />
+    {<br />
+        ind+=2;<br />
+        char tmp=c[ind];<br />
+        j=ind;<br />
+        for(i=0;i&lt;n;i++)<br />
+        {<br />
+            c[j]=c[j-1];<br />
+            j&#8211;;<br />
+        }<br />
+        c[j]=tmp;<br />
+        n++;<br />
+    }<br />
+    printf(&quot;%s&quot;,c);<br />
+}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-28465">
+        <div id="dsq-comment-header-28465" class="dsq-comment-header">
+            <cite id="dsq-cite-28465">
+                <span id="dsq-author-user-28465">tausif akram</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28465" class="dsq-comment-body">
+            <div id="dsq-comment-message-28465" class="dsq-comment-message"><p>time o(n^2)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-12003">
+        <div id="dsq-comment-header-12003" class="dsq-comment-header">
+            <cite id="dsq-cite-12003">
+http://www.geeksforgeeks.org/forum/profile/arunkindra                <span id="dsq-author-user-12003">Arun</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12003" class="dsq-comment-body">
+            <div id="dsq-comment-message-12003" class="dsq-comment-message"><p>#include<br />
+void change_array(char *arr,int i);<br />
+int main()<br />
+{<br />
+      char str[]=&#8221;A1B2C3D4E5G6H7&#8243;;<br />
+	  int len = strlen(str);<br />
+	  int i;<br />
+	  change_array(str,len);<br />
+	  for(i=0;i&lt;len;i++)<br />
+	  printf(&quot;%c\t&quot;,str[i]);<br />
+	  getchar();<br />
+}<br />
+int get_index(int id, int N,int m)<br />
+{<br />
+  return ((id / m)+(id % m)*N );<br />
+}</p>
+<p>void change_array( char *s, int len)<br />
+{<br />
+  int N = len/(len/2);<br />
+  char temp;<br />
+  int i;<br />
+  for(i = 0; i &lt; len; i++)<br />
+  {</p>
+<p>      int new_id = get_index(i, N,len/2);<br />
+      while(new_id &lt; i)<br />
+      {<br />
+          new_id = get_index(new_id, N,len/2);<br />
+      }</p>
+<p>      temp = s[i];<br />
+      s[i] = s[new_id];<br />
+      s[new_id] = temp;<br />
+  }<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-11866">
+        <div id="dsq-comment-header-11866" class="dsq-comment-header">
+            <cite id="dsq-cite-11866">
+                <span id="dsq-author-user-11866">Nithya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11866" class="dsq-comment-body">
+            <div id="dsq-comment-message-11866" class="dsq-comment-message"><p>I agree with @anon. This problem can be realised as a problem of transposing a matrix of size order mxn where m=(length of string)/2 and n=2.If the length of the string is odd, we can add another character like &#8216;0&#8217; to the end and do the transpose</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-11871">
+        <div id="dsq-comment-header-11871" class="dsq-comment-header">
+            <cite id="dsq-cite-11871">
+                <span id="dsq-author-user-11871">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11871" class="dsq-comment-body">
+            <div id="dsq-comment-message-11871" class="dsq-comment-message"><p>Cool <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /> Here is working code, I didn&#8217;t realize this,</p>
+<pre> <code language="C">
+#include &lt;iostream&gt;
+#include &lt;bitset&gt;
+using namespace std;
+ 
+typedef char data_t;
+ 
+void Print2DArray(char A[], int nr, int nc) {
+    for(int r = 0; r &lt; nr; r++) {
+        for(int c = 0; c &lt; nc; c++)
+            printf(&quot;%4c&quot;, *(A + r*nc + c));
+ 
+        printf(&quot;\n&quot;);
+    }
+ 
+    printf(&quot;\n&quot;);
+}
+ 
+void MatrixTransposeInplaceArrangement(data_t A[], int r, int c) {
+    int size = r*c - 1;
+    data_t t;       // holds element to be replaced, eventually becomes next element to move
+    int next;       // location of 't' to be moved
+    int cycleBegin; // holds start of cycle
+    int i;          // iterator
+    bitset&lt;128&gt; b;  // hash to mark moved elements
+ 
+    b.reset();
+    b[0] = b[size] = 1;
+    i = 1;          // Note that A[0] and A[size-1] won't move
+    while( i &lt; size ) {
+        cycleBegin = i;
+        t = A[i];
+        do {
+            // Input  matrix [r x c]
+            // Output matrix 
+            // i_new = (i*r)%size
+            next = (i*r)%size;
+            swap&lt;data_t&gt;(A[next], t);
+            b[i] = 1;
+            i = next;
+        } while( i != cycleBegin );
+ 
+        // Get Next Move (what about querying random location?)
+        for(i = 1; i &lt; size &amp;&amp; b[i]; i++)
+            ;
+        cout &lt;&lt; endl;
+    }
+}
+ 
+void Fill(data_t buf[], int size) {
+    // Fill abcd ...
+    for(int i = 0; i &lt; size; i++)
+        buf[i] = 'a'+i;
+ 
+    // Fill 0123 ...
+    buf += size;
+    for(int i = 0; i &lt; size; i++)
+        buf[i] = '0'+i;
+}
+ 
+void TestCase_01(void) {
+    int r = 2, c = 10;
+    int size = r*c;
+    data_t *A = new data_t[size];
+ 
+    Fill(A, c);
+ 
+    Print2DArray(A, r, c), cout &lt;&lt; endl;
+    MatrixTransposeInplaceArrangement(A, r, c);
+    Print2DArray(A, c, r), cout &lt;&lt; endl;
+ 
+    delete[] A;
+}
+ 
+int main() {
+    TestCase_01();
+ 
+    return 0;
+}
+</code> </pre>
+<p>Here is another excellent implementation (based on recursion) of similar problem by Sambasiva,</p>
+<p><a href="http://effprog.blogspot.in/2010/08/in-given-array-of-elements-like-a1-a2.html" rel="nofollow">http://effprog.blogspot.in/2010/08/in-given-array-of-elements-like-a1-a2.html</a></p>
+<p>Link to my original post (Inplace M x N size matrix transpose),</p>
+<p><a href="http://www.geeksforgeeks.org/archives/25635" rel="nofollow">http://www.geeksforgeeks.org/archives/25635</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-11835">
+        <div id="dsq-comment-header-11835" class="dsq-comment-header">
+            <cite id="dsq-cite-11835">
+                <span id="dsq-author-user-11835">Sandy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11835" class="dsq-comment-body">
+            <div id="dsq-comment-message-11835" class="dsq-comment-message"><p>Can you please explain me the time complexity of this algo?</p>
+<p>You have claimed each element is shifted atmost once.</p>
+<p>But, i think they are getting shifted more than once.</p>
+<p>1. while applying the cycle leadership algo for each sub-string<br />
+2. For reversing the second half and first half and soon<br />
+3. Again reversing, while merging the both sub-strings.</p>
+<p>Please share your thoughts on this.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-11803">
+        <div id="dsq-comment-header-11803" class="dsq-comment-header">
+            <cite id="dsq-cite-11803">
+                <span id="dsq-author-user-11803">PsychoCoder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11803" class="dsq-comment-body">
+            <div id="dsq-comment-message-11803" class="dsq-comment-message"><pre> <code language="C">
+At max (3/2)n operations are performed.
+
+It may stop while performing in-place operations, so for then the outer while (1) loop is there.
+It will stop when the alphabets are placed completely. It means that all elements are in proper position!
+
+
+void changeStringa1b2c3d4Toabcd1234(char str[], int size) {
+  int mid = size&gt;&gt;1 ;
+  int inext = mid - 1, restartIndex = 1;
+  char ctemp = str[inext];
+  while (1) {
+    do {
+      if ( ctemp &gt;= 'a' &amp;&amp; ctemp &lt;= 'z' )
+        inext = (ctemp - 'a') ;
+      else inext = (ctemp-'1')+(size&gt;&gt;1) ;
+      swap (&amp;ctemp, &amp;str[inext]);
+    } while ( ctemp != str[inext] ) ;
+
+    while ( (restartIndex &lt; mid) &amp;&amp; str[restartIndex] == ('a'+restartIndex) ) {
+      restartIndex ++ ;
+    }
+
+
+    if ( restartIndex &lt; mid ) {
+      ctemp = str[restartIndex] ;
+    } else break ;
+  }
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-11802">
+        <div id="dsq-comment-header-11802" class="dsq-comment-header">
+            <cite id="dsq-cite-11802">
+                <span id="dsq-author-user-11802">Amit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11802" class="dsq-comment-body">
+            <div id="dsq-comment-message-11802" class="dsq-comment-message"><p>o(n) time and o(1) space<br />
+//convert abcde12345 to a1b2c3d4e5<br />
+#include<br />
+#include<br />
+#define swap(x,y,c) c=x,x=y,y=c<br />
+void myfunc(char a[],int low,int high)<br />
+{<br />
+ int j=high,k=(j+low)/2,i=low+1,l=0,c1=0;<br />
+ char c;<br />
+ if(high&lt;=low)<br />
+ return;<br />
+while(a[i]!=&#039;&#039;)<br />
+ {<br />
+while(a[i]!=&#039;&#039; &amp;&amp; ilow+1)<br />
+     {<br />
+     swap(a[i],a[k],c);<br />
+     i++;<br />
+     }<br />
+     swap(a[i],a[k+l],c);<br />
+     i++;<br />
+     l++;<br />
+     if(a[i]==&#8221;)<br />
+     break;<br />
+}<br />
+    if(a[i]==&#8221;)<br />
+    break;<br />
+    low=i;<br />
+    i++;<br />
+    k=(high+low)/2;<br />
+    l=0;<br />
+ }<br />
+printf(&#8220;%d\t%d\t%s\t%d\n&#8221;,i,high,a,c1);<br />
+}<br />
+int main()<br />
+{<br />
+    char a[]=&#8221;abcdefgh12345678&#8243;;<br />
+    myfunc(a,0,strlen(a));<br />
+    printf(&#8220;%s&#8221;,a);<br />
+    return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-11801">
+        <div id="dsq-comment-header-11801" class="dsq-comment-header">
+            <cite id="dsq-cite-11801">
+                <span id="dsq-author-user-11801">a2</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11801" class="dsq-comment-body">
+            <div id="dsq-comment-message-11801" class="dsq-comment-message"><p>Could somebody plz explain me what is the role of &#8221; shift &#8221; variable in the code ? I am not understanding that.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-11806">
+        <div id="dsq-comment-header-11806" class="dsq-comment-header">
+            <cite id="dsq-cite-11806">
+                <span id="dsq-author-user-11806">Aashish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11806" class="dsq-comment-body">
+            <div id="dsq-comment-message-11806" class="dsq-comment-message"><p>For joining first two sub-strings, we must know the size of the first sub-string. &#8220;shift&#8221; variable is used to keep track of the size of the first sub-string. As we go on merging the sub-strings, the size of the first sub-string is increased by the size of the second sub-string. Follow the example which explains how the sub-strings are being merged.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-11781">
+        <div id="dsq-comment-header-11781" class="dsq-comment-header">
+            <cite id="dsq-cite-11781">
+                <span id="dsq-author-user-11781">sharat</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11781" class="dsq-comment-body">
+            <div id="dsq-comment-message-11781" class="dsq-comment-message"><p>Hi Ashish, </p>
+<p>Can you please walk through the cycle leader iteration algo for this a 1 b 2 c 3 d 4 e 5.  I am struggling to understand this algo..May be I am missing something.. Please suggest any tips, which might help me understand this algo better.</p>
+<p>Thanks,<br />
+Sharat</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-11785">
+        <div id="dsq-comment-header-11785" class="dsq-comment-header">
+            <cite id="dsq-cite-11785">
+                <span id="dsq-author-user-11785">Aashish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11785" class="dsq-comment-body">
+            <div id="dsq-comment-message-11785" class="dsq-comment-message"><p>I encourage you to do some paper work and analyze how positions are being calculated and How cycles are formed.</p>
+<p>This is the simplest form of input, already in the form 3^k + 1.<br />
+We can directly apply cycle leader iteration algo.</p>
+<p>0 1 2 3 4 5 6 7 8 9<br />
+a 1 b 2 c 3 d 4 e 5</p>
+<p>Applying cycle leader iteration, starting with 1:<br />
+1-&gt;5-&gt;7-&gt;8-&gt;4-&gt;2-&gt;1</p>
+<p>0 1 2 3 4 5 6 7 8 9<br />
+a b c 2 e 1 d 3 4 5</p>
+<p>Applying cycle leader iteration, starting with 3:<br />
+3-&gt;6-&gt;3</p>
+<p>0 1 2 3 4 5 6 7 8 9<br />
+a b c d e 1 2 3 4 5</p>
+<p>We are done.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-11788">
+        <div id="dsq-comment-header-11788" class="dsq-comment-header">
+            <cite id="dsq-cite-11788">
+                <span id="dsq-author-user-11788">Sharat</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11788" class="dsq-comment-body">
+            <div id="dsq-comment-message-11788" class="dsq-comment-message"><p>Ah! Makes sense now.. Thanks a ton!</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-11771">
+        <div id="dsq-comment-header-11771" class="dsq-comment-header">
+            <cite id="dsq-cite-11771">
+                <span id="dsq-author-user-11771">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11771" class="dsq-comment-body">
+            <div id="dsq-comment-message-11771" class="dsq-comment-message"><p>How about this?</p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+
+
+void swap(char *a, char *b)
+{
+        char temp;
+        temp = *a;
+        *a = *b;
+        *b = temp;
+
+}
+
+int main()
+{
+        char arr[] = &quot;a1b2c3d4&quot;;
+        int size = sizeof(arr)/sizeof(arr[0]);
+        int start = 1; 
+        int end = size -2;
+
+        while(start &lt; end)
+        {
+                for(int i=start;i&lt;end;i+=2)
+                {
+                        swap(&amp;arr[i],&amp;arr[i+1]);
+                }
+                start++;
+                end--;
+        }
+        printf(&quot;%s\n&quot;,arr);
+
+        return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-11800">
+        <div id="dsq-comment-header-11800" class="dsq-comment-header">
+            <cite id="dsq-cite-11800">
+                <span id="dsq-author-user-11800">a2</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11800" class="dsq-comment-body">
+            <div id="dsq-comment-message-11800" class="dsq-comment-message"><p>This is correct , right ?<br />
+What will be the time complexity for this ? O(n^2) ??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-11740">
+        <div id="dsq-comment-header-11740" class="dsq-comment-header">
+            <cite id="dsq-cite-11740">
+                <span id="dsq-author-user-11740">anon</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11740" class="dsq-comment-body">
+            <div id="dsq-comment-message-11740" class="dsq-comment-message"><p>Can we generalize this algorithm to the convert strings like<br />
+&#8220;a1b1c1&#8230;..anbncn&#8221; into the following form</p>
+<p>&#8220;a1a2&#8230;anb1b2&#8230;bnc1c2&#8230;cn&#8221;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-11982">
+        <div id="dsq-comment-header-11982" class="dsq-comment-header">
+            <cite id="dsq-cite-11982">
+                <span id="dsq-author-user-11982">Aashish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11982" class="dsq-comment-body">
+            <div id="dsq-comment-message-11982" class="dsq-comment-message"><p>Here is a good generalization based on recursion implemented by sambasiva:<br />
+<a href="http://effprog.blogspot.in/2010/08/in-given-array-of-elements-like-a1-a2.html" rel="nofollow">http://effprog.blogspot.in/2010/08/in-given-array-of-elements-like-a1-a2.html</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-11728">
+        <div id="dsq-comment-header-11728" class="dsq-comment-header">
+            <cite id="dsq-cite-11728">
+                <span id="dsq-author-user-11728">supreeth</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11728" class="dsq-comment-body">
+            <div id="dsq-comment-message-11728" class="dsq-comment-message"><p>for(i=1,j=0;i&lt;strlen(s);i++)<br />
+ temp1[j++]=s[i];<br />
+for(i=0,j=0;i&lt;strlen(s);i++)<br />
+  temp2[j++]=s[i];<br />
+s1=strcat(temp2,temp1);</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-11727">
+        <div id="dsq-comment-header-11727" class="dsq-comment-header">
+            <cite id="dsq-cite-11727">
+                <span id="dsq-author-user-11727">supreeth</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11727" class="dsq-comment-body">
+            <div id="dsq-comment-message-11727" class="dsq-comment-message"><pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+for(i=1;i&lt;strlen(s);i+=2)
+   temp1[j++]=s[i];
+for(i=1,j=0;i&lt;strlen(s);i+=2)
+   temp2[j++]=s[i];
+s=strcat(temp2,temp1);
+
+
+
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-11730">
+        <div id="dsq-comment-header-11730" class="dsq-comment-header">
+            <cite id="dsq-cite-11730">
+                <span id="dsq-author-user-11730">Aashish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11730" class="dsq-comment-body">
+            <div id="dsq-comment-message-11730" class="dsq-comment-message"><p>This is not an in-place algorithm. The space complexity is O(N).<br />
+in-place algorithm means a space complexity of O(1).</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-11720">
+        <div id="dsq-comment-header-11720" class="dsq-comment-header">
+            <cite id="dsq-cite-11720">
+                <span id="dsq-author-user-11720">coder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11720" class="dsq-comment-body">
+            <div id="dsq-comment-message-11720" class="dsq-comment-message"><pre> <code language="C">
+/* O(n^2) approach :
+#include&lt;stdio.h&gt;
+#include &lt;ctype.h&gt;
+int main()
+{
+char str[]={'a','1','b','2','c','3','d','4'};
+int i=0;
+int j=7;
+ while ( i &lt;= j ) 
+ {
+ while ( isalpha( str[i] ))  i++; 
+
+ while( isdigit ( str[j] )) j--;
+ char  temp = str[i];
+ str[i] = str[j];
+ str[j] = temp;
+
+ }
+
+printf(&quot;%c&quot;,str[0]);
+printf(&quot;%c&quot;,str[1]);
+printf(&quot;%c&quot;,str[2]);
+printf(&quot;%c&quot;,str[3]);
+printf(&quot;%c&quot;,str[4]);
+printf(&quot;%c&quot;,str[5]);
+printf(&quot;%c&quot;,str[6]);
+printf(&quot;%c&quot;,str[7]);
+return 0;
+}
+
+O(n) approach :
+
+Firstly, I took the idea of quick Sort, to separate the letters and numbers.
+
+Then, which help me in their ascii values, I could know the correct position for each
+character and I try to put it in, the while loop ensures me that it works
+
+#include &lt;iostream&gt;
+#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;cstdlib&gt;
+
+using namespace std;
+
+int main(){
+	char str[1000];
+	
+	while(cin &gt;&gt; str){	
+		int len = strlen(str);
+		int i=0, j=len-1;
+	
+		while (i &lt; len/2 &amp;&amp; len/2 &lt;= j) {
+			while ( isalpha (str[i]) ) i++;
+			while ( isdigit (str[j]) ) j--;
+			swap ( str[i], str[j] );
+			i++; j--;
+		}
+		if (isdigit(str[len/2-1])) swap(str[len/2], str[len/2-1]);
+	
+		int count = 0;
+		for ( int i = 0; i &lt; len/2; ++i ) while ( str[i] - 'a' != i)
+			swap(str[i], str[(str[i] - 'a')]), count++;
+	
+		for ( int j = len - 1; j &gt;= len/2; --j ) while ( (str[j] &amp; 15) != j - len/2 + 1)
+			swap( str[j], str[ (str[j] &amp; 15) + len/2 - 1 ] ), count++;
+	
+		cout &lt;&lt; str &lt;&lt; &quot; &quot; &lt;&lt; count &lt;&lt; endl;
+	} 
+*/
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-11721">
+        <div id="dsq-comment-header-11721" class="dsq-comment-header">
+            <cite id="dsq-cite-11721">
+                <span id="dsq-author-user-11721">coder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11721" class="dsq-comment-body">
+            <div id="dsq-comment-message-11721" class="dsq-comment-message"><pre> <code language="C">
+O(n*n) :
+#include&lt;stdio.h&gt;
+#include &lt;ctype.h&gt;
+int main()
+{
+char str[]={'a','b','1','2','3','4','c','d'};
+int i=0;
+int n=7;
+while(!isdigit(str[i]))
+{i++;}
+int j=i;
+
+while(!isalpha(str[j]))
+{j++;}
+
+while(j&lt;=n)
+{ 
+char temp = str[i];
+ str[i] = str[j];
+ //shifarrayrightby1(a,i+1,j)
+{
+  for(int k=j;k&gt;i+1;k--)
+  { 
+    str[k] = str[k-1]; 
+  }
+
+}
+str[i+1]=temp;
+i++;
+j++; 
+}
+printf(&quot;%c&quot;,str[0]);
+printf(&quot;%c&quot;,str[1]);
+printf(&quot;%c&quot;,str[2]);
+printf(&quot;%c&quot;,str[3]);
+printf(&quot;%c&quot;,str[4]);
+printf(&quot;%c&quot;,str[5]);
+printf(&quot;%c&quot;,str[6]);
+printf(&quot;%c&quot;,str[7]);
+return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-11723">
+        <div id="dsq-comment-header-11723" class="dsq-comment-header">
+            <cite id="dsq-cite-11723">
+                <span id="dsq-author-user-11723">Aashish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11723" class="dsq-comment-body">
+            <div id="dsq-comment-message-11723" class="dsq-comment-message"><p>Please read the question carefully. You are not maintaining the relative ordering of the alphabets and digits.</p>
+<p>e.g. If the input is a1b2c3d4, output should be abcd1234</p>
+<p>But, your program is outputting: adbc2314</p>
+<p>Check here: <a href="https://ideone.com/DhBgy" rel="nofollow">https://ideone.com/DhBgy</a></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-11767">
+        <div id="dsq-comment-header-11767" class="dsq-comment-header">
+            <cite id="dsq-cite-11767">
+                <span id="dsq-author-user-11767">coder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11767" class="dsq-comment-body">
+            <div id="dsq-comment-message-11767" class="dsq-comment-message"><pre> <code language="C">
+ignore the first O(n*n) approach , see 2nd approach
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-11769">
+        <div id="dsq-comment-header-11769" class="dsq-comment-header">
+            <cite id="dsq-cite-11769">
+                <span id="dsq-author-user-11769">Aashish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11769" class="dsq-comment-body">
+            <div id="dsq-comment-message-11769" class="dsq-comment-message"><p>Your second program is not working in all cases.<br />
+See <a href="https://ideone.com/zM9Vi" rel="nofollow">here</a>: </p>
+<p>Check for the below inputs:<br />
+a1b2c3d4e5f6g7h8i9j1</p>
+<p>a1b2c3d4e5f6g7h8i9j1k2l3m4</p>
+<p>Please let me know the steps you are using.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-5" id="dsq-comment-11818">
+        <div id="dsq-comment-header-11818" class="dsq-comment-header">
+            <cite id="dsq-cite-11818">
+                <span id="dsq-author-user-11818">coder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11818" class="dsq-comment-body">
+            <div id="dsq-comment-message-11818" class="dsq-comment-message"><pre> <code language="C">
+Dude code is running fine
+I am also printing count 
+which is for analyses of
+time complexity 
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-5" id="dsq-comment-30603">
+        <div id="dsq-comment-header-30603" class="dsq-comment-header">
+            <cite id="dsq-cite-30603">
+                <span id="dsq-author-user-30603">nishit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30603" class="dsq-comment-body">
+            <div id="dsq-comment-message-30603" class="dsq-comment-message"><p>cant we use linkedlist instead of array,even positioned data will be removed and appended at the end<br />
+for example:<br />
+1a2b3c<br />
+1 is deleted and appended at the end<br />
+a2b3c1<br />
+2 is deleted and appended at the end<br />
+ab3c12<br />
+3 is deleted and appended at the end<br />
+abc123<br />
+please correct me,if i am wrong..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-5" id="dsq-comment-31000">
+        <div id="dsq-comment-header-31000" class="dsq-comment-header">
+            <cite id="dsq-cite-31000">
+                <span id="dsq-author-user-31000">Manoj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31000" class="dsq-comment-body">
+            <div id="dsq-comment-message-31000" class="dsq-comment-message"><p>public static void moveEvenElementToEnd(char arr[]){<br />
+        int len=(arr.length-1)/2+1;<br />
+        int index=0;<br />
+        char arr1[]=new char [arr.length];<br />
+        for(int i=0;i&lt;arr.length ;i++){<br />
+            if(i%2==1){<br />
+                arr1[len]=arr[i];<br />
+                len++;<br />
+            }<br />
+            else{<br />
+                arr1[index]=arr[i];<br />
+                index++;<br />
+            }<br />
+        }<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-11718">
+        <div id="dsq-comment-header-11718" class="dsq-comment-header">
+            <cite id="dsq-cite-11718">
+                <span id="dsq-author-user-11718">anudeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11718" class="dsq-comment-body">
+            <div id="dsq-comment-message-11718" class="dsq-comment-message"><p>Notes:<br />
+1. If the array size is already in the form 3^k + 1, We can directly apply cycle leader iteration algorithm. There is no need of joining.</p>
+<p>Even if size is not in form of 3^k + 1, it appearscycle iteration algo is applicable.</p>
+<p>Old index    New index<br />
+0		0<br />
+1	       13<br />
+2		1<br />
+3	       14<br />
+4		2<br />
+5	       15<br />
+6		3<br />
+7	       16<br />
+8		4<br />
+.		.<br />
+.               .<br />
+25              25</p>
+<p>Correct me if iam wrong</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-11722">
+        <div id="dsq-comment-header-11722" class="dsq-comment-header">
+            <cite id="dsq-cite-11722">
+                <span id="dsq-author-user-11722">Aashish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11722" class="dsq-comment-body">
+            <div id="dsq-comment-message-11722" class="dsq-comment-message"><p>In the first look, it seems that you can do it without splitting into size of form 3^k + 1. But, observe that while shifting the items to their correct position, cycles are formed.</p>
+<p>See the below link for cases where it doesn&#8217;t work.</p>
+<p><a href="https://ideone.com/S302T" rel="nofollow">https://ideone.com/S302T</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-11714">
+        <div id="dsq-comment-header-11714" class="dsq-comment-header">
+            <cite id="dsq-cite-11714">
+                <span id="dsq-author-user-11714">rahul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11714" class="dsq-comment-body">
+            <div id="dsq-comment-message-11714" class="dsq-comment-message"><p>@aashish</p>
+<p>What do you mean by only 3^k+1??<br />
+We can always divide the string into parts of 3^k+1 and then apply the above suggested algo.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-11717">
+        <div id="dsq-comment-header-11717" class="dsq-comment-header">
+            <cite id="dsq-cite-11717">
+                <span id="dsq-author-user-11717">Kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11717" class="dsq-comment-body">
+            <div id="dsq-comment-message-11717" class="dsq-comment-message"><p>I think the given string will always be of even length. And any even length string can be divided in the parts of size 3^k + 1.  The number &#8216;2&#8217; itself is of the form 3^k + 1.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-autoalgorithmist bypostauthor even depth-3" id="dsq-comment-15606">
+        <div id="dsq-comment-header-15606" class="dsq-comment-header">
+            <cite id="dsq-cite-15606">
+http://www.facebook.com/barnwal.aashish                <span id="dsq-author-user-15606">Aashish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15606" class="dsq-comment-body">
+            <div id="dsq-comment-message-15606" class="dsq-comment-message"><p>Please take a closer look at the algorithm. Before applying the cycle leader algorithm, it is compulsory to cut out the largest prefix sub-string of size of the form 3^k + 1. The cycle leader iteration algorithm is applied to the parts of the string which is of the form 3^k+1 only and not the whole string unless it is already in the form 3^k+1.<br />
+The statement means that if the string size is of any other form, it is necessary to split it into sub-strings of size 3^k+1 before applying cycle leader iteration algorithm.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-11713">
+        <div id="dsq-comment-header-11713" class="dsq-comment-header">
+            <cite id="dsq-cite-11713">
+                <span id="dsq-author-user-11713">aj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11713" class="dsq-comment-body">
+            <div id="dsq-comment-message-11713" class="dsq-comment-message"><p>I think there is another approach. Not sure whether it will be O(n).I will show the steps involved.<br />
+let the string be<br />
+a1b2c3d4e5f6<br />
+ab12c3d4e5f6   // 1 jumps over by 0 places.<br />
+abc213d4e5f6  //notice here 1 jumps over by one number<br />
+abc123d4e5f6 //we bring it back.<br />
+abcd2314e5f6  // 1 jumps over by 2 places.<br />
+abcd1234e5f6   //bring back<br />
+abcde23415f6   // 1 jumps over by 3 places.<br />
+abcde12345f6    //bring back 1<br />
+abcdef234516   // 1 jumps over by 4 places<br />
+abcdef123456    //bring it back.</p>
+<p>time for bringing 1 back is something I need to think about. Otherwise I suppose it would be O(n)</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-11719">
+        <div id="dsq-comment-header-11719" class="dsq-comment-header">
+            <cite id="dsq-cite-11719">
+                <span id="dsq-author-user-11719">aj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11719" class="dsq-comment-body">
+            <div id="dsq-comment-message-11719" class="dsq-comment-message"><p>@kartik what do you think???</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-11725">
+        <div id="dsq-comment-header-11725" class="dsq-comment-header">
+            <cite id="dsq-cite-11725">
+                <span id="dsq-author-user-11725">Aashish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11725" class="dsq-comment-body">
+            <div id="dsq-comment-message-11725" class="dsq-comment-message"><p>The steps are not clear:<br />
+a1b2c3d4e5f6<br />
+1. ab12c3d4e5f6 // 1 jumps over by 0 places.<br />
+2. abc213d4e5f6 //notice here 1 jumps over by one number<br />
+3. abc123d4e5f6 //we bring it back.</p>
+<p>In step#1, 1 jumps by 1 place. What is meant by 0 place.</p>
+<p>In step#2, If 1 jumps by 1 place, the result should be<br />
+ab21c3d4e5f6, how c is shifted from its position.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-11796">
+        <div id="dsq-comment-header-11796" class="dsq-comment-header">
+            <cite id="dsq-cite-11796">
+                <span id="dsq-author-user-11796">aj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11796" class="dsq-comment-body">
+            <div id="dsq-comment-message-11796" class="dsq-comment-message"><p>At each step we swap 1 with alphabets and then bring 1 back to its position. see this example.<br />
+a1b2c3d4e5f6<br />
+1. ab12c3d4e5f6 // swap b &amp; 1, jump = 0;<br />
+2. abc213d4e5f6 // swap c &amp; 1, jump = 1;<br />
+3. abc123d4e5f6 //we bring it back. 2,1&#8212;&gt;1,2<br />
+4. abcd2314e5f6 // swap d &amp; 1; jump  = 2;<br />
+5. abcd1234e5f6 // bring it back. 2,3,1&#8212;&gt;1,2,3<br />
+6. abcde23415f6 // swap e &amp; 1; jump = 3;<br />
+7. abcde12345f6  // bring it back.<br />
+8. abcdef234516  // swap f &amp; 1; jump = 4<br />
+9. abcdef123456   // bring it back</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-11712">
+        <div id="dsq-comment-header-11712" class="dsq-comment-header">
+            <cite id="dsq-cite-11712">
+                <span id="dsq-author-user-11712">soumya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11712" class="dsq-comment-body">
+            <div id="dsq-comment-message-11712" class="dsq-comment-message"><p>is there any significance of dividing the sub-array only into 3^k+1 ?? (why not into 4^k?)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-11711">
+        <div id="dsq-comment-header-11711" class="dsq-comment-header">
+            <cite id="dsq-cite-11711">
+                <span id="dsq-author-user-11711">Bogdan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11711" class="dsq-comment-body">
+            <div id="dsq-comment-message-11711" class="dsq-comment-message"><p>Why is the cycle leader algo only applicable to 3^k + 1 sized strings?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/an-in-place-algorithm-for-string-transformation/';
+var disqus_identifier = '25494 http://www.geeksforgeeks.org/?p=25494';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "An in-place algorithm for String Transformation";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.243 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-28 00:18:02 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

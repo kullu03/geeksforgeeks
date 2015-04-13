@@ -1,0 +1,4156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Find k-th smallest element in BST (Order Statistics in BST) - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/find-k-th-smallest-element-in-bst-order-statistics-in-bst/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Find k-th smallest element in BST (Order Statistics in BST) - GeeksforGeeks" />
+<meta property="og:description" content="Given root of binary search tree and K as input, find K-th smallest element in BST. For example, in the following BST, if k = 3, then output should be 10, and if k = 5, then output should be 14. Method 1: Using Inorder Traversal. Inorder traversal of BST retrieves elements of tree in the &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/find-k-th-smallest-element-in-bst-order-statistics-in-bst/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:section" content="Trees" />
+<meta property="article:published_time" content="2011-02-15T10:21:42+00:00" />
+<meta property="article:modified_time" content="2013-07-10T09:35:00+00:00" />
+<meta property="og:updated_time" content="2013-07-10T09:35:00+00:00" />
+<meta property="og:image" content="http://geeksforgeeks.org/wp-content/uploads/BST.gif" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.523 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111269 210.212.53.139 172.19.11.169';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Find k-th smallest element in BST (Order Statistics in BST)</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given root of binary search tree and K as input, find K-th smallest element in BST. <span id="more-10379"></span></p>
+<p>For example, in the following BST, if k = 3, then output should be 10, and if k = 5, then output should be 14.</p>
+<p><a href="http://geeksforgeeks.org/wp-content/uploads/BST.gif"><img class="aligncenter size-full wp-image-10734" src="http://geeksforgeeks.org/wp-content/uploads/BST.gif" alt="" width="259" height="218" /></a></p>
+<p><strong>Method 1: Using Inorder Traversal.</strong></p>
+<p>Inorder traversal of BST retrieves elements of tree in the sorted order. The inorder traversal uses stack to store to be explored nodes of tree (threaded tree avoids stack and recursion for traversal, see <a href="http://geeksforgeeks.org/?p=6358" target="_blank">this post</a>). The idea is to keep track of popped elements which participate in the order statics. Hypothetical algorithm is provided below,</p>
+<p>Time complexity: O(n) where n is total nodes in tree..</p>
+<p><strong>Algorithm:</strong></p>
+<pre>/* initialization */
+pCrawl = root
+set initial stack element as NULL (sentinal)
+
+/* traverse upto left extreme */
+while(pCrawl is valid )
+   stack.push(pCrawl)
+   pCrawl = pCrawl.left
+
+/* process other nodes */
+while( pCrawl = stack.pop() is valid )
+   stop if sufficient number of elements are popped.
+   if( pCrawl.right is valid )
+      pCrawl = pCrawl.right
+      while( pCrawl is valid )
+         stack.push(pCrawl)
+         pCrawl = pCrawl.left</pre>
+<p><strong>Implementation:</strong></p>
+<pre class="brush: cpp; title: ; notranslate" title="">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+#define ARRAY_SIZE(arr) sizeof(arr)/sizeof(arr[0])
+
+/* just add elements to test */
+/* NOTE: A sorted array results in skewed tree */
+int ele[] = { 20, 8, 22, 4, 12, 10, 14 };
+
+/* same alias */
+typedef struct node_t node_t;
+
+/* Binary tree node */
+struct node_t
+{
+    int data;
+
+    node_t* left;
+    node_t* right;
+};
+
+/* simple stack that stores node addresses */
+typedef struct stack_t stack_t;
+
+/* initial element always NULL, uses as sentinal */
+struct stack_t
+{
+    node_t*  base[ARRAY_SIZE(ele) + 1];
+    int      stackIndex;
+};
+
+/* pop operation of stack */
+node_t *pop(stack_t *st)
+{
+    node_t *ret = NULL;
+
+    if( st &amp;&amp; st-&gt;stackIndex &gt; 0 )
+    {
+        ret = st-&gt;base[st-&gt;stackIndex];
+        st-&gt;stackIndex--;
+    }
+
+    return ret;
+}
+
+/* push operation of stack */
+void push(stack_t *st, node_t *node)
+{
+    if( st )
+    {
+        st-&gt;stackIndex++;
+        st-&gt;base[st-&gt;stackIndex] = node;
+    }
+}
+
+/* Iterative insertion
+   Recursion is least preferred unless we gain something
+*/
+node_t *insert_node(node_t *root, node_t* node)
+{
+    /* A crawling pointer */
+    node_t *pTraverse = root;
+    node_t *currentParent = root;
+
+    // Traverse till appropriate node
+    while(pTraverse)
+    {
+        currentParent = pTraverse;
+
+        if( node-&gt;data &lt; pTraverse-&gt;data )
+        {
+            /* left subtree */
+            pTraverse = pTraverse-&gt;left;
+        }
+        else
+        {
+            /* right subtree */
+            pTraverse = pTraverse-&gt;right;
+        }
+    }
+
+    /* If the tree is empty, make it as root node */
+    if( !root )
+    {
+        root = node;
+    }
+    else if( node-&gt;data &lt; currentParent-&gt;data )
+    {
+        /* Insert on left side */
+        currentParent-&gt;left = node;
+    }
+    else
+    {
+        /* Insert on right side */
+        currentParent-&gt;right = node;
+    }
+
+    return root;
+}
+
+/* Elements are in an array. The function builds binary tree */
+node_t* binary_search_tree(node_t *root, int keys[], int const size)
+{
+    int iterator;
+    node_t *new_node = NULL;
+
+    for(iterator = 0; iterator &lt; size; iterator++)
+    {
+        new_node = (node_t *)malloc( sizeof(node_t) );
+
+        /* initialize */
+        new_node-&gt;data   = keys[iterator];
+        new_node-&gt;left   = NULL;
+        new_node-&gt;right  = NULL;
+
+        /* insert into BST */
+        root = insert_node(root, new_node);
+    }
+
+    return root;
+}
+
+node_t *k_smallest_element_inorder(stack_t *stack, node_t *root, int k)
+{
+    stack_t *st = stack;
+    node_t *pCrawl = root;
+
+    /* move to left extremen (minimum) */
+    while( pCrawl )
+    {
+        push(st, pCrawl);
+        pCrawl = pCrawl-&gt;left;
+    }
+
+    /* pop off stack and process each node */
+    while( pCrawl = pop(st) )
+    {
+        /* each pop operation emits one element
+           in the order
+        */
+        if( !--k )
+        {
+            /* loop testing */
+            st-&gt;stackIndex = 0;
+            break;
+        }
+
+        /* there is right subtree */
+        if( pCrawl-&gt;right )
+        {
+            /* push the left subtree of right subtree */
+            pCrawl = pCrawl-&gt;right;
+            while( pCrawl )
+            {
+                push(st, pCrawl);
+                pCrawl = pCrawl-&gt;left;
+            }
+
+            /* pop off stack and repeat */
+        }
+    }
+
+    /* node having k-th element or NULL node */
+    return pCrawl;
+}
+
+/* Driver program to test above functions */
+int main(void)
+{
+    node_t* root = NULL;
+    stack_t stack = { {0}, 0 };
+    node_t *kNode = NULL;
+
+    int k = 5;
+
+    /* Creating the tree given in the above diagram */
+    root = binary_search_tree(root, ele, ARRAY_SIZE(ele));
+
+    kNode = k_smallest_element_inorder(&amp;stack, root, k);
+
+    if( kNode )
+    {
+        printf(&quot;kth smallest elment for k = %d is %d&quot;, k, kNode-&gt;data);
+    }
+    else
+    {
+        printf(&quot;There is no such element&quot;);
+    }
+
+    getchar();
+    return 0;
+}
+</pre>
+<p><strong>Method 2: Augmented  Tree Data Structure.</strong></p>
+<p>The idea is to maintain rank of each node. We can keep track of elements in a subtree of any node while building the tree. Since we need K-th smallest element, we can maintain number of elements of left subtree in every node.</p>
+<p>Assume that the root is having N nodes in its left subtree. If K = N + 1, root is K-th node. If K &lt; N, we will continue our search (recursion) for the Kth smallest element in the left subtree of root. If K &gt; N + 1, we continue our search in the right subtree for the (K &#8211; N &#8211; 1)-th smallest element. Note that we need the count of elements in left subtree only.</p>
+<p>Time complexity: O(n) where n is total nodes in tree.</p>
+<p><strong>Algorithm:</strong></p>
+<pre>start:
+if K = root.leftElement + 1
+   root node is the K th node.
+   goto stop
+else if K &gt; root.leftElements
+   K = K - (root.leftElements + 1)
+   root = root.right
+   goto start
+else
+   root = root.left
+   goto srart
+
+stop:</pre>
+<p><strong>Implementation:</strong></p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+#define ARRAY_SIZE(arr) sizeof(arr)/sizeof(arr[0])
+
+typedef struct node_t node_t;
+
+/* Binary tree node */
+struct node_t
+{
+    int data;
+    int lCount;
+
+    node_t* left;
+    node_t* right;
+};
+
+/* Iterative insertion
+   Recursion is least preferred unless we gain something
+*/
+node_t *insert_node(node_t *root, node_t* node)
+{
+    /* A crawling pointer */
+    node_t *pTraverse = root;
+    node_t *currentParent = root;
+
+    // Traverse till appropriate node
+    while(pTraverse)
+    {
+        currentParent = pTraverse;
+
+        if( node-&gt;data &lt; pTraverse-&gt;data )
+        {
+            /* We are branching to left subtree
+               increment node count */
+            pTraverse-&gt;lCount++;
+            /* left subtree */
+            pTraverse = pTraverse-&gt;left;
+        }
+        else
+        {
+            /* right subtree */
+            pTraverse = pTraverse-&gt;right;
+        }
+    }
+
+    /* If the tree is empty, make it as root node */
+    if( !root )
+    {
+        root = node;
+    }
+    else if( node-&gt;data &lt; currentParent-&gt;data )
+    {
+        /* Insert on left side */
+        currentParent-&gt;left = node;
+    }
+    else
+    {
+        /* Insert on right side */
+        currentParent-&gt;right = node;
+    }
+
+    return root;
+}
+
+/* Elements are in an array. The function builds binary tree */
+node_t* binary_search_tree(node_t *root, int keys[], int const size)
+{
+    int iterator;
+    node_t *new_node = NULL;
+
+    for(iterator = 0; iterator &lt; size; iterator++)
+    {
+        new_node = (node_t *)malloc( sizeof(node_t) );
+
+        /* initialize */
+        new_node-&gt;data   = keys[iterator];
+        new_node-&gt;lCount = 0;
+        new_node-&gt;left   = NULL;
+        new_node-&gt;right  = NULL;
+
+        /* insert into BST */
+        root = insert_node(root, new_node);
+    }
+
+    return root;
+}
+
+int k_smallest_element(node_t *root, int k)
+{
+    int ret = -1;
+
+    if( root )
+    {
+        /* A crawling pointer */
+        node_t *pTraverse = root;
+
+        /* Go to k-th smallest */
+        while(pTraverse)
+        {
+            if( (pTraverse-&gt;lCount + 1) == k )
+            {
+                ret = pTraverse-&gt;data;
+                break;
+            }
+            else if( k &gt; pTraverse-&gt;lCount )
+            {
+                /*  There are less nodes on left subtree
+                    Go to right subtree */
+                k = k - (pTraverse-&gt;lCount + 1);
+                pTraverse = pTraverse-&gt;right;
+            }
+            else
+            {
+                /* The node is on left subtree */
+                pTraverse = pTraverse-&gt;left;
+            }
+        }
+    }
+
+    return ret;
+}
+
+/* Driver program to test above functions */
+int main(void)
+{
+    /* just add elements to test */
+    /* NOTE: A sorted array results in skewed tree */
+    int ele[] = { 20, 8, 22, 4, 12, 10, 14 };
+    int i;
+    node_t* root = NULL;
+
+    /* Creating the tree given in the above diagram */
+    root = binary_search_tree(root, ele, ARRAY_SIZE(ele));
+
+    /*  It should print the sorted array */
+    for(i = 1; i &lt;= ARRAY_SIZE(ele); i++)
+    {
+        printf(&quot;\n kth smallest elment for k = %d is %d&quot;,
+                 i, k_smallest_element(root, i));
+    }
+
+    getchar();
+    return 0;
+}
+</pre>
+<p>Thanks to <strong>Venki</strong> for providing post. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/perfect-binary-tree-specific-level-order-traversal/" title="Perfect Binary Tree Specific Level Order Traversal">Perfect Binary Tree Specific Level Order Traversal</a></li><li><a href="http://www.geeksforgeeks.org/print-nodes-top-view-binary-tree/" title="Print Nodes in Top View of Binary Tree">Print Nodes in Top View of Binary Tree</a></li><li><a href="http://www.geeksforgeeks.org/k-dimensional-tree/" title="K Dimensional Tree">K Dimensional Tree</a></li><li><a href="http://www.geeksforgeeks.org/convert-binary-tree-threaded-binary-tree/" title="Convert a Binary Tree to Threaded binary tree">Convert a Binary Tree to Threaded binary tree</a></li><li><a href="http://www.geeksforgeeks.org/serialize-deserialize-n-ary-tree/" title="Serialize and Deserialize an N-ary Tree">Serialize and Deserialize an N-ary Tree</a></li><li><a href="http://www.geeksforgeeks.org/serialize-deserialize-binary-tree/" title="Serialize and Deserialize a Binary Tree">Serialize and Deserialize a Binary Tree</a></li><li><a href="http://www.geeksforgeeks.org/given-binary-tree-print-nodes-two-given-level-numbers/" title="Print nodes between two given level numbers of a binary tree">Print nodes between two given level numbers of a binary tree</a></li><li><a href="http://www.geeksforgeeks.org/find-height-binary-tree-represented-parent-array/" title="Find Height of Binary Tree represented by Parent array">Find Height of Binary Tree represented by Parent array</a></li></ul>
+<p></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Ffind-k-th-smallest-element-in-bst-order-statistics-in-bst%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/find-k-th-smallest-element-in-bst-order-statistics-in-bst/" data-text="Find k-th smallest element in BST (Order Statistics in BST)" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/find-k-th-smallest-element-in-bst-order-statistics-in-bst/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-34008">
+        <div id="dsq-comment-header-34008" class="dsq-comment-header">
+            <cite id="dsq-cite-34008">
+                <span id="dsq-author-user-34008">opcoder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34008" class="dsq-comment-body">
+            <div id="dsq-comment-message-34008" class="dsq-comment-message"><p>The signature of the function should be<br />
+node * kth_smallest(node *root, int &amp;k );<br />
+So according to this we should return node pointer of that node<br />
+my implementation:</p>
+<p>node *kth_smallest(node *root, int &amp;k)<br />
+{<br />
+    if (!root)<br />
+        return NULL;</p>
+<p>    node *left = kth_smallest(root-&gt;left, k);<br />
+    if (!left){<br />
+        if (&#8211;k == 0)<br />
+            return root;<br />
+    }<br />
+    else<br />
+        return left;<br />
+    node *right = kth_smallest(root-&gt;right, k);<br />
+    return right;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-33104">
+        <div id="dsq-comment-header-33104" class="dsq-comment-header">
+            <cite id="dsq-cite-33104">
+                <span id="dsq-author-user-33104">anon</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33104" class="dsq-comment-body">
+            <div id="dsq-comment-message-33104" class="dsq-comment-message"><p>int getKthSmallest(struct Node *root, int *count)</p>
+<p>{</p>
+<p>	if (root == NULL) return 0;</p>
+<p>	getKthSmallest (root-&gt;left, count);</p>
+<p>	(*count)++;</p>
+<p>	if (k == *count)</p>
+<p>	{</p>
+<p>		printf(&#8220;n %d Smalllest ellement %d&#8221;, k, root-&gt;data);</p>
+<p>	}</p>
+<p>	getKthSmallest(root-&gt;right, count);</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-33000">
+        <div id="dsq-comment-header-33000" class="dsq-comment-header">
+            <cite id="dsq-cite-33000">
+                <span id="dsq-author-user-33000">Mohaan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33000" class="dsq-comment-body">
+            <div id="dsq-comment-message-33000" class="dsq-comment-message"><p>#include<br />
+#include </p>
+<p>#define ARRAY_SIZE(arr) sizeof(arr)/sizeof(arr[0])</p>
+<p>typedef struct node_t node_t;</p>
+<p>static bool kthSmallestFound;<br />
+static int count = 0;</p>
+<p>/* Binary tree node */<br />
+struct node_t<br />
+{<br />
+    int data;<br />
+    int lCount;</p>
+<p>    node_t* left;<br />
+    node_t* right;<br />
+};</p>
+<p>/* Iterative insertion<br />
+   Recursion is least preferred unless we gain something<br />
+*/<br />
+node_t *insert_node(node_t *root, node_t* node)<br />
+{<br />
+    /* A crawling pointer */<br />
+    node_t *pTraverse = root;<br />
+    node_t *currentParent = root;</p>
+<p>    // Traverse till appropriate node<br />
+    while(pTraverse)<br />
+    {<br />
+        currentParent = pTraverse;</p>
+<p>        if( node-&gt;data data )<br />
+        {<br />
+            /* We are branching to left subtree<br />
+               increment node count */<br />
+            pTraverse-&gt;lCount++;<br />
+            /* left subtree */<br />
+            pTraverse = pTraverse-&gt;left;<br />
+        }<br />
+        else<br />
+        {<br />
+            /* right subtree */<br />
+            pTraverse = pTraverse-&gt;right;<br />
+        }<br />
+    }</p>
+<p>    /* If the tree is empty, make it as root node */<br />
+    if( !root )<br />
+    {<br />
+        root = node;<br />
+    }<br />
+    else if( node-&gt;data data )<br />
+    {<br />
+        /* Insert on left side */<br />
+        currentParent-&gt;left = node;<br />
+    }<br />
+    else<br />
+    {<br />
+        /* Insert on right side */<br />
+        currentParent-&gt;right = node;<br />
+    }</p>
+<p>    return root;<br />
+}</p>
+<p>/* Elements are in an array. The function builds binary tree */<br />
+node_t* binary_search_tree(node_t *root, int keys[], int const size)<br />
+{<br />
+    int iterator;<br />
+    node_t *new_node = NULL;</p>
+<p>    for(iterator = 0; iterator data   = keys[iterator];<br />
+        new_node-&gt;lCount = 0;<br />
+        new_node-&gt;left   = NULL;<br />
+        new_node-&gt;right  = NULL;</p>
+<p>        /* insert into BST */<br />
+        root = insert_node(root, new_node);<br />
+    }</p>
+<p>    return root;<br />
+}</p>
+<p>int k_smallest_element(node_t *root, int k)<br />
+{<br />
+static int value = 0;<br />
+if(root == NULL)<br />
+{<br />
+return 0;<br />
+}</p>
+<p>k_smallest_element(root-&gt;left,k);<br />
+printf(&#8220;nActual Value : %d&#8221;, root-&gt;data);<br />
+if(!kthSmallestFound)<br />
+{<br />
+count++;<br />
+if(count == k )<br />
+{<br />
+    value = root-&gt;data;<br />
+    printf(&#8220;Value from Method : %d&#8221;, value);<br />
+    kthSmallestFound = true;<br />
+    return value;<br />
+}<br />
+k_smallest_element(root-&gt;right,k);<br />
+}<br />
+else<br />
+{<br />
+    return value;<br />
+}</p>
+<p>//k_smallest_element(root-&gt;right,k);<br />
+}</p>
+<p>/* Driver program to test above functions */<br />
+int main(void)<br />
+{<br />
+    /* just add elements to test */<br />
+    /* NOTE: A sorted array results in skewed tree */<br />
+    int ele[] = { 20, 8, 22, 4, 12, 10, 14 };<br />
+    int i;<br />
+    node_t* root = NULL;</p>
+<p>    /* Creating the tree given in the above diagram */<br />
+    root = binary_search_tree(root, ele, ARRAY_SIZE(ele));</p>
+<p>    /*  It should print the sorted array */<br />
+    for(i = 1; i &lt;= ARRAY_SIZE(ele); i++)<br />
+    {<br />
+        kthSmallestFound = false;<br />
+        count = 0;<br />
+        printf(&quot;n kth smallest elment for k = %d is %d&quot;,<br />
+                 i, k_smallest_element(root, i));<br />
+    }</p>
+<p>// printf(&quot;n kth smallest element for k = 5 is %d&quot;,k_smallest_element(root, 5,1));</p>
+<p>    getchar();<br />
+    return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-32667">
+        <div id="dsq-comment-header-32667" class="dsq-comment-header">
+            <cite id="dsq-cite-32667">
+                <span id="dsq-author-user-32667">Nachiket</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32667" class="dsq-comment-body">
+            <div id="dsq-comment-message-32667" class="dsq-comment-message"><p>public class TreeAllApplication { </p>
+<p>	public int printKthOrder(Tree root, int k, int temp) {</p>
+<p>		if (root == null)</p>
+<p>			return temp&gt;0?temp:0;</p>
+<p>		temp = printKthOrder(root.getLeft(), k, temp);</p>
+<p>		temp++;</p>
+<p>		if (k == temp) {</p>
+<p>			System.out.println(root.getData());</p>
+<p>			return temp;</p>
+<p>		}</p>
+<p>		temp = printKthOrder(root.getRight(), k, temp);</p>
+<p>		return temp;</p>
+<p>	}</p>
+<p>	public void printKthorderIntial(Tree root, int k, int temp){</p>
+<p>		printKthOrder(root, k, temp);</p>
+<p>}</p>
+<p>	public static void main(String[] args) {</p>
+<p>		TreeAllApplication test = new TreeAllApplication();</p>
+<p>		Tree root = new Tree(20);</p>
+<p>		root.setLeft(new Tree(8));</p>
+<p>		root.setRight(new Tree(22));</p>
+<p>		Tree Left = root.getLeft();</p>
+<p>		Left.setLeft(new Tree(4));</p>
+<p>		Left.setRight(new Tree(12));</p>
+<p>		Tree LeftRight = Left.getRight();</p>
+<p>		LeftRight.setLeft(new Tree(10));</p>
+<p>		LeftRight.setRight(new Tree(14));</p>
+<p>		test.printKthorderIntial(root, 7, 0);</p>
+<p>	}</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-31014">
+        <div id="dsq-comment-header-31014" class="dsq-comment-header">
+            <cite id="dsq-cite-31014">
+                <span id="dsq-author-user-31014">pulikesi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31014" class="dsq-comment-body">
+            <div id="dsq-comment-message-31014" class="dsq-comment-message"><p>inorder(root,k)<br />
+{<br />
+   static int count=0;<br />
+   if(root==NULL)<br />
+       return;<br />
+   inorder(2*root+1,k);<br />
+   count++;<br />
+   if(count==k)<br />
+      print root-&gt;data<br />
+   inorder(2*root+2,k);<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-30305">
+        <div id="dsq-comment-header-30305" class="dsq-comment-header">
+            <cite id="dsq-cite-30305">
+                <span id="dsq-author-user-30305">groomnestle</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30305" class="dsq-comment-body">
+            <div id="dsq-comment-message-30305" class="dsq-comment-message"><p>You can init an array starting at index[1] and traverse the tree in-order and push element into that array.  Once you are done, you can find kth smallest element at array[k].</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-30221">
+        <div id="dsq-comment-header-30221" class="dsq-comment-header">
+            <cite id="dsq-cite-30221">
+                <span id="dsq-author-user-30221">Anon</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30221" class="dsq-comment-body">
+            <div id="dsq-comment-message-30221" class="dsq-comment-message"><p>Why can&#8217;t we straightaway do an inorder traversal, w/o recursion, using a stack.<br />
+And keep on traversing till we find the number, as soon as found, break the while loop, and exit?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-29214">
+        <div id="dsq-comment-header-29214" class="dsq-comment-header">
+            <cite id="dsq-cite-29214">
+                <span id="dsq-author-user-29214">Gaurav Ambast</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29214" class="dsq-comment-body">
+            <div id="dsq-comment-message-29214" class="dsq-comment-message"><p>#include<br />
+#include</p>
+<p>/* A binary tree tNode has data, pointer to left child<br />
+   and a pointer to right child */<br />
+struct node<br />
+{<br />
+   int data;<br />
+   struct node* left;<br />
+   struct node* right;<br />
+};</p>
+<p>int getnumber(struct node* root)<br />
+{<br />
+    if(root ==NULL)<br />
+        return 0;<br />
+    return (getnumber(root-&gt;left) + getnumber(root-&gt;right) + 1);</p>
+<p>}<br />
+struct node *ksmallest(struct node *root, int k)<br />
+{<br />
+    int l=0;<br />
+    if(root ==NULL || k==0)<br />
+        return NULL;<br />
+    if(k==1)<br />
+        return root;<br />
+    if(root-&gt;left)<br />
+        l= getnumber(root-&gt;left);<br />
+    if(k==l+1)<br />
+        return root;<br />
+    if(kleft, k);<br />
+    if(k &gt; l+1)<br />
+        return ksmallest(root-&gt;right,k-l-1);</p>
+<p>};</p>
+<p>/* UTILITY FUNCTIONS */<br />
+/* Helper function that allocates a new tNode with the<br />
+   given data and NULL left and right pointers. */<br />
+struct node* newtNode(int data)<br />
+{<br />
+  struct node* node = (struct node*)<br />
+                       malloc(sizeof(struct node));<br />
+  node-&gt;data = data;<br />
+  node-&gt;left = NULL;<br />
+  node-&gt;right = NULL;</p>
+<p>  return(node);<br />
+}</p>
+<p>/* Driver program to test above functions*/<br />
+int main()<br />
+{</p>
+<p>  /* Constructed binary tree is<br />
+            4<br />
+          /<br />
+        2      5<br />
+      /<br />
+    1     3<br />
+  */<br />
+  struct node *root = newtNode(4);<br />
+  root-&gt;left        = newtNode(2);<br />
+  root-&gt;right       = newtNode(5);<br />
+  root-&gt;left-&gt;left  = newtNode(1);<br />
+  root-&gt;left-&gt;right = newtNode(3);<br />
+  struct node *t;<br />
+  t=ksmallest(root,3);<br />
+  printf(&#8220;%dn&#8221;, t-&gt;data);</p>
+<p>  getchar();<br />
+  return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-28952">
+        <div id="dsq-comment-header-28952" class="dsq-comment-header">
+            <cite id="dsq-cite-28952">
+                <span id="dsq-author-user-28952">Yash Girdhar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28952" class="dsq-comment-body">
+            <div id="dsq-comment-message-28952" class="dsq-comment-message"><p>We can follow this approach also :</p>
+<p>Keep a static variable and once you reach the minimum element, initialize that variable to 1.After that, on every element, increment that variable and if it equals k, return the element.</p>
+<p><code></p>
+<p>int kthsmallest(node *start, int k){</p>
+<p>    if(!start-&gt;left &amp;&amp; !start-&gt;right){     //for leaf<br />
+        if(c==-1)<br />
+            c=1;<br />
+        else<br />
+            c++;<br />
+        if(c==k)<br />
+            return start-&gt;data;<br />
+        return -1;<br />
+    }<br />
+    if(start-&gt;left){                 //if left exists<br />
+        int temp = -1;<br />
+        temp = kthsmallest(start-&gt;left,k);<br />
+        if(temp != -1)<br />
+            return temp;<br />
+    }</p>
+<p>    if(c != -1)c++;<br />
+    else<br />
+        c=1;<br />
+    if(c==k)<br />
+        return start-&gt;data;                 //self</p>
+<p>    if(start-&gt;right){                          //if right exists<br />
+        int temp = -1;<br />
+        temp = kthsmallest(start-&gt;right,k);<br />
+        if(temp != -1)<br />
+            return temp;<br />
+    }<br />
+     return -1;<br />
+}</p>
+<p></code></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-28570">
+        <div id="dsq-comment-header-28570" class="dsq-comment-header">
+            <cite id="dsq-cite-28570">
+                <span id="dsq-author-user-28570">Raj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28570" class="dsq-comment-body">
+            <div id="dsq-comment-message-28570" class="dsq-comment-message"><p>void  order(struct node *root, int k) // kth smallest element<br />
+{<br />
+  static int i=0;<br />
+  if(root == NULL)<br />
+   return ;</p>
+<p>  order(root-&gt;left,k);<br />
+  i++;<br />
+  if(i==k)<br />
+   printf(&#8220;%d&#8221;,root-&gt;data);<br />
+  order(root-&gt;right,k);<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-28427">
+        <div id="dsq-comment-header-28427" class="dsq-comment-header">
+            <cite id="dsq-cite-28427">
+                <span id="dsq-author-user-28427">Sumit Monga</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28427" class="dsq-comment-body">
+            <div id="dsq-comment-message-28427" class="dsq-comment-message"><p>This solution is based upon traversing in inorder and using static variables to keep count of number in ascending order:</p>
+<p>#include</p>
+<p>#include</p>
+<p>struct node </p>
+<p>{</p>
+<p>    int data;</p>
+<p>    struct node * left, *right;</p>
+<p>};</p>
+<p>struct node * newNode(int data)</p>
+<p>{</p>
+<p>    struct node * temp = (struct node *)malloc(sizeof(struct node));</p>
+<p>    temp-&gt;data = data;</p>
+<p>    temp-&gt;left = temp-&gt;right = NULL;</p>
+<p>    return temp;</p>
+<p>}</p>
+<p>void k_smallest(struct node * root,int k,int * p)</p>
+<p>{</p>
+<p>    if(!root)</p>
+<p>    return;</p>
+<p>    static int i;</p>
+<p>    static bool done;</p>
+<p>    /*  i increments as we visit the smallest,next smallest and so on while done stores whether kth smallest element is found or not */</p>
+<p>    k_smallest(root-&gt;left,k,p);</p>
+<p>    if(done)</p>
+<p>    return;</p>
+<p>    if(++i == k)</p>
+<p>    {</p>
+<p>        *p = root-&gt;data;</p>
+<p>        done = 1;</p>
+<p>        return;</p>
+<p>    }</p>
+<p>    k_smallest(root-&gt;right,k,p);</p>
+<p>}</p>
+<p>int main()</p>
+<p>{</p>
+<p>    struct node * root = newNode(20);</p>
+<p>    root-&gt;left = newNode(8);</p>
+<p>    root-&gt;right = newNode(22);</p>
+<p>    root-&gt;left-&gt;left = newNode(4);</p>
+<p>    root-&gt;left-&gt;right = newNode(12);</p>
+<p>    root-&gt;left-&gt;right-&gt;left = newNode(10);</p>
+<p>    root-&gt;left-&gt;right-&gt;right = newNode(14);</p>
+<p>    int k_small = 0;</p>
+<p>    k_smallest(root,6,&amp;k_small);</p>
+<p>    printf(&#8221; %d &#8220;,k_small);</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-28411">
+        <div id="dsq-comment-header-28411" class="dsq-comment-header">
+            <cite id="dsq-cite-28411">
+                <span id="dsq-author-user-28411">Rohit Rawat</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28411" class="dsq-comment-body">
+            <div id="dsq-comment-message-28411" class="dsq-comment-message"><p>GeeksforGeeks.</p>
+<p>this solution works. please review it</p>
+<p><code></p>
+<p>void inorder(struct bst *p, int *n)</p>
+<p>{</p>
+<p>    if(p == NULL)</p>
+<p>        return;</p>
+<p>    inorder(p-&gt;left, n);</p>
+<p>    if(*n == 1)</p>
+<p>        printf("%d", p-&gt;data);</p>
+<p>    (*n)--;</p>
+<p>    inorder(p-&gt;right, n);</p>
+<p>}</p>
+<p></code></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-27546">
+        <div id="dsq-comment-header-27546" class="dsq-comment-header">
+            <cite id="dsq-cite-27546">
+                <span id="dsq-author-user-27546">Debjyoti Roy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27546" class="dsq-comment-body">
+            <div id="dsq-comment-message-27546" class="dsq-comment-message"><p>What about this ?<br />
+<code><br />
+int findk(TNode *root, int k, int *result)<br />
+{<br />
+   if (root == NULL)<br />
+      return 0;<br />
+   /* l is the size of left subtree */<br />
+   int l = findk(root-&gt;left, k, result);<br />
+   if (k == l+1)<br />
+      *result = root-&gt;data;<br />
+   /* r is size of right subtree */<br />
+   int r = findk(root-&gt;right, k-l-1, result);<br />
+   return l+r+1;<br />
+}<br />
+</code></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-27174">
+        <div id="dsq-comment-header-27174" class="dsq-comment-header">
+            <cite id="dsq-cite-27174">
+                <span id="dsq-author-user-27174">JOBBINE JOSEPH</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27174" class="dsq-comment-body">
+            <div id="dsq-comment-message-27174" class="dsq-comment-message"><p>int KthSmallestElement(struct TreeNode  *Node,int k)<br />
+{<br />
+        while(1)<br />
+        {<br />
+                if(!Node)<br />
+                {<br />
+                        return 0;<br />
+                }<br />
+                if(k == Node-&gt;rank)<br />
+                {<br />
+                        return (Node-&gt;data);<br />
+                }<br />
+                else if(k&gt;Node-&gt;rank)<br />
+                {<br />
+                        k = k &#8211; Node-&gt;rank;<br />
+                        Node = Node-&gt;RChild;<br />
+                }<br />
+                else<br />
+                {<br />
+                        Node = Node-&gt;LChild;<br />
+                }<br />
+        }</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-26593">
+        <div id="dsq-comment-header-26593" class="dsq-comment-header">
+            <cite id="dsq-cite-26593">
+                <span id="dsq-author-user-26593">Prakhar Jain</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26593" class="dsq-comment-body">
+            <div id="dsq-comment-message-26593" class="dsq-comment-message"><p>I think the augmented tree approach has order O(log n) for a balanced BST.<br />
+But It is hard to implement a balanced BST with lcount parameter.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-24755">
+        <div id="dsq-comment-header-24755" class="dsq-comment-header">
+            <cite id="dsq-cite-24755">
+                <span id="dsq-author-user-24755">Soumya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24755" class="dsq-comment-body">
+            <div id="dsq-comment-message-24755" class="dsq-comment-message"><p>How about this one?</p>
+<pre> <code language="C">
+int kthSmallestUtil(Tree *tree, int &amp;k,bool &amp;found)
+{
+    if(!tree)return -1;
+    int p = kthSmallestUtil(tree-&gt;left,k,found);
+    if(!found)
+    {
+        if(!--k)
+        {
+            found = true;
+            return tree-&gt;data;
+        }
+        return kthSmallestUtil(tree-&gt;right,k,found);
+    }
+    return p;
+}
+
+int kthSmallest(Tree *tree, int &amp;k)
+{
+    bool found = false;
+    int p = k;
+    return kthSmallestUtil(tree,p,found);
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-pranjalgupta even thread-even depth-1" id="dsq-comment-22741">
+        <div id="dsq-comment-header-22741" class="dsq-comment-header">
+            <cite id="dsq-cite-22741">
+                <span id="dsq-author-user-22741">pranjalgupta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22741" class="dsq-comment-body">
+            <div id="dsq-comment-message-22741" class="dsq-comment-message"><p>Awesome implementation @ Venki.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-22703">
+        <div id="dsq-comment-header-22703" class="dsq-comment-header">
+            <cite id="dsq-cite-22703">
+                <span id="dsq-author-user-22703">Pavan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22703" class="dsq-comment-body">
+            <div id="dsq-comment-message-22703" class="dsq-comment-message"><pre> <code language="C">
+
+ void  KthSmallestinBST(struct node* node , int k , int *kthmin)
+ {  
+     static int count =0;
+     if (node == NULL)
+          return ;
+      else 
+      {
+     
+     KthSmallestinBST(node-&gt;left,k,kthmin);
+     count++;
+     if(count==k)
+     *kthmin=node-&gt;data;
+     KthSmallestinBST(node-&gt;right,k,kthmin);
+     return ;
+      }
+ }
+ 
+ 
+ 
+ 
+/* Driver function to test above functions */
+int main()
+{
+  struct node *root ;
+  root = newNode(20);
+  root-&gt;left = newNode(10);
+  root-&gt;right = newNode(25);
+  root-&gt;left-&gt;left = newNode(7);
+  root-&gt;left-&gt;right = newNode(11);
+  int k=4 ,kthmin ;
+  KthSmallestinBST(root,k,&amp;kthmin); 
+  printf(&quot;%d &quot;,kthmin);
+  
+  getchar();
+  return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-22702">
+        <div id="dsq-comment-header-22702" class="dsq-comment-header">
+            <cite id="dsq-cite-22702">
+                <span id="dsq-author-user-22702">Pavan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22702" class="dsq-comment-body">
+            <div id="dsq-comment-message-22702" class="dsq-comment-message"><pre> <code language="C">
+int  _KthSmallestinBST(struct node* node , int k , int *count)
+ {
+     if (node == NULL)
+          return 0;
+      else 
+      {
+     int l,m=0,n;
+     l=_KthSmallestinBST(node-&gt;left,k,count);
+     (*count)++;
+     if(*count==k)
+     m=node-&gt;data;
+     n=_KthSmallestinBST(node-&gt;right,k,count);
+     return (l|m|n);
+      }
+ }
+int KthSmallestinBST(struct node* node ,int k)
+{
+    
+     int c =0;
+     return  _KthSmallestinBST(node , k , &amp;c);
+    
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-22701">
+        <div id="dsq-comment-header-22701" class="dsq-comment-header">
+            <cite id="dsq-cite-22701">
+                <span id="dsq-author-user-22701">Pavan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22701" class="dsq-comment-body">
+            <div id="dsq-comment-message-22701" class="dsq-comment-message"><pre> <code language="C">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+struct node
+{
+  int data;
+  struct node *left;
+  struct node *right;
+};
+ 
+struct node* newNode(int data)
+{
+     struct node* node = (struct node*)
+                                  malloc(sizeof(struct node));
+     node-&gt;data = data;
+     node-&gt;left = NULL;
+     node-&gt;right = NULL;
+ 
+     return(node);
+}
+ 
+ int  _KthSmallestinBST(struct node* node , int k , int *count)
+ {
+     if (node == NULL)
+          return 0;
+      else 
+      {
+     int l,m=0,n;
+     l=_KthSmallestinBST(node-&gt;left,k,count);
+     (*count)++;
+     if(*count==k)
+     m=node-&gt;data;
+     n=_KthSmallestinBST(node-&gt;right,k,count);
+     return (l|m|n);
+      }
+ }
+int KthSmallestinBST(struct node* node ,int k)
+{
+    
+     int c =0;
+     return  _KthSmallestinBST(node , k , &amp;c);
+    
+}
+ 
+ 
+ 
+/* Driver function to test above functions */
+int main()
+{
+  struct node *root ;
+  root = newNode(20);
+  root-&gt;left = newNode(10);
+  root-&gt;right = newNode(25);
+  root-&gt;left-&gt;left = newNode(7);
+  root-&gt;left-&gt;right = newNode(11);
+  int kthmin = KthSmallestinBST(root,2); 
+  printf(&quot;%d &quot;,kthmin);
+  
+  getchar();
+  return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-22700">
+        <div id="dsq-comment-header-22700" class="dsq-comment-header">
+            <cite id="dsq-cite-22700">
+                <span id="dsq-author-user-22700">Pavan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22700" class="dsq-comment-body">
+            <div id="dsq-comment-message-22700" class="dsq-comment-message"><pre> <code language="C">
+
+
+
+
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+struct node
+{
+  int data;
+  struct node *left;
+  struct node *right;
+};
+
+struct node* newNode(int data)
+{
+     struct node* node = (struct node*)
+                                  malloc(sizeof(struct node));
+     node-&gt;data = data;
+     node-&gt;left = NULL;
+     node-&gt;right = NULL;
+ 
+     return(node);
+}
+ 
+int KthSmallestinBST(struct node* node ,int m)
+{
+    static int count =0;
+     if (node == NULL)
+          return 0;
+      else 
+      {
+     int i,j=0,k;
+     i=KthSmallestinBST(node-&gt;left,m);
+     count++;
+     if(count==m)
+     j=node-&gt;data;
+     k=KthSmallestinBST(node-&gt;right,m);
+     return (i|j|k);
+      }
+}
+
+
+ 
+/* Driver function to test above functions */
+int main()
+{
+  struct node *root ;
+  root = newNode(20);
+  root-&gt;left = newNode(10);
+  root-&gt;right = newNode(25);
+  root-&gt;left-&gt;left = newNode(7);
+  root-&gt;left-&gt;right = newNode(11);
+  int kthmin = KthSmallestinBST(root,4); 
+  printf(&quot;%d &quot;,kthmin);
+  
+  getchar();
+  return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-22699">
+        <div id="dsq-comment-header-22699" class="dsq-comment-header">
+            <cite id="dsq-cite-22699">
+                <span id="dsq-author-user-22699">Pavan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22699" class="dsq-comment-body">
+            <div id="dsq-comment-message-22699" class="dsq-comment-message"><pre> <code language="C">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+struct node
+{
+  int data;
+  struct node *left;
+  struct node *right;
+};
+
+struct node* newNode(int data)
+{
+     struct node* node = (struct node*)
+                                  malloc(sizeof(struct node));
+     node-&gt;data = data;
+     node-&gt;left = NULL;
+     node-&gt;right = NULL;
+ 
+     return(node);
+}
+ 
+int KthSmallest(struct node* node ,int m)
+{
+    static int count =0;
+     if (node == NULL)
+          return 0;
+      else 
+      {
+     int i,j=0,k;
+     i=KthSmallest(node-&gt;left,m);
+     count++;
+     if(count==m)
+     j=node-&gt;data;
+     k=KthSmallest(node-&gt;right,m);
+     return (i|j|k);
+      }
+}
+
+
+ 
+/* Driver function to test above functions */
+int main()
+{
+  struct node *root ;
+  root = newNode(20);
+  root-&gt;left = newNode(10);
+  root-&gt;right = newNode(25);
+  root-&gt;left-&gt;left = newNode(7);
+  root-&gt;left-&gt;right = newNode(11);
+  int kthmin = KthSmallest(root,4); 
+  printf(&quot;%d &quot;,kthmin);
+  
+  getchar();
+  return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-22535">
+        <div id="dsq-comment-header-22535" class="dsq-comment-header">
+            <cite id="dsq-cite-22535">
+                <span id="dsq-author-user-22535">kritika</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22535" class="dsq-comment-body">
+            <div id="dsq-comment-message-22535" class="dsq-comment-message"><p>#include<br />
+#include<br />
+#include<br />
+struct node<br />
+{<br />
+       struct node * left,*right;<br />
+       int val;<br />
+};<br />
+void inorder(struct node * root,int k)<br />
+{<br />
+    static int count=0;<br />
+    if(root)<br />
+    {<br />
+    inorder(root-&gt;left,k);<br />
+    count++;<br />
+    if(count==k)<br />
+    printf(&#8220;%d&#8221;,root-&gt;val);<br />
+    inorder(root-&gt;right,k);<br />
+    }</p>
+<p>}<br />
+struct node * create(int n)<br />
+{<br />
+        struct node * nn=(struct node *)malloc(sizeof(struct node));<br />
+        nn-&gt;val=n;<br />
+        nn-&gt;left=nn-&gt;right=NULL;<br />
+        return nn;<br />
+}<br />
+main()<br />
+{</p>
+<p>      struct node * tree=create(5);<br />
+      tree-&gt;left=create(3);<br />
+      tree-&gt;right=create(8);<br />
+      tree-&gt;left-&gt;left=create(2);<br />
+      tree-&gt;left-&gt;right=create(4);<br />
+      tree-&gt;right-&gt;left=create(6);<br />
+      tree-&gt;right-&gt;right=create(9);<br />
+      inorder(tree,4);</p>
+<p>      getch();<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-ronny odd alt thread-odd thread-alt depth-1" id="dsq-comment-21789">
+        <div id="dsq-comment-header-21789" class="dsq-comment-header">
+            <cite id="dsq-cite-21789">
+                <span id="dsq-author-user-21789">Ronny</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21789" class="dsq-comment-body">
+            <div id="dsq-comment-message-21789" class="dsq-comment-message"><p>@GeeksforGeeks the link to the related post is broken.<br />
+Kindly update it</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks even depth-2" id="dsq-comment-21802">
+        <div id="dsq-comment-header-21802" class="dsq-comment-header">
+            <cite id="dsq-cite-21802">
+                <span id="dsq-author-user-21802">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21802" class="dsq-comment-body">
+            <div id="dsq-comment-message-21802" class="dsq-comment-message"><p>@Ronny: Thanks for pointing this out.  The linked forum seems to be lost. We have removed the related post link.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-21778">
+        <div id="dsq-comment-header-21778" class="dsq-comment-header">
+            <cite id="dsq-cite-21778">
+                <span id="dsq-author-user-21778">geekfreak</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21778" class="dsq-comment-body">
+            <div id="dsq-comment-message-21778" class="dsq-comment-message"><p>Do reverse inorder traversal. If you have passed through k nodes from last then print the node.</p>
+<p>public static int retreivekth(node n, int k , intp curr){<br />
+		if(n==null)<br />
+			return -1;<br />
+		int a = retreivekth(n.right,k,curr);</p>
+<p>		if(a!=-1)<br />
+			return a;<br />
+		else<br />
+			curr.set_val(curr.get_val()+1);</p>
+<p>		if(curr.get_val()==k)<br />
+			return n.data;</p>
+<p>		return retreivekth(n.left,k,curr);</p>
+<p>	}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-21602">
+        <div id="dsq-comment-header-21602" class="dsq-comment-header">
+            <cite id="dsq-cite-21602">
+                <span id="dsq-author-user-21602">Himanshu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21602" class="dsq-comment-body">
+            <div id="dsq-comment-message-21602" class="dsq-comment-message"><pre> <code language="C">
+/* we can use a static variable and use inorder traversal.First we reach the leftmost child in the tree and then start increment the static variable until it becomes equal to k.*/
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+struct node
+{
+    int data;
+    struct node* left;
+    struct node* right;
+};
+
+int count(struct node *root)
+{
+    if(root==NULL) return 0;
+    else
+        return count(root-&gt;left)+1+count(root-&gt;right);
+}
+void inorder(struct node *root,int *k)
+{
+    static int i=0;
+
+    if(root==NULL)return ;
+    else
+    {
+        inorder(root-&gt;left,k);
+        i++;
+
+        if(i== *k)
+        {
+            printf(&quot; the k th smallest is %d &quot;,root-&gt;data);
+            exit(0);
+        }
+        inorder(root-&gt;right,k);
+    }
+
+}
+void Kthsmallest(struct node *root,int *k)
+{
+    if(root==NULL)
+    {
+        printf(&quot;the tree is empty\n&quot;);
+        return;
+    }
+    int cunt=count(root);
+
+    if(*k&gt;cunt)
+        printf(&quot;the value of k is greater than the number of elements in the tree\n&quot;);
+    else
+        inorder(root,k);
+}
+
+struct node* newNode(int data)
+{
+    struct node* node = (struct node*)malloc(sizeof(struct node));
+    node-&gt;data = data;
+    node-&gt;left = NULL;
+    node-&gt;right = NULL;
+
+    return(node);
+}
+
+
+int main()
+{
+
+    struct node *root = newNode(20);
+    root-&gt;left        = newNode(8);
+    root-&gt;right       = newNode(22);
+    root-&gt;left-&gt;left  = newNode(4);
+    root-&gt;left-&gt;right = newNode(12);
+    root-&gt;left-&gt;right-&gt;left=newNode(10);
+    root-&gt;left-&gt;right-&gt;right=newNode(14);
+
+    int k=3;
+
+    Kthsmallest(root,&amp;k);
+    return 0;
+}
+
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-sonali-gupta odd alt thread-even depth-1" id="dsq-comment-20732">
+        <div id="dsq-comment-header-20732" class="dsq-comment-header">
+            <cite id="dsq-cite-20732">
+                <span id="dsq-author-user-20732">sonali gupta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20732" class="dsq-comment-body">
+            <div id="dsq-comment-message-20732" class="dsq-comment-message"><p>simple approach</p>
+<p>#include<br />
+#include<br />
+#include<br />
+typedef struct NODE<br />
+{<br />
+ int info;<br />
+ struct NODE *left,*right;<br />
+}node;<br />
+node *temp;<br />
+node *getnode()<br />
+{return((node *)malloc(sizeof(node)));<br />
+ }<br />
+node *newNode(int x)<br />
+{<br />
+ temp=getnode();<br />
+ temp-&gt;info=x;<br />
+ temp-&gt;left=NULL;<br />
+ temp-&gt;right=NULL;<br />
+ return temp;<br />
+     }<br />
+ int a[20];<br />
+int i=0;<br />
+void inorder(node *root)<br />
+{if(root!=NULL)<br />
+{<br />
+  inorder(root-&gt;left);</p>
+<p>  a[i++]=root-&gt;info;<br />
+  if(i==3)<br />
+  printf(&#8220;%d&#8221;,root-&gt;info);<br />
+  inorder(root-&gt;right); </p>
+<p>}<br />
+     }<br />
+int main()<br />
+{int count=0;<br />
+node *root= newNode(1);<br />
+  root-&gt;left        = newNode(2);<br />
+  root-&gt;right       = newNode(3);<br />
+  root-&gt;left-&gt;left  = newNode(4);<br />
+  root-&gt;left-&gt;right = newNode(5);<br />
+  inorder(root);<br />
+    getch();<br />
+    return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-20723">
+        <div id="dsq-comment-header-20723" class="dsq-comment-header">
+            <cite id="dsq-cite-20723">
+                <span id="dsq-author-user-20723">zyzz</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20723" class="dsq-comment-body">
+            <div id="dsq-comment-message-20723" class="dsq-comment-message"><p>this will take O(logN) on average</p>
+<pre> <code language="C">
+int size(node *root)
+{
+if(root==NULL)
+return 0;
+else
+return (size(root-&gt;left)+1+sizeof(root-&gt;right));
+}
+
+int smallest(int k,node *root)
+{
+int count;
+count=size(root-&gt;left)+1;
+if(k==count)
+return (root-&gt;data);
+else if(k&lt;count)
+return smallest(k,root-&gt;left);
+else
+return smallest(k-count,root-&gt;right);
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-20025">
+        <div id="dsq-comment-header-20025" class="dsq-comment-header">
+            <cite id="dsq-cite-20025">
+                <span id="dsq-author-user-20025">Kunaal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20025" class="dsq-comment-body">
+            <div id="dsq-comment-message-20025" class="dsq-comment-message"><p>How about this?<br />
+using a static count variable in inorder traversal<br />
+O(n) and no extra data structure required.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+
+struct Node
+{
+        int val;
+        struct Node *left;
+        struct Node *right;
+};
+typedef struct Node node;
+
+node * newnode(int val)
+{
+    node * ptr=(node *)malloc(sizeof(node));
+    ptr-&gt;val=val;
+    ptr-&gt;left=NULL;
+    ptr-&gt;right=NULL;
+
+    return ptr;
+}
+
+void count(node * root,int k)
+{
+    static int xx=0;
+
+    if(root==NULL)
+      return;
+
+    count(root-&gt;left,k);
+
+    xx++;
+    if(xx==k)
+      printf(&quot;%d  &quot;,root-&gt;val);
+
+   count(root-&gt;right,k);
+}
+
+int main()
+{
+
+    node * ptr=newnode(20);
+    ptr-&gt;left=newnode(8);
+    ptr-&gt;left-&gt;left=newnode(4);
+    ptr-&gt;left-&gt;right=newnode(12);
+    ptr-&gt;right=newnode(22);
+    ptr-&gt;left-&gt;right-&gt;left=newnode(10);
+    ptr-&gt;left-&gt;right-&gt;right=newnode(14);
+
+    int k=5;
+    //int k=5;
+    count(ptr,k);
+
+    return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-jitendra-bits even depth-2" id="dsq-comment-21001">
+        <div id="dsq-comment-header-21001" class="dsq-comment-header">
+            <cite id="dsq-cite-21001">
+                <span id="dsq-author-user-21001">Jitendra.BITS</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21001" class="dsq-comment-body">
+            <div id="dsq-comment-message-21001" class="dsq-comment-message"><p>This will have O(n) complexity right?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-ultimate_coder odd alt depth-3" id="dsq-comment-21019">
+        <div id="dsq-comment-header-21019" class="dsq-comment-header">
+            <cite id="dsq-cite-21019">
+                <span id="dsq-author-user-21019">ultimate_coder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21019" class="dsq-comment-body">
+            <div id="dsq-comment-message-21019" class="dsq-comment-message"><pre> <code language="C">
+Looks like it is O(k).
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-shek8034 even thread-odd thread-alt depth-1" id="dsq-comment-19893">
+        <div id="dsq-comment-header-19893" class="dsq-comment-header">
+            <cite id="dsq-cite-19893">
+                <span id="dsq-author-user-19893">shek8034</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19893" class="dsq-comment-body">
+            <div id="dsq-comment-message-19893" class="dsq-comment-message"><p>An alternative could be :<br />
+Do inorder traversal and store the result in an array. Print kth element of array.<br />
+Space complexity: O(n).</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-19118">
+        <div id="dsq-comment-header-19118" class="dsq-comment-header">
+            <cite id="dsq-cite-19118">
+                <span id="dsq-author-user-19118">Ujjwal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19118" class="dsq-comment-body">
+            <div id="dsq-comment-message-19118" class="dsq-comment-message"><pre> <code language="C">
+Cant this work..??
+-Build a stack by traversing the node in Inorder.
+-Remove (n-k) elements from the stack, where 'n' is the total number of elements in the tree.
+-Top of the stack will give you 'kth' minimum..
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-18288">
+        <div id="dsq-comment-header-18288" class="dsq-comment-header">
+            <cite id="dsq-cite-18288">
+                <span id="dsq-author-user-18288">root</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18288" class="dsq-comment-body">
+            <div id="dsq-comment-message-18288" class="dsq-comment-message"><pre> <code language="C">
+int kthsmallest(node *root,int count)
+{
+static int i=0,val=0;
+if(root)
+{
+kthsmallest(root-&gt;left,count);
+i++; if(i==count) val=root-&gt;data;
+kthsmallest(root-&gt;right,count);
+}
+return val;
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-19263">
+        <div id="dsq-comment-header-19263" class="dsq-comment-header">
+            <cite id="dsq-cite-19263">
+                <span id="dsq-author-user-19263">anon_user</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19263" class="dsq-comment-body">
+            <div id="dsq-comment-message-19263" class="dsq-comment-message"><p>I did it in similar way</p>
+<pre> <code language="C">
+
+int kthSmallest(struct node* node,int k)
+{
+    static int count=1;
+    int a,c,b;
+    if(node==NULL)
+        return 0;
+    a=kthSmallest(node-&gt;left,k);
+    if(count==k)
+    {
+        b= node-&gt;data;
+
+    }
+    else
+        b=0;
+    count++;
+
+    c=kthSmallest(node-&gt;right,k);
+    return (a+b+c);
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-abhishek08aug even thread-even depth-1" id="dsq-comment-18120">
+        <div id="dsq-comment-header-18120" class="dsq-comment-header">
+            <cite id="dsq-cite-18120">
+                <span id="dsq-author-user-18120">abhishek08aug</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18120" class="dsq-comment-body">
+            <div id="dsq-comment-message-18120" class="dsq-comment-message"><p>C++ code:</p>
+<pre> <code language="C">
+#include &lt;iostream&gt;
+#include &lt;stdlib.h&gt;
+using namespace std;
+ 
+class tree_node {
+  private:
+    int data;
+    tree_node * left;
+    tree_node * right;
+  public:
+    tree_node() {
+      left=NULL;
+      right=NULL;
+    }
+    void set_data(int data) {
+      this-&gt;data=data;
+    }
+    int get_data() {
+      return this-&gt;data;
+    }
+    void set_left(tree_node * left) {
+      this-&gt;left=left;
+    }
+    tree_node * get_left() {
+      return this-&gt;left;
+    }
+    void set_right(tree_node * right) {
+      this-&gt;right=right;
+    }
+    tree_node * get_right() {
+      return this-&gt;right;
+    }
+    tree_node ** get_left_ref() {
+      return &amp;(this-&gt;left);
+    }
+    tree_node ** get_right_ref() {
+      return &amp;(this-&gt;right);
+    }
+};
+ 
+class tree {
+  private:
+    tree_node * root;
+    int size;
+    void _recursive_insert(tree_node ** root_ref, int value);
+    void _print_preorder(tree_node * root);
+    void _print_inorder(tree_node * root);
+    void _print_postorder(tree_node * root);
+    int _find_size(tree_node * root);
+    int _are_identical(tree_node * tn1, tree_node * tn2);
+    int _find_height(tree_node * root);
+    void _delete_tree(tree_node ** root);
+    void _mirror(tree_node * root);
+    void _print_paths(tree_node * root, int * path_nodes, int next_vacant_position);
+    void _print_array(int * array, int len);
+    tree_node * _lowest_common_ancestor(tree_node * parent, tree_node * root, int a, int b);
+    tree_node * _find_node(tree_node * root, int value);
+    tree_node * _min_node(tree_node * root);
+    void _print_level_order(tree_node * root);
+    int _count_leaf_nodes(tree_node * root);
+    int _is_bst(tree_node * root);
+    int _children_sum(tree_node * root);
+    void _ensure_children_sum(tree_node * root);
+    int _diameter(tree_node * root);
+    int _is_height_balanced(tree_node * root);
+    int _leaf_path_sum(tree_node * root, int num);
+    void _double_tree(tree_node * root);
+    int _width(tree_node * root, int height, int level, int initialize_width_array);
+    int _maximum(int array[], int len);
+    void _print_k_distance_nodes(tree_node * root, int k, int distance);
+    tree_node * _kth_smallest_element(tree_node * root, int k);
+  public:
+    tree() {
+      root=NULL;
+      size=0;
+    }
+    void insert(int value);
+    void recursive_insert(int value);
+    void print_preorder();
+    void print_inorder();
+    void print_postorder();
+    int find_size();
+    int get_size() {
+      return this-&gt;size;
+    }
+    int are_identical(tree t);
+    int find_height();
+    void delete_tree();
+    void mirror();
+    void print_paths();
+    tree_node * lowest_common_ancestor(int a, int b);
+    tree_node * find_node(int value);
+    tree_node * min_node();
+    void print_level_order();
+    int count_leaf_nodes();
+    int is_bst();
+    int children_sum();
+    void ensure_children_sum();
+    int diameter();
+    int is_height_balanced();
+    int leaf_path_sum(int num);
+    void double_tree();
+    int width();
+    void print_k_distance_nodes(int k);
+    tree_node * kth_smallest_element(int k);
+};
+ 
+void tree::insert(int value) {
+  if(root==NULL) {
+    root=new tree_node;
+    root-&gt;set_data(value);
+  } else {
+    tree_node * parent=NULL;
+    tree_node * current=root;
+    tree_node * new_node=new tree_node;
+    new_node-&gt;set_data(value);
+    while(current!=NULL) {
+      if(value&lt;=current-&gt;get_data()) {
+        parent=current;
+        current=current-&gt;get_left();
+      } else {
+        parent=current;
+        current=current-&gt;get_right();
+      }
+    }
+    if(value&lt;=parent-&gt;get_data() &amp;&amp; parent-&gt;get_left()==NULL) {
+      parent-&gt;set_left(new_node);
+    } else if(value&gt;parent-&gt;get_data() &amp;&amp; parent-&gt;get_right()==NULL) {
+      parent-&gt;set_right(new_node);
+    }
+  }
+  size++;
+}
+ 
+void tree::recursive_insert(int value) {
+  _recursive_insert(&amp;root, value);
+  size++;
+}
+ 
+void tree::_recursive_insert(tree_node ** root_ref, int value) {
+  if(*root_ref==NULL) {
+    tree_node * new_node=new tree_node;
+    new_node-&gt;set_data(value);
+    *root_ref=new_node;   
+  } else {
+    if(value&lt;=(*root_ref)-&gt;get_data()) {
+      _recursive_insert((*root_ref)-&gt;get_left_ref(), value);
+    } else {
+      _recursive_insert((*root_ref)-&gt;get_right_ref(), value);
+    }
+  }
+}
+ 
+void tree::print_preorder() {
+  if(root==NULL) {
+    return;
+  }
+  _print_preorder(root);
+  cout&lt;&lt;endl;
+}
+ 
+void tree::_print_preorder(tree_node * root) {
+  if(root==NULL) {
+    return;
+  }
+  cout&lt;&lt;root-&gt;get_data()&lt;&lt;&quot; &quot;;
+  if(root-&gt;get_left()!=NULL)
+    _print_preorder(root-&gt;get_left());
+  if(root-&gt;get_right()!=NULL)
+    _print_preorder(root-&gt;get_right());
+}
+ 
+void tree::print_inorder() {
+  if(root==NULL) {
+    return;
+  }
+  _print_inorder(root);
+  cout&lt;&lt;endl;
+}
+ 
+void tree::_print_inorder(tree_node * root) {
+  if(root==NULL) {
+    return;
+  }
+  if(root-&gt;get_left()!=NULL)
+    _print_inorder(root-&gt;get_left());
+  cout&lt;&lt;root-&gt;get_data()&lt;&lt;&quot; &quot;;
+  if(root-&gt;get_right()!=NULL)
+    _print_inorder(root-&gt;get_right());
+}
+ 
+void tree::print_postorder() {
+  if(root==NULL) {
+    return;
+  }
+  _print_postorder(root);
+  cout&lt;&lt;endl;
+}
+ 
+void tree::_print_postorder(tree_node * root) {
+  if(root==NULL) {
+    return;
+  }
+  if(root-&gt;get_left()!=NULL)
+    _print_postorder(root-&gt;get_left());
+  if(root-&gt;get_right()!=NULL)
+    _print_postorder(root-&gt;get_right());
+  cout&lt;&lt;root-&gt;get_data()&lt;&lt;&quot; &quot;;
+}
+
+int tree::find_size() {
+  return _find_size(root);
+}
+
+int tree::_find_size(tree_node * root) {
+  if(root==NULL) {
+    return 0;
+  } else {
+    return 1+_find_size(root-&gt;get_left())+_find_size(root-&gt;get_right());
+  }
+}
+
+int tree::are_identical(tree t) {
+  return _are_identical(this-&gt;root, t.root);
+}
+
+int tree::_are_identical(tree_node * tn1, tree_node * tn2) {
+  if(tn1==NULL &amp;&amp; tn2==NULL) {
+    return 1;
+  } else if((tn1==NULL &amp;&amp; tn2!=NULL) || (tn1!=NULL &amp;&amp; tn2==NULL) || (tn1-&gt;get_data()!=tn2-&gt;get_data())) {
+    return 0;
+  } else {
+    return _are_identical(tn1-&gt;get_left(), tn2-&gt;get_left()) &amp;&amp; _are_identical(tn1-&gt;get_right(), tn2-&gt;get_right());
+  }
+}
+
+int tree::find_height() {
+  return _find_height(root);
+}
+
+int tree::_find_height(tree_node * root) {
+  if(root==NULL) {
+    return 0;
+  }
+  else {
+    return 1+max(_find_height(root-&gt;get_left()), _find_height(root-&gt;get_right()));
+  }
+}
+
+void tree::delete_tree() {
+  _delete_tree(&amp;root);
+  size=0;
+}
+
+void tree::_delete_tree(tree_node ** root) {
+  if(*root==NULL) {
+    return;
+  } else {
+    if((*root)-&gt;get_left()!=NULL) {
+      _delete_tree((*root)-&gt;get_left_ref());
+    }
+    if((*root)-&gt;get_right()!=NULL) {
+      _delete_tree((*root)-&gt;get_right_ref());
+    }
+    delete(*root);
+    *root=NULL;
+  }
+}
+
+/* alternate _delete_tree */
+/*
+void tree::_delete_tree(tree_node ** root) {
+  if(*root==NULL) {
+    return;
+  } else {
+    if((*root)-&gt;get_left()!=NULL) {
+      tree_node * left_ref=(*root)-&gt;get_left();
+      _delete_tree(&amp;left_ref);
+    }
+    if((*root)-&gt;get_right()!=NULL) {
+      tree_node * right_ref=(*root)-&gt;get_right();
+      _delete_tree(&amp;right_ref);
+    }
+    delete(*root);
+    *root=NULL;
+  }
+}
+*/
+
+void tree::mirror() {
+  _mirror(root);
+}
+
+void tree::_mirror(tree_node * root) {
+  if(root==NULL) {
+    return;
+  }
+
+  tree_node * temp=root-&gt;get_left();
+  root-&gt;set_left(root-&gt;get_right());
+  root-&gt;set_right(temp);
+  _mirror(root-&gt;get_left());
+  _mirror(root-&gt;get_right());
+}
+
+void tree::print_paths(){
+   int max_path_length=find_height();
+   int * path_nodes=(int *)calloc(sizeof(int), max_path_length);
+  _print_paths(root, path_nodes, 0);
+}
+
+void tree::_print_paths(tree_node * root, int * path_nodes, int next_vacant_position){
+  if(root==NULL) {
+    return;
+  } else if(root-&gt;get_left()==NULL &amp;&amp; root-&gt;get_right()==NULL) {
+    *(path_nodes+next_vacant_position)=root-&gt;get_data();
+    _print_array(path_nodes, next_vacant_position);
+  } else {
+    *(path_nodes+next_vacant_position)=root-&gt;get_data();
+    _print_paths(root-&gt;get_left(), path_nodes, next_vacant_position+1);
+    _print_paths(root-&gt;get_right(), path_nodes, next_vacant_position+1);
+  }
+}
+
+void tree::_print_array(int * array, int len) {
+  int i;
+  for(i=0; i&lt;=len; i++) {
+    cout&lt;&lt;*(array+i)&lt;&lt;&quot; &quot;;
+  }
+  cout&lt;&lt;endl;
+}
+
+tree_node * tree::find_node(int value) {
+  return _find_node(root, value);
+}
+
+tree_node * tree::_find_node(tree_node * root, int value) {
+  if(root==NULL || root-&gt;get_data()==value) {
+    return root;
+  } else if(value&lt;=root-&gt;get_data()) {
+    return _find_node(root-&gt;get_left(), value);
+  } else {
+    return _find_node(root-&gt;get_right(), value);
+  }
+}
+
+tree_node * tree::lowest_common_ancestor(int a, int b) {
+  return _lowest_common_ancestor(NULL, root, a, b);
+}
+
+tree_node * tree::_lowest_common_ancestor(tree_node * parent, tree_node * root, int a, int b) {
+  if(root==NULL) {
+    return root;
+  } else if((root-&gt;get_data()==a &amp;&amp; (root-&gt;get_left()-&gt;get_data()==b || root-&gt;get_right()-&gt;get_data()==b))
+             || (root-&gt;get_data()==b &amp;&amp; (root-&gt;get_left()-&gt;get_data()==a || root-&gt;get_right()-&gt;get_data()==a))) {
+    return parent;
+  } else if((_find_node(root-&gt;get_left(), a)!=NULL &amp;&amp; _find_node(root-&gt;get_right(), b)!=NULL)
+        || (_find_node(root-&gt;get_left(), b)!=NULL &amp;&amp; _find_node(root-&gt;get_right(), a)!=NULL)) {
+    return root; 
+  } else if(_find_node(root-&gt;get_left(), a)!=NULL &amp;&amp; _find_node(root-&gt;get_left(), b)!=NULL) {
+    return _lowest_common_ancestor(root, root-&gt;get_left(), a, b);
+  } else if(_find_node(root-&gt;get_right(), a)!=NULL &amp;&amp; _find_node(root-&gt;get_right(), b)!=NULL) {
+    return _lowest_common_ancestor(root, root-&gt;get_right(), a, b);
+  } else {
+    return NULL;
+  }
+}
+
+tree_node * tree::min_node() {
+  return _min_node(root);
+}
+
+tree_node * tree::_min_node(tree_node * root) {
+  if(root==NULL || root-&gt;get_left()==NULL) {
+    return root;
+  } else {
+    return _min_node(root-&gt;get_left());
+  }
+}
+
+int tree::count_leaf_nodes() {
+  return _count_leaf_nodes(root);
+}
+
+int tree::_count_leaf_nodes(tree_node * root) {
+  if(root==NULL) {
+    return 0;
+  } else if(root-&gt;get_left()==NULL &amp;&amp; root-&gt;get_right()==NULL) {
+    return 1;
+  } else {
+    return _count_leaf_nodes(root-&gt;get_left())+_count_leaf_nodes(root-&gt;get_right());
+  }
+}
+
+
+int tree::is_bst() {
+  return _is_bst(root);
+}
+
+int tree::_is_bst(tree_node * root) {
+  static tree_node * previous=NULL;
+  if(root==NULL) {
+    return 1;
+  } else {
+    if(!_is_bst(root-&gt;get_left())) {
+      return 0;
+    }
+    if(previous!=NULL &amp;&amp; (previous-&gt;get_data())&gt;(root-&gt;get_data())) {
+      return 0;
+    }
+    previous=root;
+    if(!_is_bst(root-&gt;get_right())) {
+      return 0;
+    }    
+  }
+}
+
+int tree::children_sum() {
+  return _children_sum(root);
+}
+
+int tree::_children_sum(tree_node * root) {
+  if(root==NULL) {
+    return 1;
+  }
+  if(root-&gt;get_left()==NULL &amp;&amp; root-&gt;get_right()==NULL) {
+    return 1;
+  }
+  else if(_children_sum(root-&gt;get_left()) &amp;&amp; _children_sum(root-&gt;get_right())){
+    int left_data;
+    int right_data;
+    if(root-&gt;get_left()!=NULL) {
+      left_data=root-&gt;get_left()-&gt;get_data();
+    } else {
+      left_data=0;
+    }
+    if(root-&gt;get_right()!=NULL) {
+      right_data=root-&gt;get_right()-&gt;get_data();
+    } else {
+      right_data=0;
+    }
+
+    if(left_data+right_data==root-&gt;get_data()) {
+      return 1;
+    } else {
+      return 0;
+    }
+  } else {
+    return 0;
+  }
+}
+
+void tree::ensure_children_sum() {
+  _ensure_children_sum(root);
+}
+
+void tree::_ensure_children_sum(tree_node * root) {
+  if(root==NULL || (root-&gt;get_left()==NULL &amp;&amp; root-&gt;get_right()==NULL)) {
+    return;
+  } else {
+    _ensure_children_sum(root-&gt;get_left());
+    _ensure_children_sum(root-&gt;get_right());
+    int left_data;
+    int right_data;
+    if(root-&gt;get_left()!=NULL) {
+      left_data=root-&gt;get_left()-&gt;get_data();
+    } else {
+      left_data=0;
+    }
+    if(root-&gt;get_right()!=NULL) {
+      right_data=root-&gt;get_right()-&gt;get_data();
+    } else {
+      right_data=0;
+    }
+    root-&gt;set_data(left_data+right_data);
+  }
+}
+
+int tree::diameter() {
+  return _diameter(root);
+}
+
+int tree::_diameter(tree_node * root) {
+  if(root==NULL) {
+    return 0;
+  } else {
+    return max(_find_height(root-&gt;get_left())+_find_height(root-&gt;get_right())+1, max(_diameter(root-&gt;get_left()), _diameter(root-&gt;get_left())));
+  }
+}
+
+int tree::is_height_balanced() {
+  return _is_height_balanced(root);
+}
+
+int tree::_is_height_balanced(tree_node * root) {
+  if(root==NULL) {
+    return 1;
+  } else {
+    int left_height=_find_height(root-&gt;get_left());
+    int right_height=_find_height(root-&gt;get_right());
+    if(abs(left_height-right_height)&lt;=1 &amp;&amp; _is_height_balanced(root-&gt;get_left()) &amp;&amp; _is_height_balanced(root-&gt;get_left())) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+}
+
+int tree::leaf_path_sum(int sum) {
+  return _leaf_path_sum(root, sum);
+}
+
+int tree::_leaf_path_sum(tree_node * root, int sum) {
+  if(root==NULL) {
+    return 0;
+  } else if(root-&gt;get_data()==sum &amp;&amp; root-&gt;get_left()==NULL &amp;&amp; root-&gt;get_right()==NULL) {
+    return 1;
+  } else {
+    return _leaf_path_sum(root-&gt;get_left(), sum-root-&gt;get_data()) || _leaf_path_sum(root-&gt;get_right(), sum-root-&gt;get_data());
+  }
+}
+
+void tree::double_tree() {
+  _double_tree(root);
+}
+
+void tree::_double_tree(tree_node * root) {
+  if(root==NULL) {
+    return;
+  } else {
+    tree_node * new_node=new tree_node;
+    new_node-&gt;set_data(root-&gt;get_data());
+    tree_node * root_left=root-&gt;get_left();
+    root-&gt;set_left(new_node);
+    new_node-&gt;set_left(root_left);
+    _double_tree(root_left);
+    _double_tree(root-&gt;get_right());
+  }
+}
+
+int tree::width() {
+  int height=find_height();
+  return _width(root, height, 0, 1);
+}
+
+int tree::_width(tree_node * root, int height, int level, int initialize_width_array) {
+  static int width[]={0};
+  if(initialize_width_array==1) {
+    int i;
+    for(i=0; i&lt;height; i++) {
+      width[i]=0;  
+    }
+  }
+  if(root==NULL) {
+    width[level]=width[level]+0;
+  } else {
+    width[level]=width[level]+1;
+    _width(root-&gt;get_left(), height, level+1, 0);
+    _width(root-&gt;get_right(), height, level+1, 0);
+  }
+  return _maximum(width, height);
+}
+
+int tree::_maximum(int array[], int len) {
+  int i;
+  int max=array[0];
+  for(i=1; i&lt;len; i++) {
+    if(array[i]&gt;max) {
+      max=array[i];
+    }
+  }
+  return max;
+}
+
+void tree::print_k_distance_nodes(int k) {
+  _print_k_distance_nodes(root, k, 0);
+  cout&lt;&lt;endl;
+}
+
+void tree::_print_k_distance_nodes(tree_node * root, int k, int distance) {
+  if(root==NULL) {
+    return;
+  } else if(distance==k) {
+    cout&lt;&lt;root-&gt;get_data()&lt;&lt;&quot; &quot;;
+  } else {
+    _print_k_distance_nodes(root-&gt;get_left(), k, distance+1);
+    _print_k_distance_nodes(root-&gt;get_right(), k, distance+1);
+  }
+}
+
+tree_node * tree::kth_smallest_element(int k) {
+  return _kth_smallest_element(root, k);
+}
+
+tree_node * tree::_kth_smallest_element(tree_node * root, int k) {
+  if(root==NULL) {
+    return root;
+  } else {
+    int left_size=_find_size(root-&gt;get_left());
+    if(left_size==k-1) {
+      return root;
+    } else if(left_size&gt;=k) {
+      return _kth_smallest_element(root-&gt;get_left(), k);
+    } else {
+      return _kth_smallest_element(root-&gt;get_right(), k-left_size-1);
+    }
+  }
+}
+
+int main() {
+  tree t1;
+
+  t1.recursive_insert(20);
+  t1.recursive_insert(10);
+  t1.insert(30);
+  t1.insert(8);
+  t1.recursive_insert(12);
+  t1.recursive_insert(28);
+  t1.recursive_insert(32);
+  t1.recursive_insert(6);
+  t1.recursive_insert(9);
+  t1.recursive_insert(50);
+  t1.insert(14);
+  t1.insert(26);
+
+  t1.print_inorder();
+
+  tree_node * kth_smallest_node;
+
+  kth_smallest_node=t1.kth_smallest_element(1);
+  if(kth_smallest_node!=NULL) {
+    cout&lt;&lt;&quot;1st smallest node &quot;&lt;&lt;kth_smallest_node-&gt;get_data()&lt;&lt;endl;
+  }
+  kth_smallest_node=t1.kth_smallest_element(2);
+  if(kth_smallest_node!=NULL) {
+    cout&lt;&lt;&quot;2nd smallest node &quot;&lt;&lt;kth_smallest_node-&gt;get_data()&lt;&lt;endl;
+  }
+  kth_smallest_node=t1.kth_smallest_element(3);
+  if(kth_smallest_node!=NULL) {
+    cout&lt;&lt;&quot;3rd smallest node &quot;&lt;&lt;kth_smallest_node-&gt;get_data()&lt;&lt;endl;
+  }
+  kth_smallest_node=t1.kth_smallest_element(4);
+  if(kth_smallest_node!=NULL) {
+    cout&lt;&lt;&quot;4th smallest node &quot;&lt;&lt;kth_smallest_node-&gt;get_data()&lt;&lt;endl;
+  }
+  kth_smallest_node=t1.kth_smallest_element(5);
+  if(kth_smallest_node!=NULL) {
+    cout&lt;&lt;&quot;5th smallest node &quot;&lt;&lt;kth_smallest_node-&gt;get_data()&lt;&lt;endl;
+  }
+  kth_smallest_node=t1.kth_smallest_element(6);
+  if(kth_smallest_node!=NULL) {
+    cout&lt;&lt;&quot;6th smallest node &quot;&lt;&lt;kth_smallest_node-&gt;get_data()&lt;&lt;endl;
+  }
+  kth_smallest_node=t1.kth_smallest_element(7);
+  if(kth_smallest_node!=NULL) {
+    cout&lt;&lt;&quot;7th smallest node &quot;&lt;&lt;kth_smallest_node-&gt;get_data()&lt;&lt;endl;
+  }
+  kth_smallest_node=t1.kth_smallest_element(8);
+  if(kth_smallest_node!=NULL) {
+    cout&lt;&lt;&quot;8th smallest node &quot;&lt;&lt;kth_smallest_node-&gt;get_data()&lt;&lt;endl;
+  }
+  kth_smallest_node=t1.kth_smallest_element(9);
+  if(kth_smallest_node!=NULL) {
+    cout&lt;&lt;&quot;9th smallest node &quot;&lt;&lt;kth_smallest_node-&gt;get_data()&lt;&lt;endl;
+  }
+  kth_smallest_node=t1.kth_smallest_element(10);
+  if(kth_smallest_node!=NULL) {
+    cout&lt;&lt;&quot;10th smallest node &quot;&lt;&lt;kth_smallest_node-&gt;get_data()&lt;&lt;endl;
+  }
+  kth_smallest_node=t1.kth_smallest_element(11);
+  if(kth_smallest_node!=NULL) {
+    cout&lt;&lt;&quot;11th smallest node &quot;&lt;&lt;kth_smallest_node-&gt;get_data()&lt;&lt;endl;
+  }
+  kth_smallest_node=t1.kth_smallest_element(12);
+  if(kth_smallest_node!=NULL) {
+    cout&lt;&lt;&quot;12th smallest node &quot;&lt;&lt;kth_smallest_node-&gt;get_data()&lt;&lt;endl;
+  }
+  kth_smallest_node=t1.kth_smallest_element(13);
+  if(kth_smallest_node!=NULL) {
+    cout&lt;&lt;&quot;13th smallest node &quot;&lt;&lt;kth_smallest_node-&gt;get_data()&lt;&lt;endl;
+  }
+
+  return 0;
+}
+</code> </pre>
+<p>6 8 9 10 12 14 20 26 28 30 32 50<br />
+1st smallest node 6<br />
+2nd smallest node 8<br />
+3rd smallest node 9<br />
+4th smallest node 10<br />
+5th smallest node 12<br />
+6th smallest node 14<br />
+7th smallest node 20<br />
+8th smallest node 26<br />
+9th smallest node 28<br />
+10th smallest node 30<br />
+11th smallest node 32<br />
+12th smallest node 50</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-abhishek08aug odd alt depth-2" id="dsq-comment-18121">
+        <div id="dsq-comment-header-18121" class="dsq-comment-header">
+            <cite id="dsq-cite-18121">
+                <span id="dsq-author-user-18121">abhishek08aug</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18121" class="dsq-comment-body">
+            <div id="dsq-comment-message-18121" class="dsq-comment-message"><p>My solution is recursive.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-aman1234 even depth-3" id="dsq-comment-19752">
+        <div id="dsq-comment-header-19752" class="dsq-comment-header">
+            <cite id="dsq-cite-19752">
+                <span id="dsq-author-user-19752">aman1234</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19752" class="dsq-comment-body">
+            <div id="dsq-comment-message-19752" class="dsq-comment-message"><p>dude, have you done whole geeksforgeeks ? i am wondering&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-naveen-bobbili odd alt thread-odd thread-alt depth-1" id="dsq-comment-16836">
+        <div id="dsq-comment-header-16836" class="dsq-comment-header">
+            <cite id="dsq-cite-16836">
+                <span id="dsq-author-user-16836">naveen.bobbili</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16836" class="dsq-comment-body">
+            <div id="dsq-comment-message-16836" class="dsq-comment-message"><pre> <code language="C">
+template&lt;class T&gt;
+struct result {
+  Tree&lt;T&gt;* node;
+  int data;
+};
+
+template&lt;class T&gt;
+struct result&lt;T&gt; kthInorder(Tree&lt;T&gt;* root, int k) {
+  if (root == NULL) {
+    struct result&lt;T&gt; a;
+    a.data = 0;
+    a.node = NULL;
+    return a;
+  }
+
+  struct result&lt;T&gt; left = kthInorder(root-&gt;lchild(), k);
+  if (left.node != NULL)
+    return left;
+  else {
+    if (left.data == (k-1)) {
+      left.node = root;
+      return left;
+    } else if(left.data &lt; (k-1)) {
+      if (root-&gt;rchild() != NULL) {
+        return kthInorder(root-&gt;rchild(), k-(left.data + 1));
+      } else {
+        left.data = left.data + 1;
+        return left;
+      }
+    } 
+  } 
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-16644">
+        <div id="dsq-comment-header-16644" class="dsq-comment-header">
+            <cite id="dsq-cite-16644">
+                <span id="dsq-author-user-16644">rohit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16644" class="dsq-comment-body">
+            <div id="dsq-comment-message-16644" class="dsq-comment-message"><p>int ksmall(struct node*root,int *k)<br />
+{<br />
+int a;<br />
+if(root==NULL)<br />
+return(0);<br />
+{a=ksmall(root-&gt;left,k);<br />
+if(a!=0)<br />
+return(a);<br />
+}<br />
+(*k)&#8211;;<br />
+if(!(*k))<br />
+return(root-&gt;data);<br />
+a=ksmall(root-&gt;right,k);<br />
+return(a);<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-cyberwolf odd alt thread-odd thread-alt depth-1" id="dsq-comment-15152">
+        <div id="dsq-comment-header-15152" class="dsq-comment-header">
+            <cite id="dsq-cite-15152">
+                <span id="dsq-author-user-15152">cyberWolf</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15152" class="dsq-comment-body">
+            <div id="dsq-comment-message-15152" class="dsq-comment-message"><p>Kth smallest value in BST using Stack</p>
+<pre> <code language="C">
+int findKthSmallest(treeNode* x, int k)
+{
+        int count = 0;
+        stack&lt;treeNode*&gt; s;
+        s.push(x);
+
+        while(!s.empty())
+        {   
+                while(x-&gt;left != NULL)
+                {   
+                        s.push(x-&gt;left);
+                        x=x-&gt;left;
+                }   
+    
+                x = s.top();
+                s.pop();
+                count++;
+    
+                if(count == k)
+                        return x-&gt;data;
+    
+                if(x-&gt;right)
+                {   
+                        s.push(x-&gt;right);
+                        x=x-&gt;right;
+                }   
+        }   
+        return -1; 
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-12115">
+        <div id="dsq-comment-header-12115" class="dsq-comment-header">
+            <cite id="dsq-cite-12115">
+                <span id="dsq-author-user-12115">doingit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12115" class="dsq-comment-body">
+            <div id="dsq-comment-message-12115" class="dsq-comment-message"><p>Isn&#8217;t it a good solution</p>
+<pre> <code language="C">
+
+void Kthsmallest(node* root,int k){
+   static int cnt = 0;
+   if(root==NULL)
+        return;
+   Kthsmallest(root-&gt;left,k);
+   cnt++;
+   if(cnt == k)
+        cout&lt;&lt;root-&gt;key&lt;&lt;&quot; &quot;;
+   Kthsmallest(root-&gt;right,k);
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-9374">
+        <div id="dsq-comment-header-9374" class="dsq-comment-header">
+            <cite id="dsq-cite-9374">
+                <span id="dsq-author-user-9374">ashu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9374" class="dsq-comment-body">
+            <div id="dsq-comment-message-9374" class="dsq-comment-message"><p>code</p>
+<pre> <code language="C">
+void get3(node *root,int* ind,int* val,int k){
+	if(root==NULL) return;
+	get3(root-&gt;left,ind,val,k);
+	*ind+=1;
+	if(*ind==k) *val=root-&gt;data;
+	get3(root-&gt;right,ind,val,k);
+}
+void kthSmall(node *root){
+	int ind=0;
+	int val=-1;
+	int k=5;
+	get3(root,&amp;ind,&amp;val,k);
+	cout&lt;&lt;val&lt;&lt;&quot;\n&quot;;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-9373">
+        <div id="dsq-comment-header-9373" class="dsq-comment-header">
+            <cite id="dsq-cite-9373">
+                <span id="dsq-author-user-9373">Ashu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9373" class="dsq-comment-body">
+            <div id="dsq-comment-message-9373" class="dsq-comment-message"><pre> <code language="C">
+void get3(node *root,int* ind,int* val,int k){
+	if(root==NULL) return;
+	get3(root-&gt;left,ind,val,k);
+	*ind+=1;
+	if(*ind==k) *val=root-&gt;data;
+	get3(root-&gt;right,ind,val,k);
+}
+void KthNode(node *root){
+	int ind=0;
+	int val=-1;
+	int k=5;
+	get3(root,&amp;ind,&amp;val,k);
+	cout&lt;&lt;val&lt;&lt;&quot;\n&quot;;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-9116">
+        <div id="dsq-comment-header-9116" class="dsq-comment-header">
+            <cite id="dsq-cite-9116">
+                <span id="dsq-author-user-9116">naresh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9116" class="dsq-comment-body">
+            <div id="dsq-comment-message-9116" class="dsq-comment-message"><p>Without using any global variable or static variable.<br />
+Note : found is used as a indicator.</p>
+<p>Using the Inorder tree property.</p>
+<p>int kth(struct node *root, int k, int *found){<br />
+  if(root == NULL)<br />
+    return k;<br />
+    k = kth(root-&gt;left, k, found);<br />
+    if(k == 1 &amp;&amp; *found == 0){<br />
+      printf(&#8220;Kth =%d \n&#8221;, root-&gt;data);<br />
+      *found = 1;<br />
+      return root-&gt;data;<br />
+    }<br />
+    if(*found == 0){<br />
+      k&#8211;;<br />
+      k = kth(root-&gt;right, k, found);<br />
+      return k;<br />
+    }<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8940">
+        <div id="dsq-comment-header-8940" class="dsq-comment-header">
+            <cite id="dsq-cite-8940">
+                <span id="dsq-author-user-8940">huha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8940" class="dsq-comment-body">
+            <div id="dsq-comment-message-8940" class="dsq-comment-message"><pre> <code language="C">
+struct node *nthorder(struct node* root,int *n)
+{
+	struct node* ptr=(struct node*)malloc(sizeof(struct node));
+	if(!root) return NULL;
+	ptr=nthorder(root-&gt;left,n);
+	if(ptr) return ptr;
+	if((*n)==1) 
+	{
+	printf(&quot;nth is %d&quot;,root-&gt;data);
+	return root;}
+	(*n)--;
+	ptr=nthorder(root-&gt;right,n);
+	return ptr;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-8942">
+        <div id="dsq-comment-header-8942" class="dsq-comment-header">
+            <cite id="dsq-cite-8942">
+                <span id="dsq-author-user-8942">huha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8942" class="dsq-comment-body">
+            <div id="dsq-comment-message-8942" class="dsq-comment-message"><p>sry,for reposting..had problem wid uploading</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-9115">
+        <div id="dsq-comment-header-9115" class="dsq-comment-header">
+            <cite id="dsq-cite-9115">
+                <span id="dsq-author-user-9115">naresh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9115" class="dsq-comment-body">
+            <div id="dsq-comment-message-9115" class="dsq-comment-message"><p>It giving segmentation fault.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8939">
+        <div id="dsq-comment-header-8939" class="dsq-comment-header">
+            <cite id="dsq-cite-8939">
+                <span id="dsq-author-user-8939">huha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8939" class="dsq-comment-body">
+            <div id="dsq-comment-message-8939" class="dsq-comment-message"><pre> <code language="C">
+struct node *nthorder(struct node* root,int *n)
+{
+	struct node* ptr=(struct node*)malloc(sizeof(struct node));
+	if(!root) return NULL;
+	ptr=nthorder(root-&gt;left,n);
+	if(ptr) return ptr;
+	if((*n)==1) 
+	{
+	printf(&quot;nth is %d&quot;,root-&gt;data);
+	return root;}
+	(*n)--;
+	ptr=nthorder(root-&gt;right,n);
+	return ptr;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8879">
+        <div id="dsq-comment-header-8879" class="dsq-comment-header">
+            <cite id="dsq-cite-8879">
+                <span id="dsq-author-user-8879">Bala</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8879" class="dsq-comment-body">
+            <div id="dsq-comment-message-8879" class="dsq-comment-message"><p>The following code gives the kth smallest in O(n) time without needing any additional fields. Please correct me if anything is wrong in the approach.</p>
+<p>void findKthSmallest(int k) //function that will called by the user<br />
+	{<br />
+		int ans;<br />
+		if(!root){ printf(&quot;The tree is empty.\n&quot;); return; }<br />
+		findAnswer(root,0,k,&amp;ans);<br />
+		printf(&quot;The %dth smallest element is %d\n&quot;,k,ans);<br />
+		return;<br />
+	}<br />
+	int findAnswer(node *cur,int curRank,int k,int *ans) //does the actual work finding the answer<br />
+	{<br />
+		int l=curRank,r=curRank;<br />
+		if(cur-&gt;lchild)<br />
+		{<br />
+			l = findAnswer(cur-&gt;lchild,curRank,k,ans);<br />
+		}<br />
+		if(l+1==k){ *ans=cur-&gt;data; }<br />
+		r=l+1;<br />
+		if(cur-&gt;rchild)<br />
+		{<br />
+			r=findAnswer(cur-&gt;rchild,r,k,ans);<br />
+		}<br />
+		return r;<br />
+	}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-8880">
+        <div id="dsq-comment-header-8880" class="dsq-comment-header">
+            <cite id="dsq-cite-8880">
+                <span id="dsq-author-user-8880">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8880" class="dsq-comment-body">
+            <div id="dsq-comment-message-8880" class="dsq-comment-message"><p>@Bala: Could you repost the code between the sourcecode tags, please?</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-8943">
+        <div id="dsq-comment-header-8943" class="dsq-comment-header">
+            <cite id="dsq-cite-8943">
+                <span id="dsq-author-user-8943">Balasubramanian.N</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8943" class="dsq-comment-body">
+            <div id="dsq-comment-message-8943" class="dsq-comment-message"><p>Sorry, I think I pasted it using code tags, but I will do it again.</p>
+<pre> <code language="C">
+void findKthSmallest(int k) //function that will called by the user
+{
+int ans;
+if(!root){ printf(&quot;The tree is empty.\n&quot;); return; }
+findAnswer(root,0,k,&amp;ans);
+printf(&quot;The %dth smallest element is %d\n&quot;,k,ans);
+return;
+}
+int findAnswer(node *cur,int curRank,int k,int *ans) //does the actual work finding the answer
+{
+int l=curRank,r=curRank;
+if(cur-&gt;lchild)
+{
+l = findAnswer(cur-&gt;lchild,curRank,k,ans);
+}
+if(l+1==k){ *ans=cur-&gt;data; }
+r=l+1;
+if(cur-&gt;rchild)
+{
+r=findAnswer(cur-&gt;rchild,r,k,ans);
+}
+return r;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-3" id="dsq-comment-8944">
+        <div id="dsq-comment-header-8944" class="dsq-comment-header">
+            <cite id="dsq-cite-8944">
+                <span id="dsq-author-user-8944">Balasubramanian.N</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8944" class="dsq-comment-body">
+            <div id="dsq-comment-message-8944" class="dsq-comment-message"><p>Sorry, I thought I had used the code tags. I am reposting it.</p>
+<pre> <code language="C">
+void findKthSmallest(int k) //function that will called by the user
+{
+int ans;
+if(!root){ printf(&quot;The tree is empty.\n&quot;); return; }
+findAnswer(root,0,k,&amp;ans);
+printf(&quot;The %dth smallest element is %d\n&quot;,k,ans);
+return;
+}
+int findAnswer(node *cur,int curRank,int k,int *ans) //does the actual work finding the answer
+{
+int l=curRank,r=curRank;
+if(cur-&gt;lchild)
+{
+l = findAnswer(cur-&gt;lchild,curRank,k,ans);
+}
+if(l+1==k){ *ans=cur-&gt;data; }
+r=l+1;
+if(cur-&gt;rchild)
+{
+r=findAnswer(cur-&gt;rchild,r,k,ans);
+}
+return r;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-8045">
+        <div id="dsq-comment-header-8045" class="dsq-comment-header">
+            <cite id="dsq-cite-8045">
+                <span id="dsq-author-user-8045">payal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8045" class="dsq-comment-body">
+            <div id="dsq-comment-message-8045" class="dsq-comment-message"><p>int kth_small(struct node* node,int k)<br />
+{<br />
+static int m=0;<br />
+if(node==NULL)<br />
+return 0;</p>
+<p>int a=kth_small(node-&gt;left,k);</p>
+<p>if(mdata;}</p>
+<p>a=kth_small(node-&gt;right,k);<br />
+return a;<br />
+}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-8046">
+        <div id="dsq-comment-header-8046" class="dsq-comment-header">
+            <cite id="dsq-cite-8046">
+                <span id="dsq-author-user-8046">payal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8046" class="dsq-comment-body">
+            <div id="dsq-comment-message-8046" class="dsq-comment-message"><p>sorry typo error in above code<br />
+corrected code is here:</p>
+<pre> <code language="C">
+int kth_small(struct node* node,int k)
+{
+static int m=0;
+if(node==NULL)
+return 0;
+
+int a=kth_small(node-&gt;left,k);
+
+if(m&lt;0)
+return a;
+
+m++;
+if(m==k)
+{m=-1;
+return node-&gt;data;}
+
+a=kth_small(node-&gt;right,k);
+return a;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8044">
+        <div id="dsq-comment-header-8044" class="dsq-comment-header">
+            <cite id="dsq-cite-8044">
+                <span id="dsq-author-user-8044">payal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8044" class="dsq-comment-body">
+            <div id="dsq-comment-message-8044" class="dsq-comment-message"><p>int kth_small(struct node* node,int k)<br />
+{<br />
+static int m=0;<br />
+if(node==NULL)<br />
+return 0;</p>
+<p>int a=kth_small(node-&gt;left,k);<br />
+if(mdata;}</p>
+<p>a=kth_small(node-&gt;right,k);<br />
+return a;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-7524">
+        <div id="dsq-comment-header-7524" class="dsq-comment-header">
+            <cite id="dsq-cite-7524">
+                <span id="dsq-author-user-7524">Sandeep Vasani</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7524" class="dsq-comment-body">
+            <div id="dsq-comment-message-7524" class="dsq-comment-message"><pre> <code language="C">
+int size(struct node * a)
+{
+    if(a==NULL)
+    return 0;
+    else
+    return(size(a-&gt;left)+size(a-&gt;right)+1);
+}
+
+int i_smallest_element(struct node* root,int i)
+{
+     int k=size(root-&gt;left)+1;
+     if(i==k) return root-&gt;data;
+     if(i&lt;k) return i_smallest_element(root-&gt;left,i);
+     else
+     return i_smallest_element(root-&gt;right,i-k);
+
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-6564">
+        <div id="dsq-comment-header-6564" class="dsq-comment-header">
+            <cite id="dsq-cite-6564">
+                <span id="dsq-author-user-6564">saipraneeth</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6564" class="dsq-comment-body">
+            <div id="dsq-comment-message-6564" class="dsq-comment-message"><pre> <code language="C">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+ 
+/* A binary tree node has data, pointer to left child
+   and a pointer to right child */
+struct node
+{
+  int data;
+  struct node* left;
+  struct node* right;
+
+};
+int k_smallest(struct node * root,int n);
+int k_smallest(struct node * root,int n)
+{
+  if(root ==NULL) return;
+  static int k=0,ele=-1;
+  k_smallest(root-&gt;left,n);
+  //printf(&quot;k = %d n = %d\n&quot;,k,n);
+  if(++k == n){
+    //printf(&quot;enter\n&quot;);
+    ele = root-&gt;data;
+    //return root-&gt;data;
+  }
+  else 
+    k_smallest(root-&gt;right,n);
+  return ele;
+}
+/* Helper function that allocates a new node with the
+   given data and NULL left and right pointers. */
+struct node* newNode(int data)
+{
+  struct node* node = (struct node*)
+    malloc(sizeof(struct node));
+  node-&gt;data = data;
+  node-&gt;left = NULL;
+  node-&gt;right = NULL;
+  return(node);
+}
+/* Driver program to test above functions*/
+int main()
+{
+  struct node *root = newNode(8);
+  root-&gt;left        = newNode(5);
+  root-&gt;right       = newNode(9);
+  root-&gt;left-&gt;left  = newNode(4);
+  root-&gt;left-&gt;right = newNode(6);
+  root-&gt;right-&gt;right = newNode(11);
+  root-&gt;right-&gt;right-&gt;left  = newNode(10);
+  root-&gt;right-&gt;right-&gt;right  = newNode(12);     
+ 
+  /*
+   Constructed bunary tree is:
+          8
+        /  \
+       5    9
+     /  \     \
+    4    6     11
+              /  \
+             10   12
+  */
+  int k = k_smallest(root,4);
+  if(k==-1)
+    printf(&quot;number of elements is less than k\n&quot;);
+  else
+    printf(&quot;%d th smallest element is %d \n&quot;,4,k);
+  getchar();
+  return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-gauravsingh odd alt thread-odd thread-alt depth-1" id="dsq-comment-5693">
+        <div id="dsq-comment-header-5693" class="dsq-comment-header">
+            <cite id="dsq-cite-5693">
+                <span id="dsq-author-user-5693">gaurav singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5693" class="dsq-comment-body">
+            <div id="dsq-comment-message-5693" class="dsq-comment-message"><p>#include<br />
+#include<br />
+struct node<br />
+{<br />
+    int data;<br />
+    struct node* left;<br />
+    struct node* right;</p>
+<p>};<br />
+ void k_smallest_element(struct node *root, int k)<br />
+ {<br />
+      static int i=0;</p>
+<p>     if(root==NULL)<br />
+     return;<br />
+     k_smallest_element(root-&gt;left,k);<br />
+     i++;<br />
+     if(i==k)<br />
+     {<br />
+     printf(&#8220;%d&#8221;,root-&gt;data);</p>
+<p>     }<br />
+     k_smallest_element(root-&gt;right,k);</p>
+<p>     }</p>
+<p>struct node* newNode(int data)<br />
+{<br />
+  struct node* node = (struct node*)<br />
+                       malloc(sizeof(struct node));<br />
+  node-&gt;data   = data;<br />
+  node-&gt;left   = NULL;<br />
+  node-&gt;right  = NULL;</p>
+<p>  return(node);<br />
+}</p>
+<p>struct node* insert(struct node* node, int data)<br />
+{</p>
+<p>  /* 1. If the tree is empty, return a new,<br />
+      single node */<br />
+  if (node == NULL)<br />
+    return(newNode(data));<br />
+  else<br />
+  {<br />
+    struct node *temp; </p>
+<p>    /* 2. Otherwise, recur down the tree */<br />
+    if (data data)<br />
+    {<br />
+         temp = insert(node-&gt;left, data);<br />
+         node-&gt;left  = temp;</p>
+<p>    }<br />
+    else<br />
+    {<br />
+        temp = insert(node-&gt;right, data);<br />
+        node-&gt;right = temp;<br />
+    }   </p>
+<p>    /* return the (unchanged) node pointer */<br />
+    return node;<br />
+  }<br />
+}</p>
+<p>/* Driver program to test above functions*/<br />
+int main()<br />
+{<br />
+    int i=5;<br />
+  struct node* root = NULL;</p>
+<p>  //creating the tree given in the above diagram<br />
+  root = insert(root, 20);<br />
+  root = insert(root, 8);<br />
+  root = insert(root, 22);<br />
+  root = insert(root, 4);<br />
+  root = insert(root, 12);<br />
+  root = insert(root, 10);<br />
+  root = insert(root, 14);</p>
+<p>        printf(&#8220;\n kth smallest elment for k = %d is &#8220;,<br />
+                 i);<br />
+                 k_smallest_element(root, i);</p>
+<p>  getchar();<br />
+  return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-gauravsingh even thread-even depth-1" id="dsq-comment-5692">
+        <div id="dsq-comment-header-5692" class="dsq-comment-header">
+            <cite id="dsq-cite-5692">
+                <span id="dsq-author-user-5692">gaurav singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5692" class="dsq-comment-body">
+            <div id="dsq-comment-message-5692" class="dsq-comment-message"><p><a href="http://ideone.com/EUm4b" rel="nofollow">http://ideone.com/EUm4b</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-5571">
+        <div id="dsq-comment-header-5571" class="dsq-comment-header">
+            <cite id="dsq-cite-5571">
+                <span id="dsq-author-user-5571">Anil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5571" class="dsq-comment-body">
+            <div id="dsq-comment-message-5571" class="dsq-comment-message"><p>Above problem can be solved in o(k) time using modified inorder traversal (using two static variables )as follows :</p>
+<p>void modified_inorder1(node* root)<br />
+{<br />
+     //printf(&#8220;%d&#8221;,k);<br />
+static int flag=0;<br />
+static int count=k;</p>
+<p>if(root-&gt;left!=NULL &amp;&amp; count&gt;0)<br />
+modified_inorder(root-&gt;left);<br />
+count&#8211;;<br />
+if(count==0 &amp;&amp; !flag)<br />
+{<br />
+printf(&#8220;%d &#8220;,root-&gt;key);<br />
+flag=1;<br />
+}<br />
+if(root-&gt;right!=NULL &amp;&amp; !flag)<br />
+modified_inorder(root-&gt;right);<br />
+}</p>
+<p>tell me if i am wrong.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-anuja even depth-2" id="dsq-comment-7426">
+        <div id="dsq-comment-header-7426" class="dsq-comment-header">
+            <cite id="dsq-cite-7426">
+                <span id="dsq-author-user-7426">anuja</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7426" class="dsq-comment-body">
+            <div id="dsq-comment-message-7426" class="dsq-comment-message"><p>consider the following case where k=2, is ur algo still o(k)?<br />
+I cant understand how is it differnt from the above given techniques.. please reply<br />
+     5<br />
+    /<br />
+   4<br />
+  /<br />
+  3<br />
+ /<br />
+ 2<br />
+/<br />
+1</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-5293">
+        <div id="dsq-comment-header-5293" class="dsq-comment-header">
+            <cite id="dsq-cite-5293">
+http://caughtonthecrease.wordpress.com                <span id="dsq-author-user-5293">Ankur</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5293" class="dsq-comment-body">
+            <div id="dsq-comment-message-5293" class="dsq-comment-message"><p>struct node* findKthSmallest(node* root, int&amp; k)<br />
+{<br />
+  if(!root){<br />
+     return NULL;<br />
+  }<br />
+  struct node* temp;<br />
+  temp=findKthSmallest(root-&gt;left,k);<br />
+  k&#8211;;<br />
+  if(k==0)<br />
+	 return root;<br />
+  if(k&gt;0)<br />
+      temp=findKthSmallest(root-&gt;right,k);<br />
+  return temp;<br />
+}
+<pre> <code language="C"></code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-4669">
+        <div id="dsq-comment-header-4669" class="dsq-comment-header">
+            <cite id="dsq-cite-4669">
+                <span id="dsq-author-user-4669">shani</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4669" class="dsq-comment-body">
+            <div id="dsq-comment-message-4669" class="dsq-comment-message"><p>void kth_smallest_element(p_tree root,int* k)<br />
+{<br />
+	if(NULL != root)<br />
+	{<br />
+		kth_smallest_element(root-&gt;left,k);<br />
+		(*k)&#8211;;<br />
+		if(0 == *k)<br />
+		{<br />
+			printf(&#8220;element is %d\n&#8221;,root-&gt;info);<br />
+			return;<br />
+		}<br />
+		kth_smallest_element(root-&gt;rht,k);<br />
+	}<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-4366">
+        <div id="dsq-comment-header-4366" class="dsq-comment-header">
+            <cite id="dsq-cite-4366">
+                <span id="dsq-author-user-4366">neeraj singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4366" class="dsq-comment-body">
+            <div id="dsq-comment-message-4366" class="dsq-comment-message"><pre> <code language="Java">
+public static void findKthLargestInBST(Node node, int KthElement) {
+                if (node != null) {
+            findKthLargestInBST(node.right, KthElement);
+            counter++;
+            if (KthElement == counter) {
+                System.out.print(node);
+                return ;
+            }
+            findKthLargestInBST(node.left, KthElement);
+        }
+    }
+
+    public static void findKthMinimumInBST(Node node, int KthElement) {
+               if (node != null) {
+            findKthLargestInBST(node.left, KthElement);
+            counter++;
+            if (KthElement == counter) {
+                System.out.print(node);
+                return;
+            }
+            findKthLargestInBST(node.right, KthElement);
+        }
+    }
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-4367">
+        <div id="dsq-comment-header-4367" class="dsq-comment-header">
+            <cite id="dsq-cite-4367">
+                <span id="dsq-author-user-4367">neeraj singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4367" class="dsq-comment-body">
+            <div id="dsq-comment-message-4367" class="dsq-comment-message"><pre> <code language="C">public static void findKthMinimumInBST(Node node, int KthElement) {
+if (node != null) {
+findKthMinimumInBST(node.left, KthElement);
+counter++;
+if (KthElement == counter) {
+System.out.print(node);
+return;
+}
+findKthMinimumInBST(node.right, KthElement);
+}
+}</code> </pre>
+<p>//corrected the copy paste error</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3445">
+        <div id="dsq-comment-header-3445" class="dsq-comment-header">
+            <cite id="dsq-cite-3445">
+                <span id="dsq-author-user-3445">Bandicoot</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3445" class="dsq-comment-body">
+            <div id="dsq-comment-message-3445" class="dsq-comment-message"><p>Why not just do an inorder traversal ?</p>
+<pre> <code language="C">
+int count;  // global count
+bool flag1=FALSE;  // to denote starting count increments
+bool flag2=FALSE;  // to avoid unnecessary traversals once kth smallest node is found
+int kthinbst(node_t *node, int k)
+{
+   if(!node) {
+      flag1=TRUE;
+      count++;
+   }
+   kthinBST(node-&gt;left, k);
+   if(flag1) {
+      count++;
+      if(count == k) { // the kth smallest
+         printf(&quot;kth smallest = %d\n&quot;, node-&gt;data);
+         flag2=TRUE;
+      }
+   }
+   if(!flag2)
+      kthinbst(node-&gt;right, k);
+}
+</code> </pre>
+<p>Please feel free to point out mistakes/comment on efficiency.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3440">
+        <div id="dsq-comment-header-3440" class="dsq-comment-header">
+            <cite id="dsq-cite-3440">
+                <span id="dsq-author-user-3440">vinni</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3440" class="dsq-comment-body">
+            <div id="dsq-comment-message-3440" class="dsq-comment-message"><pre> <code language="C">
+static int count=k;
+int kthMin(BinarySearchTree *t)
+{
+  while(t!=NULL)
+  {
+    kthMin(t-&gt;leftchild);
+    if(k!=0)
+    {
+      k--;
+    }
+    else
+    {
+      return t.data;
+      break;  
+    }
+}
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-4935">
+        <div id="dsq-comment-header-4935" class="dsq-comment-header">
+            <cite id="dsq-cite-4935">
+                <span id="dsq-author-user-4935">sachin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4935" class="dsq-comment-body">
+            <div id="dsq-comment-message-4935" class="dsq-comment-message"><p>This code doesnot go to right subtree , what if K=N(total no. nodes in tree) i.e. largest element in tree</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3294">
+        <div id="dsq-comment-header-3294" class="dsq-comment-header">
+            <cite id="dsq-cite-3294">
+                <span id="dsq-author-user-3294">mac</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3294" class="dsq-comment-body">
+            <div id="dsq-comment-message-3294" class="dsq-comment-message"><p>hey plz correct me but i think average running time for 2nd method is O(lgn)as we are taking left or right subtree at every step only worst case running time will be o(n).</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-venki bypostauthor odd alt depth-2" id="dsq-comment-3296">
+        <div id="dsq-comment-header-3296" class="dsq-comment-header">
+            <cite id="dsq-cite-3296">
+http://www.linkedin.com/in/ramanawithu                <span id="dsq-author-user-3296">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3296" class="dsq-comment-body">
+            <div id="dsq-comment-message-3296" class="dsq-comment-message"><p>For both the methods, the average time depends on the distribution of nodes in the input array. Worst case is when array is sorted either way, that results in skewed tree.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-3297">
+        <div id="dsq-comment-header-3297" class="dsq-comment-header">
+            <cite id="dsq-cite-3297">
+                <span id="dsq-author-user-3297">mac</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3297" class="dsq-comment-body">
+            <div id="dsq-comment-message-3297" class="dsq-comment-message"><p>ya that&#8217;s why i was saying that running time for 2nd method is O(lgn)while it is mentioned as O(n).</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-sambasiva odd alt thread-even depth-1" id="dsq-comment-3292">
+        <div id="dsq-comment-header-3292" class="dsq-comment-header">
+            <cite id="dsq-cite-3292">
+http://effprog.blogspot.com                <span id="dsq-author-user-3292">Sambasiva</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3292" class="dsq-comment-body">
+            <div id="dsq-comment-message-3292" class="dsq-comment-message"><p>Recursion is such a fundamental technique in Computer science. Implementations may be sucking, but not the expressiveness of recursion technique. Please see the following<br />
+<a href="http://www.joelonsoftware.com/articles/ThePerilsofJavaSchools.html" rel="nofollow">link</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-sambasiva even thread-odd thread-alt depth-1" id="dsq-comment-3291">
+        <div id="dsq-comment-header-3291" class="dsq-comment-header">
+            <cite id="dsq-cite-3291">
+http://effprog.blogspot.com                <span id="dsq-author-user-3291">Sambasiva</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3291" class="dsq-comment-body">
+            <div id="dsq-comment-message-3291" class="dsq-comment-message"><pre> <code language="C">
+int kthMin(BinarySearchTree *t, int *k) {
+
+    if(t == NULL)
+        return INT_MAX;
+
+    int x = kthMin(t-&gt;left, k);
+
+    if(x != INT_MAX) return x;
+
+    (*k)--;
+    if(*k == 0) return t-&gt;data;
+
+    return kthMin(t-&gt;right, k);
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-venki bypostauthor odd alt depth-2" id="dsq-comment-3295">
+        <div id="dsq-comment-header-3295" class="dsq-comment-header">
+            <cite id="dsq-cite-3295">
+http://www.linkedin.com/in/ramanawithu                <span id="dsq-author-user-3295">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3295" class="dsq-comment-body">
+            <div id="dsq-comment-message-3295" class="dsq-comment-message"><p>@Sambasiva, thanks for the code and link.</p>
+<p>The reason for non-recursive code, may be content for another article.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-5596">
+        <div id="dsq-comment-header-5596" class="dsq-comment-header">
+            <cite id="dsq-cite-5596">
+                <span id="dsq-author-user-5596">abhishek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5596" class="dsq-comment-body">
+            <div id="dsq-comment-message-5596" class="dsq-comment-message"><p>could u pls tell me what does INT_MAX stands for ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/find-k-th-smallest-element-in-bst-order-statistics-in-bst/';
+var disqus_identifier = '10379 http://geeksforgeeks.org/?p=10379';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Find k-th smallest element in BST (Order Statistics in BST)";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.248 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:31:09 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

@@ -1,0 +1,2454 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Find a sorted subsequence of size 3 in linear time - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/find-a-sorted-subsequence-of-size-3-in-linear-time/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Find a sorted subsequence of size 3 in linear time - GeeksforGeeks" />
+<meta property="og:description" content="Given an array of n integers, find the 3 elements such that a[i] &lt; a[j] &lt; a[k] and i &lt; j &lt; k in 0(n) time. If there are multiple such triplets, then print any one of them. Examples: Input: arr[] = {12, 11, 10, 5, 6, 2, 30} Output: 5, 6, 30 Input: arr[] &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/find-a-sorted-subsequence-of-size-3-in-linear-time/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:section" content="Arrays" />
+<meta property="article:published_time" content="2012-06-08T23:19:20+00:00" />
+<meta property="article:modified_time" content="2012-06-13T23:38:10+00:00" />
+<meta property="og:updated_time" content="2012-06-13T23:38:10+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.511 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111514 210.212.53.139 172.19.11.169';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Find a sorted subsequence of size 3 in linear time</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given an array of n integers, find the 3 elements such that a[i] < a[j] < a[k] and i < j < k in 0(n) time.  If there are multiple such triplets, then print any one of them.<span id="more-19879"></span></p>
+<p>Examples:</p>
+<pre>
+Input:  arr[] = {12, 11, 10, 5, 6, 2, 30}
+Output: 5, 6, 30
+
+Input:  arr[] = {1, 2, 3, 4}
+Output: 1, 2, 3 OR 1, 2, 4 OR 2, 3, 4
+
+Input:  arr[] = {4, 3, 2, 1}
+Output: No such triplet
+</pre>
+<p>Source:<a href="http://geeksforgeeks.org/forum/topic/amazon-interview-question-for-software-engineerdeveloper-0-2-years-about-algorithms-20"> Amazon Interview Question</a></p>
+<p>Hint: Use Auxiliary Space</p>
+<p><strong>Solution:</strong><br />
+1) Create an auxiliary array smaller[0..n-1]. smaller[i] should store the index of a number which is smaller than arr[i] and is on left side of arr[i]. smaller[i] should contain -1 if there is no such element.<br />
+2) Create another auxiliary array greater[0..n-1]. greater[i] should store the index of a number which is greater than arr[i] and is on right side of arr[i]. greater[i] should contain -1 if there is no such element.<br />
+3) Finally traverse both smaller[] and greater[] and find the index i for which both smaller[i] and greater[i] are not -1.</p>
+<pre class="brush: cpp; highlight: [3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62]; title: ; notranslate" title="">
+#include&lt;stdio.h&gt;
+
+// A function to fund a sorted subsequence of size 3
+void find3Numbers(int arr[], int n)
+{
+   int max = n-1; //Index of maximum element from right side
+   int min = 0; //Index of minimum element from left side
+   int i;
+
+   // Create an array that will store index of a smaller
+   // element on left side. If there is no smaller element
+   // on left side, then smaller[i] will be -1.
+   int *smaller = new int[n];
+   smaller[0] = -1;  // first entry will always be -1
+   for (i = 1; i &lt; n; i++)
+   {
+       if (arr[i] &lt;= arr[min])
+       {
+          min = i;
+          smaller[i] = -1;
+       }
+       else
+          smaller[i] = min;
+   }
+
+   // Create another array that will store index of a
+   // greater element on right side. If there is no greater
+   // element on right side, then greater[i] will be -1.
+   int *greater = new int[n];
+   greater[n-1] = -1;  // last entry will always be -1
+   for (i = n-2; i &gt;= 0; i--)
+   {
+       if (arr[i] &gt;= arr[max])
+       {
+          max = i;
+          greater[i] = -1;
+       }
+       else
+          greater[i] = max;
+   }
+
+   // Now find a number which has both a greater number on
+   // right side and smaller number on left side
+   for (i = 0; i &lt; n; i++)
+   {
+       if (smaller[i] != -1 &amp;&amp; greater[i] != -1)
+       {
+          printf(&quot;%d %d %d&quot;, arr[smaller[i]],
+                 arr[i], arr[greater[i]]);
+          return;
+       }
+   }
+
+   // If we reach number, then there are no such 3 numbers
+   printf(&quot;No such triplet found&quot;);
+
+   // Free the dynamically alloced memory to avoid memory leak
+   delete [] smaller;
+   delete [] greater;
+
+   return;
+}
+
+// Driver program to test above function
+int main()
+{
+    int arr[] = {12, 11, 10, 5, 6, 2, 30};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    find3Numbers(arr, n);
+    return 0;
+}
+</pre>
+<p>Output:
+<pre>
+5 6 30 </pre>
+<p>Time Complexity: O(n)<br />
+Auxliary Space: O(n)</p>
+<p>Source: <a href="http://stackoverflow.com/questions/10008118/how-to-find-3-numbers-in-increasing-order-and-increasing-indices-in-an-array-in">How to find 3 numbers in increasing order and increasing indices in an array in linear time</a></p>
+<p><strong>Exercise:</strong><br />
+<strong>1.</strong> Find a subsequence of size 3 such that arr[i] < arr[j] > arr[k].<br />
+<strong>2. </strong> Find a sorted subsequence of size 4 in linear time </p>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array-set-2-expected-linear-time/" title="K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)">K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)</a></li><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array/" title="K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1">K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/time-complexity-insertion-sort-inversions/" title="Time complexity of insertion sort when there are O(n) inversions?">Time complexity of insertion sort when there are O(n) inversions?</a></li><li><a href="http://www.geeksforgeeks.org/check-two-given-sets-disjoint/" title="How to check if two given sets are disjoint?">How to check if two given sets are disjoint?</a></li><li><a href="http://www.geeksforgeeks.org/minimum-number-platforms-required-railwaybus-station/" title="Minimum Number of Platforms Required for a Railway/Bus Station">Minimum Number of Platforms Required for a Railway/Bus Station</a></li><li><a href="http://www.geeksforgeeks.org/given-two-sorted-arrays-number-x-find-pair-whose-sum-closest-x/" title="Find the closest pair from two sorted arrays">Find the closest pair from two sorted arrays</a></li><li><a href="http://www.geeksforgeeks.org/print-elements-sorted-order-row-column-wise-sorted-matrix/" title="Print all elements in sorted order from row and column wise sorted matrix">Print all elements in sorted order from row and column wise sorted matrix</a></li><li><a href="http://www.geeksforgeeks.org/length-largest-subarray-contiguous-elements-set-1/" title="Length of the largest subarray with contiguous elements | Set 1">Length of the largest subarray with contiguous elements | Set 1</a></li></ul>
+<p></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Ffind-a-sorted-subsequence-of-size-3-in-linear-time%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/find-a-sorted-subsequence-of-size-3-in-linear-time/" data-text="Find a sorted subsequence of size 3 in linear time" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/find-a-sorted-subsequence-of-size-3-in-linear-time/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-32170">
+        <div id="dsq-comment-header-32170" class="dsq-comment-header">
+            <cite id="dsq-cite-32170">
+                <span id="dsq-author-user-32170">xxmajia</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32170" class="dsq-comment-body">
+            <div id="dsq-comment-message-32170" class="dsq-comment-message"><p>for finding any length of sequence, we can just sort the array using O(nlgn) time based on the INDEX, then just run a LIS on it</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-32162">
+        <div id="dsq-comment-header-32162" class="dsq-comment-header">
+            <cite id="dsq-cite-32162">
+                <span id="dsq-author-user-32162">Sumit Monga</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32162" class="dsq-comment-body">
+            <div id="dsq-comment-message-32162" class="dsq-comment-message"><p>for doing it for 4 numbers , i &lt; j &lt; k &lt; l such that arr[i] &lt; arr[j] &lt; arr[k] &lt; arr[l],we can find smaller for j and greater for k and then between iterate for j and k in between using a list(serving purpose of a stack),see the code if you can understand it:</p>
+<p> void find4Numbers(int arr[], int n)</p>
+<p>{</p>
+<p>   int max = n-1; //Index of maximum element from right side for k</p>
+<p>   int min = 0; //Index of minimum element from left side for j</p>
+<p>   int i;</p>
+<p>   // Create an array that will store index of a smaller</p>
+<p>   // element on left side. If there is no smaller element</p>
+<p>   // on left side, then smaller[i] will be -1.</p>
+<p>   int *smaller = new int[n];</p>
+<p>   smaller[0] = -1;  // first entry will always be -1</p>
+<p>   for (i = 1; i &lt; n; i++)</p>
+<p>   {</p>
+<p>       if (arr[i] = 0; i&#8211;)</p>
+<p>   {</p>
+<p>       if (arr[i] &gt;= arr[max])</p>
+<p>       {</p>
+<p>          max = i;</p>
+<p>          greater[i] = -1;</p>
+<p>       }</p>
+<p>       else</p>
+<p>          greater[i] = max;</p>
+<p>   }</p>
+<p>   // Now find a number which has both a greater number on</p>
+<p>   // right side and smaller number on left side</p>
+<p>   //now preprocessing the k part from the back</p>
+<p>   listl;</p>
+<p>   for(i = n-2; i &gt;= 1; i&#8211;)          // k can be atmost n-2 and minimum 2, 1 also included </p>
+<p>                                       //as j can start from 1.</p>
+<p>   { </p>
+<p>       if(greater[i] == -1)        //ignore this element</p>
+<p>       continue;</p>
+<p>       if(!l.empty())</p>
+<p>       {</p>
+<p>           while(!l.empty() &amp;&amp; arr[i] &gt; arr[l.front()])</p>
+<p>           l.pop_front();</p>
+<p>           if(!l.empty() &amp;&amp; smaller[i] != -1)</p>
+<p>           printf(&#8220;n An example: %d  %d  %d  %d&#8221;,arr[smaller[i]],arr[i],arr[l.front()],arr[greater[l.front()]]);</p>
+<p>       }</p>
+<p>       l.push_front(i);  </p>
+<p>   } </p>
+<p>   // Free the dynamically alloced memory to avoid memory leak</p>
+<p>   delete [] smaller;</p>
+<p>   delete [] greater;   </p>
+<p>}</p>
+<p>`</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-32161">
+        <div id="dsq-comment-header-32161" class="dsq-comment-header">
+            <cite id="dsq-cite-32161">
+                <span id="dsq-author-user-32161">Sumit Monga</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32161" class="dsq-comment-body">
+            <div id="dsq-comment-message-32161" class="dsq-comment-message"><p>for doing it for 4 numbers , i &lt; j &lt; k &lt; l such that arr[i] &lt; arr[j] &lt; arr[k] &lt; arr[l],we can find smaller for j and greater for k and then between iterate for j and k in between using a list(serving purpose of a stack),see the code if you can understand it:</p>
+<p>void find4Numbers(int arr[], int n)</p>
+<p>{</p>
+<p>   int max = n-1; //Index of maximum element from right side for k</p>
+<p>   int min = 0; //Index of minimum element from left side for j</p>
+<p>   int i;</p>
+<p>   // Create an array that will store index of a smaller</p>
+<p>   // element on left side. If there is no smaller element</p>
+<p>   // on left side, then smaller[i] will be -1.</p>
+<p>   int *smaller = new int[n];</p>
+<p>   smaller[0] = -1;  // first entry will always be -1</p>
+<p>   for (i = 1; i &lt; n; i++)</p>
+<p>   {</p>
+<p>       if (arr[i] = 0; i&#8211;)</p>
+<p>   {</p>
+<p>       if (arr[i] &gt;= arr[max])</p>
+<p>       {</p>
+<p>          max = i;</p>
+<p>          greater[i] = -1;</p>
+<p>       }</p>
+<p>       else</p>
+<p>          greater[i] = max;</p>
+<p>   }</p>
+<p>   // Now find a number which has both a greater number on</p>
+<p>   // right side and smaller number on left side</p>
+<p>   //now preprocessing the k part from the back</p>
+<p>   listl;</p>
+<p>   //list::iterator it;</p>
+<p>   for(i = n-2; i &gt;= 1; i&#8211;)          // k can be atmost n-2 and minimum 2, 1 also included </p>
+<p>                                       //as j can start from 1.</p>
+<p>   { </p>
+<p>       if(greater[i] == -1)        //ignore this element</p>
+<p>       continue;</p>
+<p>       if(!l.empty())</p>
+<p>       {</p>
+<p>           while(!l.empty() &amp;&amp; arr[i] &gt; arr[l.front()])</p>
+<p>           l.pop_front();</p>
+<p>           if(!l.empty() &amp;&amp; smaller[i] != -1)</p>
+<p>           printf(&#8220;n An example: %d  %d  %d  %d&#8221;,arr[smaller[i]],arr[i],arr[l.front()],arr[greater[l.front()]]);</p>
+<p>       }</p>
+<p>       l.push_front(i);  </p>
+<p>   } </p>
+<p>   // Free the dynamically alloced memory to avoid memory leak</p>
+<p>   delete [] smaller;</p>
+<p>   delete [] greater;   </p>
+<p>}</p>
+<p>`</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-28913">
+        <div id="dsq-comment-header-28913" class="dsq-comment-header">
+            <cite id="dsq-cite-28913">
+                <span id="dsq-author-user-28913">asunel</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28913" class="dsq-comment-body">
+            <div id="dsq-comment-message-28913" class="dsq-comment-message"><p>Can be done using only one extra array !!!</p>
+<p>See <a href="http://ajscodeblog.blogspot.in/2013/10/sorted-subsequence-of-size-3-in-on-time.html" rel="nofollow">http://ajscodeblog.blogspot.in/2013/10/sorted-subsequence-of-size-3-in-on-time.html</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-nishant08 even thread-even depth-1" id="dsq-comment-25068">
+        <div id="dsq-comment-header-25068" class="dsq-comment-header">
+            <cite id="dsq-cite-25068">
+                <span id="dsq-author-user-25068">nishant08</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-25068" class="dsq-comment-body">
+            <div id="dsq-comment-message-25068" class="dsq-comment-message"><pre> <code language="C">
+plz tell me if there is a problem
+#include&lt;stdio.h&gt;
+main()
+{
+	int arr[10],i,j=0,n,t[3];
+	printf(&quot;enter no. of elements- &quot;);
+	scanf(&quot;%d&quot;, &amp;n);
+	for(i=0;i&lt;n;i++)
+	{
+		printf(&quot;enter data- &quot;);
+		scanf(&quot;%d&quot;, &amp;arr[i]);
+	}
+	for(i=0;i&lt;n;i++)
+	{
+		if(j==0)		
+		t[j]=arr[i];
+		
+		if(arr[i]&lt;arr[i+1])
+		{
+			j++;
+			t[j]=arr[i+1];
+			if(j==2)
+			{
+				for(i=0;i&lt;=2;i++)
+				printf(&quot;%d &quot;, t[i]);
+				break;
+			}
+		}
+		else  if(i==n-2)
+		break;
+	}
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-22226">
+        <div id="dsq-comment-header-22226" class="dsq-comment-header">
+            <cite id="dsq-cite-22226">
+http://stackoverflow.com/users/1737817/nikunj-banka                <span id="dsq-author-user-22226">Nikunj Banka</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22226" class="dsq-comment-body">
+            <div id="dsq-comment-message-22226" class="dsq-comment-message"><p>see this:</p>
+<p><a href="http://stackoverflow.com/questions/17654673/find-a-sorted-subsequence-of-size-4-in-an-array-in-linear-time" rel="nofollow">http://stackoverflow.com/questions/17654673/find-a-sorted-subsequence-of-size-4-in-an-array-in-linear-time</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-aspire even thread-even depth-1" id="dsq-comment-22181">
+        <div id="dsq-comment-header-22181" class="dsq-comment-header">
+            <cite id="dsq-cite-22181">
+                <span id="dsq-author-user-22181">aspire</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22181" class="dsq-comment-body">
+            <div id="dsq-comment-message-22181" class="dsq-comment-message"><p>I have a solution with O(n) time complexity and O(1) space.<br />
+Please correct me if i am wrong.</p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+
+int find3Size(int a[],int n)
+{
+    int mn=0,mx=n-1,i=1,j=n-2;
+    if(n&lt;3)
+        return -1;
+
+    while(j&gt;=i)
+    {
+        if(a[j]&gt;=a[mx])
+            mx=j--;
+        else
+            j--;
+        if(a[i]&lt;=a[mn])
+            mn=i++;
+        else
+            i++;
+
+        if(a[i]&gt;a[mn]&amp;&amp;a[i]&lt;a[mx])
+        {
+            printf(&quot;%d %d %d\n&quot;,a[mn],a[i],a[mx]);
+            return 1;
+        }
+        else if(a[j]&gt;a[mn]&amp;&amp;a[j]&lt;a[mx])
+        {
+            printf(&quot;%d %d %d\n&quot;,a[mn],a[j],a[mx]);
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int main()
+{
+    int a[]={4, 3, 2, 1},n;
+    n=sizeof(a)/sizeof(a[0]);
+    if(find3Size(a,n))
+        printf(&quot;Triplet exists\n&quot;);
+    else
+        printf(&quot; NO Triplet exists\n&quot;);
+    return 0;
+}
+
+</code> </pre>
+<p>This runs for all the above test cases and some additional test cases that i checked.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-25402">
+        <div id="dsq-comment-header-25402" class="dsq-comment-header">
+            <cite id="dsq-cite-25402">
+                <span id="dsq-author-user-25402">Sourabh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-25402" class="dsq-comment-body">
+            <div id="dsq-comment-message-25402" class="dsq-comment-message"><p>Yes you are missing Half of the range to check.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-skulldude even thread-odd thread-alt depth-1" id="dsq-comment-21984">
+        <div id="dsq-comment-header-21984" class="dsq-comment-header">
+            <cite id="dsq-cite-21984">
+                <span id="dsq-author-user-21984">skulldude</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21984" class="dsq-comment-body">
+            <div id="dsq-comment-message-21984" class="dsq-comment-message"><p>In the above code, I think it is not necessary to check whether the first and last elements have smaller and larger elements as it will always be -1.</p>
+<p>Below is the code to solve the problem.</p>
+<pre> <code language="C">
+
+// minLeft[i] - Minimum element from a[0] to a[i]
+// maxRight[i] - Maximum element from a[len-1] to a[i]
+
+void find3Numbers(int a[],int len){
+	if(!a || len&lt;=2){
+		printf(&quot;Invalid\n&quot;);
+		return;
+	}
+	
+	int *minLeft=new int[len],*maxRight=new int[len];
+	minLeft[0]=a[0],maxLeft[len-1]=a[len-1];
+	
+	for(int i=1;i&lt;len;++i){
+		minLeft[i]=min(minLeft[i-1],a[i]);
+		maxRight[len-i-1]=max(maxRight[len-i],a[len-i-1]);
+	}
+	
+	for(int i=1;i&lt;len-1;++i){
+		if(minLeft[i-1]&lt;a[i] &amp;&amp; a[i]&lt;maxRight[i+1]){
+                        // we have found the solution
+			printf(&quot;%d %d %d\n&quot;,minLeft[i-1],a[i],maxRight[i+1]);
+			return;
+		}
+	}
+	
+	printf(&quot;No such sequence found\n&quot;);
+	return;
+}
+	
+</code> </pre>
+<p>Please comment, if you find any bugs in the code.</p>
+<p>-Balasubramanian.N</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-aspire odd alt depth-2" id="dsq-comment-22182">
+        <div id="dsq-comment-header-22182" class="dsq-comment-header">
+            <cite id="dsq-cite-22182">
+                <span id="dsq-author-user-22182">aspire</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22182" class="dsq-comment-body">
+            <div id="dsq-comment-message-22182" class="dsq-comment-message"><p>I have a solution with O(n) time complexity and O(1) space.<br />
+Please correct me if i am wrong.</p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+
+int find3Size(int a[],int n)
+{
+    int mn=0,mx=n-1,i=1,j=n-2;
+    if(n&lt;3)
+        return -1;
+
+    while(j&gt;=i)
+    {
+        if(a[j]&gt;=a[mx])
+            mx=j--;
+        else
+            j--;
+        if(a[i]&lt;=a[mn])
+            mn=i++;
+        else
+            i++;
+
+        if(a[i]&gt;a[mn]&amp;&amp;a[i]&lt;a[mx])
+        {
+            printf(&quot;%d %d %d\n&quot;,a[mn],a[i],a[mx]);
+            return 1;
+        }
+        else if(a[j]&gt;a[mn]&amp;&amp;a[j]&lt;a[mx])
+        {
+            printf(&quot;%d %d %d\n&quot;,a[mn],a[j],a[mx]);
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int main()
+{
+    int a[]={4, 3, 2, 1},n;
+    n=sizeof(a)/sizeof(a[0]);
+    if(find3Size(a,n))
+        printf(&quot;Triplet exists\n&quot;);
+    else
+        printf(&quot; NO Triplet exists\n&quot;);
+    return 0;
+}
+
+</code> </pre>
+<p>This runs for all the above test cases and some additional test cases that i checked.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-15614">
+        <div id="dsq-comment-header-15614" class="dsq-comment-header">
+            <cite id="dsq-cite-15614">
+                <span id="dsq-author-user-15614">Ganesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15614" class="dsq-comment-body">
+            <div id="dsq-comment-message-15614" class="dsq-comment-message"><p>You can find java code here:</p>
+<p>/**<br />
+ * Given an array of n integers, find the 3 elements such that a[i] &lt; a[j] &lt; a[k] and i &lt; j &lt; k in 0(n) time.<br />
+ * If there are multiple such triplets, then print any one of them.<br />
+ * Example: Input:  arr[] = {12, 11, 10, 5, 6, 2, 30}	Output: 5, 6, 30<br />
+ * @author GAPIITD<br />
+ *<br />
+ */<br />
+public class SortedSubsequenceOfSize3 {</p>
+<p>	public static void main(String[] args) {<br />
+		int arr[] =  {12, 11, 10, 5, 6, 2, 30};<br />
+		int small[] = new int[arr.length];<br />
+		int large[] = new int[arr.length];<br />
+		small[0] = large[arr.length &#8211; 1] = -1;<br />
+		int min = arr[0], max = arr[arr.length &#8211; 1];<br />
+		// Create an array that will store index of a smaller element on left side.<br />
+		// If there is no smaller element on left side, then smaller[i] will be -1.<br />
+		for (int i = 1; i &lt; arr.length; i++) {<br />
+			if (arr[i] &lt; min) {<br />
+				small[i] = -1;<br />
+				min = arr[i];<br />
+			}<br />
+			else small[i] = min;<br />
+		}<br />
+		// Create another array that will store index of a greater element on right side.<br />
+		// If there is no greater element on right side, then greater[i] will be -1.<br />
+		for (int i = arr.length &#8211; 2; i &gt; 0; i&#8211;) {<br />
+			if (arr[i] &gt; max) {<br />
+				large[i] = -1;<br />
+				max = arr[i];<br />
+			}<br />
+			else large[i] = max;<br />
+		}<br />
+		// Now find a number which has both a greater number on right side and smaller number on left side<br />
+		for (int i = 0; i &lt; arr.length; i++) {<br />
+			if (small[i] != -1 &amp;&amp; large[i] != -1) {<br />
+				System.out.println(small[i] + &quot; &quot; + arr[i] + &quot; &quot; + large[i]);<br />
+			}<br />
+		}<br />
+	}<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-15311">
+        <div id="dsq-comment-header-15311" class="dsq-comment-header">
+            <cite id="dsq-cite-15311">
+                <span id="dsq-author-user-15311">azee</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15311" class="dsq-comment-body">
+            <div id="dsq-comment-message-15311" class="dsq-comment-message"><p>Can&#8217;t we user longest increasing subsequence logic for this problem. And using longest subsequence problem we print all subsequences with length more than or equal to 3. In this way we get all combinations of sorted subsequence of size 3. If I am wrong, please let me know where this logic might go wrong.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-15572">
+        <div id="dsq-comment-header-15572" class="dsq-comment-header">
+            <cite id="dsq-cite-15572">
+                <span id="dsq-author-user-15572">Paparao Veeragandham</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15572" class="dsq-comment-body">
+            <div id="dsq-comment-message-15572" class="dsq-comment-message"><p>It will take O(nlogn) time.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-15573">
+        <div id="dsq-comment-header-15573" class="dsq-comment-header">
+            <cite id="dsq-cite-15573">
+                <span id="dsq-author-user-15573">Paparao Veeragandham</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15573" class="dsq-comment-body">
+            <div id="dsq-comment-message-15573" class="dsq-comment-message"><p>Please post solution for sorted sequence of size 4 in linear time</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-10465">
+        <div id="dsq-comment-header-10465" class="dsq-comment-header">
+            <cite id="dsq-cite-10465">
+                <span id="dsq-author-user-10465">VikasG</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10465" class="dsq-comment-body">
+            <div id="dsq-comment-message-10465" class="dsq-comment-message"><p>I think this will work. Let me know if you can spot any issues.</p>
+<pre> <code language="C">
+void printSubSequence3(int array[], int n) {
+    //error checking
+    assert( n &gt;= 3 );
+
+    int p = -1; // index of min0
+    int q = -1; // index of min1
+    int r = -1; // index of min2
+
+    for (int i = 1; i &lt; n ; i++) {
+        //compare i with i - 1
+        if (array[i] &gt; array[i-1]) { //found increasing subSequence
+            if ( p == -1 &amp;&amp; q == -1) {
+                //Our new subSequence is array[i-1], array[i], ?
+                q = i;
+                p = i - 1;
+            } else {
+                assert ( p != -1);
+                assert ( q != -1);
+                if (array[i] &gt; array[q]) { // case I
+                    //Our subSequence is array[p], array[q], array[i]
+                    cout &lt;&lt; array[p] &lt;&lt; &quot;,&quot; &lt;&lt; array[q] &lt;&lt; &quot;,&quot; &lt;&lt; array[i] &lt;&lt; endl;
+                    return;
+                } else if (array[i] &lt; array[q]) {
+                    if (array[i] &gt; array[p]) { //case 3
+                        //we have new element for q. Our new subSequence is array[p], array[i], ?
+                        q = i;
+                    } else if (array[i] &lt; array[p]) { //case 4
+                        //Our new subSequence is array[i-1], array[i], ?
+                        q = i;
+                        p = i - 1;
+                    }
+                }
+            }
+        } 
+    }
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-10329">
+        <div id="dsq-comment-header-10329" class="dsq-comment-header">
+            <cite id="dsq-cite-10329">
+                <span id="dsq-author-user-10329">Amandeep Gautam</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10329" class="dsq-comment-body">
+            <div id="dsq-comment-message-10329" class="dsq-comment-message"><p>I think that this algorithm will also work. If any mistakes please point out.</p>
+<p>// initialize four variables to 0.<br />
+int i=0, j=0, k=0, counter=0<br />
+//start parsing the array.<br />
+while ( a[i] <a>j<br />
+    if ( a[counter] &gt; a[j] ) {<br />
+        //print the answer<br />
+        break;<br />
+    }<br />
+    else if ( a[counter] &gt; a[i] &amp;&amp; a[counter] &lt; a[j] ) {<br />
+        j=counter;<br />
+        if ( k!=0 ) {<br />
+            i=k;<br />
+            k=0;<br />
+        }<br />
+    }<br />
+    else if ( (a[counter] &lt; a[i]) || (a[counter]&lt; a[k]) ) {<br />
+        k=counter;<br />
+    }</a></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-10466">
+        <div id="dsq-comment-header-10466" class="dsq-comment-header">
+            <cite id="dsq-cite-10466">
+                <span id="dsq-author-user-10466">Amandeep Gautam</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10466" class="dsq-comment-body">
+            <div id="dsq-comment-message-10466" class="dsq-comment-message"><p>The above algorithm is o(n) time and O(1) space.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-9561">
+        <div id="dsq-comment-header-9561" class="dsq-comment-header">
+            <cite id="dsq-cite-9561">
+http://ideone.com/oLETc                <span id="dsq-author-user-9561">lfenjoy9</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9561" class="dsq-comment-body">
+            <div id="dsq-comment-message-9561" class="dsq-comment-message"><pre> <code language="Java">
+        // find the first adjacent elements in ascending order and continue find the next adjacent elements
+        // compare the two pairs of adjacent elements
+        // A[x] &gt; A[i] =&gt; i, x, x + 1
+        // A[x+1] &gt; A[j] =&gt; i, j, x + 1
+        // set i to x and j to x + 1 and otherwise continue 
+        public void find(int[] A)
+        {
+                int i = -1;
+                int j = -1;
+                int k = -1;
+                int x = 0;
+                int l = A.length;
+                while(x &lt; l - 2 &amp;&amp; A[x+1] &lt;= A[x]) x++;
+                if(x &lt; l - 2) {
+                        i = x;
+                        j = x + 1;
+                        x++;
+                        while(x &lt; l - 1) {
+                                if(A[x+1] &gt; A[x]) {
+                                        if(A[x] &gt; A[i]) {
+                                                j = x;
+                                                k = x + 1;
+                                                break;
+                                        } else if(A[x+1] &gt; A[j]) {
+                                                k = x + 1;
+                                                break;
+                                        } else {
+                                                i = x;
+                                                j = x + 1;
+                                        }
+                                }
+                                x++;
+                        }
+                }
+                if(-1 &lt; i &amp;&amp; i &lt; j &amp;&amp; j &lt; k &amp;&amp; k &lt; l) System.out.println(String.format(&quot;%d %d %d&quot;, A[i], A[j], A[k]));
+ 
+        }
+</code> </pre>
+<p>space complexity O(1)<br />
+time complexity O(n)</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-18245">
+        <div id="dsq-comment-header-18245" class="dsq-comment-header">
+            <cite id="dsq-cite-18245">
+                <span id="dsq-author-user-18245">Nirdesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18245" class="dsq-comment-body">
+            <div id="dsq-comment-message-18245" class="dsq-comment-message"><p>Your soluation will not work for input :</p>
+<p> { 1,12, 11, 2, -2,-5,10 }</p>
+<p>where expected result is : 1,2,10 but your program prints nothings.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-9443">
+        <div id="dsq-comment-header-9443" class="dsq-comment-header">
+            <cite id="dsq-cite-9443">
+                <span id="dsq-author-user-9443">nitin gupta iitian</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9443" class="dsq-comment-body">
+            <div id="dsq-comment-message-9443" class="dsq-comment-message"><pre> <code language="C"></code> </pre>
+<p>/* Paste your code here (You may delete these lines if not writing code) */<br />
+[@geeksforgeeks<br />
+Its very easy dud<br />
+it like a maximum and minimum problem </p>
+<p>Logic is very simple<br />
+actually we have to first find the minimum value .once we encounter minimum value at index i we need to find greater value<br />
+greater than previous value<br />
+    {12, 11, 10, 5, 6, 2, 30,5,3,32,2,40};<br />
+first we found minimum value 11 then 10 then 5 (since 6 &gt; 5 )<br />
+now we find greater value&#8217;s which is greater to previous one<br />
+we have 5 now next is 6 next is 30 next is 32 and 40</p>
+<p>EASY NA!<br />
+I DON&#8217;T KNOW WHY YOU NEED TWO ARRAY ?<br />
+]</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-9444">
+        <div id="dsq-comment-header-9444" class="dsq-comment-header">
+            <cite id="dsq-cite-9444">
+                <span id="dsq-author-user-9444">andrew</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9444" class="dsq-comment-body">
+            <div id="dsq-comment-message-9444" class="dsq-comment-message"><p>this will be wrong in case:</p>
+<p>{12, 11, 10, 5, 6, 2, 3, 4}</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-9442">
+        <div id="dsq-comment-header-9442" class="dsq-comment-header">
+            <cite id="dsq-cite-9442">
+                <span id="dsq-author-user-9442">NITIN GUPTA IITIAN</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9442" class="dsq-comment-body">
+            <div id="dsq-comment-message-9442" class="dsq-comment-message"><p>@geeksforgeeks<br />
+Its very easy dud<br />
+it like a maximum and minimum problem </p>
+<p>simplest Logic is<br />
+actually we have to first find the minimum value .once we encounter minimum value at index i we need to find greater value<br />
+greater than previous value<br />
+    {12, 11, 10, 5, 6, 2, 30,5,3,32,2,40};<br />
+first we found minimum value 11 then 10 then 5 (since 6 &gt; 5 )<br />
+now we find greater value&#8217;s which is greater to previous one<br />
+we have 5 now next is 6 next is 30 next is 32 and 40</p>
+<p>EASY NA!</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-9359">
+        <div id="dsq-comment-header-9359" class="dsq-comment-header">
+            <cite id="dsq-cite-9359">
+                <span id="dsq-author-user-9359">lohith</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9359" class="dsq-comment-body">
+            <div id="dsq-comment-message-9359" class="dsq-comment-message"><pre> <code language="Java">
+import java.util.ArrayList;
+
+
+public class subsequence3 {
+	
+	
+	public static int array[] = {5,2,6,3,4};
+	
+	public static void main(String str[]){
+		
+		ArrayList&lt;Integer&gt; inn = new ArrayList&lt;Integer&gt;();
+		for(int i=0;i&lt;array.length;i++){
+			inn.add(i);
+		}
+
+		ArrayList&lt;Integer&gt; resu = Subsequence(inn,0);
+		
+		for(int i=0;i&lt;resu.size();i++){
+			System.out.println(array[resu.get(i)]);
+		}
+		
+	}
+
+	
+	private static ArrayList&lt;Integer&gt; Subsequence(ArrayList&lt;Integer&gt; arr,int foundIndex) {
+	
+		
+		
+		if(foundIndex&lt;3 &amp;&amp; arr!=null  &amp;&amp; !arr.isEmpty()){
+			
+			
+			for(int i=0;i&lt;arr.size();i++){
+				int curr =  array[arr.get(i)];
+				ArrayList&lt;Integer&gt; temp = new ArrayList&lt;Integer&gt;();
+				for(int j=i+1;j&lt;arr.size();j++){
+					if(curr &lt; array[arr.get(j)]){
+						temp.add(arr.get(j));
+					}
+				}
+				
+				ArrayList&lt;Integer&gt; temp1 = Subsequence(temp,foundIndex+1);
+				if(temp1.size() == (3-(foundIndex+1))){
+			    ArrayList&lt;Integer&gt; answer = new ArrayList&lt;Integer&gt;();
+				answer.add(arr.get(i));
+				answer.addAll(temp1);
+				return answer;
+ 
+				}
+			}
+			
+			
+			
+		}
+
+		return arr;
+	}
+
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-9337">
+        <div id="dsq-comment-header-9337" class="dsq-comment-header">
+            <cite id="dsq-cite-9337">
+                <span id="dsq-author-user-9337">lei</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9337" class="dsq-comment-body">
+            <div id="dsq-comment-message-9337" class="dsq-comment-message"><p>build auxiliary array will be o(n*n); so average it is not o(n)</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-9342">
+        <div id="dsq-comment-header-9342" class="dsq-comment-header">
+            <cite id="dsq-cite-9342">
+                <span id="dsq-author-user-9342">ashu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9342" class="dsq-comment-body">
+            <div id="dsq-comment-message-9342" class="dsq-comment-message"><p>you can build your auxillary array using stack. it will take o(n) time.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-9343">
+        <div id="dsq-comment-header-9343" class="dsq-comment-header">
+            <cite id="dsq-cite-9343">
+                <span id="dsq-author-user-9343">ashu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9343" class="dsq-comment-body">
+            <div id="dsq-comment-message-9343" class="dsq-comment-message"><p>you can build auxiliary array using stack in o(n) time.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-9322">
+        <div id="dsq-comment-header-9322" class="dsq-comment-header">
+            <cite id="dsq-cite-9322">
+                <span id="dsq-author-user-9322">Ashu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9322" class="dsq-comment-body">
+            <div id="dsq-comment-message-9322" class="dsq-comment-message"><p>I think approach for 4 increasing sorted sub-sequence is same , you need to store indexes of next bigger element of a[i] in greater[i] and last smaller element of a[i] in smaller[i].</p>
+<p>then for every index you can check if for index i , (smaller[i]!=-1 and smaller[smaller[i]] != -1 and greater[i]!=-1)  or( smaller[i]!=-1 and greater[i]!=-1 and greater[greater[i]])</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-9234">
+        <div id="dsq-comment-header-9234" class="dsq-comment-header">
+            <cite id="dsq-cite-9234">
+                <span id="dsq-author-user-9234">souvik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9234" class="dsq-comment-body">
+            <div id="dsq-comment-message-9234" class="dsq-comment-message"><p>O(n) time O(1) space for the 3 element problem</p>
+<pre> <code language="C">
+void find(int x[],int n)
+{
+ int i=0,j=n,k=n,l;
+ if(n&lt;3)
+  {
+     printf(&quot;Not enough elements&quot;);
+     return;
+  }
+  for(l=1;l&lt;n;l++)
+  {
+    if(j==n)
+      {
+        if(x[l]&gt;x[i])
+           j=l;
+         else
+           i=l;
+      }
+     else
+       {
+         if(x[l]&gt;x[j])
+         {
+            printf(&quot;%d %d %d&quot;,i,j,l);
+            return; 
+         }
+        else
+         {
+          if(k==n)
+            k=l;
+          else
+           {
+             if(x[l]&lt;=x[k])
+               k=l;
+             else
+             {
+               i=k;
+               j=l;
+               k=n;
+             }
+           }
+         }
+       }  
+    }
+     printf(&quot;No such subsequence found&quot;);
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-9265">
+        <div id="dsq-comment-header-9265" class="dsq-comment-header">
+            <cite id="dsq-cite-9265">
+                <span id="dsq-author-user-9265">anonymous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9265" class="dsq-comment-body">
+            <div id="dsq-comment-message-9265" class="dsq-comment-message"><p>@souvik<br />
+You should always put comments in your code so that one can understand what&#8217;s going on inside the code</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-9223">
+        <div id="dsq-comment-header-9223" class="dsq-comment-header">
+            <cite id="dsq-cite-9223">
+                <span id="dsq-author-user-9223">Anurag Singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9223" class="dsq-comment-body">
+            <div id="dsq-comment-message-9223" class="dsq-comment-message"><p>Exercise 1:<br />
+Find a subsequence of size 3 such that arr[i]  arr[k]</p>
+<p>Here we will calculate two smaller arrays, say smaller1 and smaller2.<br />
+smaller1 array will be exactly same as smaller array in solution of original problem (store the index of a smaller number on the left side)<br />
+smaller2 will be opposite, it will store the index of a smaller number in right side.</p>
+<p>Now traverse smaller1 and smaller2 arrays, find an index i where<br />
+smaller1[i] != -1 &amp;&amp; smaller2[i] != -1</p>
+<p>And then expected output will be:<br />
+arr[smaller1[i]], arr[i], arr[smaller2[i]]</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-15981">
+        <div id="dsq-comment-header-15981" class="dsq-comment-header">
+            <cite id="dsq-cite-15981">
+                <span id="dsq-author-user-15981">Aadarsh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15981" class="dsq-comment-body">
+            <div id="dsq-comment-message-15981" class="dsq-comment-message"><p>Pretty simple. Liked it. We can also have a third auxialiary array which will store the second max or second min(whichever the case maybe) for every index. </p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-9216">
+        <div id="dsq-comment-header-9216" class="dsq-comment-header">
+            <cite id="dsq-cite-9216">
+                <span id="dsq-author-user-9216">Anurag Singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9216" class="dsq-comment-body">
+            <div id="dsq-comment-message-9216" class="dsq-comment-message"><p>Exercise 2:<br />
+Find a sorted subsequence of size 4 in linear time </p>
+<p>Here we will calculate greater and smaller arrays as is.<br />
+Now if at all, there is an sorted subsequence of size 4, then there will be two different index i and j (i &lt; j) such that<br />
+smaller[i] != -1 &amp;&amp; greater[i] != -1, also<br />
+smaller[j] != -1 &amp;&amp; greater[j] != -1</p>
+<p>i and j can be found by traversing forward and backward in same loop. and then 4 sorted subsequences will be<br />
+arr[smaller[i]], arr[i], arr[j], arr[greater[j]]</p>
+<p>if no such i and j found, then there is no sorted subsequence of size 4.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-9022">
+        <div id="dsq-comment-header-9022" class="dsq-comment-header">
+            <cite id="dsq-cite-9022">
+                <span id="dsq-author-user-9022">Game</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9022" class="dsq-comment-body">
+            <div id="dsq-comment-message-9022" class="dsq-comment-message"><p>Apparently you have not free&#8217;d the memory you new&#8217;d.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-9047">
+        <div id="dsq-comment-header-9047" class="dsq-comment-header">
+            <cite id="dsq-cite-9047">
+                <span id="dsq-author-user-9047">geeksforgeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9047" class="dsq-comment-body">
+            <div id="dsq-comment-message-9047" class="dsq-comment-message"><p>@game: Thanks for pointing this out. We have added code to delete dynamically allocated memory. Keep it up!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8993">
+        <div id="dsq-comment-header-8993" class="dsq-comment-header">
+            <cite id="dsq-cite-8993">
+                <span id="dsq-author-user-8993">Ankush</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8993" class="dsq-comment-body">
+            <div id="dsq-comment-message-8993" class="dsq-comment-message"><p>Any approach in linear time to size 4 increasing sorted sub-sequence problem?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-9323">
+        <div id="dsq-comment-header-9323" class="dsq-comment-header">
+            <cite id="dsq-cite-9323">
+                <span id="dsq-author-user-9323">Ashu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9323" class="dsq-comment-body">
+            <div id="dsq-comment-message-9323" class="dsq-comment-message"><p>I think approach for 4 increasing sorted sub-sequence is same , you need to store indexes of next bigger element of a[i] in greater[i] and last smaller element of a[i] in smaller[i].</p>
+<p>then for every index you can check if for index i , (smaller[i]!=-1 and smaller[smaller[i]] != -1 and greater[i]!=-1)  or( smaller[i]!=-1 and greater[i]!=-1 and greater[greater[i]])</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-8992">
+        <div id="dsq-comment-header-8992" class="dsq-comment-header">
+            <cite id="dsq-cite-8992">
+                <span id="dsq-author-user-8992">Ankush</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8992" class="dsq-comment-body">
+            <div id="dsq-comment-message-8992" class="dsq-comment-message"><p>Any approach to the sorted sub-sequence of size 4 problem??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-8990">
+        <div id="dsq-comment-header-8990" class="dsq-comment-header">
+            <cite id="dsq-cite-8990">
+                <span id="dsq-author-user-8990">Nicam</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8990" class="dsq-comment-body">
+            <div id="dsq-comment-message-8990" class="dsq-comment-message"><p>O(n) solution with O(1) space</p>
+<pre> <code language="Java">
+    public ArrayList&lt;Integer&gt; find3Numbers (int[] a) {
+    	if (a == null || a.length &lt; 3) return null;
+    	int i = -1, j = -1;
+    	ArrayList&lt;Integer&gt; ans = new ArrayList&lt;Integer&gt;(3);
+    	
+    	for (int k = 1; k &lt; a.length; ++k) {
+    		if (i != -1 &amp;&amp; j != -1 &amp;&amp; a[k] &gt; a[j]) {   			
+    			ans.add(a[i]);
+    			ans.add(a[j]);
+    			ans.add(a[k]);
+    			return ans;
+    		} else if (a[k] &gt; a[k-1]) {
+    			if (i != -1 &amp;&amp; j != -1) {
+    				i = (a[k-1] &lt; a[i]) ? k-1 : i;
+    				j = (a[k] &lt; a[j]) ? k : j;
+    			} else {
+    				i = k-1;
+    				j = k;
+    			}
+    		}
+    	}
+    	
+    	return ans;
+    }
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-8991">
+        <div id="dsq-comment-header-8991" class="dsq-comment-header">
+            <cite id="dsq-cite-8991">
+                <span id="dsq-author-user-8991">Nicam</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8991" class="dsq-comment-body">
+            <div id="dsq-comment-message-8991" class="dsq-comment-message"><p>Corrected one logic bug, the code wasn&#8217;t working on {5,2,6,3,4}, now should be okay</p>
+<pre> <code language="Java">
+    public ArrayList&lt;Integer&gt; find3Numbers (int[] a) {
+    	if (a == null || a.length &lt; 3) return null;
+    	int i = -1, j = -1;
+    	ArrayList&lt;Integer&gt; ans = new ArrayList&lt;Integer&gt;(3);
+    	
+    	for (int k = 1; k &lt; a.length; ++k) {
+    		if (i != -1 &amp;&amp; j != -1 &amp;&amp; a[k] &gt; a[j]) {   			
+    			ans.add(a[i]);
+    			ans.add(a[j]);
+    			ans.add(a[k]);
+    			return ans;
+    		} else if (a[k] &gt; a[k-1]) {
+    			if (i != -1 &amp;&amp; j != -1) {
+    				i = (a[k-1] &lt; a[i]) ? k-1 : i;
+    				j = (a[k] &lt; a[j]) ? k : j;
+    			} else {
+    				i = k-1;
+    				j = k;
+    			}
+    		} else if (i != -1 &amp;&amp; j != -1) {
+    			if (a[k] &gt; a[i] &amp;&amp; a[k] &lt; a[j]) j = k;
+    		}
+    	}
+    	
+    	return ans;
+    }
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-9138">
+        <div id="dsq-comment-header-9138" class="dsq-comment-header">
+            <cite id="dsq-cite-9138">
+                <span id="dsq-author-user-9138">Prem</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9138" class="dsq-comment-body">
+            <div id="dsq-comment-message-9138" class="dsq-comment-message"><p>@Nicam Can u pls explain ur logic?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-8980">
+        <div id="dsq-comment-header-8980" class="dsq-comment-header">
+            <cite id="dsq-cite-8980">
+                <span id="dsq-author-user-8980">Ram</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8980" class="dsq-comment-body">
+            <div id="dsq-comment-message-8980" class="dsq-comment-message"><p>says </p>
+<p>simple</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-8979">
+        <div id="dsq-comment-header-8979" class="dsq-comment-header">
+            <cite id="dsq-cite-8979">
+                <span id="dsq-author-user-8979">doom</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8979" class="dsq-comment-body">
+            <div id="dsq-comment-message-8979" class="dsq-comment-message"><p>Any ideas for exercise 2: Find a sorted subsequence of size 4 in linear time?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-8964">
+        <div id="dsq-comment-header-8964" class="dsq-comment-header">
+            <cite id="dsq-cite-8964">
+                <span id="dsq-author-user-8964">Hamid</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8964" class="dsq-comment-body">
+            <div id="dsq-comment-message-8964" class="dsq-comment-message"><p>I think your original code is not taking care of &#8220;equal to&#8221; condition properly. for example, it will print a sequence on following input:<br />
+8 8 8 8 8 8 8</p>
+<p>I believe that you should &lt;= instead of just &lt; in following statement while filling up smaller array:<br />
+if (arr[i] &lt; arr[min])</p>
+<p>and similar logic needs to be followed while filling up greater array as well.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-8986">
+        <div id="dsq-comment-header-8986" class="dsq-comment-header">
+            <cite id="dsq-cite-8986">
+                <span id="dsq-author-user-8986">geeksforgeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8986" class="dsq-comment-body">
+            <div id="dsq-comment-message-8986" class="dsq-comment-message"><p>@Hamid:<br />
+Thanks for pointing this out. We have changed the condition. Keep it up!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8945">
+        <div id="dsq-comment-header-8945" class="dsq-comment-header">
+            <cite id="dsq-cite-8945">
+                <span id="dsq-author-user-8945">abc</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8945" class="dsq-comment-body">
+            <div id="dsq-comment-message-8945" class="dsq-comment-message"><p>Just thought an algo with only one stack,</p>
+<p>for i = 0 to N and stack.size  a[i], if yes then replace top with a[i], otherwise we have found<br />
+an increasing subsequence add a[i], and set found = 1;<br />
+3. if found is 1 and a[i] <a> a[top-1] replace top with a[i]</p>
+<p>in the end if size of stack is 3 we have found one of the subsequence.</p>
+<p>Sample run for<br />
+arr[] = {12, 11, 10, 5, 6, 2, 30}</p>
+<p>s = 12<br />
+s= 11 ( since a[i] &lt; a[top] )<br />
+s = 10<br />
+s = 5<br />
+s = 5,6 ( a[i] &lt; a[top], found = 1 )<br />
+s= 5,6 ( 2 is not added since, 6  2<br />
+s = 5,6,30 ( output )</p>
+<p>Please comment and let me know cases for which this approach fails.</a></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-9066">
+        <div id="dsq-comment-header-9066" class="dsq-comment-header">
+            <cite id="dsq-cite-9066">
+                <span id="dsq-author-user-9066">anonymous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9066" class="dsq-comment-body">
+            <div id="dsq-comment-message-9066" class="dsq-comment-message"><p>does not work for..<br />
+{12,11,10,5,6,2,3,4}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-8933">
+        <div id="dsq-comment-header-8933" class="dsq-comment-header">
+            <cite id="dsq-cite-8933">
+                <span id="dsq-author-user-8933">manish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8933" class="dsq-comment-body">
+            <div id="dsq-comment-message-8933" class="dsq-comment-message"><p>This is not working, i think the&#8230;solution should contain for arr[] = {1,2,3,4}<br />
+output = {1,2,3},{1,3,4},{1,2,4}and {2,3,4}</p>
+<p>#include &lt;cstdio&gt;<br />
+#include &lt;iostream&gt;<br />
+using namespace std;</p>
+<p>void find3Numbers(int arr[],int n);<br />
+int main()<br />
+{<br />
+	int arr[] = {1,2,3,4};<br />
+	int arr1[] = {12,11,10,5,6,2,30};<br />
+	find3Numbers(arr,sizeof(arr)/sizeof(arr[0]));<br />
+	find3Numbers(arr1,sizeof(arr1)/sizeof(arr1[0]));<br />
+	return 0;<br />
+}</p>
+<p>void find3Numbers(int arr[],int n)<br />
+{<br />
+	int max = n-1;<br />
+	int min = 0;<br />
+	int i;<br />
+	int *smaller = new int[n];<br />
+	smaller[0] = -1;<br />
+	for (i = 1; i &lt; n; i++) {<br />
+		if(arr[i] &lt; arr[min]) {<br />
+			min = i;<br />
+			smaller[i] = -1;<br />
+		} else {<br />
+			smaller[i] = min;<br />
+		}<br />
+	}<br />
+	int *greater = new int[n];<br />
+	greater[n-1] = -1;<br />
+	for(i = n-2; i&gt;=0; i&#8211;) {<br />
+		if(arr[i] &gt; arr[max]) {<br />
+			max = i;<br />
+			greater[i] = -1;<br />
+		} else {<br />
+			greater[i] = max;<br />
+		}<br />
+	}<br />
+	for (i = 0; i &lt; n; i++) {<br />
+		if(smaller[i] != -1 &amp;&amp; greater[i] != -1) {<br />
+			printf(&quot;%d %d %d\n&quot;,arr[smaller[i]],arr[i],arr[greater[i]]);</p>
+<p>		}<br />
+	}<br />
+	return;<br />
+}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-8937">
+        <div id="dsq-comment-header-8937" class="dsq-comment-header">
+            <cite id="dsq-cite-8937">
+                <span id="dsq-author-user-8937">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8937" class="dsq-comment-body">
+            <div id="dsq-comment-message-8937" class="dsq-comment-message"><p>@manish: Please take a closer look at the problem statement. It says print any of the triplets. The program given in post prints {1, 2, 4} for your input which looks correct.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-8976">
+        <div id="dsq-comment-header-8976" class="dsq-comment-header">
+            <cite id="dsq-cite-8976">
+                <span id="dsq-author-user-8976">@geeksforgeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8976" class="dsq-comment-body">
+            <div id="dsq-comment-message-8976" class="dsq-comment-message"><p>thank you&#8230;i got it</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-8932">
+        <div id="dsq-comment-header-8932" class="dsq-comment-header">
+            <cite id="dsq-cite-8932">
+                <span id="dsq-author-user-8932">Saravan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8932" class="dsq-comment-body">
+            <div id="dsq-comment-message-8932" class="dsq-comment-message"><p>Solutions to find first occurrence in passed array!</p>
+<pre> <code language="Java">
+public class FindTriplets {  
+  public static void main(String[] args) {
+    int [] arr1 = {12, 11, 10, 5, 6, 2, 30};
+    int [] arr2 = {1, 2, 3, 4};
+    int [] arr3 = {4, 3, 2, 1};
+    solution1(arr1);
+    solution1(arr2);
+    solution1(arr3);
+    
+    solution2(arr1);
+    solution2(arr2);
+    solution2(arr3);
+  }
+  
+  private static void solution2(int [] arr) {
+    int i = 0;
+    int j = i + 1;
+    int counter = 0;
+    boolean found = false;
+    for (;counter &lt; arr.length - 1;counter ++) {
+      if (arr[i] &lt; arr[j]) {
+        found = true;
+        break;
+      } else {
+        i = j;
+        j = j + 1;
+      }
+    }
+    
+    int k = j + 1;
+    if (found) {
+      for (;counter &lt; arr.length - 1;counter ++) {
+        if (arr[j] &lt; arr[k]) {
+          found = true;
+          break;          
+        } else {
+          k++;
+          found = false;
+        }
+      }
+    }
+    
+    if (found) {
+      System.out.println(&quot;Positions are: &quot; + i + &quot;, &quot; + j + &quot;, &quot; + k);
+      System.out.println(&quot;Values are: &quot; + arr[i] + &quot;, &quot; + arr[j] + &quot;, &quot; + arr[k]);
+    } else {
+      System.out.println(&quot;No expected sequence found!&quot;);
+    }
+  }
+  
+  private static void solution1(int [] arr) {
+    int i = 0;
+    int j = i + 1;
+    int k = j + 1;
+    int counter = 0;
+    boolean iLessJDone = false;
+    boolean jLessKDone = false;
+    for (;counter &lt; arr.length - 2;counter ++) {
+      if (arr[i] &lt; arr[j]) {
+        k = j + 1;
+        iLessJDone = true;
+      } else if (!iLessJDone) {
+        i = j;
+        j = j + 1;
+      }
+      
+      if (iLessJDone &amp;&amp; (arr[j] &lt; arr[k])) {
+        jLessKDone = true;
+        break;
+      } else if (!jLessKDone) {
+        k++;
+      }
+    }
+    
+    if (k &gt;= arr.length) {
+      System.out.println(&quot;No expected sequence found!&quot;);
+    } else {
+      System.out.println(&quot;Positions are: &quot; + i + &quot;, &quot; + j + &quot;, &quot; + k);
+      System.out.println(&quot;Values are: &quot; + arr[i] + &quot;, &quot; + arr[j] + &quot;, &quot; + arr[k]);
+    }
+  }
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-8996">
+        <div id="dsq-comment-header-8996" class="dsq-comment-header">
+            <cite id="dsq-cite-8996">
+                <span id="dsq-author-user-8996">deepesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8996" class="dsq-comment-body">
+            <div id="dsq-comment-message-8996" class="dsq-comment-message"><p>your code doesnot work for  { 10,12,1,2,3};<br />
+any sequence which is first find element in increasing order arr[i] &lt; arr[j] but after that it doesnt not find k which is greater then arr[i] and arr[j] but their is still a seqeunce of increasing order</p>
+<p>/* Paste your code here (You may delete these lines if not writing code) */</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8931">
+        <div id="dsq-comment-header-8931" class="dsq-comment-header">
+            <cite id="dsq-cite-8931">
+                <span id="dsq-author-user-8931">Pramod</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8931" class="dsq-comment-body">
+            <div id="dsq-comment-message-8931" class="dsq-comment-message"><p>I thought of converting the list in binary tree, then realize the objective is to find the triplets. Therefore changed logic to print all triplets found in the given array.</p>
+<p>public class FindTripplets {</p>
+<p>	// A function to find a sorted subsequence of size 3<br />
+	public  void findAnyOneTriplet(int arr[], int n)<br />
+	{</p>
+<p>		List triplets = new ArrayList();<br />
+		Triplet l = new Triplet();<br />
+		l.addNode(arr[0]);<br />
+		triplets.add(l);</p>
+<p>		for (int i =1 ; i &lt; arr.length; i++){</p>
+<p>			int cnt= triplets.size();<br />
+			int value = arr[i];<br />
+			//get the node from array<br />
+			for (int c= 0; c &lt;cnt; c++){</p>
+<p>				Triplet triplet =triplets.get(c);   </p>
+<p>				//check if the current value can be added<br />
+				if(triplet.getCount() &lt; 3 &amp;&amp; triplet.getCurrentValue() &lt; value){<br />
+					triplet.addNode(value);<br />
+				}</p>
+<p>				if(! isExist(triplets, value)){<br />
+					//not , then create triplet and add to the linked list<br />
+					Triplet t = new Triplet();<br />
+					t.addNode(value);<br />
+					triplets.add(t);<br />
+				}</p>
+<p>			}<br />
+		}</p>
+<p>		boolean found =false;<br />
+		for (Triplet triplet : triplets){<br />
+			if(triplet.getCount() == 3){<br />
+				triplet.printList();<br />
+				found = true;<br />
+			}<br />
+		}</p>
+<p>	 if(!found)	{<br />
+	   // If we reach number, then there are no such 3 numbers<br />
+	   System.out.println(&quot;No such triplet found&quot;);<br />
+	 }</p>
+<p>	}</p>
+<p>	private boolean isExist(List triplets, int value) {<br />
+		for (Triplet triplet : triplets){<br />
+			if(triplet.getHeadValue() == value){<br />
+				return true;<br />
+			}<br />
+		}<br />
+		return false;<br />
+	}</p>
+<p>	private class Triplet{<br />
+		Node head;<br />
+		int count;<br />
+		Node lastNode;</p>
+<p>		public Triplet(){</p>
+<p>		}</p>
+<p>		public int getCount(){return count;}</p>
+<p>		public int getHeadValue(){<br />
+			return head.value;<br />
+		}</p>
+<p>		public int getCurrentValue(){<br />
+			return lastNode.value;<br />
+		}</p>
+<p>		public void addNode(int value){<br />
+			if(head == null){<br />
+				head = new Node(value);<br />
+				lastNode = head;<br />
+			}else{<br />
+				Node n = new Node(value);<br />
+				lastNode.setNext(n);<br />
+				lastNode = n;<br />
+			}<br />
+			++count;<br />
+		}</p>
+<p>		public void printList(){<br />
+			Node n = head;<br />
+			while(n != null){<br />
+				System.out.print(n.getValue() + &#8221; &#8221; );<br />
+				n = n.next;<br />
+			}<br />
+			System.out.println();<br />
+		}</p>
+<p>	}</p>
+<p>	private class Node{<br />
+		int value;<br />
+		Node next = null;		</p>
+<p>		public Node( int value){<br />
+			this.value = value;</p>
+<p>		}</p>
+<p>		public int getValue(){ return value;}</p>
+<p>		public Node getNext() {<br />
+			return next;<br />
+		}</p>
+<p>		public void setNext(Node next) {<br />
+			this.next = next;<br />
+		}<br />
+	}</p>
+<p>	public static void main(String[] args){</p>
+<p>		int arr[] = {12, 11, 10, 5, 6, 2, 30};<br />
+		FindTripplets findTripplets = new FindTripplets();<br />
+		findTripplets.findAnyOneTriplet(arr, arr.length);<br />
+		arr = new int[]{1,2,3,4};<br />
+		findTripplets.findAnyOneTriplet(arr, arr.length);<br />
+		arr = new int[]{4,3,2,1};<br />
+		findTripplets.findAnyOneTriplet(arr, arr.length);</p>
+<p>	}</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8928">
+        <div id="dsq-comment-header-8928" class="dsq-comment-header">
+            <cite id="dsq-cite-8928">
+                <span id="dsq-author-user-8928">Guddu sharma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8928" class="dsq-comment-body">
+            <div id="dsq-comment-message-8928" class="dsq-comment-message"><p>Exercise 2<br />
+Find three elements as per above approach. After finding check the following two cases:<br />
+1.search for an element el,from i+1 to j-1,such that el&gt;ar[p] &amp;&amp; elar[p] &amp;&amp; el&lt;ar[p] if yes,o/p the numbers</p>
+<p>/* Paste your code here (You may delete these lines if not writing code) */</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-9028">
+        <div id="dsq-comment-header-9028" class="dsq-comment-header">
+            <cite id="dsq-cite-9028">
+                <span id="dsq-author-user-9028">Camster</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9028" class="dsq-comment-body">
+            <div id="dsq-comment-message-9028" class="dsq-comment-message"><p>Guddu Sharma, Suppose there are multiple triplets and you select the one that cannot be extended to a quartet. The only sure way to select the correct triplet to extend to a quartet is to try all triplets which costs O( n * n ) time. Thank you camster.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-8926">
+        <div id="dsq-comment-header-8926" class="dsq-comment-header">
+            <cite id="dsq-cite-8926">
+                <span id="dsq-author-user-8926">Nitin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8926" class="dsq-comment-body">
+            <div id="dsq-comment-message-8926" class="dsq-comment-message"><p>I propose a O(1) space logic for the same.Please point out if there is any mistake in this.<br />
+Maintain a stack of size 3.I assume that all the elements of the stack are directly accessible (like using array or something similar)<br />
+1) push first element in the stack.iterate through the array.<br />
+Following conditions can occur:<br />
+a). Element(next) is smaller than the only element in the stack.<br />
+-&gt;  Pop the stack and push this element.<br />
+b). Element is greater than this element.<br />
+-&gt;  Push this element onto the stack.<br />
+C). ( When size of stack is 2 )Element is lesser than the top element but greater than the first (bottom) element of the stack<br />
+-&gt;  Pop the stack and push this new element.<br />
+d). (size of stack is 2)Element is greater than top element.<br />
+-&gt; Print the three elements.<br />
+e). (size of stack is 2) Element is smaller than the first element.<br />
+-&gt; Store the top.Pop all the elements.Push the new element.Now if this situation occurs more than one time, store the minimum of the two such top elements (say MIN2). And if while traversing through the array you find any element greater than this MIN2, then you&#8217;ve got those numbers.(Traverse again to find the first number)</p>
+<p>In fact stack is not necessary just keeping track of four variables is sufficient.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-8962">
+        <div id="dsq-comment-header-8962" class="dsq-comment-header">
+            <cite id="dsq-cite-8962">
+                <span id="dsq-author-user-8962">Hamid</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8962" class="dsq-comment-body">
+            <div id="dsq-comment-message-8962" class="dsq-comment-message"><p>I do not understand your point e), can you elaborate more with example? I do not think that your code will work on following input (unless i am missing something in point e):</p>
+<p>8 10 7 8 6 9</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-8988">
+        <div id="dsq-comment-header-8988" class="dsq-comment-header">
+            <cite id="dsq-cite-8988">
+                <span id="dsq-author-user-8988">Gang</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8988" class="dsq-comment-body">
+            <div id="dsq-comment-message-8988" class="dsq-comment-message"><p>The following code is along the line suggested by Nitin, with O(n) time and O(1) space.</p>
+<pre> <code language="C">
+bool FindSortedTriplet(int const A[], int const N, int&amp; x, int&amp; y, int&amp; z)
+{
+  if (A != nullptr &amp;&amp; N &gt; 2) 
+  {
+    int a = numeric_limits&lt;int&gt;::max();
+    int b = a;
+    for (int i = 0; i &lt; N; ++i)
+    {
+      if (A[i] &gt; b)
+      {
+        z = A[i];
+        return true;
+      }        
+      else if (A[i] &gt; a)
+      {
+        x = a;
+        y = b = A[i];
+      }
+      else
+      {
+        a = A[i];
+      }
+    }
+  }
+    
+  return false; 
+}
+
+void testSortedTriplet()
+{
+  {
+    int a, b, c;
+    int const H[] = {12, 11, 10, 5, 6, 2, 30};
+    assert(FindSortedTriplet(H, ARRAY_LENGTH(H), a, b, c));
+    assert(a == 5);
+    assert(b == 6);
+    assert(c == 30);
+  }
+
+  {
+    int a, b, c;
+    int const H[] = {1, 2, 3, 4};
+    assert(FindSortedTriplet(H, ARRAY_LENGTH(H), a, b, c));
+    assert(a == 1);
+    assert(b == 2);
+    assert(c == 3);
+  }
+
+  {
+    int a, b, c;
+    int const H[] = {4, 3, 2, 1};
+    assert(!FindSortedTriplet(H, ARRAY_LENGTH(H), a, b, c));
+  }
+
+  {
+    int a, b, c;
+    int const H[] = {8, 10, 7, 8, 6, 9};
+    assert(FindSortedTriplet(H, ARRAY_LENGTH(H), a, b, c));
+    assert(a == 7);
+    assert(b == 8);
+    assert(c == 9);
+  }  
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-3" id="dsq-comment-9114">
+        <div id="dsq-comment-header-9114" class="dsq-comment-header">
+            <cite id="dsq-cite-9114">
+                <span id="dsq-author-user-9114">Nitin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9114" class="dsq-comment-body">
+            <div id="dsq-comment-message-9114" class="dsq-comment-message"><p>I&#8217;ll explain you using the example you suggested.</p>
+<p>8 : push to stack;                  stack : 8 _ _<br />
+10: push                           stack : 8 10 _<br />
+7 : according to point e, pop all elements<br />
+and store max element i.e. 10       stack : 7 _ _<br />
+8 :                                 stack : 7 8 _<br />
+6 : store min of 10,8 i.e. 8        stack : 6 _ _<br />
+9 : now 9 is &gt; 8 i.e. two elements must&#8217;ve come before 9 that are less than 9, hence the triplet is 7 8 9</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-9324">
+        <div id="dsq-comment-header-9324" class="dsq-comment-header">
+            <cite id="dsq-cite-9324">
+                <span id="dsq-author-user-9324">Ashu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9324" class="dsq-comment-body">
+            <div id="dsq-comment-message-9324" class="dsq-comment-message"><p>But where did you store &#8220;7&#8221; . you removed already 7 from the stack. so how did you know in last triplet is 7 8 9 ???</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-8925">
+        <div id="dsq-comment-header-8925" class="dsq-comment-header">
+            <cite id="dsq-cite-8925">
+                <span id="dsq-author-user-8925">atul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8925" class="dsq-comment-body">
+            <div id="dsq-comment-message-8925" class="dsq-comment-message"><p>just a typo mistake &#8230;. you can correct it if you want&#8230;<br />
+In second part where greater[] is calculated..</p>
+<p>   // Create another array that will store the index of a<br />
+   // greater element on left(right) side. If there is no smaller(greater)<br />
+   // element on left(right) side, then smaller[i](greater[i]) will be -1.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-8927">
+        <div id="dsq-comment-header-8927" class="dsq-comment-header">
+            <cite id="dsq-cite-8927">
+                <span id="dsq-author-user-8927">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8927" class="dsq-comment-body">
+            <div id="dsq-comment-message-8927" class="dsq-comment-message"><p>@atul: Thanks for pointing this out. We have corrected the typo. We always want to correct our errors/mstakes.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8924">
+        <div id="dsq-comment-header-8924" class="dsq-comment-header">
+            <cite id="dsq-cite-8924">
+                <span id="dsq-author-user-8924">raja</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8924" class="dsq-comment-body">
+            <div id="dsq-comment-message-8924" class="dsq-comment-message"><p>Exercise 1. Two smaller arrays are needed: one from left side and other from right side.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8923">
+        <div id="dsq-comment-header-8923" class="dsq-comment-header">
+            <cite id="dsq-cite-8923">
+                <span id="dsq-author-user-8923">raja</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8923" class="dsq-comment-body">
+            <div id="dsq-comment-message-8923" class="dsq-comment-message"><p>sweet and simple. G4G continue to rock</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/find-a-sorted-subsequence-of-size-3-in-linear-time/';
+var disqus_identifier = '19879 http://www.geeksforgeeks.org/?p=19879';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Find a sorted subsequence of size 3 in linear time";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.226 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:35:14 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

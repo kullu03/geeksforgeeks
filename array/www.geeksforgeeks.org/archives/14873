@@ -1,0 +1,1379 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Median in a stream of integers (running integers) - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/median-of-stream-of-integers-running-integers/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Median in a stream of integers (running integers) - GeeksforGeeks" />
+<meta property="og:description" content="Given that integers are read from a data stream. Find median of elements read so for in efficient way. For simplicity assume there are no duplicates. For example, let us consider the stream 5, 15, 1, 3 &#8230; After reading 1st element of stream - 5 -&gt; median - 5 After reading 2nd element of &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/median-of-stream-of-integers-running-integers/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:section" content="Arrays" />
+<meta property="article:published_time" content="2011-10-27T09:59:23+00:00" />
+<meta property="article:modified_time" content="2011-10-29T16:04:37+00:00" />
+<meta property="og:updated_time" content="2011-10-29T16:04:37+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.533 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111408 65.186.69.233';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Median in a stream of integers (running integers)</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given that integers are read from a data stream. Find median of elements read so for in efficient way. For simplicity assume there are no duplicates. For example, let us consider the stream 5, 15, 1, 3 &#8230;</p>
+<pre>After reading 1st element of stream - 5 -&gt; median - 5
+After reading 2nd element of stream - 5, 15 -&gt; median - 10
+After reading 3rd element of stream - 5, 15, 1 -&gt; median - 5
+After reading 4th element of stream - 5, 15, 1, 3 -&gt; median - 4, so on...</pre>
+<p>Making it clear, when the input size is odd, we take the middle element of sorted data. If the input size is even, we pick average of middle two elements in sorted stream.</p>
+<p>Note that output is <em>effective median</em> of integers read from the stream so far. Such an algorithm is called online algorithm. Any algorithm that can guarantee output of <em>i</em>-elements after processing <em>i</em>-th element, is said to be <strong><em>online algorithm</em></strong>. Let us discuss three solutions for the above problem.</p>
+<p><strong>Method 1:</strong> Insertion Sort</p>
+<p>If we can sort the data as it appears, we can easily locate median element. <em>Insertion Sort</em> is one such online algorithm that sorts the data appeared so far. At any instance of sorting, say after sorting <em>i</em>-th element, the first <em>i</em> elements of array are sorted. The insertion sort doesn&#8217;t depend on future data to sort data input till that point. In other words, insertion sort considers data sorted so far while inserting next element. This is the key part of insertion sort that makes it an online algorithm.</p>
+<p>However, insertion sort takes O(n<sup>2</sup>) time to sort <em>n</em> elements. Perhaps we can use <em>binary search</em> on <em>insertion sort</em> to find location of next element in O(log n) time. Yet, we can&#8217;t do data movement in O(log n) time. No matter how efficient the implementation is, it takes polynomial time in case of insertion sort.</p>
+<p>Interested reader can try implementation of Method 1.</p>
+<p><strong>Method 2:</strong> Augmented self balanced binary search tree (AVL, RB, etc&#8230;)</p>
+<p>At every node of BST, maintain number of elements in the subtree rooted at that node. We can use a node as root of simple binary tree, whose left child is self balancing BST with elements less than root and right child is self balancing BST with elements greater than root. The root element always holds <em>effective median</em>.</p>
+<p>If left and right subtrees contain same number of elements, root node holds average of left and right subtree root data. Otherwise, root contains same data as the root of subtree which is having more elements. After processing an incoming element, the left and right subtrees (BST) are differed utmost by 1.</p>
+<p>Self balancing BST is costly in managing balancing factor of BST. However, they provide sorted data which we don&#8217;t need. We need median only. The next method make use of Heaps to trace median.</p>
+<p><strong>Method 3:</strong> Heaps</p>
+<p>Similar to balancing BST in Method 2 above, we can use a max heap on left side to represent elements that are less than <em>effective median</em>, and a min heap on right side to represent elements that are greater than <em>effective median</em>.</p>
+<p>After processing an incoming element, the number of elements in heaps differ utmost by 1 element. When both heaps contain same number of elements, we pick average of heaps root data as <em>effective median</em>. When the heaps are not balanced, we select <em>effective median</em> from the root of heap containing more elements.</p>
+<p>Given below is implementation of above method. For algorithm to build these heaps, please read the highlighted code.</p>
+<pre class="brush: cpp; highlight: [245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,278,279,280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,299,300,301,302,303,304,305,306,307,308,309,310,311,312,313,314,315]; title: ; notranslate" title="">
+#include &lt;iostream&gt;
+using namespace std;
+
+// Heap capacity
+#define MAX_HEAP_SIZE (128)
+#define ARRAY_SIZE(a) sizeof(a)/sizeof(a[0])
+
+//// Utility functions
+
+// exchange a and b
+inline
+void Exch(int &amp;a, int &amp;b)
+{
+    int aux = a;
+    a = b;
+    b = aux;
+}
+
+// Greater and Smaller are used as comparators
+bool Greater(int a, int b)
+{
+    return a &gt; b;
+}
+
+bool Smaller(int a, int b)
+{
+    return a &lt; b;
+}
+
+int Average(int a, int b)
+{
+    return (a + b) / 2;
+}
+
+// Signum function
+// = 0  if a == b  - heaps are balanced
+// = -1 if a &lt; b   - left contains less elements than right
+// = 1  if a &gt; b   - left contains more elements than right
+int Signum(int a, int b)
+{
+    if( a == b )
+        return 0;
+
+    return a &lt; b ? -1 : 1;
+}
+
+// Heap implementation
+// The functionality is embedded into
+// Heap abstract class to avoid code duplication
+class Heap
+{
+public:
+    // Initializes heap array and comparator required
+    // in heapification
+    Heap(int *b, bool (*c)(int, int)) : A(b), comp(c)
+    {
+        heapSize = -1;
+    }
+
+    // Frees up dynamic memory
+    virtual ~Heap()
+    {
+        if( A )
+        {
+            delete[] A;
+        }
+    }
+
+    // We need only these four interfaces of Heap ADT
+    virtual bool Insert(int e) = 0;
+    virtual int  GetTop() = 0;
+    virtual int  ExtractTop() = 0;
+    virtual int  GetCount() = 0;
+
+protected:
+
+    // We are also using location 0 of array
+    int left(int i)
+    {
+        return 2 * i + 1;
+    }
+
+    int right(int i)
+    {
+        return 2 * (i + 1);
+    }
+
+    int parent(int i)
+    {
+        if( i &lt;= 0 )
+        {
+            return -1;
+        }
+
+        return (i - 1)/2;
+    }
+
+    // Heap array
+    int   *A;
+    // Comparator
+    bool  (*comp)(int, int);
+    // Heap size
+    int   heapSize;
+
+    // Returns top element of heap data structure
+    int top(void)
+    {
+        int max = -1;
+
+        if( heapSize &gt;= 0 )
+        {
+            max = A[0];
+        }
+
+        return max;
+    }
+
+    // Returns number of elements in heap
+    int count()
+    {
+        return heapSize + 1;
+    }
+
+    // Heapification
+    // Note that, for the current median tracing problem
+    // we need to heapify only towards root, always
+    void heapify(int i)
+    {
+        int p = parent(i);
+
+        // comp - differentiate MaxHeap and MinHeap
+        // percolates up
+        if( p &gt;= 0 &amp;&amp; comp(A[i], A[p]) )
+        {
+            Exch(A[i], A[p]);
+            heapify(p);
+        }
+    }
+
+    // Deletes root of heap
+    int deleteTop()
+    {
+        int del = -1;
+
+        if( heapSize &gt; -1)
+        {
+            del = A[0];
+
+            Exch(A[0], A[heapSize]);
+            heapSize--;
+            heapify(parent(heapSize+1));
+        }
+
+        return del;
+    }
+
+    // Helper to insert key into Heap
+    bool insertHelper(int key)
+    {
+        bool ret = false;
+
+        if( heapSize &lt; MAX_HEAP_SIZE )
+        {
+            ret = true;
+            heapSize++;
+            A[heapSize] = key;
+            heapify(heapSize);
+        }
+
+        return ret;
+    }
+};
+
+// Specilization of Heap to define MaxHeap
+class MaxHeap : public Heap
+{
+private:
+
+public:
+    MaxHeap() : Heap(new int[MAX_HEAP_SIZE], &amp;Greater)  {  }
+
+    ~MaxHeap()  { }
+
+    // Wrapper to return root of Max Heap
+    int GetTop()
+    {
+        return top();
+    }
+
+    // Wrapper to delete and return root of Max Heap
+    int ExtractTop()
+    {
+        return deleteTop();
+    }
+
+    // Wrapper to return # elements of Max Heap
+    int  GetCount()
+    {
+        return count();
+    }
+
+    // Wrapper to insert into Max Heap
+    bool Insert(int key)
+    {
+        return insertHelper(key);
+    }
+};
+
+// Specilization of Heap to define MinHeap
+class MinHeap : public Heap
+{
+private:
+
+public:
+
+    MinHeap() : Heap(new int[MAX_HEAP_SIZE], &amp;Smaller) { }
+
+    ~MinHeap() { }
+
+    // Wrapper to return root of Min Heap
+    int GetTop()
+    {
+        return top();
+    }
+
+    // Wrapper to delete and return root of Min Heap
+    int ExtractTop()
+    {
+        return deleteTop();
+    }
+
+    // Wrapper to return # elements of Min Heap
+    int  GetCount()
+    {
+        return count();
+    }
+
+    // Wrapper to insert into Min Heap
+    bool Insert(int key)
+    {
+        return insertHelper(key);
+    }
+};
+
+// Function implementing algorithm to find median so far.
+int getMedian(int e, int &amp;m, Heap &amp;l, Heap &amp;r)
+{
+    // Are heaps balanced? If yes, sig will be 0
+    int sig = Signum(l.GetCount(), r.GetCount());
+    switch(sig)
+    {
+    case 1: // There are more elements in left (max) heap
+
+        if( e &lt; m ) // current element fits in left (max) heap
+        {
+            // Remore top element from left heap and
+            // insert into right heap
+            r.Insert(l.ExtractTop());
+
+            // current element fits in left (max) heap
+            l.Insert(e);
+        }
+        else
+        {
+            // current element fits in right (min) heap
+            r.Insert(e);
+        }
+
+        // Both heaps are balanced
+        m = Average(l.GetTop(), r.GetTop());
+
+        break;
+
+    case 0: // The left and right heaps contain same number of elements
+
+        if( e &lt; m ) // current element fits in left (max) heap
+        {
+            l.Insert(e);
+            m = l.GetTop();
+        }
+        else
+        {
+            // current element fits in right (min) heap
+            r.Insert(e);
+            m = r.GetTop();
+        }
+
+        break;
+
+    case -1: // There are more elements in right (min) heap
+
+        if( e &lt; m ) // current element fits in left (max) heap
+        {
+            l.Insert(e);
+        }
+        else
+        {
+            // Remove top element from right heap and
+            // insert into left heap
+            l.Insert(r.ExtractTop());
+
+            // current element fits in right (min) heap
+            r.Insert(e);
+        }
+
+        // Both heaps are balanced
+        m = Average(l.GetTop(), r.GetTop());
+
+        break;
+    }
+
+    // No need to return, m already updated
+    return m;
+}
+
+void printMedian(int A[], int size)
+{
+    int m = 0; // effective median
+    Heap *left  = new MaxHeap();
+    Heap *right = new MinHeap();
+
+    for(int i = 0; i &lt; size; i++)
+    {
+        m = getMedian(A[i], m, *left, *right);
+
+        cout &lt;&lt; m &lt;&lt; endl;
+    }
+
+    // C++ more flexible, ensure no leaks
+    delete left;
+    delete right;
+}
+// Driver code
+int main()
+{
+    int A[] = {5, 15, 1, 3, 2, 8, 7, 9, 10, 6, 11, 4};
+    int size = ARRAY_SIZE(A);
+
+    // In lieu of A, we can also use data read from a stream
+    printMedian(A, size);
+
+    return 0;
+}
+</pre>
+<p><strong>Time Complexity:</strong> If we omit the way how stream was read, complexity of median finding is <em><strong>O(N log N)</strong></em>, as we need to read the stream, and due to heap insertions/deletions.</p>
+<p>At first glance the above code may look complex. If you read the code carefully, it is simple algorithm.</p>
+<p>— <strong><a href="http://www.linkedin.com/in/ramanawithu" target="_blank">Venki</a></strong>. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array-set-2-expected-linear-time/" title="K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)">K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)</a></li><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array/" title="K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1">K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/time-complexity-insertion-sort-inversions/" title="Time complexity of insertion sort when there are O(n) inversions?">Time complexity of insertion sort when there are O(n) inversions?</a></li><li><a href="http://www.geeksforgeeks.org/check-two-given-sets-disjoint/" title="How to check if two given sets are disjoint?">How to check if two given sets are disjoint?</a></li><li><a href="http://www.geeksforgeeks.org/minimum-number-platforms-required-railwaybus-station/" title="Minimum Number of Platforms Required for a Railway/Bus Station">Minimum Number of Platforms Required for a Railway/Bus Station</a></li><li><a href="http://www.geeksforgeeks.org/given-two-sorted-arrays-number-x-find-pair-whose-sum-closest-x/" title="Find the closest pair from two sorted arrays">Find the closest pair from two sorted arrays</a></li><li><a href="http://www.geeksforgeeks.org/print-elements-sorted-order-row-column-wise-sorted-matrix/" title="Print all elements in sorted order from row and column wise sorted matrix">Print all elements in sorted order from row and column wise sorted matrix</a></li><li><a href="http://www.geeksforgeeks.org/length-largest-subarray-contiguous-elements-set-1/" title="Length of the largest subarray with contiguous elements | Set 1">Length of the largest subarray with contiguous elements | Set 1</a></li></ul>
+<p></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fmedian-of-stream-of-integers-running-integers%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/median-of-stream-of-integers-running-integers/" data-text="Median in a stream of integers (running integers)" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/median-of-stream-of-integers-running-integers/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-33063">
+        <div id="dsq-comment-header-33063" class="dsq-comment-header">
+            <cite id="dsq-cite-33063">
+                <span id="dsq-author-user-33063">alien</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33063" class="dsq-comment-body">
+            <div id="dsq-comment-message-33063" class="dsq-comment-message"><p>awesome algorithm.. can it be done inplace with some other algorithm?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-18993">
+        <div id="dsq-comment-header-18993" class="dsq-comment-header">
+            <cite id="dsq-cite-18993">
+                <span id="dsq-author-user-18993">Muthukumar Suresh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18993" class="dsq-comment-body">
+            <div id="dsq-comment-message-18993" class="dsq-comment-message"><p>hey correct me if I am wrong . in method 3, when you are inserting the method seems fine .<br />
+But in the case of extracting max or min , the last element is placed in A[0] . the problem with this algo is that this element in A[0] needs to be sifted down to its proper position . Since this algo of heapify propagates upward . that cant be done . We need to sift down like in a normal heapify procedure</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-19231">
+        <div id="dsq-comment-header-19231" class="dsq-comment-header">
+            <cite id="dsq-cite-19231">
+                <span id="dsq-author-user-19231">Rahul Singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19231" class="dsq-comment-body">
+            <div id="dsq-comment-message-19231" class="dsq-comment-message"><p>Yeah you are right. The heapify for deleteTop needs to sift down the new root.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-18663">
+        <div id="dsq-comment-header-18663" class="dsq-comment-header">
+            <cite id="dsq-cite-18663">
+                <span id="dsq-author-user-18663">Paparao Veeragandham</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18663" class="dsq-comment-body">
+            <div id="dsq-comment-message-18663" class="dsq-comment-message"><p>Method2 &amp;&amp; Method3 does not work :</p>
+<p>Example:<br />
+Max Heap has = 94,90<br />
+Min Heap has = 100<br />
+Median = 97</p>
+<p>If incoming  Element is 96</p>
+<p>case 1:  if ( 96 &lt; 97 )<br />
+      //remove top element from Max Heap &amp; insert into MinHeap</p>
+<p>    Results :   Max Heap has : 90<br />
+                Min Heap has : 94,100<br />
+    // Insert 96 into Max heap </p>
+<p>    Results :   Max Heap has : 96,90<br />
+                Min Heap has : 94,100<br />
+It is wrong According to Solution description.<br />
+Because all elements of MaxHeap are lesser-than MinHeap </p>
+<p>Same Problem present for Method2 also.</p>
+<p>Correct me if i was wrong&#8230;&#8230;&#8230;&#8230;..</p>
+<p>/* Paste your code here (You may delete these lines if not writing code) */</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-22138">
+        <div id="dsq-comment-header-22138" class="dsq-comment-header">
+            <cite id="dsq-cite-22138">
+                <span id="dsq-author-user-22138">Abhishek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22138" class="dsq-comment-body">
+            <div id="dsq-comment-message-22138" class="dsq-comment-message"><p>Look carefully Initially when only 3 elements have been added to the heaps, the median is not 97 as u mentioned. It is 94. So when 96 comes it needs to be added to the min heap. After this operation the median will become 95.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-abhishek08aug odd alt thread-odd thread-alt depth-1" id="dsq-comment-17654">
+        <div id="dsq-comment-header-17654" class="dsq-comment-header">
+            <cite id="dsq-cite-17654">
+                <span id="dsq-author-user-17654">abhishek08aug</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17654" class="dsq-comment-body">
+            <div id="dsq-comment-message-17654" class="dsq-comment-message"><p>Intelligent <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_biggrin.gif" alt=":D" class="wp-smiley" /></p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-17402">
+        <div id="dsq-comment-header-17402" class="dsq-comment-header">
+            <cite id="dsq-cite-17402">
+                <span id="dsq-author-user-17402">sachin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17402" class="dsq-comment-body">
+            <div id="dsq-comment-message-17402" class="dsq-comment-message"><p>Venki,<br />
+How can it be done using Balanced BST?I dont think the root will always hold the median.However,the balance factor can be the size of the subtree if the root will hold the median.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-17095">
+        <div id="dsq-comment-header-17095" class="dsq-comment-header">
+            <cite id="dsq-cite-17095">
+                <span id="dsq-author-user-17095">Rahul Singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17095" class="dsq-comment-body">
+            <div id="dsq-comment-message-17095" class="dsq-comment-message"><p>The deleteTop() function in Method 3 is wrong. I case of deletion we need to sift down from the root after exchanging the root with the last element and decrementing the heapSize by 1. To prove my point consider the test case where the heap is {70, 60, 42, 50, 51, 32, 23, 35, 20, 10, 40, 5, 4}. The given deleteTop() method will not run correctly.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+<ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-27053">
+        <div id="dsq-comment-header-27053" class="dsq-comment-header">
+            <cite id="dsq-cite-27053">
+                <span id="dsq-author-user-27053">Neha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27053" class="dsq-comment-body">
+            <div id="dsq-comment-message-27053" class="dsq-comment-message"><p>IMO that sol doesn&#8217;t handle the constraint that it is a dynamic array, am I missing something?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-27054">
+        <div id="dsq-comment-header-27054" class="dsq-comment-header">
+            <cite id="dsq-cite-27054">
+                <span id="dsq-author-user-27054">Neha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27054" class="dsq-comment-body">
+            <div id="dsq-comment-message-27054" class="dsq-comment-message"><p>IMO that sol doesn&#8217;t handle the constraint that it is a dynamic array, am I missing something?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-16160">
+        <div id="dsq-comment-header-16160" class="dsq-comment-header">
+            <cite id="dsq-cite-16160">
+                <span id="dsq-author-user-16160">gaurav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16160" class="dsq-comment-body">
+            <div id="dsq-comment-message-16160" class="dsq-comment-message"><p>there is one problem in 3rd solution , in case of delete , argument in heapify function seems wrong , argument while deleting in heap should always be 0 , as we have to place root (which was last number in heap ) at correct position&#8230;&#8230;i am talking about max heap &#8230;&#8230;sol given here will again put root element at root</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-15347">
+        <div id="dsq-comment-header-15347" class="dsq-comment-header">
+            <cite id="dsq-cite-15347">
+                <span id="dsq-author-user-15347">Paparao Veeragandham</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15347" class="dsq-comment-body">
+            <div id="dsq-comment-message-15347" class="dsq-comment-message"><pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+<p>In Method2 : No need to maintaing the  elements.</p>
+<p>After inserting an element into balanced BST.<br />
+Find out the left subtree height &amp; Right subtree height<br />
+Depends on it we can take decision about median elements</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-10013">
+        <div id="dsq-comment-header-10013" class="dsq-comment-header">
+            <cite id="dsq-cite-10013">
+                <span id="dsq-author-user-10013">Sreenivas Doosa</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10013" class="dsq-comment-body">
+            <div id="dsq-comment-message-10013" class="dsq-comment-message"><p>@Venki</p>
+<p>The solution using Heap is really awesome and gr8 explanation.<br />
+Keep posting duuuude <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8899">
+        <div id="dsq-comment-header-8899" class="dsq-comment-header">
+            <cite id="dsq-cite-8899">
+                <span id="dsq-author-user-8899">Bhavesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8899" class="dsq-comment-body">
+            <div id="dsq-comment-message-8899" class="dsq-comment-message"><p>please check for array ={5,15,1,3,2,8,7,9,10,11}<br />
+ans appears  to be wrong when inserting 11 </p>
+<p>please do reply soon</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-8900">
+        <div id="dsq-comment-header-8900" class="dsq-comment-header">
+            <cite id="dsq-cite-8900">
+                <span id="dsq-author-user-8900">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8900" class="dsq-comment-body">
+            <div id="dsq-comment-message-8900" class="dsq-comment-message"><p>I tried running the code for your input and got the following output<br />
+5<br />
+10<br />
+5<br />
+4<br />
+3<br />
+4<br />
+5<br />
+6<br />
+7<br />
+8<br />
+The output looks correct. Could you post the complete code that you tried?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-8214">
+        <div id="dsq-comment-header-8214" class="dsq-comment-header">
+            <cite id="dsq-cite-8214">
+                <span id="dsq-author-user-8214">BlackMath</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8214" class="dsq-comment-body">
+            <div id="dsq-comment-message-8214" class="dsq-comment-message"><p>There is some problem in method3.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-8901">
+        <div id="dsq-comment-header-8901" class="dsq-comment-header">
+            <cite id="dsq-cite-8901">
+                <span id="dsq-author-user-8901">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8901" class="dsq-comment-body">
+            <div id="dsq-comment-message-8901" class="dsq-comment-message"><p>Please provide more details of your comment. Why do you think that the code will not work? Do you have some sample input for which it didn&#8217;t work?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-7618">
+        <div id="dsq-comment-header-7618" class="dsq-comment-header">
+            <cite id="dsq-cite-7618">
+                <span id="dsq-author-user-7618">par</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7618" class="dsq-comment-body">
+            <div id="dsq-comment-message-7618" class="dsq-comment-message"><p>3rd solution won&#8217;t work in case of -ve values, you would need to change the Heapify() to check for +ve and -ve values.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-6997">
+        <div id="dsq-comment-header-6997" class="dsq-comment-header">
+            <cite id="dsq-cite-6997">
+                <span id="dsq-author-user-6997">Karthick</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6997" class="dsq-comment-body">
+            <div id="dsq-comment-message-6997" class="dsq-comment-message"><p>A very clever method using heaps. Nice explanation.<br />
+But, I felt that it would have been more easily understandable, if the writer of the code had avoided syntaxes that are language specific(eg: using virtual) so that people without the knowledge of the implemented language can understand the code.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-venki bypostauthor odd alt depth-2" id="dsq-comment-7958">
+        <div id="dsq-comment-header-7958" class="dsq-comment-header">
+            <cite id="dsq-cite-7958">
+http://geeksforgeeks.org/?page_id=2                <span id="dsq-author-user-7958">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7958" class="dsq-comment-body">
+            <div id="dsq-comment-message-7958" class="dsq-comment-message"><p>Thanks @Karthick. The idea is to provide simple algorithm in OOP way. Basic C++ skills will be sufficient to follow the code.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-6376">
+        <div id="dsq-comment-header-6376" class="dsq-comment-header">
+            <cite id="dsq-cite-6376">
+                <span id="dsq-author-user-6376">Akshay</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6376" class="dsq-comment-body">
+            <div id="dsq-comment-message-6376" class="dsq-comment-message"><p>Hint: Median Heap ADT</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-6298">
+        <div id="dsq-comment-header-6298" class="dsq-comment-header">
+            <cite id="dsq-cite-6298">
+http://cracktheinterview.org/                <span id="dsq-author-user-6298">vinay polisetti</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6298" class="dsq-comment-body">
+            <div id="dsq-comment-message-6298" class="dsq-comment-message"><p>Can you please gimme the psudocode for method 2. I am fully confused about how it can be implememnted !!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-venki bypostauthor even depth-2" id="dsq-comment-6343">
+        <div id="dsq-comment-header-6343" class="dsq-comment-header">
+            <cite id="dsq-cite-6343">
+http://geeksforgeeks.org/?page_id=2                <span id="dsq-author-user-6343">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6343" class="dsq-comment-body">
+            <div id="dsq-comment-message-6343" class="dsq-comment-message"><p>@Vinay, thanks for pointing this. I guess there seems to be some mistake in method 2. I will update the content. sorry for delay.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-6541">
+        <div id="dsq-comment-header-6541" class="dsq-comment-header">
+            <cite id="dsq-cite-6541">
+http://shashank7s.blogspot.com/                <span id="dsq-author-user-6541">WgpShashank</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6541" class="dsq-comment-body">
+            <div id="dsq-comment-message-6541" class="dsq-comment-message"><p>@Vinay . We  Can  Think Like , insert the elements into bst as they arrives &amp; calculate the tree size after processing ith element . now do inorder traversal till x=size/2 , return  root as median if x is odd<br />
+else return left subtree root + root /2 isn&#8217;t it ?</p>
+<p>its just thought , may not work for all cases , but cover basic idea ?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-6558">
+        <div id="dsq-comment-header-6558" class="dsq-comment-header">
+            <cite id="dsq-cite-6558">
+                <span id="dsq-author-user-6558">kiak</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6558" class="dsq-comment-body">
+            <div id="dsq-comment-message-6558" class="dsq-comment-message"><p>what is x here ? The explaination is confusing too. Please explain clearly if you can.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-6659">
+        <div id="dsq-comment-header-6659" class="dsq-comment-header">
+            <cite id="dsq-cite-6659">
+http://shashank7s.blogspot.com                <span id="dsq-author-user-6659">WgpShashank</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6659" class="dsq-comment-body">
+            <div id="dsq-comment-message-6659" class="dsq-comment-message"><p>@Kiak X is just a varible thats holding the value calculated by size/2 .</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-6294">
+        <div id="dsq-comment-header-6294" class="dsq-comment-header">
+            <cite id="dsq-cite-6294">
+                <span id="dsq-author-user-6294">Manohar Singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6294" class="dsq-comment-body">
+            <div id="dsq-comment-message-6294" class="dsq-comment-message"><p>This can also be done in O(n). Maintain three variables lower,middle and upper. While scanning the inputs keep updating these variables. If n is even median is avg of upper and lower ,otherwise middle is the median.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-venki bypostauthor odd alt depth-2" id="dsq-comment-6296">
+        <div id="dsq-comment-header-6296" class="dsq-comment-header">
+            <cite id="dsq-cite-6296">
+http://geeksforgeeks.org/?page_id=2                <span id="dsq-author-user-6296">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6296" class="dsq-comment-body">
+            <div id="dsq-comment-message-6296" class="dsq-comment-message"><p>@Manohar Singh, The above algorithm is doing same. As per your terminology, lower and upper are maintained in Maxheap and Minheap respectively. Yet the complexity of tracing lower and upper is O(log N) due to heap insertions/deletions.</p>
+<p>Could you please suggest any other better data structure to organize lower half and upper half?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-6660">
+        <div id="dsq-comment-header-6660" class="dsq-comment-header">
+            <cite id="dsq-cite-6660">
+http://shashank7s.blogspot.com                <span id="dsq-author-user-6660">WgpShashank</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6660" class="dsq-comment-body">
+            <div id="dsq-comment-message-6660" class="dsq-comment-message"><p>@Venki 3rd one , Thats NIce Explanation <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /> Keep it UP <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-3" id="dsq-comment-17133">
+        <div id="dsq-comment-header-17133" class="dsq-comment-header">
+            <cite id="dsq-cite-17133">
+                <span id="dsq-author-user-17133">rakesh mahadasa</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17133" class="dsq-comment-body">
+            <div id="dsq-comment-message-17133" class="dsq-comment-message"><p>for method three input [1,2,3,4,5,6,7]<br />
+output must be 1 &#8211; 1 &#8211; 2 &#8211; 2 &#8211; 3 -3 &#8211; 5<br />
+but the program is giving 1-1-2-2-3-4-5 as output something wrong with the answer</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/median-of-stream-of-integers-running-integers/';
+var disqus_identifier = '14873 http://www.geeksforgeeks.org/?p=14873';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Median in a stream of integers (running integers)";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.207 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:33:28 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

@@ -1,0 +1,1655 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Dynamic Programming | Set 7 (Coin Change) - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/dynamic-programming-set-7-coin-change/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Dynamic Programming | Set 7 (Coin Change) - GeeksforGeeks" />
+<meta property="og:description" content="Given a value N, if we want to make change for N cents, and we have infinite supply of each of S = { S1, S2, .. , Sm} valued coins, how many ways can we make the change? The order of coins doesn&#8217;t matter. For example, for N = 4 and S = {1,2,3}, &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/dynamic-programming-set-7-coin-change/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Dynamic Programming" />
+<meta property="article:section" content="Misc" />
+<meta property="article:published_time" content="2012-01-29T22:39:18+00:00" />
+<meta property="article:modified_time" content="2014-02-08T19:21:18+00:00" />
+<meta property="og:updated_time" content="2014-02-08T19:21:18+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.502 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111253 14.139.122.114';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Dynamic Programming | Set 7 (Coin Change)</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given a value N, if we want to make change for N cents, and we have infinite supply of each of S = { S1, S2, .. , Sm} valued coins, how many ways can we make the change? The order of coins doesn&#8217;t matter.<span id="more-17401"></span></p>
+<p>For example, for N = 4 and S = {1,2,3}, there are four solutions: {1,1,1,1},{1,1,2},{2,2},{1,3}. So output should be 4. For N = 10 and S = {2, 5, 3, 6}, there are five solutions: {2,2,2,2,2}, {2,2,3,3}, {2,2,6}, {2,3,5} and {5,5}. So the output should be 5.</p>
+<p><strong>1) Optimal Substructure</strong><br />
+To count total number solutions, we can divide all set solutions in two sets.<br />
+1) Solutions that do not contain mth coin (or Sm).<br />
+2) Solutions that contain at least one Sm.<br />
+Let count(S[], m, n) be the function to count the number of solutions, then it can be written as sum of count(S[], m-1, n) and count(S[], m, n-Sm).</p>
+<p>Therefore, the problem has optimal substructure property as the problem can be solved using solutions to subproblems.  </p>
+<p><strong>2) Overlapping Subproblems</strong><br />
+Following is a simple recursive implementation of the Coin Change problem. The implementation simply follows the recursive structure mentioned above.</p>
+<pre class="brush: cpp; highlight: [3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]; title: ; notranslate" title="">
+#include&lt;stdio.h&gt;
+
+// Returns the count of ways we can sum  S[0...m-1] coins to get sum n
+int count( int S[], int m, int n )
+{
+    // If n is 0 then there is 1 solution (do not include any coin)
+    if (n == 0)
+        return 1;
+    
+    // If n is less than 0 then no solution exists
+    if (n &lt; 0)
+        return 0;
+
+    // If there are no coins and n is greater than 0, then no solution exist
+    if (m &lt;=0 &amp;&amp; n &gt;= 1)
+        return 0;
+
+    // count is sum of solutions (i) including S[m-1] (ii) excluding S[m-1]
+    return count( S, m - 1, n ) + count( S, m, n-S[m-1] );
+}
+
+// Driver program to test above function
+int main()
+{
+    int i, j;
+    int arr[] = {1, 2, 3};
+    int m = sizeof(arr)/sizeof(arr[0]);
+    printf(&quot;%d &quot;, count(arr, m, 4));
+    getchar();
+    return 0;
+}
+</pre>
+<p>It should be noted that the above function computes the same subproblems again and again. See the following recursion tree for S = {1, 2, 3} and n = 5.<br />
+The function C({1}, 3) is called two times.  If we draw the complete tree, then  we can see that there are many subproblems being called more than once.</p>
+<pre>
+C() --> count()
+                              C({1,2,3}, 5)                     
+                           /                \
+                         /                   \              
+             C({1,2,3}, 2)                 C({1,2}, 5)
+            /     \                        /         \
+           /        \                     /           \
+C({1,2,3}, -1)  C({1,2}, 2)        C({1,2}, 3)    C({1}, 5)
+               /     \            /    \            /     \
+             /        \          /      \          /       \
+    C({1,2},0)  C({1},2)   C({1,2},1) C({1},3)    C({1}, 4)  C({}, 5)
+                   / \      / \       / \        /     \    
+                  /   \    /   \     /   \      /       \ 
+                .      .  .     .   .     .   C({1}, 3) C({}, 4)
+                                               /  \
+                                              /    \  
+                                             .      .
+</pre>
+<p>Since same suproblems are called again, this problem has Overlapping Subprolems property. So the Coin Change problem has both properties (see <a href="http://www.geeksforgeeks.org/archives/12635">this </a>and <a href="http://www.geeksforgeeks.org/archives/12819">this</a>) of a dynamic programming problem. Like other typical <a href="http://www.geeksforgeeks.org/archives/tag/dynamic-programming">Dynamic Programming(DP) problems</a>, recomputations of same subproblems can be avoided by constructing a temporary array table[][] in bottom up manner.</p>
+<p><strong>Dynamic Programming Solution</strong></p>
+<pre class="brush: cpp; highlight: [3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]; title: ; notranslate" title="">
+#include&lt;stdio.h&gt;
+
+int count( int S[], int m, int n )
+{
+    int i, j, x, y;
+
+    // We need n+1 rows as the table is consturcted in bottom up manner using 
+    // the base case 0 value case (n = 0)
+    int table[n+1][m];
+   
+    // Fill the enteries for 0 value case (n = 0)
+    for (i=0; i&lt;m; i++)
+        table[0][i] = 1;
+
+    // Fill rest of the table enteries in bottom up manner  
+    for (i = 1; i &lt; n+1; i++)
+    {
+        for (j = 0; j &lt; m; j++)
+        {
+            // Count of solutions including S[j]
+            x = (i-S[j] &gt;= 0)? table[i - S[j]][j]: 0;
+
+            // Count of solutions excluding S[j]
+            y = (j &gt;= 1)? table[i][j-1]: 0;
+
+            // total count
+            table[i][j] = x + y;
+        }
+    }
+    return table[n][m-1];
+}
+
+// Driver program to test above function
+int main()
+{
+    int arr[] = {1, 2, 3};
+    int m = sizeof(arr)/sizeof(arr[0]);
+    int n = 4;
+    printf(&quot; %d &quot;, count(arr, m, n));
+    return 0;
+}
+</pre>
+<p>Time Complexity: O(mn) </p>
+<p>Following is a simplified version of method 2.  The auxiliary space required here is O(n) only. </p>
+<pre class="brush: cpp; highlight: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22]; title: ; notranslate" title="">
+int count( int S[], int m, int n )
+{
+    // table[i] will be storing the number of solutions for
+    // value i. We need n+1 rows as the table is consturcted
+    // in bottom up manner using the base case (n = 0)
+    int table[n+1];
+
+    // Initialize all table values as 0
+    memset(table, 0, sizeof(table));
+
+    // Base case (If given value is 0)
+    table[0] = 1;
+
+    // Pick all coins one by one and update the table[] values
+    // after the index greater than or equal to the value of the
+    // picked coin
+    for(int i=0; i&lt;m; i++)
+        for(int j=S[i]; j&lt;=n; j++)
+            table[j] += table[j-S[i]];
+
+    return table[n];
+}
+</pre>
+<p>Thanks to <a href="http://www.geeksforgeeks.org/archives/17401/comment-page-1#comment-7383">Rohan Laishram</a> for suggesting this space optimized version.</p>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+<p>References:<br />
+<a href="http://www.algorithmist.com/index.php/Coin_Change">http://www.algorithmist.com/index.php/Coin_Change</a></p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/job-sequencing-problem-set-1-greedy-algorithm/" title="Job Sequencing Problem | Set 1 (Greedy Algorithm)">Job Sequencing Problem | Set 1 (Greedy Algorithm)</a></li><li><a href="http://www.geeksforgeeks.org/multiply-two-polynomials-2/" title="Multiply two polynomials">Multiply two polynomials</a></li><li><a href="http://www.geeksforgeeks.org/algorithm-practice-question-beginners-set-1/" title="Algorithm Practice Question for Beginners | Set 1">Algorithm Practice Question for Beginners | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/count-distinct-non-negative-pairs-x-y-satisfy-inequality-xx-yy-n-2/" title="Count Distinct Non-Negative Integer Pairs (x, y) that Satisfy the Inequality x*x + y*y &lt; n">Count Distinct Non-Negative Integer Pairs (x, y) that Satisfy the Inequality x*x + y*y < n</a></li><li><a href="http://www.geeksforgeeks.org/binomial-heap-2/" title="Binomial Heap">Binomial Heap</a></li><li><a href="http://www.geeksforgeeks.org/print-increasing-sequences-length-k-first-n-natural-numbers/" title="Print all increasing sequences of length k from first n natural numbers">Print all increasing sequences of length k from first n natural numbers</a></li><li><a href="http://www.geeksforgeeks.org/find-nth-number-number-system-3-4/" title="Find n&#8217;th number in a number system with only 3 and 4">Find n&#8217;th number in a number system with only 3 and 4</a></li><li><a href="http://www.geeksforgeeks.org/minimum-cost-polygon-triangulation/" title="Minimum Cost Polygon Triangulation">Minimum Cost Polygon Triangulation</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/dynamic-programming/" rel="tag">Dynamic Programming</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fdynamic-programming-set-7-coin-change%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/dynamic-programming-set-7-coin-change/" data-text="Dynamic Programming | Set 7 (Coin Change)" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/dynamic-programming-set-7-coin-change/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-34818">
+        <div id="dsq-comment-header-34818" class="dsq-comment-header">
+            <cite id="dsq-cite-34818">
+                <span id="dsq-author-user-34818">rockon</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34818" class="dsq-comment-body">
+            <div id="dsq-comment-message-34818" class="dsq-comment-message"><p>@geeksforgeeks:disqus<br />
+That was very helpful. I have one question though.<br />
+How would I find the number of ways  to make the change when order of coin matters ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-34630">
+        <div id="dsq-comment-header-34630" class="dsq-comment-header">
+            <cite id="dsq-cite-34630">
+                <span id="dsq-author-user-34630">Ashish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34630" class="dsq-comment-body">
+            <div id="dsq-comment-message-34630" class="dsq-comment-message"><p>Hello,<br />
+Anyone plz tell the method how we can print all solutions possible for coin change&#8230;&#8230;..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-34179">
+        <div id="dsq-comment-header-34179" class="dsq-comment-header">
+            <cite id="dsq-cite-34179">
+                <span id="dsq-author-user-34179">Wellwisher</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34179" class="dsq-comment-body">
+            <div id="dsq-comment-message-34179" class="dsq-comment-message"><p>C# implementation of Vending machine problem through a DP approach.</p>
+<p><a href="http://onestopinterviewprep.blogspot.com/2014/03/vending-machine-problem-dynamic.html" rel="nofollow">http://onestopinterviewprep.blogspot.com/2014/03/vending-machine-problem-dynamic.html</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-33542">
+        <div id="dsq-comment-header-33542" class="dsq-comment-header">
+            <cite id="dsq-cite-33542">
+                <span id="dsq-author-user-33542">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33542" class="dsq-comment-body">
+            <div id="dsq-comment-message-33542" class="dsq-comment-message"><p>For the input n=4 ,m=3 and s={1,2,3} I get table something like<br />
+1 1 1<br />
+1 1 1<br />
+1 2 2<br />
+1 2 3<br />
+1 3 4 </p>
+<p>Can somebody explain the meaning of table?</p>
+<p>How to interpret the statement </p>
+<p>// Count of solutions including S[j]<br />
+x = (i-S[j] &gt;= 0)? table[i &#8211; S[j]][j]: 0;  as Count of solutions including S[j] ?</p>
+<p>            // Count of solutions excluding S[j]<br />
+y = (j &gt;= 1)? table[i][j-1]: 0; as Count of solutions excluding S[j] ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-32463">
+        <div id="dsq-comment-header-32463" class="dsq-comment-header">
+            <cite id="dsq-cite-32463">
+                <span id="dsq-author-user-32463">Paparao Veeragandham</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32463" class="dsq-comment-body">
+            <div id="dsq-comment-message-32463" class="dsq-comment-message"><p>Rohan Laishram implemetation does not &#8211; Idea is good<br />
+Full code here:<br />
+#include<br />
+#include<br />
+#include<br />
+int minCoins( int a[], int N, int S )<br />
+{<br />
+/* N: Length of the array */<br />
+    int i , j, sum[S + 1 ];</p>
+<p>        memset(sum, 0 , sizeof(sum));<br />
+        sum[0] = 1;<br />
+//        for(i = 0 ; i&lt; N; i++)<br />
+   //      sum[a[i] ] =1;</p>
+<p>        for ( i = 0 ; i &lt; N ; i++)<br />
+        {<br />
+        for ( j = a[i] ; j &lt;= S ; j++)<br />
+        {<br />
+             if ( j == a[i])<br />
+                sum[a[i]] = 1;<br />
+            else if( sum[j &#8211; a[i]])<br />
+            {</p>
+<p>           sum[j] = sum[j &#8211; a[i]] + 1;<br />
+            }<br />
+         }<br />
+        }<br />
+for( i = 0 ; i &lt;= S; i++)<br />
+printf(&quot;%d &quot;, sum[i]);<br />
+printf(&quot;Endn&quot;);<br />
+    if ( sum[S] == 0 ) return -1;</p>
+<p>    return sum[S];</p>
+<p>}<br />
+int main()<br />
+{<br />
+ int a[5] = { 1,3,5};<br />
+  printf(&quot;%d&quot;, minCoins(a,3,12) );<br />
+return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-32462">
+        <div id="dsq-comment-header-32462" class="dsq-comment-header">
+            <cite id="dsq-cite-32462">
+                <span id="dsq-author-user-32462">Paparao Veeragandham</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32462" class="dsq-comment-body">
+            <div id="dsq-comment-message-32462" class="dsq-comment-message"><p>Rohan Lai</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-32220">
+        <div id="dsq-comment-header-32220" class="dsq-comment-header">
+            <cite id="dsq-cite-32220">
+                <span id="dsq-author-user-32220">naresh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32220" class="dsq-comment-body">
+            <div id="dsq-comment-message-32220" class="dsq-comment-message"><p>typo: &#8220;The function C({1,3}, 1) is called two times&#8221;. It should be &#8220;The function C({1},3) is called two times&#8221;.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-32346">
+        <div id="dsq-comment-header-32346" class="dsq-comment-header">
+            <cite id="dsq-cite-32346">
+                <span id="dsq-author-user-32346">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32346" class="dsq-comment-body">
+            <div id="dsq-comment-message-32346" class="dsq-comment-message"><p>Thanks for pointing this out.  We have updated the post.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-31979">
+        <div id="dsq-comment-header-31979" class="dsq-comment-header">
+            <cite id="dsq-cite-31979">
+                <span id="dsq-author-user-31979">nikelback</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31979" class="dsq-comment-body">
+            <div id="dsq-comment-message-31979" class="dsq-comment-message"><p>what&#8217;s the explanation of the optimized version?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-31675">
+        <div id="dsq-comment-header-31675" class="dsq-comment-header">
+            <cite id="dsq-cite-31675">
+                <span id="dsq-author-user-31675">neelabhsingh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31675" class="dsq-comment-body">
+            <div id="dsq-comment-message-31675" class="dsq-comment-message"><p>@geeksforgeeks In 2) Overlapping Subproblems last line<br />
+return count( S, m &#8211; 1, n ) + count( S, m, n-S[m-1] );<br />
+// count is sum of solutions (i) including S[m-1] (ii) excluding S[m-1], please correct the comment according to the function. like</p>
+<p>count is sum of solutions (i) excluding S[m-1], (ii) including S[m-1]</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-31456">
+        <div id="dsq-comment-header-31456" class="dsq-comment-header">
+            <cite id="dsq-cite-31456">
+                <span id="dsq-author-user-31456">Parantap Sharma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31456" class="dsq-comment-body">
+            <div id="dsq-comment-message-31456" class="dsq-comment-message"><p>while i may be incorrect&#8230; i feel that your first dynamic programming code is wrong&#8230; try it in case: 3 coins 1,3,5 are available one each and you want to get a sum of 2 out of those&#8230; your code is saying that there is one way to do so&#8230; while the correct answer is that no such way exists&#8230;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-31459">
+        <div id="dsq-comment-header-31459" class="dsq-comment-header">
+            <cite id="dsq-cite-31459">
+                <span id="dsq-author-user-31459">Parantap Sharma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31459" class="dsq-comment-body">
+            <div id="dsq-comment-message-31459" class="dsq-comment-message"><p>and the correct code according to me is:</p>
+<p>if(j!=0) x=(i-S[j]&gt;=0)?table[i-S[j]][j-1]:0;</p>
+<p>else x=(i-S[j]==0)?1:0;</p>
+<p>instead of that one line:</p>
+<p>x = (i-S[j] &gt;= 0)? table[i &#8211; S[j]][j]: 0;</p>
+<p>please someone clarify my doubt soon</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-30231">
+        <div id="dsq-comment-header-30231" class="dsq-comment-header">
+            <cite id="dsq-cite-30231">
+                <span id="dsq-author-user-30231">praveen selvaraj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30231" class="dsq-comment-body">
+            <div id="dsq-comment-message-30231" class="dsq-comment-message"><p>how do we approach this problem when we can use each coin only once?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-30050">
+        <div id="dsq-comment-header-30050" class="dsq-comment-header">
+            <cite id="dsq-cite-30050">
+                <span id="dsq-author-user-30050">Vivek VV</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30050" class="dsq-comment-body">
+            <div id="dsq-comment-message-30050" class="dsq-comment-message"><p>Can anyone please elaborate how we are splitting the problem in two halves.<br />
+How count(S,m,n) = count(S,m-1,n) + count(S,m,n-S[m])<br />
+Thanks in advance</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-31505">
+        <div id="dsq-comment-header-31505" class="dsq-comment-header">
+            <cite id="dsq-cite-31505">
+                <span id="dsq-author-user-31505">Prashanth</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31505" class="dsq-comment-body">
+            <div id="dsq-comment-message-31505" class="dsq-comment-message"><p>count(S,m-1,n) = excluding the mth coin in the solution    and<br />
+count(S,m,n-S[m]) = including the mth coin in the solution</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-29541">
+        <div id="dsq-comment-header-29541" class="dsq-comment-header">
+            <cite id="dsq-cite-29541">
+                <span id="dsq-author-user-29541">ctrl513</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29541" class="dsq-comment-body">
+            <div id="dsq-comment-message-29541" class="dsq-comment-message"><p><code></p>
+<p>package com.nbethi.top20.dp;</p>
+<p>public class MinCoinNR {</p>
+<p>	public static void main(String args[]) {</p>
+<p>		int[] a = { 2, 3, 5, 6 };</p>
+<p>		// int[] a = { 1, 3, 4 };</p>
+<p>		int s = 119;</p>
+<p>		int res;</p>
+<p>		long start, end;</p>
+<p>		start = System.currentTimeMillis();</p>
+<p>		res = minCoinNR(a, s);</p>
+<p>		end = System.currentTimeMillis();</p>
+<p>		System.out.println(" result : " + res);</p>
+<p>		System.out.println(" time : " + (end - start));</p>
+<p>		System.out.println("DONE");</p>
+<p>	}</p>
+<p>	public static int minCoinNR(int[] a, int s) {</p>
+<p>		int[] MEM = new int[s + 1];</p>
+<p>		int t;</p>
+<p>		for (int i = 0; i &lt; MEM.length; i++) {</p>
+<p>			MEM[i] = Integer.MAX_VALUE - 1;</p>
+<p>		}</p>
+<p>		for (int i = 1; i &lt;= s; i++) {</p>
+<p>			for (int j = 0; j <a> 0)</p>
+<p>					MEM[i] = Math.min(MEM[i], MEM[i - a[j]] + 1);</p>
+<p>				if (t &lt; 0)</p>
+<p>					MEM[i] = Math.min(MEM[i], Integer.MAX_VALUE);</p>
+<p>			}</p>
+<p>		}</p>
+<p>		return MEM[s];</p>
+<p>	}</p>
+<p>}</p>
+<p></a></code></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-29542">
+        <div id="dsq-comment-header-29542" class="dsq-comment-header">
+            <cite id="dsq-cite-29542">
+                <span id="dsq-author-user-29542">ctrl513</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29542" class="dsq-comment-body">
+            <div id="dsq-comment-message-29542" class="dsq-comment-message"><p>this is to print the minimal no of coins required to get the sum S</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-32503">
+        <div id="dsq-comment-header-32503" class="dsq-comment-header">
+            <cite id="dsq-cite-32503">
+                <span id="dsq-author-user-32503">Khajjal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32503" class="dsq-comment-body">
+            <div id="dsq-comment-message-32503" class="dsq-comment-message"><p>Thanks<br />
+very good code.<br />
+could u please explain , why are u initializing the MEM[i] with Integer.MAX_VALUE &#8211; 1</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-27346">
+        <div id="dsq-comment-header-27346" class="dsq-comment-header">
+            <cite id="dsq-cite-27346">
+                <span id="dsq-author-user-27346">Kuldeep Kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27346" class="dsq-comment-body">
+            <div id="dsq-comment-message-27346" class="dsq-comment-message"><p>As simple Solution as recursive one with memoization<br />
+<code><br />
+#include<br />
+#include<br />
+#define n 3<br />
+#define s 50<br />
+using namespace std;<br />
+int arr[]={1,2,3},dp[n+1][s+1];<br />
+int exchange(int i,int num){<br />
+	if(dp[i][num]!=0)<br />
+		return dp[i][num];<br />
+	if(num==0)<br />
+		return 1;<br />
+	 if(num&lt;0)<br />
+		return 0;<br />
+	if (i = 1)<br />
+        return 0;<br />
+	else<br />
+	{<br />
+	dp[i][num]=exchange(i,num-arr[i-1])+exchange(i-1,num);<br />
+	return dp[i][num];<br />
+	}<br />
+}<br />
+int main(){<br />
+	memset(dp,0,sizeof(dp));<br />
+	cout&lt;&lt;exchange(n,s)&lt;&lt;&quot;n&quot;;<br />
+	return 0;<br />
+	}<br />
+</code></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-22912">
+        <div id="dsq-comment-header-22912" class="dsq-comment-header">
+            <cite id="dsq-cite-22912">
+                <span id="dsq-author-user-22912">Vinodhini</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22912" class="dsq-comment-body">
+            <div id="dsq-comment-message-22912" class="dsq-comment-message"><p>How would we modify the logic to print all the combinations?<br />
+I know we could go for recursion. But how could i use the DP table constructed and print them?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-15684">
+        <div id="dsq-comment-header-15684" class="dsq-comment-header">
+            <cite id="dsq-cite-15684">
+                <span id="dsq-author-user-15684">aayushkumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15684" class="dsq-comment-body">
+            <div id="dsq-comment-message-15684" class="dsq-comment-message"><p>suppose we have m coins to achieve n sum nd duplications are allowed why this gives wrongs ans??</p>
+<p>for(i=1;i&lt;=n;i++)<br />
+{<br />
+for(j=0;j&lt;m;j++)<br />
+{<br />
+arr[i]=arr[i]+arr[i-coin[j]];<br />
+}<br />
+ }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-15477">
+        <div id="dsq-comment-header-15477" class="dsq-comment-header">
+            <cite id="dsq-cite-15477">
+http://programearly.com                <span id="dsq-author-user-15477">ProgramEarly</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15477" class="dsq-comment-body">
+            <div id="dsq-comment-message-15477" class="dsq-comment-message"><p>Heard this can solved using stacks/linkedlist with no recursion? Know how to do it?</p>
+<p>Thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-coderace even thread-odd thread-alt depth-1" id="dsq-comment-15345">
+        <div id="dsq-comment-header-15345" class="dsq-comment-header">
+            <cite id="dsq-cite-15345">
+                <span id="dsq-author-user-15345">coderAce</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15345" class="dsq-comment-body">
+            <div id="dsq-comment-message-15345" class="dsq-comment-message"><p>Would really like to thank and encourage GeeksforGeeks for this amazing work they are doing. It&#8217;s really a great collection of resources you are developing and I am finding it extremely helpful to ramp up on algorithms once again as I was out of practice for more than a year or so. Please keep up the good work. A lot of people are getting benefited by your efforts <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-makeit odd alt thread-even depth-1" id="dsq-comment-14944">
+        <div id="dsq-comment-header-14944" class="dsq-comment-header">
+            <cite id="dsq-cite-14944">
+                <span id="dsq-author-user-14944">makeit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14944" class="dsq-comment-body">
+            <div id="dsq-comment-message-14944" class="dsq-comment-message"><p>really nice </p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-9724">
+        <div id="dsq-comment-header-9724" class="dsq-comment-header">
+            <cite id="dsq-cite-9724">
+                <span id="dsq-author-user-9724">atul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9724" class="dsq-comment-body">
+            <div id="dsq-comment-message-9724" class="dsq-comment-message"><p>here is the space optimized code for DP approach :- </p>
+<pre> <code language="C">
+part[0]=1;
+for(i=0;i&lt;n;i++)
+{
+   for(j=arr[i];j&lt;=sum;j++)
+   {
+        part[j]=part[j] + part[j-arr[i]]
+   }
+}
+return part[sum];
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-9725">
+        <div id="dsq-comment-header-9725" class="dsq-comment-header">
+            <cite id="dsq-cite-9725">
+                <span id="dsq-author-user-9725">atul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9725" class="dsq-comment-body">
+            <div id="dsq-comment-message-9725" class="dsq-comment-message"><p>ignore&#8230;.it has been already added&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-9723">
+        <div id="dsq-comment-header-9723" class="dsq-comment-header">
+            <cite id="dsq-cite-9723">
+                <span id="dsq-author-user-9723">atul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9723" class="dsq-comment-body">
+            <div id="dsq-comment-message-9723" class="dsq-comment-message"><pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-9522">
+        <div id="dsq-comment-header-9522" class="dsq-comment-header">
+            <cite id="dsq-cite-9522">
+                <span id="dsq-author-user-9522">lohith</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9522" class="dsq-comment-body">
+            <div id="dsq-comment-message-9522" class="dsq-comment-message"><pre> <code language="Java">
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class Coins {
+
+	/**
+	 * @param args
+	 */
+	
+	
+	
+	
+	public static void main(String[] args) {
+		int N = 4;
+		int[] S = { 1, 2, 3 };
+
+		HashMap&lt;Integer, Integer&gt; map = new HashMap&lt;Integer, Integer&gt;();
+		for(int i=0;i&lt;S.length;i++){
+			map.put(S[i], 0);
+		}
+		ArrayList&lt;HashMap&lt;Integer, Integer&gt;&gt; values = calcualte(N, S,map);
+
+		for (HashMap&lt;Integer, Integer&gt; temp : values)
+			System.out.println(temp);
+
+	}
+
+	private static ArrayList&lt;HashMap&lt;Integer, Integer&gt;&gt; list = new ArrayList&lt;HashMap&lt;Integer, Integer&gt;&gt;();
+
+	private static ArrayList&lt;HashMap&lt;Integer, Integer&gt;&gt; calcualte(int n,
+			int[] s, HashMap&lt;Integer, Integer&gt; map) {
+
+		if (n == 0) {
+			list.add(map);
+			return list;
+		}
+
+		for (int i = 0; i &lt; s.length; i++) {
+			if (n - s[i] &gt;= 0) {
+				
+			     HashMap&lt;Integer, Integer&gt; temp = (HashMap&lt;Integer, Integer&gt;)map.clone();
+				 temp.put( s[i], temp.get(s[i])+1);
+				 calcualte(n- s[i], s,temp);
+				
+			}
+
+		}
+
+		return list;
+	}
+
+}
+
+
+
+
+
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8725">
+        <div id="dsq-comment-header-8725" class="dsq-comment-header">
+            <cite id="dsq-cite-8725">
+                <span id="dsq-author-user-8725">bidisha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8725" class="dsq-comment-body">
+            <div id="dsq-comment-message-8725" class="dsq-comment-message"><p>can you explain the logic&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8515">
+        <div id="dsq-comment-header-8515" class="dsq-comment-header">
+            <cite id="dsq-cite-8515">
+https://sites.google.com/site/kahanirobotic/home                <span id="dsq-author-user-8515">reza</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8515" class="dsq-comment-body">
+            <div id="dsq-comment-message-8515" class="dsq-comment-message"><p>hi.<br />
+help me in state that<br />
+if Coins Can not repeat whats doing???????????????</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-ab even thread-even depth-1" id="dsq-comment-7959">
+        <div id="dsq-comment-header-7959" class="dsq-comment-header">
+            <cite id="dsq-cite-7959">
+                <span id="dsq-author-user-7959">ab</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7959" class="dsq-comment-body">
+            <div id="dsq-comment-message-7959" class="dsq-comment-message"><p>I have a variant of this problem. In some country suppose some of the coins are more popular than other coins, so we need to produce a set which will try to maximize the number of the popular coin. This effort will be aligned with some optimized relation, like maximum x% of increase in the number of coins than the most optimized soln.<br />
+When i tried, it seemed difficult to align the dynamic approach with some given relation, any idea if i try to avoid the recursive approach??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-ajithprasanth odd alt thread-odd thread-alt depth-1" id="dsq-comment-7844">
+        <div id="dsq-comment-header-7844" class="dsq-comment-header">
+            <cite id="dsq-cite-7844">
+                <span id="dsq-author-user-7844">AjithPrasanth</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7844" class="dsq-comment-body">
+            <div id="dsq-comment-message-7844" class="dsq-comment-message"><p>Simple recursive approach, no extra space.</p>
+<pre> <code language="Java">
+import java.util.Arrays;
+
+public class CoinChange {
+	private static int opCount = 0;
+	private static int sum = 10;
+	private static int[] coins = { 2, 5, 3, 6 };
+
+	public static void main(String[] args) {
+		Arrays.sort(coins);
+		coinCount(0, 0);
+		System.out.println(opCount);
+	}
+
+	private static int coinCount(int currValue, int lastEltIndex) {
+		if (currValue == sum) {
+			opCount++;
+			// Indicating to not process any further coins
+			return -1;
+		}
+
+		for (int i = lastEltIndex; i &lt; coins.length; i++) {
+			// Adding the coin would exceed the sum
+			if ((coins[i] + currValue) &gt; sum )
+				break;
+
+			int n = coinCount(currValue + coins[i], i);
+
+			// Sum is already reached
+			if (n == -1)
+				break;
+		}
+
+		return 0;
+	}
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-7596">
+        <div id="dsq-comment-header-7596" class="dsq-comment-header">
+            <cite id="dsq-cite-7596">
+                <span id="dsq-author-user-7596">kartikaditya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7596" class="dsq-comment-body">
+            <div id="dsq-comment-message-7596" class="dsq-comment-message"><p>import java.util.Arrays;</p>
+<p>public class CoinChange {<br />
+    public static int getPossibleAccounting(int sum, int vals[]) {<br />
+        if (sum &lt; 0) {<br />
+            return -1;<br />
+        }<br />
+        if (vals == null || vals.length == 0) {<br />
+            return -1;<br />
+        }<br />
+        Arrays.sort(vals);<br />
+        for (int i = 1; i &lt; vals.length; ++i) {<br />
+            if (vals[i &#8211; 1] == vals[i]) {<br />
+                return -1;<br />
+            }<br />
+        }</p>
+<p>        int dp[] = new int[sum + 1];<br />
+        dp[0] = 1;<br />
+        for (int i = 0; i &lt; vals.length; ++i) {<br />
+            for (int j = vals[i]; j &lt;= sum; ++j) {<br />
+                dp[j] += dp[j &#8211; vals[i]];<br />
+            }<br />
+        }<br />
+        return dp[sum];<br />
+    }</p>
+<p>    public static void main(String[] args) {<br />
+        System.out.println(getPossibleAccounting(4, new int[]{2, 3, 1}));<br />
+        System.out.println(getPossibleAccounting(10, new int[]{2, 3, 5, 6}));<br />
+    }<br />
+}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-8724">
+        <div id="dsq-comment-header-8724" class="dsq-comment-header">
+            <cite id="dsq-cite-8724">
+                <span id="dsq-author-user-8724">bidisha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8724" class="dsq-comment-body">
+            <div id="dsq-comment-message-8724" class="dsq-comment-message"><p>can you explain the logic&#8230;</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-7383">
+        <div id="dsq-comment-header-7383" class="dsq-comment-header">
+            <cite id="dsq-cite-7383">
+http://rohanlaishram.com                <span id="dsq-author-user-7383">Rohan Laishram</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7383" class="dsq-comment-body">
+            <div id="dsq-comment-message-7383" class="dsq-comment-message"><p>A simplified version with reduced space complexity O(n)</p>
+<pre> <code language="C">
+int count( int S[], int m, int n )
+{
+    int table[n+1];
+    memset(table,0,sizeof(table));
+    table[0]=1;
+    for(int i=0;i&lt;m;i++)
+         for(int j=S[i];j&lt;=n;j++)table[j]+=table[j-S[i]];
+    return table[n];
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik odd alt depth-2" id="dsq-comment-7390">
+        <div id="dsq-comment-header-7390" class="dsq-comment-header">
+            <cite id="dsq-cite-7390">
+                <span id="dsq-author-user-7390">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7390" class="dsq-comment-body">
+            <div id="dsq-comment-message-7390" class="dsq-comment-message"><p>@Rohan Laishram: Thanks for suggesting a space optimized version of method 2.  We will analyze it and add if it works fine, then will add it to the original post.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-makeit even depth-2" id="dsq-comment-14945">
+        <div id="dsq-comment-header-14945" class="dsq-comment-header">
+            <cite id="dsq-cite-14945">
+                <span id="dsq-author-user-14945">makeit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14945" class="dsq-comment-body">
+            <div id="dsq-comment-message-14945" class="dsq-comment-message"><p>really nice</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-29540">
+        <div id="dsq-comment-header-29540" class="dsq-comment-header">
+            <cite id="dsq-cite-29540">
+                <span id="dsq-author-user-29540">ctrl513</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29540" class="dsq-comment-body">
+            <div id="dsq-comment-message-29540" class="dsq-comment-message"><p>this does not work table[j-S[i]] might go into negative numbers</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-34169">
+        <div id="dsq-comment-header-34169" class="dsq-comment-header">
+            <cite id="dsq-cite-34169">
+                <span id="dsq-author-user-34169">Zhongen</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34169" class="dsq-comment-body">
+            <div id="dsq-comment-message-34169" class="dsq-comment-message"><p>No, since  j &gt;= S[i]</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-camster odd alt thread-even depth-1" id="dsq-comment-7317">
+        <div id="dsq-comment-header-7317" class="dsq-comment-header">
+            <cite id="dsq-cite-7317">
+                <span id="dsq-author-user-7317">camster</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7317" class="dsq-comment-body">
+            <div id="dsq-comment-message-7317" class="dsq-comment-message"><p>Hi , Here is the proposed combinatorial algebra solution. Thank you.Camster</p>
+<pre> <code language="C">
+5x + 10y + 25z = 100
+
+
+floor(100/10) + 5 = 15
+floor(75/10) + 5  = 12
+floor(50/10) + 5  = 10
+floor(25/10) + 5  =  7
+floor(0/10) + 5   =  5
+
+15 + 12 + 10 + 7 + 5 = 49 ways
+
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik even depth-2" id="dsq-comment-7334">
+        <div id="dsq-comment-header-7334" class="dsq-comment-header">
+            <cite id="dsq-cite-7334">
+                <span id="dsq-author-user-7334">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7334" class="dsq-comment-body">
+            <div id="dsq-comment-message-7334" class="dsq-comment-message"><p>@camster: Could you please explain more about this approach.  Some pseudo code or code in C/C++ would be helpful.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-camster odd alt depth-3" id="dsq-comment-7339">
+        <div id="dsq-comment-header-7339" class="dsq-comment-header">
+            <cite id="dsq-cite-7339">
+                <span id="dsq-author-user-7339">camster</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7339" class="dsq-comment-body">
+            <div id="dsq-comment-message-7339" class="dsq-comment-message"><p>@kartik, The following link explains the approach. Thank you, camster.</p>
+<p><a href="http://answers.yahoo.com/question/index?qid=20101129120409AAinRw6" rel="nofollow">http://answers.yahoo.com/question/index?qid=20101129120409AAinRw6</a></p>
+<pre> <code language="C">
+ 
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-15842">
+        <div id="dsq-comment-header-15842" class="dsq-comment-header">
+            <cite id="dsq-cite-15842">
+                <span id="dsq-author-user-15842">Jasraj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15842" class="dsq-comment-body">
+            <div id="dsq-comment-message-15842" class="dsq-comment-message"><p>wrong answer&#8230;. ans should be 29!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-7301">
+        <div id="dsq-comment-header-7301" class="dsq-comment-header">
+            <cite id="dsq-cite-7301">
+                <span id="dsq-author-user-7301">aayush kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7301" class="dsq-comment-body">
+            <div id="dsq-comment-message-7301" class="dsq-comment-message"><p>what will ans when there is finite supply of coins???</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geek4u even depth-2" id="dsq-comment-7303">
+        <div id="dsq-comment-header-7303" class="dsq-comment-header">
+            <cite id="dsq-cite-7303">
+                <span id="dsq-author-user-7303">geek4u</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7303" class="dsq-comment-body">
+            <div id="dsq-comment-message-7303" class="dsq-comment-message"><p>A recursive implementation of finite supply variation.  One additional parameter C[] is used for given supply of coins.</p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+
+// Returns the count of ways we can sum  S[0...m-1] coins to get sum n
+int count( int S[], int C[], int m, int n )
+{
+    int x = 0;
+
+    // If n is 0 then there is 1 solution (do not include any coin)
+    if (n == 0)
+        return 1;
+
+    // If n is less than 0 then no solution exists
+    if (n &lt; 0)
+        return 0;
+
+    // If there are no coins and n is greater than 0, then no solution exist
+    if (m &lt;=0 &amp;&amp; n &gt;= 1)
+        return 0;
+
+    if (C[m-1] &gt; 0)
+    {
+        C[m-1]--;
+        x = count( S, C, m, n-S[m-1] );
+        C[m-1]++;
+    }
+
+    // count is sum of solutions (i) including S[m-1] (ii) excluding S[m-1]
+    return count( S, C, m - 1, n ) + x;
+}
+
+// Driver program to test above function
+int main()
+{
+    int i, j;
+    int S[] = {1, 2, 3};
+    int C[] = {3, 2, 1};
+
+    // Only two solution {1,1,1,2,3} and {1,2,2,3}
+    int m = sizeof(S)/sizeof(S[0]);
+    int n = 8;
+    printf(&quot;%d &quot;, count(S, C, m, n));
+    getchar();
+    return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-27018">
+        <div id="dsq-comment-header-27018" class="dsq-comment-header">
+            <cite id="dsq-cite-27018">
+                <span id="dsq-author-user-27018">placement jump</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27018" class="dsq-comment-body">
+            <div id="dsq-comment-message-27018" class="dsq-comment-message"><p><a href="http://placementjump.blogspot.in/2013/08/coin-change-problem-in-java-dynamic.html" rel="nofollow">http://placementjump.blogspot.in/2013/08/coin-change-problem-in-java-dynamic.html</a></p>
+<p>I found this very useful and basic.  It is easy to understand and its written in java <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /> </p>
+<p>int minimum(int x,int y,int z){<br />
+   int min;<br />
+   if(x&gt;=y &amp;&amp; z&gt;=y)<br />
+    return y;<br />
+    else<br />
+     if(x&gt;=z)<br />
+      return z;<br />
+     else<br />
+      return x;</p>
+<p>  }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/dynamic-programming-set-7-coin-change/';
+var disqus_identifier = '17401 http://www.geeksforgeeks.org/?p=17401';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Dynamic Programming | Set 7 (Coin Change)";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.213 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:30:53 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

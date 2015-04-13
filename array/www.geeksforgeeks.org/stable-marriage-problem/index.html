@@ -1,0 +1,1418 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Stable Marriage Problem - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/stable-marriage-problem/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Stable Marriage Problem - GeeksforGeeks" />
+<meta property="og:description" content="Given N men and N women, where each person has ranked all members of the opposite sex in order of preference, marry the men and women together such that there are no two people of opposite sex who would both rather have each other than their current partners. If there are no such people, all &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/stable-marriage-problem/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:section" content="Arrays" />
+<meta property="article:published_time" content="2013-07-20T19:38:25+00:00" />
+<meta property="article:modified_time" content="2014-11-08T22:50:56+00:00" />
+<meta property="og:updated_time" content="2014-11-08T22:50:56+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.661 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111571 210.212.53.139 172.19.11.169';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Stable Marriage Problem</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given N men and N women, where each person has ranked all members of the opposite sex in order of preference, marry the men and women together <span id="more-120930"></span>such that there are no two people of opposite sex who would both rather have each other than their current partners. If there are no such people, all the marriages are &#8220;stable&#8221; (Source <a href="http://en.wikipedia.org/wiki/Stable_marriage_problem" target="_blank">Wiki</a>).</p>
+<p>Consider the following example.</p>
+<p>Let there be two men <span style="color: #ff9900;">m1</span> and<span style="color: #ff9900;"> m2</span> and two women <span style="color: #008000;">w1</span> and <span style="color: #008000;">w2</span>.<br />
+Let <span style="color: #ff9900;">m1</span>&#8216;s list of preferences be {<span style="color: #008000;">w1</span>, <span style="color: #008000;">w2</span>}<br />
+Let <span style="color: #ff9900;">m2</span>&#8216;s list of preferences be {<span style="color: #008000;">w1</span>, <span style="color: #008000;">w2</span>}<br />
+Let <span style="color: #008000;">w1</span>&#8216;s list of preferences be {<span style="color: #ff9900;">m1</span>, <span style="color: #ff9900;">m2</span>}<br />
+Let <span style="color: #008000;">w2</span>&#8216;s list of preferences be {<span style="color: #ff9900;">m1</span>, <span style="color: #ff9900;">m2</span>}</p>
+<p>The matching { {<span style="color: #ff9900;">m1</span>, <span style="color: #008000;">w2</span>}, {<span style="color: #008000;">w1</span>, <span style="color: #ff9900;">m2</span>} } is not stable because <span style="color: #ff9900;">m1</span> and <span style="color: #008000;">w1</span> would prefer each other over their assigned partners. The matching {<span style="color: #ff9900;">m1</span>, <span style="color: #008000;">w1</span>} and {<span style="color: #ff9900;">m2</span>, <span style="color: #008000;">w2</span>} is stable because there are no two people of opposite sex that would prefer each other over their assigned partners.</p>
+<p>It is always possible to form stable marriages from lists of preferences (See references for proof). Following is Gale–Shapley algorithm to find a stable matching:<br />
+The idea is to iterate through all free men while there is any free man available. Every free man goes to all women in his preference list according to the order. For every woman he goes to, he checks if the woman is free, if yes, they both become engaged. If the woman is not free, then the woman chooses either says no to him or dumps her current engagement according to her preference list. So an engagement done once can be broken if a woman gets better option.<br />
+Following is complete algorithm from <a href="http://en.wikipedia.org/wiki/Stable_marriage_problem" target="_blank">Wiki</a></p>
+<pre>Initialize all men and women to free
+<strong>while </strong>there exist a free man m who still has a woman w to propose to 
+{
+    w = m's highest ranked such woman to whom he has not yet proposed
+    <strong>if </strong>w is free
+       (m, w) become engaged
+    <strong>else </strong>some pair (m', w) already exists
+       <strong>if </strong>w prefers m to m'
+          (m, w) become engaged
+           m' becomes free
+       <strong>else</strong>
+          (m', w) remain engaged    
+}</pre>
+<p><strong>Input &#038; Output:</strong> Input is a 2D matrix of size (2*N)*N where N is number of women or men.  Rows from 0 to N-1 represent preference lists of men and rows from N to 2*N &#8211; 1 represent preference lists of women.  So men are numbered from 0 to N-1 and women are numbered from N to 2*N &#8211; 1.  The output is list of married pairs. </p>
+<p>Following is C++ implementation of the above algorithm.</p>
+<pre class="brush: cpp; highlight: [28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96]; title: ; notranslate" title="">
+// C++ program for stable marriage problem
+#include &lt;iostream&gt;
+#include &lt;string.h&gt;
+#include &lt;stdio.h&gt;
+using namespace std;
+
+// Number of Men or Women
+#define N  4
+
+// This function returns true if woman 'w' prefers man 'm1' over man 'm'
+bool wPrefersM1OverM(int prefer[2*N][N], int w, int m, int m1)
+{
+    // Check if w prefers m over her current engagment m1
+    for (int i = 0; i &lt; N; i++)
+    {
+        // If m1 comes before m in lisr of w, then w prefers her
+        // cirrent engagement, don't do anything
+        if (prefer[w][i] == m1)
+            return true;
+
+        // If m cmes before m1 in w's list, then free her current
+        // engagement and engage her with m
+        if (prefer[w][i] == m)
+           return false;
+    }
+}
+
+// Prints stable matching for N boys and N girls. Boys are numbered as 0 to
+// N-1. Girls are numbereed as N to 2N-1.
+void stableMarriage(int prefer[2*N][N])
+{
+    // Stores partner of women. This is our output array that
+    // stores paing information.  The value of wPartner[i]
+    // indicates the partner assigned to woman N+i.  Note that
+    // the woman numbers between N and 2*N-1. The value -1
+    // indicates that (N+i)'th woman is free
+    int wPartner[N];
+
+    // An array to store availability of men.  If mFree[i] is
+    // false, then man 'i' is free, otherwise engaged.
+    bool mFree[N];
+
+    // Initialize all men and women as free
+    memset(wPartner, -1, sizeof(wPartner));
+    memset(mFree, false, sizeof(mFree));
+    int freeCount = N;
+
+    // While there are free men
+    while (freeCount &gt; 0)
+    {
+        // Pick the first free man (we could pick any)
+        int m;
+        for (m = 0; m &lt; N; m++)
+            if (mFree[m] == false)
+                break;
+
+        // One by one go to all women according to m's preferences.
+        // Here m is the picked free man
+        for (int i = 0; i &lt; N &amp;&amp; mFree[m] == false; i++)
+        {
+            int w = prefer[m][i];
+
+            // The woman of preference is free, w and m become
+            // partners (Note that the partnership maybe changed
+            // later). So we can say they are engaged not married
+            if (wPartner[w-N] == -1)
+            {
+                wPartner[w-N] = m;
+                mFree[m] = true;
+                freeCount--;
+            }
+
+            else  // If w is not free
+            {
+                // Find current engagement of w
+                int m1 = wPartner[w-N];
+
+                // If w prefers m over her current engagement m1,
+                // then break the engagement between w and m1 and
+                // engage m with w.
+                if (wPrefersM1OverM(prefer, w, m, m1) == false)
+                {
+                    wPartner[w-N] = m;
+                    mFree[m] = true;
+                    mFree[m1] = false;
+                }
+            } // End of Else
+        } // End of the for loop that goes to all women in m's list
+    } // End of main while loop
+
+
+    // Print the solution
+    cout &lt;&lt; &quot;Woman   Man&quot; &lt;&lt; endl;
+    for (int i = 0; i &lt; N; i++)
+       cout &lt;&lt; &quot; &quot; &lt;&lt; i+N &lt;&lt; &quot;\t&quot; &lt;&lt; wPartner[i] &lt;&lt; endl;
+}
+
+// Driver program to test above functions
+int main()
+{
+    int prefer[2*N][N] = { {7, 5, 6, 4},
+        {5, 4, 6, 7},
+        {4, 5, 6, 7},
+        {4, 5, 6, 7},
+        {0, 1, 2, 3},
+        {0, 1, 2, 3},
+        {0, 1, 2, 3},
+        {0, 1, 2, 3},
+    };
+    stableMarriage(prefer);
+
+    return 0;
+}
+</pre>
+<p>Output:</p>
+<pre>Woman   Man
+ 4      2
+ 5      1
+ 6      3
+ 7      0
+</pre>
+<p><strong>References:</strong><br />
+<a href="http://www.csee.wvu.edu/~ksmani/courses/fa01/random/lecnotes/lecture5.pdf" target="_blank">http://www.csee.wvu.edu/~ksmani/courses/fa01/random/lecnotes/lecture5.pdf</a></p>
+<p><a href="http://www.youtube.com/watch?v=5RSMLgy06Ew#t=11m4s">http://www.youtube.com/watch?v=5RSMLgy06Ew#t=11m4s</a></p>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array-set-2-expected-linear-time/" title="K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)">K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)</a></li><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array/" title="K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1">K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/time-complexity-insertion-sort-inversions/" title="Time complexity of insertion sort when there are O(n) inversions?">Time complexity of insertion sort when there are O(n) inversions?</a></li><li><a href="http://www.geeksforgeeks.org/check-two-given-sets-disjoint/" title="How to check if two given sets are disjoint?">How to check if two given sets are disjoint?</a></li><li><a href="http://www.geeksforgeeks.org/minimum-number-platforms-required-railwaybus-station/" title="Minimum Number of Platforms Required for a Railway/Bus Station">Minimum Number of Platforms Required for a Railway/Bus Station</a></li><li><a href="http://www.geeksforgeeks.org/given-two-sorted-arrays-number-x-find-pair-whose-sum-closest-x/" title="Find the closest pair from two sorted arrays">Find the closest pair from two sorted arrays</a></li><li><a href="http://www.geeksforgeeks.org/print-elements-sorted-order-row-column-wise-sorted-matrix/" title="Print all elements in sorted order from row and column wise sorted matrix">Print all elements in sorted order from row and column wise sorted matrix</a></li><li><a href="http://www.geeksforgeeks.org/length-largest-subarray-contiguous-elements-set-1/" title="Length of the largest subarray with contiguous elements | Set 1">Length of the largest subarray with contiguous elements | Set 1</a></li></ul>
+<p></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fstable-marriage-problem%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/stable-marriage-problem/" data-text="Stable Marriage Problem" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/stable-marriage-problem/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-33266">
+        <div id="dsq-comment-header-33266" class="dsq-comment-header">
+            <cite id="dsq-cite-33266">
+                <span id="dsq-author-user-33266">divyansh8063</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33266" class="dsq-comment-body">
+            <div id="dsq-comment-message-33266" class="dsq-comment-message"><p>Using STACK &#8212;<br />
+main()<br />
+{<br />
+    int n,i,j,z,tmp,f1;<br />
+    cin&gt;&gt;n;<br />
+    int a[2*n][n],b[2*n+1];<br />
+    stackmy;<br />
+    REP(i,2*n)<br />
+    {<br />
+        b[i]=-1;<br />
+        REP(j,n)<br />
+            cin&gt;&gt;a[i][j];<br />
+    }<br />
+    REP(i,n) my.push(i);<br />
+    while(!my.empty())<br />
+    {<br />
+        tmp=my.top();<br />
+        my.pop();<br />
+        REP(i,n)<br />
+        {<br />
+            f1=0;<br />
+            z=a[tmp][i];<br />
+            if(b[z]==-1)<br />
+            {    b[z]=tmp; b[tmp]=z; break;    }<br />
+            else<br />
+            {<br />
+                REP(j,n)<br />
+                {<br />
+                    if(a[z][j]==tmp)<br />
+                    {    f1=1; break;    }<br />
+                    else if(a[z][j]==b[z])<br />
+                        break;<br />
+                }<br />
+                if(f1)<br />
+                {    my.push(b[z]); b[z]=tmp; b[tmp]=z; break;    }<br />
+            }<br />
+        }<br />
+    }<br />
+    REP(i,n)<br />
+      cout &lt;&lt; i &lt;&lt; &quot;&#8212;&quot; &lt;&lt; b[i] &lt;&lt; endl ;<br />
+return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-31349">
+        <div id="dsq-comment-header-31349" class="dsq-comment-header">
+            <cite id="dsq-cite-31349">
+                <span id="dsq-author-user-31349">Ankit Chaudhary</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31349" class="dsq-comment-body">
+            <div id="dsq-comment-message-31349" class="dsq-comment-message"><p>I think worst case complexity of above algorithm is O(n^2).<br />
+This will occur when in first iteration out of n men only one remain engaged.<br />
+2nd iteration : out of n-1 only 1 men remain engaged.<br />
+3rd iteration : out of n-2 only 1 men remain engaged.<br />
+and so on.<br />
+Eg :<br />
+men list :<br />
+0,1,2,3<br />
+0,1,2,3<br />
+0,1,2,3<br />
+0,1,2,3    </p>
+<p>women list :<br />
+3,2,1,0<br />
+3,2,1,0<br />
+3,2,1,0<br />
+3,2,1,0</p>
+<p>Best Case : O(n)<br />
+eg :<br />
+men list :<br />
+0,1,2,3<br />
+0,1,2,3<br />
+0,1,2,3<br />
+0,1,2,3    </p>
+<p>women list :<br />
+0,1,2,3<br />
+0,1,2,3<br />
+0,1,2,3<br />
+0,1,2,3   </p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-31350">
+        <div id="dsq-comment-header-31350" class="dsq-comment-header">
+            <cite id="dsq-cite-31350">
+                <span id="dsq-author-user-31350">Ankit Chaudhary</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31350" class="dsq-comment-body">
+            <div id="dsq-comment-message-31350" class="dsq-comment-message"><p>Optimization :<br />
+1 : As said by skulldude below.<br />
+2 : Instead of using iteration from 0 to n-1 to find free men, use queue which holds free men. Complexity will remain same, but it is better then above.<br />
+if men is free insert it into queue.<br />
+If engaged remove it from queue.<br />
+Initially fill queue will all men<br />
+So while condition will be :<br />
+while(queue not empty)<br />
+{</p>
+<p>}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-34545">
+        <div id="dsq-comment-header-34545" class="dsq-comment-header">
+            <cite id="dsq-cite-34545">
+                <span id="dsq-author-user-34545">zzer</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34545" class="dsq-comment-body">
+            <div id="dsq-comment-message-34545" class="dsq-comment-message"><p>nice, this is the optimized code below:</p>
+<p>bool woman_prefer(int prefer[2*N][N],int woman,int man1,int man2)</p>
+<p>{</p>
+<p>	for(int i = 0; i &lt; N; i++)</p>
+<p>	{</p>
+<p>		//if we encounter man1 first, which indicates man1 ranks higher than man2</p>
+<p>		if(prefer[woman][i] == man1)</p>
+<p>			return true;</p>
+<p>		if(prefer[woman][i] == man2)</p>
+<p>			return false;</p>
+<p>	}</p>
+<p>}</p>
+<p>void stable_marriage(int prefer[2*N][N])</p>
+<p>{</p>
+<p>	//stores partner of woman, this is our output array that stores paing infor</p>
+<p>	//the value of w_partner[i] indicates the partner assigned to woman N+i.Note that</p>
+<p>	//the woman number between N and 2N-1,the value -1 indicates that (N+i)th woman is free</p>
+<p>	int w_partner[N];</p>
+<p>	memset(w_partner,-1,sizeof(w_partner));</p>
+<p>	queue free_man;//it stores the no. of free man</p>
+<p>	for(int i = 0; i &lt; N; i++)</p>
+<p>		free_man.push(i);</p>
+<p>	//the proposed indice of man, proposed_indice[i] means the highest indice of </p>
+<p>	//woman which he has proposed to before</p>
+<p>	int proposed_indice[N];</p>
+<p>	memset(proposed_indice,-1,sizeof(proposed_indice));</p>
+<p>	while(!free_man.empty())</p>
+<p>	{</p>
+<p>		int man = free_man.front();</p>
+<p>		free_man.pop();//????free man</p>
+<p>		//this indice of highest ranked woman who has not been proposed</p>
+<p>		int index_propose = ++proposed_indice[man];</p>
+<p>		//the woman who has not been proposed by this man</p>
+<p>		int woman = prefer[man][index_propose];</p>
+<p>		//if this woman is free, then they are engaged</p>
+<p>		if(w_partner[woman-N] == -1)</p>
+<p>		{</p>
+<p>			w_partner[woman-N] = man;</p>
+<p>		}</p>
+<p>		// if this woman has a partner</p>
+<p>		else</p>
+<p>		{</p>
+<p>			int man_other = w_partner[woman-N];</p>
+<p>			//if this woman prefer man to man_other,then the woman engaged </p>
+<p>			//man and dumped man_other</p>
+<p>			if(woman_prefer(prefer,woman,man,man_other))</p>
+<p>			{</p>
+<p>				w_partner[woman-N] = man;</p>
+<p>				free_man.push(man_other);</p>
+<p>			}</p>
+<p>			else</p>
+<p>				free_man.push(man);</p>
+<p>		}</p>
+<p>	}</p>
+<p>	cout &lt;&lt; &quot; woman man &quot; &lt;&lt; endl;</p>
+<p>	for(int i = 0; i &lt; N; i++)</p>
+<p>		cout &lt;&lt; &quot; &quot; &lt;&lt; i+N &lt;&lt;&quot;t&quot;&lt;&lt; w_partner[i] &lt;&lt; endl;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-30039">
+        <div id="dsq-comment-header-30039" class="dsq-comment-header">
+            <cite id="dsq-cite-30039">
+                <span id="dsq-author-user-30039">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30039" class="dsq-comment-body">
+            <div id="dsq-comment-message-30039" class="dsq-comment-message"><p>For Python Lovers:<br />
+<code><br />
+from sys import stdin<br />
+from cStringIO import StringIO</p>
+<p>def main():<br />
+    inp = iter(StringIO(stdin.read())).next<br />
+    t = int(inp())<br />
+    for _ in xrange(t):<br />
+        n = int(inp())<br />
+        w = {}<br />
+        m = {}<br />
+        freem = set([`i+1` for i in xrange(n)])<br />
+        freew = set([`i+1` for i in xrange(n)])<br />
+        mproposed = {}<br />
+        engaged = {}<br />
+        for i in xrange(n):<br />
+            w[`i+1`] = inp().split()[1:]<br />
+        for i in xrange(n):<br />
+            m[`i+1`] = inp().split()[1:]<br />
+            mproposed[`i+1`] = 0<br />
+        while freem:<br />
+            item = freem.pop()<br />
+            wom = m[item][mproposed[item]]<br />
+            mproposed[item] += 1<br />
+            if wom in freew:<br />
+                engaged[wom] = item<br />
+                freew.remove(wom)<br />
+            else:<br />
+                if w[wom].index(item) &lt; w[wom].index(engaged[wom]):<br />
+                    freem.add(engaged[wom])<br />
+                    engaged[wom] = item<br />
+                else:<br />
+                    freem.add(item)<br />
+        final_ans = []<br />
+        for i in engaged:<br />
+            final_ans.append([int(engaged[i]), int(i)])<br />
+        for i, j in sorted(final_ans):<br />
+            print i, j<br />
+main()<br />
+</code></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-29546">
+        <div id="dsq-comment-header-29546" class="dsq-comment-header">
+            <cite id="dsq-cite-29546">
+                <span id="dsq-author-user-29546">Math</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29546" class="dsq-comment-body">
+            <div id="dsq-comment-message-29546" class="dsq-comment-message"><p>Is there any example for Stable marriage problem in AImms ? I have a problem to resolve that quiet looks like this one but in AImms and I never worked with this plateform. Tks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-29250">
+        <div id="dsq-comment-header-29250" class="dsq-comment-header">
+            <cite id="dsq-cite-29250">
+                <span id="dsq-author-user-29250">ajay</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29250" class="dsq-comment-body">
+            <div id="dsq-comment-message-29250" class="dsq-comment-message"><p>for best case say each man has different preference for woma then what will be the time complexity??? nd for worst case where each man likes same woman the most????/ Please tell as fast as possible</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-27262">
+        <div id="dsq-comment-header-27262" class="dsq-comment-header">
+            <cite id="dsq-cite-27262">
+                <span id="dsq-author-user-27262">mrn</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27262" class="dsq-comment-body">
+            <div id="dsq-comment-message-27262" class="dsq-comment-message"><p>bipartite problem &#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-25124">
+        <div id="dsq-comment-header-25124" class="dsq-comment-header">
+            <cite id="dsq-cite-25124">
+                <span id="dsq-author-user-25124">Abhishek J</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-25124" class="dsq-comment-body">
+            <div id="dsq-comment-message-25124" class="dsq-comment-message"><p>what will be the time complexity of this algorithm ?<br />
+i think it will be depending on priority factor !</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-25123">
+        <div id="dsq-comment-header-25123" class="dsq-comment-header">
+            <cite id="dsq-cite-25123">
+                <span id="dsq-author-user-25123">Abhishek J</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-25123" class="dsq-comment-body">
+            <div id="dsq-comment-message-25123" class="dsq-comment-message"><p>what will be the time complexity of this algorithm ?<br />
+i think it will be depending on the preference list?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-coolabhi even thread-even depth-1" id="dsq-comment-25026">
+        <div id="dsq-comment-header-25026" class="dsq-comment-header">
+            <cite id="dsq-cite-25026">
+                <span id="dsq-author-user-25026">coolabhi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-25026" class="dsq-comment-body">
+            <div id="dsq-comment-message-25026" class="dsq-comment-message"><p>Shouldn&#8217;t the function name wprefersm1overm be named as wprefersmoverm1? Because in the function we are checking if<br />
+w prefers m over her current engagment m1</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-skulldude odd alt thread-odd thread-alt depth-1" id="dsq-comment-24995">
+        <div id="dsq-comment-header-24995" class="dsq-comment-header">
+            <cite id="dsq-cite-24995">
+                <span id="dsq-author-user-24995">skulldude</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24995" class="dsq-comment-body">
+            <div id="dsq-comment-message-24995" class="dsq-comment-message"><p>I think we can add one optimization to the above code. Instead of checking through every woman from the beginning for the current free man, we can remember every man&#8217;s last proposal(in an array) and start after it. </p>
+<p>This is true because, once a woman rejects a man M, she is never going to accept M again because she already had a better man when she rejected M. So, there is no use for a man to propose to a woman he has already tried before and had been rejected.</p>
+<p>Please comment if you find anything wrong in it.</p>
+<p>Thanks-<br />
+Balasubramanian</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-31348">
+        <div id="dsq-comment-header-31348" class="dsq-comment-header">
+            <cite id="dsq-cite-31348">
+                <span id="dsq-author-user-31348">Ankit Chaudhary</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31348" class="dsq-comment-body">
+            <div id="dsq-comment-message-31348" class="dsq-comment-message"><p>Agree with u</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-34543">
+        <div id="dsq-comment-header-34543" class="dsq-comment-header">
+            <cite id="dsq-cite-34543">
+                <span id="dsq-author-user-34543">zzer</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34543" class="dsq-comment-body">
+            <div id="dsq-comment-message-34543" class="dsq-comment-message"><p>the pseudo-code &#8221; w = m&#8217;s highest ranked such woman to whom he has not yet proposed&#8221;  actually shows this idea</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-22663">
+        <div id="dsq-comment-header-22663" class="dsq-comment-header">
+            <cite id="dsq-cite-22663">
+http://www.geeksforgeeks.org/stable-marriage-problem/                <span id="dsq-author-user-22663">Atul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22663" class="dsq-comment-body">
+            <div id="dsq-comment-message-22663" class="dsq-comment-message"><pre> <code language="C">
+    // An array to store availability of men.  If mFree[i] is
+    // false, then man 'i' is free, otherwise engaged.
+</code> </pre>
+<p>Wouldn&#8217;t it be logical to change the name from &#8220;mFree&#8221; to &#8220;mEngaged&#8221;. It would make it easier to understand the logic.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-22561">
+        <div id="dsq-comment-header-22561" class="dsq-comment-header">
+            <cite id="dsq-cite-22561">
+https://github.com/phoenix2fire                <span id="dsq-author-user-22561">Abhishek Bussa</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22561" class="dsq-comment-body">
+            <div id="dsq-comment-message-22561" class="dsq-comment-message"><p>Code in C#:</p>
+<p><a href="https://github.com/phoenix2fire/traditional-marriage-algorithm/blob/master/TMA/Program.cs" rel="nofollow">https://github.com/phoenix2fire/traditional-marriage-algorithm/blob/master/TMA/Program.cs</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+<ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-27297">
+        <div id="dsq-comment-header-27297" class="dsq-comment-header">
+            <cite id="dsq-cite-27297">
+                <span id="dsq-author-user-27297">Vishal Hemnani</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27297" class="dsq-comment-body">
+            <div id="dsq-comment-message-27297" class="dsq-comment-message"><p>Yes. The stable solution will be different when we start it with women proposing to men. This instance of GS algorithm is men-biased.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-22465">
+        <div id="dsq-comment-header-22465" class="dsq-comment-header">
+            <cite id="dsq-cite-22465">
+                <span id="dsq-author-user-22465">Abhishek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22465" class="dsq-comment-body">
+            <div id="dsq-comment-message-22465" class="dsq-comment-message"><p>In</p>
+<pre> <code language="C">
+for (m = 0; m &lt; N; m++)
+            if (mFree[m] == false)
+                break;
+</code> </pre>
+<p>shouldn&#8217;t the condition be if(mFree[m]==True) ?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik even depth-2" id="dsq-comment-22466">
+        <div id="dsq-comment-header-22466" class="dsq-comment-header">
+            <cite id="dsq-cite-22466">
+                <span id="dsq-author-user-22466">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22466" class="dsq-comment-body">
+            <div id="dsq-comment-message-22466" class="dsq-comment-message"><p>I think the condition is fine. mFree[m] false means that the man m is free.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-22467">
+        <div id="dsq-comment-header-22467" class="dsq-comment-header">
+            <cite id="dsq-cite-22467">
+                <span id="dsq-author-user-22467">Abhishek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22467" class="dsq-comment-body">
+            <div id="dsq-comment-message-22467" class="dsq-comment-message"><p>// An array to store availability of men.  If mFree[i] is true, then man &#8216;i&#8217; is free<br />
+    bool mFree[N];</p>
+<p>Then i think we should change the comment, as comment says otherwise.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even depth-4" id="dsq-comment-22468">
+        <div id="dsq-comment-header-22468" class="dsq-comment-header">
+            <cite id="dsq-cite-22468">
+                <span id="dsq-author-user-22468">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22468" class="dsq-comment-body">
+            <div id="dsq-comment-message-22468" class="dsq-comment-message"><p>Thanks Abhishek, we have updated the comment.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-5" id="dsq-comment-22660">
+        <div id="dsq-comment-header-22660" class="dsq-comment-header">
+            <cite id="dsq-cite-22660">
+                <span id="dsq-author-user-22660">Atul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22660" class="dsq-comment-body">
+            <div id="dsq-comment-message-22660" class="dsq-comment-message"><pre> <code language="C">
+    // An array to store availability of men.  If mFree[i] is
+    // false, then man 'i' is free, otherwise engaged.
+</code> </pre>
+<p>Wouldn&#8217;t it be logical to change the name from &#8220;mFree&#8221; to &#8220;mEngaged&#8221;. It would make it easier to understand the logic.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-22453">
+        <div id="dsq-comment-header-22453" class="dsq-comment-header">
+            <cite id="dsq-cite-22453">
+                <span id="dsq-author-user-22453">Rahul Singh (selfcompiler)</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22453" class="dsq-comment-body">
+            <div id="dsq-comment-message-22453" class="dsq-comment-message"><p>//i use priority queue //<br />
+    #include<br />
+    #include<br />
+    #include<br />
+    #include<br />
+    using namespace std;<br />
+    #define FREE -1<br />
+    class cmp<br />
+    {<br />
+    public:<br />
+    bool operator()(pair a,pair b)<br />
+    {<br />
+    if(a.first&lt;b.first)<br />
+    return false;<br />
+    else<br />
+    return true;<br />
+    }<br />
+    };<br />
+    class StableMarriage<br />
+    {<br />
+    private:<br />
+    int N,M,W;<br />
+    int Row;<br />
+    int Rank;<br />
+    queue FreeMen;<br />
+    int MPair[502];<br />
+    int Pair[502]; // according to women -1 ,free for ith women Pair[i]=-1;<br />
+    //int Men[502][502]; //rank of women<br />
+    int Women[502][502];//rank of man<br />
+    priority_queue&lt; pair,vector&lt; pair &gt;,cmp &gt; MenPreference[502]; //rank,women<br />
+    // priority_queue&lt; pair,vector&lt; pair &gt;,cmp &gt; WomenPreference[502]; //rank,men<br />
+    public:<br />
+    StableMarriage()<br />
+    {<br />
+    InitializeAll();<br />
+    }<br />
+    void InitializeAll()<br />
+    {<br />
+    scanf(&#8220;%d&#8221;,&amp;N);<br />
+    for(int i=1;i&lt;=N;i++)<br />
+    {<br />
+    Pair[i]=FREE;<br />
+    FreeMen.push(i);<br />
+    }<br />
+    for(int i=1;i&lt;=N;i++)<br />
+    {<br />
+    scanf(&quot;%d&quot;,&amp;Row);<br />
+    for(int rank=1;rank&lt;=N;rank++)<br />
+    {<br />
+    scanf(&quot;%d&quot;,&amp;M);<br />
+    Women[Row][M]=rank;<br />
+    // WomenPreference[Row].push(make_pair(rank,M));</p>
+<p>    }<br />
+    }<br />
+    for(int i=1;i&lt;=N;i++)<br />
+    {<br />
+    scanf(&quot;%d&quot;,&amp;Row);<br />
+    for(int rank=1;rank&lt;=N;rank++)<br />
+    {<br />
+    scanf(&quot;%d&quot;,&amp;W);<br />
+    // Men[Row][W]=rank;<br />
+    MenPreference[Row].push(make_pair(rank,W));<br />
+    }<br />
+    }</p>
+<p>    }<br />
+    void StableMatching()<br />
+    {<br />
+    int women,man1,man2;<br />
+    // printpair();<br />
+    while(!FreeMen.empty())<br />
+    {<br />
+    // printpair();</p>
+<p>    man1=FreeMen.front();<br />
+    women=MenPreference[man1].top().second;<br />
+    if(Pair[women]==FREE)<br />
+    {<br />
+    Pair[women]=man1;<br />
+    FreeMen.pop();<br />
+    }<br />
+    else<br />
+    {<br />
+    man2=Pair[women];<br />
+    if(Women[women][man2]&lt;Women[women][man1])<br />
+    {<br />
+    MenPreference[man1].pop();</p>
+<p>    }<br />
+    else<br />
+    {<br />
+    MenPreference[man2].pop();<br />
+    FreeMen.pop();<br />
+    FreeMen.push(man2);<br />
+    Pair[women]=man1;<br />
+    }</p>
+<p>    }</p>
+<p>    }<br />
+    return ;<br />
+    }<br />
+    void printpair()<br />
+    {<br />
+    for(int i=1;i&lt;=N;i++)<br />
+    printf(&quot;%d %d\n&quot;,i,Pair[i]);<br />
+    }<br />
+    void outputpair()<br />
+    {<br />
+    //man ,women;<br />
+    for(int i=1;i&lt;=N;i++)<br />
+    {<br />
+    MPair[Pair[i]]=i;<br />
+    }<br />
+    for(int i=1;i&lt;=N;i++)<br />
+    printf(&quot;%d %d\n&quot;,i,MPair[i]);<br />
+    for(int i=1;i&lt;=N;i++)<br />
+    {<br />
+    while(!MenPreference[i].empty())<br />
+    MenPreference[i].pop();<br />
+    }</p>
+<p>    return ;<br />
+    }</p>
+<p>    };<br />
+    int main()<br />
+    {</p>
+<p>    int test;<br />
+    scanf(&quot;%d&quot;,&amp;test);<br />
+    if(test==0)<br />
+    return 0;<br />
+    StableMarriage Solve;<br />
+    Solve.StableMatching();<br />
+    Solve.outputpair();<br />
+    test&#8211;;<br />
+    while(test&#8211;)<br />
+    {<br />
+    Solve.InitializeAll();<br />
+    Solve.StableMatching();<br />
+    Solve.outputpair();<br />
+    }<br />
+    return 0;</p>
+<p>    }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-22424">
+        <div id="dsq-comment-header-22424" class="dsq-comment-header">
+            <cite id="dsq-cite-22424">
+                <span id="dsq-author-user-22424">(GeeksFollower)</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22424" class="dsq-comment-body">
+            <div id="dsq-comment-message-22424" class="dsq-comment-message"><p>correct me admin..<br />
+if there are N boys n girls..<br />
+There will be at max N*N engagement..<br />
+Now say for every pair, we calculate sum of their preferences for each other.<br />
+sort (in ascending order) these pairs based on this calculated sum..<br />
+Now marry the pairs based on this preference..</p>
+<p>I tried for so many test cases.. it worked.. ur better analysis would be helpful.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-vibhu-tiwari even thread-odd thread-alt depth-1" id="dsq-comment-22422">
+        <div id="dsq-comment-header-22422" class="dsq-comment-header">
+            <cite id="dsq-cite-22422">
+                <span id="dsq-author-user-22422">Vibhu Tiwari</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22422" class="dsq-comment-body">
+            <div id="dsq-comment-message-22422" class="dsq-comment-message"><p>@GeeksforGeeks:<br />
+I think that in the if condition of wprefersm1overm wont the wPartner[w-N]=m as now m is assigned to wpPartner[w-N] instead of m1.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor odd alt depth-2" id="dsq-comment-22426">
+        <div id="dsq-comment-header-22426" class="dsq-comment-header">
+            <cite id="dsq-cite-22426">
+                <span id="dsq-author-user-22426">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22426" class="dsq-comment-body">
+            <div id="dsq-comment-message-22426" class="dsq-comment-message"><p>Thanks for pointing this out.  We have updated the line.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-30372">
+        <div id="dsq-comment-header-30372" class="dsq-comment-header">
+            <cite id="dsq-cite-30372">
+                <span id="dsq-author-user-30372">vamshi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30372" class="dsq-comment-body">
+            <div id="dsq-comment-message-30372" class="dsq-comment-message"><p>why did we use  wPartner[w-N] in all the places&#8230;why didn&#8217;t we use sPartner[w] instead&#8230;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-31332">
+        <div id="dsq-comment-header-31332" class="dsq-comment-header">
+            <cite id="dsq-cite-31332">
+                <span id="dsq-author-user-31332">Neha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31332" class="dsq-comment-body">
+            <div id="dsq-comment-message-31332" class="dsq-comment-message"><p>What is sPartner[w]</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/stable-marriage-problem/';
+var disqus_identifier = '120930 http://www.geeksforgeeks.org/?p=120930';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Stable Marriage Problem";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.215 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:36:11 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

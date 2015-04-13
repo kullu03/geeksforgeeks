@@ -1,0 +1,3662 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Lowest Common Ancestor in a Binary Search Tree. - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lowest Common Ancestor in a Binary Search Tree. - GeeksforGeeks" />
+<meta property="og:description" content="Given values of two nodes in a Binary Search Tree, write a c program to find the Lowest Common Ancestor (LCA). You may assume that both the values exist in the tree. The function prototype should be as follows: struct node *lca(node* root, int n1, int n2) n1 and n2 are two given values in &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:section" content="Trees" />
+<meta property="article:published_time" content="2009-08-09T18:15:25+00:00" />
+<meta property="article:modified_time" content="2014-02-22T13:52:55+00:00" />
+<meta property="og:updated_time" content="2014-02-22T13:52:55+00:00" />
+<meta property="og:image" content="http://geeksforgeeks.org/wp-content/uploads/2009/08/BST_LCA.gif" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.377 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417635163 220.227.41.253';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Lowest Common Ancestor in a Binary Search Tree.</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given values of two nodes in a Binary Search Tree, write a c program to find the <strong>L</strong>owest <strong>C</strong>ommon <strong>A</strong>ncestor (LCA). You may assume that both the values exist in the tree. <span id="more-1029"></span></p>
+<p>The function prototype should be as follows:</p>
+<pre>
+ struct node *lca(node* root, int n1, int n2)
+ n1 and n2 are two given values in the tree with given root.
+</pre>
+<p><img src="http://geeksforgeeks.org/wp-content/uploads/2009/08/BST_LCA.gif" alt="BST_LCA" title="BST_LCA" width="187" height="168" class="alignleft" /></p>
+<p>For example, consider the BST in diagram, LCA of 10 and 14 is 12 and LCA of 8 and 14 is 8.</p>
+<p><strong>Following is definition of LCA from <a href="http://en.wikipedia.org/wiki/Lowest_common_ancestor" target="_blank">Wikipedia</a>:</strong><br />
+Let T be a rooted tree. The lowest common ancestor between two nodes n1 and n2 is defined as the lowest node in T that has both n1 and n2 as descendants (where we allow a node to be a descendant of itself).</p>
+<p>The LCA of n1 and n2 in T is the shared ancestor of n1 and n2 that is located farthest from the root. Computation of lowest common ancestors may be useful, for instance, as part of a procedure for determining the distance between pairs of nodes in a tree: the distance from n1 to n2 can be computed as the distance from the root to n1, plus the distance from the root to n2, minus twice the distance from the root to their lowest common ancestor. (Source <a href="http://en.wikipedia.org/wiki/Lowest_common_ancestor" target="_blank">Wiki</a>)</p>
+<p><strong>Solutions:</strong><br />
+If we are given a BST where every node has <strong>parent pointer</strong>, then LCA can be easily determined by traversing up using parent pointer and printing the first intersecting node.</p>
+<p>We can solve this problem using BST properties. We can <strong>recursively traverse</strong> the BST from root. The main idea of the solution is, while traversing from top to bottom, the first node n we encounter with value between n1 and n2, i.e., n1 < n < n2 or same as one of the n1 or n2, is LCA of n1 and n2 (assuming that n1 < n2). So just recursively traverse the BST in, if node's value is greater than both n1 and n2 then our LCA lies in left side of the node, if it's is smaller than both n1 and n2, then LCA lies on right side.  Otherwise root is LCA (assuming that both n1 and n2 are present in BST)</p>
+<pre class="brush: cpp; highlight: [11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26]; title: ; notranslate" title="">
+// A recursive C program to find LCA of two nodes n1 and n2.
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+struct node
+{
+    int data;
+    struct node* left, *right;
+};
+
+/* Function to find LCA of n1 and n2. The function assumes that both
+   n1 and n2 are present in BST */
+struct node *lca(struct node* root, int n1, int n2)
+{
+    if (root == NULL) return NULL;
+
+    // If both n1 and n2 are smaller than root, then LCA lies in left
+    if (root-&gt;data &gt; n1 &amp;&amp; root-&gt;data &gt; n2)
+        return lca(root-&gt;left, n1, n2);
+
+    // If both n1 and n2 are greater than root, then LCA lies in right
+    if (root-&gt;data &lt; n1 &amp;&amp; root-&gt;data &lt; n2)
+        return lca(root-&gt;right, n1, n2);
+
+    return root;
+}
+
+/* Helper function that allocates a new node with the given data.*/
+struct node* newNode(int data)
+{
+    struct node* node = (struct node*)malloc(sizeof(struct node));
+    node-&gt;data  = data;
+    node-&gt;left  = node-&gt;right = NULL;
+    return(node);
+}
+
+/* Driver program to test mirror() */
+int main()
+{
+    // Let us construct the BST shown in the above figure
+    struct node *root        = newNode(20);
+    root-&gt;left               = newNode(8);
+    root-&gt;right              = newNode(22);
+    root-&gt;left-&gt;left         = newNode(4);
+    root-&gt;left-&gt;right        = newNode(12);
+    root-&gt;left-&gt;right-&gt;left  = newNode(10);
+    root-&gt;left-&gt;right-&gt;right = newNode(14);
+
+    int n1 = 10, n2 = 14;
+    struct node *t = lca(root, n1, n2);
+    printf(&quot;LCA of %d and %d is %d \n&quot;, n1, n2, t-&gt;data);
+
+    n1 = 14, n2 = 8;
+    t = lca(root, n1, n2);
+    printf(&quot;LCA of %d and %d is %d \n&quot;, n1, n2, t-&gt;data);
+
+    n1 = 10, n2 = 22;
+    t = lca(root, n1, n2);
+    printf(&quot;LCA of %d and %d is %d \n&quot;, n1, n2, t-&gt;data);
+
+    getchar();
+    return 0;
+}
+</pre>
+<p>Output:
+<pre>
+LCA of 10 and 14 is 12
+LCA of 14 and 8 is 8
+LCA of 10 and 22 is 20
+</pre>
+<p>Time complexity of above solution is O(h) where h is height of tree.  Also, the above solution requires O(h) extra space in function call stack for recursive function calls. We can avoid extra space using <strong>iterative solution</strong>.</p>
+<pre class="brush: cpp; highlight: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]; title: ; notranslate" title="">
+/* Function to find LCA of n1 and n2. The function assumes that both
+   n1 and n2 are present in BST */
+struct node *lca(struct node* root, int n1, int n2)
+{
+    while (root != NULL)
+    {
+         // If both n1 and n2 are smaller than root, then LCA lies in left
+        if (root-&gt;data &gt; n1 &amp;&amp; root-&gt;data &gt; n2)
+           root = root-&gt;left;
+
+        // If both n1 and n2 are greater than root, then LCA lies in right
+        else if (root-&gt;data &lt; n1 &amp;&amp; root-&gt;data &lt; n2)
+           root = root-&gt;right;
+
+        else break;
+    }
+    return root;
+}
+</pre>
+<p>See <a href="http://ideone.com/tL9aCD">this </a>for complete program.</p>
+<p>You may like to see <a href="http://www.geeksforgeeks.org/lowest-common-ancestor-binary-tree-set-1/" target="_blank">Lowest Common Ancestor in a Binary Tree </a> also.</p>
+<p><strong>Exercise</strong><br />
+The above functions assume that n1 and n2 both are in BST. If n1 and n2 are not present, then they may return incorrect result. Extend the above solutions to return NULL if n1 or n2 or both not present in BST.</p>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/perfect-binary-tree-specific-level-order-traversal/" title="Perfect Binary Tree Specific Level Order Traversal">Perfect Binary Tree Specific Level Order Traversal</a></li><li><a href="http://www.geeksforgeeks.org/print-nodes-top-view-binary-tree/" title="Print Nodes in Top View of Binary Tree">Print Nodes in Top View of Binary Tree</a></li><li><a href="http://www.geeksforgeeks.org/k-dimensional-tree/" title="K Dimensional Tree">K Dimensional Tree</a></li><li><a href="http://www.geeksforgeeks.org/convert-binary-tree-threaded-binary-tree/" title="Convert a Binary Tree to Threaded binary tree">Convert a Binary Tree to Threaded binary tree</a></li><li><a href="http://www.geeksforgeeks.org/serialize-deserialize-n-ary-tree/" title="Serialize and Deserialize an N-ary Tree">Serialize and Deserialize an N-ary Tree</a></li><li><a href="http://www.geeksforgeeks.org/serialize-deserialize-binary-tree/" title="Serialize and Deserialize a Binary Tree">Serialize and Deserialize a Binary Tree</a></li><li><a href="http://www.geeksforgeeks.org/given-binary-tree-print-nodes-two-given-level-numbers/" title="Print nodes between two given level numbers of a binary tree">Print nodes between two given level numbers of a binary tree</a></li><li><a href="http://www.geeksforgeeks.org/find-height-binary-tree-represented-parent-array/" title="Find Height of Binary Tree represented by Parent array">Find Height of Binary Tree represented by Parent array</a></li></ul>
+<p></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Flowest-common-ancestor-in-a-binary-search-tree%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/" data-text="Lowest Common Ancestor in a Binary Search Tree." data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-32876">
+        <div id="dsq-comment-header-32876" class="dsq-comment-header">
+            <cite id="dsq-cite-32876">
+http://opensourceforgeeks.blogspot.in/                <span id="dsq-author-user-32876">Aniket Thakur</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32876" class="dsq-comment-body">
+            <div id="dsq-comment-message-32876" class="dsq-comment-message"><p>Java Code for LCA &#8211;&gt; <a href="http://opensourceforgeeks.blogspot.in/2014/02/lowest-common-ancestor-in-binary-search.html" rel="nofollow">http://opensourceforgeeks.blogspot.in/2014/02/lowest-common-ancestor-in-binary-search.html</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-31843">
+        <div id="dsq-comment-header-31843" class="dsq-comment-header">
+            <cite id="dsq-cite-31843">
+                <span id="dsq-author-user-31843">sijayaraman</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31843" class="dsq-comment-body">
+            <div id="dsq-comment-message-31843" class="dsq-comment-message"><p>struct node* lca(struct node* root,struct node* n1,struct node* n2)<br />
+{<br />
+    if ( root == NULL)<br />
+        return NULL;<br />
+    if(root-&gt;data == n1-&gt;data || root-&gt;data == n2-&gt;data)<br />
+    {<br />
+        return root;<br />
+    }<br />
+    else if((root-&gt;right != NULL) &amp;&amp; (root-&gt;right-&gt;data == n1-&gt;data || root-&gt;right-&gt;data == n2-&gt;data))<br />
+    {<br />
+        return root;<br />
+    }<br />
+    else if((root-&gt;left != NULL) &amp;&amp; (root-&gt;left-&gt;data == n1-&gt;data || root-&gt;left-&gt;data == n2-&gt;data))<br />
+    {<br />
+        return root;<br />
+    }<br />
+    else if( root-&gt;data &gt; n1-&gt;data  &amp;&amp; root-&gt;data &gt;n2-&gt;data)<br />
+    {<br />
+        return lca(root-&gt;left,n1,n2);<br />
+    }<br />
+    else if ( root-&gt;data data  &amp;&amp; root-&gt;data data)<br />
+    {<br />
+        return lca(root-&gt;right,n1,n2);<br />
+    }</p>
+<p>    return root;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-31733">
+        <div id="dsq-comment-header-31733" class="dsq-comment-header">
+            <cite id="dsq-cite-31733">
+                <span id="dsq-author-user-31733">neelabhsingh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31733" class="dsq-comment-body">
+            <div id="dsq-comment-message-31733" class="dsq-comment-message"><p>@geeksforgeeks:disqus  // If both n1 and n2 are greater than root, then LCA lies in left</p>
+<p>        if (root-&gt;data &gt; n1 &amp;&amp; root-&gt;data &gt; n2)<br />
+           root = root-&gt;left;</p>
+<p>        // If both n1 and n2 are smaller than root, then LCA lies in right<br />
+        else if (root-&gt;data data right;<br />
+Please correct the sequence of comment. Comments are place in the     wrong position.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-32853">
+        <div id="dsq-comment-header-32853" class="dsq-comment-header">
+            <cite id="dsq-cite-32853">
+                <span id="dsq-author-user-32853">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32853" class="dsq-comment-body">
+            <div id="dsq-comment-message-32853" class="dsq-comment-message"><p>Thanks for pointing this out.  We have corrected the comments.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-30376">
+        <div id="dsq-comment-header-30376" class="dsq-comment-header">
+            <cite id="dsq-cite-30376">
+                <span id="dsq-author-user-30376">muhamad iqbal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30376" class="dsq-comment-body">
+            <div id="dsq-comment-message-30376" class="dsq-comment-message"><p>Hi,</p>
+<p>My first post here, I have tree, is generic tree. Every parent has maximum 5 child. And i need to find the last common ancestor in two nodes. How can i do that..?. I store the information of every child of parent with ArrayList. Please help me.</p>
+<p>Best Regards</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-29977">
+        <div id="dsq-comment-header-29977" class="dsq-comment-header">
+            <cite id="dsq-cite-29977">
+                <span id="dsq-author-user-29977">Pooja</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29977" class="dsq-comment-body">
+            <div id="dsq-comment-message-29977" class="dsq-comment-message"><p>Very simple and nice explaination. Thanks.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-28844">
+        <div id="dsq-comment-header-28844" class="dsq-comment-header">
+            <cite id="dsq-cite-28844">
+                <span id="dsq-author-user-28844">anonymous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28844" class="dsq-comment-body">
+            <div id="dsq-comment-message-28844" class="dsq-comment-message"><p>iterative solution<br />
+in if condition it will check weather root is smaller than or larger than both the element then it will go right of root or left of root respectively. But if root is lie between the  given data or root is equals to one of the data then return root&#8230;&#8230;..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-27610">
+        <div id="dsq-comment-header-27610" class="dsq-comment-header">
+            <cite id="dsq-cite-27610">
+                <span id="dsq-author-user-27610">vaibhav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27610" class="dsq-comment-body">
+            <div id="dsq-comment-message-27610" class="dsq-comment-message"><p>this probaly wont work if n1 and n2 occur more then once too try using pointers     sorry if im wrong</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-27433">
+        <div id="dsq-comment-header-27433" class="dsq-comment-header">
+            <cite id="dsq-cite-27433">
+                <span id="dsq-author-user-27433">Anupam</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27433" class="dsq-comment-body">
+            <div id="dsq-comment-message-27433" class="dsq-comment-message"><p>@g4g Please correct the comments in:<br />
+// If both n1 and n2 are greater than root, then LCA lies in left<br />
+    if (root-&gt;data &gt; n1 &amp;&amp; root-&gt;data &gt; n2)<br />
+        return lca(root-&gt;left, n1, n2);</p>
+<p>    // If both n1 and n2 are smaller than root, then LCA lies in right<br />
+    if (root-&gt;data data right, n1, n2);</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-27444">
+        <div id="dsq-comment-header-27444" class="dsq-comment-header">
+            <cite id="dsq-cite-27444">
+                <span id="dsq-author-user-27444">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27444" class="dsq-comment-body">
+            <div id="dsq-comment-message-27444" class="dsq-comment-message"><p>Thanks for pointing this out.  We have updated the comments.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-27349">
+        <div id="dsq-comment-header-27349" class="dsq-comment-header">
+            <cite id="dsq-cite-27349">
+                <span id="dsq-author-user-27349">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27349" class="dsq-comment-body">
+            <div id="dsq-comment-message-27349" class="dsq-comment-message"><p>@All:  Thanks for your inputs and suggestions.   We have updated the post.  We have made following changed.</p>
+<p>1) Changed definition of LCA to match with Wikipedia.<br />
+2) Simplified the recursive code, the code is much simpler now and doesn&#8217;t assume that n1 &lt; n2.<br />
+3) Added an iterative version.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-31624">
+        <div id="dsq-comment-header-31624" class="dsq-comment-header">
+            <cite id="dsq-cite-31624">
+                <span id="dsq-author-user-31624">Kid of Kop</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31624" class="dsq-comment-body">
+            <div id="dsq-comment-message-31624" class="dsq-comment-message"><p>In your example, what is the lca of 12 and 14. Is it 12 or 8 ? Please clarify.. If it&#8217;s 8 will this program work ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-27256">
+        <div id="dsq-comment-header-27256" class="dsq-comment-header">
+            <cite id="dsq-cite-27256">
+                <span id="dsq-author-user-27256">Jake</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27256" class="dsq-comment-body">
+            <div id="dsq-comment-message-27256" class="dsq-comment-message"><p>is this correct?</p>
+<p>int leastCommonAncestor(tNode* n, int key1, int key2)<br />
+{<br />
+    if( n == NULL)<br />
+        return 0;</p>
+<p>    if(n-&gt;data == key1 || n-&gt;data == key2)<br />
+        return 100;</p>
+<p>    if( printAncestor(n-&gt;left, key1, key2) &amp;&amp; printAncestor(n-&gt;right, key1, key2))<br />
+    {<br />
+        printf(&#8220;%d n&#8221;,n-&gt;data);<br />
+        return 0;<br />
+    }</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-26904">
+        <div id="dsq-comment-header-26904" class="dsq-comment-header">
+            <cite id="dsq-cite-26904">
+                <span id="dsq-author-user-26904">Soumajyoti</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26904" class="dsq-comment-body">
+            <div id="dsq-comment-message-26904" class="dsq-comment-message"><p>The above code is incomplete. If the input is 4 and 6, the output should be -1.But the above program gives an output 2 since it satisfies the condition that the right child of 2 is 4 which is necessary but insufficient.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-sudhanshuanand even thread-odd thread-alt depth-1" id="dsq-comment-24984">
+        <div id="dsq-comment-header-24984" class="dsq-comment-header">
+            <cite id="dsq-cite-24984">
+                <span id="dsq-author-user-24984">SudhanshuAnand</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24984" class="dsq-comment-body">
+            <div id="dsq-comment-message-24984" class="dsq-comment-message"><pre> <code language="C">
+int LCA(struct node* root, int num1, int num2){
+	if(root == NULL)return -1;
+	struct node* temp = root;
+	if(num1&gt;num2)swap(num1, num2);
+	while(true){
+		if(temp == NULL || temp-&gt;data == num1 || temp-&gt;data == num2)return -1;
+		if(temp-&gt;data &gt; num1 &amp;&amp; temp-&gt;data &lt;num2){
+			return temp-&gt;data;
+		}
+		if(num1 &gt; temp-&gt;data &amp;&amp; num2 &gt; temp-&gt;data){
+			temp = temp-&gt;right;
+		}else{
+			temp = temp-&gt;left;
+		}
+	}
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-23029">
+        <div id="dsq-comment-header-23029" class="dsq-comment-header">
+            <cite id="dsq-cite-23029">
+                <span id="dsq-author-user-23029">faizan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-23029" class="dsq-comment-body">
+            <div id="dsq-comment-message-23029" class="dsq-comment-message"><p>you have left out the case when only one of the element is in the tree and other is not.<br />
+it must return -1, rather its returning a node value.<br />
+consider the tree made by inputs 2,3,1<br />
+if we search for commom ancestor of 1 -1<br />
+it will return 2.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-27104">
+        <div id="dsq-comment-header-27104" class="dsq-comment-header">
+            <cite id="dsq-cite-27104">
+                <span id="dsq-author-user-27104">Law kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27104" class="dsq-comment-body">
+            <div id="dsq-comment-message-27104" class="dsq-comment-message"><p>In the very 2nd line of question, it is mentioned that both node values should be present in BST</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-22237">
+        <div id="dsq-comment-header-22237" class="dsq-comment-header">
+            <cite id="dsq-cite-22237">
+                <span id="dsq-author-user-22237">Aditya Ambashtha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22237" class="dsq-comment-body">
+            <div id="dsq-comment-message-22237" class="dsq-comment-message"><p>I don&#8217;t see any point in postorder traversal&#8230;The following function should do..</p>
+<pre> <code language="C">
+node* findClosestAncestor(node *root, int low,int hig)
+{
+    if (root==NULL)
+        return NULL;
+
+    if (root-&gt;data&gt;=low&amp;&amp;root-&gt;data&lt;=hig)
+        return root;
+    else if (root-&gt;data&lt;low&amp;&amp;root-&gt;data&lt;hig)
+        return findClosestAncestor(root-&gt;right,low,hig);
+    else
+        return findClosestAncestor(root-&gt;left,low,hig);
+
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-22200">
+        <div id="dsq-comment-header-22200" class="dsq-comment-header">
+            <cite id="dsq-cite-22200">
+                <span id="dsq-author-user-22200">neo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22200" class="dsq-comment-body">
+            <div id="dsq-comment-message-22200" class="dsq-comment-message"><p>@geeksforgeeks since we have assumed n1 less than n2 if(root-&gt;data &gt; n1 &amp;&amp; root-&gt;data &gt; n2) is it necessary ?? cant it be only<br />
+if ( root-&gt;data &gt; n1 ) , please correct me if iam wrong.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-21656">
+        <div id="dsq-comment-header-21656" class="dsq-comment-header">
+            <cite id="dsq-cite-21656">
+                <span id="dsq-author-user-21656">Manish Kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21656" class="dsq-comment-body">
+            <div id="dsq-comment-message-21656" class="dsq-comment-message"><pre> <code language="C">
+3
+4
+5
+6
+7
+8
+Node *LCA(Node *root, Node *p, Node *q) {
+  if (!root) return NULL;
+  if (root == p || root == q) return root;
+  Node *L = LCA(root-&gt;left, p, q);
+  Node *R = LCA(root-&gt;right, p, q);
+  if (L &amp;&amp; R) return root;  // if p and q are on both sides
+  return L ? L : R;  // either one of p,q is on one side OR p,q is not in L&amp;R subtrees
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-19685">
+        <div id="dsq-comment-header-19685" class="dsq-comment-header">
+            <cite id="dsq-cite-19685">
+                <span id="dsq-author-user-19685">kush</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19685" class="dsq-comment-body">
+            <div id="dsq-comment-message-19685" class="dsq-comment-message"><pre> <code language="C">
+it is written here that 
+&quot;If root-&gt;data is equal to any of the inputs then input is 
+     not valid. For example 20, 22 in the given figure &quot;
+but according to wikipedia node its self can b a ancestor in LCA.
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-19657">
+        <div id="dsq-comment-header-19657" class="dsq-comment-header">
+            <cite id="dsq-cite-19657">
+                <span id="dsq-author-user-19657">Aniket Salunkhe</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19657" class="dsq-comment-body">
+            <div id="dsq-comment-message-19657" class="dsq-comment-message"><p>I have written following code with same logic &amp; complexity as explained in answer but with consideration of few addition cases.<br />
+Those cases are as follows,<br />
+#) if either of or both values (n1, n2 as given in explained answer) are not present in given BST<br />
+#) independent of comparison between n1 &amp; n2. i.e. n1 &gt; n2 or n1 &lt; n2 or n1 = n2)</p>
+<p>Please correct me if I am wrong in following code.</p>
+<p>struct node* GetLeastCommonAncestorInBST(struct node* pNode, int iValue1, int iValue2)<br />
+{<br />
+    if( !pNode )                return NULL;</p>
+<p>    if( !pNode-&gt;left &amp;&amp; !pNode-&gt;right )    return NULL;</p>
+<p>    if( tValue1 &lt; pNode-&gt;value &amp;&amp; tValue2 &lt; pNode-&gt;value )<br />
+        return GetLeastCommonAncestorInBST(pNode-&gt;left, iValue1, iValue2);<br />
+    else if( tValue1 &gt; pNode-&gt;value &amp;&amp; tValue2 &gt; pNode-&gt;value )<br />
+        return GetLeastCommonAncestorInBST(pNode-&gt;right, iValue1, iValue2);<br />
+    else    // ( val1 or val2 &lt;= pNode-&gt;value &amp;&amp; val1 or val2 &gt;= pNode-&gt;value )<br />
+    {<br />
+        //SearchInBST(pnode, val) … searches val in BST of starting from pnNode<br />
+        if( SearchInBST(pNode, tValue1) &amp;&amp; SearchInBST(pNode, tValue2) )<br />
+            return pNode;<br />
+        else<br />
+            return NULL;<br />
+    }<br />
+}</p>
+<p>struct node* pLeastCommonAncestor = GetLeastCommonAncestorInBST(root, value1, value2);</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-18788">
+        <div id="dsq-comment-header-18788" class="dsq-comment-header">
+            <cite id="dsq-cite-18788">
+                <span id="dsq-author-user-18788">sam</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18788" class="dsq-comment-body">
+            <div id="dsq-comment-message-18788" class="dsq-comment-message"><p>I think this will work.</p>
+<p>Used 2 global variable :<br />
+1. to store the value<br />
+2. to keep tab , as once the data is found no further operations will be done</p>
+<p>public static boolean lowestCommon(TreeNode head, int val1 ,int val2) {</p>
+<p>		if(hasFound) {<br />
+			return true;<br />
+		}</p>
+<p>		if(head.leftNode!=null &amp;&amp;head.rightNode!=null) {<br />
+			if(head.getProperty()&gt;=val1 &amp;&amp; head.getProperty()&lt;=val2) {<br />
+				valueCommon = head.getProperty();<br />
+				hasFound = true;<br />
+			}<br />
+			else {<br />
+				lowestCommon(head.leftNode,val1,val2);<br />
+				lowestCommon(head.rightNode, val1, val2);<br />
+			}<br />
+		} else if(head.leftNode==null &amp;&amp;head.rightNode!=null) {<br />
+			lowestCommon(head.rightNode, val1, val2);</p>
+<p>		}<br />
+		else if(head.rightNode==null &amp;&amp;head.leftNode!=null) {<br />
+			lowestCommon(head.leftNode,val1,val2);<br />
+		}<br />
+		return hasFound;<br />
+	}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-18818">
+        <div id="dsq-comment-header-18818" class="dsq-comment-header">
+            <cite id="dsq-cite-18818">
+                <span id="dsq-author-user-18818">Sunaina</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18818" class="dsq-comment-body">
+            <div id="dsq-comment-message-18818" class="dsq-comment-message"><p>@sam</p>
+<p>ur code is working fine. Can u please also post the code for building the tree? I think if the root element is also in contention it works great. Can someone please verify!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-rahul23 even thread-odd thread-alt depth-1" id="dsq-comment-18159">
+        <div id="dsq-comment-header-18159" class="dsq-comment-header">
+            <cite id="dsq-cite-18159">
+                <span id="dsq-author-user-18159">rahul23</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18159" class="dsq-comment-body">
+            <div id="dsq-comment-message-18159" class="dsq-comment-message"><p>what should be ancestor of 12 and 14&#8230;&#8230;&#8230;&#8230;.it should be 12 or 14&#8230;&#8230;&#8230;&#8230;&#8230;if 12 then for 20 and 22 also it is 20&#8230;if 12 ans 14 has ancestor as 8 then for 20 and 22 it is NULL.</p>
+<p>@all&#8230;.plz give me clear one line definition in case if one node is parent of other then what is LCA</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-rahul23 odd alt thread-even depth-1" id="dsq-comment-18158">
+        <div id="dsq-comment-header-18158" class="dsq-comment-header">
+            <cite id="dsq-cite-18158">
+                <span id="dsq-author-user-18158">rahul23</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18158" class="dsq-comment-body">
+            <div id="dsq-comment-message-18158" class="dsq-comment-message"><p>@GEEKSFORGEEKS..PLEASE COMMENT ON THIS TOPIC THAT WHY 20 CANT BE ANCESTOR IN CASE INPUT IS 20 AND 22&#8230;</p>
+<p>@ALL:- FOLLOWING IS SIMPLES CODE INSTEAD OF CHCKING 6 CONDITIONS&#8230;20 AND 22&#8230;IT WILL RETURN 20&#8230;.please comment if anythng wrng.<br />
+int leastCommanAncestor(struct node* root, int n1, int n2)<br />
+{<br />
+ if(root==NULL)<br />
+ return -1;<br />
+ if(root->data>n1 &#038;&#038; root->data>n2)<br />
+ return leastCommanAncestor(root->left,n1,n2);<br />
+ else if(root->data<n1 &#038;&#038; root->data<n2 )<br />
+ return leastCommanAncestor(root->right,n1,n2);<br />
+ return root->data;</p>
+<p>}</n2></n1></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-18570">
+        <div id="dsq-comment-header-18570" class="dsq-comment-header">
+            <cite id="dsq-cite-18570">
+http://coolsites.co.nf                <span id="dsq-author-user-18570">lolipop</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18570" class="dsq-comment-body">
+            <div id="dsq-comment-message-18570" class="dsq-comment-message"><p>what if the input does not exist in the tree&#8230;<br />
+like for 1, 44 your code out put 20 &#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-dpk22dev odd alt thread-odd thread-alt depth-1" id="dsq-comment-18155">
+        <div id="dsq-comment-header-18155" class="dsq-comment-header">
+            <cite id="dsq-cite-18155">
+                <span id="dsq-author-user-18155">dpk22dev</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18155" class="dsq-comment-body">
+            <div id="dsq-comment-message-18155" class="dsq-comment-message"><p>if both &#8220;n1&#8243; and &#8220;n2&#8243; are greater than &#8220;n&#8221;; then shouldn&#8217;t &#8220;n&#8221; be the lowest common ancestor because in binary search tree it will be having lowest magnitude. Both &#8220;n1&#8243;, &#8220;n2&#8243; lie on right branch of tree so all of their ancestors will be greater than &#8220;n&#8221;.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-dpk22dev even depth-2" id="dsq-comment-18156">
+        <div id="dsq-comment-header-18156" class="dsq-comment-header">
+            <cite id="dsq-cite-18156">
+                <span id="dsq-author-user-18156">dpk22dev</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18156" class="dsq-comment-body">
+            <div id="dsq-comment-message-18156" class="dsq-comment-message"><p>if(root->data > n1 &#038;&#038; root->data > n2)<br />
+    return root -> data; // <&#8212;-i think here it must be like this because in bst it will be lowest in value</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-18073">
+        <div id="dsq-comment-header-18073" class="dsq-comment-header">
+            <cite id="dsq-cite-18073">
+http://gagangupt16.wordpress.com                <span id="dsq-author-user-18073">Veer</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18073" class="dsq-comment-body">
+            <div id="dsq-comment-message-18073" class="dsq-comment-message"><p>Why is 20 22 not valid input?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-abhishek08aug even depth-2" id="dsq-comment-18079">
+        <div id="dsq-comment-header-18079" class="dsq-comment-header">
+            <cite id="dsq-cite-18079">
+                <span id="dsq-author-user-18079">abhishek08aug</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18079" class="dsq-comment-body">
+            <div id="dsq-comment-message-18079" class="dsq-comment-message"><p>Ancestor should be better be NULL. Look at my code below it does it right. <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-abhishek08aug odd alt thread-odd thread-alt depth-1" id="dsq-comment-18045">
+        <div id="dsq-comment-header-18045" class="dsq-comment-header">
+            <cite id="dsq-cite-18045">
+                <span id="dsq-author-user-18045">abhishek08aug</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18045" class="dsq-comment-body">
+            <div id="dsq-comment-message-18045" class="dsq-comment-message"><p>Here is the C++ code extended from my post on: <a href="http://www.geeksforgeeks.org/given-a-binary-tree-print-out-all-of-its-root-to-leaf-paths-one-per-line/" rel="nofollow">http://www.geeksforgeeks.org/given-a-binary-tree-print-out-all-of-its-root-to-leaf-paths-one-per-line/</a></p>
+<p>Function tree::_lowest_common_ancestor() could be further optimized by keeping the results saved instead of making same function call to _find() many a times.</p>
+<p>Also in main() the return value should be checked for null-ness for all invocations as done for the last one.</p>
+<pre> <code language="C">
+#include &lt;iostream&gt;
+#include &lt;stdlib.h&gt;
+using namespace std;
+ 
+class tree_node {
+  private:
+    int data;
+    tree_node * left;
+    tree_node * right;
+  public:
+    tree_node() {
+      left=NULL;
+      right=NULL;
+    }
+    void set_data(int data) {
+      this-&gt;data=data;
+    }
+    int get_data() {
+      return this-&gt;data;
+    }
+    void set_left(tree_node * left) {
+      this-&gt;left=left;
+    }
+    tree_node * get_left() {
+      return this-&gt;left;
+    }
+    void set_right(tree_node * right) {
+      this-&gt;right=right;
+    }
+    tree_node * get_right() {
+      return this-&gt;right;
+    }
+    tree_node ** get_left_ref() {
+      return &amp;(this-&gt;left);
+    }
+    tree_node ** get_right_ref() {
+      return &amp;(this-&gt;right);
+    }
+};
+ 
+class tree {
+  private:
+    tree_node * root;
+    int size;
+    void _recursive_insert(tree_node ** root_ref, int value);
+    void _print_preorder(tree_node * root);
+    void _print_inorder(tree_node * root);
+    void _print_postorder(tree_node * root);
+    int _find_size(tree_node * root);
+    int _are_identical(tree_node * tn1, tree_node * tn2);
+    int _find_height(tree_node * root);
+    void _delete_tree(tree_node ** root);
+    void _mirror(tree_node * root);
+    void _print_paths(tree_node * root, int * path_nodes, int next_vacant_position);
+    void _print_array(int * array, int len);
+    tree_node * _lowest_common_ancestor(tree_node * parent, tree_node * root, int a, int b);
+    tree_node * _find_node(tree_node * root, int value);
+  public:
+    tree() {
+      root=NULL;
+      size=0;
+    }
+    void insert(int value);
+    void recursive_insert(int value);
+    void print_preorder();
+    void print_inorder();
+    void print_postorder();
+    int find_size();
+    int get_size() {
+      return this-&gt;size;
+    }
+    int are_identical(tree t);
+    int find_height();
+    void delete_tree();
+    void mirror();
+    void print_paths();
+    tree_node * lowest_common_ancestor(int a, int b);
+    tree_node * find_node(int value);
+};
+ 
+void tree::insert(int value) {
+  if(root==NULL) {
+    root=new tree_node;
+    root-&gt;set_data(value);
+  } else {
+    tree_node * parent=NULL;
+    tree_node * current=root;
+    tree_node * new_node=new tree_node;
+    new_node-&gt;set_data(value);
+    while(current!=NULL) {
+      if(value&lt;=current-&gt;get_data()) {
+        parent=current;
+        current=current-&gt;get_left();
+      } else {
+        parent=current;
+        current=current-&gt;get_right();
+      }
+    }
+    if(value&lt;=parent-&gt;get_data() &amp;&amp; parent-&gt;get_left()==NULL) {
+      parent-&gt;set_left(new_node);
+    } else if(value&gt;parent-&gt;get_data() &amp;&amp; parent-&gt;get_right()==NULL) {
+      parent-&gt;set_right(new_node);
+    }
+  }
+  size++;
+}
+ 
+void tree::recursive_insert(int value) {
+  _recursive_insert(&amp;root, value);
+  size++;
+}
+ 
+void tree::_recursive_insert(tree_node ** root_ref, int value) {
+  if(*root_ref==NULL) {
+    tree_node * new_node=new tree_node;
+    new_node-&gt;set_data(value);
+    *root_ref=new_node;   
+  } else {
+    if(value&lt;=(*root_ref)-&gt;get_data()) {
+      _recursive_insert((*root_ref)-&gt;get_left_ref(), value);
+    } else {
+      _recursive_insert((*root_ref)-&gt;get_right_ref(), value);
+    }
+  }
+}
+ 
+void tree::print_preorder() {
+  if(root==NULL) {
+    return;
+  }
+  _print_preorder(root);
+  cout&lt;&lt;endl;
+}
+ 
+void tree::_print_preorder(tree_node * root) {
+  if(root==NULL) {
+    return;
+  }
+  cout&lt;&lt;root-&gt;get_data()&lt;&lt;&quot; &quot;;
+  if(root-&gt;get_left()!=NULL)
+    _print_preorder(root-&gt;get_left());
+  if(root-&gt;get_right()!=NULL)
+    _print_preorder(root-&gt;get_right());
+}
+ 
+void tree::print_inorder() {
+  if(root==NULL) {
+    return;
+  }
+  _print_inorder(root);
+  cout&lt;&lt;endl;
+}
+ 
+void tree::_print_inorder(tree_node * root) {
+  if(root==NULL) {
+    return;
+  }
+  if(root-&gt;get_left()!=NULL)
+    _print_inorder(root-&gt;get_left());
+  cout&lt;&lt;root-&gt;get_data()&lt;&lt;&quot; &quot;;
+  if(root-&gt;get_right()!=NULL)
+    _print_inorder(root-&gt;get_right());
+}
+ 
+void tree::print_postorder() {
+  if(root==NULL) {
+    return;
+  }
+  _print_postorder(root);
+  cout&lt;&lt;endl;
+}
+ 
+void tree::_print_postorder(tree_node * root) {
+  if(root==NULL) {
+    return;
+  }
+  if(root-&gt;get_left()!=NULL)
+    _print_postorder(root-&gt;get_left());
+  if(root-&gt;get_right()!=NULL)
+    _print_postorder(root-&gt;get_right());
+  cout&lt;&lt;root-&gt;get_data()&lt;&lt;&quot; &quot;;
+}
+
+int tree::find_size() {
+  return _find_size(root);
+}
+
+int tree::_find_size(tree_node * root) {
+  if(root==NULL) {
+    return 0;
+  } else {
+    return 1+_find_size(root-&gt;get_left())+_find_size(root-&gt;get_right());
+  }
+}
+
+int tree::are_identical(tree t) {
+  return _are_identical(this-&gt;root, t.root);
+}
+
+int tree::_are_identical(tree_node * tn1, tree_node * tn2) {
+  if(tn1==NULL &amp;&amp; tn2==NULL) {
+    return 1;
+  } else if((tn1==NULL &amp;&amp; tn2!=NULL) || (tn1!=NULL &amp;&amp; tn2==NULL) || (tn1-&gt;get_data()!=tn2-&gt;get_data())) {
+    return 0;
+  } else {
+    return _are_identical(tn1-&gt;get_left(), tn2-&gt;get_left()) &amp;&amp; _are_identical(tn1-&gt;get_right(), tn2-&gt;get_right());
+  }
+}
+
+int tree::find_height() {
+  return _find_height(root);
+}
+
+int tree::_find_height(tree_node * root) {
+  if(root==NULL) {
+    return 0;
+  }
+  else {
+    return 1+max(_find_height(root-&gt;get_left()), _find_height(root-&gt;get_right()));
+  }
+}
+
+void tree::delete_tree() {
+  _delete_tree(&amp;root);
+  size=0;
+}
+
+void tree::_delete_tree(tree_node ** root) {
+  if(*root==NULL) {
+    return;
+  } else {
+    if((*root)-&gt;get_left()!=NULL) {
+      _delete_tree((*root)-&gt;get_left_ref());
+    }
+    if((*root)-&gt;get_right()!=NULL) {
+      _delete_tree((*root)-&gt;get_right_ref());
+    }
+    delete(*root);
+    *root=NULL;
+  }
+}
+
+/* alternate _delete_tree */
+/*
+void tree::_delete_tree(tree_node ** root) {
+  if(*root==NULL) {
+    return;
+  } else {
+    if((*root)-&gt;get_left()!=NULL) {
+      tree_node * left_ref=(*root)-&gt;get_left();
+      _delete_tree(&amp;left_ref);
+    }
+    if((*root)-&gt;get_right()!=NULL) {
+      tree_node * right_ref=(*root)-&gt;get_right();
+      _delete_tree(&amp;right_ref);
+    }
+    delete(*root);
+    *root=NULL;
+  }
+}
+*/
+
+void tree::mirror() {
+  _mirror(root);
+}
+
+void tree::_mirror(tree_node * root) {
+  if(root==NULL) {
+    return;
+  }
+
+  tree_node * temp=root-&gt;get_left();
+  root-&gt;set_left(root-&gt;get_right());
+  root-&gt;set_right(temp);
+  _mirror(root-&gt;get_left());
+  _mirror(root-&gt;get_right());
+}
+
+void tree::print_paths(){
+   int max_path_length=find_height();
+   int * path_nodes=(int *)calloc(sizeof(int), max_path_length);
+  _print_paths(root, path_nodes, 0);
+}
+
+void tree::_print_paths(tree_node * root, int * path_nodes, int next_vacant_position){
+  if(root==NULL) {
+    return;
+  } else if(root-&gt;get_left()==NULL &amp;&amp; root-&gt;get_right()==NULL) {
+    *(path_nodes+next_vacant_position)=root-&gt;get_data();
+    _print_array(path_nodes, next_vacant_position);
+  } else {
+    *(path_nodes+next_vacant_position)=root-&gt;get_data();
+    _print_paths(root-&gt;get_left(), path_nodes, next_vacant_position+1);
+    _print_paths(root-&gt;get_right(), path_nodes, next_vacant_position+1);
+  }
+}
+
+void tree::_print_array(int * array, int len) {
+  int i;
+  for(i=0; i&lt;=len; i++) {
+    cout&lt;&lt;*(array+i)&lt;&lt;&quot; &quot;;
+  }
+  cout&lt;&lt;endl;
+}
+
+tree_node * tree::find_node(int value) {
+  return _find_node(root, value);
+}
+
+tree_node * tree::_find_node(tree_node * root, int value) {
+  if(root==NULL || root-&gt;get_data()==value) {
+    return root;
+  } else if(value&lt;=root-&gt;get_data()) {
+    _find_node(root-&gt;get_left(), value);
+  } else {
+    _find_node(root-&gt;get_right(), value);
+  }
+}
+
+tree_node * tree::lowest_common_ancestor(int a, int b) {
+  return _lowest_common_ancestor(NULL, root, a, b);
+}
+
+tree_node * tree::_lowest_common_ancestor(tree_node * parent, tree_node * root, int a, int b) {
+  if(root==NULL) {
+    return root;
+  } else if((root-&gt;get_data()==a &amp;&amp; (root-&gt;get_left()-&gt;get_data()==b || root-&gt;get_right()-&gt;get_data()==b))
+             || (root-&gt;get_data()==b &amp;&amp; (root-&gt;get_left()-&gt;get_data()==a || root-&gt;get_right()-&gt;get_data()==a))) {
+    return parent;
+  } else if((_find_node(root-&gt;get_left(), a)!=NULL &amp;&amp; _find_node(root-&gt;get_right(), b)!=NULL)
+        || (_find_node(root-&gt;get_left(), b)!=NULL &amp;&amp; _find_node(root-&gt;get_right(), a)!=NULL)) {
+    return root; 
+  } else if(_find_node(root-&gt;get_left(), a)!=NULL &amp;&amp; _find_node(root-&gt;get_left(), b)!=NULL) {
+    return _lowest_common_ancestor(root, root-&gt;get_left(), a, b);
+  } else if(_find_node(root-&gt;get_right(), a)!=NULL &amp;&amp; _find_node(root-&gt;get_right(), b)!=NULL) {
+    return _lowest_common_ancestor(root, root-&gt;get_right(), a, b);
+  } else {
+    return NULL;
+  }
+}
+
+int main() {
+  tree t1;
+
+  t1.recursive_insert(5);
+  t1.recursive_insert(3);
+  t1.insert(1);
+  t1.insert(7);
+  t1.recursive_insert(50);
+  t1.recursive_insert(6);
+
+  cout&lt;&lt;&quot;Inorder Traversal&quot;&lt;&lt;endl;
+  t1.print_inorder();
+  cout&lt;&lt;&quot;Lowest common ancestor of 1 and 7 is: &quot;&lt;&lt;(t1.lowest_common_ancestor(1, 7))-&gt;get_data()&lt;&lt;endl;
+  cout&lt;&lt;&quot;Lowest common ancestor of 6 and 50 is: &quot;&lt;&lt;(t1.lowest_common_ancestor(6, 50))-&gt;get_data()&lt;&lt;endl;
+  cout&lt;&lt;&quot;Lowest common ancestor of 3 and 7 is: &quot;&lt;&lt;(t1.lowest_common_ancestor(3, 7))-&gt;get_data()&lt;&lt;endl;
+  tree_node * tn1=t1.lowest_common_ancestor(5, 3);
+  if(tn1!=NULL) {
+    cout&lt;&lt;&quot;Lowest common ancestor of 5 and 3 is: &quot;&lt;&lt;tn1-&gt;get_data()&lt;&lt;endl;
+  } else {
+    cout&lt;&lt;&quot;Lowest common ancestor of 5 and 3 is NULL&quot;&lt;&lt;endl;
+  }
+
+  return 0;
+}
+</code> </pre>
+<p>Inorder Traversal<br />
+1 3 5 6 7 50<br />
+Lowest common ancestor of 1 and 7 is: 5<br />
+Lowest common ancestor of 6 and 50 is: 7<br />
+Lowest common ancestor of 3 and 7 is: 5<br />
+Lowest common ancestor of 5 and 3 is NULL</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-25038">
+        <div id="dsq-comment-header-25038" class="dsq-comment-header">
+            <cite id="dsq-cite-25038">
+                <span id="dsq-author-user-25038">rahul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-25038" class="dsq-comment-body">
+            <div id="dsq-comment-message-25038" class="dsq-comment-message"><p>Intelligent <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-shailraj odd alt thread-even depth-1" id="dsq-comment-16665">
+        <div id="dsq-comment-header-16665" class="dsq-comment-header">
+            <cite id="dsq-cite-16665">
+                <span id="dsq-author-user-16665">shailraj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16665" class="dsq-comment-body">
+            <div id="dsq-comment-message-16665" class="dsq-comment-message"><p>if(value1< root->data &#038;&#038; value2<root ->data)</root></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-shailraj even depth-2" id="dsq-comment-16666">
+        <div id="dsq-comment-header-16666" class="dsq-comment-header">
+            <cite id="dsq-cite-16666">
+                <span id="dsq-author-user-16666">shailraj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16666" class="dsq-comment-body">
+            <div id="dsq-comment-message-16666" class="dsq-comment-message"><p>if(value1< root->data &#038;&#038; value2< root->data)<br />
+i donot know why its changing my original line</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-shailraj odd alt thread-odd thread-alt depth-1" id="dsq-comment-16664">
+        <div id="dsq-comment-header-16664" class="dsq-comment-header">
+            <cite id="dsq-cite-16664">
+                <span id="dsq-author-user-16664">shailraj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16664" class="dsq-comment-body">
+            <div id="dsq-comment-message-16664" class="dsq-comment-message"><p>will it work ?<br />
+int FindLowestCommonAncestor(node* root, int value1, int value){<br />
+    if(root==NULL) return -1;<br />
+    if(value1< root->data &#038;&#038; value2<root ->data)<br />
+        return FindLowestCommonAncestor(root->left,value1,value2);</p>
+<p>    if(value1> root->data &#038;&#038; value2>root->data){<br />
+        FindLowestCommonAncestor(root->right,value1,value2);<br />
+    return root->data;<br />
+}</root></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-17551">
+        <div id="dsq-comment-header-17551" class="dsq-comment-header">
+            <cite id="dsq-cite-17551">
+                <span id="dsq-author-user-17551">jugal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17551" class="dsq-comment-body">
+            <div id="dsq-comment-message-17551" class="dsq-comment-message"><p>I think shailraj code will work fine.Please comment.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-16613">
+        <div id="dsq-comment-header-16613" class="dsq-comment-header">
+            <cite id="dsq-cite-16613">
+                <span id="dsq-author-user-16613">stupid</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16613" class="dsq-comment-body">
+            <div id="dsq-comment-message-16613" class="dsq-comment-message"><pre> <code language="C">
+void findlowestCommanAncestor(struct node *root,int data1,int data2,int *an,int *flag){
+     if(root == NULL){
+             return;
+     }
+     if(root-&gt;data&gt;data1 &amp;&amp; root-&gt;data&lt;data2){
+                         *flag = 0;
+                         printf(&quot;%d  &quot;,root-&gt;data);
+                         return;
+     }
+     if(root-&gt;data&gt;data1 &amp;&amp; root-&gt;data&gt;data2){
+                         *an = root-&gt;data;
+                         findlowestCommanAncestor(root-&gt;left,data1,data2,an,flag);
+     }
+     else if(root-&gt;data&lt;data1 &amp;&amp; root-&gt;data&lt;data2){
+                         *an = root-&gt;data;     
+                         findlowestCommanAncestor(root-&gt;right,data1,data2,an,flag);
+     }
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-16670">
+        <div id="dsq-comment-header-16670" class="dsq-comment-header">
+            <cite id="dsq-cite-16670">
+                <span id="dsq-author-user-16670">Pal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16670" class="dsq-comment-body">
+            <div id="dsq-comment-message-16670" class="dsq-comment-message"><p>Slight modification to GeeksforGeeks code. As per the example tree, LCA of 20 and 22 must be 20 and LCA of 4 and 5 is 4. Please verify.</p>
+<p>/* Function to find least comman ancestor of n1 and n2 */<br />
+int leastCommanAncestor(struct node* root, int n1, int n2)<br />
+{<br />
+  /* If we have reached a leaf node then LCA doesn&#8217;t exist<br />
+     If root-&gt;data is equal to any of the inputs then input is<br />
+     not valid. */</p>
+<p>  if(root == NULL)<br />
+    return -1;<br />
+  if (root-&gt;data == n1 || root-&gt;data == n2)<br />
+    return root-&gt;data;</p>
+<p>  if(root-&gt;data &gt; n1 &amp;&amp; root-&gt;data &lt; n2)<br />
+    return root-&gt;data;<br />
+  if(root-&gt;data &gt; n1 &amp;&amp; root-&gt;data &gt; n2)<br />
+    return leastCommanAncestor(root-&gt;left, n1, n2);<br />
+  if(root-&gt;data &lt; n1 &amp;&amp; root-&gt;data &lt; n2)<br />
+    return leastCommanAncestor(root-&gt;right, n1, n2);<br />
+}  </p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-17567">
+        <div id="dsq-comment-header-17567" class="dsq-comment-header">
+            <cite id="dsq-cite-17567">
+                <span id="dsq-author-user-17567">rahul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17567" class="dsq-comment-body">
+            <div id="dsq-comment-message-17567" class="dsq-comment-message"><p>agree&#8230;right code</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-16344">
+        <div id="dsq-comment-header-16344" class="dsq-comment-header">
+            <cite id="dsq-cite-16344">
+                <span id="dsq-author-user-16344">rohit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16344" class="dsq-comment-body">
+            <div id="dsq-comment-message-16344" class="dsq-comment-message"><p>this algo dont work for 12 and 15 when one elemnt exits and other dont&#8230;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-yelnatz odd alt depth-2" id="dsq-comment-16346">
+        <div id="dsq-comment-header-16346" class="dsq-comment-header">
+            <cite id="dsq-cite-16346">
+                <span id="dsq-author-user-16346">yelnatz</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16346" class="dsq-comment-body">
+            <div id="dsq-comment-message-16346" class="dsq-comment-message"><p>It&#8217;s like you didn&#8217;t even read the thing.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-16352">
+        <div id="dsq-comment-header-16352" class="dsq-comment-header">
+            <cite id="dsq-cite-16352">
+                <span id="dsq-author-user-16352">rohit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16352" class="dsq-comment-body">
+            <div id="dsq-comment-message-16352" class="dsq-comment-message"><p>ohhkk my fault it assumed that both elements exist but then what is point in checking root for null ..?? that is  /* If we have reached a leaf node then LCA doesn&#8217;t exist */</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-16313">
+        <div id="dsq-comment-header-16313" class="dsq-comment-header">
+            <cite id="dsq-cite-16313">
+                <span id="dsq-author-user-16313">Ankit Sablok</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16313" class="dsq-comment-body">
+            <div id="dsq-comment-message-16313" class="dsq-comment-message"><p>This problem will be a hell lot easier if we can add a parent field to the node definition, so when we are given 2 nodes as input we can traverse their parent pointers to form a list of ancestors, sort the 2 ancestor lists obtained and check for the existence of their first elements in each others list, I think that reports the correct solution for the sake of this example as we are given as inputs 4 and 14, following their parent pointers gives us the following lists for the 2 nodes 4&#8217;s list 8-&gt;20 and 14&#8217;s list 12-&gt;8-&gt;20 the sorted lists look like the following 8-&gt;20 and 8-&gt;12-&gt;20 hence 8 is the least common ancestor.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-16236">
+        <div id="dsq-comment-header-16236" class="dsq-comment-header">
+            <cite id="dsq-cite-16236">
+                <span id="dsq-author-user-16236">Baahu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16236" class="dsq-comment-body">
+            <div id="dsq-comment-message-16236" class="dsq-comment-message"><p>Tried executing the program with the below tree and intetionally gave input as 4 and 6 (please note: 6 is not part of the tree), the output was 2&#8230;which is wrong.<br />
+Some correction is needed.Perhaps we need to make sure that both the elements are indeed part of the tree.</p>
+<pre> <code language="C">
+/* 
+            2
+           / \
+         1   4
+             / \
+           3   5
+
+
+ */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor odd alt depth-2" id="dsq-comment-16237">
+        <div id="dsq-comment-header-16237" class="dsq-comment-header">
+            <cite id="dsq-cite-16237">
+                <span id="dsq-author-user-16237">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16237" class="dsq-comment-body">
+            <div id="dsq-comment-message-16237" class="dsq-comment-message"><p>Please take a closer look at the problem.  The post is about Binary Search Tree, not Binary Tree.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-16240">
+        <div id="dsq-comment-header-16240" class="dsq-comment-header">
+            <cite id="dsq-cite-16240">
+                <span id="dsq-author-user-16240">Baahu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16240" class="dsq-comment-body">
+            <div id="dsq-comment-message-16240" class="dsq-comment-message"><p>Geeksforgeeks,<br />
+The inputs that I gave was 4,6 and 6 is not part of the BST, but still the program&#8217;s output was 2&#8230;which is not correct.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-3" id="dsq-comment-17548">
+        <div id="dsq-comment-header-17548" class="dsq-comment-header">
+            <cite id="dsq-cite-17548">
+                <span id="dsq-author-user-17548">BackBencher</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17548" class="dsq-comment-body">
+            <div id="dsq-comment-message-17548" class="dsq-comment-message"><p>Hi,<br />
+  Can we find LCA in binary tree.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-3" id="dsq-comment-18861">
+        <div id="dsq-comment-header-18861" class="dsq-comment-header">
+            <cite id="dsq-cite-18861">
+                <span id="dsq-author-user-18861">Prateek Sharma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18861" class="dsq-comment-body">
+            <div id="dsq-comment-message-18861" class="dsq-comment-message"><p>I don&#8217;t think ur code will handle duplicates in BST. Plz corrct me if I&#8217;m wrong </p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor odd alt depth-4" id="dsq-comment-18944">
+        <div id="dsq-comment-header-18944" class="dsq-comment-header">
+            <cite id="dsq-cite-18944">
+                <span id="dsq-author-user-18944">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18944" class="dsq-comment-body">
+            <div id="dsq-comment-message-18944" class="dsq-comment-message"><p>Prateek, BSTs, by definition are not supposed to have duplicates.  Please see <a href="http://en.wikipedia.org/wiki/Binary_Search_Tree" rel="nofollow">http://en.wikipedia.org/wiki/Binary_Search_Tree</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-16275">
+        <div id="dsq-comment-header-16275" class="dsq-comment-header">
+            <cite id="dsq-cite-16275">
+                <span id="dsq-author-user-16275">moonlight</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16275" class="dsq-comment-body">
+            <div id="dsq-comment-message-16275" class="dsq-comment-message"><p>it is assuming that both values are already in the tree</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-14405">
+        <div id="dsq-comment-header-14405" class="dsq-comment-header">
+            <cite id="dsq-cite-14405">
+                <span id="dsq-author-user-14405">kpd</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14405" class="dsq-comment-body">
+            <div id="dsq-comment-message-14405" class="dsq-comment-message"><p>for the example tree given in the solution.</p>
+<p>if the query is (10,14)<br />
+then the sample code produce answer = 12 ..<br />
+but shouldn&#8217;t the answer be 8 &#8230; </p>
+<p>According to Hari Prasad Perabattula method:</p>
+<p>path to 10 not including 10 : 20 8<br />
+path to 14 not including 14 : 20 8 12</p>
+<p>so value before first mismatch = 8 which seems to be correct</p>
+<p>Plz if someone could verify this.<br />
+Thanks</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-yelnatz even depth-2" id="dsq-comment-15811">
+        <div id="dsq-comment-header-15811" class="dsq-comment-header">
+            <cite id="dsq-cite-15811">
+                <span id="dsq-author-user-15811">yelnatz</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15811" class="dsq-comment-body">
+            <div id="dsq-comment-message-15811" class="dsq-comment-message"><p>LCA between two nodes means the first ancestor they have in common. So if you trace the ancestry of one node while also tracing the ancestry of the other, which node will they first meet/merge/connect?</p>
+<p>Given 10 and 14, going up their first ancestor (their parent) already satisfies this.</p>
+<p>It&#8217;s not 8 since 12 satisfies the requirements first, although 8 is also an ancestor to both.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-12851">
+        <div id="dsq-comment-header-12851" class="dsq-comment-header">
+            <cite id="dsq-cite-12851">
+http://offshorecompany1.blogspot.com/                <span id="dsq-author-user-12851">Offshore Company</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12851" class="dsq-comment-body">
+            <div id="dsq-comment-message-12851" class="dsq-comment-message"><p>Amazing site!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-12103">
+        <div id="dsq-comment-header-12103" class="dsq-comment-header">
+            <cite id="dsq-cite-12103">
+                <span id="dsq-author-user-12103">rahul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12103" class="dsq-comment-body">
+            <div id="dsq-comment-message-12103" class="dsq-comment-message"><p>I will not work if n1&gt;n2 ..and if n1 is parent of n2 this will return false&#8230;but acc to wiki if n1 is parent of n2 then lca is n1..have a look at following code..<br />
+int leastCommanAncestor(struct node* root, int n1, int n2)<br />
+{<br />
+ if(root==NULL)<br />
+ return -1;<br />
+ if(root-&gt;data&gt;n1 &amp;&amp; root-&gt;data&gt;n2)<br />
+ return leastCommanAncestor(root-&gt;left,n1,n2);<br />
+ else if(root-&gt;datadataright,n1,n2);<br />
+ return root-&gt;data;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-11729">
+        <div id="dsq-comment-header-11729" class="dsq-comment-header">
+            <cite id="dsq-cite-11729">
+                <span id="dsq-author-user-11729">Ritesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11729" class="dsq-comment-body">
+            <div id="dsq-comment-message-11729" class="dsq-comment-message"><p>To find the least common ancestor of a general binary tree</p>
+<pre> <code language="C">
+#include&lt;iostream&gt;
+#include&lt;stdlib.h&gt;
+using namespace std;
+#include &quot;tree.h&quot;
+
+bool check(node* record,int n)
+{
+if(record!=NULL)
+{
+if(record-&gt;info==n) 
+return true;
+
+return check(record-&gt;left,n) || check(record-&gt;right,n);
+}
+}
+
+node* leastcommonancestor(node *record,int n1,int n2)
+{
+
+if(record!=NULL)
+{
+
+if((check(record-&gt;left,n1)&amp;&amp;check(record-&gt;right,n2))||(check(record-&gt;right,n1)&amp;&amp;check(record-&gt;left,n2)))
+{
+return record;
+}
+
+node *temp1=NULL;
+temp1=leastcommonancestor(record-&gt;left,n1,n2);
+
+if(temp1!=NULL)
+return temp1;
+
+node *temp2=NULL;
+temp2=leastcommonancestor(record-&gt;right,n1,n2);
+
+if(temp2!=NULL)
+return temp2;
+}
+
+}
+
+int main()
+{
+
+node *root=NULL;
+root=(node *)malloc(sizeof(node));
+root-&gt;info=10;
+root-&gt;left=NULL;
+root-&gt;right=NULL;
+
+addnode(root,7);
+addnode(root,4);
+addnode(root,3);
+addnode(root,8);
+addnode(root,9);
+addnode(root,14);
+addnode(root,12);
+addnode(root,15);
+
+cout&lt;&lt;&quot;\n\n&quot;;
+inorder(root);
+cout&lt;&lt;&quot;\n\n&quot;;
+
+node* c= leastcommonancestor(root,8,15);
+cout&lt;&lt;&quot;\n\nThe value is:&quot;&lt;&lt;c-&gt;info&lt;&lt;&quot;\n\n&quot;;
+
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-12286">
+        <div id="dsq-comment-header-12286" class="dsq-comment-header">
+            <cite id="dsq-cite-12286">
+                <span id="dsq-author-user-12286">Anonymous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12286" class="dsq-comment-body">
+            <div id="dsq-comment-message-12286" class="dsq-comment-message"><p>@Ritesh :Will this work in general for binary trees or only BST ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-11604">
+        <div id="dsq-comment-header-11604" class="dsq-comment-header">
+            <cite id="dsq-cite-11604">
+                <span id="dsq-author-user-11604">Rahul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11604" class="dsq-comment-body">
+            <div id="dsq-comment-message-11604" class="dsq-comment-message"><p>What would be the lca of node 4 and 5? 2, right?</p>
+<p>How&#8217;ll your solution find 2 as LCA as it is greter than 4 and 5 both? </p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-11278">
+        <div id="dsq-comment-header-11278" class="dsq-comment-header">
+            <cite id="dsq-cite-11278">
+                <span id="dsq-author-user-11278">Harshit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11278" class="dsq-comment-body">
+            <div id="dsq-comment-message-11278" class="dsq-comment-message"><p>I think there is a small problem in your algo.<br />
+Say If the input nodes are 14 and 4 instead of 4 and 14, then your algo wont return 8 because you are only checking :<br />
+8&gt;n1 and 8 &lt; n2<br />
+In case of input 14 and 4: this condition will come out to be false and as a result 8 wont be returned !</p>
+<p>/* Paste your code here (You may delete these lines if not writing code) */</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-11304">
+        <div id="dsq-comment-header-11304" class="dsq-comment-header">
+            <cite id="dsq-cite-11304">
+                <span id="dsq-author-user-11304">Kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11304" class="dsq-comment-body">
+            <div id="dsq-comment-message-11304" class="dsq-comment-message"><p>It works fine for 14 and 4. </p>
+<pre> <code language="C">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+/* A binary tree node has data, pointer to left child
+   and a pointer to right child */
+struct node
+{
+    int data;
+    struct node* left;
+    struct node* right;
+};
+
+struct node* newNode(int );
+
+/* Function to find least comman ancestor of n1 and n2 */
+int leastCommanAncestor(struct node* root, int n1, int n2)
+{
+  /* If we have reached a leaf node then LCA doesn't exist
+     If root-&gt;data is equal to any of the inputs then input is
+     not valid. For example 20, 22 in the given figure */
+  if(root == NULL || root-&gt;data == n1 || root-&gt;data == n2)
+    return -1;
+
+  /* If any of the input nodes is child of the current node
+     we have reached the LCA. For example, in the above figure
+     if we want to calculate LCA of 12 and 14, recursion should
+     terminate when we reach 8*/
+  if((root-&gt;right != NULL) &amp;&amp;
+    (root-&gt;right-&gt;data == n1 || root-&gt;right-&gt;data == n2))
+    return root-&gt;data;
+  if((root-&gt;left != NULL) &amp;&amp;
+    (root-&gt;left-&gt;data == n1 || root-&gt;left-&gt;data == n2))
+    return root-&gt;data;
+
+  if(root-&gt;data &gt; n1 &amp;&amp; root-&gt;data &lt; n2)
+    return root-&gt;data;
+  if(root-&gt;data &gt; n1 &amp;&amp; root-&gt;data &gt; n2)
+    return leastCommanAncestor(root-&gt;left, n1, n2);
+  if(root-&gt;data &lt; n1 &amp;&amp; root-&gt;data &lt; n2)
+    return leastCommanAncestor(root-&gt;right, n1, n2);
+}
+
+/* Helper function that allocates a new node with the
+   given data and NULL left and right pointers. */
+struct node* newNode(int data)
+{
+  struct node* node = (struct node*)
+                       malloc(sizeof(struct node));
+  node-&gt;data  = data;
+  node-&gt;left  = NULL;
+  node-&gt;right = NULL;
+
+  return(node);
+}
+
+/* Driver program to test mirror() */
+int main()
+{
+  struct node *root  = newNode(20);
+  root-&gt;left         = newNode(8);
+  root-&gt;right        = newNode(22);
+  root-&gt;left-&gt;left  = newNode(4);
+  root-&gt;left-&gt;right = newNode(12);
+  root-&gt;left-&gt;right-&gt;left = newNode(10);
+  root-&gt;left-&gt;right-&gt;right = newNode(14);
+
+/* Constructed binary search tree is
+            2
+           / \
+         1   4
+             / \
+           3   5
+*/
+  printf(&quot;\n The Least Common Ancestor is \n&quot;);
+  printf(&quot;%d&quot;, leastCommanAncestor(root, 14, 4));
+
+  getchar();
+  return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-10165">
+        <div id="dsq-comment-header-10165" class="dsq-comment-header">
+            <cite id="dsq-cite-10165">
+                <span id="dsq-author-user-10165">seabird</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10165" class="dsq-comment-body">
+            <div id="dsq-comment-message-10165" class="dsq-comment-message"><pre> <code language="C">
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+
+typedef struct node{
+    int data;
+    struct node *left;
+    struct node *right;
+} node;
+
+int lca(node *root,int a,int b)
+{
+    if(root)
+        if(root-&gt;data&gt;a &amp;&amp; root-&gt;data &lt;b)return root-&gt;data;
+        else if(root-&gt;data&gt;a &amp;&amp; root-&gt;data &gt;b)return lca(root-&gt;left,a,b);
+        else return lca(root-&gt;right,a,b);
+    else return -1;
+}
+
+node *make_tree(node *root,int num)
+{
+    if(root==NULL) {
+        node *newnode=malloc(sizeof(node));
+        newnode-&gt;data=num;
+        newnode-&gt;left=NULL;
+        newnode-&gt;right=NULL;
+        root=newnode;
+    } else {
+        if((root-&gt;data) &lt;= num ) {
+            root-&gt;right=make_tree(root-&gt;right,num);
+        } else {
+            root-&gt;left=make_tree(root-&gt;left,num);
+        }
+    }
+    return root;
+}
+
+int main()
+{
+    int n;
+    scanf(&quot;%d&quot;,&amp;n);
+    int i;
+    node *root=NULL;
+    int num;
+    for(i=0;i&lt;n;i++) {
+        scanf(&quot;%d&quot;,&amp;num);
+        root=make_tree(root,num);
+    }
+    int a,b;
+    scanf(&quot;%d%d&quot;,&amp;a,&amp;b);
+    int lc=lca(root,a,b);
+    printf(&quot;%d\n&quot;,lc);
+    return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-10166">
+        <div id="dsq-comment-header-10166" class="dsq-comment-header">
+            <cite id="dsq-cite-10166">
+                <span id="dsq-author-user-10166">seabird</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10166" class="dsq-comment-body">
+            <div id="dsq-comment-message-10166" class="dsq-comment-message"><p>just 3 line function(lca).</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-aman1234 even depth-3" id="dsq-comment-19701">
+        <div id="dsq-comment-header-19701" class="dsq-comment-header">
+            <cite id="dsq-cite-19701">
+                <span id="dsq-author-user-19701">aman1234</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19701" class="dsq-comment-body">
+            <div id="dsq-comment-message-19701" class="dsq-comment-message"><p>what if a and b are not there in the tree ? :p</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8908">
+        <div id="dsq-comment-header-8908" class="dsq-comment-header">
+            <cite id="dsq-cite-8908">
+                <span id="dsq-author-user-8908">Manab</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8908" class="dsq-comment-body">
+            <div id="dsq-comment-message-8908" class="dsq-comment-message"><p>A better solution may be:</p>
+<p>template &lt;class T&gt;<br />
+T Tree&lt;T&gt;::bst_leastCommanAncestor(pair&lt;T, T&gt;  p)<br />
+{<br />
+	vector&lt;TreeNode *&gt;  path;<br />
+	TreeNode  *t = root;</p>
+<p>	while(t &amp;&amp; t-&gt;data != p.first){<br />
+		path.push_back(t);<br />
+		if(p.first &lt; t-&gt;data)<br />
+			t = t-&gt;left;<br />
+		else<br />
+			t = t-&gt;right;<br />
+	}</p>
+<p>	if(t == NULL){<br />
+		cerr &lt;&lt; &quot;Value &quot; &lt;&lt; p.first &lt;&lt; &quot;not found!&quot; &lt;&lt; endl;<br />
+		return ~0;<br />
+	}</p>
+<p>	for(typename vector&lt;TreeNode *&gt;::reverse_iterator i = path.rbegin(); i != path.rend(); ++i){<br />
+		t = *i;</p>
+<p>		while(t &amp;&amp; t-&gt;data != p.second){<br />
+			if(p.second &lt; t-&gt;data)<br />
+				t = t-&gt;left;<br />
+			else<br />
+				t = t-&gt;right;<br />
+		}</p>
+<p>		if(t &amp;&amp; t-&gt;data == p.second)<br />
+			return (*i)-&gt;data;<br />
+	}</p>
+<p>	cerr &lt;&lt; endl &lt;&lt; &quot;Value &quot; &lt;&lt; p.second &lt;&lt; &quot; not found!&quot; &lt;&lt; endl;<br />
+	return ~0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8890">
+        <div id="dsq-comment-header-8890" class="dsq-comment-header">
+            <cite id="dsq-cite-8890">
+                <span id="dsq-author-user-8890">Aakash Srivastava</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8890" class="dsq-comment-body">
+            <div id="dsq-comment-message-8890" class="dsq-comment-message"><p>Can anyone give me an example which would tell me that applying the condition &#8220;to check if next element is n1 or n2&#8243; is necessary.I find it redundant.The condition which checks whether the data of that node lies within n1 and n2 seems sufficient to me.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8794">
+        <div id="dsq-comment-header-8794" class="dsq-comment-header">
+            <cite id="dsq-cite-8794">
+                <span id="dsq-author-user-8794">Kanhaiya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8794" class="dsq-comment-body">
+            <div id="dsq-comment-message-8794" class="dsq-comment-message"><p>/* </p>
+<p>#include &lt;iostream&gt;<br />
+using namespace std;<br />
+typedef struct Node1<br />
+{<br />
+int val;<br />
+struct Node1 *left;<br />
+struct Node1 *right;<br />
+}*Node;<br />
+Node root = NULL;<br />
+Node fun(Node node, int first, int second)<br />
+{<br />
+if(!node)<br />
+{<br />
+return NULL;<br />
+}<br />
+if((node-&gt;val&lt;=first &amp;&amp; node-&gt;val&gt;=second) || (node-&gt;val&gt;=first &amp;&amp; node-&gt;val&lt;=second))<br />
+{<br />
+return node;<br />
+}<br />
+else<br />
+{<br />
+if(node-&gt;left)<br />
+{<br />
+if(fun(node-&gt;left, first, second))<br />
+return node-&gt;left;<br />
+}<br />
+if(node-&gt;right)<br />
+{<br />
+if(fun(node-&gt;right,first, second))<br />
+return node-&gt;right;<br />
+}<br />
+}<br />
+return NULL;<br />
+}<br />
+void construct_tree(int val)<br />
+{<br />
+Node node = new Node1;<br />
+node-&gt;val=val;<br />
+node-&gt;left = node-&gt;right = NULL;<br />
+Node temp = root;<br />
+if(temp == NULL)<br />
+{<br />
+root = node;<br />
+}<br />
+while(temp)<br />
+{<br />
+if(val &lt;= temp-&gt;val)<br />
+{<br />
+if(temp-&gt;left)<br />
+{<br />
+temp=temp-&gt;left;<br />
+}<br />
+else<br />
+{<br />
+temp-&gt;left=node;<br />
+break;<br />
+}<br />
+}<br />
+else<br />
+{<br />
+if(temp-&gt;right)<br />
+{<br />
+temp=temp-&gt;right;<br />
+}<br />
+else<br />
+{<br />
+temp-&gt;right=node;<br />
+break;<br />
+}<br />
+}<br />
+}<br />
+}<br />
+void print_tree(Node node)<br />
+{<br />
+if(!node )<br />
+{<br />
+//cout&lt;&lt;&quot;returning&quot;;<br />
+return;<br />
+}<br />
+cout&lt;&lt;node-&gt;val&lt;&lt;endl;<br />
+print_tree(node-&gt;left);<br />
+print_tree(node-&gt;right);<br />
+}<br />
+int main()<br />
+{<br />
+construct_tree(7);<br />
+construct_tree(15);<br />
+construct_tree(5);<br />
+construct_tree(2);<br />
+construct_tree(10);<br />
+print_tree(root);<br />
+Node res = fun(root, 5, 10);<br />
+cout&lt;&lt;&quot; result &quot; &lt;&lt; res-&gt;val;<br />
+return 0;<br />
+}</p>
+<p> */</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8212">
+        <div id="dsq-comment-header-8212" class="dsq-comment-header">
+            <cite id="dsq-cite-8212">
+                <span id="dsq-author-user-8212">suvrakanti</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8212" class="dsq-comment-body">
+            <div id="dsq-comment-message-8212" class="dsq-comment-message"><p>I think this is absolute solution because its taken from Stanford University notes <a href="http://cslibrary.stanford.edu/110/" rel="nofollow">http://cslibrary.stanford.edu/110/</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8143">
+        <div id="dsq-comment-header-8143" class="dsq-comment-header">
+            <cite id="dsq-cite-8143">
+                <span id="dsq-author-user-8143">Anonymous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8143" class="dsq-comment-body">
+            <div id="dsq-comment-message-8143" class="dsq-comment-message"><p>Can someone provide a Java version for this algorithm?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-12821">
+        <div id="dsq-comment-header-12821" class="dsq-comment-header">
+            <cite id="dsq-cite-12821">
+                <span id="dsq-author-user-12821">mohitk</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12821" class="dsq-comment-body">
+            <div id="dsq-comment-message-12821" class="dsq-comment-message"><p>Java Version : </p>
+<pre> <code language="Java">
+/* -------------------------------------------------------------------------------
+	 * Purpose : To determine the LCS in a BST for the 2 given numbers.
+	 * -------------------------------------------------------------------------------
+	 */
+	public int LCS(int input1, int input2)
+	{
+		// Call the helper function with the root
+		return LCSUtil(this.root,input1, input2);
+	}
+	
+	/* -------------------------------------------------------------------------------
+	 * Purpose : Helper Utility to determine the LCS in a BST for the 2 given numbers.
+	 * -------------------------------------------------------------------------------
+	 */
+	public int LCSUtil(Node node, int input1, int input2)
+	{
+		// If the node null, return the LCS was not found.
+		if (node == null)
+			return Integer.MIN_VALUE;
+		
+		// If the node is not null,
+		else 
+		{		
+			// If node is greater than both inputs, the LCS lies on the left subtree.
+			if (node.value &gt; input1 &amp;&amp; node.value &gt; input2)
+				return LCSUtil(node.left_child, input1, input2);
+			
+			// If node is less than both inputs, the LCS lies on the right subtree.
+			else if(node.value &lt; input1 &amp;&amp; node.value &lt; input2)
+				return LCSUtil(node.right_child, input1, input2);
+				
+			// If the node value lies b/w the 2 inputs, return the node.
+			else
+				return node.value;
+		}
+	}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-avinash-kumar odd alt thread-even depth-1" id="dsq-comment-7647">
+        <div id="dsq-comment-header-7647" class="dsq-comment-header">
+            <cite id="dsq-cite-7647">
+                <span id="dsq-author-user-7647">Avinash Kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7647" class="dsq-comment-body">
+            <div id="dsq-comment-message-7647" class="dsq-comment-message"><pre> <code language="C">
+ This code take care of all the condition ...
+ Easiest solution :
+
+int checkexist(binary *start,int n) {
+ 
+  if(start == NULL)
+   return 0;
+  if(start-&gt;data == n)
+    return 1; 
+  else if(start-&gt;data &gt; n)
+    return checkexist(start-&gt;left ,n);
+  else
+    return checkexist(start-&gt;right ,n);      
+    
+}
+
+void findcommonanc(binary *start,int n1 ,int n2) {
+  
+	binary *commonnoe = start ;
+	
+	if(!checkexist(start,n1) &amp;&amp; !checkexist(start,n2)){
+       printf(&quot;data not exist&quot;);
+       return ;
+    }
+	 
+
+	while(start) {
+	    if(start-&gt;data &gt;= n1 &amp;&amp; start-&gt;data &gt;=n2) {
+			start =start-&gt;left ;
+			commonnoe = start ;
+                       if(start-&gt;data == n1 || start-&gt;data ==n2)
+                       break;
+	    }
+	    else if(start-&gt;data &lt; n1 &amp;&amp; start-&gt;data &lt;n2) {
+			start =start-&gt;right ;			
+	    }
+	    else
+		   break ;
+
+	}
+		printf(&quot;Common parent :%d&quot;,commonnoe-&gt;data);
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-6435">
+        <div id="dsq-comment-header-6435" class="dsq-comment-header">
+            <cite id="dsq-cite-6435">
+                <span id="dsq-author-user-6435">hongping lin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6435" class="dsq-comment-body">
+            <div id="dsq-comment-message-6435" class="dsq-comment-message"><p>The posted solution seems to be too long and unnecessary complicated. </p>
+<p>Here is my version</p>
+<pre> <code language="C">
+  // assuming both i and j and in the tree
+  int FindLCA(Node* root, int i, int j)
+  {
+    while (root)
+    {
+      if (root-&gt;value &gt; i &amp;&amp; root-&gt;value&gt;j)
+        root = root -&gt;pLeft;
+      else if (root-&gt;value &lt;i &amp;&amp; root -&gt;value&lt;j)
+        root = root -&gt;pLeft;
+      else
+        return root-&gt;value;
+    }
+    throw std::runtime_error(&quot;Impossible to reach to this statement&quot;);
+  }
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-6436">
+        <div id="dsq-comment-header-6436" class="dsq-comment-header">
+            <cite id="dsq-cite-6436">
+                <span id="dsq-author-user-6436">hongping lin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6436" class="dsq-comment-body">
+            <div id="dsq-comment-message-6436" class="dsq-comment-message"><p>sorry for copy-paste error </p>
+<p>  // assuming both i and j and in the tree<br />
+  int FindLCA(Node* root, int i, int j)<br />
+  {<br />
+    while (root)<br />
+    {<br />
+      if (root-&gt;value &gt; i &amp;&amp; root-&gt;value&gt;j)<br />
+        root = root -&gt;pLeft;<br />
+      else if (root-&gt;value <i>valuepRight;<br />
+      else<br />
+        return root-&gt;value;<br />
+    }<br />
+    throw std::runtime_error(&#8220;Impossible to reach to this statement&#8221;);<br />
+  }</i></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-kartik even depth-2" id="dsq-comment-6438">
+        <div id="dsq-comment-header-6438" class="dsq-comment-header">
+            <cite id="dsq-cite-6438">
+                <span id="dsq-author-user-6438">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6438" class="dsq-comment-body">
+            <div id="dsq-comment-message-6438" class="dsq-comment-message"><p>@hongping lin:  The extra conditions given in solution are important.  For example, your solution doesn&#8217;t seem to work for LCA of 12 and 14 in the given diagram.  LCA of 12 and 14 is 8.  Let me know your thoughts.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-6757">
+        <div id="dsq-comment-header-6757" class="dsq-comment-header">
+            <cite id="dsq-cite-6757">
+                <span id="dsq-author-user-6757">stinky peterson</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6757" class="dsq-comment-body">
+            <div id="dsq-comment-message-6757" class="dsq-comment-message"><p>How about this slight modification to the above program?</p>
+<pre> <code language="C">
+// assuming both i and j and in the tree
+int FindLCA(Node* root, int i, int j)
+{
+  while (root)
+  {
+    if (root-&gt;value &gt; i &amp;&amp; root-&gt;value&gt;j)
+      root = root -&gt;pLeft;
+    else
+      return root-&gt;value;
+  }
+  throw std::runtime_error(&quot;Impossible to reach to this statement&quot;);
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-6841">
+        <div id="dsq-comment-header-6841" class="dsq-comment-header">
+            <cite id="dsq-cite-6841">
+                <span id="dsq-author-user-6841">var</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6841" class="dsq-comment-body">
+            <div id="dsq-comment-message-6841" class="dsq-comment-message"><pre> <code language="C">
+@hongping lin &amp; @kartik- Doing slight modification to code should do the magic.
+Please have your say on below code.
+// assuming both i and j and in the tree
+int FindLCA(Node* root, int i, int j)
+{
+  int m,n;
+  while (root)
+  {
+    if (root-&gt;value &gt; i &amp;&amp; root-&gt;value&gt;j)
+     {
+       m=root-&gt;pLeft-&gt;value;
+       if(m==i &amp;&amp; m==j)
+       return root-&gt;value;
+       else
+       root = root -&gt;pLeft;
+      }
+    else if (root-&gt;value &lt;i &amp;&amp; root -&gt;value&lt;j)
+     {
+       n=root-&gt;pRight-&gt;value;
+       if(n==i &amp;&amp; n==j)
+       return root-&gt;value;
+       else
+       root = root -&gt;pRight;
+      }
+    else
+      return root-&gt;value;
+  }
+  throw std::runtime_error(&quot;Impossible to reach to this statement&quot;);
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-6842">
+        <div id="dsq-comment-header-6842" class="dsq-comment-header">
+            <cite id="dsq-cite-6842">
+                <span id="dsq-author-user-6842">var</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6842" class="dsq-comment-body">
+            <div id="dsq-comment-message-6842" class="dsq-comment-message"><pre> <code language="C">
+Sorry By mistake i have changed || to &amp;&amp; in code .
+Please find correct code below:
+@hongping lin &amp; @kartik- Doing slight modification to code should do the magic.
+Please have your say on below code.
+// assuming both i and j and in the tree
+int FindLCA(Node* root, int i, int j)
+{
+  int m,n;
+  while (root)
+  {
+    if (root-&gt;value &gt; i &amp;&amp; root-&gt;value&gt;j)
+     {
+       m=root-&gt;pLeft-&gt;value;
+       if(m==i || m==j)
+       return root-&gt;value;
+       else
+       root = root -&gt;pLeft;
+      }
+    else if (root-&gt;value &lt;i &amp;&amp; root -&gt;value&lt;j)
+     {
+       n=root-&gt;pRight-&gt;value;
+       if(n==i || n==j)
+       return root-&gt;value;
+       else
+       root = root -&gt;pRight;
+      }
+    else
+      return root-&gt;value;
+  }
+  throw std::runtime_error(&quot;Impossible to reach to this statement&quot;);
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-4739">
+        <div id="dsq-comment-header-4739" class="dsq-comment-header">
+            <cite id="dsq-cite-4739">
+                <span id="dsq-author-user-4739">Abhinav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4739" class="dsq-comment-body">
+            <div id="dsq-comment-message-4739" class="dsq-comment-message"><p>Hi,</p>
+<p>The logic works well but only if the values exist in a btree.</p>
+<p>Actually, in the above logic we are finding the node which finds the node from where the path to the values MAY diverge.<br />
+However, its not sure that the values will exist in the tree.</p>
+<p>This can be soved simply by:</p>
+<p>&#8211; get  the node ptr using above algorithm<br />
+&#8211; using this node, check if both the values are in the tree whose rot is calculated above.</p>
+<p><img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-smritedua odd alt thread-odd thread-alt depth-1" id="dsq-comment-4705">
+        <div id="dsq-comment-header-4705" class="dsq-comment-header">
+            <cite id="dsq-cite-4705">
+                <span id="dsq-author-user-4705">seeker7</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4705" class="dsq-comment-body">
+            <div id="dsq-comment-message-4705" class="dsq-comment-message"><p>time complexity for the given algo should be O(log n),only in worst case when the tree is skewed it is O(n).</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-4654">
+        <div id="dsq-comment-header-4654" class="dsq-comment-header">
+            <cite id="dsq-cite-4654">
+                <span id="dsq-author-user-4654">Anand</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4654" class="dsq-comment-body">
+            <div id="dsq-comment-message-4654" class="dsq-comment-message"><p><a href="http://anandtechblog.blogspot.com/2010/06/least-common-ancestor.html" rel="nofollow">http://anandtechblog.blogspot.com/2010/06/least-common-ancestor.html</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-uzumaki_naruto odd alt thread-odd thread-alt depth-1" id="dsq-comment-3435">
+        <div id="dsq-comment-header-3435" class="dsq-comment-header">
+            <cite id="dsq-cite-3435">
+                <span id="dsq-author-user-3435">uzumaki_naruto</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3435" class="dsq-comment-body">
+            <div id="dsq-comment-message-3435" class="dsq-comment-message"><p>well&#8230;checkout this code&#8230;</p>
+<pre> <code language="C">
+int LCA(node* root,int val1,int val2)
+{
+    if(!root) return 0;
+    node* curr = root;
+    node* par = root;
+    while(curr)
+    {
+       
+       if(curr-&gt;data &lt; val1 &amp;&amp; curr-&gt;data &lt; val2)
+       {
+        par = curr; 
+        curr = curr-&gt;right;
+       }
+       else if(curr-&gt;data&gt;val1 &amp;&amp; curr-&gt;data&gt;val2)
+       {
+        par = curr;
+        curr = curr-&gt;left;
+       }
+       else{
+             if(val1==curr-&gt;data || val2== curr-&gt;data) curr = par;
+             cout&lt;&lt;&quot;\nLowest Common Ancestor of &quot;&lt;&lt;val1&lt;&lt;&quot; and &quot;&lt;&lt;val2&lt;&lt;&quot; is &quot;&lt;&lt;curr-&gt;data;          
+             break;
+           }
+               
+    }
+    
+    
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-3799">
+        <div id="dsq-comment-header-3799" class="dsq-comment-header">
+            <cite id="dsq-cite-3799">
+                <span id="dsq-author-user-3799">mr</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3799" class="dsq-comment-body">
+            <div id="dsq-comment-message-3799" class="dsq-comment-message"><p>Good one. this will be the non-recursive solution.<br />
+I think one case is missing in <em>if..else..</em></p>
+<pre> <code language="C">
+if(curr-&gt;data &gt; val1 &amp;&amp; curr-&gt;data &lt; val2)
+{
+cout&lt;&lt;curr-&gt;data;
+break;
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-uzumaki_naruto odd alt depth-3" id="dsq-comment-3801">
+        <div id="dsq-comment-header-3801" class="dsq-comment-header">
+            <cite id="dsq-cite-3801">
+                <span id="dsq-author-user-3801">uzumaki_naruto</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3801" class="dsq-comment-body">
+            <div id="dsq-comment-message-3801" class="dsq-comment-message"><p>yeah&#8230;thanx rightly pointed&#8230;i guess the complete code will be as follows&#8230;</p>
+<pre> <code language="CPP">
+int LCA(node* root,int val1,int val2)
+{
+    if(!root) return 0;
+    node* curr = root;
+    node* par = root;
+    while(curr)
+    {
+ 
+       if(curr-&gt;data &lt; val1 &amp;&amp; curr-&gt;data &lt; val2)
+       {
+        par = curr;
+        curr = curr-&gt;right;
+       }
+       else if(curr-&gt;data&gt;val1 &amp;&amp; curr-&gt;data&gt;val2)
+       {
+        par = curr;
+        curr = curr-&gt;left;
+       }
+       else
+             if(val1==curr-&gt;data || val2== curr-&gt;data){ curr = par;
+             cout&lt;&lt;&quot;\nLowest Common Ancestor of &quot;&lt;&lt;val1&lt;&lt;&quot; and &quot;&lt;&lt;val2&lt;&lt;&quot; is &quot;&lt;&lt;curr-&gt;data;
+             break;
+           }
+ else if(curr-&gt;data &gt; val1 &amp;&amp; curr-&gt;data &lt; val2)
+{
+cout&lt;&lt;curr-&gt;data;
+break;
+}
+    }
+ 
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-4619">
+        <div id="dsq-comment-header-4619" class="dsq-comment-header">
+            <cite id="dsq-cite-4619">
+                <span id="dsq-author-user-4619">Rajesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4619" class="dsq-comment-body">
+            <div id="dsq-comment-message-4619" class="dsq-comment-message"><p>You can ommit the if condition in the last else if statement (its redundant). Change it to:</p>
+<p>else<br />
+{<br />
+   cout&lt;data; // or return curr-&gt;data<br />
+   break;<br />
+}</p>
+<p>Also &#8220;node* par&#8221; is not required.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-uzumaki_naruto odd alt depth-5" id="dsq-comment-4620">
+        <div id="dsq-comment-header-4620" class="dsq-comment-header">
+            <cite id="dsq-cite-4620">
+                <span id="dsq-author-user-4620">uzumaki_naruto</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4620" class="dsq-comment-body">
+            <div id="dsq-comment-message-4620" class="dsq-comment-message"><pre> <code language="C">That last else was reqd coz wat will happen if the root node is the lca...the left child is smaller and right chid is greater than the root! it was pointed out by someone earlier.
+and ya node * par is redundant...i was tracing the parent in my previous codesn forgot to remove it here...
+
+how about this one..
+
+int LCA(node* root,int val1,int val2)
+{
+    if(!root) return 0;
+    node* curr = root;
+    while(curr)
+    {
+ 
+       if(curr-&gt;data &lt; val1 &amp;&amp; curr-&gt;data &lt; val2)
+       {
+        curr = curr-&gt;right;
+       }
+       else if(curr-&gt;data&gt;val1 &amp;&amp; curr-&gt;data&gt;val2)
+       {
+        curr = curr-&gt;left;
+       }
+       else{
+             cout&lt;&lt;&quot;\nLowest Common Ancestor of &quot;&lt;&lt;val1&lt;&lt;&quot; and &quot;&lt;&lt;val2&lt;&lt;&quot; is &quot;&lt;&lt;curr-&gt;data;
+             break;
+           }
+ 
+    }
+ 
+}</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-5" id="dsq-comment-4639">
+        <div id="dsq-comment-header-4639" class="dsq-comment-header">
+            <cite id="dsq-cite-4639">
+                <span id="dsq-author-user-4639">Rajesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4639" class="dsq-comment-body">
+            <div id="dsq-comment-message-4639" class="dsq-comment-message"><p>These are the states which val1, val2 and curr-&gt;data can take (please correct me if i am worng):<br />
+1. Both Val1 and Val2 are greater than curr-&gt;data<br />
+2. Both Val1 and Val2 are less than curr-&gt;data<br />
+3. Either Val1 or Val2 is equal to curr-&gt;data<br />
+4. curr-&gt;data is between Val1 and Val2<br />
+The first 3 cases are taken care by the first three &quot;if else&quot; blocks.<br />
+the 4th one can simply be taken care by an else block.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-uzumaki_naruto odd alt depth-5" id="dsq-comment-4640">
+        <div id="dsq-comment-header-4640" class="dsq-comment-header">
+            <cite id="dsq-cite-4640">
+                <span id="dsq-author-user-4640">uzumaki_naruto</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4640" class="dsq-comment-body">
+            <div id="dsq-comment-message-4640" class="dsq-comment-message"><p>@Rajesh : yeah u r right and the cases 3 and 4 are the cases when the current node is the LCA&#8230;cases 1 and 2 are taken care of&#8230;cases 3 and 4 can be handled by only 1 else statement where we just print the current node which is the LCA(the first node encountered which is greater than curr-&gt;left-&gt;data and less than curr-&gt;right-&gt;data is the required LCA isnt it?)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-5" id="dsq-comment-4642">
+        <div id="dsq-comment-header-4642" class="dsq-comment-header">
+            <cite id="dsq-cite-4642">
+                <span id="dsq-author-user-4642">Rajesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4642" class="dsq-comment-body">
+            <div id="dsq-comment-message-4642" class="dsq-comment-message"><p>Great, Your solution is perfect.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-uzumaki_naruto odd alt depth-5" id="dsq-comment-4643">
+        <div id="dsq-comment-header-4643" class="dsq-comment-header">
+            <cite id="dsq-cite-4643">
+                <span id="dsq-author-user-4643">uzumaki_naruto</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4643" class="dsq-comment-body">
+            <div id="dsq-comment-message-4643" class="dsq-comment-message"><p>^_^</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-4663">
+        <div id="dsq-comment-header-4663" class="dsq-comment-header">
+            <cite id="dsq-cite-4663">
+                <span id="dsq-author-user-4663">sankalp</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4663" class="dsq-comment-body">
+            <div id="dsq-comment-message-4663" class="dsq-comment-message"><pre> <code language="C">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+typedef struct node{
+int d;
+struct node* l;
+struct node* r;
+}tree;
+
+int lca(tree* r,int a,int b)
+{
+if(r==NULL)
+return -1;
+
+/* If the input are not to be considered as ancestors, then: */
+if(r-&gt;d==a||r-&gt;d==b)
+return -1;
+else if(r-&gt;d&gt;b)
+lca(r-&gt;l,a,b);
+else if(r-&gt;d&lt;a)
+lca(r-&gt;r,a,b);
+else return r-&gt;d;
+}
+
+tree* new(int n)
+{
+tree* t=malloc(sizeof(tree));
+t-&gt;d=n;
+t-&gt;l=NULL;
+t-&gt;r=NULL;
+}
+
+main()
+{
+tree* r=new(20);
+r-&gt;l=new(8);
+r-&gt;r=new(22);
+r-&gt;l-&gt;l=new(4);
+r-&gt;l-&gt;r=new(12);
+r-&gt;l-&gt;r-&gt;l=new(10);
+r-&gt;l-&gt;r-&gt;r=new(14);
+printf(&quot;%d\n&quot;,lca(r,10,20));
+return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3409">
+        <div id="dsq-comment-header-3409" class="dsq-comment-header">
+            <cite id="dsq-cite-3409">
+http://wgpshashank.co.cc                <span id="dsq-author-user-3409">wgpshashank</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3409" class="dsq-comment-body">
+            <div id="dsq-comment-message-3409" class="dsq-comment-message"><p>It is the Code to find LCA of two NOde in Binary Tree not In  Binary Search Tree .Please Read Carefully</p>
+<pre> <code language="C">
+mynode *closestAncestor(mynode* root, mynode* p, mynode* q)
+{
+  mynode *l, *r, *tmp;
+ 
+  if(root == NULL)
+  {
+     return(NULL);
+  }
+ 
+  if(root-&gt;left==p || root-&gt;right==p || root-&gt;left==q ||    root-&gt;right==q)
+  {
+     return(root);
+  }
+  else
+  {
+     l = closestAncestor(root-&gt;left, p, q);
+     r = closestAncestor(root-&gt;right, p, q);  
+     
+     if(l!=NULL &amp;&amp; r!=NULL)
+     {
+        return(root);
+     }  
+     else
+     {
+        tmp = (l!=NULL) ? l : r;
+        return(tmp)
+     } 
+  }
+}
+</code> </pre>
+<p>Please Let Me know anything missing  or wrong with this code</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-3655">
+        <div id="dsq-comment-header-3655" class="dsq-comment-header">
+            <cite id="dsq-cite-3655">
+                <span id="dsq-author-user-3655">abc</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3655" class="dsq-comment-body">
+            <div id="dsq-comment-message-3655" class="dsq-comment-message"><p>if (root-&gt;left &amp;&amp; root-&gt;left-&gt;data == p ||<br />
+      root-&gt;left &amp;&amp; root-&gt;left-&gt;data == q ||<br />
+      root-&gt;right &amp;&amp; root-&gt;right-&gt;data == p ||<br />
+      root-&gt;right &amp;&amp; root-&gt;right-&gt;data == q)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-3969">
+        <div id="dsq-comment-header-3969" class="dsq-comment-header">
+            <cite id="dsq-cite-3969">
+http://ashutosh7s.blogspot.com/                <span id="dsq-author-user-3969">WgpShashank</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3969" class="dsq-comment-body">
+            <div id="dsq-comment-message-3969" class="dsq-comment-message"><p>I think it will be more better &amp; clear , i hope i have covered all the cases in this..still if missing let me know</p>
+<p>node* lca_BT(root,p,q)<br />
+{</p>
+<p>if(root==null || root==p || root==q)<br />
+return null;</p>
+<p>Case 1.<br />
+//when both p,q exist in different side</p>
+<p>if(root-&gt;left==p||root-&gt;left==q &amp;&amp; root-&gt;right==p || root-&gt;right==q)<br />
+return root;//True</p>
+<p>}<br />
+case 2,3 covered here e.g. when p,q either exist on left or right &amp; we also know if LCA exist then then its a subtree not more then height 2..isn&#8217;t it..??<br />
+As there can be more common ancestor of two node but we wants LCA that what i use grandparent,parent,child all in single if condition to make sure we are getting LCS while covering all the cases as well ??</p>
+<p>//before it we can check left or right subtree exits or /not.its not the problem..its upto programming</p>
+<p>if(root-&gt;left==p &amp;&amp; root-&gt;left-&gt;left==q || root-&gt;right==q &amp;&amp; root-&gt;right-&gt;right==q)<br />
+return root;</p>
+<p>//else or if check on both left as well right node fro each node<br />
+if(root-&gt;left==p || root-&gt;left==q)<br />
+{<br />
+ lca_BT(root-&gt;left,p,q);<br />
+ lca_BT(root-&gt;right,p,q);<br />
+}<br />
+//now check in right side for this node<br />
+if(root-&gt;right==p || root-&gt;right==q)<br />
+{<br />
+ lca_BT(root-&gt;left,p,q);<br />
+ lca_BT(root-&gt;right,p,q);<br />
+}</p>
+<p>//else call recursively for left &amp; right subtree as well</p>
+<p>return (lca_BT(root-&gt;left,p,q) || lca_BT(root-&gt;right,p,q));</p>
+<p>}</p>
+<p>As you can see its not optimized &amp; might contains condition which arr checking same test cases more then one so ..it will great if someone can find out that problem or anything wrong with algo or test case failure ..It will pleasure for me if this algo will work for general Binary Tree  ??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2652">
+        <div id="dsq-comment-header-2652" class="dsq-comment-header">
+            <cite id="dsq-cite-2652">
+                <span id="dsq-author-user-2652">sp</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2652" class="dsq-comment-body">
+            <div id="dsq-comment-message-2652" class="dsq-comment-message"><p>how abt :</p>
+<p>i/p 10 and 14&#8230;..ur algo gives 12 as the ans but the ans should be 8</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-sandeep odd alt depth-2" id="dsq-comment-2653">
+        <div id="dsq-comment-header-2653" class="dsq-comment-header">
+            <cite id="dsq-cite-2653">
+                <span id="dsq-author-user-2653">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2653" class="dsq-comment-body">
+            <div id="dsq-comment-message-2653" class="dsq-comment-message"><p>Answer should be 12 only.  Check the definition of LCA @ <a href="http://en.wikipedia.org/wiki/Lowest_common_ancestor" rel="nofollow">http://en.wikipedia.org/wiki/Lowest_common_ancestor</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2572">
+        <div id="dsq-comment-header-2572" class="dsq-comment-header">
+            <cite id="dsq-cite-2572">
+                <span id="dsq-author-user-2572">abc</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2572" class="dsq-comment-body">
+            <div id="dsq-comment-message-2572" class="dsq-comment-message"><p>If you add 2 and 9 now to the tree, and then try and find their common ancestor the ans returned would be 8 (the condition n1 &lt; n &lt; n2 will be true), whereas it should be 4</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-2584">
+        <div id="dsq-comment-header-2584" class="dsq-comment-header">
+            <cite id="dsq-cite-2584">
+                <span id="dsq-author-user-2584">atul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2584" class="dsq-comment-body">
+            <div id="dsq-comment-message-2584" class="dsq-comment-message"><p>Dumb , Dont u know how to add elements to a BST . The guy is absolutely right in his approach . necase lemmi tel u 9 will be added to left of 10 , not below 4 dumbhead .</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-2585">
+        <div id="dsq-comment-header-2585" class="dsq-comment-header">
+            <cite id="dsq-cite-2585">
+                <span id="dsq-author-user-2585">abc</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2585" class="dsq-comment-body">
+            <div id="dsq-comment-message-2585" class="dsq-comment-message"><p>Oops I was considering a different tree&#8230;(which was not even a BST).. Sorry for the oversight.<br />
+But in any case I don&#8217;t think so you should be writing such defamatory comments. Maybe someone is new to DS and trees.!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2375">
+        <div id="dsq-comment-header-2375" class="dsq-comment-header">
+            <cite id="dsq-cite-2375">
+                <span id="dsq-author-user-2375">Nikhil Sharma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2375" class="dsq-comment-body">
+            <div id="dsq-comment-message-2375" class="dsq-comment-message"><p>The program is fine . How about LCA of a tree that is not binary.<br />
+i mean 2 nodes in a tree (with any no of children at any node) would still have an LCA . What would be the logic (only algorithm) to find that?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2370">
+        <div id="dsq-comment-header-2370" class="dsq-comment-header">
+            <cite id="dsq-cite-2370">
+                <span id="dsq-author-user-2370">raj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2370" class="dsq-comment-body">
+            <div id="dsq-comment-message-2370" class="dsq-comment-message"><p>can some one provide bioinformatics source code for protein classification</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2343">
+        <div id="dsq-comment-header-2343" class="dsq-comment-header">
+            <cite id="dsq-cite-2343">
+                <span id="dsq-author-user-2343">Asit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2343" class="dsq-comment-body">
+            <div id="dsq-comment-message-2343" class="dsq-comment-message"><p>This won&#8217;t work if one node is present and another is not. If you search for 10,445 , it will return 20. But 445 is not in the tree at all.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-soundbalaji even depth-2" id="dsq-comment-2684">
+        <div id="dsq-comment-header-2684" class="dsq-comment-header">
+            <cite id="dsq-cite-2684">
+                <span id="dsq-author-user-2684">bala</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2684" class="dsq-comment-body">
+            <div id="dsq-comment-message-2684" class="dsq-comment-message"><p>Please read the question properly. It clearly states &#8220;You may assume that both values already exist in the tree&#8221;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1940">
+        <div id="dsq-comment-header-1940" class="dsq-comment-header">
+            <cite id="dsq-cite-1940">
+                <span id="dsq-author-user-1940">Ashish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1940" class="dsq-comment-body">
+            <div id="dsq-comment-message-1940" class="dsq-comment-message"><p>Solution will work if n1 n2<br />
+because:<br />
+if(root-&gt;data &gt; n1 &amp;&amp; root-&gt;data &gt; n2)  </p>
+<p>    return leastCommanAncestor(root-&gt;left, n1, n2);  </p>
+<p>works well if n1 &lt; n2&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1815">
+        <div id="dsq-comment-header-1815" class="dsq-comment-header">
+            <cite id="dsq-cite-1815">
+                <span id="dsq-author-user-1815">Pramod</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1815" class="dsq-comment-body">
+            <div id="dsq-comment-message-1815" class="dsq-comment-message"><pre> <code language="C">
+/**
+	 * Find the first common ancestor of two given nodes in a binay search tree.
+	 * 
+	 * @param args
+	 * @author Pramod Chandoria
+	 */
+	public static Node lowestCommonParent(Node parent, Node node, int a, int  b) {
+		if (node == null) {
+			return null;
+		}
+		if (a == node.data || b == node.data) {
+			return parent;
+		} else if (a  node.data) {
+			return node;
+		} else if (a &lt; node.data){
+			return lowestCommonParent(node, node.left,a, b);
+		} else {
+			return lowestCommonParent(node, node.right,a, b);
+		}
+	}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1780">
+        <div id="dsq-comment-header-1780" class="dsq-comment-header">
+            <cite id="dsq-cite-1780">
+                <span id="dsq-author-user-1780">Lahori</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1780" class="dsq-comment-body">
+            <div id="dsq-comment-message-1780" class="dsq-comment-message"><p>How about finding the LCA for a binary tree (not BST).</p>
+<p>Thanks</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-4702">
+        <div id="dsq-comment-header-4702" class="dsq-comment-header">
+            <cite id="dsq-cite-4702">
+                <span id="dsq-author-user-4702">sourabh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4702" class="dsq-comment-body">
+            <div id="dsq-comment-message-4702" class="dsq-comment-message"><p>Finding LCA for a binary tree is the same problem as finding intersection of 2 joined linked lists. Find paths to the two nodes (as linked lists) and then use the algo for finding intersection of the two</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-5458">
+        <div id="dsq-comment-header-5458" class="dsq-comment-header">
+            <cite id="dsq-cite-5458">
+                <span id="dsq-author-user-5458">someUser</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5458" class="dsq-comment-body">
+            <div id="dsq-comment-message-5458" class="dsq-comment-message"><p><a href="http://geeksforgeeks.org/forum/topic/lca-of-two-nodes-in-a-binary-tree" rel="nofollow">http://geeksforgeeks.org/forum/topic/lca-of-two-nodes-in-a-binary-tree</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-587">
+        <div id="dsq-comment-header-587" class="dsq-comment-header">
+            <cite id="dsq-cite-587">
+                <span id="dsq-author-user-587">Jay</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-587" class="dsq-comment-body">
+            <div id="dsq-comment-message-587" class="dsq-comment-message"><p>Hi Guys&#8230;</p>
+<p>Real good work. Do we have a straight forward algo for finding the LCA of a binary tree(not BST) ? I searched a bit and only found the complicated ones (tarjan&#8217;s, Vishkin technique). These are complicated and require preprocessing. Any algo based on DFS of the tree or something.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-10193">
+        <div id="dsq-comment-header-10193" class="dsq-comment-header">
+            <cite id="dsq-cite-10193">
+                <span id="dsq-author-user-10193">Ankit Gupta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10193" class="dsq-comment-body">
+            <div id="dsq-comment-message-10193" class="dsq-comment-message"><p>If there is a binary tree with unique nodes, then you can find the list of ancestors for the each node in O(n).<br />
+With the two lists of nodes L1, L2, one can easily find the intersection point using a hash-table approach.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-496">
+        <div id="dsq-comment-header-496" class="dsq-comment-header">
+            <cite id="dsq-cite-496">
+                <span id="dsq-author-user-496">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-496" class="dsq-comment-body">
+            <div id="dsq-comment-message-496" class="dsq-comment-message"><p>@Anonymous: When you add 16, it should be added as right child of 14 in BST, right?  So 12 is the correct answer for LCA of 14 and 16.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-495">
+        <div id="dsq-comment-header-495" class="dsq-comment-header">
+            <cite id="dsq-cite-495">
+                <span id="dsq-author-user-495">Anonymous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-495" class="dsq-comment-body">
+            <div id="dsq-comment-message-495" class="dsq-comment-message"><p>This solution doesn&#8217;t work for all cases.<br />
+Add a node with data 16. Find the LCA for 14 , 16. This gives 12, while 8 is the correct solution.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-393">
+        <div id="dsq-comment-header-393" class="dsq-comment-header">
+            <cite id="dsq-cite-393">
+http://techpuzzl.wordpress.com/                <span id="dsq-author-user-393">Ved</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-393" class="dsq-comment-body">
+            <div id="dsq-comment-message-393" class="dsq-comment-message"><p>What about LCA for the binary tree (not BST) ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor odd alt thread-odd thread-alt depth-1" id="dsq-comment-184">
+        <div id="dsq-comment-header-184" class="dsq-comment-header">
+            <cite id="dsq-cite-184">
+                <span id="dsq-author-user-184">geeksforgeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-184" class="dsq-comment-body">
+            <div id="dsq-comment-message-184" class="dsq-comment-message"><p>@Hari Prasad Perabattula: Awesome!! the method given by you works but time and space complexities will be O(n) for skewed BST.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-179">
+        <div id="dsq-comment-header-179" class="dsq-comment-header">
+            <cite id="dsq-cite-179">
+                <span id="dsq-author-user-179">Hari Prasad Perabattula</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-179" class="dsq-comment-body">
+            <div id="dsq-comment-message-179" class="dsq-comment-message"><p>If we are allowed to have extra space, we can follow the following alogorithm:</p>
+<p>1). We can find the paths to the two elements. While finding the path to the first element, just store the intermediate nodes in a queue.<br />
+2). While traversing the second path, just dequeue until a mismatch is found.<br />
+3). The element dequeued just before the mismatch is the LCA.</p>
+<p>I think, this can be done in O(logN) time and O(logN) space.<br />
+(Note: Works only for BST)</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-11515">
+        <div id="dsq-comment-header-11515" class="dsq-comment-header">
+            <cite id="dsq-cite-11515">
+                <span id="dsq-author-user-11515">VikasG</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11515" class="dsq-comment-body">
+            <div id="dsq-comment-message-11515" class="dsq-comment-message"><p>Pretty clever</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even thread-odd thread-alt depth-1" id="dsq-comment-148">
+        <div id="dsq-comment-header-148" class="dsq-comment-header">
+            <cite id="dsq-cite-148">
+                <span id="dsq-author-user-148">geeksforgeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-148" class="dsq-comment-body">
+            <div id="dsq-comment-message-148" class="dsq-comment-message"><p>@ben gordon: Thanks very much for pointing out this case. We have made changes to handle this. Program will now correctly find 20 for 22 and 23.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-147">
+        <div id="dsq-comment-header-147" class="dsq-comment-header">
+            <cite id="dsq-cite-147">
+                <span id="dsq-author-user-147">ben gordon</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-147" class="dsq-comment-body">
+            <div id="dsq-comment-message-147" class="dsq-comment-message"><p>It would stop at 8 before it got to twelve, correctly returning 12. </p>
+<p>However, what if the tree is not balanced? If you add 23 to the tree, and give 22 and 23 as input, then I don&#8217;t think it will correctly find 20</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even thread-odd thread-alt depth-1" id="dsq-comment-110">
+        <div id="dsq-comment-header-110" class="dsq-comment-header">
+            <cite id="dsq-cite-110">
+                <span id="dsq-author-user-110">geeksforgeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-110" class="dsq-comment-body">
+            <div id="dsq-comment-message-110" class="dsq-comment-message"><p>@Hsin-yi Jiang:  Thanks for writing to us.  We have made corrections.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-109">
+        <div id="dsq-comment-header-109" class="dsq-comment-header">
+            <cite id="dsq-cite-109">
+http://www.cs.iastate.edu/~hsinyij                <span id="dsq-author-user-109">Hsin-yi Jiang</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-109" class="dsq-comment-body">
+            <div id="dsq-comment-message-109" class="dsq-comment-message"><p>However, since the algorithm is from top to down, the algorithm doesn&#8217;t have any problem. It should say: the first time to satisfy the condition n1&lt;n&lt;n2. Thank you for sharing the solution.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-108">
+        <div id="dsq-comment-header-108" class="dsq-comment-header">
+            <cite id="dsq-cite-108">
+http://www.cs.iastate.edu/~hsinyij                <span id="dsq-author-user-108">Hsin-yi Jiang</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-108" class="dsq-comment-body">
+            <div id="dsq-comment-message-108" class="dsq-comment-message"><p>Hi, I don&#8217;t think the n is the only one with the feature n1&lt;n&lt;n2. For instance, with your example, when the question is to find LCA for 4 and 14, 12 is also the one in between 4 and 14. But 12 is not LCA.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-9410">
+        <div id="dsq-comment-header-9410" class="dsq-comment-header">
+            <cite id="dsq-cite-9410">
+                <span id="dsq-author-user-9410">hmmm</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9410" class="dsq-comment-body">
+            <div id="dsq-comment-message-9410" class="dsq-comment-message"><pre> <code language="C">
+/*
+
+    20
+   / \
+  8  22
+ / \
+4  12
+   / \
+  10 14
+      \
+      16
+*/
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/';
+var disqus_identifier = '1029 http://geeksforgeeks.org/?p=1029';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Lowest Common Ancestor in a Binary Search Tree.";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.267 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-12-04 01:02:44 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

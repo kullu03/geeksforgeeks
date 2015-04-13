@@ -1,0 +1,2230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>k largest(or smallest) elements in an array | added Min Heap method - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/k-largestor-smallest-elements-in-an-array/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="k largest(or smallest) elements in an array | added Min Heap method - GeeksforGeeks" />
+<meta property="og:description" content="Question: Write an efficient program for printing k largest elements in an array. Elements in array can be in any order. For example, if given array is [1, 23, 12, 9, 30, 2, 50] and you are asked for the largest 3 elements i.e., k = 3 then your program should print 50, 30 and &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/k-largestor-smallest-elements-in-an-array/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="array" />
+<meta property="article:tag" content="Order-Statistics" />
+<meta property="article:section" content="Arrays" />
+<meta property="article:published_time" content="2010-03-01T05:01:01+00:00" />
+<meta property="article:modified_time" content="2013-01-30T12:41:30+00:00" />
+<meta property="og:updated_time" content="2013-01-30T12:41:30+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.573 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111163 106.219.49.53';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">k largest(or smallest) elements in an array | added Min Heap method</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p><strong>Question: </strong>Write an efficient program for printing k largest elements in an array. Elements in array can be in any order.<span id="more-2392"></span></p>
+<p>For example, if given array is [1, 23, 12, 9, 30, 2, 50] and you are asked for the largest 3 elements i.e., k = 3 then your program should print 50, 30 and 23.</p>
+<p><strong><br />
+Method 1 (Use Bubble k times)</strong><br />
+Thanks to Shailendra  for suggesting this approach.<br />
+1) Modify <a href="http://en.wikipedia.org/wiki/Bubble_sort">Bubble Sort</a> to run the outer loop at most k times.<br />
+2) Print the last k elements of the array obtained in step 1.</p>
+<p>Time Complexity: O(nk)</p>
+<p>Like Bubble sort, other sorting algorithms like <a href="http://en.wikipedia.org/wiki/Selection_sort">Selection Sort</a> can also be modified to get the k largest elements.</p>
+<p><strong>Method 2 (Use temporary array)</strong><br />
+K largest elements from arr[0..n-1]</p>
+<p>1) Store the first k elements in a temporary array temp[0..k-1].<br />
+2) Find the smallest element in temp[], let the smallest element be <em>min</em>.<br />
+3) For each element <em>x</em> in arr[k] to arr[n-1]<br />
+If <em>x </em>is greater than the min then remove <em>min </em>from  temp[] and insert <em>x</em>.<br />
+4) Print final k elements of <em>temp[]</em></p>
+<p>Time Complexity: O((n-k)*k). If we want the output sorted then O((n-k)*k + klogk)</p>
+<p>Thanks to nesamani1822 for suggesting this method.  </p>
+<p><strong>Method 3(Use Sorting)</strong><br />
+1) Sort the elements in descending order in O(nLogn)<br />
+2) Print the first k numbers of the sorted array O(k).</p>
+<p>Time complexity: O(nlogn)</p>
+<p><strong>Method 4 (Use Max Heap)</strong><br />
+1) Build a Max Heap tree in O(n)<br />
+2) Use <a href="http://www.cs.utsa.edu/~dj/cs3343/lecture7.html">Extract Max</a> k times to get k maximum elements from the Max Heap O(klogn)</p>
+<p>Time complexity: O(n + klogn)</p>
+<p><strong>Method 5(Use Oder Statistics)</strong><br />
+1) Use order statistic algorithm to find the kth largest element. Please <a href="http://www.cse.ust.hk/~dekai/271/notes/L05/L05.pdf">see the topic selection in worst-case linear time </a> O(n)<br />
+2) Use <a href="http://en.wikipedia.org/wiki/Quicksort">QuickSort </a> Partition algorithm to partition around the kth largest number O(n).<br />
+3) Sort the k-1 elements (elements greater than the kth largest element) O(kLogk). This step is needed only if sorted output is required.</p>
+<p>Time complexity: O(n) if we don&#8217;t need the sorted output, otherwise O(n+kLogk)</p>
+<p>Thanks to <a href="http://geeksforgeeks.org/forum/topic/print-k-largest-numbers">Shilpi </a>for suggesting the first two approaches.</p>
+<p><strong>Method 6 (Use Min Heap)</strong><br />
+This method is mainly an optimization of method 1. Instead of using temp[] array, use Min Heap.</p>
+<p>Thanks to <a href="http://geeksforgeeks.org/forum/topic/kth-largest-element">geek4u </a>for suggesting this method.</p>
+<p>1)  Build a Min Heap MH of the first k elements (arr[0] to arr[k-1]) of the given array. O(k)</p>
+<p>2)  For each element, after the kth element (arr[k] to arr[n-1]), compare it with root of MH.<br />
+&#8230;&#8230;a) If the element is greater than the root then make it root and call <a href="http://www.personal.kent.edu/~rmuhamma/Algorithms/MyAlgorithms/Sorting/heapSort.htm">heapify </a>for MH<br />
+&#8230;&#8230;b) Else ignore it.<br />
+// The step 2 is O((n-k)*logk)</p>
+<p>3) Finally, MH has k largest elements and root of the MH is the kth largest element.</p>
+<p>Time Complexity: O(k + (n-k)Logk) without sorted output.  If sorted output is needed then O(k + (n-k)Logk + kLogk)</p>
+<p>All of the above methods can also be used to find the kth largest (or smallest) element.</p>
+<p></br><br />
+Please write comments if you find any of the above explanations/algorithms incorrect, or find better ways to solve the same problem.</p>
+<p><strong>References:</strong><br />
+<a href="http://en.wikipedia.org/wiki/Selection_algorithm">http://en.wikipedia.org/wiki/Selection_algorithm</a></p>
+<p>Asked by <a href="http://geeksforgeeks.org/forum/topic/print-k-largest-numbers">geek4u</a></p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array-set-2-expected-linear-time/" title="K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)">K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)</a></li><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array/" title="K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1">K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/time-complexity-insertion-sort-inversions/" title="Time complexity of insertion sort when there are O(n) inversions?">Time complexity of insertion sort when there are O(n) inversions?</a></li><li><a href="http://www.geeksforgeeks.org/check-two-given-sets-disjoint/" title="How to check if two given sets are disjoint?">How to check if two given sets are disjoint?</a></li><li><a href="http://www.geeksforgeeks.org/minimum-number-platforms-required-railwaybus-station/" title="Minimum Number of Platforms Required for a Railway/Bus Station">Minimum Number of Platforms Required for a Railway/Bus Station</a></li><li><a href="http://www.geeksforgeeks.org/given-two-sorted-arrays-number-x-find-pair-whose-sum-closest-x/" title="Find the closest pair from two sorted arrays">Find the closest pair from two sorted arrays</a></li><li><a href="http://www.geeksforgeeks.org/print-elements-sorted-order-row-column-wise-sorted-matrix/" title="Print all elements in sorted order from row and column wise sorted matrix">Print all elements in sorted order from row and column wise sorted matrix</a></li><li><a href="http://www.geeksforgeeks.org/length-largest-subarray-contiguous-elements-set-1/" title="Length of the largest subarray with contiguous elements | Set 1">Length of the largest subarray with contiguous elements | Set 1</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/array/" rel="tag">array</a>, <a href="http://www.geeksforgeeks.org/tag/order-statistics/" rel="tag">Order-Statistics</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fk-largestor-smallest-elements-in-an-array%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/k-largestor-smallest-elements-in-an-array/" data-text="k largest(or smallest) elements in an array | added Min Heap method" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/k-largestor-smallest-elements-in-an-array/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-34649">
+        <div id="dsq-comment-header-34649" class="dsq-comment-header">
+            <cite id="dsq-cite-34649">
+                <span id="dsq-author-user-34649">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34649" class="dsq-comment-body">
+            <div id="dsq-comment-message-34649" class="dsq-comment-message"><p>/*<br />
+k largest(or smallest) elements in an array | added Min Heap method</p>
+<p>Question: Write an efficient program for printing k largest elements in an array. Elements in array can be in any order.</p>
+<p>For example, if given array is [1, 23, 12, 9, 30, 2, 50] and you are asked for the largest 3 elements i.e., k = 3 then your program should print 50, 30 and 23.</p>
+<p>Method 1 (Use selection k times)</p>
+<p>1) Modify selection Sort to run the outer loop at most k times.<br />
+2) Print the firts k elements of the array obtained in step 1.</p>
+<p>Time Complexity: O(nk)</p>
+<p>*/</p>
+<p>#include<br />
+void main()<br />
+{<br />
+  int i, n,j,k,temp,max;<br />
+  int a[20];<br />
+  printf(&#8220;Enter the number of numbers in the arrayn&#8221;);<br />
+  scanf(&#8220;%d&#8221;,&amp;n);<br />
+  for(i=0;i&lt;n;i++)<br />
+  {<br />
+    printf(&quot;Enter the %d th  elementn&quot;,i+1);<br />
+    scanf(&quot;%d&quot;,&amp;a[i]);<br />
+  }<br />
+  printf(&quot;Enter the value of kn&quot;);<br />
+  scanf(&quot;%d&quot;,&amp;k);<br />
+  for(i=0;i&lt;k;i++)<br />
+  {<br />
+    max=i;<br />
+    for(j=i+1;ja[max])<br />
+       {<br />
+          max=j;<br />
+       }<br />
+       temp=a[max];<br />
+       a[max]=a[i];<br />
+       a[i]=a[max];<br />
+    }<br />
+  }<br />
+  printf(&#8220;The %d largest elements aren&#8221;,k);<br />
+  for(i=0;i&lt;k;i++)<br />
+  printf(&quot;%dn&quot;,a[i]);<br />
+  printf(&quot;n&quot;);</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-34648">
+        <div id="dsq-comment-header-34648" class="dsq-comment-header">
+            <cite id="dsq-cite-34648">
+                <span id="dsq-author-user-34648">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34648" class="dsq-comment-body">
+            <div id="dsq-comment-message-34648" class="dsq-comment-message"><p>/*<br />
+/*<br />
+k largest(or smallest) elements in an array | added Min Heap method</p>
+<p>Question: Write an efficient program for printing k largest elements in an array. Elements in array can be in any order.</p>
+<p>For example, if given array is [1, 23, 12, 9, 30, 2, 50] and you are asked for the largest 3 elements i.e., k = 3 then your program should print 50, 30 and 23.</p>
+<p>Method 1 (Use selection k times)</p>
+<p>1) Modify selection Sort to run the outer loop at most k times.<br />
+2) Print the firts k elements of the array obtained in step 1.</p>
+<p>Time Complexity: O(nk)</p>
+<p>*/</p>
+<p>#include<br />
+void main()<br />
+{<br />
+  int i, n,j,k,temp,max;<br />
+  int a[20];<br />
+  printf(&#8220;Enter the number of numbers in the arrayn&#8221;);<br />
+  scanf(&#8220;%d&#8221;,&amp;n);<br />
+  for(i=0;i&lt;n;i++)<br />
+  {<br />
+    printf(&quot;Enter the %d th  elementn&quot;,i+1);<br />
+    scanf(&quot;%d&quot;,&amp;a[i]);<br />
+  }<br />
+  printf(&quot;Enter the value of kn&quot;);<br />
+  scanf(&quot;%d&quot;,&amp;k);<br />
+  for(i=0;i&lt;k;i++)<br />
+  {<br />
+    max=i;<br />
+    for(j=i+1;ja[max])<br />
+       {<br />
+          max=j;<br />
+       }<br />
+       temp=a[max];<br />
+       a[max]=a[i];<br />
+       a[i]=a[max];<br />
+    }<br />
+  }<br />
+  printf(&#8220;The %d largest elements aren&#8221;,k);<br />
+  for(i=0;i&lt;k;i++)<br />
+  printf(&quot;%dn&quot;,a[i]);<br />
+  printf(&quot;n&quot;);<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-32361">
+        <div id="dsq-comment-header-32361" class="dsq-comment-header">
+            <cite id="dsq-cite-32361">
+                <span id="dsq-author-user-32361">foo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32361" class="dsq-comment-body">
+            <div id="dsq-comment-message-32361" class="dsq-comment-message"><p>&gt; Time Complexity: O(k + (n-k)Logk) without sorted output. If sorted output is needed then O(k + (n-k)Logk + kLogk)</p>
+<p>No. The total complexity is O(k + n log k).</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-32319">
+        <div id="dsq-comment-header-32319" class="dsq-comment-header">
+            <cite id="dsq-cite-32319">
+                <span id="dsq-author-user-32319">meh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32319" class="dsq-comment-body">
+            <div id="dsq-comment-message-32319" class="dsq-comment-message"><p>I don&#8217;t quite understand the min heap approach, if n = k, then the root is the smallest element and not the kth largest one. Shouldn&#8217;t it be a max-heap?</p>
+<p>Say, you insert the first k elements into the max-heap, for all consecutive elements, if they are greater or equal than root then ignore them, otherwise, replace current root with each element and heapify.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-33171">
+        <div id="dsq-comment-header-33171" class="dsq-comment-header">
+            <cite id="dsq-cite-33171">
+                <span id="dsq-author-user-33171">KJ</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33171" class="dsq-comment-body">
+            <div id="dsq-comment-message-33171" class="dsq-comment-message"><p>if k = n, then the smallest number IS the kth largest one.<br />
+[1,4,2,3], 4 is the largest and 1 is the 4th largest.<br />
+If you are finding kth smallest number, then a max heap should be used.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-32284">
+        <div id="dsq-comment-header-32284" class="dsq-comment-header">
+            <cite id="dsq-cite-32284">
+                <span id="dsq-author-user-32284">Thomas</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32284" class="dsq-comment-body">
+            <div id="dsq-comment-message-32284" class="dsq-comment-message"><p>Solution below in C++, linear time :</p>
+<p>#include<br />
+#include<br />
+#include </p>
+<p>using namespace std;</p>
+<p>vector smallest(vector L, int k) {<br />
+    int sup;<br />
+    vector sublist;<br />
+    if (L.size() &lt;= k) {<br />
+        return L;<br />
+    }<br />
+    for (int i = 0; i &lt; L.size(); ++i) {<br />
+        if (i  sup) {<br />
+                sublist.push_back(sup);<br />
+                sup = L[i];<br />
+            } else {<br />
+                sublist.push_back(L[i]);<br />
+            }<br />
+        } else {<br />
+            if (L[i] &lt; sup) {<br />
+                sublist.push_back(L[i]);<br />
+            }<br />
+        }<br />
+    }<br />
+    if (sublist.size() &lt; k) {<br />
+        sublist.push_back(sup);<br />
+        return sublist;<br />
+    } else {<br />
+        return smallest(sublist, k);<br />
+    }<br />
+}</p>
+<p>int main(int argc, char **argv) {<br />
+    vector L, sublist;<br />
+    while (&#8211;argc &gt; 0) {<br />
+        L.push_back(atoi(argv[argc]));<br />
+    }<br />
+    sublist = smallest(L, 3);<br />
+    for (vector::iterator it = sublist.begin(); it &lt; sublist.end(); ++it) {<br />
+        cout &lt;&lt; *it &lt;&lt; endl;<br />
+    }<br />
+    return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-32276">
+        <div id="dsq-comment-header-32276" class="dsq-comment-header">
+            <cite id="dsq-cite-32276">
+                <span id="dsq-author-user-32276">mizhao</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32276" class="dsq-comment-body">
+            <div id="dsq-comment-message-32276" class="dsq-comment-message"><p>I have an approach cost only O(n) times, and it can print the results in sorting order! Here is how it works:<br />
+It is based on Method 4.<br />
+1) Build a Max Heap tree in O(n), call it h1.<br />
+2) important observation: the second largest element can only appear as a child of the largest element. The third largest element can only appear under the largest one or the second largest one.<br />
+3) We put the largest element of the h1 into another empty heap h2.<br />
+4) We output the maximum element of heap h2, and put his children in h1 to h2.<br />
+5) Repeat step 3,4,5 until we output k elements</p>
+<p>Time complexity:<br />
+We get 2*k elements from heap h1, which cost O(k). Each operation is O(1) because we know the index of the element in h1.<br />
+We do 2*k insertion in heap h2. The total cost is O(k).<br />
+We do k poll operation to heap h2 which cost O(k).<br />
+The total time complexity is: O(n+k) in case k is less than n is O(n).</p>
+<p>What do you think?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-31106">
+        <div id="dsq-comment-header-31106" class="dsq-comment-header">
+            <cite id="dsq-cite-31106">
+                <span id="dsq-author-user-31106">Suraj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31106" class="dsq-comment-body">
+            <div id="dsq-comment-message-31106" class="dsq-comment-message"><p>Method 4 has wrong time complexity<br />
+1) Build a Max Heap tree in O(n)? creating Max heap is O(nlogn)<br />
+2) Use Extract Max k times to get k maximum elements from the Max Heap O(klogn)?? extractMax from Max heap is O(1) so its O(k)</p>
+<p>Time complexity should be : O(k + nlogn) ~ O(nlogn)</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-31108">
+        <div id="dsq-comment-header-31108" class="dsq-comment-header">
+            <cite id="dsq-cite-31108">
+                <span id="dsq-author-user-31108">Coder011</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31108" class="dsq-comment-body">
+            <div id="dsq-comment-message-31108" class="dsq-comment-message"><p>@Suraj: plz check your facts before posting, <a href="http://www.geeksforgeeks.org/g-fact-85/" rel="nofollow">http://www.geeksforgeeks.org/g-fact-85/</a> , and even though extract max is O(1) , but heapify procedure would still have to be called , in order to bring the largest element on top, thus you get O(logn) for one call to extract max (+heapify) and this done k times so O(k*log(n)). So overall complexity is O(n + k*logn).</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-32164">
+        <div id="dsq-comment-header-32164" class="dsq-comment-header">
+            <cite id="dsq-cite-32164">
+                <span id="dsq-author-user-32164">gourav pathak</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32164" class="dsq-comment-body">
+            <div id="dsq-comment-message-32164" class="dsq-comment-message"><p>Doesn&#8217;t building a max heap take O(nlogn) time for n keys??&#8230;i think @Suraj&#8217;s first doubt is correct</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-32209">
+        <div id="dsq-comment-header-32209" class="dsq-comment-header">
+            <cite id="dsq-cite-32209">
+                <span id="dsq-author-user-32209">Babrael</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32209" class="dsq-comment-body">
+            <div id="dsq-comment-message-32209" class="dsq-comment-message"><p>Build heap essentially takes O(n) time.A good explanation can be found in Introduction to algorithms by<br />
+Cormen</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-5" id="dsq-comment-32387">
+        <div id="dsq-comment-header-32387" class="dsq-comment-header">
+            <cite id="dsq-cite-32387">
+                <span id="dsq-author-user-32387">gourav pathak</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32387" class="dsq-comment-body">
+            <div id="dsq-comment-message-32387" class="dsq-comment-message"><p>Got it..Thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-29617">
+        <div id="dsq-comment-header-29617" class="dsq-comment-header">
+            <cite id="dsq-cite-29617">
+                <span id="dsq-author-user-29617">Aditya Tirodkar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29617" class="dsq-comment-body">
+            <div id="dsq-comment-message-29617" class="dsq-comment-message"><p>Wait&#8230; why can&#8217;t you just use Quick Select and just extract the values till k? That&#8217;s a perfect O(n) solution.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-31107">
+        <div id="dsq-comment-header-31107" class="dsq-comment-header">
+            <cite id="dsq-cite-31107">
+                <span id="dsq-author-user-31107">Suraj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31107" class="dsq-comment-body">
+            <div id="dsq-comment-message-31107" class="dsq-comment-message"><p>O(n) is average case using Quick Select.. Worst case is O(n^2).. I agree quick select can be used if k is decently enough large compared to the size of input.. if k is minuscule then min heap is better</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-31287">
+        <div id="dsq-comment-header-31287" class="dsq-comment-header">
+            <cite id="dsq-cite-31287">
+                <span id="dsq-author-user-31287">Code_Addict</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31287" class="dsq-comment-body">
+            <div id="dsq-comment-message-31287" class="dsq-comment-message"><p>What suraj told is perfectly correct. Worst Case complexity of quickselect is O(n^2). Check here: <a href="http://en.wikipedia.org/wiki/Quickselect" rel="nofollow">http://en.wikipedia.org/wiki/Quickselect</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-29533">
+        <div id="dsq-comment-header-29533" class="dsq-comment-header">
+            <cite id="dsq-cite-29533">
+                <span id="dsq-author-user-29533">Raj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29533" class="dsq-comment-body">
+            <div id="dsq-comment-message-29533" class="dsq-comment-message"><p>How to solve this problem</p>
+<p>N machines and each machine contains M integers sorted in increasing order. How to find K smallest numbers. For example Machine A : 5, 60, 70 Machine B : 10, 20, 30</p>
+<p>K = 2</p>
+<p>Output should be 5, 10</p>
+<p>Best time and space complexity?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-29819">
+        <div id="dsq-comment-header-29819" class="dsq-comment-header">
+            <cite id="dsq-cite-29819">
+                <span id="dsq-author-user-29819">Vinod</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29819" class="dsq-comment-body">
+            <div id="dsq-comment-message-29819" class="dsq-comment-message"><p>@Raj&#8230;Refer to another post : <a href="http://www.geeksforgeeks.org/tournament-tree-and-binary-heap/" rel="nofollow">http://www.geeksforgeeks.org/tournament-tree-and-binary-heap/</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-27885">
+        <div id="dsq-comment-header-27885" class="dsq-comment-header">
+            <cite id="dsq-cite-27885">
+                <span id="dsq-author-user-27885">Alien</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27885" class="dsq-comment-body">
+            <div id="dsq-comment-message-27885" class="dsq-comment-message"><p>Could you please post code for this.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-26645">
+        <div id="dsq-comment-header-26645" class="dsq-comment-header">
+            <cite id="dsq-cite-26645">
+                <span id="dsq-author-user-26645">Satyarth</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26645" class="dsq-comment-body">
+            <div id="dsq-comment-message-26645" class="dsq-comment-message"><p>There is a typo mistake in method 6. First line should be &#8220;This method is mainly an optimization of method 2&#8243; instead of &#8220;This method is mainly an optimization of method 1&#8243;.</p>
+<p>Thanks!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-22319">
+        <div id="dsq-comment-header-22319" class="dsq-comment-header">
+            <cite id="dsq-cite-22319">
+                <span id="dsq-author-user-22319">Akhil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22319" class="dsq-comment-body">
+            <div id="dsq-comment-message-22319" class="dsq-comment-message"><p>Simple Code for MinHeap Method</p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+
+void swap(int *a, int *b)
+{
+    *a = *a + *b;
+    *b = *a - *b;
+    *a = *a - *b;
+}
+
+void minHeapify(int a[], int size, int i)
+{
+    int l = 2*i;
+    int r = 2*i+1;
+    int smallest = i;
+    if(l&lt;size &amp;&amp; a[l]&lt;a[smallest])
+        smallest = l;
+    if(r&lt;size &amp;&amp; a[r]&lt;a[smallest])
+        smallest  = r;
+    if(smallest!=i)
+    {
+        swap(&amp;a[i],&amp;a[smallest]);
+        minHeapify(a,size,smallest);
+    }
+}
+
+void buildMinHeap(int a[], int size)
+{
+    for(int i=size/2;i&gt;=0;i--)
+        minHeapify(a,size,i);
+}
+
+int kthLargest(int a[], int size, int k)
+{
+    int minHeap[k];
+    int i;
+    for(i=0;i&lt;k;i++)
+        minHeap[i] = a[i];
+    buildMinHeap(minHeap,k);
+    for(i=k;i&lt;size;i++)
+        if(a[i]&gt;minHeap[0])
+        {
+            minHeap[0]=a[i];
+            minHeapify(minHeap,k,0);
+        }
+    return minHeap[0];
+}
+
+int main()
+{
+    int a[] = {6,7,8,4,2,3,5,1};
+    int size = sizeof(a)/sizeof(a[0]);
+    int k = 3;
+    printf(&quot;%d &quot;,kthLargest(a,size,k));
+    return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-27899">
+        <div id="dsq-comment-header-27899" class="dsq-comment-header">
+            <cite id="dsq-cite-27899">
+                <span id="dsq-author-user-27899">Bharath G M</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27899" class="dsq-comment-body">
+            <div id="dsq-comment-message-27899" class="dsq-comment-message"><p>Very good one. I think there is little redundancy. In MinHeapify..<br />
+  if(smallest!=i)<br />
+    {<br />
+        swap(&amp;a[i],&amp;a[smallest]);<br />
+        minHeapify(a,size,smallest);<br />
+//I dont think we need to call minHeapify again. &#8220;swap&#8221; is fine<br />
+    }</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-30399">
+        <div id="dsq-comment-header-30399" class="dsq-comment-header">
+            <cite id="dsq-cite-30399">
+                <span id="dsq-author-user-30399">Nizamuddin Saifi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30399" class="dsq-comment-body">
+            <div id="dsq-comment-message-30399" class="dsq-comment-message"><p>No its fine . If there is no recursive call in minHeapify , In kthLargest fun , in  second last line , when we call minHeapify there would be problem.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-ronny even thread-even depth-1" id="dsq-comment-20569">
+        <div id="dsq-comment-header-20569" class="dsq-comment-header">
+            <cite id="dsq-cite-20569">
+                <span id="dsq-author-user-20569">Ronny</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20569" class="dsq-comment-body">
+            <div id="dsq-comment-message-20569" class="dsq-comment-message"><p>Can anyone explain Method 5.<br />
+I am having problem grabbing the concept behind that method.<br />
+Thanks.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-21351">
+        <div id="dsq-comment-header-21351" class="dsq-comment-header">
+            <cite id="dsq-cite-21351">
+                <span id="dsq-author-user-21351">Asap</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21351" class="dsq-comment-body">
+            <div id="dsq-comment-message-21351" class="dsq-comment-message"><p>First u have to get Kth rank element in array.<br />
+Then u can partition array based on this Kth rank element.</p>
+<p>Check this video<br />
+<a href="http://www.youtube.com/watch?v=OcAT3kP7LQw&#038;list=PL9F7D7A438CAAD165" rel="nofollow">http://www.youtube.com/watch?v=OcAT3kP7LQw&#038;list=PL9F7D7A438CAAD165</a></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-ronny even depth-3" id="dsq-comment-21786">
+        <div id="dsq-comment-header-21786" class="dsq-comment-header">
+            <cite id="dsq-cite-21786">
+                <span id="dsq-author-user-21786">Ronny</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21786" class="dsq-comment-body">
+            <div id="dsq-comment-message-21786" class="dsq-comment-message"><p>@Asap<br />
+Thanks a lot. was of great help.<br />
+here is the link <a href " http://www.youtube.com/watch?v=OcAT3kP7LQw&#038;list=PL9F7D7A438CAAD165" rel="nofollow">LINK TO FIND RANK OF AN ELEMENT IN AN ARRAY</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-ronny odd alt thread-odd thread-alt depth-1" id="dsq-comment-20567">
+        <div id="dsq-comment-header-20567" class="dsq-comment-header">
+            <cite id="dsq-cite-20567">
+                <span id="dsq-author-user-20567">Ronny</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20567" class="dsq-comment-body">
+            <div id="dsq-comment-message-20567" class="dsq-comment-message"><p>@geeksforgeeks<br />
+I guess there is a typo in description of Method 6<br />
+&#8220;This method is mainly an optimization of method 1. Instead of using temp[] array, use Min Heap.&#8221;</p>
+<p>It should be &#8220;method 2&#8243;.<br />
+Method 1 stated above uses sorting techniques k times.<br />
+Method 2 uses a temporary array to store first k elements.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-20169">
+        <div id="dsq-comment-header-20169" class="dsq-comment-header">
+            <cite id="dsq-cite-20169">
+                <span id="dsq-author-user-20169">joker</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20169" class="dsq-comment-body">
+            <div id="dsq-comment-message-20169" class="dsq-comment-message"><p>Method 6 : O(k +(n-k)logk)</p>
+<pre> <code language="C">
+{    
+     int n,k,x,i;
+     vector&lt;int&gt; a,ans;
+     priority_queue&lt;int,vector&lt;int&gt;,greater&lt;int&gt; &gt; p;     // min_heap
+     
+     scanf(&quot;%d %d&quot;,&amp;n,&amp;k);
+     for(i=0;i&lt;n;i++)   
+           scanf(&quot;%d&quot;,&amp;x), a.push_back(x); 
+     
+     for(i=0;i&lt;k;i++)   
+           p.push(a[i]);
+     
+     for(i=k;i&lt;n;i++)
+           if(a[i]&gt;(x=p.top()))
+              p.pop() , p.push(a[i]);
+              
+     for( ;!p.empty();p.pop()) 
+           ans.push_back(x=p.top(););
+          
+
+     
+     for(i=0;i&lt;ans.size();i++)  printf(&quot;%d &quot;,ans[i]);
+     puts(&quot;&quot;);
+} 
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-18195">
+        <div id="dsq-comment-header-18195" class="dsq-comment-header">
+            <cite id="dsq-cite-18195">
+                <span id="dsq-author-user-18195">Ujjwal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18195" class="dsq-comment-body">
+            <div id="dsq-comment-message-18195" class="dsq-comment-message"><p>We could alsouse this algorithm :</p>
+<p>-find out the element with rank &#8216;k&#8217;, using median finding algo in  O(n)<br />
+-once we have found out the element, just traverse the array again to print all elements &gt;=(element with rank &#8216;k&#8217;) /*to print elements greater than &#8216;kth&#8217; largest..</p>
+<p>correct me if i am wrong..!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-13046">
+        <div id="dsq-comment-header-13046" class="dsq-comment-header">
+            <cite id="dsq-cite-13046">
+                <span id="dsq-author-user-13046">Manolis Lourakis</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13046" class="dsq-comment-body">
+            <div id="dsq-comment-message-13046" class="dsq-comment-message"><pre> <code language="C">
+/* Find the kth smallest element of an array using Method 5 (Order Statistics)
+ * 
+ * This is a C/C++ version of the Java implementation above. The code has been
+ * made more compact by inlining partition() and eliminating recursion.
+ *
+ * Written by Manolis Lourakis, Nov. 2012
+ */
+
+/* Select the kth smallest element among elements a[l]..a[r] of array a.
+ * For an array of n elements invoke as quickSelect(a, 0, n-1, k);
+ */
+int quickSelect(int a[], int l, int r, int k)
+{
+register int i, j;
+int s;
+int pivot, temp;
+
+  //if(k&lt;1 || k&gt;=r-l+1) return -1; // k out of range
+
+  while(1){
+    //if(l==r) return a[l]; // uncommenting this might expedite return in some cases
+#if 1 // use a[r] as pivot
+    pivot=a[r];
+#else // random pivot
+    i=(int)uniform(l, r); // uniform(a, b) is assumed to return a uniformly distributed value in the range [a, b]
+    pivot=a[i]; a[i]=a[r]; a[r]=pivot;
+#endif
+    for(i=j=l; j&lt;r; ++j)
+      if(a[j]&lt;=pivot){
+        temp=a[i]; a[i]=a[j]; a[j]=temp;
+        ++i;
+      }
+
+    temp=a[r]; a[r]=a[i]; a[i]=temp;
+    // i now equals partition(a, l, r);
+
+    s=i-l+1;
+
+    if(k&lt;s) r=i-1; // quickSelect(a, l, i-1, k);
+    else if(k&gt;s) {l=i+1; k-=s;} // quickSelect(a, i+1, r, k-s);
+    else return a[i];
+  }
+}
+
+/* sample driver */
+#include &lt;stdio.h&gt;
+
+int main()
+{
+int a[]={2, 8, 7, 1, 3, 5, 6, 4};
+
+  printf(&quot;kth largest element is %d\n&quot;, quickSelect(a, 0, sizeof(a)/sizeof(int)-1, 7)); // prints 7
+}
+
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-13045">
+        <div id="dsq-comment-header-13045" class="dsq-comment-header">
+            <cite id="dsq-cite-13045">
+                <span id="dsq-author-user-13045">Manolis Lourakis</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13045" class="dsq-comment-body">
+            <div id="dsq-comment-message-13045" class="dsq-comment-message"><pre> <code language="C">
+/* Find the kth smallest element of an array using Method 5 (Order Statistics)
+ * 
+ * This is a C/C++ version of the Java implementation above. The code has been
+ * made more compact by inlining partition() and eliminating recursion.
+ *
+ * Written by Manolis Lourakis, Nov. 2012
+ */
+
+/* Select the kth smallest element among elements a[l]..a[r] of array a.
+ * For an array of n elements invoke as quickSelect(a, 0, n-1, k);
+ */
+int quickSelect(int a[], int l, int r, int k)
+{
+register int i, j;
+int s;
+int pivot, temp;
+
+  //if(k&lt;1 || k&gt;=r-l+1) return -1; // k out of range
+
+  while(1){
+    //if(l==r) return a[l]; // uncommenting this might expedite return in some cases
+#if 1 // use a[r] as pivot
+    pivot=a[r];
+#else // random pivot
+    i=(int)uniform(l, r); // uniform(a, b) is assumed to return a uniformly distributed value in the range [a, b]
+    pivot=a[i]; a[i]=a[r]; a[r]=pivot;
+#endif
+    for(i=j=l; j&lt;r; ++j)
+      if(a[j]&lt;=pivot){
+        temp=a[i]; a[i]=a[j]; a[j]=temp;
+        ++i;
+      }
+
+    temp=a[r]; a[r]=a[i]; a[i]=temp;
+    // i now equals partition(a, l, r);
+
+    s=i-l+1;
+
+    if(k&lt;s) r=i-1; // quickSelect(a, l, i-1, k);
+    else if(k&gt;s) {l=i+1; k-=s;} // quickSelect(a, i+1, r, k-s);
+    else return a[i];
+  }
+}
+
+/* sample driver */
+#include &lt;stdio.h&gt;
+
+int main()
+{
+int a[]={2, 8, 7, 1, 3, 5, 6, 4};
+
+  printf(&quot;kth largest element is %d\n&quot;, quickSelect(a, 0, sizeof(a)/sizeof(int)-1, 7)); // prints 7
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-5706">
+        <div id="dsq-comment-header-5706" class="dsq-comment-header">
+            <cite id="dsq-cite-5706">
+                <span id="dsq-author-user-5706">Kasim</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5706" class="dsq-comment-body">
+            <div id="dsq-comment-message-5706" class="dsq-comment-message"><p>class ThreeBiggestDemo{<br />
+	public static void main (String args[]){<br />
+		int ar [] = new int[10];<br />
+		int big1, big2, big3, temp;</p>
+<p>		ar[0] = 29;<br />
+		ar[1] = 2;<br />
+		ar[2] = 43;<br />
+		ar[3] = 8;<br />
+		ar[4] = 72;<br />
+		ar[5] = 17;<br />
+		ar[6] = 92;<br />
+		ar[7] = 113;<br />
+		ar[8] = 11;<br />
+		ar[9] = 0;</p>
+<p>		big1 = ar[0];<br />
+		big2 = ar[1];<br />
+		big3 = ar[2];</p>
+<p>		if (big1 &gt; big2){<br />
+			if (big1&gt; big3){<br />
+				big1 = big1;<br />
+				if (big2&gt; big3) {<br />
+					big2 = big2;<br />
+					big3 = big3;<br />
+				}<br />
+				else{<br />
+					temp = big2;<br />
+					big2 = big3;<br />
+					big3 = temp;<br />
+				}<br />
+			}<br />
+			else{<br />
+				temp = big1;<br />
+				big1 = big3;<br />
+				big3 = big2;<br />
+				big2 = temp;<br />
+			}<br />
+		}<br />
+		else if (big2 &gt; big3){<br />
+			if (big1 &gt; big3){<br />
+				temp = big1;<br />
+				big1 = big2;<br />
+				big2 = temp;<br />
+				big3 = big3;<br />
+			}<br />
+			else{<br />
+				temp = big1;<br />
+				big1 = big2;<br />
+				big2 = big3;<br />
+				big3 = temp;<br />
+			}<br />
+		}<br />
+		else{<br />
+			temp = big1;<br />
+			big1 = big3;<br />
+			big2 = big2;<br />
+			big3 = temp;<br />
+		}<br />
+		for (int i=3; i big3){<br />
+				if (ar[i] &gt; big2){<br />
+					if (ar[i] &gt; big1){<br />
+						temp = big1;<br />
+						big1 = ar[i];<br />
+						big2 = temp;<br />
+						big3 = big3;<br />
+					}<br />
+					else{<br />
+						big1= big1;<br />
+						temp = big2;<br />
+						big2 = ar[i];<br />
+						big3 = temp;<br />
+					}<br />
+				}<br />
+				else<br />
+					big3 = ar[i];<br />
+			}<br />
+		}<br />
+		System.out.println (&#8220;Big 1 &#8221; + big1);<br />
+		System.out.println (&#8220;Big 2 &#8221; + big2);<br />
+		System.out.println (&#8220;Big 3 &#8221; + big3);<br />
+	}<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-5294">
+        <div id="dsq-comment-header-5294" class="dsq-comment-header">
+            <cite id="dsq-cite-5294">
+                <span id="dsq-author-user-5294">Nithish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5294" class="dsq-comment-body">
+            <div id="dsq-comment-message-5294" class="dsq-comment-message"><p>How about randomized QuickSort with a small tweak?</p>
+<p>Choose the pivot for the QuickSort as any number from the given array and say after doing a single iteration of QuickSort, it was found the pivot element belonged to index &#8216;X&#8217; of the say N array elements given.</p>
+<p>If we had to find the Kth smallest element, then if X was greater an K &#8211; 1, apply randomized QuickSort on the element 0 to X &#8211; 1 because we know that all element from 0 to X &#8211; 1 are smaller than the element X and X + 1 to N are greater than X.</p>
+<p>If we had to find the Kth largest element, then the element we have to find the element that belongs in the index N &#8211; K &#8211; 1 and apply the same logic.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-4513">
+        <div id="dsq-comment-header-4513" class="dsq-comment-header">
+            <cite id="dsq-cite-4513">
+                <span id="dsq-author-user-4513">geek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4513" class="dsq-comment-body">
+            <div id="dsq-comment-message-4513" class="dsq-comment-message"><p>Building a heap of n elements require nLogn operations . How can you build a heap in O(n) in your examples ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-4466">
+        <div id="dsq-comment-header-4466" class="dsq-comment-header">
+            <cite id="dsq-cite-4466">
+                <span id="dsq-author-user-4466">shanky</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4466" class="dsq-comment-body">
+            <div id="dsq-comment-message-4466" class="dsq-comment-message"><p>in method 4 how can we build a max heap in O(n).it requires O(nlogn)</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-sandeep even depth-2" id="dsq-comment-4468">
+        <div id="dsq-comment-header-4468" class="dsq-comment-header">
+            <cite id="dsq-cite-4468">
+http://geeksforgeeks.org/                <span id="dsq-author-user-4468">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4468" class="dsq-comment-body">
+            <div id="dsq-comment-message-4468" class="dsq-comment-message"><p>@shanky: Build Heap takes O(n) time. See <a href="http://geeksforgeeks.org/?p=12580" rel="nofollow">this G-Fact</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3984">
+        <div id="dsq-comment-header-3984" class="dsq-comment-header">
+            <cite id="dsq-cite-3984">
+                <span id="dsq-author-user-3984">Imran</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3984" class="dsq-comment-body">
+            <div id="dsq-comment-message-3984" class="dsq-comment-message"><pre> <code language="Java">
+/* Based on Method 5 of Order Statistics. It finds kth Smallest element.
+* Java Code using Partition as the first element.
+* Comments and suggestions are appreciated. 
+* We can enhance this code by calculating Median of Medians to find pivot each time.
+* For reference consult this explanation. 
+* http://www.comp.dit.ie/rlawlor/Prob_Solv/Imperative_Algs/Quick%20Sort%20Explanation.pdf
+*/
+public static int quickSelect( int a[], int l, int r, int x) 
+	{
+                // if x is outOfRange return -1
+		if(x &lt; 1 || x &gt; r) return -1; 
+                
+		if(l==r) return a[l];
+		if(l &lt; r)  
+		{ 
+	      // divide and conquer 
+	       int j = partition( a, l, r); 
+	       int k = j-l+1;
+	       if(k == x) 
+	    	   return a[j];
+	       else if(x &lt; k) 
+	    	   return quickSelect( a, l, j-1, x); 
+	       else 
+	    	   return quickSelect( a, j+1, r, x-k); 
+		}
+		return -1;
+	}
+	
+	public static int partition(int a[], int l, int r) 
+	{ 
+		System.out.print(&quot;left = &quot; + l +&quot;, right = &quot; + r);
+		int pivot = a[l], i, j, temp; 
+		i = l; j = r+1; 
+		System.out.print(&quot;, pivot = &quot; + pivot +&quot;, &quot;);
+		while(true)
+		{   
+		  do ++i; while( i &lt;= r &amp;&amp; a[i] &lt;= pivot); 
+		  do --j; while( a[j] &gt; pivot ); 
+		  if( i &gt;= j ) break; 
+		  temp = a[i];  a[i] = a[j];  a[j] = temp; 
+		}
+	   temp = a[l];  a[l] = a[j];  a[j] = temp; 
+	   System.out.print(&quot;j = &quot; + j);
+	   System.out.print(&quot;, a[j] = &quot; + a[j] + &quot;, &quot;);
+	   System.out.println(Arrays.toString(a));
+	   return j;
+	}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-30086">
+        <div id="dsq-comment-header-30086" class="dsq-comment-header">
+            <cite id="dsq-cite-30086">
+                <span id="dsq-author-user-30086">lalu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30086" class="dsq-comment-body">
+            <div id="dsq-comment-message-30086" class="dsq-comment-message"><p>Can you explain , how its O(n) ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3560">
+        <div id="dsq-comment-header-3560" class="dsq-comment-header">
+            <cite id="dsq-cite-3560">
+                <span id="dsq-author-user-3560">WgpShashank</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3560" class="dsq-comment-body">
+            <div id="dsq-comment-message-3560" class="dsq-comment-message"><p>here you can also get Min-Max Heap</p>
+<p><a href="http://forestofcode.blogspot.com/2010/12/c-min-max-heap-implementation.html" rel="nofollow">http://forestofcode.blogspot.com/2010/12/c-min-max-heap-implementation.html</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3554">
+        <div id="dsq-comment-header-3554" class="dsq-comment-header">
+            <cite id="dsq-cite-3554">
+                <span id="dsq-author-user-3554">laxman</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3554" class="dsq-comment-body">
+            <div id="dsq-comment-message-3554" class="dsq-comment-message"><p>@sandeep&#8230;maderator,, venki </p>
+<p>hi geeks please provide the working code fro the 6th method..this is highly in demand..plz..plz..try to post solution asap&#8230;everyone looking forward.</p>
+<p>Thanks<br />
+Rahul</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-sandeep odd alt depth-2" id="dsq-comment-3558">
+        <div id="dsq-comment-header-3558" class="dsq-comment-header">
+            <cite id="dsq-cite-3558">
+                <span id="dsq-author-user-3558">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3558" class="dsq-comment-body">
+            <div id="dsq-comment-message-3558" class="dsq-comment-message"><p>@Rahul: Following is the code for method 6.</p>
+<pre> <code language="CPP">
+#include&lt;iostream&gt;
+#include&lt;stdio.h&gt;
+using namespace std;
+
+void swap(int *x, int *y) {
+  int temp = *x;
+  *x = *y;
+  *y = temp;
+}
+
+class Heap
+{
+  int *arr; // pointer to array of elements in heap
+  int heap_size;
+public:
+  Heap(int a[], int size);
+  void buildminHeap();
+  void minHeapify(int );
+  void heapSort();
+  void changeRoot(int x);
+  int getRoot() {return arr[0];}
+  int parent(int i){ return (i-1)/2; } ;
+  int left(int i)  { return (2*i + 1); } ;
+  int right(int i) { return (2*i + 2); } ;
+};
+
+Heap::Heap(int a[], int size) {
+  heap_size = size;
+  arr = a;
+}
+
+
+void Heap::changeRoot(int x)
+{
+   int root = arr[0];
+   if (root &lt; x)
+   {
+      arr[0] = x;
+   }
+   minHeapify(0);
+}
+
+void Heap::minHeapify(int i) {
+  int l = left(i);
+  int r = right(i);
+  int largest;
+  if (l &lt; heap_size &amp;&amp; arr[l] &lt; arr[i])
+    largest = l;
+  else
+    largest = i;
+  if (r &lt; heap_size &amp;&amp; arr[r] &lt; arr[largest])
+    largest = r;
+  if (largest != i)
+  {
+    swap(&amp;arr[i], &amp;arr[largest]);
+    minHeapify(largest);
+  }
+}
+
+void Heap::buildminHeap() {
+  int i = (heap_size - 1)/2;
+  while (i &gt;= 0)
+  {
+    minHeapify(i);
+    i--;
+  }
+}
+
+int kthLargest(int arr[], int n, int k)
+{
+   Heap hp(arr, k);
+   hp.buildminHeap();
+   int i;
+   for(i = k; i &lt; n; i++)
+   {
+     hp.changeRoot(arr[i]);
+   }
+   return hp.getRoot();
+}
+
+int main()
+{
+    int k = 4;
+    int arr[] = {12, 34, 10, 8, 9, 4, 56};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    printf(&quot; %d &quot;, kthLargest(arr, n, k));
+    getchar();
+    return 0;
+}
+</code> </pre>
+<p>I haven&#8217;t tested it much.  Once I test it for some significant number of cases and add some error handing code, I will add it to the original post.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-3622">
+        <div id="dsq-comment-header-3622" class="dsq-comment-header">
+            <cite id="dsq-cite-3622">
+http://wgpsahshank.co.cc                <span id="dsq-author-user-3622">wgpshashank</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3622" class="dsq-comment-body">
+            <div id="dsq-comment-message-3622" class="dsq-comment-message"><p>@sandeep u haven&#8217;t done any boundary checking its not a good programming .in c no excpetion but in java u will get exception..at fisrt step itsel&#8230;hope u will rerposet it with correct boundary checing &amp; with some test case as well</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3507">
+        <div id="dsq-comment-header-3507" class="dsq-comment-header">
+            <cite id="dsq-cite-3507">
+                <span id="dsq-author-user-3507">Algoseekar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3507" class="dsq-comment-body">
+            <div id="dsq-comment-message-3507" class="dsq-comment-message"><p>@geeksforgeeks,venki,,all geeks everyone know that method 6 using heap is best method can anyone provide the exact implementation of that..</p>
+<p>Thank<br />
+Algoseekar</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3310">
+        <div id="dsq-comment-header-3310" class="dsq-comment-header">
+            <cite id="dsq-cite-3310">
+                <span id="dsq-author-user-3310">reg_frenzy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3310" class="dsq-comment-body">
+            <div id="dsq-comment-message-3310" class="dsq-comment-message"><p>We could use Winner trees approach. At each time, we compare two adjacent elements, thus reducing the comparisons by 2 at each iteration. </p>
+<p>Eg:<br />
+12 5 8 1 78 90</p>
+<p>Outcome of First iteration:<br />
+(Compare adjacent elements, winner is the bigger of the 2 elements)</p>
+<p>If it is odd, retain the last element.</p>
+<p>12 8 90</p>
+<p>Proceeding similarly, </p>
+<p>Outcome of Second iteration:</p>
+<p>12 90</p>
+<p>Outcome of Third iteration:</p>
+<p>90</p>
+<p>This is based on the concept of tournament trees. Now, the first largest element is 90. To find the second largest element, we play a tournament again with the elements with which the largest element(90) was compared, before becoming largest. </p>
+<p>In this example, the lit shrinks to:</p>
+<p>78 12</p>
+<p>So, when we compare these 2 elements, after first iteration, the winner is 78.</p>
+<p>Complexity analysis:<br />
+This algorithm takes O(n + k log n) complexity, which for any fixed k independent of n is O(n).</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2144">
+        <div id="dsq-comment-header-2144" class="dsq-comment-header">
+            <cite id="dsq-cite-2144">
+                <span id="dsq-author-user-2144">bunty</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2144" class="dsq-comment-body">
+            <div id="dsq-comment-message-2144" class="dsq-comment-message"><p>Another algorithm which will take O(n(1+k))<br />
+&#8211; Scan through the original array and create a temp array, &#8220;temp&#8221;, of k elements, such that temp elements are in ascending order. This temp array will have our k largest elements.<br />
+&#8211; Arr[n]<br />
+&#8211; Make and array temp[k] with k ( here 3) elements:<br />
+  temp[i] = 0 for i = 0 to 1<br />
+  max = temp[2] = Arr[0] = 0</p>
+<p>  temp[] = {0,0, Arr[0]);<br />
+// Comparing each element of Arr with temp[k-1] and place the //larger one in temp[k-1], maintaining temp in ascending order.<br />
+ for (count=0;count&lt;n;count++)<br />
+ {//  n comparison<br />
+  if (temp[k-1] &lt; Arr[count])<br />
+   {<br />
+    // Assigning Arr[count] to temp[k-1] and keeping array in<br />
+    // order and over writing the lowest element in temp.<br />
+     count2=0;<br />
+     while(count2&lt;temp[k-1]) // (k-2) shifts.<br />
+       temp[count2] = temp[count2+1];</p>
+<p>     temp[count2] = Arr[count]; </p>
+<p>  }</p>
+<p>let us take and example of worst case;<br />
+ Arr[] = {0,1,2,3,4,5,6,7};<br />
+ and k = 3</p>
+<p>1) temp = 0,0,0<br />
+on comparing temp[2]&lt;Arr[1]<br />
+so new temp will be<br />
+temp  = 0,0,1<br />
+2) now temp[2]&lt;Arr[2]<br />
+new temp = 0,1,2<br />
+&#8230;&#8230;..<br />
+when temp = 4,5,6<br />
+and temp[2]&lt;Arr[7]<br />
+then new temp will be<br />
+temp = 5,6,7&#8230;.which are the largest 3 numbers of Arr.</p>
+<p>But it is the worst case, probably avg case would be little bit better.<br />
+Please do let me know for nay issue with the algo.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2088">
+        <div id="dsq-comment-header-2088" class="dsq-comment-header">
+            <cite id="dsq-cite-2088">
+                <span id="dsq-author-user-2088">RK</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2088" class="dsq-comment-body">
+            <div id="dsq-comment-message-2088" class="dsq-comment-message"><p><strong>@ Method 5</strong></p>
+<p>I am not sure why we need to sort the elements(step 3)once we have already found the kth largest element. The question says the elements larger then kth largest element can be in any order.</p>
+<p>In my opinion, the running time be O(n).</p>
+<p>Please correct me if I am wrong.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor odd alt depth-2" id="dsq-comment-2094">
+        <div id="dsq-comment-header-2094" class="dsq-comment-header">
+            <cite id="dsq-cite-2094">
+                <span id="dsq-author-user-2094">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2094" class="dsq-comment-body">
+            <div id="dsq-comment-message-2094" class="dsq-comment-message"><p>@RK: Thanks for sharing your thoughts, we have added a note for this.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1908">
+        <div id="dsq-comment-header-1908" class="dsq-comment-header">
+            <cite id="dsq-cite-1908">
+                <span id="dsq-author-user-1908">Mahesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1908" class="dsq-comment-body">
+            <div id="dsq-comment-message-1908" class="dsq-comment-message"><p>Link in method 5 broken.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor odd alt depth-2" id="dsq-comment-1911">
+        <div id="dsq-comment-header-1911" class="dsq-comment-header">
+            <cite id="dsq-cite-1911">
+                <span id="dsq-author-user-1911">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1911" class="dsq-comment-body">
+            <div id="dsq-comment-message-1911" class="dsq-comment-message"><p>@Mahesh: Thanks for pointing this out.  We ave fixed it.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1420">
+        <div id="dsq-comment-header-1420" class="dsq-comment-header">
+            <cite id="dsq-cite-1420">
+                <span id="dsq-author-user-1420">Ashish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1420" class="dsq-comment-body">
+            <div id="dsq-comment-message-1420" class="dsq-comment-message"><p>what about forming a binary tree (as a preprocessing step ) with each node storing the number of elements on its left child side? this is the solution i gave in my interview <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-codetrash odd alt depth-2" id="dsq-comment-15664">
+        <div id="dsq-comment-header-15664" class="dsq-comment-header">
+            <cite id="dsq-cite-15664">
+                <span id="dsq-author-user-15664">codetrash</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15664" class="dsq-comment-body">
+            <div id="dsq-comment-message-15664" class="dsq-comment-message"><p>Isnt the complexity of this NLogN?</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1088">
+        <div id="dsq-comment-header-1088" class="dsq-comment-header">
+            <cite id="dsq-cite-1088">
+                <span id="dsq-author-user-1088">Virender</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1088" class="dsq-comment-body">
+            <div id="dsq-comment-message-1088" class="dsq-comment-message"><p>You can use the <strong>Median of Median</strong> method for this problem to reduce the Time complexity to <strong>O(n)</strong>. Median of Median modifies the partition method of quick sort to find &#8220;Good&#8221; pivot. </p>
+<p>Explained <a href="http://en.wikipedia.org/wiki/Selection_algorithm#Linear_general_selection_algorithm_-_.22Median_of_Medians_algorithm.22" rel="nofollow">here</a></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik odd alt depth-2" id="dsq-comment-1134">
+        <div id="dsq-comment-header-1134" class="dsq-comment-header">
+            <cite id="dsq-cite-1134">
+                <span id="dsq-author-user-1134">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1134" class="dsq-comment-body">
+            <div id="dsq-comment-message-1134" class="dsq-comment-message"><p>I thing the method that you are suggesting and Method 5 in the above post are same.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-1192">
+        <div id="dsq-comment-header-1192" class="dsq-comment-header">
+            <cite id="dsq-cite-1192">
+                <span id="dsq-author-user-1192">dejected</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1192" class="dsq-comment-body">
+            <div id="dsq-comment-message-1192" class="dsq-comment-message"><p>Not really. There needs no partitioning as mentioned under method 5. </p>
+<p>Just pick the values which is greater than or equal to k-th largest element. Simple O(n) solution.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-751">
+        <div id="dsq-comment-header-751" class="dsq-comment-header">
+            <cite id="dsq-cite-751">
+                <span id="dsq-author-user-751">Anand</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-751" class="dsq-comment-body">
+            <div id="dsq-comment-message-751" class="dsq-comment-message"><p>Hi<br />
+I am interested in knowing how we gonna approach  if the array contains , say billion integers.<br />
+Obviously, we cannot put them all in memory and apply sorting due to memory constraint.</p>
+<p>suggestions, any?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik even depth-2" id="dsq-comment-752">
+        <div id="dsq-comment-header-752" class="dsq-comment-header">
+            <cite id="dsq-cite-752">
+                <span id="dsq-author-user-752">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-752" class="dsq-comment-body">
+            <div id="dsq-comment-message-752" class="dsq-comment-message"><p>You can use method 2 or method 6 because these methods do not require all the billion integers to be present in memory.</p>
+<p>Among these two methods, method 6 is a better choice.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-629">
+        <div id="dsq-comment-header-629" class="dsq-comment-header">
+            <cite id="dsq-cite-629">
+                <span id="dsq-author-user-629">Shailendra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-629" class="dsq-comment-body">
+            <div id="dsq-comment-message-629" class="dsq-comment-message"><p>We could apply Bubble Sort for K times so the largest/smallest k elements will be sorted.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even depth-2" id="dsq-comment-633">
+        <div id="dsq-comment-header-633" class="dsq-comment-header">
+            <cite id="dsq-cite-633">
+                <span id="dsq-author-user-633">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-633" class="dsq-comment-body">
+            <div id="dsq-comment-message-633" class="dsq-comment-message"><p>Thanks for suggesting a new method.  We have included it to the original post.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor odd alt thread-even depth-1" id="dsq-comment-503">
+        <div id="dsq-comment-header-503" class="dsq-comment-header">
+            <cite id="dsq-cite-503">
+                <span id="dsq-author-user-503">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-503" class="dsq-comment-body">
+            <div id="dsq-comment-message-503" class="dsq-comment-message"><p>@ankit: This is quite interesting.  Please see <a href="http://en.wikipedia.org/wiki/Binary_heap#Building_a_heap" rel="nofollow">http://en.wikipedia.org/wiki/Binary_heap#Building_a_heap</a> for proof that heap can be built in O(n) time.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-502">
+        <div id="dsq-comment-header-502" class="dsq-comment-header">
+            <cite id="dsq-cite-502">
+                <span id="dsq-author-user-502">ankit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-502" class="dsq-comment-body">
+            <div id="dsq-comment-message-502" class="dsq-comment-message"><p>How can you build a max heap tree in O(n) time? It should be O(nlogn).</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor odd alt thread-even depth-1" id="dsq-comment-498">
+        <div id="dsq-comment-header-498" class="dsq-comment-header">
+            <cite id="dsq-cite-498">
+                <span id="dsq-author-user-498">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-498" class="dsq-comment-body">
+            <div id="dsq-comment-message-498" class="dsq-comment-message"><p>@nesamani1822: Thanks for suggesting a new approach.  We have added it to the original post.  Keep it up!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-nesamani1822 even thread-odd thread-alt depth-1" id="dsq-comment-497">
+        <div id="dsq-comment-header-497" class="dsq-comment-header">
+            <cite id="dsq-cite-497">
+                <span id="dsq-author-user-497">nesamani1822</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-497" class="dsq-comment-body">
+            <div id="dsq-comment-message-497" class="dsq-comment-message"><p>@Sandeep:</p>
+<p>Here is the explanation for your example.</p>
+<p>[1, 23, 12, 9, 30, 2, 50, 3]</p>
+<p>1)Array creation<br />
+int *max=malloc(N,sizeof(int));<br />
+in your case N is 3</p>
+<p>2) Initialize the array with first N elements<br />
+max[0] = 1<br />
+max[1] = 23<br />
+max[2] = 12</p>
+<p>3) compare from the index 3 to 7</p>
+<p>i=3<br />
+max[0] = 9<br />
+max[1] = 23<br />
+max[2] = 12</p>
+<p>i=4<br />
+max[0] = 9<br />
+max[1] = 23<br />
+max[2] = 30</p>
+<p>i=5<br />
+No change (Not greater than any element)<br />
+max[0] = 9<br />
+max[1] = 23<br />
+max[2] = 30</p>
+<p>i=6<br />
+max[0] = 50<br />
+max[1] = 23<br />
+max[2] = 30</p>
+<p>i=7<br />
+No change (Not greater than any element)<br />
+max[0] = 50<br />
+max[1] = 23<br />
+max[2] = 30</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-3607">
+        <div id="dsq-comment-header-3607" class="dsq-comment-header">
+            <cite id="dsq-cite-3607">
+                <span id="dsq-author-user-3607">nikhil jain</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3607" class="dsq-comment-body">
+            <div id="dsq-comment-message-3607" class="dsq-comment-message"><p>it should be after each iteration find the min again in temp and replace this with the next larger number in arr[]</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-494">
+        <div id="dsq-comment-header-494" class="dsq-comment-header">
+            <cite id="dsq-cite-494">
+                <span id="dsq-author-user-494">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-494" class="dsq-comment-body">
+            <div id="dsq-comment-message-494" class="dsq-comment-message"><p>@nesamani1822: Could you please explain the approach with below example.</p>
+<p>Find 3 largest elements of the array [1, 23, 12, 9, 30, 2, 50, 3]</p>
+<p>I could easily understand first two steps, just have doubts about the third step.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-nesamani1822 odd alt thread-odd thread-alt depth-1" id="dsq-comment-493">
+        <div id="dsq-comment-header-493" class="dsq-comment-header">
+            <cite id="dsq-cite-493">
+                <span id="dsq-author-user-493">nesamani1822</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-493" class="dsq-comment-body">
+            <div id="dsq-comment-message-493" class="dsq-comment-message"><p>We can do in other way also.<br />
+Here is the way how to do it.<br />
+1) Create one array based on the N provided.<br />
+2) Initialize that array with the first N elements of original array.<br />
+3) then compare the next elements of the array with the newly initialized array and replace with lowest element of that newly initialized array.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-2430">
+        <div id="dsq-comment-header-2430" class="dsq-comment-header">
+            <cite id="dsq-cite-2430">
+                <span id="dsq-author-user-2430">Sam</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2430" class="dsq-comment-body">
+            <div id="dsq-comment-message-2430" class="dsq-comment-message"><p>Here is the implementation</p>
+<pre> <code language="C">
+int[] array = { 1, 23, 12, 9, 30, 2, 50, 3 };
+            int k = 5;
+
+            for (int i = k; i &lt; array.Length - 1; i++)
+            {
+                //Find Min
+                int min_index = 0;
+                for (int j = 1; j  array[j])
+                    {
+                        min_index = j;
+                        array[min_index] = array[j];
+                    }
+                }
+
+                //Swap item if min &lt; array[i]
+                if (array[min_index] &lt; array[i])
+                {
+                    int temp = array[min_index];
+                    array[min_index] = array[i];
+                    array[i] = temp;
+                }
+            }
+
+            //Print output
+            foreach (int item in array)
+            {
+                Console.Write(&quot;{0} &quot;, item);
+            }
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-491">
+        <div id="dsq-comment-header-491" class="dsq-comment-header">
+            <cite id="dsq-cite-491">
+                <span id="dsq-author-user-491">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-491" class="dsq-comment-body">
+            <div id="dsq-comment-message-491" class="dsq-comment-message"><p>@Madhav: Method 1 talks about same. i.e., sort the elements and get the k largest elements.</p>
+<p>@duke87: Could you please explain how the given code find k largest elements.  Also, there seems to be typos in below lines.</p>
+<pre> <code language="C">
+    for(h=p;hn) /* What is hn ?*/
+    search(arr,p,q-1,n,o);
+    else  /* ---&gt; Else without if*/
+     search(arr,q+1,r,n-q,o);
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-490">
+        <div id="dsq-comment-header-490" class="dsq-comment-header">
+            <cite id="dsq-cite-490">
+                <span id="dsq-author-user-490">Madhav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-490" class="dsq-comment-body">
+            <div id="dsq-comment-message-490" class="dsq-comment-message"><p>quick sort thrice nd u get d 3 largest/smallest elements ..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-489">
+        <div id="dsq-comment-header-489" class="dsq-comment-header">
+            <cite id="dsq-cite-489">
+                <span id="dsq-author-user-489">duke87</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-489" class="dsq-comment-body">
+            <div id="dsq-comment-message-489" class="dsq-comment-message"><p>algo called quick select which u write in method 3rd</p>
+<pre> <code language="C">
+#include
+int partation(int [], int ,int);
+void search(int[],int ,int ,int,int);
+int main()
+{
+    int n;
+    printf(&quot;enter the n for nth larest element\n&quot;);
+    scanf(&quot;%d&quot;,&amp;n);
+    
+    int arr[]={5,2,7,1,8,9,6};
+    
+    search(arr,0,6,n-1,n-1);
+    //printf(&quot;%d &quot;,partation(arr,0,6));
+    getchar();
+    getchar();
+    return 0;
+}
+
+void search(int arr[],int p,int r, int n,int o)
+{
+          
+  if(r&gt;p)
+  {
+           int h;
+           int q=partation(arr,p,r);
+           for(h=p;hn)
+               search(arr,p,q-1,n,o);
+               else
+               search(arr,q+1,r,n-q,o);
+           }
+  }
+}
+               
+               
+               
+               
+               
+               
+               
+int partation(int a[],int p,int r)
+{
+              int i,j;
+              j=p;
+              i=j-1;
+              while(j&lt;=r)
+              {
+                      if(a[j]&lt;a[r])
+                      {
+                                   i++;
+                                   int temp=a[j];
+                                   a[j]=a[i];
+                                   a[i]=temp;
+                      }
+                      j++;
+              }
+              int temp=a[i+1];
+              a[i+1]=a[r];
+              a[r]=temp;
+
+return i+1;              
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/k-largestor-smallest-elements-in-an-array/';
+var disqus_identifier = '2392 http://geeksforgeeks.org/?p=2392';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "k largest(or smallest) elements in an array | added Min Heap method";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.236 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:29:23 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

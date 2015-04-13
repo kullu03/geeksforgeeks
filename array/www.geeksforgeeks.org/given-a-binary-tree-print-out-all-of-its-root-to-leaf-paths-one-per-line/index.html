@@ -1,0 +1,1790 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Given a binary tree, print out all of its root-to-leaf paths one per line. - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/given-a-binary-tree-print-out-all-of-its-root-to-leaf-paths-one-per-line/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Given a binary tree, print out all of its root-to-leaf paths one per line. - GeeksforGeeks" />
+<meta property="og:description" content="Asked by Varun Bhatia Here is the solution. Algorithm: initialize: pathlen = 0, path[1000] /*1000 is some max limit for paths, it can change*/ /*printPathsRecur traverses nodes of tree in preorder */ printPathsRecur(tree, path[], pathlen) 1) If node is not NULL then a) push data to path array: path[pathlen] = node-&gt;data. b) increment pathlen pathlen++ &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/given-a-binary-tree-print-out-all-of-its-root-to-leaf-paths-one-per-line/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:section" content="Trees" />
+<meta property="article:published_time" content="2009-08-09T14:38:57+00:00" />
+<meta property="article:modified_time" content="2009-11-16T23:48:19+00:00" />
+<meta property="og:updated_time" content="2009-11-16T23:48:19+00:00" />
+<meta property="og:image" content="http://geeksforgeeks.org/wp-content/uploads/2009/06/tree122.gif" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.493 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417110793 106.206.222.73';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Given a binary tree, print out all of its root-to-leaf paths one per line.</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Asked by Varun Bhatia</p>
+<p>Here is the solution.<br />
+<span id="more-1005"></span><br />
+<strong>Algorithm:</strong>
+<pre>
+initialize: pathlen = 0, path[1000] 
+/*1000 is some max limit for paths, it can change*/
+
+/*printPathsRecur traverses nodes of tree in preorder */
+printPathsRecur(tree, path[], pathlen)
+   1) If node is not NULL then 
+         a) push data to path array: 
+                path[pathlen] = node->data.
+         b) increment pathlen 
+                pathlen++
+   2)<strong> If </strong>node is a leaf node then print the path array.
+   3) <strong>Else</strong>
+        a) Call printPathsRecur for left subtree
+                 printPathsRecur(node->left, path, pathLen)
+        b) Call printPathsRecur for right subtree.
+                printPathsRecur(node->right, path, pathLen)
+</pre>
+<p><strong>Example:</strong><br />
+<div id="attachment_650" style="width: 269px" class="wp-caption aligncenter"><img src="http://geeksforgeeks.org/wp-content/uploads/2009/06/tree122.gif" alt="Example Tree" title="tree12" width="259" height="156" class="size-full wp-image-650" /><p class="wp-caption-text">Example Tree</p></div></p>
+<p>Output for the above example will be</p>
+<pre>
+  1 2 4
+  1 2 5
+  1 3 
+</pre>
+<p><strong>Implementation:</strong></p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+/*program to print all of its root-to-leaf paths for a tree*/
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+/* A binary tree node has data, pointer to left child
+   and a pointer to right child */
+struct node
+{
+    int data;
+    struct node* left;
+    struct node* right;
+};
+
+void printArray(int [], int);
+void printPathsRecur(struct node*, int [], int);
+struct node* newNode(int );
+void printPaths(struct node*);
+
+/* Given a binary tree, print out all of its root-to-leaf
+   paths, one per line. Uses a recursive helper to do the work.*/   
+void printPaths(struct node* node) 
+{
+  int path[1000];
+  printPathsRecur(node, path, 0);
+}
+
+/* Recursive helper function -- given a node, and an array containing
+ the path from the root node up to but not including this node,
+ print out all the root-leaf paths. */
+void printPathsRecur(struct node* node, int path[], int pathLen) 
+{
+  if (node==NULL) return;
+
+  /* append this node to the path array */
+  path[pathLen] = node-&gt;data;
+  pathLen++;
+
+  /* it's a leaf, so print the path that led to here */
+  if (node-&gt;left==NULL &amp;&amp; node-&gt;right==NULL) 
+  {
+    printArray(path, pathLen);
+  }
+  else 
+  {
+  /* otherwise try both subtrees */
+    printPathsRecur(node-&gt;left, path, pathLen);
+    printPathsRecur(node-&gt;right, path, pathLen);
+  }
+}
+
+/* Helper function that allocates a new node with the
+   given data and NULL left and right pointers. */
+struct node* newNode(int data)
+{
+  struct node* node = (struct node*)
+                       malloc(sizeof(struct node));
+  node-&gt;data = data;
+  node-&gt;left = NULL;
+  node-&gt;right = NULL;
+
+  return(node);
+}
+
+/* Utility that prints out an array on a line */
+void printArray(int ints[], int len)
+{
+  int i;
+  for (i=0; i&lt;len; i++) {
+    printf(&quot;%d &quot;, ints[i]);
+  }
+  printf(&quot;\n&quot;);
+} 
+
+/* Driver program to test mirror() */
+int main()
+{
+  struct node *root = newNode(1);
+  root-&gt;left        = newNode(2);
+  root-&gt;right       = newNode(3);
+  root-&gt;left-&gt;left  = newNode(4);
+  root-&gt;left-&gt;right = newNode(5); 
+
+  /* Print all root-to-leaf paths of the input tree */
+  printPaths(root);
+
+  getchar();
+  return 0;
+}
+</pre>
+<p><strong>References:</strong><br />
+<a href="http://cslibrary.stanford.edu/110/BinaryTrees.html">http://cslibrary.stanford.edu/110/BinaryTrees.html</a></p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/perfect-binary-tree-specific-level-order-traversal/" title="Perfect Binary Tree Specific Level Order Traversal">Perfect Binary Tree Specific Level Order Traversal</a></li><li><a href="http://www.geeksforgeeks.org/print-nodes-top-view-binary-tree/" title="Print Nodes in Top View of Binary Tree">Print Nodes in Top View of Binary Tree</a></li><li><a href="http://www.geeksforgeeks.org/k-dimensional-tree/" title="K Dimensional Tree">K Dimensional Tree</a></li><li><a href="http://www.geeksforgeeks.org/convert-binary-tree-threaded-binary-tree/" title="Convert a Binary Tree to Threaded binary tree">Convert a Binary Tree to Threaded binary tree</a></li><li><a href="http://www.geeksforgeeks.org/serialize-deserialize-n-ary-tree/" title="Serialize and Deserialize an N-ary Tree">Serialize and Deserialize an N-ary Tree</a></li><li><a href="http://www.geeksforgeeks.org/serialize-deserialize-binary-tree/" title="Serialize and Deserialize a Binary Tree">Serialize and Deserialize a Binary Tree</a></li><li><a href="http://www.geeksforgeeks.org/given-binary-tree-print-nodes-two-given-level-numbers/" title="Print nodes between two given level numbers of a binary tree">Print nodes between two given level numbers of a binary tree</a></li><li><a href="http://www.geeksforgeeks.org/find-height-binary-tree-represented-parent-array/" title="Find Height of Binary Tree represented by Parent array">Find Height of Binary Tree represented by Parent array</a></li></ul>
+<p></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fgiven-a-binary-tree-print-out-all-of-its-root-to-leaf-paths-one-per-line%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/given-a-binary-tree-print-out-all-of-its-root-to-leaf-paths-one-per-line/" data-text="Given a binary tree, print out all of its root-to-leaf paths one per line." data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/given-a-binary-tree-print-out-all-of-its-root-to-leaf-paths-one-per-line/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-33856">
+        <div id="dsq-comment-header-33856" class="dsq-comment-header">
+            <cite id="dsq-cite-33856">
+                <span id="dsq-author-user-33856">Tony</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33856" class="dsq-comment-body">
+            <div id="dsq-comment-message-33856" class="dsq-comment-message"><p>public void allPathSum(BNode root,Stack s){</p>
+<p>        if (root == null){<br />
+            return;</p>
+<p>        }<br />
+        s.add(root);<br />
+        if (root.left == null &amp;&amp; root.right == null){<br />
+            int sum =0;<br />
+            for (BNode node : s){<br />
+                System.out.print(node.data+&#8221; + &#8220;);<br />
+                sum =sum+node.data;<br />
+            }<br />
+            System.out.print(&#8221; = &#8220;+(sum)+&#8221; n&#8221;);</p>
+<p>        }</p>
+<p>        allPathSum(root.left,s);</p>
+<p>        allPathSum(root.right,s);<br />
+        s.pop();</p>
+<p>    }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-33236">
+        <div id="dsq-comment-header-33236" class="dsq-comment-header">
+            <cite id="dsq-cite-33236">
+                <span id="dsq-author-user-33236">Marsha Donna</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33236" class="dsq-comment-body">
+            <div id="dsq-comment-message-33236" class="dsq-comment-message"><p>#include<br />
+#include<br />
+#include<br />
+struct node<br />
+{<br />
+	char data;<br />
+	struct node *left;<br />
+	struct node *right;<br />
+};</p>
+<p>struct node* insert(char item)<br />
+{<br />
+	struct node *temp=(struct node *)malloc(sizeof(struct node));<br />
+	temp-&gt;data=item;<br />
+	temp-&gt;left=NULL;<br />
+	temp-&gt;right=NULL;<br />
+	return temp;<br />
+}</p>
+<p>void display(struct node *root)<br />
+{<br />
+	if(root==NULL)return;</p>
+<p>	printf(&#8220;%c &#8220;,root-&gt;data);<br />
+	display(root-&gt;left);<br />
+	display(root-&gt;right);</p>
+<p>}</p>
+<p>void disp_all_root_2_leaf_path(struct node *node,char arr[],int j)<br />
+{	</p>
+<p>	int i;<br />
+	if(node==NULL)return;</p>
+<p>	if((node-&gt;left==NULL)&amp;&amp;(node-&gt;right==NULL))<br />
+	{	arr[j]=node-&gt;data;<br />
+		for(i=0;idata;<br />
+	j++;<br />
+	disp_all_root_2_leaf_path(node-&gt;left,arr,j);<br />
+	disp_all_root_2_leaf_path(node-&gt;right,arr,j);<br />
+}</p>
+<p>int main(void) {<br />
+	int i,j=0;<br />
+	char arr[50];<br />
+	struct node*root=insert(&#8216;a&#8217;);<br />
+	root-&gt;left=insert(&#8216;b&#8217;);<br />
+	root-&gt;right=insert(&#8216;c&#8217;);<br />
+	root-&gt;left-&gt;left=insert(&#8216;d&#8217;);<br />
+	root-&gt;left-&gt;right=insert(&#8216;e&#8217;);<br />
+	root-&gt;right-&gt;left=insert(&#8216;f&#8217;);</p>
+<p>	printf(&#8220;now the tree is displayed in preordern&#8221;);<br />
+	display(root);<br />
+	printf(&#8220;n&#8221;);</p>
+<p>	for(i=0;i&lt;50;i++)<br />
+	arr[i]=&#039;&#039;;</p>
+<p>	disp_all_root_2_leaf_path(root,arr,j);</p>
+<p>	return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-33009">
+        <div id="dsq-comment-header-33009" class="dsq-comment-header">
+            <cite id="dsq-cite-33009">
+                <span id="dsq-author-user-33009">cruser11232</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33009" class="dsq-comment-body">
+            <div id="dsq-comment-message-33009" class="dsq-comment-message"><p>void PrintPathSub(node * root, stack * stk)<br />
+{<br />
+     if(root== NULL)<br />
+         return;</p>
+<p>     push(stk,root-&gt;data);<br />
+     PrintPathSub(root-&gt;left,stk);</p>
+<p>     PrintPathSub(root-&gt;right,stk);    </p>
+<p>     if(root-&gt;left==NULL &amp;&amp; root-&gt;right==NULL )<br />
+     {<br />
+         print(stk);<br />
+     }<br />
+     pop(stk);<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-kush-pandey odd alt thread-odd thread-alt depth-1" id="dsq-comment-22549">
+        <div id="dsq-comment-header-22549" class="dsq-comment-header">
+            <cite id="dsq-cite-22549">
+                <span id="dsq-author-user-22549">Kush Pandey</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22549" class="dsq-comment-body">
+            <div id="dsq-comment-message-22549" class="dsq-comment-message"><p>A recursive implementation of above problem</p>
+<pre> <code language="C">
+void printpath()
+{
+    printReculen(root,0)
+}
+void printReculen(node *root,int length)
+{
+    int i=1,path[50];
+    if(root==0)
+    {
+        while(i&lt;length)
+       {
+        printf(&quot;%d&quot;,path[i]);
+       }
+        printf(&quot;\n&quot;);
+        return
+    }
+    path[length]=root-&gt;data;
+    length++;
+    printReculen(root-&gt;left,length);
+    printReculen(root-&gt;right,length);
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-shek8034 even thread-even depth-1" id="dsq-comment-19905">
+        <div id="dsq-comment-header-19905" class="dsq-comment-header">
+            <cite id="dsq-cite-19905">
+                <span id="dsq-author-user-19905">shek8034</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19905" class="dsq-comment-body">
+            <div id="dsq-comment-message-19905" class="dsq-comment-message"><p>This post is duplicate of<br />
+<a href="http://www.geeksforgeeks.org/given-a-binary-tree-print-all-root-to-leaf-paths/" rel="nofollow">http://www.geeksforgeeks.org/given-a-binary-tree-print-all-root-to-leaf-paths/</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-sasuke odd alt thread-odd thread-alt depth-1" id="dsq-comment-19870">
+        <div id="dsq-comment-header-19870" class="dsq-comment-header">
+            <cite id="dsq-cite-19870">
+                <span id="dsq-author-user-19870">Sasuke</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19870" class="dsq-comment-body">
+            <div id="dsq-comment-message-19870" class="dsq-comment-message"><p>Here is my code for the same using stack </p>
+<pre> <code language="C">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+typedef struct tNode
+{
+    int data ;
+    struct tNode *left ;
+    struct tNode *right ;
+} tNode ;
+
+typedef struct sNode
+{
+    int data;
+    struct sNode *next ;
+} sNode ;
+
+sNode *stackTop ;
+tNode *btree ;
+int noOfElementsInStack = 0;
+void pushIntoStack(int data)
+{
+    sNode *tmp = (sNode *)malloc(sizeof(sNode));
+    tmp-&gt;data = data ;
+    tmp-&gt;next = stackTop ;
+    noOfElementsInStack++;
+    stackTop = tmp ;
+}
+
+void popFromStack()
+{
+    sNode *tmp = stackTop ;
+    stackTop = stackTop-&gt;next ;
+    free(tmp);
+    noOfElementsInStack--;
+}
+
+tNode *insertIntoTree(int n)
+{
+    tNode *tmp = (tNode *)malloc(sizeof(tNode));
+    tmp-&gt;data = n;
+    tmp-&gt;left = NULL ;
+    tmp-&gt;right = NULL ;
+
+    return tmp ;
+}
+
+void printStack()
+{
+    int a[noOfElementsInStack],i=0;
+    sNode *tmp = stackTop ;
+    while(tmp != NULL)
+    {
+        a[i++] = tmp-&gt;data;
+        tmp = tmp-&gt;next ;
+    }
+
+    printf(&quot;\n&quot;);
+    for(i = noOfElementsInStack-1 ; i &gt;= 0 ; i--)
+        printf(&quot;%d\t&quot;,a[i]);
+}
+
+void rootToLeaf(tNode *root)
+{
+    if(root==NULL)
+        return;
+    else
+    {
+        pushIntoStack(root-&gt;data);
+        rootToLeaf(root-&gt;left);
+        rootToLeaf(root-&gt;right);
+
+        if(root-&gt;left == NULL &amp;&amp; root-&gt;right == NULL)
+            printStack();
+
+        popFromStack();
+    }
+}
+
+int main()
+{
+    btree = insertIntoTree(1);
+    btree-&gt;left = insertIntoTree(2);
+    btree-&gt;right = insertIntoTree(3);
+    btree-&gt;left-&gt;left = insertIntoTree(4);
+    btree-&gt;left-&gt;right = insertIntoTree(5);
+    btree-&gt;right-&gt;left = insertIntoTree(6);
+    btree-&gt;right-&gt;right = insertIntoTree(7);
+
+    rootToLeaf(btree);
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-19712">
+        <div id="dsq-comment-header-19712" class="dsq-comment-header">
+            <cite id="dsq-cite-19712">
+                <span id="dsq-author-user-19712">huntur</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19712" class="dsq-comment-body">
+            <div id="dsq-comment-message-19712" class="dsq-comment-message"><p>//iterative solution<br />
+void roottoleaf(struct node *root)<br />
+{<br />
+struct node *t;<br />
+int a[MAX],i,j,flag=0;<br />
+i=0;<br />
+t=root;<br />
+while(1)<br />
+{<br />
+	while(t-&gt;left)<br />
+	{<br />
+		push(t);<br />
+		a[i]=t-&gt;data;<br />
+		i++;<br />
+		t=t-&gt;left;<br />
+	}<br />
+	while(t-&gt;right==NULL)<br />
+	{<br />
+		a[i]=t-&gt;data;<br />
+		for(j=0;jright;<br />
+	i++;<br />
+	}<br />
+}<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-abhishek08aug odd alt thread-odd thread-alt depth-1" id="dsq-comment-18041">
+        <div id="dsq-comment-header-18041" class="dsq-comment-header">
+            <cite id="dsq-cite-18041">
+                <span id="dsq-author-user-18041">abhishek08aug</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18041" class="dsq-comment-body">
+            <div id="dsq-comment-message-18041" class="dsq-comment-message"><p>C++ code: extended from my last post on: <a href="http://www.geeksforgeeks.org/given-a-binary-tree-print-out-all-of-its-root-to-leaf-paths-one-per-line/" rel="nofollow">http://www.geeksforgeeks.org/given-a-binary-tree-print-out-all-of-its-root-to-leaf-paths-one-per-line/</a></p>
+<pre> <code language="C">
+#include &lt;iostream&gt;
+#include &lt;stdlib.h&gt;
+using namespace std;
+ 
+class tree_node {
+  private:
+    int data;
+    tree_node * left;
+    tree_node * right;
+  public:
+    tree_node() {
+      left=NULL;
+      right=NULL;
+    }
+    void set_data(int data) {
+      this-&gt;data=data;
+    }
+    int get_data() {
+      return this-&gt;data;
+    }
+    void set_left(tree_node * left) {
+      this-&gt;left=left;
+    }
+    tree_node * get_left() {
+      return this-&gt;left;
+    }
+    void set_right(tree_node * right) {
+      this-&gt;right=right;
+    }
+    tree_node * get_right() {
+      return this-&gt;right;
+    }
+    tree_node ** get_left_ref() {
+      return &amp;(this-&gt;left);
+    }
+    tree_node ** get_right_ref() {
+      return &amp;(this-&gt;right);
+    }
+};
+ 
+class tree {
+  private:
+    tree_node * root;
+    int size;
+    void _recursive_insert(tree_node ** root_ref, int value);
+    void _print_preorder(tree_node * root);
+    void _print_inorder(tree_node * root);
+    void _print_postorder(tree_node * root);
+    int _find_size(tree_node * root);
+    int _are_identical(tree_node * tn1, tree_node * tn2);
+    int _find_height(tree_node * root);
+    void _delete_tree(tree_node ** root);
+    void _mirror(tree_node * root);
+    void _print_paths(tree_node * root, int * path_nodes, int next_vacant_position);
+    void _print_array(int * array, int len);
+  public:
+    tree() {
+      root=NULL;
+      size=0;
+    }
+    void insert(int value);
+    void recursive_insert(int value);
+    void print_preorder();
+    void print_inorder();
+    void print_postorder();
+    int find_size();
+    int get_size() {
+      return this-&gt;size;
+    }
+    int are_identical(tree t);
+    int find_height();
+    void delete_tree();
+    void mirror();
+    void print_paths();
+};
+ 
+void tree::insert(int value) {
+  if(root==NULL) {
+    root=new tree_node;
+    root-&gt;set_data(value);
+  } else {
+    tree_node * parent=NULL;
+    tree_node * current=root;
+    tree_node * new_node=new tree_node;
+    new_node-&gt;set_data(value);
+    while(current!=NULL) {
+      if(value&lt;=current-&gt;get_data()) {
+        parent=current;
+        current=current-&gt;get_left();
+      } else {
+        parent=current;
+        current=current-&gt;get_right();
+      }
+    }
+    if(value&lt;=parent-&gt;get_data() &amp;&amp; parent-&gt;get_left()==NULL) {
+      parent-&gt;set_left(new_node);
+    } else if(value&gt;parent-&gt;get_data() &amp;&amp; parent-&gt;get_right()==NULL) {
+      parent-&gt;set_right(new_node);
+    }
+  }
+  size++;
+}
+ 
+void tree::recursive_insert(int value) {
+  _recursive_insert(&amp;root, value);
+  size++;
+}
+ 
+void tree::_recursive_insert(tree_node ** root_ref, int value) {
+  if(*root_ref==NULL) {
+    tree_node * new_node=new tree_node;
+    new_node-&gt;set_data(value);
+    *root_ref=new_node;   
+  } else {
+    if(value&lt;=(*root_ref)-&gt;get_data()) {
+      _recursive_insert((*root_ref)-&gt;get_left_ref(), value);
+    } else {
+      _recursive_insert((*root_ref)-&gt;get_right_ref(), value);
+    }
+  }
+}
+ 
+void tree::print_preorder() {
+  if(root==NULL) {
+    return;
+  }
+  _print_preorder(root);
+  cout&lt;&lt;endl;
+}
+ 
+void tree::_print_preorder(tree_node * root) {
+  if(root==NULL) {
+    return;
+  }
+  cout&lt;&lt;root-&gt;get_data()&lt;&lt;&quot; &quot;;
+  if(root-&gt;get_left()!=NULL)
+    _print_preorder(root-&gt;get_left());
+  if(root-&gt;get_right()!=NULL)
+    _print_preorder(root-&gt;get_right());
+}
+ 
+void tree::print_inorder() {
+  if(root==NULL) {
+    return;
+  }
+  _print_inorder(root);
+  cout&lt;&lt;endl;
+}
+ 
+void tree::_print_inorder(tree_node * root) {
+  if(root==NULL) {
+    return;
+  }
+  if(root-&gt;get_left()!=NULL)
+    _print_inorder(root-&gt;get_left());
+  cout&lt;&lt;root-&gt;get_data()&lt;&lt;&quot; &quot;;
+  if(root-&gt;get_right()!=NULL)
+    _print_inorder(root-&gt;get_right());
+}
+ 
+void tree::print_postorder() {
+  if(root==NULL) {
+    return;
+  }
+  _print_postorder(root);
+  cout&lt;&lt;endl;
+}
+ 
+void tree::_print_postorder(tree_node * root) {
+  if(root==NULL) {
+    return;
+  }
+  if(root-&gt;get_left()!=NULL)
+    _print_postorder(root-&gt;get_left());
+  if(root-&gt;get_right()!=NULL)
+    _print_postorder(root-&gt;get_right());
+  cout&lt;&lt;root-&gt;get_data()&lt;&lt;&quot; &quot;;
+}
+
+int tree::find_size() {
+  return _find_size(root);
+}
+
+int tree::_find_size(tree_node * root) {
+  if(root==NULL) {
+    return 0;
+  } else {
+    return 1+_find_size(root-&gt;get_left())+_find_size(root-&gt;get_right());
+  }
+}
+
+int tree::are_identical(tree t) {
+  return _are_identical(this-&gt;root, t.root);
+}
+
+int tree::_are_identical(tree_node * tn1, tree_node * tn2) {
+  if(tn1==NULL &amp;&amp; tn2==NULL) {
+    return 1;
+  } else if((tn1==NULL &amp;&amp; tn2!=NULL) || (tn1!=NULL &amp;&amp; tn2==NULL) || (tn1-&gt;get_data()!=tn2-&gt;get_data())) {
+    return 0;
+  } else {
+    return _are_identical(tn1-&gt;get_left(), tn2-&gt;get_left()) &amp;&amp; _are_identical(tn1-&gt;get_right(), tn2-&gt;get_right());
+  }
+}
+
+int tree::find_height() {
+  return _find_height(root);
+}
+
+int tree::_find_height(tree_node * root) {
+  if(root==NULL) {
+    return 0;
+  }
+  else {
+    return 1+max(_find_height(root-&gt;get_left()), _find_height(root-&gt;get_right()));
+  }
+}
+
+void tree::delete_tree() {
+  _delete_tree(&amp;root);
+  size=0;
+}
+
+void tree::_delete_tree(tree_node ** root) {
+  if(*root==NULL) {
+    return;
+  } else {
+    if((*root)-&gt;get_left()!=NULL) {
+      _delete_tree((*root)-&gt;get_left_ref());
+    }
+    if((*root)-&gt;get_right()!=NULL) {
+      _delete_tree((*root)-&gt;get_right_ref());
+    }
+    delete(*root);
+    *root=NULL;
+  }
+}
+
+/* alternate _delete_tree */
+/*
+void tree::_delete_tree(tree_node ** root) {
+  if(*root==NULL) {
+    return;
+  } else {
+    if((*root)-&gt;get_left()!=NULL) {
+      tree_node * left_ref=(*root)-&gt;get_left();
+      _delete_tree(&amp;left_ref);
+    }
+    if((*root)-&gt;get_right()!=NULL) {
+      tree_node * right_ref=(*root)-&gt;get_right();
+      _delete_tree(&amp;right_ref);
+    }
+    delete(*root);
+    *root=NULL;
+  }
+}
+*/
+
+void tree::mirror() {
+  _mirror(root);
+}
+
+void tree::_mirror(tree_node * root) {
+  if(root==NULL) {
+    return;
+  }
+
+  tree_node * temp=root-&gt;get_left();
+  root-&gt;set_left(root-&gt;get_right());
+  root-&gt;set_right(temp);
+  _mirror(root-&gt;get_left());
+  _mirror(root-&gt;get_right());
+}
+
+void tree::print_paths(){
+   int max_path_length=find_height();
+   int * path_nodes=(int *)calloc(sizeof(int), max_path_length);
+  _print_paths(root, path_nodes, 0);
+}
+
+void tree::_print_paths(tree_node * root, int * path_nodes, int next_vacant_position){
+  if(root==NULL) {
+    return;
+  } else if(root-&gt;get_left()==NULL &amp;&amp; root-&gt;get_right()==NULL) {
+    *(path_nodes+next_vacant_position)=root-&gt;get_data();
+    _print_array(path_nodes, next_vacant_position);
+  } else {
+    *(path_nodes+next_vacant_position)=root-&gt;get_data();
+    _print_paths(root-&gt;get_left(), path_nodes, next_vacant_position+1);
+    _print_paths(root-&gt;get_right(), path_nodes, next_vacant_position+1);
+  }
+}
+
+void tree::_print_array(int * array, int len) {
+  int i;
+  for(i=0; i&lt;=len; i++) {
+    cout&lt;&lt;*(array+i)&lt;&lt;&quot; &quot;;
+  }
+  cout&lt;&lt;endl;
+}
+
+int main() {
+  tree t1;
+
+  t1.recursive_insert(5);
+  t1.recursive_insert(3);
+  t1.insert(1);
+  t1.insert(7);
+  t1.recursive_insert(50);
+  t1.recursive_insert(6);
+
+  cout&lt;&lt;&quot;Inorder Traversal&quot;&lt;&lt;endl;
+  t1.print_inorder();
+  cout&lt;&lt;&quot;Path to leaf nodes&quot;&lt;&lt;endl;
+  t1.print_paths();
+
+  return 0;
+}
+</code> </pre>
+<p>Inorder Traversal<br />
+1 3 5 6 7 50<br />
+Path to leaf nodes<br />
+5 3 1<br />
+5 7 6<br />
+5 7 50</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-22910">
+        <div id="dsq-comment-header-22910" class="dsq-comment-header">
+            <cite id="dsq-cite-22910">
+                <span id="dsq-author-user-22910">abhishek07july</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22910" class="dsq-comment-body">
+            <div id="dsq-comment-message-22910" class="dsq-comment-message"><p>inelligent <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_wink.gif" alt=";)" class="wp-smiley" /><br />
+very tricky code&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-17413">
+        <div id="dsq-comment-header-17413" class="dsq-comment-header">
+            <cite id="dsq-cite-17413">
+                <span id="dsq-author-user-17413">Nishant Kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17413" class="dsq-comment-body">
+            <div id="dsq-comment-message-17413" class="dsq-comment-message"><p>We can also use Queue in place of array for less auxiliary space</p>
+<pre> <code language="C">
+void printPath(tree* root,node* top){
+    if(root==NULL)
+    return;
+    
+    enQueue(top,root-&gt;data);
+    
+    if(root-&gt;left == NULL &amp;&amp; root-&gt;right == NULL){
+        printQueue(top);
+        printf(&quot;\n&quot;);
+        deQueue(top);
+    }
+    else{
+        printPath(root-&gt;left,top);
+        printPath(root-&gt;right,top);
+        deQueue(top);
+    }
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-16610">
+        <div id="dsq-comment-header-16610" class="dsq-comment-header">
+            <cite id="dsq-cite-16610">
+                <span id="dsq-author-user-16610">stupid</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16610" class="dsq-comment-body">
+            <div id="dsq-comment-message-16610" class="dsq-comment-message"><pre> <code language="C">
+void printarr(int a[],int level){
+     if(level&lt;0){
+              printf(&quot;\n&quot;);
+              return;
+     }
+     printarr(a,level-1);
+     printf(&quot;%d  &quot;,a[level]);
+}
+void findroottoleafpath(struct node * root,int a[],int level){
+     if(root == NULL){
+             return;
+     }
+     a[level]=root-&gt;data;
+     level++;
+     if(root-&gt;left == NULL &amp;&amp; root-&gt;right == NULL){
+                   printarr(a,level-1);
+     }
+     findroottoleafpath(root-&gt;left,a,level);
+     findroottoleafpath(root-&gt;right,a,level);
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-15463">
+        <div id="dsq-comment-header-15463" class="dsq-comment-header">
+            <cite id="dsq-cite-15463">
+                <span id="dsq-author-user-15463">Nikin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15463" class="dsq-comment-body">
+            <div id="dsq-comment-message-15463" class="dsq-comment-message"><pre> <code language="C">
+
+void printArray(int path[], int pathLen)
+{
+for(int i=0;i&lt;pathLen;i++)
+cout&lt;&lt;path[i];
+}
+
+void printPathsRecur(node *sr, int path[], int pathLen)
+{
+if(sr == NULL) return;
+path[pathLen++] = sr-&gt;data;
+if(sr-&gt;left == NULL &amp;&amp; sr-&gt;right == NULL)
+{
+printArray(path, pathLen);
+return;
+}
+printPathsRecur(sr-&gt;left);
+printPathsRecur(sr-&gt;right);
+}
+
+void printPaths(node *sr)
+{
+int path[100];
+printPathsRecur(sr, path, 0);
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-15294">
+        <div id="dsq-comment-header-15294" class="dsq-comment-header">
+            <cite id="dsq-cite-15294">
+                <span id="dsq-author-user-15294">trilok sharma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15294" class="dsq-comment-body">
+            <div id="dsq-comment-message-15294" class="dsq-comment-message"><p>/*<br />
+ 6<br />
+ 5 2 8 9 6 11<br />
+ 8 2 9 5 11 6<br />
+ */ </p>
+<p>#include<br />
+#include<br />
+#include<br />
+using namespace std;</p>
+<p>struct node<br />
+{<br />
+	int data;<br />
+	node *left;<br />
+	node *right;<br />
+};</p>
+<p>node* Newnode(int data)<br />
+{<br />
+node * curr;<br />
+	curr = (node *)malloc(sizeof(node));<br />
+	curr-&gt;data = data;<br />
+	curr-&gt;left = curr-&gt;right = NULL;<br />
+return(curr);<br />
+}</p>
+<p>int search(int inorder[],int start,int end,int data)<br />
+{<br />
+	for(int i=start;i end)<br />
+		 return NULL;</p>
+<p>	data=preorder[pre_index++];<br />
+	in_pos=search(inorder,start,end,data);<br />
+	node *root=Newnode(data);<br />
+   printf(&#8220;%d&#8221;,root-&gt;data);</p>
+<p>	if(start == end)<br />
+		 return root;	</p>
+<p>	root-&gt;left=createTree(preorder,inorder,start,in_pos-1);<br />
+	root-&gt;right=createTree(preorder,inorder,in_pos+1,end);<br />
+	return root;</p>
+<p>}</p>
+<p>static int out[100000],out_end=0;</p>
+<p>void print_result()<br />
+{<br />
+	for(int i=0;i&lt;out_end;i++)<br />
+		printf(&quot;%d &quot;, out[i]);<br />
+cout&lt;data;<br />
+  preOrder(node-&gt;left);<br />
+  preOrder(node-&gt;right);</p>
+<p>  if ((node-&gt;left == NULL) &amp;&amp; (node-&gt;right == NULL) )<br />
+ 	  print_result();</p>
+<p>  out_end&#8211;;<br />
+} </p>
+<p>int main()<br />
+{<br />
+int n,in[100000],pre[100000],i;<br />
+node *root;</p>
+<p>    cout&lt;&gt;n;</p>
+<p>	cout&lt;&lt;&quot;Enter preorder sequence = &quot;;<br />
+	for(i=0;i&gt;pre[i];</p>
+<p>	cout&lt;&lt;&quot;Enter inorder sequence = &quot;;<br />
+	for(i=0;i&gt;in[i];</p>
+<p>	root=createTree(pre,in,0,n-1);</p>
+<p>	cout&lt;&lt;&quot;output inorder sequence = &quot;;<br />
+	preOrder(root);</p>
+<p>//print_result();</p>
+<p>return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-15238">
+        <div id="dsq-comment-header-15238" class="dsq-comment-header">
+            <cite id="dsq-cite-15238">
+                <span id="dsq-author-user-15238">sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15238" class="dsq-comment-body">
+            <div id="dsq-comment-message-15238" class="dsq-comment-message"><p>Hi.</p>
+<p>The pathlen variable is NOT reset when a leaf node is reached ,This needs to be changed to be reset as and when a leaf node is reached.</p>
+<p>if (node-&gt;left==NULL &amp;&amp; node-&gt;right==NULL)    {<br />
+     printArray(path, pathLen);<br />
+     pathlen = 0;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-15022">
+        <div id="dsq-comment-header-15022" class="dsq-comment-header">
+            <cite id="dsq-cite-15022">
+                <span id="dsq-author-user-15022">mrn</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15022" class="dsq-comment-body">
+            <div id="dsq-comment-message-15022" class="dsq-comment-message"><pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+void root_to_leaf(Node *n,vector&lt;int&gt; &amp;v)
+{
+	if(n-&gt;l==NULL &amp;&amp; n-&gt;r==NULL) 
+	{
+		for(vector&lt;int&gt;::iterator it=v.begin();it!=v.end();it++)
+				cout&lt;&lt;*it&lt;&lt;&quot; &quot;;
+		cout&lt;&lt;n-&gt;v;
+		cout&lt;&lt;endl;
+	return;
+	}
+	v.push_back(n-&gt;v);
+	if(n-&gt;l)
+	root_to_leaf(n-&gt;l,v);
+	if(n-&gt;r)
+	root_to_leaf(n-&gt;r,v);
+	v.pop_back();
+return;	
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-8253">
+        <div id="dsq-comment-header-8253" class="dsq-comment-header">
+            <cite id="dsq-cite-8253">
+                <span id="dsq-author-user-8253">Sahil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8253" class="dsq-comment-body">
+            <div id="dsq-comment-message-8253" class="dsq-comment-message"><p>There is no need to allocate any memory to print the paths.</p>
+<pre> <code language="C">
+
+void printallpaths(struct node* node)
+{
+     if(node==NULL){return;}
+
+//Insert a newline character when the node is leaf     
+
+     if(node-&gt;left==NULL &amp;&amp; node-&gt;right==NULL)
+     {  
+        printf(&quot;\n&quot;);
+     }
+     
+     else
+     {
+         //For left subtree path
+         printf(&quot;%d &quot;,node-&gt;data);
+         printallpaths(node-&gt;left);
+         
+         //For right subtree path
+         printf(&quot;%d &quot;,node-&gt;data);
+         printallpaths(node-&gt;right);
+         
+         return;
+     }
+}  
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-8264">
+        <div id="dsq-comment-header-8264" class="dsq-comment-header">
+            <cite id="dsq-cite-8264">
+                <span id="dsq-author-user-8264">Sahil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8264" class="dsq-comment-body">
+            <div id="dsq-comment-message-8264" class="dsq-comment-message"><p>A small correction</p>
+<pre> <code language="C">
+void printallpaths(struct node* node)
+{
+     if(node==NULL){return;}
+ 
+//Insert a newline character when the node is leaf     
+ 
+     if(node-&gt;left==NULL &amp;&amp; node-&gt;right==NULL)
+     {
+        printf(&quot;%d &quot;,node-&gt;data);
+        printf(&quot;\n&quot;);
+     }
+ 
+     else
+     {
+         //For left subtree path
+         printf(&quot;%d &quot;,node-&gt;data);
+         printallpaths(node-&gt;left);
+ 
+         //For right subtree path
+         printf(&quot;%d &quot;,node-&gt;data);
+         printallpaths(node-&gt;right);
+ 
+         return;
+     }
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-9258">
+        <div id="dsq-comment-header-9258" class="dsq-comment-header">
+            <cite id="dsq-cite-9258">
+                <span id="dsq-author-user-9258">jane</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9258" class="dsq-comment-body">
+            <div id="dsq-comment-message-9258" class="dsq-comment-message"><p>no it wont work for mre than 2 level trees as<br />
+          15<br />
+         /  \<br />
+        10   7<br />
+       / \    \<br />
+      6   4    9</p>
+<p>it will not print the path 15-&gt;10&gt;4 for leaf node 4 instead it will print 10-&gt;4 only</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-3" id="dsq-comment-11544">
+        <div id="dsq-comment-header-11544" class="dsq-comment-header">
+            <cite id="dsq-cite-11544">
+                <span id="dsq-author-user-11544">yahoo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11544" class="dsq-comment-body">
+            <div id="dsq-comment-message-11544" class="dsq-comment-message"><p>it doesnt work for more than 2 levels.. you have to store it in a array ..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-4411">
+        <div id="dsq-comment-header-4411" class="dsq-comment-header">
+            <cite id="dsq-cite-4411">
+                <span id="dsq-author-user-4411">Raja</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4411" class="dsq-comment-body">
+            <div id="dsq-comment-message-4411" class="dsq-comment-message"><p>will this work? or am i missing any cases?<br />
+// create a global stock &#8220;st&#8221;.</p>
+<p>root-to-leaf(root)<br />
+{</p>
+<p>   if (root == null ) return root;</p>
+<p>   st.push(root-&gt;data);<br />
+   if( root-&gt;left == null &amp;&amp; root-&gt;right == null ) {<br />
+       print(st); st.pop();<br />
+   }<br />
+   else{<br />
+     root-to-leaf(root-&gt;left);<br />
+     root-to-leaf(root-&gt; right);<br />
+   }<br />
+}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-14736">
+        <div id="dsq-comment-header-14736" class="dsq-comment-header">
+            <cite id="dsq-cite-14736">
+                <span id="dsq-author-user-14736">Ramakrishna</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14736" class="dsq-comment-body">
+            <div id="dsq-comment-message-14736" class="dsq-comment-message"><p>I don&#8217;t think I have understood this.. </p>
+<p>For the given example, after printing 1,2,4 and 1,2,5 &#8211; the stack now contains 1,2. Now we go to 3. since its left and right sub trees are null, we print the stack i.e 1,2 and 3 &#8211; where as it should print only 1,3.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3336">
+        <div id="dsq-comment-header-3336" class="dsq-comment-header">
+            <cite id="dsq-cite-3336">
+http://geeksforgeeks.org/?p=1005                <span id="dsq-author-user-3336">harish verma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3336" class="dsq-comment-body">
+            <div id="dsq-comment-message-3336" class="dsq-comment-message"><p><strong>Thanks a lot for sharing your knowledge. I am quite satisfied with the answer. A very good use of recursion and<br />
+i like very much the stacking of node-&gt;right recursive call.</p>
+<p>Thanks and regards,<br />
+Harish Verma</strong></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-g33k even thread-odd thread-alt depth-1" id="dsq-comment-2581">
+        <div id="dsq-comment-header-2581" class="dsq-comment-header">
+            <cite id="dsq-cite-2581">
+                <span id="dsq-author-user-2581">g33k</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2581" class="dsq-comment-body">
+            <div id="dsq-comment-message-2581" class="dsq-comment-message"><pre> <code language="C">
+PrintPath( Node root, String path){
+	if(root == null)
+		return;
+	if(root-&gt;left==NULL &amp;&amp; root-&gt;right ==NULL){
+		print path + &quot; &quot; + root.info;
+		return;
+	}
+
+	PrintPath(root-&gt;left, path + &quot; &quot; + root.info);
+	PrintPath(root-&gt;right, path + &quot; &quot; + root.info);
+}
+</code> </pre>
+<p>driver function:</p>
+<pre> <code language="C">
+	PrintPath(root, &quot;&quot;);
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-33444">
+        <div id="dsq-comment-header-33444" class="dsq-comment-header">
+            <cite id="dsq-cite-33444">
+                <span id="dsq-author-user-33444">Gandalf</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33444" class="dsq-comment-body">
+            <div id="dsq-comment-message-33444" class="dsq-comment-message"><p>//From Leaf To Root without extra space.</p>
+<p>boolean rootToLeaf(Node root){</p>
+<p>if(root == null) return false;</p>
+<p>if(!root.left &amp;&amp; !root.right) return true;</p>
+<p>if(rootToLeaf(root.left)) System.out.println(root..left.data);</p>
+<p>if(rootToLeaf(root.right))System.out.println(root.right.data); </p>
+<p>return true;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/given-a-binary-tree-print-out-all-of-its-root-to-leaf-paths-one-per-line/';
+var disqus_identifier = '1005 http://geeksforgeeks.org/?p=1005';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Given a binary tree, print out all of its root-to-leaf paths one per line.";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.198 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:23:13 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

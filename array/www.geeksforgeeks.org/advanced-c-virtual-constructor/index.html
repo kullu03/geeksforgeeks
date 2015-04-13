@@ -1,0 +1,1160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Advanced C++ | Virtual Constructor - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/advanced-c-virtual-constructor/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Advanced C++ | Virtual Constructor - GeeksforGeeks" />
+<meta property="og:description" content="Can we make a class constructor virtual in C++ to create polymorphic objects? No. C++ being static typed (the purpose of RTTI is different) language, it is meaningless to the C++ compiler to create an object polymorphically. The compiler must be aware of the class type to create the object. In other words, what type of object &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/advanced-c-virtual-constructor/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:section" content="C/C++ Puzzles" />
+<meta property="article:published_time" content="2011-10-25T22:22:39+00:00" />
+<meta property="article:modified_time" content="2012-07-20T12:24:51+00:00" />
+<meta property="og:updated_time" content="2012-07-20T12:24:51+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.489 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417110857 103.6.156.163';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Advanced C++ | Virtual Constructor</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Can we make a class constructor <em>virtual</em> in C++ to create polymorphic objects?<span id="more-11590"></span> No. C++ being static typed (the purpose of RTTI is different) language, it is meaningless to the C++ compiler to create an object polymorphically. The compiler must be aware of the class type to create the object. In other words, what type of object to be created is a compile time decision from C++ compiler perspective. If we make constructor virtual, compiler flags an error. In fact except <em>inline</em>, no other keyword is allowed in the declaration of constructor.</p>
+<p>In practical scenarios we would need to create a derived class object in a class hierarchy based on some input. Putting in other words, <em>object creation and object type are tightly coupled which forces modifications to extended. The objective of virtual constructor is to decouple object creation from it&#8217;s type</em>.</p>
+<p>How can we create required type of object at runtime? For example, see the following sample program.</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+#include &lt;iostream&gt;
+using namespace std;
+
+//// LIBRARY START
+class Base
+{
+public:
+
+    Base() { }
+
+    virtual // Ensures to invoke actual object destructor
+    ~Base() { }
+
+    // An interface
+    virtual void DisplayAction() = 0;
+};
+
+class Derived1 : public Base
+{
+public:
+    Derived1()
+    {
+        cout &lt;&lt; &quot;Derived1 created&quot; &lt;&lt; endl;
+    }
+
+    ~Derived1()
+    {
+        cout &lt;&lt; &quot;Derived1 destroyed&quot; &lt;&lt; endl;
+    }
+
+    void DisplayAction()
+    {
+        cout &lt;&lt; &quot;Action from Derived1&quot; &lt;&lt; endl;
+    }
+};
+
+class Derived2 : public Base
+{
+public:
+    Derived2()
+    {
+        cout &lt;&lt; &quot;Derived2 created&quot; &lt;&lt; endl;
+    }
+
+    ~Derived2()
+    {
+        cout &lt;&lt; &quot;Derived2 destroyed&quot; &lt;&lt; endl;
+    }
+
+    void DisplayAction()
+    {
+        cout &lt;&lt; &quot;Action from Derived2&quot; &lt;&lt; endl;
+    }
+};
+
+//// LIBRARY END
+
+class User
+{
+public:
+
+    // Creates Drived1
+    User() : pBase(0)
+    {
+        // What if Derived2 is required? - Add an if-else ladder (see next sample)
+        pBase = new Derived1();
+    }
+
+    ~User()
+    {
+        if( pBase )
+        {
+            delete pBase;
+            pBase = 0;
+        }
+    }
+
+    // Delegates to actual object
+    void Action()
+    {
+        pBase-&gt;DisplayAction();
+    }
+
+private:
+    Base *pBase;
+};
+
+int main()
+{
+    User *user = new User();
+
+    // Need Derived1 functionality only
+    user-&gt;Action();
+
+    delete user;
+}
+</pre>
+<p>In the above sample, assume that the hierarchy <em>Base</em>, <em>Derived1</em> and <em>Derived2</em> are part of library code. The class <em>User</em> is utility class trying to make use of the hierarchy. The <em>main</em> function is consuming <em>Base</em> hierarchy functionality via <em>User</em> class.</p>
+<p>The <em>User</em> class constructor is creating <em>Derived1</em> object, always. If the <em>User</em>&#8216;s consumer (the <em>main</em> in our case) needs <em>Derived2</em> functionality, <em>User</em> needs to create &#8220;<strong><em>new Derived2()</em></strong>&#8221; and it forces recompilation. Recompiling is bad way of design, so we can opt for the following approach.</p>
+<p>Before going into details, let us answer, who will dictate to create either of <em>Derived1</em> or<em> Derived2</em> object? Clearly, it is the consumer of <em>User</em> class. The <em>User</em> class can make use of if-else ladder to create either <em>Derived1</em> or <em>Derived2</em>, as shown in the following sample,</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+#include &lt;iostream&gt;
+using namespace std;
+
+//// LIBRARY START
+class Base
+{
+public:
+    Base() { }
+
+    virtual // Ensures to invoke actual object destructor
+    ~Base() { }
+
+    // An interface
+    virtual void DisplayAction() = 0;
+};
+
+class Derived1 : public Base
+{
+public:
+    Derived1()
+    {
+        cout &lt;&lt; &quot;Derived1 created&quot; &lt;&lt; endl;
+    }
+
+    ~Derived1()
+    {
+        cout &lt;&lt; &quot;Derived1 destroyed&quot; &lt;&lt; endl;
+    }
+
+    void DisplayAction()
+    {
+        cout &lt;&lt; &quot;Action from Derived1&quot; &lt;&lt; endl;
+    }
+};
+
+class Derived2 : public Base
+{
+public:
+    Derived2()
+    {
+        cout &lt;&lt; &quot;Derived2 created&quot; &lt;&lt; endl;
+    }
+
+    ~Derived2()
+    {
+        cout &lt;&lt; &quot;Derived2 destroyed&quot; &lt;&lt; endl;
+    }
+
+    void DisplayAction()
+    {
+        cout &lt;&lt; &quot;Action from Derived2&quot; &lt;&lt; endl;
+    }
+};
+
+//// LIBRARY END
+
+class User
+{
+public:
+
+    // Creates Derived1 or Derived2 based on input
+    User() : pBase(0)
+    {
+        int input; // ID to distinguish between
+                   // Derived1 and Derived2
+
+        cout &lt;&lt; &quot;Enter ID (1 or 2): &quot;;
+        cin  &gt;&gt; input;
+
+        while( (input !=  1) &amp;&amp; (input !=  2) )
+        {
+            cout &lt;&lt; &quot;Enter ID (1 or 2 only): &quot;;
+            cin  &gt;&gt; input;
+        }
+
+        if( input == 1 )
+        {
+            pBase = new Derived1;
+        }
+        else
+        {
+            pBase = new Derived2;
+        }
+
+        // What if Derived3 being added to the class hierarchy?
+    }
+
+    ~User()
+    {
+        if( pBase )
+        {
+            delete pBase;
+            pBase = 0;
+        }
+    }
+
+    // Delegates to actual object
+    void Action()
+    {
+        pBase-&gt;DisplayAction();
+    }
+
+private:
+    Base *pBase;
+};
+
+int main()
+{
+    User *user = new User();
+
+    // Need either Derived1 or Derived2 functionality
+    user-&gt;Action();
+
+    delete user;
+}
+</pre>
+<p>The above code is *not* open for extension, an inflexible design. In simple words, if the library updates the <em>Base</em> class hierarchy with new class <em>Derived3</em>. How can the <em>User</em> class creates <em>Derived3</em> object? One way is to update the if-else ladder that creates <em>Derived3</em> object based on new input ID 3 as shown below,</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+#include &lt;iostream&gt;
+using namespace std;
+
+class User
+{
+public:
+    User() : pBase(0)
+    {
+        // Creates Drived1 or Derived2 based on need
+
+        int input; // ID to distinguish between
+                   // Derived1 and Derived2
+
+        cout &lt;&lt; &quot;Enter ID (1 or 2): &quot;;
+        cin  &gt;&gt; input;
+
+        while( (input !=  1) &amp;&amp; (input !=  2) )
+        {
+            cout &lt;&lt; &quot;Enter ID (1 or 2 only): &quot;;
+            cin  &gt;&gt; input;
+        }
+
+        if( input == 1 )
+        {
+            pBase = new Derived1;
+        }
+        else if( input == 2 )
+        {
+            pBase = new Derived2;
+        }
+        else
+        {
+            pBase = new Derived3;
+        }
+    }
+
+    ~User()
+    {
+        if( pBase )
+        {
+            delete pBase;
+            pBase = 0;
+        }
+    }
+
+    // Delegates to actual object
+    void Action()
+    {
+        pBase-&gt;DisplayAction();
+    }
+
+private:
+    Base *pBase;
+};
+</pre>
+<p>The above modification forces the users of <em>User</em> class to recompile, bad (inflexible) design! And won&#8217;t close <em>User</em> class from further modifications due to <em>Base</em> extension.</p>
+<p>The problem is with the creation of objects. Addition of new class to the hierarchy forcing dependents of <em>User</em> class to recompile. Can&#8217;t we delegate the action of creating objects to class hierarchy itself or to a function that behaves virtually? By delegating the object creation to class hierarchy (or to a static function) we can avoid the tight coupling between <em>User</em> and <em>Base</em> hierarchy. Enough theory, see the following code,</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+#include &lt;iostream&gt;
+using namespace std;
+
+//// LIBRARY START
+class Base
+{
+public:
+
+    // The &quot;Virtual Constructor&quot;
+    static Base *Create(int id);
+
+    Base() { }
+
+    virtual // Ensures to invoke actual object destructor
+    ~Base() { }
+
+    // An interface
+    virtual void DisplayAction() = 0;
+};
+
+class Derived1 : public Base
+{
+public:
+    Derived1()
+    {
+        cout &lt;&lt; &quot;Derived1 created&quot; &lt;&lt; endl;
+    }
+
+    ~Derived1()
+    {
+        cout &lt;&lt; &quot;Derived1 destroyed&quot; &lt;&lt; endl;
+    }
+
+    void DisplayAction()
+    {
+        cout &lt;&lt; &quot;Action from Derived1&quot; &lt;&lt; endl;
+    }
+};
+
+class Derived2 : public Base
+{
+public:
+    Derived2()
+    {
+        cout &lt;&lt; &quot;Derived2 created&quot; &lt;&lt; endl;
+    }
+
+    ~Derived2()
+    {
+        cout &lt;&lt; &quot;Derived2 destroyed&quot; &lt;&lt; endl;
+    }
+
+    void DisplayAction()
+    {
+        cout &lt;&lt; &quot;Action from Derived2&quot; &lt;&lt; endl;
+    }
+};
+
+class Derived3 : public Base
+{
+public:
+    Derived3()
+    {
+        cout &lt;&lt; &quot;Derived3 created&quot; &lt;&lt; endl;
+    }
+
+    ~Derived3()
+    {
+        cout &lt;&lt; &quot;Derived3 destroyed&quot; &lt;&lt; endl;
+    }
+
+    void DisplayAction()
+    {
+        cout &lt;&lt; &quot;Action from Derived3&quot; &lt;&lt; endl;
+    }
+};
+
+// We can also declare &quot;Create&quot; outside Base
+// But it is more relevant to limit it's scope to Base
+Base *Base::Create(int id)
+{
+    // Just expand the if-else ladder, if new Derived class is created
+    // User code need not be recompiled to create newly added class objects
+
+    if( id == 1 )
+    {
+        return new Derived1;
+    }
+    else if( id == 2 )
+    {
+        return new Derived2;
+    }
+    else
+    {
+        return new Derived3;
+    }
+}
+//// LIBRARY END
+
+//// UTILITY START
+class User
+{
+public:
+    User() : pBase(0)
+    {
+        // Receives an object of Base heirarchy at runtime
+
+        int input;
+
+        cout &lt;&lt; &quot;Enter ID (1, 2 or 3): &quot;;
+        cin &gt;&gt; input;
+
+        while( (input !=  1) &amp;&amp; (input !=  2) &amp;&amp; (input !=  3) )
+        {
+            cout &lt;&lt; &quot;Enter ID (1, 2 or 3 only): &quot;;
+            cin &gt;&gt; input;
+        }
+
+        // Get object from the &quot;Virtual Constructor&quot;
+        pBase = Base::Create(input);
+    }
+
+    ~User()
+    {
+        if( pBase )
+        {
+            delete pBase;
+            pBase = 0;
+        }
+    }
+
+    // Delegates to actual object
+    void Action()
+    {
+        pBase-&gt;DisplayAction();
+    }
+
+private:
+    Base *pBase;
+};
+
+//// UTILITY END
+
+//// Consumer of User (UTILITY) class
+int main()
+{
+    User *user = new User();
+
+    // Action required on any of Derived objects
+    user-&gt;Action();
+
+    delete user;
+}
+</pre>
+<p>The <em>User</em> class is independent of object creation. It delegates that responsibility to <em>Base</em>, and provides an input in the form of ID. If the library adds new class <em>Derived4</em>, the library modifier will extend the if-else ladder inside <em>Create</em> to return proper object. Consumers of <em>User</em> need not recompile their code due to extension of <em>Base</em>.</p>
+<p>Note that the function <em>Create</em> used to return different types of <em>Base</em> class objects at runtime. It acts like virtual constructor, also referred as <em>Factory Method</em> in pattern terminology.</p>
+<p>Pattern world demonstrate different ways to implement the above concept. Also there are some potential design issues with the above code. Our objective is to provide some insights into virtual construction, creating objects dynamically based on some input. We have excellent books devoted to the subject, interested reader can refer them for more information.</p>
+<p>&#8212; <strong><a href="http://www.linkedin.com/in/ramanawithu" target="_blank">Venki</a></strong>. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/comparison-float-value-c/" title="Comparison of a float with a value in C">Comparison of a float with a value in C</a></li><li><a href="http://www.geeksforgeeks.org/pure-virtual-destructor-c/" title="Pure virtual destructor in C++">Pure virtual destructor in C++</a></li><li><a href="http://www.geeksforgeeks.org/c-mutable-keyword/" title="C++ mutable keyword">C++ mutable keyword</a></li><li><a href="http://www.geeksforgeeks.org/possible-call-constructor-destructor-explicitly/" title="Is it possible to call constructor and destructor explicitly?">Is it possible to call constructor and destructor explicitly?</a></li><li><a href="http://www.geeksforgeeks.org/multithreading-c-2/" title="Multithreading in C">Multithreading in C</a></li><li><a href="http://www.geeksforgeeks.org/c-prgram-print-range-basic-data-types-without-library-function-constant/" title="How to print range of basic data types without any library function and constant in C?">How to print range of basic data types without any library function and constant in C?</a></li><li><a href="http://www.geeksforgeeks.org/c-final-specifier/" title="C++ final specifier">C++ final specifier</a></li><li><a href="http://www.geeksforgeeks.org/print-substring-of-a-given-string-without-using-any-string-function-and-loop-in-c/" title="Print substring of a given string without using any string function and loop in C">Print substring of a given string without using any string function and loop in C</a></li></ul>
+<p></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fadvanced-c-virtual-constructor%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/advanced-c-virtual-constructor/" data-text="Advanced C++ | Virtual Constructor" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/advanced-c-virtual-constructor/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-33566">
+        <div id="dsq-comment-header-33566" class="dsq-comment-header">
+            <cite id="dsq-cite-33566">
+                <span id="dsq-author-user-33566">Meet</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33566" class="dsq-comment-body">
+            <div id="dsq-comment-message-33566" class="dsq-comment-message"><p>Hi venky really nice article. Can you please tell why recompilation is considered as a bad way of design?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-17123">
+        <div id="dsq-comment-header-17123" class="dsq-comment-header">
+            <cite id="dsq-cite-17123">
+                <span id="dsq-author-user-17123">Neo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17123" class="dsq-comment-body">
+            <div id="dsq-comment-message-17123" class="dsq-comment-message"><p>Hello Venky,</p>
+<p>First of all, I liked the way you explained the concept. But I am not convinced with a Create function with in Base class. The reason is the implementation of Create function. If you look at the implementation of a function, it says that the base class is aware of a derived class which does not make sense in terms of OOPS. </p>
+<p>Further to this, if a client of this library wants to write a class derived from a base class, then the object of this class cannot be created with Base::Create().</p>
+<p>~ Neo</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-12448">
+        <div id="dsq-comment-header-12448" class="dsq-comment-header">
+            <cite id="dsq-cite-12448">
+                <span id="dsq-author-user-12448">anand</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12448" class="dsq-comment-body">
+            <div id="dsq-comment-message-12448" class="dsq-comment-message"><p>Hi Venky,</p>
+<p>Nice aticle.</p>
+<p>1. as you want the user class to be free of real type, you can update the constructor of User class to take any from console and send it to base::create and check for a nullptr to see if you got an object, or else every time a new class is added, you will have to update the console messages in c&#8217;tor of User. A very trivial one, but just thought to mention, as you are very clear in your concept, but your reader may not be.</p>
+<p>2. do you think, you can use the word constructor for create function, when it is not actually ceating the object itself.</p>
+<p>Thanks<br />
+Anand S</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-12449">
+        <div id="dsq-comment-header-12449" class="dsq-comment-header">
+            <cite id="dsq-cite-12449">
+                <span id="dsq-author-user-12449">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12449" class="dsq-comment-body">
+            <div id="dsq-comment-message-12449" class="dsq-comment-message"><p>@Anand,</p>
+<p>1. Virtual constructor &#8216;decouples&#8217; tight binding between class type associated with object construction.</p>
+<p><em>Decoupling is one of fundamental object oriented principle.</em></p>
+<p>When there is new class addition (extension), the user needs to be aware of that class. Otherwise how can he make use the functionality of new class? But however, he need not to compile his code due to extension of library. He can get new functionality of existing code just by providing new input, and using new library code provided by vendor.</p>
+<p>Perhaps one can add one more level of abstraction to the User class. Instead of simple integer as input you can pass a polymorphic object, based on which required object will be created. Again what polymorphic object to be passed is application specific, like reading a configuration file or some input from an external source.</p>
+<p><em>The core intention is to decouple tight binding between object creation and class type.</em> Agreed, there is some memory leak, we can handle easily. Just delete previous object prior to creating new object. As said, the intention is not to clutter the code with so many defensive techniques.</p>
+<p>2. The word virtual constructor is conceptual. Need not be associated with usual C++ naming nomenclature. Pattern world calls it as &#8220;Factory Method or Creator Method&#8221;.</p>
+<p>Being static type, C++ won&#8217;t allow virtual constructors. There are languages that directly supports virtual constructors. When language has limitations to provide greater decoupling, programmer emulates required behaviour via some predetermined solutions (patterns).</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-10065">
+        <div id="dsq-comment-header-10065" class="dsq-comment-header">
+            <cite id="dsq-cite-10065">
+                <span id="dsq-author-user-10065">Abhinav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10065" class="dsq-comment-body">
+            <div id="dsq-comment-message-10065" class="dsq-comment-message"><p>Apart from inline, explicit is also a keyword allowed in C++ to be used with declaration of Constructors.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-9220">
+        <div id="dsq-comment-header-9220" class="dsq-comment-header">
+            <cite id="dsq-cite-9220">
+                <span id="dsq-author-user-9220">prakhar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9220" class="dsq-comment-body">
+            <div id="dsq-comment-message-9220" class="dsq-comment-message"><p>Why a static function? A normal global function will also do the job. Please correct me if I am wrong.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-9482">
+        <div id="dsq-comment-header-9482" class="dsq-comment-header">
+            <cite id="dsq-cite-9482">
+                <span id="dsq-author-user-9482">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9482" class="dsq-comment-body">
+            <div id="dsq-comment-message-9482" class="dsq-comment-message"><p>Yes, a global function does the job. But is more relevant to pack the function inside class itself, rather than polluting global space.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-6372">
+        <div id="dsq-comment-header-6372" class="dsq-comment-header">
+            <cite id="dsq-cite-6372">
+                <span id="dsq-author-user-6372">levis</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6372" class="dsq-comment-body">
+            <div id="dsq-comment-message-6372" class="dsq-comment-message"><p>@Venki &#8230;nice one ..Can you suggest some books on this &#8230;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-venki bypostauthor even depth-2" id="dsq-comment-6374">
+        <div id="dsq-comment-header-6374" class="dsq-comment-header">
+            <cite id="dsq-cite-6374">
+http://geeksforgeeks.org/?page_id=2                <span id="dsq-author-user-6374">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6374" class="dsq-comment-body">
+            <div id="dsq-comment-message-6374" class="dsq-comment-message"><p>@levis, there are many good books on patterns in C++/Java/C#/Objective C/Python/Ruby/&#8230; When language can&#8217;t provide an inbuilt solution to recurring problem in design, programmer emulate that using patterns.</p>
+<p>For Virtual Constructor idiom, you can refer More Effective C++ by Mayers and Modern C++ Design by Andrei. There might be even better books, I would prefer these two.</p>
+<p>Note that it is more important to learn design principles than directly reading patterns. Read OOP principles first.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-6375">
+        <div id="dsq-comment-header-6375" class="dsq-comment-header">
+            <cite id="dsq-cite-6375">
+                <span id="dsq-author-user-6375">levis</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6375" class="dsq-comment-body">
+            <div id="dsq-comment-message-6375" class="dsq-comment-message"><p>@Venki ..Thanks a lot &#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-6283">
+        <div id="dsq-comment-header-6283" class="dsq-comment-header">
+            <cite id="dsq-cite-6283">
+                <span id="dsq-author-user-6283">Rajiv Chandel</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6283" class="dsq-comment-body">
+            <div id="dsq-comment-message-6283" class="dsq-comment-message"><p>Nice Article! Thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/advanced-c-virtual-constructor/';
+var disqus_identifier = '11590 http://geeksforgeeks.org/?p=11590';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Advanced C++ | Virtual Constructor";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.191 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:24:17 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

@@ -1,0 +1,2232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Find the largest BST subtree in a given Binary Tree - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/find-the-largest-subtree-in-a-tree-that-is-also-a-bst/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Find the largest BST subtree in a given Binary Tree - GeeksforGeeks" />
+<meta property="og:description" content="Given a Binary Tree, write a function that returns the size of the largest subtree which is also a Binary Search Tree (BST). If the complete Binary Tree is BST, then return the size of whole tree. Examples: Input: 5 / \ 2 4 / \ 1 3 Output: 3 The following subtree is the &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/find-the-largest-subtree-in-a-tree-that-is-also-a-bst/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:section" content="Trees" />
+<meta property="article:published_time" content="2012-02-17T12:10:41+00:00" />
+<meta property="article:modified_time" content="2014-12-03T16:51:27+00:00" />
+<meta property="og:updated_time" content="2014-12-03T16:51:27+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.492 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417606284 49.204.217.15';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Find the largest BST subtree in a given Binary Tree</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given a Binary Tree, write a function that returns the size of the largest subtree which is also a Binary Search Tree (BST). If the complete Binary Tree is BST, then return the size of whole tree.<span id="more-7291"></span></p>
+<p>Examples:</p>
+<pre>
+Input: 
+      5
+    /  \
+   2    4
+ /  \
+1    3
+
+Output: 3 
+The following subtree is the maximum size BST subtree 
+   2  
+ /  \
+1    3
+
+
+Input: 
+       50
+     /    \
+  30       60
+ /  \     /  \ 
+5   20   45    70
+              /  \
+            65    80
+Output: 5
+The following subtree is the maximum size BST subtree 
+      60
+     /  \ 
+   45    70
+        /  \
+      65    80
+</pre>
+<p><strong>Method 1 (Simple but inefficient)</strong><br />
+Start from root and do an inorder traversal of the tree.  For each node N, check whether the subtree rooted with N is BST or not.  If BST, then return size of the subtree rooted with N.  Else, recur down the left and right subtrees and return the maximum of values returned by left and right subtrees.</p>
+<pre class="brush: cpp; highlight: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]; title: ; notranslate" title="">
+/* 
+  See http://www.geeksforgeeks.org/archives/632 for implementation of size()
+
+  See Method 3 of http://www.geeksforgeeks.org/archives/3042 for
+  implementation of isBST() 
+
+  max() returns maximum of two integers 
+*/   
+int largestBST(struct node *root)
+{
+   if (isBST(root))
+     return size(root); 
+   else
+    return max(largestBST(root-&gt;left), largestBST(root-&gt;right));
+}
+</pre>
+<p>Time Complexity:  The worst case time complexity of this method will be O(n^2). Consider a skewed tree for worst case analysis.<br />
+<br /></br></p>
+<p><strong>Method 2 (Tricky and Efficient)</strong><br />
+In method 1, we traverse the tree in top down manner and do BST test for every node.  If we traverse the tree in bottom up manner, then we can pass information about subtrees to the parent. The passed information can be used by the parent to do BST test (for parent node) only in constant time (or O(1) time).  A left subtree need to tell the parent whether it is BST or not and also need to pass maximum value in it. So that we can compare the maximum value with the parent&#8217;s data to check the BST property.  Similarly, the right subtree need to pass the minimum value up the tree.   The subtrees need to pass the following information up the tree for the finding the largest BST.<br />
+1) Whether the subtree itself is BST or not (In the following code, is_bst_ref is used for this purpose)<br />
+2) If the subtree is left subtree of its parent, then maximum value in it.  And if it is right subtree then minimum value in it.<br />
+3) Size of this subtree if this subtree is BST (In the following code, return value of largestBSTtil() is used for this purpose)</p>
+<p>max_ref is used for passing the maximum value up the tree and min_ptr is used for passing minimum value up the tree.</p>
+<pre class="brush: cpp; highlight: [30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115]; title: ; notranslate" title="">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;limits.h&gt;
+
+/* A binary tree node has data, pointer to left child
+   and a pointer to right child */
+struct node
+{
+    int data;
+    struct node* left;
+    struct node* right;
+};
+
+/* Helper function that allocates a new node with the
+   given data and NULL left and right pointers. */
+struct node* newNode(int data)
+{
+  struct node* node = (struct node*)
+                      malloc(sizeof(struct node));
+  node-&gt;data = data;
+  node-&gt;left = NULL;
+  node-&gt;right = NULL;
+
+  return(node);
+}
+
+int largestBSTUtil(struct node* node, int *min_ref, int *max_ref,
+                             int *max_size_ref, bool *is_bst_ref);
+
+/* Returns size of the largest BST subtree in a Binary Tree
+  (efficient version). */
+int largestBST(struct node* node)
+{
+  // Set the initial values for calling largestBSTUtil()
+  int min = INT_MAX;  // For minimum value in right subtree
+  int max = INT_MIN;  // For maximum value in left subtree
+
+  int max_size = 0;  // For size of the largest BST
+  bool is_bst = 0;
+
+  largestBSTUtil(node, &amp;min, &amp;max, &amp;max_size, &amp;is_bst);
+
+  return max_size;
+}
+
+/* largestBSTUtil() updates *max_size_ref for the size of the largest BST
+   subtree.   Also, if the tree rooted with node is non-empty and a BST,
+   then returns size of the tree. Otherwise returns 0.*/
+int largestBSTUtil(struct node* node, int *min_ref, int *max_ref,
+                            int *max_size_ref, bool *is_bst_ref)
+{
+
+  /* Base Case */
+  if (node == NULL)
+  {
+     *is_bst_ref = 1; // An empty tree is BST
+     return 0;    // Size of the BST is 0
+  }
+
+  int min = INT_MAX;
+
+  /* A flag variable for left subtree property
+     i.e., max(root-&gt;left) &lt; root-&gt;data */
+  bool left_flag = false;
+
+  /* A flag variable for right subtree property
+     i.e., min(root-&gt;right) &gt; root-&gt;data */
+  bool right_flag = false;
+
+  int ls, rs; // To store sizes of left and right subtrees
+
+  /* Following tasks are done by recursive call for left subtree
+    a) Get the maximum value in left subtree (Stored in *max_ref)
+    b) Check whether Left Subtree is BST or not (Stored in *is_bst_ref)
+    c) Get the size of maximum size BST in left subtree (updates *max_size) */
+  *max_ref = INT_MIN;
+  ls = largestBSTUtil(node-&gt;left, min_ref, max_ref, max_size_ref, is_bst_ref);
+  if (*is_bst_ref == 1 &amp;&amp; node-&gt;data &gt; *max_ref)
+     left_flag = true;
+
+  /* Before updating *min_ref, store the min value in left subtree. So that we
+     have the correct minimum value for this subtree */
+  min = *min_ref;
+
+  /* The following recursive call does similar (similar to left subtree) 
+    task for right subtree */
+  *min_ref =  INT_MAX;
+  rs = largestBSTUtil(node-&gt;right, min_ref, max_ref, max_size_ref, is_bst_ref);
+  if (*is_bst_ref == 1 &amp;&amp; node-&gt;data &lt; *min_ref)
+     right_flag = true;
+
+  // Update min and max values for the parent recursive calls
+  if (min &lt; *min_ref)
+     *min_ref = min;
+  if (node-&gt;data &lt; *min_ref) // For leaf nodes
+     *min_ref = node-&gt;data;
+  if (node-&gt;data &gt; *max_ref)
+     *max_ref = node-&gt;data;
+
+  /* If both left and right subtrees are BST. And left and right
+     subtree properties hold for this node, then this tree is BST.
+     So return the size of this tree */
+  if(left_flag &amp;&amp; right_flag)
+  {
+     if (ls + rs + 1 &gt; *max_size_ref)
+         *max_size_ref = ls + rs + 1;
+     return ls + rs + 1;
+  }
+  else
+  {
+    //Since this subtree is not BST, set is_bst flag for parent calls
+     *is_bst_ref = 0; 
+     return 0;
+  }
+}
+
+/* Driver program to test above functions*/
+int main()
+{
+    /* Let us construct the following Tree
+          50
+       /      \
+     10        60
+    /  \       /  \
+   5   20    55    70
+            /     /  \
+          45     65    80
+  */
+
+  struct node *root = newNode(50);
+  root-&gt;left        = newNode(10);
+  root-&gt;right       = newNode(60);
+  root-&gt;left-&gt;left  = newNode(5);
+  root-&gt;left-&gt;right = newNode(20);
+  root-&gt;right-&gt;left  = newNode(55);
+  root-&gt;right-&gt;left-&gt;left  = newNode(45);
+  root-&gt;right-&gt;right = newNode(70);
+  root-&gt;right-&gt;right-&gt;left = newNode(65);
+  root-&gt;right-&gt;right-&gt;right = newNode(80);
+
+  /* The complete tree is not BST as 45 is in right subtree of 50.
+     The following subtree is the largest BST
+        60
+      /  \
+    55    70
+   /     /  \
+ 45     65    80
+  */
+  printf(&quot; Size of the largest BST is %d&quot;, largestBST(root));
+
+  getchar();
+  return 0;
+}
+</pre>
+<p>Time Complexity: O(n) where n is the number of nodes in the given Binary Tree.</p>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/perfect-binary-tree-specific-level-order-traversal/" title="Perfect Binary Tree Specific Level Order Traversal">Perfect Binary Tree Specific Level Order Traversal</a></li><li><a href="http://www.geeksforgeeks.org/print-nodes-top-view-binary-tree/" title="Print Nodes in Top View of Binary Tree">Print Nodes in Top View of Binary Tree</a></li><li><a href="http://www.geeksforgeeks.org/k-dimensional-tree/" title="K Dimensional Tree">K Dimensional Tree</a></li><li><a href="http://www.geeksforgeeks.org/convert-binary-tree-threaded-binary-tree/" title="Convert a Binary Tree to Threaded binary tree">Convert a Binary Tree to Threaded binary tree</a></li><li><a href="http://www.geeksforgeeks.org/serialize-deserialize-n-ary-tree/" title="Serialize and Deserialize an N-ary Tree">Serialize and Deserialize an N-ary Tree</a></li><li><a href="http://www.geeksforgeeks.org/serialize-deserialize-binary-tree/" title="Serialize and Deserialize a Binary Tree">Serialize and Deserialize a Binary Tree</a></li><li><a href="http://www.geeksforgeeks.org/given-binary-tree-print-nodes-two-given-level-numbers/" title="Print nodes between two given level numbers of a binary tree">Print nodes between two given level numbers of a binary tree</a></li><li><a href="http://www.geeksforgeeks.org/find-height-binary-tree-represented-parent-array/" title="Find Height of Binary Tree represented by Parent array">Find Height of Binary Tree represented by Parent array</a></li></ul>
+<p></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Ffind-the-largest-subtree-in-a-tree-that-is-also-a-bst%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/find-the-largest-subtree-in-a-tree-that-is-also-a-bst/" data-text="Find the largest BST subtree in a given Binary Tree" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/find-the-largest-subtree-in-a-tree-that-is-also-a-bst/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-34744">
+        <div id="dsq-comment-header-34744" class="dsq-comment-header">
+            <cite id="dsq-cite-34744">
+                <span id="dsq-author-user-34744">abhilash jaiswal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34744" class="dsq-comment-body">
+            <div id="dsq-comment-message-34744" class="dsq-comment-message"><p>@disqus_sDew3tj9gA:disqus   yaa we can do a inorder traversal and then find the longest incresing subsequence but time complexity is the worry</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-34743">
+        <div id="dsq-comment-header-34743" class="dsq-comment-header">
+            <cite id="dsq-cite-34743">
+                <span id="dsq-author-user-34743">abhilash jaiswal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34743" class="dsq-comment-body">
+            <div id="dsq-comment-message-34743" class="dsq-comment-message"><p>@disqus_sDew3tj9gA:disqus  yaa we can do a inorder traversal and then find the longest incresing subsequence</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-34635">
+        <div id="dsq-comment-header-34635" class="dsq-comment-header">
+            <cite id="dsq-cite-34635">
+                <span id="dsq-author-user-34635">AlienOnEarth</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34635" class="dsq-comment-body">
+            <div id="dsq-comment-message-34635" class="dsq-comment-message"><p>Amazing solution.. !</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-28426">
+        <div id="dsq-comment-header-28426" class="dsq-comment-header">
+            <cite id="dsq-cite-28426">
+                <span id="dsq-author-user-28426">Ninja</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28426" class="dsq-comment-body">
+            <div id="dsq-comment-message-28426" class="dsq-comment-message"><p>Can&#8217;t we do Inorder Traversal instead.</p>
+<p>We can store previous value and check if current value is greater or not and keep track of maximum size of BST. We will start new counter if current node is smaller than<br />
+previous node.Correct me If I am wrong.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-28151">
+        <div id="dsq-comment-header-28151" class="dsq-comment-header">
+            <cite id="dsq-cite-28151">
+                <span id="dsq-author-user-28151">dev_c#</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28151" class="dsq-comment-body">
+            <div id="dsq-comment-message-28151" class="dsq-comment-message"><p>static bool FindMax(BTreeNode currNode, ref int max, ref int sum)</p>
+<p>        {</p>
+<p>            if (currNode == null) { sum = 0; return true; }</p>
+<p>            int lsum = 0, rsum = 0;</p>
+<p>?</p>
+<p>            bool isBstL = FindMax(currNode.left, ref max, ref lsum);</p>
+<p>            bool isBstR = FindMax(currNode.right, ref max, ref rsum);</p>
+<p>            if (isBstL &amp;&amp; isBstR)</p>
+<p>            {</p>
+<p>                isBstL = currNode.left != null ? currNode.left.value  currNode.value : true;</p>
+<p>            }</p>
+<p>            if(isBstL &amp;&amp; isBstR)</p>
+<p>            {</p>
+<p>                sum = lsum + rsum + 1;</p>
+<p>                if (max &lt; sum)</p>
+<p>                    max = sum;</p>
+<p>            }</p>
+<p>            return (isBstL &amp;&amp; isBstR);</p>
+<p>        }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-27938">
+        <div id="dsq-comment-header-27938" class="dsq-comment-header">
+            <cite id="dsq-cite-27938">
+                <span id="dsq-author-user-27938">Christian Vielma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27938" class="dsq-comment-body">
+            <div id="dsq-comment-message-27938" class="dsq-comment-message"><p>Great post! Here is my implementation in Java: <a href="http://www.librethinking.com/2013/09/find-largest-binary-search-tree-in-tree.html" rel="nofollow">http://www.librethinking.com/2013/09/find-largest-binary-search-tree-in-tree.html</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-27582">
+        <div id="dsq-comment-header-27582" class="dsq-comment-header">
+            <cite id="dsq-cite-27582">
+                <span id="dsq-author-user-27582">deb</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27582" class="dsq-comment-body">
+            <div id="dsq-comment-message-27582" class="dsq-comment-message"><p>largestBST() returns size of the subtree rooted at &#8216;root&#8217; if it is a BST else it returns -1. This is approach is similar to what is given in leetcode.</p>
+<p><code><br />
+int largestBST(node *root, int *min, int *max, node **sub_root, int *max_size) {<br />
+   if (root == NULL) {<br />
+      *min = INT_MAX;<br />
+      *max = INT_MIN;<br />
+      return 0;<br />
+   }<br />
+   int isbst;<br />
+   int l_size = largestBST(root-&gt;left, min, max, sub_root, max_size);<br />
+   int currMin = (l_size == 0) ? root-&gt;data : *min;<br />
+   if (root-&gt;data right, min, max, sub_root, max_size);<br />
+   int currMax = (r_size==0) ? root-&gt;data : *max;<br />
+   if (root-&gt;data &gt; *min )<br />
+      isbst = 0;</p>
+<p>   if (isbst)  {<br />
+      if (l_size + r_size  + 1 &gt; *max_size )  {<br />
+         *max_size = l_size + r_size  + 1;<br />
+         *sub_root = root;<br />
+      }<br />
+     *min = currMin;<br />
+     *max = currMax;<br />
+      return l_size + r_size +1;<br />
+   }<br />
+  return -1;<br />
+}<br />
+</code></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-24521">
+        <div id="dsq-comment-header-24521" class="dsq-comment-header">
+            <cite id="dsq-cite-24521">
+                <span id="dsq-author-user-24521">Shubham Singhal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24521" class="dsq-comment-body">
+            <div id="dsq-comment-message-24521" class="dsq-comment-message"><p>Can we do inorder traversal of tree and store in an array and find size of longest increasing subarray.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-28425">
+        <div id="dsq-comment-header-28425" class="dsq-comment-header">
+            <cite id="dsq-cite-28425">
+                <span id="dsq-author-user-28425">Ninja</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28425" class="dsq-comment-body">
+            <div id="dsq-comment-message-28425" class="dsq-comment-message"><p>We don&#8217;t need to store the result also, We can store previous value and check if current value is greater or not and keep track of maximum size of BST. We will start new counter if current node is smaller than previous node.<br />
+Correct me If I am wrong.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-33014">
+        <div id="dsq-comment-header-33014" class="dsq-comment-header">
+            <cite id="dsq-cite-33014">
+                <span id="dsq-author-user-33014">xxmajia</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33014" class="dsq-comment-body">
+            <div id="dsq-comment-message-33014" class="dsq-comment-message"><p>agree, can go for a morris traversal, and keep the previous node, if prev &lt; cur, count++, else reset prev = cur, count = 0</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-24518">
+        <div id="dsq-comment-header-24518" class="dsq-comment-header">
+            <cite id="dsq-cite-24518">
+                <span id="dsq-author-user-24518">Shubham Singhal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24518" class="dsq-comment-body">
+            <div id="dsq-comment-message-24518" class="dsq-comment-message"><p>can we do inorder traversal of tree and store in an array,Does finding a longest increasing subarray will work?</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-sohini-majumdar odd alt thread-odd thread-alt depth-1" id="dsq-comment-21505">
+        <div id="dsq-comment-header-21505" class="dsq-comment-header">
+            <cite id="dsq-cite-21505">
+                <span id="dsq-author-user-21505">Sohini Majumdar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21505" class="dsq-comment-body">
+            <div id="dsq-comment-message-21505" class="dsq-comment-message"><pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+bool find_largest_subtree_size(Node *root,int *count)
+{
+	if(!root)
+		return(false);
+	bool check1=true, check2=true;
+	if(root-&gt;left)
+		check1=(root-&gt;left-&gt;data&lt;root-&gt;data) &amp;&amp; find_largest_subtree_size(root-&gt;left,count);
+	if(root-&gt;right)
+		check2=(root-&gt;right-&gt;data&gt;root-&gt;data) &amp;&amp; find_largest_subtree_size(root-&gt;right,count);
+	if(check1 &amp;&amp; check2)
+	{
+		(*count)++;
+		return(true);
+	}
+	return(false);
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-bateesh even thread-even depth-1" id="dsq-comment-20970">
+        <div id="dsq-comment-header-20970" class="dsq-comment-header">
+            <cite id="dsq-cite-20970">
+                <span id="dsq-author-user-20970">bateesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20970" class="dsq-comment-body">
+            <div id="dsq-comment-message-20970" class="dsq-comment-message"><p>@Geeksforgeeks:- In the code the statement<br />
+ if (min < *min_ref)<br />
+     *min_ref = min;<br />
+should be changed to<br />
+     *min_ref = min;//if is removed<br />
+min contains minimum of left subtree and *min_ref contains minimum of right subtree. So as if minimum is comming from right subtree it means this is not BST.We can remove this if and allow minimum to be value of left subtree,Please correct if m getting it wrng.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-34792">
+        <div id="dsq-comment-header-34792" class="dsq-comment-header">
+            <cite id="dsq-cite-34792">
+                <span id="dsq-author-user-34792">gurusreekanth</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34792" class="dsq-comment-body">
+            <div id="dsq-comment-message-34792" class="dsq-comment-message"><p>What happens if root does n&#8217;t have a left child?. with out if condition does it work?.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-abhishek08aug even thread-odd thread-alt depth-1" id="dsq-comment-18378">
+        <div id="dsq-comment-header-18378" class="dsq-comment-header">
+            <cite id="dsq-cite-18378">
+                <span id="dsq-author-user-18378">abhishek08aug</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18378" class="dsq-comment-body">
+            <div id="dsq-comment-message-18378" class="dsq-comment-message"><p>Intelligent <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_biggrin.gif" alt=":D" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-15799">
+        <div id="dsq-comment-header-15799" class="dsq-comment-header">
+            <cite id="dsq-cite-15799">
+                <span id="dsq-author-user-15799">sush</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15799" class="dsq-comment-body">
+            <div id="dsq-comment-message-15799" class="dsq-comment-message"><pre> <code language="C">
+
+int largestBSTUtil(struct node* r, int *s, int *l,
+                            int  *is_bst)
+{
+ if(!r)
+ {
+	*is_bst=1;
+	return 0;
+ }
+ *s=INT_MAX;*l=INT_MIN;*is_bst=0;
+ int x=largestBSTUtil(r-&gt;left,s,l,is_bst);
+ int ls=*s,ll=*l,f1=*is_bst;
+ *s=INT_MAX;*l=INT_MIN;*is_bst=0;
+ int y=largestBSTUtil(r-&gt;right,s,l,is_bst);
+ int rs=*s,rl=*l,f2=*is_bst;
+ if(rs&gt;ls)
+ *s=ls;
+ if(r-&gt;data&lt;*s)
+ *s=r-&gt;data;
+ if(rl&lt;ll)
+ *l=ll;
+ if(r-&gt;data&gt;*l)
+ *l=r-&gt;data;
+ if(f1 &amp;&amp; f2 &amp;&amp; r-&gt;data &gt; ll &amp;&amp; r-&gt;data &lt; rs)
+ {
+	*is_bst=1;
+	return x+y+1;
+ }
+ *is_bst=0;
+ return max(x,y);
+}
+ 
+/* Returns size of the largest BST subtree in a Binary Tree
+  (efficient version). */
+int largestBST(struct node* node)
+{
+  // Set the initial values for calling largestBSTUtil()
+  int min = INT_MAX;  // For minimum value in right subtree
+  int max = INT_MIN;  // For maximum value in left subtree
+ 
+  int max_size = 0;  // For size of the largest BST
+  int is_bst = 0;
+ 
+  return largestBSTUtil(node, &amp;min, &amp;max, &amp;is_bst);//returns answer
+ 
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-15781">
+        <div id="dsq-comment-header-15781" class="dsq-comment-header">
+            <cite id="dsq-cite-15781">
+                <span id="dsq-author-user-15781">Omar Salem</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15781" class="dsq-comment-body">
+            <div id="dsq-comment-message-15781" class="dsq-comment-message"><p>Inspired by  Kadane&#8217;s Algorithm </p>
+<p>int totalSize = 0;<br />
+int sizeSoFar = 0;<br />
+SizeOfLargestBSTSubtree(treeWithBSTSubset.root, ref totalSize, ref sizeSoFar);</p>
+<p>private static void SizeOfLargestBSTSubtree(Node node, ref int totalSize, ref int sizeSoFar)<br />
+        {<br />
+            if (node != null &amp;&amp; node.leftChild != null &amp;&amp; node.rightChild != null)<br />
+            {<br />
+                if (node.leftChild.item &lt;= node.item &amp;&amp; node.rightChild.item &gt; node.item)<br />
+                {<br />
+                    sizeSoFar += sizeSoFar == 0 ? 3 : 2;<br />
+                }<br />
+                else<br />
+                {<br />
+                    sizeSoFar = 0;<br />
+                }</p>
+<p>                if (sizeSoFar &gt; totalSize)<br />
+                {<br />
+                    totalSize = sizeSoFar;<br />
+                }</p>
+<p>                SizeOfLargestBSTSubtree(node.leftChild, ref totalSize, ref sizeSoFar);<br />
+                SizeOfLargestBSTSubtree(node.rightChild, ref totalSize, ref sizeSoFar);<br />
+            }<br />
+        }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-15711">
+        <div id="dsq-comment-header-15711" class="dsq-comment-header">
+            <cite id="dsq-cite-15711">
+                <span id="dsq-author-user-15711">Rahul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15711" class="dsq-comment-body">
+            <div id="dsq-comment-message-15711" class="dsq-comment-message"><p>I think in the program return 0 is wrong.<br />
+There can be a scenario that the left node is not a subtree but has a subtree of size 3 in it. Likewise the immediate right node is not a subtree but has a subtree of size 3 in it. In that case a 0 will always be returned by the father of this left and right node. </p>
+<p>It should in fact me more complex like;<br />
+if the left subtree is not a subtree but has a subtree of size 3 and the same being true for right subtree but the size of the right subtree being 4; in that case the father of these two should return 4 as the answer.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-26935">
+        <div id="dsq-comment-header-26935" class="dsq-comment-header">
+            <cite id="dsq-cite-26935">
+                <span id="dsq-author-user-26935">Voldemort</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26935" class="dsq-comment-body">
+            <div id="dsq-comment-message-26935" class="dsq-comment-message"><p>Rahul  we have passed the reference of max_size in largestBSTUtil function and we are returning the value of max_size not the value returned by largestBSTUtil(node, &amp;min, &amp;max, &amp;max_size, &amp;is_bst); </p>
+<p>correct me if I am wrong.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-15160">
+        <div id="dsq-comment-header-15160" class="dsq-comment-header">
+            <cite id="dsq-cite-15160">
+                <span id="dsq-author-user-15160">ramkumarp</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15160" class="dsq-comment-body">
+            <div id="dsq-comment-message-15160" class="dsq-comment-message"><p>I think we can use preorder traversal, check for BST property, keep track of number of nodes traversed (sum) and max.If sum > max update max and if the BST is broken then reset sum to zero and continue till end of the tree  </p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-denial even depth-2" id="dsq-comment-21033">
+        <div id="dsq-comment-header-21033" class="dsq-comment-header">
+            <cite id="dsq-cite-21033">
+                <span id="dsq-author-user-21033">denial</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21033" class="dsq-comment-body">
+            <div id="dsq-comment-message-21033" class="dsq-comment-message"><pre> 
+             5
+            /  \
+           2    4
+          /\    /\
+         1  3  7  9
+              /\
+             6  8</pre>
+<p>Check your solution for this tree and you will know.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-13808">
+        <div id="dsq-comment-header-13808" class="dsq-comment-header">
+            <cite id="dsq-cite-13808">
+                <span id="dsq-author-user-13808">kris</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13808" class="dsq-comment-body">
+            <div id="dsq-comment-message-13808" class="dsq-comment-message"><p>Can&#8217;t we do an inorder traversal of binary tree, and find the largest increasing subsequence?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-14472">
+        <div id="dsq-comment-header-14472" class="dsq-comment-header">
+            <cite id="dsq-cite-14472">
+                <span id="dsq-author-user-14472">algopiggy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14472" class="dsq-comment-body">
+            <div id="dsq-comment-message-14472" class="dsq-comment-message"><p>Largest increasing subsequence won&#8217;t give the answer. You will have to find largest increasing subarray I think.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-13298">
+        <div id="dsq-comment-header-13298" class="dsq-comment-header">
+            <cite id="dsq-cite-13298">
+                <span id="dsq-author-user-13298">Paparao Veeragandham</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13298" class="dsq-comment-body">
+            <div id="dsq-comment-message-13298" class="dsq-comment-message"><p>Can please explain the base source code to below tree:</p>
+<p>18 &#8212; root node</p>
+<p>18-&gt;left = 90<br />
+18-&gt;right = 24</p>
+<p>maximum length of BST is : 2<br />
+But I think the code is returns 1.</p>
+<p>Correct me if i was wrong&#8230;&#8230;.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-13297">
+        <div id="dsq-comment-header-13297" class="dsq-comment-header">
+            <cite id="dsq-cite-13297">
+                <span id="dsq-author-user-13297">Paparao Veeragandham</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13297" class="dsq-comment-body">
+            <div id="dsq-comment-message-13297" class="dsq-comment-message"><pre> <code language="C">
+Small changes to above method:
+
+1) while doing in-order traversal of tree maintain the variables like max_len &amp; nodeCount 
+If  nodes are not in BST order then set nodeCount = 0 and check max_len &lt; nodeCount then update max_len = nodeCount.
+
+Finally length of longest BST length is present in max_len variable;
+
+T.C = O(n)
+S.c = O(1)
+
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-12220">
+        <div id="dsq-comment-header-12220" class="dsq-comment-header">
+            <cite id="dsq-cite-12220">
+                <span id="dsq-author-user-12220">pr6989</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12220" class="dsq-comment-body">
+            <div id="dsq-comment-message-12220" class="dsq-comment-message"><p>Can we not store the in-order traversal of the binary tree in an array and then simply find the length of the longest increasing subsequence in it using Dynamic Programming?<br />
+This is not a space efficient solution (certainly not for very large trees) but I guess it should work otherwise. Correct me if I&#8217;m wrong.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-10143">
+        <div id="dsq-comment-header-10143" class="dsq-comment-header">
+            <cite id="dsq-cite-10143">
+                <span id="dsq-author-user-10143">Aashish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10143" class="dsq-comment-body">
+            <div id="dsq-comment-message-10143" class="dsq-comment-message"><pre> <code language="C">
+int largestBSTUtil(struct node* node, int *min, int *max,int *max_size_ref,int *is_bst)
+{
+  if (node == NULL)
+  {
+     *max_size_ref=0;
+     *min=INT_MAX;
+     *max=INT_MIN;
+     *is_bst=1;
+     return 0;
+  }
+ 
+  int isBSTLeft=0, isBSTRight=0;
+ 
+  int maxleft=INT_MIN,minleft,maxright,minright=INT_MAX;
+  int sizeLeft=0,sizeRight=0;
+ 
+  sizeLeft = largestBSTUtil(node-&gt;left, &amp;minleft, &amp;maxleft, max_size_ref,&amp;isBSTLeft);
+  
+  sizeRight = largestBSTUtil(node-&gt;right, &amp;minright, &amp;maxright, max_size_ref, &amp;isBSTRight);
+  
+  if(isBSTLeft &amp;&amp; isBSTRight &amp;&amp; node-&gt;data&gt;maxleft &amp;&amp; node-&gt;data&lt;minright)
+  {
+        if(sizeLeft+sizeRight+1 &gt; *max_size_ref)
+        {
+                *max_size_ref=sizeLeft+sizeRight+1;
+                if(node-&gt;data&lt;minleft)
+                        *min=node-&gt;data;
+                else
+                        *min=minleft;
+ 
+                if(node-&gt;data&gt;maxright)
+                        *max=node-&gt;data;
+                else
+                        *max=maxright;
+                *is_bst=1;
+                return *max_size_ref;
+        }
+  }
+  else
+  {
+        *is_bst=0;
+        return 0;
+  }
+} 
+ 
+ 
+int largestBST(struct node* node)
+{
+  int min = INT_MAX;  // For minimum value in right subtree
+  int max = INT_MIN;  // For maximum value in left subtree
+ 
+  int max_size = 0;  // For size of the largest BST
+  int is_bst=0;
+  largestBSTUtil(node, &amp;min, &amp;max, &amp;max_size,&amp;is_bst);
+ 
+  return max_size;
+}
+</code> </pre>
+<p><a href="http://ideone.com/uckyd" rel="nofollow">http://ideone.com/uckyd</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-10135">
+        <div id="dsq-comment-header-10135" class="dsq-comment-header">
+            <cite id="dsq-cite-10135">
+                <span id="dsq-author-user-10135">Sarvasva Sawhney</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10135" class="dsq-comment-body">
+            <div id="dsq-comment-message-10135" class="dsq-comment-message"><p>struct node<br />
+{<br />
+       int data;<br />
+       struct node* left;<br />
+      struct node* right;<br />
+      int count;<br />
+};<br />
+struct node* createnode(int data1)<br />
+{<br />
+     struct node* new=(struct node*)malloc(sizeof(struct node));<br />
+     new-&gt;data=data1;<br />
+     new-&gt;left=NULL;<br />
+     new-&gt;right=NULL;<br />
+      return new;<br />
+}<br />
+boolean maxbst(struct node* root)<br />
+{<br />
+    if(root==NULL)<br />
+    {<br />
+    root-&gt;count=0;<br />
+    return true;<br />
+    }<br />
+    else if(maxbst(root-&gt;left)||maxbst(root-&gt;right)||(root-&gt;left)-&gt;datadata||(root-&gt;right)-&gt;data&gt;=root-&gt;data)<br />
+    {<br />
+        root-&gt;count=(root-&gt;left)-&gt;count+(root-&gt;right)-&gt;count+1;<br />
+        return true;<br />
+    }<br />
+    else<br />
+    {<br />
+        root-&gt;count=max((root-&gt;left)-&gt;count,(root-&gt;right)-&gt;count);<br />
+        return false;<br />
+    }<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-10134">
+        <div id="dsq-comment-header-10134" class="dsq-comment-header">
+            <cite id="dsq-cite-10134">
+                <span id="dsq-author-user-10134">Sarvasva Sawhney</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10134" class="dsq-comment-body">
+            <div id="dsq-comment-message-10134" class="dsq-comment-message"><p>#include<br />
+#include<br />
+#include<br />
+struct node<br />
+{<br />
+       int data;<br />
+       struct node* left;<br />
+      struct node* right;<br />
+      int count;<br />
+};<br />
+struct node* createnode(int data1)<br />
+{<br />
+     struct node* new=(struct node*)malloc(sizeof(struct node));<br />
+     new-&gt;data=data1;<br />
+     new-&gt;left=NULL;<br />
+     new-&gt;right=NULL;<br />
+      return new;<br />
+}<br />
+boolean maxbst(struct node* root)<br />
+{<br />
+    if(root==NULL)<br />
+    {<br />
+    root-&gt;count=0;<br />
+    return true;<br />
+    }<br />
+    else if(maxbst(root-&gt;left)||maxbst(root-&gt;right)||(root-&gt;left)-&gt;datadata||(root-&gt;right)-&gt;data&gt;=root-&gt;data)<br />
+    {<br />
+        root-&gt;count=(root-&gt;left)-&gt;count+(root-&gt;right)-&gt;count+1;<br />
+        return true;<br />
+    }<br />
+    else<br />
+    {<br />
+        root-&gt;count=max((root-&gt;left)-&gt;count,(root-&gt;right)-&gt;count);<br />
+        return false;<br />
+    }<br />
+}<br />
+int main()<br />
+{<br />
+    struct node* root=createnode(1);<br />
+ root-&gt;left=createnode(2);<br />
+      root-&gt;right=createnode(3);<br />
+    root-&gt;left-&gt;left=createnode(4);<br />
+    root-&gt;left-&gt;right=createnode(5);<br />
+      (root-&gt;right)-&gt;left=createnode(6);<br />
+   (root-&gt;right)-&gt;right=createnode(7);<br />
+   b=maxbst(root);<br />
+    getch();<br />
+     return 0;<br />
+}</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-10133">
+        <div id="dsq-comment-header-10133" class="dsq-comment-header">
+            <cite id="dsq-cite-10133">
+                <span id="dsq-author-user-10133">Sarvasva Sawhney</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10133" class="dsq-comment-body">
+            <div id="dsq-comment-message-10133" class="dsq-comment-message"><p>//i have implemented this by using extra pointor in node count //which counts the no of nodes in bst<br />
+#include<br />
+#include<br />
+#include<br />
+struct node<br />
+{<br />
+       int data;<br />
+       struct node* left;<br />
+      struct node* right;<br />
+      int count;<br />
+};<br />
+struct node* createnode(int data1)<br />
+{<br />
+     struct node* new=(struct node*)malloc(sizeof(struct node));<br />
+     new-&gt;data=data1;<br />
+     new-&gt;left=NULL;<br />
+     new-&gt;right=NULL;<br />
+      return new;<br />
+}<br />
+boolean maxbst(struct node* root)<br />
+{<br />
+    if(root==NULL)<br />
+    {<br />
+    root-&gt;count=0;<br />
+    return true;<br />
+    }<br />
+    else if(maxbst(root-&gt;left)||maxbst(root-&gt;right)||(root-&gt;left)-&gt;datadata||(root-&gt;right)-&gt;data&gt;=root-&gt;data)<br />
+    {<br />
+        root-&gt;count=(root-&gt;left)-&gt;count+(root-&gt;right)-&gt;count+1;<br />
+        return true;<br />
+    }<br />
+    else<br />
+    {<br />
+        root-&gt;count=max((root-&gt;left)-&gt;count,(root-&gt;right)-&gt;count);<br />
+        return false;<br />
+    }<br />
+}<br />
+int main()<br />
+{<br />
+    struct node* root=createnode(1);<br />
+ root-&gt;left=createnode(2);<br />
+      root-&gt;right=createnode(3);<br />
+    root-&gt;left-&gt;left=createnode(4);<br />
+    root-&gt;left-&gt;right=createnode(5);<br />
+      (root-&gt;right)-&gt;left=createnode(6);<br />
+   (root-&gt;right)-&gt;right=createnode(7);<br />
+   b=maxbst(root);<br />
+    getch();<br />
+     return 0;<br />
+}</p>
+<p>//tell if there is a mistake in this approach it solves in //order of n time</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8756">
+        <div id="dsq-comment-header-8756" class="dsq-comment-header">
+            <cite id="dsq-cite-8756">
+                <span id="dsq-author-user-8756">cmon</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8756" class="dsq-comment-body">
+            <div id="dsq-comment-message-8756" class="dsq-comment-message"><p>        public bool largestBST(Node node, ref int count,ref int prev)<br />
+        {<br />
+            if (node == null)<br />
+            {<br />
+                count = 0;<br />
+                return true;<br />
+            }<br />
+            int lcount=0,rcount=0;<br />
+            bool val1 = largestBST(node.left, ref lcount, ref prev);<br />
+            if (node.data &lt; prev)<br />
+                return false;<br />
+            prev = node.data;<br />
+            bool val2 = largestBST(node.right, ref rcount, ref prev);</p>
+<p>            if (val1 &amp;&amp; val2)<br />
+            {<br />
+                count = lcount + rcount + 1;<br />
+                return true;<br />
+            }<br />
+            else<br />
+            {<br />
+                count = max(lcount, rcount);<br />
+                return false;<br />
+            }</p>
+<p>        }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8282">
+        <div id="dsq-comment-header-8282" class="dsq-comment-header">
+            <cite id="dsq-cite-8282">
+                <span id="dsq-author-user-8282">Red</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8282" class="dsq-comment-body">
+            <div id="dsq-comment-message-8282" class="dsq-comment-message"><p>just do an inorder traversal of the entire tree. Return the length of the largest contiguous increasing subsequence in the inorder sequence</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-8288">
+        <div id="dsq-comment-header-8288" class="dsq-comment-header">
+            <cite id="dsq-cite-8288">
+                <span id="dsq-author-user-8288">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8288" class="dsq-comment-body">
+            <div id="dsq-comment-message-8288" class="dsq-comment-message"><p>That won&#8217;t work.  See <a href="http://www.geeksforgeeks.org/archives/7291#comment-7576" rel="nofollow">this </a> comment.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-9127">
+        <div id="dsq-comment-header-9127" class="dsq-comment-header">
+            <cite id="dsq-cite-9127">
+                <span id="dsq-author-user-9127">Algogeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9127" class="dsq-comment-body">
+            <div id="dsq-comment-message-9127" class="dsq-comment-message"><p>why will it not work ?<br />
+He said contiguous substring and not subsequence. I dont understand why it will not work. Help !</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-9142">
+        <div id="dsq-comment-header-9142" class="dsq-comment-header">
+            <cite id="dsq-cite-9142">
+                <span id="dsq-author-user-9142">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9142" class="dsq-comment-body">
+            <div id="dsq-comment-message-9142" class="dsq-comment-message"><p>@Algogeeks: Longest substring will also not work.  I could come up with following example for now.  Will provide more example if you need.</p>
+<pre>
+    5
+   / \
+  6   10
+ /    / \ 
+3    8   12
+</pre>
+<p>Inoder traversal is 3 6 5 8 10 12.  The longest substring is 5 8 10 12. But this substring doesn&#8217;t represent a subtree.</p>
+<p>/* Paste your code here (You may delete these lines if not writing code) */</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-5" id="dsq-comment-10272">
+        <div id="dsq-comment-header-10272" class="dsq-comment-header">
+            <cite id="dsq-cite-10272">
+                <span id="dsq-author-user-10272">johnny</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10272" class="dsq-comment-body">
+            <div id="dsq-comment-message-10272" class="dsq-comment-message"><p>1.Do Inorder traversal of binary tree<br />
+2.Find longest subsequence which is in increasing order<br />
+3.Scan through the sequence and check if the element till it corresponds to a leaf node.<br />
+4. Compute the size of the remaining sequence from that index</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-5" id="dsq-comment-16710">
+        <div id="dsq-comment-header-16710" class="dsq-comment-header">
+            <cite id="dsq-cite-16710">
+                <span id="dsq-author-user-16710">rohit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16710" class="dsq-comment-body">
+            <div id="dsq-comment-message-16710" class="dsq-comment-message"><p>@kartik: if we do an inorder traversal and break it in two parts one left to the root and other right to root and calculate longest substring in both parts and ans will be max of both&#8230;correct me if i am wrong..??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-8276">
+        <div id="dsq-comment-header-8276" class="dsq-comment-header">
+            <cite id="dsq-cite-8276">
+                <span id="dsq-author-user-8276">rocky</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8276" class="dsq-comment-body">
+            <div id="dsq-comment-message-8276" class="dsq-comment-message"><p>Does the subtree mean that all children under the node should be included or can partial inclusion also happen ?</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-8277">
+        <div id="dsq-comment-header-8277" class="dsq-comment-header">
+            <cite id="dsq-cite-8277">
+                <span id="dsq-author-user-8277">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8277" class="dsq-comment-body">
+            <div id="dsq-comment-message-8277" class="dsq-comment-message"><p>All the children should be included.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-24903">
+        <div id="dsq-comment-header-24903" class="dsq-comment-header">
+            <cite id="dsq-cite-24903">
+                <span id="dsq-author-user-24903">ubiquitous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24903" class="dsq-comment-body">
+            <div id="dsq-comment-message-24903" class="dsq-comment-message"><p>A subtree of a tree T is a tree consisting of a node in T and all of its descendants in T.[1] Nodes thus correspond to subtrees (each node corresponds to the subtree of itself and all its descendants) – the subtree corresponding to the root node is the entire tree, and each node is the root node of the subtree it determines; the subtree corresponding to any other node is called a proper subtree (in analogy to the term proper subset).</p>
+<p>from wikipedia.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-8181">
+        <div id="dsq-comment-header-8181" class="dsq-comment-header">
+            <cite id="dsq-cite-8181">
+                <span id="dsq-author-user-8181">sjsj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8181" class="dsq-comment-body">
+            <div id="dsq-comment-message-8181" class="dsq-comment-message"><p>The given program does not update the max correctly. it saves the min of the left subtree before making the call for right subtree. similarly It should save the max of left subtree, before making a call for the right subtree. If we replace 20 of th tree constructed in main() by &#8220;200&#8221;. we will not get the right max.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-7901">
+        <div id="dsq-comment-header-7901" class="dsq-comment-header">
+            <cite id="dsq-cite-7901">
+                <span id="dsq-author-user-7901">anonymous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7901" class="dsq-comment-body">
+            <div id="dsq-comment-message-7901" class="dsq-comment-message"><pre> <code language="C">
+tree* largestSubtree(tree *t ,int *sizeMax)
+{
+        int sizeLeft,sizeRight,size;
+        if(t == NULL)
+        {
+                return 0;
+        }
+
+        sizeLeft = largestSubtree(t -&gt; left ,sizeMax);
+        sizeRight = largestSubtree(t -&gt; right ,sizeMax);
+        size = 1;
+        if((!t -&gt;left)|| (t -&gt; left -&gt; num &lt; t -&gt; num))
+        {
+
+                size = sizeLeft + size;
+        }
+        if((!t -&gt; right) || (t -&gt; right -&gt; num &gt; t -&gt; num))
+        {
+
+                size = sizeRight + size;
+        }
+
+
+        if(size &gt; *sizeMax)
+                *sizeMax = size;
+        if(sizeLeft &gt; *sizeMax)
+                *sizeMax = sizeLeft;
+        if(sizeRight &gt; *sizeMax)
+                *sizeMax = sizeRight;
+
+return size;
+    
+
+</code> </pre>
+<p>//calling Function</p>
+<p>int size = -1;<br />
+largestSubtree(t,&amp;size);</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-7920">
+        <div id="dsq-comment-header-7920" class="dsq-comment-header">
+            <cite id="dsq-cite-7920">
+                <span id="dsq-author-user-7920">Anonymous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7920" class="dsq-comment-body">
+            <div id="dsq-comment-message-7920" class="dsq-comment-message"><p>You are missing the case when max value of left subtree is greater than root&#8217;s value and min value of right subtree is less than root&#8217;s value.</p>
+<p>          50<br />
+       /      \<br />
+     10        60<br />
+    /  \       /  \<br />
+   5   55    55    70<br />
+            /     /  \<br />
+          45     65    80</p>
+<p>your code will fail in this case.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-gautam5669 odd alt thread-odd thread-alt depth-1" id="dsq-comment-7841">
+        <div id="dsq-comment-header-7841" class="dsq-comment-header">
+            <cite id="dsq-cite-7841">
+                <span id="dsq-author-user-7841">Kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7841" class="dsq-comment-body">
+            <div id="dsq-comment-message-7841" class="dsq-comment-message"><pre> <code language="C">
+/* int MaxBST(struct node* root)
+ {
+   static int maxlen=0;
+   static struct node* prev=NULL;
+   static int currlen=0;
+   
+   if(!root)
+     return maxlen;
+   
+   MaxBST(root-&gt;left);
+
+   if(prev==NULL)  //U HAVE SEEN ONE NODE
+    currlen++;
+    
+   if(prev!=NULL)
+    {
+      if(prev-&gt;data &lt;= root-&gt;data)
+      {             
+        currlen++;
+       if(maxlen&lt;currlen)
+        maxlen=currlen;  
+      }
+      else
+       currlen=1;
+    }
+    prev=root;
+    
+    
+    MaxBST(root-&gt;right);        
+    
+    return maxlen;          
+                  
+} */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-kunalgupta1991 even thread-even depth-1" id="dsq-comment-7774">
+        <div id="dsq-comment-header-7774" class="dsq-comment-header">
+            <cite id="dsq-cite-7774">
+                <span id="dsq-author-user-7774">kunalgupta1991</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7774" class="dsq-comment-body">
+            <div id="dsq-comment-message-7774" class="dsq-comment-message"><pre> <code language="C">
+   int maxvalue=0;
+   int mxbst(node *root)
+   {
+       int l,r,max;
+       if(root == NULL)
+       return 0;
+       l= mxbst(root-&gt;left);
+       r=mxbst(root-&gt;right);
+   if(l!=0 &amp;&amp; r != 0)
+     {
+       if((root -&gt;data &gt; root-&gt;left-&gt;data) &amp;&amp; (root-&gt;data &lt;root-&gt;right-&gt;data))
+       max= l+r+1;
+       else  if((root -&gt;data &lt; root-&gt;left-&gt;data) &amp;&amp; (root-&gt;data &gt;root-&gt;right-&gt;data)) // not a bst
+       max =1;
+       else if(root-&gt;data &gt;root -&gt;left -&gt;data)
+       max= l +1;
+       else 
+       max =r+1;
+     }
+    else if(l==0 &amp;&amp; r==0)
+    {
+         max = 1;
+         
+    } 
+    else 
+    {
+        if(l !=0 &amp;&amp; root-&gt;data &gt;root -&gt;left -&gt;data)
+       max= l +1; 
+       else if(r !=0 &amp;&amp; root-&gt;data &gt;root -&gt;left -&gt;data)
+       max= r +1;
+       else 
+       max =1;
+     } 
+     if( max &gt; maxvalue)
+     maxvalue=max;
+     return max;
+   }
+// time comlexity O(n)
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-7747">
+        <div id="dsq-comment-header-7747" class="dsq-comment-header">
+            <cite id="dsq-cite-7747">
+                <span id="dsq-author-user-7747">adithya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7747" class="dsq-comment-body">
+            <div id="dsq-comment-message-7747" class="dsq-comment-message"><pre> <code language="C">
+int c=0;
+void postorder(node *root) {
+	if(root!=NULL) {
+		postorder(root-&gt;lc);
+		postorder(root-&gt;rc);
+		printf(&quot;%d &quot;,root-&gt;no);
+		c++;
+	}
+	return;
+}
+
+void findmax(node *root) {
+	node *temp;
+	int l,r;
+	temp=root;
+	if(temp!=NULL) {
+		node *left,*right;
+		left=NULL;
+		right=NULL;
+		left=temp-&gt;lc;
+		right=temp-&gt;rc;
+		c=0;
+		printf(&quot;\n&quot;);
+		postorder(left);
+		l=c;
+		c=0;
+		printf(&quot;\n&quot;);
+		postorder(right);
+		r=c;
+		if(l&gt;r) {
+			printf(&quot;\nLarget subtree is leftsubtree&quot;);
+			postorder(left);
+			printf(&quot;\nSize : %d&quot;,l);
+		}
+		else {
+			printf(&quot;\nLarget subtree is rightsubtree\n&quot;);
+			postorder(right);
+			printf(&quot;\nSize : %d&quot;,r);
+		}
+	}
+	else {
+		printf(&quot;%s&quot;,&quot;list is empty&quot;);
+	}
+	return;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-swapnil09 even thread-even depth-1" id="dsq-comment-7662">
+        <div id="dsq-comment-header-7662" class="dsq-comment-header">
+            <cite id="dsq-cite-7662">
+                <span id="dsq-author-user-7662">swapnil09</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7662" class="dsq-comment-body">
+            <div id="dsq-comment-message-7662" class="dsq-comment-message"><pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-7580">
+        <div id="dsq-comment-header-7580" class="dsq-comment-header">
+            <cite id="dsq-cite-7580">
+                <span id="dsq-author-user-7580">kartikaditya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7580" class="dsq-comment-body">
+            <div id="dsq-comment-message-7580" class="dsq-comment-message"><p>class MaxSubBst {<br />
+    private static class Node {<br />
+        int key;<br />
+        Node left;<br />
+        Node right;<br />
+    }</p>
+<p>    private Node root;</p>
+<p>    private int getSubBstSize(Node node, int lowerBound, int upperBound) {<br />
+        if (node == 0) {<br />
+            return null;<br />
+        }<br />
+        if (!(lowerBound &lt;= node.key &amp; node.key &lt; upperBound)) {<br />
+            return 0;<br />
+        }<br />
+        return 1 + getSubBstSize(node.left, lowerBound, node.key) +<br />
+            getSubBstSize(node.right, node.key + 1, upperBound);<br />
+    }</p>
+<p>    private int getMaxSubBstSize(Node node) {<br />
+        if (node == null) {<br />
+            return 0;<br />
+        }<br />
+        int sizeOfRootedBst =<br />
+            getSubBstSize(node, Integer.MIN_VALUE, Integer.MAX_VALUE);<br />
+        int sizeOfLeftRootedBst = getMaxSubBstSize(node.left);<br />
+        int sizeOfRightRootedBst = getMaxSubBstSize(node.right);</p>
+<p>        return Math.max(sizeOfRootedBst,<br />
+                        Math.max(sizeOfLeftRootedBst, sizeOfRightRootedBst));<br />
+    }</p>
+<p>    public int getMaxSubBstSize() {<br />
+        return getMaxSubBstSize(root);<br />
+    }<br />
+}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik even depth-2" id="dsq-comment-7584">
+        <div id="dsq-comment-header-7584" class="dsq-comment-header">
+            <cite id="dsq-cite-7584">
+                <span id="dsq-author-user-7584">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7584" class="dsq-comment-body">
+            <div id="dsq-comment-message-7584" class="dsq-comment-message"><p>@kartikaditya: This looks similar to method 1. Time complexity of this method will be O(n^2) in worst case.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-7604">
+        <div id="dsq-comment-header-7604" class="dsq-comment-header">
+            <cite id="dsq-cite-7604">
+                <span id="dsq-author-user-7604">kartikaditya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7604" class="dsq-comment-body">
+            <div id="dsq-comment-message-7604" class="dsq-comment-message"><p>O(N log N) actually&#8230;</p>
+<pre> <code language="C">
+Let f(i) denote complexity of method getSubBstSize when the tree size if i.
+Let g(i) denote complexity of method getMaxSubBstSize when the tree size if i.
+
+Now its easy to see for method getSubBstSize:
+f(i) = O(i) [Since f(i) ~ 2 * f(i / 2), in avg case]
+
+Now if you look at method getMaxSubBstSize:
+g(i) ~ f(i) + 2 * g(i / 2), in avg case
+=&gt; g(i) = O(n) + 2 * g(i / 2)
+This should remind you of Merge-sort, which is O(N log N).
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-7605">
+        <div id="dsq-comment-header-7605" class="dsq-comment-header">
+            <cite id="dsq-cite-7605">
+                <span id="dsq-author-user-7605">kartikaditya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7605" class="dsq-comment-body">
+            <div id="dsq-comment-message-7605" class="dsq-comment-message"><p>Sorry, yes worst case this will be O(N*N) and O(N log N) avg case.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-7577">
+        <div id="dsq-comment-header-7577" class="dsq-comment-header">
+            <cite id="dsq-cite-7577">
+                <span id="dsq-author-user-7577">saurabh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7577" class="dsq-comment-body">
+            <div id="dsq-comment-message-7577" class="dsq-comment-message"><p>there is some thing wrong here<br />
+size of subtree should be 5 instead 4 for the example !!<br />
+??<br />
+??</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even depth-2" id="dsq-comment-7578">
+        <div id="dsq-comment-header-7578" class="dsq-comment-header">
+            <cite id="dsq-cite-7578">
+                <span id="dsq-author-user-7578">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7578" class="dsq-comment-body">
+            <div id="dsq-comment-message-7578" class="dsq-comment-message"><p>Thanks for pointing this out.  We have updated the example. Keep it up!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-7574">
+        <div id="dsq-comment-header-7574" class="dsq-comment-header">
+            <cite id="dsq-cite-7574">
+                <span id="dsq-author-user-7574">sankalp</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7574" class="dsq-comment-body">
+            <div id="dsq-comment-message-7574" class="dsq-comment-message"><p>If we do inorder traversal and finds the longest increasing sequence won&#8217;t that be the same as the maximum BST.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik even depth-2" id="dsq-comment-7576">
+        <div id="dsq-comment-header-7576" class="dsq-comment-header">
+            <cite id="dsq-cite-7576">
+                <span id="dsq-author-user-7576">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7576" class="dsq-comment-body">
+            <div id="dsq-comment-message-7576" class="dsq-comment-message"><p>That won&#8217;t work. Consider the following Binary Tree.</p>
+<pre>
+       30
+     /    \
+  10       40
+ /  \     /  \
+5   20   45    55
+              /  \
+            50    59
+</pre>
+<p>The inorder traversal is &#8220;5 10 20 30 45 40 50 55 59&#8243;.  The longest increasing subsequence is 5 10 20 30 45 50 55 59.  But the largest BST is of size 3.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-7624">
+        <div id="dsq-comment-header-7624" class="dsq-comment-header">
+            <cite id="dsq-cite-7624">
+                <span id="dsq-author-user-7624">Neeraj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7624" class="dsq-comment-body">
+            <div id="dsq-comment-message-7624" class="dsq-comment-message"><p>I don&#8217;t follow. Why is the largest BST of size 3? The entire tree seems like a BST to me?</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-7625">
+        <div id="dsq-comment-header-7625" class="dsq-comment-header">
+            <cite id="dsq-cite-7625">
+                <span id="dsq-author-user-7625">kartikaditya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7625" class="dsq-comment-body">
+            <div id="dsq-comment-message-7625" class="dsq-comment-message"><p>Dude 45 is to the left of 40</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-5" id="dsq-comment-7633">
+        <div id="dsq-comment-header-7633" class="dsq-comment-header">
+            <cite id="dsq-cite-7633">
+                <span id="dsq-author-user-7633">Neeraj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7633" class="dsq-comment-body">
+            <div id="dsq-comment-message-7633" class="dsq-comment-message"><p>Need new glasses <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_wink.gif" alt=";)" class="wp-smiley" /></p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-anurag108 even depth-3" id="dsq-comment-7868">
+        <div id="dsq-comment-header-7868" class="dsq-comment-header">
+            <cite id="dsq-cite-7868">
+                <span id="dsq-author-user-7868">anurag108</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7868" class="dsq-comment-body">
+            <div id="dsq-comment-message-7868" class="dsq-comment-message"><p>I think it should be longest substring instead of longest subsequence.That would work</p>
+<p>Step 1) Inorder traversal of tree O(n)<br />
+Step 2) Find Longest Substring of the inorder                   array we get. It can be found in O(n).</p>
+<p>So overall complexity is O(n) too.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-13290">
+        <div id="dsq-comment-header-13290" class="dsq-comment-header">
+            <cite id="dsq-cite-13290">
+                <span id="dsq-author-user-13290">Paparao Veeragandham</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13290" class="dsq-comment-body">
+            <div id="dsq-comment-message-13290" class="dsq-comment-message"><p>Small changes to above method:</p>
+<p>1) while doing in-order traversal of tree maintain the variables like max_len &#038; nodeCount<br />
+If  nodes are not in BST order then set nodeCount = 0 and check max_len < nodeCount then update max_len = nodeCount.</p>
+<p>Finally length of longest BST length is present in max_len variable;</p>
+<p>T.C = O(n)<br />
+S.c = O(1)</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-5" id="dsq-comment-14086">
+        <div id="dsq-comment-header-14086" class="dsq-comment-header">
+            <cite id="dsq-cite-14086">
+                <span id="dsq-author-user-14086">ashish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14086" class="dsq-comment-body">
+            <div id="dsq-comment-message-14086" class="dsq-comment-message"><p>Can you pls post ur code?</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-5" id="dsq-comment-18813">
+        <div id="dsq-comment-header-18813" class="dsq-comment-header">
+            <cite id="dsq-cite-18813">
+                <span id="dsq-author-user-18813">neo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18813" class="dsq-comment-body">
+            <div id="dsq-comment-message-18813" class="dsq-comment-message"><p>longest increasing contiguous sequence<br />
+        AND<br />
+longest increasing subsequence</p>
+<p>seems correct but in some cases they won&#8217;t work. See<br />
+<a href="http://leetcode.com/2010/11/largest-binary-search-tree-bst-in_22.html" rel="nofollow">http://leetcode.com/2010/11/largest-binary-search-tree-bst-in_22.html</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/find-the-largest-subtree-in-a-tree-that-is-also-a-bst/';
+var disqus_identifier = '7291 http://geeksforgeeks.org/?p=7291';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Find the largest BST subtree in a given Binary Tree";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.231 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-12-03 17:01:24 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

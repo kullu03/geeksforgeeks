@@ -1,0 +1,806 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Given n line segments, find if any two segments intersect - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/given-a-set-of-line-segments-find-if-any-two-segments-intersect/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Given n line segments, find if any two segments intersect - GeeksforGeeks" />
+<meta property="og:description" content="We have discussed the problem to detect if two given line segments intersect or not. In this post, we extend the problem. Here we are given n line segments and we need to find out if any two line segments intersect or not. Naive Algorithm A naive solution to solve this problem is to check &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/given-a-set-of-line-segments-find-if-any-two-segments-intersect/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="geometric algorithms" />
+<meta property="article:section" content="Misc" />
+<meta property="article:published_time" content="2013-11-09T22:11:37+00:00" />
+<meta property="article:modified_time" content="2014-12-05T07:49:52+00:00" />
+<meta property="og:updated_time" content="2014-12-05T07:49:52+00:00" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/sweepline.gif" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.475 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417747774 46.188.78.174';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Given n line segments, find if any two segments intersect</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>We have discussed the problem to detect if<a href="http://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/" target="_blank"> two given line segments intersect or not</a>. In this post, we extend the problem. <span id="more-120766"></span> Here we are given n line segments and we need to find out if any two line segments intersect or not.</p>
+<p><strong>Naive Algorithm</strong> A naive solution to solve this problem is to check every pair of lines and check if the pair intersects or not. <a href="http://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/" target="_blank">We can check two line segments in O(1) time</a>. Therefore, this approach takes O(n<sup>2</sup>).</p>
+<p><strong>Sweep Line Algorithm:</strong> We can solve this problem in <strong>O(nLogn)</strong> time using Sweep Line Algorithm. The algorithm first sorts the end points along the x axis from left to right, then it passes a vertical line through all points from left to right and checks for intersections. Following are detailed steps.</p>
+<p><strong>1) </strong>Let there be n given lines. There must be 2n end points to represent the n lines. Sort all points according to x coordinates. While sorting maintain a flag to indicate whether this point is left point of its line or right point.</p>
+<p><strong>2)</strong> Start from the leftmost point. Do following for every point<br />
+&#8230;..<strong>a)</strong> If the current point is a left point of its line segment, check for intersection of its line segment with the segments just above and below it. And add its line to <em>active</em> line segments (line segments for which left end point is seen, but right end point is not seen yet).  Note that we consider only those neighbors which are still active.<br />
+&#8230;.<strong>b) </strong>If the current point is a right point, remove its line segment from active list and check whether its two active neighbors (points just above and below) intersect with each other.</p>
+<p>The step 2 is like passing a vertical line from all points starting from the leftmost point to the rightmost point. That is why this algorithm is called Sweep Line Algorithm. The Sweep Line technique is useful in many other geometric algorithms like <a href="http://cgm.cs.mcgill.ca/~mcleish/644/Projects/DerekJohns/Sweep.htm" target="_blank">calculating the 2D Voronoi diagram </a></p>
+<p><strong>What data structures should be used for efficient implementation?</strong><br />
+In step 2, we need to store all active line segments. We need to do following operations efficiently:<br />
+a) Insert a new line segment<br />
+b) Delete a line segment<br />
+c) Find predecessor and successor according to y coordinate values<br />
+The obvious choice for above operations is Self-Balancing Binary Search Tree like AVL Tree, Red Black Tree. With a Self-Balancing BST, we can do all of the above operations in O(Logn) time.<br />
+Also, in step 1, instead of sorting, we can use min heap data structure. Building a min heap takes O(n) time and every extract min operation takes O(Logn) time (See <a href="http://courses.csail.mit.edu/6.006/spring11/lectures/lec24.pdf" target="_blank">this</a>).</p>
+<p><strong>PseudoCode:</strong><br />
+The following pseudocode doesn&#8217;t use heap. It simply sort the array.</p>
+<pre><strong>sweepLineIntersection(Points[0..2n-1]):</strong>
+<strong>1.</strong> Sort Points[] from left to right (according to x coordinate)
+
+<strong>2.</strong> Create an empty Self-Balancing BST T. It will contain all active line 
+   Segments ordered by y coordinate.
+
+<span style="color: #339966;">// Process all 2n points</span> 
+<strong>3.</strong> <span style="color: #3366ff;">for</span> i = 0 <span style="color: #3366ff;">to</span> 2n-1
+
+   <span style="color: #339966;"> // If this point is left end of its line </span> 
+    <span style="color: #3366ff;">if</span> (Points[i].isLeft) 
+       T.insert(Points[i].line()) <span style="color: #339966;"> // Insert into the tree</span>
+
+       <span style="color: #339966;">// Check if this points intersects with its predecessor and successor</span>
+       <span style="color: #3366ff;">if</span> ( doIntersect(Points[i].line(), T.pred(Points[i].line()) )
+         <span style="color: #3366ff;">return true</span>
+       <span style="color: #3366ff;">if</span> ( doIntersect(Points[i].line(), T.succ(Points[i].line()) )
+         <span style="color: #3366ff;">return true</span>
+
+    <span style="color: #3366ff;">else </span> <span style="color: #339966;">// If it's a right end of its line</span>
+       <span style="color: #339966;">// Check if its predecessor and successor intersect with each other</span>
+       <span style="color: #3366ff;">if</span> ( doIntersect(T.pred(Points[i].line(), T.succ(Points[i].line()))
+         <span style="color: #0000ff;">return</span> <span style="color: #3366ff;">true</span>
+       T.delete(Points[i].line())  <span style="color: #339966;">// Delete from tree
+</span>
+<strong>4. </strong><span style="color: #3366ff;">return False</span></pre>
+<p><strong>Example:</strong><br />
+Let us consider the following example taken from <a href="http://www.eecs.wsu.edu/~cook/aa/lectures/l25/node10.html" target="_blank">here</a>.  There are 5 line segments <span style="color: #ff0000;">1</span>, <span style="color: #ff0000;">2</span>, <span style="color: #ff0000;">3</span>, <span style="color: #ff0000;">4</span> and <span style="color: #ff0000;">5</span>.  The dotted green lines show sweep lines.</p>
+<p style="text-align: center;"><a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/sweepline.gif"><img class="aligncenter  wp-image-123867" alt="sweepline" src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/sweepline.gif" width="462" height="320" /></a></p>
+<p>Following are steps followed by the algorithm.  All points from left to right are processed one by one. We maintain a self-balancing binary search tree.</p>
+<p><span style="color: #0000ff;"><em>Left end point of line segment <span style="color: #ff0000;">1</span> is processed</em>:</span> 1 is inserted into the Tree. The tree contains <span style="color: #ff0000;">1</span>.   No intersection.</p>
+<p><span style="color: #0000ff;"><em>Left end point of line <em>segment </em> <span style="color: #ff0000;">2</span> is processed</em>:  </span>Intersection of <span style="color: #ff0000;">1</span> and <span style="color: #ff0000;">2</span> is checked. <span style="color: #ff0000;">2</span> is inserted into the Tree. No intersection. The tree contains <span style="color: #ff0000;">1</span>, <span style="color: #ff0000;">2</span>.</p>
+<p><span style="color: #0000ff;"><em>Left end point of line <em>segment <span style="color: #ff6600;">3</span></em> is processed: </em> </span>Intersection of  <span style="color: #ff0000;">3</span> with <span style="color: #ff0000;">1</span> is checked.  No intersection. <span style="color: #ff0000;">3</span> is inserted into the Tree. The tree contains  <span style="color: #ff0000;">2</span>, <span style="color: #ff0000;">1</span>, <span style="color: #ff0000;">3</span>.</p>
+<p><span style="color: #0000ff;"><em>Right end point of line <em>segment </em><span style="color: #ff0000;">1</span> is processed:</em> </span><span style="color: #ff0000;">1</span> is deleted from the Tree.  Intersection of <span style="color: #ff0000;">2</span> and <span style="color: #ff0000;">3</span> is checked.  Intersection of <span style="color: #ff0000;">2</span> and <span style="color: #ff0000;">3</span> is reported.  The tree contains  <span style="color: #ff0000;">2</span>, <span style="color: #ff0000;">3</span>. Note that <span style="color: #ff0000;">the above pseudocode returns at this point.</span> We can continue from here to report all intersection points.</p>
+<p><span style="color: #0000ff;"><em>Left end point of line <em>segment </em> <span style="color: #ff0000;">4</span> is processed</em>:  </span> Intersections of  line <span style="color: #ff0000;">4</span> with lines <span style="color: #ff0000;">2</span> and <span style="color: #ff0000;">3</span> are checked.  No intersection. <span style="color: #ff0000;">4</span> is inserted into the Tree. The tree contains  <span style="color: #ff0000;">2</span>, <span style="color: #ff0000;">4</span>, <span style="color: #ff0000;">3</span>.</p>
+<p><span style="color: #0000ff;"><em>Left end point of line <em>segment </em><span style="color: #ff0000;">5</span> is processed</em>:</span>   Intersection of  <span style="color: #ff0000;">5</span> with <span style="color: #ff0000;">3</span> is checked.  No intersection. <span style="color: #ff0000;">4</span> is inserted into the Tree. The tree contains   <span style="color: #ff0000;">2<span style="color: #000000;">,</span> 4<span style="color: #000000;">,</span> 3<span style="color: #000000;">,</span> 5</span>.</p>
+<p><span style="color: #0000ff;"><em>Right end point of line <em>segment </em><span style="color: #ff0000;">5</span> is processed: </em><span style="color: #ff0000;">5</span></span> is deleted from the Tree.   The tree contains  <span style="color: #ff0000;">2</span>, <span style="color: #ff0000;">4</span>, <span style="color: #ff0000;">3</span>.</p>
+<p><span style="color: #0000ff;"><em>Right end point of line <em>segment </em><span style="color: #ff0000;">4</span> is processed:</em> </span><span style="color: #ff0000;">4</span> is deleted from the Tree.   The tree contains  <span style="color: #ff0000;">2</span>, <span style="color: #ff0000;">4</span>, <span style="color: #ff0000;">3</span>.   Intersection of <span style="color: #ff0000;">2</span> with <span style="color: #ff0000;">3</span> is checked.  Intersection of <span style="color: #ff0000;">2</span> with<span style="color: #ff0000;"> 3</span> is reported.  The tree contains  <span style="color: #ff0000;">2</span>, <span style="color: #ff0000;">3</span>. Note that the intersection of <span style="color: #ff0000;">2</span> and <span style="color: #ff0000;">3</span> is reported again. We can add some logic to check for duplicates.</p>
+<p><span style="color: #0000ff;"><em>Right end point of line <em>segment </em> <span style="color: #ff0000;">2</span> and <span style="color: #ff0000;">3</span> are processed:  </em> </span>Both are deleted from tree and tree becomes empty.</p>
+<p><strong>Time Complexity:</strong> The first step is sorting which takes O(nLogn) time. The second step process 2n points and for processing every point, it takes O(Logn) time. Therefore, overall time complexity is O(nLogn)</p>
+<p><strong>References:</strong><br />
+<a href="http://www.cs.uiuc.edu/~jeffe/teaching/373/notes/x06-sweepline.pdf" target="_blank">http://www.cs.uiuc.edu/~jeffe/teaching/373/notes/x06-sweepline.pdf</a><br />
+<a href="http://courses.csail.mit.edu/6.006/spring11/lectures/lec24.pdf" target="_blank">http://courses.csail.mit.edu/6.006/spring11/lectures/lec24.pdf</a><br />
+<a href="http://www.youtube.com/watch?v=dePDHVovJlE" target="_blank">http://www.youtube.com/watch?v=dePDHVovJlE</a><br />
+<a href="http://www.eecs.wsu.edu/~cook/aa/lectures/l25/node10.html">http://www.eecs.wsu.edu/~cook/aa/lectures/l25/node10.html</a></p>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/job-sequencing-problem-set-1-greedy-algorithm/" title="Job Sequencing Problem | Set 1 (Greedy Algorithm)">Job Sequencing Problem | Set 1 (Greedy Algorithm)</a></li><li><a href="http://www.geeksforgeeks.org/multiply-two-polynomials-2/" title="Multiply two polynomials">Multiply two polynomials</a></li><li><a href="http://www.geeksforgeeks.org/algorithm-practice-question-beginners-set-1/" title="Algorithm Practice Question for Beginners | Set 1">Algorithm Practice Question for Beginners | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/count-distinct-non-negative-pairs-x-y-satisfy-inequality-xx-yy-n-2/" title="Count Distinct Non-Negative Integer Pairs (x, y) that Satisfy the Inequality x*x + y*y &lt; n">Count Distinct Non-Negative Integer Pairs (x, y) that Satisfy the Inequality x*x + y*y < n</a></li><li><a href="http://www.geeksforgeeks.org/binomial-heap-2/" title="Binomial Heap">Binomial Heap</a></li><li><a href="http://www.geeksforgeeks.org/print-increasing-sequences-length-k-first-n-natural-numbers/" title="Print all increasing sequences of length k from first n natural numbers">Print all increasing sequences of length k from first n natural numbers</a></li><li><a href="http://www.geeksforgeeks.org/find-nth-number-number-system-3-4/" title="Find n&#8217;th number in a number system with only 3 and 4">Find n&#8217;th number in a number system with only 3 and 4</a></li><li><a href="http://www.geeksforgeeks.org/minimum-cost-polygon-triangulation/" title="Minimum Cost Polygon Triangulation">Minimum Cost Polygon Triangulation</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/" rel="tag">geometric algorithms</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fgiven-a-set-of-line-segments-find-if-any-two-segments-intersect%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/given-a-set-of-line-segments-find-if-any-two-segments-intersect/" data-text="Given n line segments, find if any two segments intersect" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/given-a-set-of-line-segments-find-if-any-two-segments-intersect/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-33335">
+        <div id="dsq-comment-header-33335" class="dsq-comment-header">
+            <cite id="dsq-cite-33335">
+                <span id="dsq-author-user-33335">Tejas Patel</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33335" class="dsq-comment-body">
+            <div id="dsq-comment-message-33335" class="dsq-comment-message"><p>Why do we need to check only two segments and not more?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-29777">
+        <div id="dsq-comment-header-29777" class="dsq-comment-header">
+            <cite id="dsq-cite-29777">
+                <span id="dsq-author-user-29777">Savan Popat</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29777" class="dsq-comment-body">
+            <div id="dsq-comment-message-29777" class="dsq-comment-message"><p>In &#8220;Left end point of line segment 5 is processed&#8221; , it should be &#8220;5 inserted in to the tree&#8221; instead of 4.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-29739">
+        <div id="dsq-comment-header-29739" class="dsq-comment-header">
+            <cite id="dsq-cite-29739">
+                <span id="dsq-author-user-29739">annonymoe</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29739" class="dsq-comment-body">
+            <div id="dsq-comment-message-29739" class="dsq-comment-message"><p>I am new here but Can we not do something like this<br />
+We use result from 1st line segment comparison with other line segments and divide the lines into two buckets one to the left of line segment and 1 to the right based on the orientation properties</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-29750">
+        <div id="dsq-comment-header-29750" class="dsq-comment-header">
+            <cite id="dsq-cite-29750">
+                <span id="dsq-author-user-29750">Kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29750" class="dsq-comment-body">
+            <div id="dsq-comment-message-29750" class="dsq-comment-message"><p>Divide and Conquer is good idea.  But the question is, how to write the combine/conquer step, it should be O(n).  For example, for closest pair of points problem (<a href="http://www.geeksforgeeks.org/closest-pair-of-points/" rel="nofollow">http://www.geeksforgeeks.org/closest-pair-of-points/</a>), there is a combine step that takes linear time.  Can there be something similar here?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-29712">
+        <div id="dsq-comment-header-29712" class="dsq-comment-header">
+            <cite id="dsq-cite-29712">
+                <span id="dsq-author-user-29712">Vivek VV</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29712" class="dsq-comment-body">
+            <div id="dsq-comment-message-29712" class="dsq-comment-message"><p>I had one doubt regarding the method. In step 1/2 how you check for the line segment/points just above and below the point in the program. Thanks in advance.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-29714">
+        <div id="dsq-comment-header-29714" class="dsq-comment-header">
+            <cite id="dsq-cite-29714">
+                <span id="dsq-author-user-29714">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29714" class="dsq-comment-body">
+            <div id="dsq-comment-message-29714" class="dsq-comment-message"><p>In BST, we keep active line segments ordered according to their y coordinates.  To find the point just below, we need predecessor in BST.  Similarly to find the successor, we need successor in BST.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-29721">
+        <div id="dsq-comment-header-29721" class="dsq-comment-header">
+            <cite id="dsq-cite-29721">
+                <span id="dsq-author-user-29721">Vivek VV</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29721" class="dsq-comment-body">
+            <div id="dsq-comment-message-29721" class="dsq-comment-message"><p>Thanks for the quick reply. I am still not clear :(. When we examine the left point for 3rd line, why we check the intersection with line 2. We only have successor of line 3 as line 1. But left point of line 2 is not the predecessor of line 3, even by y axis.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-29728">
+        <div id="dsq-comment-header-29728" class="dsq-comment-header">
+            <cite id="dsq-cite-29728">
+                <span id="dsq-author-user-29728">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29728" class="dsq-comment-body">
+            <div id="dsq-comment-message-29728" class="dsq-comment-message"><p>Vivek, Thanks for pointing this out, intersection of 3 should only be checked with 1.  We have updated the example.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-5" id="dsq-comment-32400">
+        <div id="dsq-comment-header-32400" class="dsq-comment-header">
+            <cite id="dsq-cite-32400">
+                <span id="dsq-author-user-32400">Deepak</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32400" class="dsq-comment-body">
+            <div id="dsq-comment-message-32400" class="dsq-comment-message"><p>Following up on this, which y-coordinate do we use to order the points in a bst? The line segment has two y-coordinates right. Do we use the left one?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-5" id="dsq-comment-32401">
+        <div id="dsq-comment-header-32401" class="dsq-comment-header">
+            <cite id="dsq-cite-32401">
+                <span id="dsq-author-user-32401">Deepak</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32401" class="dsq-comment-body">
+            <div id="dsq-comment-message-32401" class="dsq-comment-message"><p>And if we use the left one, why?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-29711">
+        <div id="dsq-comment-header-29711" class="dsq-comment-header">
+            <cite id="dsq-cite-29711">
+                <span id="dsq-author-user-29711">vivek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29711" class="dsq-comment-body">
+            <div id="dsq-comment-message-29711" class="dsq-comment-message"><p>There is a typo in example dry run.<br />
+Following is repeated.<br />
+Left end point of line segment  2 is processed: </p>
+<p>It should be </p>
+<p>Left end point of line segment  3 is processed:</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-29713">
+        <div id="dsq-comment-header-29713" class="dsq-comment-header">
+            <cite id="dsq-cite-29713">
+                <span id="dsq-author-user-29713">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29713" class="dsq-comment-body">
+            <div id="dsq-comment-message-29713" class="dsq-comment-message"><p>Thanks for pointing this out.  We have updated the example.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-29703">
+        <div id="dsq-comment-header-29703" class="dsq-comment-header">
+            <cite id="dsq-cite-29703">
+                <span id="dsq-author-user-29703">xxmajia</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29703" class="dsq-comment-body">
+            <div id="dsq-comment-message-29703" class="dsq-comment-message"><p>&#8220;Building a min heap takes O(n)&#8221;</p>
+<p>should be O(nlgn), maintain a heap will cause O(lgn), for building a heap, you need to maintain it n times, hence O(nlgn)</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-29704">
+        <div id="dsq-comment-header-29704" class="dsq-comment-header">
+            <cite id="dsq-cite-29704">
+                <span id="dsq-author-user-29704">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29704" class="dsq-comment-body">
+            <div id="dsq-comment-message-29704" class="dsq-comment-message"><p>Building a min heap from given n elements takes O(n) time.  Please refer the CLRS book for proof.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-30415">
+        <div id="dsq-comment-header-30415" class="dsq-comment-header">
+            <cite id="dsq-cite-30415">
+                <span id="dsq-author-user-30415">xxmajia</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30415" class="dsq-comment-body">
+            <div id="dsq-comment-message-30415" class="dsq-comment-message"><p>my bad, it is O(n), thanks for correcting me</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-29705">
+        <div id="dsq-comment-header-29705" class="dsq-comment-header">
+            <cite id="dsq-cite-29705">
+                <span id="dsq-author-user-29705">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29705" class="dsq-comment-body">
+            <div id="dsq-comment-message-29705" class="dsq-comment-message"><p>The following wiki link also has proof. </p>
+<p><a href="http://en.wikipedia.org/wiki/Binary_heap#Building_a_heap" rel="nofollow">http://en.wikipedia.org/wiki/Binary_heap#Building_a_heap</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/given-a-set-of-line-segments-find-if-any-two-segments-intersect/';
+var disqus_identifier = '120766 http://www.geeksforgeeks.org/?p=120766';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Given n line segments, find if any two segments intersect";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.198 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-12-05 08:19:34 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

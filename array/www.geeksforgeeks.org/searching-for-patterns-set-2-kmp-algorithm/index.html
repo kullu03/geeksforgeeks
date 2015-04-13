@@ -1,0 +1,2118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Searching for Patterns | Set 2 (KMP Algorithm) - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/searching-for-patterns-set-2-kmp-algorithm/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Searching for Patterns | Set 2 (KMP Algorithm) - GeeksforGeeks" />
+<meta property="og:description" content="Given a text txt[0..n-1] and a pattern pat[0..m-1], write a function search(char pat[], char txt[]) that prints all occurrences of pat[] in txt[]. You may assume that n &gt; m. Examples: 1) Input: txt[] = &quot;THIS IS A TEST TEXT&quot; pat[] = &quot;TEST&quot; Output: Pattern found at index 10 2) Input: txt[] = &quot;AABAACAADAABAAABAA&quot; pat[] &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/searching-for-patterns-set-2-kmp-algorithm/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Pattern Searching" />
+<meta property="article:section" content="Strings" />
+<meta property="article:published_time" content="2011-04-03T15:21:20+00:00" />
+<meta property="article:modified_time" content="2014-11-05T13:16:29+00:00" />
+<meta property="og:updated_time" content="2014-11-05T13:16:29+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.502 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111386 14.139.82.6 10.1.35.190';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Searching for Patterns | Set 2 (KMP Algorithm)</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given a text <em>txt[0..n-1] </em>and a pattern <em>pat[0..m-1]</em>, write a function <em>search(char pat[], char txt[])</em> that prints all occurrences of <em>pat[] </em>in <em>txt[]</em>. You may assume that <em>n > m</em>. <span id="more-11902"></span></p>
+<p>Examples:<br />
+<strong>1)</strong> Input:</p>
+<pre>
+  txt[] =  "THIS IS A TEST TEXT"
+  pat[] = "TEST"
+</pre>
+<p>Output:</p>
+<pre>   Pattern found at index 10</pre>
+<p><strong>2)</strong> Input:</p>
+<pre>
+  txt[] =  "AABAACAADAABAAABAA"
+  pat[] = "AABA"
+</pre>
+<p>Output:</p>
+<pre>
+   Pattern found at index 0
+   Pattern found at index 9
+   Pattern found at index 13
+</pre>
+<p>Pattern searching is an important problem in computer science. When we do search for a string in notepad/word file or browser or database, pattern searching algorithms are used to show the search results. </p>
+<p>We have discussed Naive pattern searching algorithm in the <a href="http://geeksforgeeks.org/?p=11871">previous post</a>. The worst case complexity of Naive algorithm is O(m(n-m+1)).  Time complexity of KMP algorithm is O(n) in worst case.</p>
+<p><strong>KMP (Knuth Morris Pratt) Pattern Searching</strong><br />
+The <a href="http://geeksforgeeks.org/?p=11871">Naive pattern searching algorithm</a> doesn’t work well in cases where we see many matching characters followed by a mismatching character. Following are some examples.</p>
+<pre>
+   txt[] = "AAAAAAAAAAAAAAAAAB"
+   pat[] = "AAAAB"
+
+   txt[] = "ABABABCABABABCABABABC"
+   pat[] =  "ABABAC" (not a worst case, but a bad case for Naive)
+</pre>
+<p>The KMP matching algorithm uses degenerating property (pattern having same sub-patterns appearing more than once in the pattern) of the pattern and improves the worst case complexity to O(n). The basic idea behind KMP’s algorithm is: whenever we detect a mismatch (after some matches), we already know some of the characters in the text (since they matched the pattern characters prior to the mismatch). We take advantage of this information to avoid matching the characters that we know will anyway match.<br />
+KMP algorithm does some preprocessing over the pattern pat[] and constructs an auxiliary array lps[] of size m (same as size of pattern). Here <strong>name lps indicates longest proper prefix which is also suffix.</strong>. For each sub-pattern pat[0…i] where i = 0 to m-1, lps[i] stores length of the maximum matching proper prefix which is also a suffix of the sub-pattern pat[0..i]. </p>
+<pre>   lps[i] = the longest proper prefix of pat[0..i] 
+              which is also a suffix of pat[0..i]. </pre>
+<p>Examples:<br />
+For the pattern “AABAACAABAA”, lps[] is [0, 1, 0, 1, 2, 0, 1, 2, 3, 4, 5]<br />
+For the pattern “ABCDE”, lps[] is [0, 0, 0, 0, 0]<br />
+For the pattern “AAAAA”, lps[] is [0, 1, 2, 3, 4]<br />
+For the pattern “AAABAAA”, lps[] is [0, 1, 2, 0, 1, 2, 3]<br />
+For the pattern “AAACAAAAAC”, lps[] is [0, 1, 2, 0, 1, 2, 3, 3, 3, 4]</p>
+<p><strong>Searching Algorithm:</strong><br />
+Unlike the Naive algo where we slide the pattern by one, we use a value from lps[] to decide the next sliding position. Let us see how we do that. When we compare pat[j] with txt[i] and see a mismatch, we know that characters pat[0..j-1] match with txt[i-j+1&#8230;i-1], and we also know that lps[j-1] characters of pat[0&#8230;j-1] are both proper prefix and suffix which means we do not need to match these lps[j-1] characters with txt[i-j&#8230;i-1] because we know that these characters will anyway match. See KMPSearch() in the below code for details.</p>
+<p><strong>Preprocessing Algorithm:</strong><br />
+In the preprocessing part, we calculate values in lps[]. To do that, we keep track of the length of the longest prefix suffix value (we use len variable for this purpose) for the previous index. We initialize lps[0] and len as 0.  If pat[len] and pat[i] match, we increment len by 1 and assign the incremented value to lps[i]. If pat[i] and pat[len] do not match and len is not 0, we update len to lps[len-1]. See computeLPSArray () in the below code for details.</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+#include&lt;stdio.h&gt;
+#include&lt;string.h&gt;
+#include&lt;stdlib.h&gt;
+
+void computeLPSArray(char *pat, int M, int *lps);
+
+void KMPSearch(char *pat, char *txt)
+{
+    int M = strlen(pat);
+    int N = strlen(txt);
+
+    // create lps[] that will hold the longest prefix suffix values for pattern
+    int *lps = (int *)malloc(sizeof(int)*M);
+    int j  = 0;  // index for pat[]
+
+    // Preprocess the pattern (calculate lps[] array)
+    computeLPSArray(pat, M, lps);
+
+    int i = 0;  // index for txt[]
+    while (i &lt; N)
+    {
+      if (pat[j] == txt[i])
+      {
+        j++;
+        i++;
+      }
+
+      if (j == M)
+      {
+        printf(&quot;Found pattern at index %d \n&quot;, i-j);
+        j = lps[j-1];
+      }
+
+      // mismatch after j matches
+      else if (i &lt; N &amp;&amp; pat[j] != txt[i])
+      {
+        // Do not match lps[0..lps[j-1]] characters,
+        // they will match anyway
+        if (j != 0)
+         j = lps[j-1];
+        else
+         i = i+1;
+      }
+    }
+    free(lps); // to avoid memory leak
+}
+
+void computeLPSArray(char *pat, int M, int *lps)
+{
+    int len = 0;  // lenght of the previous longest prefix suffix
+    int i;
+
+    lps[0] = 0; // lps[0] is always 0
+    i = 1;
+
+    // the loop calculates lps[i] for i = 1 to M-1
+    while (i &lt; M)
+    {
+       if (pat[i] == pat[len])
+       {
+         len++;
+         lps[i] = len;
+         i++;
+       }
+       else // (pat[i] != pat[len])
+       {
+         if (len != 0)
+         {
+           // This is tricky. Consider the example AAACAAAA and i = 7.
+           len = lps[len-1];
+
+           // Also, note that we do not increment i here
+         }
+         else // if (len == 0)
+         {
+           lps[i] = 0;
+           i++;
+         }
+       }
+    }
+}
+
+// Driver program to test above function
+int main()
+{
+   char *txt = &quot;ABABDABACDABABCABAB&quot;;
+   char *pat = &quot;ABABCABAB&quot;;
+   KMPSearch(pat, txt);
+   return 0;
+}
+</pre>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-5-longest-common-substring-2/" title="Suffix Tree Application 5 &#8211; Longest Common Substring">Suffix Tree Application 5 &#8211; Longest Common Substring</a></li><li><a href="http://www.geeksforgeeks.org/generalized-suffix-tree-1/" title="Generalized Suffix Tree 1">Generalized Suffix Tree 1</a></li><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-4-build-linear-time-suffix-array/" title="Suffix Tree Application 4 &#8211; Build Linear Time Suffix Array">Suffix Tree Application 4 &#8211; Build Linear Time Suffix Array</a></li><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-3-longest-repeated-substring/" title="Suffix Tree Application 3 &#8211; Longest Repeated Substring">Suffix Tree Application 3 &#8211; Longest Repeated Substring</a></li><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-2-searching-all-patterns/" title="Suffix Tree Application 2 &#8211; Searching All Patterns">Suffix Tree Application 2 &#8211; Searching All Patterns</a></li><li><a href="http://www.geeksforgeeks.org/suffix-tree-application-1-substring-check/" title="Suffix Tree Application 1 &#8211; Substring Check">Suffix Tree Application 1 &#8211; Substring Check</a></li><li><a href="http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-6/" title="Ukkonen&#8217;s Suffix Tree Construction &#8211; Part 6">Ukkonen&#8217;s Suffix Tree Construction &#8211; Part 6</a></li><li><a href="http://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-5/" title="Ukkonen&#8217;s Suffix Tree Construction &#8211; Part 5">Ukkonen&#8217;s Suffix Tree Construction &#8211; Part 5</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/pattern-searching/" rel="tag">Pattern Searching</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fsearching-for-patterns-set-2-kmp-algorithm%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/searching-for-patterns-set-2-kmp-algorithm/" data-text="Searching for Patterns | Set 2 (KMP Algorithm)" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/searching-for-patterns-set-2-kmp-algorithm/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-34674">
+        <div id="dsq-comment-header-34674" class="dsq-comment-header">
+            <cite id="dsq-cite-34674">
+                <span id="dsq-author-user-34674">Vinay Dsouza</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34674" class="dsq-comment-body">
+            <div id="dsq-comment-message-34674" class="dsq-comment-message"><p>@rajeshmd:disqus<br />
+when the suffix of the Pattern does not matches prefix. ie. pat[i] !=<br />
+pat[len] and if len!=0 , then len = lpx[len-1] , which basically means<br />
+if the prefix and suffix char dont match, then len = second last array<br />
+element from lps array.<br />
+This is done so that we check again for the prefix and suffix, and the len has to be decreased by 1.<br />
+Check the link below for a detailed explanation.<br />
+<a href="https://www.youtube.com/watch?v=SVKe7bvQ4Xk" rel="nofollow">https://www.youtube.com/watch?v=SVKe7bvQ4Xk</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-34580">
+        <div id="dsq-comment-header-34580" class="dsq-comment-header">
+            <cite id="dsq-cite-34580">
+                <span id="dsq-author-user-34580">Rajesh M D</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34580" class="dsq-comment-body">
+            <div id="dsq-comment-message-34580" class="dsq-comment-message"><p>can anyone explain me why this part is implemented.<br />
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8211;<br />
+ if( len != 0 )</p>
+<p>   {<br />
+      // This is tricky. Consider the example AAACAAAA and i= 7.<br />
+      len = lps[len-1];</p>
+<p>      // Also, note that we do not increment i here</p>
+<p>   }</p>
+<p>&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8211;<br />
+we could have assign len = 0 directly right.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-33817">
+        <div id="dsq-comment-header-33817" class="dsq-comment-header">
+            <cite id="dsq-cite-33817">
+                <span id="dsq-author-user-33817">Zheng Luo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33817" class="dsq-comment-body">
+            <div id="dsq-comment-message-33817" class="dsq-comment-message"><p>Good implementation, thanks for sharing.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-33816">
+        <div id="dsq-comment-header-33816" class="dsq-comment-header">
+            <cite id="dsq-cite-33816">
+                <span id="dsq-author-user-33816">Zheng Luo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33816" class="dsq-comment-body">
+            <div id="dsq-comment-message-33816" class="dsq-comment-message"><p>Good implementation, thanks for sharing.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-32426">
+        <div id="dsq-comment-header-32426" class="dsq-comment-header">
+            <cite id="dsq-cite-32426">
+                <span id="dsq-author-user-32426">Gourab Mitra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32426" class="dsq-comment-body">
+            <div id="dsq-comment-message-32426" class="dsq-comment-message"><p>Consult <a href="http://jakeboxer.com/blog/2009/12/13/the-knuth-morris-pratt-algorithm-in-my-own-words/" rel="nofollow">http://jakeboxer.com/blog/2009/12/13/the-knuth-morris-pratt-algorithm-in-my-own-words/</a> for step by step preparation of the lps[] array</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-34134">
+        <div id="dsq-comment-header-34134" class="dsq-comment-header">
+            <cite id="dsq-cite-34134">
+                <span id="dsq-author-user-34134">gaurav jindal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34134" class="dsq-comment-body">
+            <div id="dsq-comment-message-34134" class="dsq-comment-message"><p>Thanks a lot buddy. Your explanation helped a lot, and put an end to my frustration in understanding this <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-34135">
+        <div id="dsq-comment-header-34135" class="dsq-comment-header">
+            <cite id="dsq-cite-34135">
+                <span id="dsq-author-user-34135">gaurav jindal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34135" class="dsq-comment-body">
+            <div id="dsq-comment-message-34135" class="dsq-comment-message"><p>Thanks a lot buddy. Your explanation helped a lot, and put an end to my frustration in understanding this <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-31556">
+        <div id="dsq-comment-header-31556" class="dsq-comment-header">
+            <cite id="dsq-cite-31556">
+                <span id="dsq-author-user-31556">shashi jey</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31556" class="dsq-comment-body">
+            <div id="dsq-comment-message-31556" class="dsq-comment-message"><p>//following is short and easy code of kmp algorithm and its easy to understand//</p>
+<p>#include</p>
+<p>#include</p>
+<p>#include</p>
+<p>void KMPSearch(char *pat, char *txt)</p>
+<p>{</p>
+<p>    int M = strlen(pat);</p>
+<p>    int N = strlen(txt);</p>
+<p>    // create lps[] that will hold the longest prefix suffix values for pattern</p>
+<p>    int j  = 0;  // index for pat[]</p>
+<p>    // Preprocess the pattern (calculate lps[] array)</p>
+<p>    int i = 0;  // index for txt[]</p>
+<p>    while(i &lt; N)</p>
+<p>    {</p>
+<p>      if(pat[j] == txt[i])</p>
+<p>      {</p>
+<p>        j++;</p>
+<p>        i++;</p>
+<p>      }</p>
+<p>      if (j == M)</p>
+<p>      {</p>
+<p>        printf(&quot;Found pattern at index %d n&quot;, i-j);</p>
+<p>        j =0;</p>
+<p>      }</p>
+<p>      // mismatch after j matches</p>
+<p>      else if(pat[j] != txt[i])</p>
+<p>      {</p>
+<p>        // Do not match lps[0..lps[j-1]] characters,</p>
+<p>        // they will match anyway</p>
+<p>        if(j != 0)</p>
+<p>         j = 0;</p>
+<p>        else</p>
+<p>         i = i+1;</p>
+<p>      }</p>
+<p>    }</p>
+<p>    // to avoid memory leak</p>
+<p>}</p>
+<p>// Driver program to test above function</p>
+<p>int main()</p>
+<p>{</p>
+<p>   char *txt = &quot;ACBABBCACABB&quot;;</p>
+<p>   char *pat = &quot;ABB&quot;;</p>
+<p>   KMPSearch(pat, txt);</p>
+<p>   return 0;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-30541">
+        <div id="dsq-comment-header-30541" class="dsq-comment-header">
+            <cite id="dsq-cite-30541">
+                <span id="dsq-author-user-30541">groomnestle</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30541" class="dsq-comment-body">
+            <div id="dsq-comment-message-30541" class="dsq-comment-message"><p>Should lps[i] indicates the longest common prefix/suffix for [0..i-1] ?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-30542">
+        <div id="dsq-comment-header-30542" class="dsq-comment-header">
+            <cite id="dsq-cite-30542">
+                <span id="dsq-author-user-30542">rahul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30542" class="dsq-comment-body">
+            <div id="dsq-comment-message-30542" class="dsq-comment-message"><p>hmmm&#8230;.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-27112">
+        <div id="dsq-comment-header-27112" class="dsq-comment-header">
+            <cite id="dsq-cite-27112">
+                <span id="dsq-author-user-27112">patrick</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27112" class="dsq-comment-body">
+            <div id="dsq-comment-message-27112" class="dsq-comment-message"><p>Does anyone have an idea about implementation of KMP with pattern having wildcard characters ??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-25504">
+        <div id="dsq-comment-header-25504" class="dsq-comment-header">
+            <cite id="dsq-cite-25504">
+                <span id="dsq-author-user-25504">karan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-25504" class="dsq-comment-body">
+            <div id="dsq-comment-message-25504" class="dsq-comment-message"><p>@geeksforgeeks:When we compare pat[j] with txt[i] and see a mismatch, we know that characters pat[0..j-1] match with &#8220;txt[i-j+1&#8230;i-1]&#8221;.I think it&#8217;s a bit wrong. It should be &#8220;txt[i-j&#8230;i-1]&#8221;.</p>
+<p>It&#8217;s because the two lengths don&#8217;t match.</p>
+<p>pat[0&#8230;j-1] has length of (j-1)-0+1=j.</p>
+<p>But txt[i-j+1&#8230;i-1] has length of (i-1)-(i-j+1)+1= j-1.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-22992">
+        <div id="dsq-comment-header-22992" class="dsq-comment-header">
+            <cite id="dsq-cite-22992">
+                <span id="dsq-author-user-22992">Muthukumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22992" class="dsq-comment-body">
+            <div id="dsq-comment-message-22992" class="dsq-comment-message"><p>@geeksforgeeks<br />
+If we have a substring as ABABABABBA : the array should be [0,0,1,2,3,4,5,6,0,1]</p>
+<p>I have a problem with the BBA part. the algo will give an output [0,0,1,2,3,4,5,6,5,6]</p>
+<p>Correct me if i am wrong.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-22993">
+        <div id="dsq-comment-header-22993" class="dsq-comment-header">
+            <cite id="dsq-cite-22993">
+                <span id="dsq-author-user-22993">Muthukumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22993" class="dsq-comment-body">
+            <div id="dsq-comment-message-22993" class="dsq-comment-message"><p>Sorry, the algo does give the correct answer. A better explanation to how ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-22458">
+        <div id="dsq-comment-header-22458" class="dsq-comment-header">
+            <cite id="dsq-cite-22458">
+                <span id="dsq-author-user-22458">Karthick</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22458" class="dsq-comment-body">
+            <div id="dsq-comment-message-22458" class="dsq-comment-message"><p>Can we use &#8220;len&#8211;&#8221; instead of &#8220;len=lps[len-1]&#8221; ? If not,can u give a test case for which it fails.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-30101">
+        <div id="dsq-comment-header-30101" class="dsq-comment-header">
+            <cite id="dsq-cite-30101">
+                <span id="dsq-author-user-30101">its_dark</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30101" class="dsq-comment-body">
+            <div id="dsq-comment-message-30101" class="dsq-comment-message"><p>0 1 2 3 4  5 6 7 8  9<br />
+if we take pat=&#8221;A B A B C A B A B A&#8221;,</p>
+<p>lps array :         0 0 1  2 0 1 2  3 4 3</p>
+<p>then, when j=8, len=4 (ABAB has been matched).<br />
+Now, pat[9] != pat[4],</p>
+<p>we know that pat[4] also has some lps number, in this case it is 2.That means that we are at index 4, then also, there is a prefix (&#8220;AB&#8221;) of size 2, that is also a suffix.</p>
+<p>now, if index 8 has lps number 4, this means &#8220;ABAB&#8221; is a prefix as well as suffix of the pat string till index 9.</p>
+<p>Now, at index 4, we have &#8220;AB&#8221; matched (at index : 0-1) , therefore at index 8 also, we can have &#8220;AB&#8221; matched (at index : 0-1).</p>
+<p>therefore, the main point is if pat[9] doesn&#8217;t match with the pat[4], then we know that we can&#8217;t increment lps[8]=4 anymore.<br />
+BUT, we know that whatever is the lps of pat[3], pat[8] will match with that also,(in this case, pat[3] is 2, that is pat[0] and pat[1]).<br />
+therefore, pat[8] has lps of 2 ( &#8220;AB&#8221;).</p>
+<p>Now, it might be the case that pat[9] matches with pat[2], which is true.<br />
+therefore, length increases to 3.</p>
+<p>So, when we can&#8217;t increase lps[8](=4) anymore, we try to increase it by comparing with lps [ lps[ 8 ] &#8211; 1 ].(-1 because index starts with zero)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-anjaneya2 even thread-odd thread-alt depth-1" id="dsq-comment-22027">
+        <div id="dsq-comment-header-22027" class="dsq-comment-header">
+            <cite id="dsq-cite-22027">
+                <span id="dsq-author-user-22027">anjaneya2</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22027" class="dsq-comment-body">
+            <div id="dsq-comment-message-22027" class="dsq-comment-message"><p>in your code mismatch after j matches i.e<br />
+ else if(pat[j] != txt[i])<br />
+      {<br />
+        // Do not match lps[0..lps[j-1]] characters,<br />
+        // they will match anyway<br />
+        if(j != 0)<br />
+         j = lps[j-1];<br />
+        else<br />
+         i = i+1;<br />
+      }</p>
+<p>i think j = lps[j-1] should be lps[j]. Correct me if wrong</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-anjaneya2 odd alt thread-even depth-1" id="dsq-comment-22026">
+        <div id="dsq-comment-header-22026" class="dsq-comment-header">
+            <cite id="dsq-cite-22026">
+                <span id="dsq-author-user-22026">anjaneya2</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22026" class="dsq-comment-body">
+            <div id="dsq-comment-message-22026" class="dsq-comment-message"><p>why you are taking<br />
+if(j != 0)<br />
+         j = lps[j-1];<br />
+        else<br />
+         i = i+1;<br />
+      }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-anjaneya2 even thread-odd thread-alt depth-1" id="dsq-comment-22025">
+        <div id="dsq-comment-header-22025" class="dsq-comment-header">
+            <cite id="dsq-cite-22025">
+                <span id="dsq-author-user-22025">anjaneya2</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22025" class="dsq-comment-body">
+            <div id="dsq-comment-message-22025" class="dsq-comment-message"><pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-vishnu-vasanth-r odd alt thread-even depth-1" id="dsq-comment-19274">
+        <div id="dsq-comment-header-19274" class="dsq-comment-header">
+            <cite id="dsq-cite-19274">
+                <span id="dsq-author-user-19274">Vishnu Vasanth R</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19274" class="dsq-comment-body">
+            <div id="dsq-comment-message-19274" class="dsq-comment-message"><p>This is the implementation based of CLRS book.</p>
+<p>/* Paste your code here (You may delete these lines if not writing code) */<br />
+[/#include<iostream><br />
+#include<string></p>
+<p>using namespace std;<br />
+void computeLongestPrefixSuffix(string &#038;P,int lps[]);</p>
+<p>void KMPMatcher(string &#038;T, string &#038;P){<br />
+	int n = T.size();<br />
+	int m = P.size();</p>
+<p>	int *lps = new int[P.size()]; // similar to int lps[P.size()];</p>
+<p>	computeLongestPrefixSuffix(P,lps);</p>
+<p>	int q =-1;  // put q=-1 since we start comparing from indoex 0 which is q+1<br />
+	// also we ll not access index -1 in function or matcher</p>
+<p>	for (int i = 0; i<n ; i++){</p>
+<p>		while(q>-1 &#038;&#038; P[q+1] != T[i])<br />
+			q = lps[q];</p>
+<p>		if(P[q+1] == T[i])<br />
+			q = q+1;</p>
+<p>		if((q+1)==m){ //  since q = -1 initially add +1 to neutralise<br />
+			cout< <"The patters occurs at shift  "<<(i+1)-m<<endl;<br />
+			q = lps[q];<br />
+		}<br />
+	}</p>
+<p>	// free(lps);<br />
+}</p>
+<p>void computeLongestPrefixSuffix(string &#038;P,int lps[])<br />
+{<br />
+	int m = P.size();</p>
+<p>	lps[0]=-1;</p>
+<p>	int k = -1;</p>
+<p>	for (int q = 1 ; q<m; q++){  // here we move 1 index and we check for all index less than than to find lps<br />
+		while(k>-1&#038;&#038; P[k+1] != P[q])<br />
+			k = lps[k];</p>
+<p>		if(P[k+1] == P[q])  // k can never be greater than q, since we increment both at same time, k incrementer here and q ll be incremented in for loop<br />
+			k = k+1;</p>
+<p>		lps[q]=k;</p>
+<p>	}</p>
+<p>}</p>
+<p>// Driver program to test above function<br />
+int main()<br />
+{<br />
+	string T = &#8220;ABABDABACDABABCABAB&#8221;;<br />
+	string P = &#8220;ABABCABAB&#8221;;<br />
+	KMPMatcher(T, P);<br />
+	return 0;<br />
+}]</n></string></iostream></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-rakshify even thread-odd thread-alt depth-1" id="dsq-comment-19225">
+        <div id="dsq-comment-header-19225" class="dsq-comment-header">
+            <cite id="dsq-cite-19225">
+                <span id="dsq-author-user-19225">rakshify</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19225" class="dsq-comment-body">
+            <div id="dsq-comment-message-19225" class="dsq-comment-message"><p>@GeeksForGeeks:- Can you please explain how worst case complexity of KMP is O(n)?<br />
+Looking at this piece:- </p>
+<pre> <code language="C">
+while(i &lt; N)
+    {
+      if(pat[j] == txt[i])
+      {
+        j++;
+        i++;
+      }
+ 
+      if (j == M)
+      {
+        printf(&quot;Found pattern at index %d \n&quot;, i-j);
+        j = lps[j-1];
+      }
+ 
+      // mismatch after j matches
+      else if(pat[j] != txt[i])
+      {
+        // Do not match lps[0..lps[j-1]] characters,
+        // they will match anyway
+        if(j != 0)
+         j = lps[j-1];
+        else
+         i = i+1;
+      }
+    }
+</code> </pre>
+<p>suppose we give txt = &#8220;aaaaaaaaab&#8221; and pat = &#8220;aaab&#8221;, this peice is having O(mn) complexity.<br />
+Explanation:<br />
+ 1st 3 iterations, we get match, for 4th mismatch, our loop runs 3 times without increamenting i, till we get j to 0. Similarily again we find matches at txt[4&#8230;6] and on mismatch at txt[7], we get our loop running 3 times without increamenting i, till we get j to 0 and repetetions till we reach end of text string.<br />
+Please correct me if i&#8217;m wrong and missing anything.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik odd alt depth-2" id="dsq-comment-19228">
+        <div id="dsq-comment-header-19228" class="dsq-comment-header">
+            <cite id="dsq-cite-19228">
+                <span id="dsq-author-user-19228">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19228" class="dsq-comment-body">
+            <div id="dsq-comment-message-19228" class="dsq-comment-message"><p>The loop actually runs at-most 2n times. Therefore, the time complexity is O(n).  </p>
+<p>Like Naive string matching, we slide the pattern over and match them at different shifts in text.  If we take a closer look at the implementation, we notice that, in every iteration of loop, either we shift the pattern or we move to next character in text.  So total iterations of loop is 2n.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-rakshify even depth-3" id="dsq-comment-19307">
+        <div id="dsq-comment-header-19307" class="dsq-comment-header">
+            <cite id="dsq-cite-19307">
+                <span id="dsq-author-user-19307">rakshify</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19307" class="dsq-comment-body">
+            <div id="dsq-comment-message-19307" class="dsq-comment-message"><p>Oh, that was so stupid to miss that.<br />
+Thanks Kartik.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-rakshify odd alt thread-even depth-1" id="dsq-comment-19224">
+        <div id="dsq-comment-header-19224" class="dsq-comment-header">
+            <cite id="dsq-cite-19224">
+                <span id="dsq-author-user-19224">rakshify</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19224" class="dsq-comment-body">
+            <div id="dsq-comment-message-19224" class="dsq-comment-message"><p>@GeeksForGeeks:- Can you please explain how worst case<br />
+complexity of KMP is O(n)?<br />
+Looking at this piece:- </p>
+<pre> <code language="C">
+while(i &lt; N)
+    {
+      if(pat[j] == txt[i])
+      {
+        j++;
+        i++;
+      }
+ 
+      if (j == M)
+      {
+        printf(&quot;Found pattern at index %d \n&quot;, i-j);
+        j = lps[j-1];
+      }
+ 
+      // mismatch after j matches
+      else if(pat[j] != txt[i])
+      {
+        // Do not match lps[0..lps[j-1]] characters,
+        // they will match anyway
+        if(j != 0)
+         j = lps[j-1];
+        else
+         i = i+1;
+      }
+    }
+</code> </pre>
+<p>suppose we give txt = &#8220;aaaaaaaaab&#8221; and pat = &#8220;aaab&#8221;,<br />
+this peice is having O(mn) complexity.<br />
+Explanation:<br />
+ 1st 3 iterations, we get match, for 4th mismatch, our<br />
+ loop runs 3 times without increamenting i, till we get<br />
+ j to 0. Similarily again we find matches at txt[4&#8230;6]<br />
+ and on mismatch at txt[7], we get our loop running 3<br />
+ times without increamenting i, till we get j to 0 and<br />
+ repetetions till we reach end of text string.</p>
+<p>Please correct me if i&#8217;m wrong and missing anything.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-pritybhudolia even thread-odd thread-alt depth-1" id="dsq-comment-18675">
+        <div id="dsq-comment-header-18675" class="dsq-comment-header">
+            <cite id="dsq-cite-18675">
+                <span id="dsq-author-user-18675">pritybhudolia</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18675" class="dsq-comment-body">
+            <div id="dsq-comment-message-18675" class="dsq-comment-message"><p>@GeeksForGeeks<br />
+Hi,A very simple approach in O(n) complexity. Can someone tell me that why should we go for KMP algo or some other algo. I am really confused as it works for all cases according to me.</p>
+<p>/<br />
+#include<stdio .h><br />
+#include<string .h><br />
+void search(char *pat, char *str)<br />
+{<br />
+    int M = strlen(pat);<br />
+    int N = strlen(str);<br />
+    int index=0,i,j,flag=0;<br />
+    for(i=0,j=0;i<=N;i++)<br />
+    {</p>
+<p>                                  if(str[i]==pat[j] &#038;&#038; ((str[i+1]==pat[j+1])||(j==M-1)))<br />
+                                  {</p>
+<p>                                                     j++;<br />
+                                                     flag=1;</p>
+<p>                                  }<br />
+                                  else<br />
+                                  {<br />
+                                                     index=i+1;<br />
+                                                     flag=0;j=0;<br />
+                                  }<br />
+                                 if(flag==1 &#038;&#038; (j==M))<br />
+                                 {          </p>
+<p>                                                     printf(&#8220;\nPattern found at index %d&#8221;,index);<br />
+                                                     j=0;<br />
+                                                     index=i+1;</p>
+<p>                                  }</p>
+<p>  }<br />
+}</p>
+<p>/* Driver program to test above function */<br />
+int main()<br />
+{<br />
+   char *str = &#8220;AABAACAADAABAAABAAABAA&#8221;;<br />
+   char *pat = &#8220;ABAA&#8221;;<br />
+   search(pat, str);<br />
+   // *str = &#8220;THIS IS A TEST TEXT&#8221;;<br />
+   // *pat = &#8220;TEST&#8221;;<br />
+   //search(pat, str);<br />
+   getchar();<br />
+   return 0;<br />
+}<br />
+*/</string></stdio></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor odd alt depth-2" id="dsq-comment-18721">
+        <div id="dsq-comment-header-18721" class="dsq-comment-header">
+            <cite id="dsq-cite-18721">
+                <span id="dsq-author-user-18721">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18721" class="dsq-comment-body">
+            <div id="dsq-comment-message-18721" class="dsq-comment-message"><p>Could you please post the code again in sourcecode tags.  Also, please provide some details of your algorithm.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-pritybhudolia even depth-3" id="dsq-comment-18778">
+        <div id="dsq-comment-header-18778" class="dsq-comment-header">
+            <cite id="dsq-cite-18778">
+                <span id="dsq-author-user-18778">pritybhudolia</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18778" class="dsq-comment-body">
+            <div id="dsq-comment-message-18778" class="dsq-comment-message"><p>@GeeksforGeeks                                 Yes ofcourse, actually we start with the first index of original string and traverse through the entire string.everytime while traversing we compare first two elements of the STR with PAT and only if it matches we increment both(i.e index of STR and PAT)and flag is set to 1 to indicate there is a matching pattern,else we increment index of STR alone and set index of PAT to 0. when flag is 1 and pattern is traversed completely once, we print the pattern and set its index val again to zero to iterate again and search for another pattern if exists.</p>
+<pre> <code language="C">
+
+#include&lt;stdio.h&gt;
+#include&lt;string.h&gt;
+void search(char *pat, char *str)
+{
+    int M = strlen(pat);
+    int N = strlen(str);
+    int index=0,i,j,flag=0;
+    for(i=0,j=0;i&lt;=N;i++)
+    {                       
+    if(str[i]==pat[j] &amp;&amp; ((str[i+1]==pat[j+1])||(j==M-1)))
+    {                                                     
+         j++;
+         flag=1;                                                                                                                         
+    }
+    else
+    {
+        index=i+1;
+        flag=0;j=0;
+    }
+    if(flag==1 &amp;&amp; (j==M))
+    {       
+        printf(&quot;\nPattern found at index %d&quot;,index);
+        j=0;
+        index=i+1;                                                     
+    }                       
+  }
+}
+  
+/* Driver program to test above function */
+int main()
+{
+   char *str = &quot;AABAACAADAABAAABAAABAA&quot;;
+   char *pat = &quot;ABAA&quot;;
+   search(pat, str);
+   // *str = &quot;THIS IS A TEST TEXT&quot;;
+   // *pat = &quot;TEST&quot;;
+   //search(pat, str);
+   getchar();
+   return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-22634">
+        <div id="dsq-comment-header-22634" class="dsq-comment-header">
+            <cite id="dsq-cite-22634">
+                <span id="dsq-author-user-22634">Pandian</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22634" class="dsq-comment-body">
+            <div id="dsq-comment-message-22634" class="dsq-comment-message"><p>Your code fails for the following case :<br />
+text : AAAAAAAAAAAAAAAAAAAB<br />
+pattern : AAAAAAAAAAAAB</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-5" id="dsq-comment-30575">
+        <div id="dsq-comment-header-30575" class="dsq-comment-header">
+            <cite id="dsq-cite-30575">
+                <span id="dsq-author-user-30575">TheRock</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30575" class="dsq-comment-body">
+            <div id="dsq-comment-message-30575" class="dsq-comment-message"><p>Dude, it works for this test case..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-18660">
+        <div id="dsq-comment-header-18660" class="dsq-comment-header">
+            <cite id="dsq-cite-18660">
+                <span id="dsq-author-user-18660">prity</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18660" class="dsq-comment-body">
+            <div id="dsq-comment-message-18660" class="dsq-comment-message"><p>@GeeksForGeeks<br />
+Hi,A very simple approach in O(n) complexity. Can someone tell me that why should we go for KMP algo or some other algo. I am really confused as it works for all cases according to me.</p>
+<pre> <code language="C">
+/
+#include&lt;stdio.h&gt;
+#include&lt;string.h&gt;
+void search(char *pat, char *str)
+{
+    int M = strlen(pat);
+    int N = strlen(str);
+    int index=0,i,j,flag=0;
+    for(i=0,j=0;i&lt;=N;i++)
+    {
+                       
+                                  if(str[i]==pat[j] &amp;&amp; ((str[i+1]==pat[j+1])||(j==M-1)))
+                                  {
+                                                     
+                                                     j++;
+                                                     flag=1;
+                                                                           
+                                  }
+                                  else
+                                  {
+                                                     index=i+1;
+                                                     flag=0;j=0;
+                                  }
+                                 if(flag==1 &amp;&amp; (j==M))
+                                 {          
+                                  
+                                                     printf(&quot;\nPattern found at index %d&quot;,index);
+                                                     j=0;
+                                                     index=i+1;
+                                                     
+                                  }
+                       
+  }
+}
+  
+/* Driver program to test above function */
+int main()
+{
+   char *str = &quot;AABAACAADAABAAABAAABAA&quot;;
+   char *pat = &quot;ABAA&quot;;
+   search(pat, str);
+   // *str = &quot;THIS IS A TEST TEXT&quot;;
+   // *pat = &quot;TEST&quot;;
+   //search(pat, str);
+   getchar();
+   return 0;
+}
+*/
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-18328">
+        <div id="dsq-comment-header-18328" class="dsq-comment-header">
+            <cite id="dsq-cite-18328">
+                <span id="dsq-author-user-18328">Gagan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18328" class="dsq-comment-body">
+            <div id="dsq-comment-message-18328" class="dsq-comment-message"><p>For a much elaborate and clear explanation of this algorithm please refer to &#8220;Lecture Series on Design &amp; Analysis of Algorithms by Prof.SunderVishwanathan, Department of Computer Science Engineering,IIT Bombay&#8221; at the below mentioned link:<br />
+<a href="http://www.youtube.com/watch?v=EEjNb9yUv1k" rel="nofollow">http://www.youtube.com/watch?v=EEjNb9yUv1k</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-abhishek08aug odd alt thread-even depth-1" id="dsq-comment-17983">
+        <div id="dsq-comment-header-17983" class="dsq-comment-header">
+            <cite id="dsq-cite-17983">
+                <span id="dsq-author-user-17983">abhishek08aug</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17983" class="dsq-comment-body">
+            <div id="dsq-comment-message-17983" class="dsq-comment-message"><p>Intelligent <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_biggrin.gif" alt=":D" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-17615">
+        <div id="dsq-comment-header-17615" class="dsq-comment-header">
+            <cite id="dsq-cite-17615">
+                <span id="dsq-author-user-17615">Rama Krishna Linga</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17615" class="dsq-comment-body">
+            <div id="dsq-comment-message-17615" class="dsq-comment-message"><p>Following is the Java version and does not have the issues listed by Ramesh.</p>
+<pre> <code language="C">
+    // Takes a pattern and returns a new array containing count of
+    // longest proper prefix of pat[i] which is also suffix of pat[i]
+    private static int [] buildLPS(char []pat)
+    {
+        int [] lps = new int[pat.length];
+
+        for (int len=0, i=1; i &lt; pat.length; i++)
+        {
+            if (pat[i] == pat[len])
+            {
+                len++;
+                lps[i] = len;
+                i++;
+            }
+            else
+            {
+                if (len != 0)
+                {
+                    len = lps[len-1];
+                }
+                else
+                {
+                    lps[i++] = 0;
+                }
+            }
+
+        }
+
+        return lps;
+    }
+
+    public static void KMPSearch(char [] text, char []pat)
+    {
+        int [] lps = buildLPS(pat);
+
+        System.out.println(&quot;LPS for the given pattern &quot; + pat + &quot; is &quot; + Arrays.toString(lps)) ;
+
+        for(int i=0, j=0; i &lt; text.length;)
+        {
+            if (text[i] == pat[j])
+            {
+                i++;
+                j++;
+
+                if (j == pat.length)
+                {
+                    System.out.println(&quot;Found pattern at &quot; + (i-j) );
+                    j = lps[j-1];
+                }
+
+            }
+            else // if (text[i] != pat[j]) // mismatch observed after j matches
+            {
+                if ( j != 0)
+                {
+                    j = lps[j-1];
+                }
+                else
+                    i++;
+            }
+
+        }
+    }
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-ramesh-mxian odd alt thread-even depth-1" id="dsq-comment-17333">
+        <div id="dsq-comment-header-17333" class="dsq-comment-header">
+            <cite id="dsq-cite-17333">
+                <span id="dsq-author-user-17333">Ramesh.Mxian</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17333" class="dsq-comment-body">
+            <div id="dsq-comment-message-17333" class="dsq-comment-message"><p>I think the code given in the post for 2 method will not work for the following input. </p>
+<p>Text : ABCAAAABBBABCBCA<br />
+Pattern: ABC</p>
+<p>It will cause segmentation fault in the following line<br />
+// mismatch after j matches<br />
+ else if(pat[j] != txt[i])</p>
+<p>Because last character in the text &#8216;A&#8217; will match the 1st character &#8216;A&#8217; in the pattern then &#8216;i&#8217; will be incremented to next.<br />
+Now &#8216;i&#8217; will became the length of the Text given, so Text[i] will give segmentation fault.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-15101">
+        <div id="dsq-comment-header-15101" class="dsq-comment-header">
+            <cite id="dsq-cite-15101">
+                <span id="dsq-author-user-15101">nikhil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15101" class="dsq-comment-body">
+            <div id="dsq-comment-message-15101" class="dsq-comment-message"><pre> <code language="C">
+void KMPSearch(char *pat, char *txt)
+{
+    int m = strlen(pat);
+    int n = strlen(txt);
+    int i=0, len=0;
+    computeLPSArray(pat, m, lps);
+    while (i&lt;n)
+    {
+        while (len!=0 &amp;&amp; txt[i]!=pat[len]) len=b[len]; //backtrack
+        if(pat[len] == txt[i]) { len++;} //if pattern matches , incr len
+        i++; //to match next pattern
+        if (len==m)
+        {
+            //print pattern found at i;
+            len=lps[len]; //backtrack to last match position
+        }
+    }
+}
+void computeLPSArray(char *pat, int M, int *lps)
+{
+    int i=1, len=0;
+    lps[0]=0;
+    while (i&lt;m)
+    {
+        while (len!=0 &amp;&amp; pat[i]!=pat[len]) len=lps[len]; //backtrack
+        if (pat[i]==pat[len]) { len++; } //if pattern matches ,incr len
+                lps[i]=len;
+                i++;
+    }
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-vibhu-tiwari odd alt thread-even depth-1" id="dsq-comment-14615">
+        <div id="dsq-comment-header-14615" class="dsq-comment-header">
+            <cite id="dsq-cite-14615">
+                <span id="dsq-author-user-14615">Vibhu Tiwari</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14615" class="dsq-comment-body">
+            <div id="dsq-comment-message-14615" class="dsq-comment-message"><p>This is the source code for pattern searching in much less effort with the time complexity of O(n).You can check it for various strings by passing the lengths of the two strings to be matched.The statement pattern match gets printed the number of times that substring occurs in the string.<br />
+ #include<stdio .h><br />
+ #include<conio .h><br />
+ void patternsearch(char *a,char *b,int n,int m)<br />
+ { int k,count=0,j=0,i=0,c=0;<br />
+ while(i!=n)<br />
+ { if(j==m)<br />
+ {j=0;<br />
+ c=c+1;count=0;<br />
+ i=c;}<br />
+ k=a[i]-b[j];<br />
+ if(k==0){<br />
+ count++;}<br />
+ if(count==m)<br />
+ {printf(&#8220;Pattern Match found\n&#8221;);}<br />
+ i=i+1;<br />
+ j=j+1;<br />
+ }<br />
+ }<br />
+ main()<br />
+ { char *a=&#8221;ABABABCABABABCABABABC&#8221;;<br />
+ char *b=&#8221;ABABCA&#8221;;<br />
+ patternsearch(a,b,21,6);<br />
+ getch();<br />
+ }</conio></stdio></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-14369">
+        <div id="dsq-comment-header-14369" class="dsq-comment-header">
+            <cite id="dsq-cite-14369">
+                <span id="dsq-author-user-14369">rana_leaner</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14369" class="dsq-comment-body">
+            <div id="dsq-comment-message-14369" class="dsq-comment-message"><p>For pattern &#8220;AABAACAABAA &#8221; lps[] is</p>
+<p>Def of  lps[i] = the longest proper preefix of pat[0..i] which is also a suffix of pat[0..i].<br />
+Steps:<br />
+lps[0]&#8211;&gt; pat[0] = A &#8211;&gt;0 (represents length of match prefix,suffix)<br />
+lps[1]&#8211;&gt; pat[0..2] = A/*A*/ &#8211;&gt;1 (Proper prefix =A ,Suffix = A)<br />
+lps[2]&#8211;&gt;pat[0..3] = AAB &#8211;&gt;0 (No any equal prefix,suffix)<br />
+lps[3]&#8211;&gt;pat[0..4] = /*A*/AB/*A*/&#8211;&gt;1 (prefix = A ,sufficx =A)<br />
+lps[4]&#8211;&gt;pat[0..5] = /*AA*/B/*AA*/ &#8211;&gt;2 (prefix = AA ,sufficx =AA)<br />
+lps[5]&#8211;&gt;pat[0..6] = AABAAC &#8211;&gt;0<br />
+lps[6]&#8211;&gt;pat[0..7] =/*A*/ABAAC/*A*/ &#8211;&gt;1</p>
+<p>&#8230;. so on<br />
+lps[] = [0,1,0,1,2,0,1,2,3,4,5]</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-11101">
+        <div id="dsq-comment-header-11101" class="dsq-comment-header">
+            <cite id="dsq-cite-11101">
+                <span id="dsq-author-user-11101">anonymus</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11101" class="dsq-comment-body">
+            <div id="dsq-comment-message-11101" class="dsq-comment-message"><p>I was trying to understand this algorithm form back two months,<br />
+Now I finally go it with the help of geeksforgeeks,<br />
+THANKS GEEKSFORGEEKS</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-11799">
+        <div id="dsq-comment-header-11799" class="dsq-comment-header">
+            <cite id="dsq-cite-11799">
+                <span id="dsq-author-user-11799">Yogesh Batra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11799" class="dsq-comment-body">
+            <div id="dsq-comment-message-11799" class="dsq-comment-message"><p>Thanks Geeksforgeeks! <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-10533">
+        <div id="dsq-comment-header-10533" class="dsq-comment-header">
+            <cite id="dsq-cite-10533">
+                <span id="dsq-author-user-10533">deep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10533" class="dsq-comment-body">
+            <div id="dsq-comment-message-10533" class="dsq-comment-message"><p>great code</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8142">
+        <div id="dsq-comment-header-8142" class="dsq-comment-header">
+            <cite id="dsq-cite-8142">
+                <span id="dsq-author-user-8142">sparco</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8142" class="dsq-comment-body">
+            <div id="dsq-comment-message-8142" class="dsq-comment-message"><p>The below code is more readable and understandable.<br />
+Logic is same as the notes.<br />
+Just worth sharing!</p>
+<pre> <code language="C">
+void KMPSearch(char *pat, char *txt)
+{
+    int m = strlen(pat);
+    int n = strlen(txt);
+    int i=0, len=0;
+    computeLPSArray(pat, m, lps);
+    while (i&lt;n)
+    {
+        while (len!=0 &amp;&amp; txt[i]!=pat[len]) len=b[len]; //backtrack
+		if(pat[len] == txt[i]) { len++;} //if pattern matches , incr len
+		i++; //to match next pattern
+        if (len==m)
+        {
+            //print pattern found at i;
+            len=lps[len]; //backtrack to last match position
+        }
+    }
+}
+void computeLPSArray(char *pat, int M, int *lps)
+{
+    int i=0, len=0;
+    lps[0]=0;
+    while (i&lt;m)
+    {
+        while (len!=0 &amp;&amp; pat[i]!=pat[j]) len=lps[len]; //backtrack
+        if (pat[i]==pat[j]) { len++; } //if pattern matches , incr len
+		i++; //to update the next lps array
+        lps[i]=len;
+    }
+}
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-14316">
+        <div id="dsq-comment-header-14316" class="dsq-comment-header">
+            <cite id="dsq-cite-14316">
+                <span id="dsq-author-user-14316">anonymous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14316" class="dsq-comment-body">
+            <div id="dsq-comment-message-14316" class="dsq-comment-message"><p>@sparco<br />
+In your code of computeLPSArray you wrote j instead of len.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-7773">
+        <div id="dsq-comment-header-7773" class="dsq-comment-header">
+            <cite id="dsq-cite-7773">
+                <span id="dsq-author-user-7773">samesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7773" class="dsq-comment-body">
+            <div id="dsq-comment-message-7773" class="dsq-comment-message"><p>Hi,could anyone put some light on this example.<br />
+According to me itz a wrong example??Help me out&#8230;</p>
+<p>txt[] = &#8220;ABABABCABABABCABABABC&#8221;<br />
+pat[] =  &#8220;ABABAC&#8221; (not a worst case, but a bad case for Naive)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-7772">
+        <div id="dsq-comment-header-7772" class="dsq-comment-header">
+            <cite id="dsq-cite-7772">
+                <span id="dsq-author-user-7772">suresh kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7772" class="dsq-comment-body">
+            <div id="dsq-comment-message-7772" class="dsq-comment-message"><pre> <code language="C">
+Hi,could anyone put some light on this example.
+According to me itz a wrong example??Help me out...
+txt[] = &quot;ABABABCABABABCABABABC&quot;
+pat[] =  &quot;ABABAC&quot; (not a worst case, but a bad case for Naive)
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-5842">
+        <div id="dsq-comment-header-5842" class="dsq-comment-header">
+            <cite id="dsq-cite-5842">
+                <span id="dsq-author-user-5842">Franky</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5842" class="dsq-comment-body">
+            <div id="dsq-comment-message-5842" class="dsq-comment-message"><p>// This is tricky. Consider the example AAACAAAA and i = 7.<br />
+           len = lps[len-1];</p>
+<p>Can you explain why we need to set len equal to lps[len-1] in the function?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-5105">
+        <div id="dsq-comment-header-5105" class="dsq-comment-header">
+            <cite id="dsq-cite-5105">
+                <span id="dsq-author-user-5105">sharat</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5105" class="dsq-comment-body">
+            <div id="dsq-comment-message-5105" class="dsq-comment-message"><p>Hi Algorist, </p>
+<p>Read CLR book and then come back here&#8230;..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-arpit-211190 even thread-odd thread-alt depth-1" id="dsq-comment-4881">
+        <div id="dsq-comment-header-4881" class="dsq-comment-header">
+            <cite id="dsq-cite-4881">
+                <span id="dsq-author-user-4881">Arpit Gupta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4881" class="dsq-comment-body">
+            <div id="dsq-comment-message-4881" class="dsq-comment-message"><p>In this article,the complexity of naive method has been wrongly mentione as (m*(m-n+1)).it should be (m*(n-m+1)).</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-sandeep odd alt depth-2" id="dsq-comment-4891">
+        <div id="dsq-comment-header-4891" class="dsq-comment-header">
+            <cite id="dsq-cite-4891">
+http://geeksforgeeks.org/                <span id="dsq-author-user-4891">Sandeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4891" class="dsq-comment-body">
+            <div id="dsq-comment-message-4891" class="dsq-comment-message"><p>@Arpit Gupta:  Thanks for pointing this out. We have corrected the typo.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3897">
+        <div id="dsq-comment-header-3897" class="dsq-comment-header">
+            <cite id="dsq-cite-3897">
+                <span id="dsq-author-user-3897">sharat04</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3897" class="dsq-comment-body">
+            <div id="dsq-comment-message-3897" class="dsq-comment-message"><p>Hi Geeks,</p>
+<p>Thanks for coming up with this post. I am still struggling to understand the construction of the lps[] array <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_sad.gif" alt=":(" class="wp-smiley" /> </p>
+<p>Basically I am looking for two things here. </p>
+<p>1) A technical definition of &#8220;proper prefix&#8221; and &#8221; proper Suffix&#8221;<br />
+2) A detailed run down of any of the examples in your listing. explaining how the lps[] array is constructed. </p>
+<p>From the listing above, For the pattern “AAACAAAAAC”, lps[] is [0, 1, 2, 0, 1, 2, 3, 3, 3, </p>
+<p>In the above mentioned example, why is the lps[3](element C in the pattern) &#8220;0&#8221;. I was expecting it to be 3 because of &#8220;AAA&#8221; is before C and after C in the pattern??</p>
+<p>Please help me understand the algorithm here. </p>
+<p>Thanks..</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-3899">
+        <div id="dsq-comment-header-3899" class="dsq-comment-header">
+            <cite id="dsq-cite-3899">
+                <span id="dsq-author-user-3899">sharat04</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3899" class="dsq-comment-body">
+            <div id="dsq-comment-message-3899" class="dsq-comment-message"><p>I think I figured it out.. I looked at the wiki <a href="http://en.wikipedia.org/wiki/Substring" rel="nofollow">http://en.wikipedia.org/wiki/Substring</a></p>
+<p>In any case, I would request you to add more detailed description and add a reference to the wiki page I mentioned. </p>
+<p>Thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3787">
+        <div id="dsq-comment-header-3787" class="dsq-comment-header">
+            <cite id="dsq-cite-3787">
+                <span id="dsq-author-user-3787">Cracker</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3787" class="dsq-comment-body">
+            <div id="dsq-comment-message-3787" class="dsq-comment-message"><p>Code For KMP</p>
+<pre> <code language="C">
+// precomputation time: O(m) where m is length of string to be matched
+// net time: O(n+m) where n = length of string to which another string is to be compared
+
+#include&lt;stdio.h&gt;
+
+void kmp(char[],char[]);
+
+int main()
+{
+	char a[100], b[100];
+
+	gets(a);
+	gets(b);
+
+	kmp(a,b);
+
+	return 0;
+}
+
+void kmp(char a[], char b[])
+{
+	int p, q;
+	for (p = 0; a[p] != ''; p++);
+	for (q = 0; b[q] != ''; q++);
+	
+	int c[q+1], i;
+	for (i = 0; i &lt;= q; i++) c[i] = -1;
+	int k;
+
+	for (i = 1; i &lt;= q; i++) {
+		k = c[i-1];
+		while ((k != -1) &amp;&amp; (b[i-1] != b[k])) k = c[k];
+		c[i] = k+1;
+	}	
+	for (i = 1; i &lt;= q; i++) {
+		printf(&quot;%d &quot;,c[i]);
+	}
+	printf(&quot;\n&quot;);
+
+	int sa = 0, sb = 0;
+	for (i = 0; i &lt; p; i++) {
+		while (sb != -1 &amp;&amp; (sb == q || a[sa] != b[sb])) sb = c[sb];
+		sa++;
+		sb++;
+		if (sb == q) printf(&quot;%d\n&quot;,i+1-q);
+	}
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3722">
+        <div id="dsq-comment-header-3722" class="dsq-comment-header">
+            <cite id="dsq-cite-3722">
+                <span id="dsq-author-user-3722">Algoseekar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3722" class="dsq-comment-body">
+            <div id="dsq-comment-message-3722" class="dsq-comment-message"><p><a href="http://codepad.org/grtqfF5f" rel="nofollow">http://codepad.org/grtqfF5f</a>  KMP Code</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-3723">
+        <div id="dsq-comment-header-3723" class="dsq-comment-header">
+            <cite id="dsq-cite-3723">
+                <span id="dsq-author-user-3723">Algorist</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3723" class="dsq-comment-body">
+            <div id="dsq-comment-message-3723" class="dsq-comment-message"><p>Hi Algoseekar,<br />
+  Can you explain the logic on this page!! I didn&#8217;t get it. Is it really a KMP algorithm? Please go through with an example!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3717">
+        <div id="dsq-comment-header-3717" class="dsq-comment-header">
+            <cite id="dsq-cite-3717">
+                <span id="dsq-author-user-3717">algorist</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3717" class="dsq-comment-body">
+            <div id="dsq-comment-message-3717" class="dsq-comment-message"><p>Hi,<br />
+  How did you calculate the lps array[], kindly explain with the help of an example. And what is the purpose of preprocessing the text this way?</p>
+<p>Thanks.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even depth-2" id="dsq-comment-3718">
+        <div id="dsq-comment-header-3718" class="dsq-comment-header">
+            <cite id="dsq-cite-3718">
+                <span id="dsq-author-user-3718">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3718" class="dsq-comment-body">
+            <div id="dsq-comment-message-3718" class="dsq-comment-message"><p>@algorist: As metnioned in the post, we preprocess pattern, not text. We do this preprocessing to avoid matching pat[] and txt[] characters which we know will anyway match.</p>
+<p>Let us consider the pattern as &#8220;AACA&#8221;. Following are the preprocessing steps invoved for getting the lps[] array for this pattern.</p>
+<p>pat[] = AACA, lps[] for this array would be [0, 1, 0, 1]</p>
+<p>lps[0] = 0 // lps[0] is always 0.<br />
+len = 0<br />
+i = 1</p>
+<p>compare lps[len] and lps[i]. Since these two are same, increment len. len and lps[1] become 1 and i becomes 2.</p>
+<p>compare lps[len] and lps[i]. Since these two are NOT same, update len to lps[len-1]. len becomes 0, i remains 2</p>
+<p>compare lps[len] and lps[i]. Since these two are NOT same and len is 0, set lps[2] as 0. len becomes 0, i becomes 3</p>
+<p>compare lps[len] and lps[i]. Since these two are same, increment len. len and lps[3] become 1. i becomes 4. </p>
+<p>Since i becomes M, we stop here.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-3719">
+        <div id="dsq-comment-header-3719" class="dsq-comment-header">
+            <cite id="dsq-cite-3719">
+                <span id="dsq-author-user-3719">algorist</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3719" class="dsq-comment-body">
+            <div id="dsq-comment-message-3719" class="dsq-comment-message"><p>Thanks. GeeksForGeeks. <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /> I got an idea now of KMP&#8230; It looks a great idea of preprocessing the pattern this way.. Patterns are generally very small.. So we can always we process it like this way..</p>
+<p>I want to know one thing here.. how about preprocessing it by adding up all the ascii values of characters in the pattern, and then matching it with the current text charcters.. On moving forward(i.e. sliding the window), you subtract first character and add next character, and then comparing again..</p>
+<p>For E.g.<br />
+txt[] = AABAACAADAABAAABAA<br />
+pat[] = AABAA</p>
+<p>ASCII Calculation of AABAA = A + A + B + A + A = X<br />
+ASCII Calculation of first 5 texts &gt;&gt; Since it matches you print the start index.</p>
+<p>You move on, Next five characters &gt;&gt; ABAAC. The ascii value of this can be calculated by subtracting character before ABAAC and adding character &#8216;C&#8217; (new character added to window). And then you compare again..</p>
+<p>Please let me know what is the demerit of using this approach.. This looks more simpler. <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even depth-4" id="dsq-comment-3720">
+        <div id="dsq-comment-header-3720" class="dsq-comment-header">
+            <cite id="dsq-cite-3720">
+                <span id="dsq-author-user-3720">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3720" class="dsq-comment-body">
+            <div id="dsq-comment-message-3720" class="dsq-comment-message"><p>@algorist:<br />
+Please note that just checking the ASCII sum value is not sufficient because sum can be same for different strings.  We need to do two step process.<br />
+1) Compare sum of current window of text with sum of pattern.<br />
+2) If sum is same then match the pattern with the current window of text.</p>
+<p>Which is similar to Rabin Carp algorithm.  The Rabin Karp algorithm works well under some assumptions, but worst case time complexity of Rabin Karp is O((m-n+1)m). To see worst case, use the above two step approach and take the example as txt as &#8220;AAAAAAAAAAAAA&#8221; and example pattern as &#8220;AAAA&#8221;.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-5" id="dsq-comment-4119">
+        <div id="dsq-comment-header-4119" class="dsq-comment-header">
+            <cite id="dsq-cite-4119">
+                <span id="dsq-author-user-4119">algorist</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4119" class="dsq-comment-body">
+            <div id="dsq-comment-message-4119" class="dsq-comment-message"><p>@geeksfrogeesk can you please through some more light on this preprocessing part </p>
+<p>For the pattern “AABAACAABAA”, lps[] is [0, 1, 0, 1, 2, 0, 1, 2, 3, 4, 5]<br />
+For the pattern “ABCDE”, lps[] is [0, 0, 0, 0, 0]<br />
+For the pattern “AAAAA”, lps[] is [0, 1, 2, 3, 4]<br />
+For the pattern “AAABAAA”, lps[] is [0, 1, 2, 0, 1, 2, 3]<br />
+For the pattern “AAACAAAAAC”, lps[] is [0, 1, 2, 0, 1, 2, 3, 3, 3, 4]</p>
+<p>please explain in detail how u r calculating lps array for any pattern say  “AABAACAABAA”..please reply asap..???</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-5" id="dsq-comment-4123">
+        <div id="dsq-comment-header-4123" class="dsq-comment-header">
+            <cite id="dsq-cite-4123">
+                <span id="dsq-author-user-4123">algorist</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4123" class="dsq-comment-body">
+            <div id="dsq-comment-message-4123" class="dsq-comment-message"><p>@geeksfrogeeks pleaase explain me preprocesing phase i have shown my doubt below&#8230;.</p>
+<p>can any explain this ??<br />
+how u r calculating lps array for any pattern say “AABAACAABAA”..please reply asap.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor odd alt depth-5" id="dsq-comment-4125">
+        <div id="dsq-comment-header-4125" class="dsq-comment-header">
+            <cite id="dsq-cite-4125">
+                <span id="dsq-author-user-4125">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4125" class="dsq-comment-body">
+            <div id="dsq-comment-message-4125" class="dsq-comment-message"><p>@algorist: As mentioned in the post, every element ips[i] in the ips array follows following definition.</p>
+<p><strong>lps[i] = the longest proper preefix of pat[0..i] which is also a suffix of pat[0..i]. </strong></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even depth-3" id="dsq-comment-31657">
+        <div id="dsq-comment-header-31657" class="dsq-comment-header">
+            <cite id="dsq-cite-31657">
+                <span id="dsq-author-user-31657">rcdeo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31657" class="dsq-comment-body">
+            <div id="dsq-comment-message-31657" class="dsq-comment-message"><p>@geeksforgeeks::y r u comparing lps[i] and lps[len]??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/searching-for-patterns-set-2-kmp-algorithm/';
+var disqus_identifier = '11902 http://geeksforgeeks.org/?p=11902';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Searching for Patterns | Set 2 (KMP Algorithm)";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.233 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:33:06 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

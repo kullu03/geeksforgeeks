@@ -1,0 +1,1635 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Dynamic Programming | Set 12 (Longest Palindromic Subsequence) - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/dynamic-programming-set-12-longest-palindromic-subsequence/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Dynamic Programming | Set 12 (Longest Palindromic Subsequence) - GeeksforGeeks" />
+<meta property="og:description" content="Given a sequence, find the length of the longest palindromic subsequence in it. For example, if the given sequence is &#8220;BBABCBCAB&#8221;, then the output should be 7 as &#8220;BABCBAB&#8221; is the longest palindromic subseuqnce in it. &#8220;BBBBB&#8221; and &#8220;BBCBB&#8221; are also palindromic subsequences of the given sequence, but not the longest ones. The naive solution &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/dynamic-programming-set-12-longest-palindromic-subsequence/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Dynamic Programming" />
+<meta property="article:section" content="Misc" />
+<meta property="article:published_time" content="2012-05-08T19:28:34+00:00" />
+<meta property="article:modified_time" content="2012-10-14T09:20:02+00:00" />
+<meta property="og:updated_time" content="2012-10-14T09:20:02+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.548 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417110770 14.139.196.9';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Dynamic Programming | Set 12 (Longest Palindromic Subsequence)</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given a sequence, find the length of the longest palindromic subsequence in it. For example, if the given sequence is &#8220;BBABCBCAB&#8221;, then the output should be 7 as &#8220;BABCBAB&#8221; is the longest palindromic subseuqnce in it.<span id="more-19155"></span> &#8220;BBBBB&#8221; and &#8220;BBCBB&#8221; are also palindromic subsequences of the given sequence, but not the longest ones.</p>
+<p>The naive solution for this problem is to generate all subsequences of the given sequence and find the longest palindromic subsequence. This solution is exponential in term of time complexity. Let us see how this problem possesses both important properties of a Dynamic Programming (DP) Problem and can efficiently solved using Dynamic Programming.</p>
+<p><strong>1) Optimal Substructure: </strong><br />
+Let X[0..n-1] be the input sequence of length n and L(0, n-1) be the length of the longest palindromic subsequence of X[0..n-1]. </p>
+<p>If last and first characters of X are same, then L(0, n-1) = L(1, n-2) + 2.<br />
+Else L(0, n-1) = MAX (L(1, n-1), L(0, n-2)).  </p>
+<p>Following is a general recursive solution with all cases handled.</p>
+<pre>
+// Everay single character is a palindrom of length 1
+L(i, i) = 1 for all indexes i in given sequence
+
+// IF first and last characters are not same
+If (X[i] != X[j])  L(i, j) =  max{L(i + 1, j),L(i, j - 1)} 
+
+// If there are only 2 characters and both are same
+Else if (j == i + 1) L(i, j) = 2  
+
+// If there are more than two characters, and first and last 
+// characters are same
+Else L(i, j) =  L(i + 1, j - 1) + 2 
+</pre>
+<p><strong>2) Overlapping Subproblems</strong><br />
+Following is simple recursive implementation of the LPS problem. The implementation simply follows the recursive structure mentioned above.</p>
+<pre class="brush: cpp; highlight: [7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]; title: ; notranslate" title="">
+#include&lt;stdio.h&gt;
+#include&lt;string.h&gt;
+
+// A utility function to get max of two integers
+int max (int x, int y) { return (x &gt; y)? x : y; }
+
+// Returns the length of the longest palindromic subsequence in seq
+int lps(char *seq, int i, int j)
+{
+   // Base Case 1: If there is only 1 character
+   if (i == j)
+     return 1;
+
+   // Base Case 2: If there are only 2 characters and both are same
+   if (seq[i] == seq[j] &amp;&amp; i + 1 == j)
+     return 2;
+
+   // If the first and last characters match
+   if (seq[i] == seq[j])
+      return lps (seq, i+1, j-1) + 2;
+
+   // If the first and last characters do not match
+   return max( lps(seq, i, j-1), lps(seq, i+1, j) );
+}
+
+/* Driver program to test above functions */
+int main()
+{
+    char seq[] = &quot;GEEKSFORGEEKS&quot;;
+    int n = strlen(seq);
+    printf (&quot;The lnegth of the LPS is %d&quot;, lps(seq, 0, n-1));
+    getchar();
+    return 0;
+}
+</pre>
+<p>Output:
+<pre>
+The lnegth of the LPS is 5
+</pre>
+<p>Considering the above implementation, following is a partial recursion tree for a sequence of length 6 with all different characters. </p>
+<pre>
+               L(0, 5)
+             /        \ 
+            /          \  
+        L(1,5)          L(0,4)
+       /    \            /    \
+      /      \          /      \
+  L(2,5)    L(1,4)  L(1,4)  L(0,3)
+</pre>
+<p>In the above partial recursion tree, L(1, 4) is being solved twice. If we draw the complete recursion tree, then we can see that there are many subproblems which are solved again and again. Since same suproblems are called again, this problem has Overlapping Subprolems property. So LPS problem has both properties (see <a href="http://www.geeksforgeeks.org/archives/12635">this </a>and <a href="http://www.geeksforgeeks.org/archives/12819">this</a>) of a dynamic programming problem. Like other typical <a href="http://www.geeksforgeeks.org/archives/tag/dynamic-programming">Dynamic Programming(DP) problems</a>, recomputations of same subproblems can be avoided by constructing a temporary array L[][] in bottom up manner.</p>
+<p><strong>Dynamic Programming Solution</strong></p>
+<pre class="brush: cpp; highlight: [7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39]; title: ; notranslate" title="">
+#include&lt;stdio.h&gt;
+#include&lt;string.h&gt;
+
+// A utility function to get max of two integers
+int max (int x, int y) { return (x &gt; y)? x : y; }
+
+// Returns the length of the longest palindromic subsequence in seq
+int lps(char *str)
+{
+   int n = strlen(str);
+   int i, j, cl;
+   int L[n][n];  // Create a table to store results of subproblems
+
+
+   // Strings of length 1 are palindrome of lentgh 1
+   for (i = 0; i &lt; n; i++)
+      L[i][i] = 1;
+
+    // Build the table. Note that the lower diagonal values of table are
+    // useless and not filled in the process. The values are filled in a
+    // manner similar to Matrix Chain Multiplication DP solution (See
+    // http://www.geeksforgeeks.org/archives/15553). cl is length of
+    // substring
+    for (cl=2; cl&lt;=n; cl++)
+    {
+        for (i=0; i&lt;n-cl+1; i++)
+        {
+            j = i+cl-1;
+            if (str[i] == str[j] &amp;&amp; cl == 2)
+               L[i][j] = 2;
+            else if (str[i] == str[j])
+               L[i][j] = L[i+1][j-1] + 2;
+            else
+               L[i][j] = max(L[i][j-1], L[i+1][j]);
+        }
+    }
+
+    return L[0][n-1];
+}
+
+/* Driver program to test above functions */
+int main()
+{
+    char seq[] = &quot;GEEKS FOR GEEKS&quot;;
+    int n = strlen(seq);
+    printf (&quot;The lnegth of the LPS is %d&quot;, lps(seq));
+    getchar();
+    return 0;
+}
+</pre>
+<p>Output:
+<pre>
+The lnegth of the LPS is 7
+</pre>
+<p>Time Complexity of the above implementation is O(n^2) which is much better than the worst case time complexity of Naive Recursive implementation.</p>
+<p>This problem is close to the <a href="http://www.geeksforgeeks.org/archives/12998">Longest Common Subsequence (LCS) problem</a>. In fact, we can use LCS as a subroutine to solve this problem. Following is the two step solution that uses LCS.<br />
+1) Reverse the given sequence and store the reverse in another array say rev[0..n-1]<br />
+2) LCS of the given sequence and rev[] will be the longest palindromic sequence.<br />
+This solution is also a O(n^2) solution.</p>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+<p><strong>References:</strong><br />
+<a href="http://users.eecs.northwestern.edu/~dda902/336/hw6-sol.pdf">http://users.eecs.northwestern.edu/~dda902/336/hw6-sol.pdf</a></p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/job-sequencing-problem-set-1-greedy-algorithm/" title="Job Sequencing Problem | Set 1 (Greedy Algorithm)">Job Sequencing Problem | Set 1 (Greedy Algorithm)</a></li><li><a href="http://www.geeksforgeeks.org/multiply-two-polynomials-2/" title="Multiply two polynomials">Multiply two polynomials</a></li><li><a href="http://www.geeksforgeeks.org/algorithm-practice-question-beginners-set-1/" title="Algorithm Practice Question for Beginners | Set 1">Algorithm Practice Question for Beginners | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/count-distinct-non-negative-pairs-x-y-satisfy-inequality-xx-yy-n-2/" title="Count Distinct Non-Negative Integer Pairs (x, y) that Satisfy the Inequality x*x + y*y &lt; n">Count Distinct Non-Negative Integer Pairs (x, y) that Satisfy the Inequality x*x + y*y < n</a></li><li><a href="http://www.geeksforgeeks.org/binomial-heap-2/" title="Binomial Heap">Binomial Heap</a></li><li><a href="http://www.geeksforgeeks.org/print-increasing-sequences-length-k-first-n-natural-numbers/" title="Print all increasing sequences of length k from first n natural numbers">Print all increasing sequences of length k from first n natural numbers</a></li><li><a href="http://www.geeksforgeeks.org/find-nth-number-number-system-3-4/" title="Find n&#8217;th number in a number system with only 3 and 4">Find n&#8217;th number in a number system with only 3 and 4</a></li><li><a href="http://www.geeksforgeeks.org/minimum-cost-polygon-triangulation/" title="Minimum Cost Polygon Triangulation">Minimum Cost Polygon Triangulation</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/dynamic-programming/" rel="tag">Dynamic Programming</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fdynamic-programming-set-12-longest-palindromic-subsequence%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/dynamic-programming-set-12-longest-palindromic-subsequence/" data-text="Dynamic Programming | Set 12 (Longest Palindromic Subsequence)" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/dynamic-programming-set-12-longest-palindromic-subsequence/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-34110">
+        <div id="dsq-comment-header-34110" class="dsq-comment-header">
+            <cite id="dsq-cite-34110">
+                <span id="dsq-author-user-34110">Vivek Chicharito Zakwalia</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34110" class="dsq-comment-body">
+            <div id="dsq-comment-message-34110" class="dsq-comment-message"><p>In the problem statement how LPS of BBABCBCAB is BABCBAB&#8230; it should be BABCCBAB and thus ur code should return &#8216;8&#8217;?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-34111">
+        <div id="dsq-comment-header-34111" class="dsq-comment-header">
+            <cite id="dsq-cite-34111">
+                <span id="dsq-author-user-34111">Archit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34111" class="dsq-comment-body">
+            <div id="dsq-comment-message-34111" class="dsq-comment-message"><p>i think you should not consider all the permutation of string.<br />
+Check palindrom in string from index 0 to len-1 without changing the order of characters.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-34230">
+        <div id="dsq-comment-header-34230" class="dsq-comment-header">
+            <cite id="dsq-cite-34230">
+                <span id="dsq-author-user-34230">Vivek Chicharito Zakwalia</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34230" class="dsq-comment-body">
+            <div id="dsq-comment-message-34230" class="dsq-comment-message"><p>if order isnt changing then how it will generate BABCBAB ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-3" id="dsq-comment-34231">
+        <div id="dsq-comment-header-34231" class="dsq-comment-header">
+            <cite id="dsq-cite-34231">
+                <span id="dsq-author-user-34231">Vivek Chicharito Zakwalia</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34231" class="dsq-comment-body">
+            <div id="dsq-comment-message-34231" class="dsq-comment-message"><p>if order isnt changing then how it will generate BABCBAB ?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-34233">
+        <div id="dsq-comment-header-34233" class="dsq-comment-header">
+            <cite id="dsq-cite-34233">
+                <span id="dsq-author-user-34233">Archit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34233" class="dsq-comment-body">
+            <div id="dsq-comment-message-34233" class="dsq-comment-message"><p>string is BBABCBCAB you should take char at index 0,2,3,4,5,7,8 ,,,and you are taking 0,2,3,4,(6,5),7,8<br />
+,,order of characters is changed.<br />
+ 5 is coming after 6.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-5" id="dsq-comment-34238">
+        <div id="dsq-comment-header-34238" class="dsq-comment-header">
+            <cite id="dsq-cite-34238">
+                <span id="dsq-author-user-34238">Vivek Chicharito Zakwalia</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34238" class="dsq-comment-body">
+            <div id="dsq-comment-message-34238" class="dsq-comment-message"><p>esa kya&#8230; o.O (Y)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-33772">
+        <div id="dsq-comment-header-33772" class="dsq-comment-header">
+            <cite id="dsq-cite-33772">
+                <span id="dsq-author-user-33772">renu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33772" class="dsq-comment-body">
+            <div id="dsq-comment-message-33772" class="dsq-comment-message"><p>the brute force approach has a solution of o(n^3) not exponential cxity..right?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-32756">
+        <div id="dsq-comment-header-32756" class="dsq-comment-header">
+            <cite id="dsq-cite-32756">
+                <span id="dsq-author-user-32756">prashant jha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32756" class="dsq-comment-body">
+            <div id="dsq-comment-message-32756" class="dsq-comment-message"><p>my c++ code in exponential time 0(2^n)<br />
+reduce it into polynomial time by 2d array and memorisation which is quite easy&#8230;..see for recursive part<br />
+<a href="http://ideone.com/Z4qbMP" rel="nofollow">http://ideone.com/Z4qbMP</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-32755">
+        <div id="dsq-comment-header-32755" class="dsq-comment-header">
+            <cite id="dsq-cite-32755">
+                <span id="dsq-author-user-32755">prashant</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32755" class="dsq-comment-body">
+            <div id="dsq-comment-message-32755" class="dsq-comment-message"><p>my  c++ code but naive recursive approach in 0(2^n) complexity<br />
+get into polynomial time by using 2-d array and memorisation<br />
+<a href="http://ideone.com/Z4qbMP" rel="nofollow">http://ideone.com/Z4qbMP</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-31226">
+        <div id="dsq-comment-header-31226" class="dsq-comment-header">
+            <cite id="dsq-cite-31226">
+                <span id="dsq-author-user-31226">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31226" class="dsq-comment-body">
+            <div id="dsq-comment-message-31226" class="dsq-comment-message"><p>At last in this post u have mentioned that we can use LCS as a subroutine to solve this problem,which is not correct everytime..let me explain with example</p>
+<p>For example<br />
+S=original string<br />
+S&#8217;=reverse of orginal string</p>
+<p> S = “caba”, S’ = “abac”.<br />
+ The longest common substring between S and S’ is “aba”, which is the answer.but now  Let’s try another example:<br />
+ S = “abacdfgdcaba”, S’ = “abacdgfdcaba”.<br />
+ The longest common substring between S and S’ is “abacd”. Clearly, this is not a valid palindrome.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-33480">
+        <div id="dsq-comment-header-33480" class="dsq-comment-header">
+            <cite id="dsq-cite-33480">
+                <span id="dsq-author-user-33480">loconet</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33480" class="dsq-comment-body">
+            <div id="dsq-comment-message-33480" class="dsq-comment-message"><p>&gt; The longest common substring between S and S’ is “abacd”</p>
+<p>The problem here is that you are using &#8220;longest common substring&#8221;. The solution by the poster is using LCS, which is Longest Common *Subsequence*. That is completely different.</p>
+<p>A longest common subsequence of &#8220;abacdfgdcaba&#8221; and &#8220;abacdgfdcaba&#8221; is [a, b, a, c, d, f, d, c, a, b, a] ..which as you can see is a palindrome.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-31089">
+        <div id="dsq-comment-header-31089" class="dsq-comment-header">
+            <cite id="dsq-cite-31089">
+                <span id="dsq-author-user-31089">pinto</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31089" class="dsq-comment-body">
+            <div id="dsq-comment-message-31089" class="dsq-comment-message"><p>This code in the article is incorrect and misleading. Please either fix the code or remove it the page.</p>
+<p>correct code is something like:</p>
+<p>public class Palindrome {</p>
+<p>    public static boolean find(int[][] memo, char[] in, int i, int j) {<br />
+        if (i == j) {<br />
+            memo[i][j] = 1;<br />
+            return true;<br />
+        }</p>
+<p>        if (in[i] == in[j]) {<br />
+            if (find(memo, in, i+1, j-1)) {<br />
+                memo[i][j] = memo[i+1][j-1] + 2;<br />
+                return true;<br />
+            } else {<br />
+                memo[i][j] = 0;<br />
+                return false;<br />
+            }<br />
+        } else {<br />
+            memo[i][j] = 0;<br />
+            find(memo, in, i+1, j);<br />
+            find(memo, in, i, j-1);<br />
+            return false;<br />
+        }<br />
+    }</p>
+<p>    public static String memoToString(int[][] memo) {<br />
+        String result = &#8220;&#8221;;<br />
+        for (int i = 0; i &lt; memo.length; ++i) {<br />
+            for (int j = 0; j &lt; memo[i].length; ++j) {<br />
+                result += memo[i][j] + &quot; &quot;;<br />
+            }<br />
+            result += &quot;n&quot;;<br />
+        }</p>
+<p>        return result;<br />
+    }</p>
+<p>    public static void main(String[] args) {<br />
+        boolean has = false;<br />
+        String s = &quot;&quot;;<br />
+        int[][] memo = null;</p>
+<p>        s = &quot;123abcba5435&quot;;<br />
+        memo = new int[s.length()][s.length()];<br />
+        has = Palindrome.find(memo, s.toCharArray(), 0, s.length()-1);<br />
+        //has = Palindrome.find(memo, s.toCharArray(), 3, 7);<br />
+        System.out.println(s + &quot; : &quot; + has);<br />
+        System.out.println(Palindrome.memoToString(memo));</p>
+<p>        s = &quot;abxyzba&quot;;<br />
+        memo = new int[s.length()][s.length()];<br />
+        has = Palindrome.find(memo, s.toCharArray(), 0, s.length()-1);<br />
+        System.out.println(s + &quot; : &quot; + has);<br />
+        System.out.println(Palindrome.memoToString(memo));<br />
+    }<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-29562">
+        <div id="dsq-comment-header-29562" class="dsq-comment-header">
+            <cite id="dsq-cite-29562">
+                <span id="dsq-author-user-29562">PAN SINGH</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29562" class="dsq-comment-body">
+            <div id="dsq-comment-message-29562" class="dsq-comment-message"><p><code></p>
+<p>#include<br />
+#include<br />
+#include<br />
+using namespace std;</p>
+<p>string S = "GEEKSFORGEEKS";</p>
+<p>int dp[100][100];</p>
+<p>int maxPalindrome(int i, int j)<br />
+{<br />
+    int length;</p>
+<p>    if(dp[i][j] != -1)<br />
+        return dp[i][j];</p>
+<p>    if(i == j)<br />
+    {<br />
+        dp[i][j] = 1;<br />
+        return 1;</p>
+<p>    }</p>
+<p>    if(i &gt; j)<br />
+        return 0;</p>
+<p>    if( S[i] == S[j])<br />
+        length = 2 + maxPalindrome(i+1, j-1);</p>
+<p>    else<br />
+        length =  max(maxPalindrome(i+1, j), maxPalindrome(i, j-1));</p>
+<p>    dp[i][j] = length;<br />
+    return length;<br />
+}</p>
+<p>int main()<br />
+{<br />
+    memset(dp, -1, sizeof(dp));<br />
+    cout&lt;&lt;maxPalindrome(0, S.length()-1);<br />
+}</p>
+<p></code></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-29536">
+        <div id="dsq-comment-header-29536" class="dsq-comment-header">
+            <cite id="dsq-cite-29536">
+                <span id="dsq-author-user-29536">Santosh Tadikonda</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29536" class="dsq-comment-body">
+            <div id="dsq-comment-message-29536" class="dsq-comment-message"><p>How to print the longest string ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-28804">
+        <div id="dsq-comment-header-28804" class="dsq-comment-header">
+            <cite id="dsq-cite-28804">
+                <span id="dsq-author-user-28804">Kaidul Islam Sazal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28804" class="dsq-comment-body">
+            <div id="dsq-comment-message-28804" class="dsq-comment-message"><p>How to print the longest palindromic string?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-28828">
+        <div id="dsq-comment-header-28828" class="dsq-comment-header">
+            <cite id="dsq-cite-28828">
+                <span id="dsq-author-user-28828">Kaidul Islam Sazal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28828" class="dsq-comment-body">
+            <div id="dsq-comment-message-28828" class="dsq-comment-message"><p>Ignore it! I am able to do it <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-28637">
+        <div id="dsq-comment-header-28637" class="dsq-comment-header">
+            <cite id="dsq-cite-28637">
+                <span id="dsq-author-user-28637">rohit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28637" class="dsq-comment-body">
+            <div id="dsq-comment-message-28637" class="dsq-comment-message"><p>for (cl=2; cl&lt;=n; cl++)<br />
+    {<br />
+        for (i=0; i&lt;n-cl+1; i++)<br />
+        {<br />
+            j = i+cl-1;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-28635">
+        <div id="dsq-comment-header-28635" class="dsq-comment-header">
+            <cite id="dsq-cite-28635">
+                <span id="dsq-author-user-28635">rohit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28635" class="dsq-comment-body">
+            <div id="dsq-comment-message-28635" class="dsq-comment-message"><p>for (cl=2; cl&lt;=n; cl++)<br />
+    {<br />
+        for (i=0; i&lt;n-cl+1; i++)<br />
+        {<br />
+            j = i+cl-1;<br />
+any one help me<br />
+what is this part of code doing</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-27213">
+        <div id="dsq-comment-header-27213" class="dsq-comment-header">
+            <cite id="dsq-cite-27213">
+                <span id="dsq-author-user-27213">rishi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27213" class="dsq-comment-body">
+            <div id="dsq-comment-message-27213" class="dsq-comment-message"><p>the above code is wrong because the logic, i.e., the recurrence relation itself is wrong.</p>
+<p><code><br />
+else if (str[i] == str[j])<br />
+        L[i][j] = L[i+1][j-1] + 2;<br />
+            else<br />
+        L[i][j] = max(L[i][j-1], L[i+1][j]);<br />
+</code><br />
+the condition to be checked is not if(str[i] == str[j]) but actually if str[i&#8230;j] is a palindrome or not. Hence the code would look some thing like:<br />
+<code><br />
+else if (is_palindrome(str, i, j))<br />
+       L[i][j] = L[i+1][j-1] + 2;<br />
+else<br />
+       L[i][j] = max(L[i][j-1], L[i+1][j]);<br />
+</code></p>
+<p>because equating last two characters don&#8217;t increase palindrome length by 2 rather whole of inner string must be a palindrome.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-27380">
+        <div id="dsq-comment-header-27380" class="dsq-comment-header">
+            <cite id="dsq-cite-27380">
+                <span id="dsq-author-user-27380">VARUN</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27380" class="dsq-comment-body">
+            <div id="dsq-comment-message-27380" class="dsq-comment-message"><p>The recurrence relation if fine. the problem is  to find the palindromic subsequence  not substring so whole of  inner string need not necessarily be palindrome.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-26662">
+        <div id="dsq-comment-header-26662" class="dsq-comment-header">
+            <cite id="dsq-cite-26662">
+                <span id="dsq-author-user-26662">makamus</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26662" class="dsq-comment-body">
+            <div id="dsq-comment-message-26662" class="dsq-comment-message"><p>for string &#8220;GEEKS FOR GEEKS&#8221;, we feel that the lps is not 7, less 7,do you?<br />
+    from the above code, we are known the str &#8220;EEKS FOR GEE&#8221;, but is not<br />
+Palindromic, ?????</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-ashish_ace odd alt thread-odd thread-alt depth-1" id="dsq-comment-20861">
+        <div id="dsq-comment-header-20861" class="dsq-comment-header">
+            <cite id="dsq-cite-20861">
+                <span id="dsq-author-user-20861">ASHISH AGGARWAL</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20861" class="dsq-comment-body">
+            <div id="dsq-comment-message-20861" class="dsq-comment-message"><p>The another last solution given by GFG that</p>
+<p>1. reverse string<br />
+2. find LSC</p>
+<p>would fail in this case :</p>
+<p>&#8220;abcdgfdcba&#8221;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-ki even depth-2" id="dsq-comment-20869">
+        <div id="dsq-comment-header-20869" class="dsq-comment-header">
+            <cite id="dsq-cite-20869">
+                <span id="dsq-author-user-20869">ki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20869" class="dsq-comment-body">
+            <div id="dsq-comment-message-20869" class="dsq-comment-message"><p>It is working perfectly. the answer you get is 9, which is indeed correct.<br />
+I think u meant that it wont work in the case of longest-palindromic-substring and in that you are correct.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-18629">
+        <div id="dsq-comment-header-18629" class="dsq-comment-header">
+            <cite id="dsq-cite-18629">
+                <span id="dsq-author-user-18629">Rahul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18629" class="dsq-comment-body">
+            <div id="dsq-comment-message-18629" class="dsq-comment-message"><p>Hi, why we do this , j = i + cl -1;<br />
+Thanks!</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-19585">
+        <div id="dsq-comment-header-19585" class="dsq-comment-header">
+            <cite id="dsq-cite-19585">
+                <span id="dsq-author-user-19585">magnet</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19585" class="dsq-comment-body">
+            <div id="dsq-comment-message-19585" class="dsq-comment-message"><p>Let L = j ? i + 1 denote the length of the substring where i and j indicates start and end index of string  then if a substring of length L starts at position i, then<br />
+j = i + L ? 1.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-15194">
+        <div id="dsq-comment-header-15194" class="dsq-comment-header">
+            <cite id="dsq-cite-15194">
+                <span id="dsq-author-user-15194">sreekanth</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15194" class="dsq-comment-body">
+            <div id="dsq-comment-message-15194" class="dsq-comment-message"><p>There is a serious flaw in the original code written by geeksforgeeks.</p>
+<p>suppose the input is &#8220;axbya&#8221;</p>
+<p>From the given code output is 3. but actual output should be 1.</p>
+<p>Logic fail:[I found]</p>
+<p>original post<br />
+// If there are more than two characters, and first and last<br />
+// characters are same<br />
+Else L(i, j) =  L(i + 1, j &#8211; 1) + 2 </p>
+<p>&#8220;axbya&#8221; here suppose L[1,5] = L[2,4] + 2;</p>
+<p>L[2,4] returns 1 which is correct but L[1,5] = 1+2 = 3;</p>
+<p>1..5 is not a palindrome. we need to check whether 2..4 is a<br />
+palindrome or not. If 2..4 is palindrome then only we should add<br />
+2 otherwise not.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik even depth-2" id="dsq-comment-15196">
+        <div id="dsq-comment-header-15196" class="dsq-comment-header">
+            <cite id="dsq-cite-15196">
+                <span id="dsq-author-user-15196">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15196" class="dsq-comment-body">
+            <div id="dsq-comment-message-15196" class="dsq-comment-message"><p>Please take a closer look at the problem statement.  It is subsequence, not substring.  See <a href="http://en.wikipedia.org/wiki/Subsequence" rel="nofollow">http://en.wikipedia.org/wiki/Subsequence</a> for definition of subsequence.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-15206">
+        <div id="dsq-comment-header-15206" class="dsq-comment-header">
+            <cite id="dsq-cite-15206">
+                <span id="dsq-author-user-15206">sreekanth</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15206" class="dsq-comment-body">
+            <div id="dsq-comment-message-15206" class="dsq-comment-message"><p>oohh.. okay. Thanks.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-28318">
+        <div id="dsq-comment-header-28318" class="dsq-comment-header">
+            <cite id="dsq-cite-28318">
+                <span id="dsq-author-user-28318">Nitin Pallindrome</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28318" class="dsq-comment-body">
+            <div id="dsq-comment-message-28318" class="dsq-comment-message"><p>bhaiya ji &#8230;its 3 char seq like  axa   or aba  or aya&#8230;..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-10824">
+        <div id="dsq-comment-header-10824" class="dsq-comment-header">
+            <cite id="dsq-cite-10824">
+                <span id="dsq-author-user-10824">Prateek Caire</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10824" class="dsq-comment-body">
+            <div id="dsq-comment-message-10824" class="dsq-comment-message"><p>without DP but for even length-ed palindrome..</p>
+<pre> <code language="C">
+P()
+	for each i from 0 to n-1
+		if(a[i] == a[i+1])
+			j = i
+			k = i+1
+			c = 0
+			while(a[j] == a[k])								
+				c = c+2
+				j--
+				k++
+			if(c &gt; mx)
+				mx = c
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-9124">
+        <div id="dsq-comment-header-9124" class="dsq-comment-header">
+            <cite id="dsq-cite-9124">
+                <span id="dsq-author-user-9124">Abhijeet Sinha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9124" class="dsq-comment-body">
+            <div id="dsq-comment-message-9124" class="dsq-comment-message"><p>@Kartik &#8211; As you mentioned the alternate method to calculate LPS is by taking LCS of original string and its reverse version. A minor modification is required in this method. Here is the link which I went through. Please correct me if I am wrong.</p>
+<p><a href="http://wcipeg.com/wiki/Longest_palindromic_subsequence" rel="nofollow">http://wcipeg.com/wiki/Longest_palindromic_subsequence</a></p>
+<p>See the LCS-based approach in this article.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-9010">
+        <div id="dsq-comment-header-9010" class="dsq-comment-header">
+            <cite id="dsq-cite-9010">
+http://mohyt.blogspot.com                <span id="dsq-author-user-9010">mohyt</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9010" class="dsq-comment-body">
+            <div id="dsq-comment-message-9010" class="dsq-comment-message"><p>memoized version of lps:</p>
+<p># include &lt;cstdio&gt;<br />
+# include &lt;cstring&gt;<br />
+# define NIL -1<br />
+# define MAX 1000</p>
+<p>using namespace std;</p>
+<p>inline int max(int a, int b)<br />
+{<br />
+    return (a &gt; b) ? a : b;<br />
+}</p>
+<p>int L[MAX][MAX];</p>
+<p>int lps(char *X,int i,int j)<br />
+{<br />
+  if(i==j)<br />
+    L[i][j]=1;<br />
+  else if(X[i]==X[j] &amp;&amp; i+1==j)<br />
+      L[i][j]=2;<br />
+  else if(X[i]==X[j])<br />
+      L[i][j]=2+lps(X,i+1,j-1);<br />
+  else<br />
+    L[i][j]=max(lps(X,i,j-1),lps(X,i+1,j));</p>
+<p>  return L[i][j];</p>
+<p>}</p>
+<p>void _init(int n)<br />
+{<br />
+  int i, j;<br />
+  for (i=0; i&lt;=n; i++)<br />
+    for (j=0; j&lt;=n; j++)<br />
+      L[i][j] = NIL;<br />
+}</p>
+<p>int main()<br />
+{<br />
+  char seq[] = &quot;GEEKSFORGEEKS&quot;;<br />
+  int n = strlen(seq);<br />
+  _init(n);<br />
+  printf (&quot;The lnegth of the LPS is %d&quot;, lps(seq, 0, n-1));<br />
+  return 0;<br />
+}</p>
+<p>Suggestion and comments are most welcome <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-8994">
+        <div id="dsq-comment-header-8994" class="dsq-comment-header">
+            <cite id="dsq-cite-8994">
+                <span id="dsq-author-user-8994">manish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8994" class="dsq-comment-body">
+            <div id="dsq-comment-message-8994" class="dsq-comment-message"><p>please check the output for the second method.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-8995">
+        <div id="dsq-comment-header-8995" class="dsq-comment-header">
+            <cite id="dsq-cite-8995">
+                <span id="dsq-author-user-8995">manish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8995" class="dsq-comment-body">
+            <div id="dsq-comment-message-8995" class="dsq-comment-message"><p>okay i got it&#8230;these contain space too.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-8342">
+        <div id="dsq-comment-header-8342" class="dsq-comment-header">
+            <cite id="dsq-cite-8342">
+                <span id="dsq-author-user-8342">gautam</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8342" class="dsq-comment-body">
+            <div id="dsq-comment-message-8342" class="dsq-comment-message"><p>Without DP and without extra memory in O(n^2)</p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;string.h&gt; 
+/*conside the each element as mid of palindrome 
+
+for eg :   string with length 5 we can consider 3rd element as middle
+
+for string of length we need to take two element 2gthr at middle element
+
+*/
+
+
+int lps1(char *a)
+{
+   int len=strlen(a);
+   if(len&lt;=1) return len;
+   if(len==2) return ( a[0]==a[1]? 2 : 1);
+   
+   //printf(&quot;%d \n&quot;,len);
+   int ans=1,i,j,k;
+   int max=1;
+   int ans1,max1;
+   if(len%2) //odd lengt
+    {
+     for(i=1;i&lt;len;i++)  //consider str[i] as a middle element
+      {  
+        ans=1;         
+        j=i-1; k=i+1;
+        //printf(&quot;%d %d\n&quot;,j,k);
+        while(j&gt;=0 &amp;&amp; k &lt;len)
+         {
+           if(a[j]==a[k])
+             {ans+=2; j--;k++; /*printf(&quot;%d %d\n&quot;,j,k);*/}                
+           else
+            break;          
+         }
+        if(max&lt;ans)
+         max=ans;                
+      }       
+    } 
+  return max;
+}
+int lps2(char *a)
+{
+   int len=strlen(a);
+   
+   if(len&lt;=1) return len;
+   if(len==2) return ( a[0]==a[1]? 2 : 1);
+   
+   //printf(&quot;%d\\n&quot;,len);
+   int ans=1,i,j,k;
+   int max=1;
+   int ans1,max1;
+    ans1=0;
+    max1=0;
+    for(i=1;i&lt;len;i++)
+     {
+        ans1=0;
+        j=i-1;k=i;              
+        while(j&gt;=0&amp;&amp;k&lt;len)
+        {
+          if(a[j]==a[k]) { ans1+=2; j--;k++; }
+          else
+           break;                
+        }        
+        if(max1&lt;ans1)
+         max1=ans1; 
+                                 
+     }
+   return max1; 
+}
+
+int LPS(char *a)
+{
+ int i,j;
+ i=lps1(a);
+ j=lps2(a);
+ //printf(&quot;%d %d \n&quot;,i,j);
+ return i&gt;j? i: j;   
+}
+int main()
+{
+    char seq[] = &quot;AAAABAAAAAAAA&quot;;
+    int n = strlen(seq);
+    printf (&quot;The lnegth of the LPS is %d&quot;, LPS(seq));
+    getchar();
+    return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-8344">
+        <div id="dsq-comment-header-8344" class="dsq-comment-header">
+            <cite id="dsq-cite-8344">
+                <span id="dsq-author-user-8344">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8344" class="dsq-comment-body">
+            <div id="dsq-comment-message-8344" class="dsq-comment-message"><p>Your program doesn&#8217;t seem to be working for many strings.  For example, it produced 1 as output for string &#8220;ABCBCA&#8221;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-8351">
+        <div id="dsq-comment-header-8351" class="dsq-comment-header">
+            <cite id="dsq-cite-8351">
+                <span id="dsq-author-user-8351">gautam</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8351" class="dsq-comment-body">
+            <div id="dsq-comment-message-8351" class="dsq-comment-message"><p>Sorry for the wrong code </p>
+<p>In the lps1 just remove the following condition and please let me know if it has some more flaw. </p>
+<p> if(len%2) //odd lengt  </p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-22266">
+        <div id="dsq-comment-header-22266" class="dsq-comment-header">
+            <cite id="dsq-cite-22266">
+                <span id="dsq-author-user-22266">anonymous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22266" class="dsq-comment-body">
+            <div id="dsq-comment-message-22266" class="dsq-comment-message"><p>your code calculates longest common sub&#8217;string&#8217; not sub&#8217;sequence&#8217;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-30356">
+        <div id="dsq-comment-header-30356" class="dsq-comment-header">
+            <cite id="dsq-cite-30356">
+                <span id="dsq-author-user-30356">BP</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30356" class="dsq-comment-body">
+            <div id="dsq-comment-message-30356" class="dsq-comment-message"><p>can you tell how to print longest palindrome subsequence</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8334">
+        <div id="dsq-comment-header-8334" class="dsq-comment-header">
+            <cite id="dsq-cite-8334">
+                <span id="dsq-author-user-8334">eminem</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8334" class="dsq-comment-body">
+            <div id="dsq-comment-message-8334" class="dsq-comment-message"><p>The solutions that you have posted are O(n2). There are better solutions with both O(nlogn) and O(n) complexities. Google them !</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-8335">
+        <div id="dsq-comment-header-8335" class="dsq-comment-header">
+            <cite id="dsq-cite-8335">
+                <span id="dsq-author-user-8335">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8335" class="dsq-comment-body">
+            <div id="dsq-comment-message-8335" class="dsq-comment-message"><p>Tried googling it, but couldn&#8217;t find a nLogn solution. Could you post the links, please?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-8337">
+        <div id="dsq-comment-header-8337" class="dsq-comment-header">
+            <cite id="dsq-cite-8337">
+                <span id="dsq-author-user-8337">eminem</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8337" class="dsq-comment-body">
+            <div id="dsq-comment-message-8337" class="dsq-comment-message"><p>please find the linear time solution here</p>
+<p><a href="http://www.akalin.cx/longest-palindrome-linear-time" rel="nofollow">http://www.akalin.cx/longest-palindrome-linear-time</a></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-8338">
+        <div id="dsq-comment-header-8338" class="dsq-comment-header">
+            <cite id="dsq-cite-8338">
+                <span id="dsq-author-user-8338">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8338" class="dsq-comment-body">
+            <div id="dsq-comment-message-8338" class="dsq-comment-message"><p>Thanks for sharing the link. We will look into this solution.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-5" id="dsq-comment-8339">
+        <div id="dsq-comment-header-8339" class="dsq-comment-header">
+            <cite id="dsq-cite-8339">
+                <span id="dsq-author-user-8339">eminem</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8339" class="dsq-comment-body">
+            <div id="dsq-comment-message-8339" class="dsq-comment-message"><p><img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-5" id="dsq-comment-30353">
+        <div id="dsq-comment-header-30353" class="dsq-comment-header">
+            <cite id="dsq-cite-30353">
+                <span id="dsq-author-user-30353">BP</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30353" class="dsq-comment-body">
+            <div id="dsq-comment-message-30353" class="dsq-comment-message"><p>can anybody could tell me how to print the longest palindrome subsequence string not the length</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt depth-4" id="dsq-comment-8340">
+        <div id="dsq-comment-header-8340" class="dsq-comment-header">
+            <cite id="dsq-cite-8340">
+                <span id="dsq-author-user-8340">Saurabh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8340" class="dsq-comment-body">
+            <div id="dsq-comment-message-8340" class="dsq-comment-message"><p>Your link points to longest palindromic &#8216;substring&#8217;, not &#8216;subsequence&#8217;.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-5" id="dsq-comment-8352">
+        <div id="dsq-comment-header-8352" class="dsq-comment-header">
+            <cite id="dsq-cite-8352">
+                <span id="dsq-author-user-8352">eminem</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8352" class="dsq-comment-body">
+            <div id="dsq-comment-message-8352" class="dsq-comment-message"><p>@saurav and how are the two things different?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-5" id="dsq-comment-8353">
+        <div id="dsq-comment-header-8353" class="dsq-comment-header">
+            <cite id="dsq-cite-8353">
+                <span id="dsq-author-user-8353">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8353" class="dsq-comment-body">
+            <div id="dsq-comment-message-8353" class="dsq-comment-message"><p>There is difference between following two terms<br />
+1) Substring<br />
+2) Subsequence</p>
+<p>&#8220;ABC&#8221; is a subsequence of &#8220;AABBCC&#8221;, but not a substring.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-5" id="dsq-comment-30360">
+        <div id="dsq-comment-header-30360" class="dsq-comment-header">
+            <cite id="dsq-cite-30360">
+                <span id="dsq-author-user-30360">BP</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30360" class="dsq-comment-body">
+            <div id="dsq-comment-message-30360" class="dsq-comment-message"><p>can you please tell me how to print the longest palindrome subsequence..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/dynamic-programming-set-12-longest-palindromic-subsequence/';
+var disqus_identifier = '19155 http://www.geeksforgeeks.org/?p=19155';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Dynamic Programming | Set 12 (Longest Palindromic Subsequence)";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.215 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:22:50 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

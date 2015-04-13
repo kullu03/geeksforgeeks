@@ -1,0 +1,951 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Mutex vs Semaphore - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/mutex-vs-semaphore/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Mutex vs Semaphore - GeeksforGeeks" />
+<meta property="og:description" content="What are the differences between Mutex vs Semaphore? When to use mutex and when to use semaphore? Concrete understanding of Operating System concepts is required to design/develop smart applications. Our objective is to educate  the reader on these concepts and learn from other expert geeks. As per operating system terminology, the mutex and semaphore are &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/mutex-vs-semaphore/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Operating systems" />
+<meta property="article:section" content="Articles" />
+<meta property="article:published_time" content="2011-04-12T15:20:43+00:00" />
+<meta property="article:modified_time" content="2011-08-19T00:23:22+00:00" />
+<meta property="og:updated_time" content="2011-08-19T00:23:22+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.510 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417522175 115.111.145.210 192.168.21.131';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Mutex vs Semaphore</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>What are the differences between Mutex vs Semaphore? When to use mutex and when to use semaphore?<span id="more-9102"></span></p>
+<p>Concrete understanding of Operating System concepts is required to design/develop smart applications. Our objective is to educate  the reader on these concepts and learn from other expert geeks.</p>
+<p>As per operating system terminology, the mutex and semaphore are kernel resources that provide synchronization services (also called as <em>synchronization primitives</em>). <em>Why do we need such synchronization primitives? Won&#8217;t be only one sufficient? </em>To answer these questions, we need to understand few keywords. Please read the posts on <a href="http://geeksforgeeks.org/?p=9179" target="_blank">atomicity</a> and <a href="http://geeksforgeeks.org/?p=9180" target="_blank">critical section</a>. We will illustrate with examples to understand these concepts well, rather than following usual OS textual description.</p>
+<p><strong>The <a href="http://en.wikipedia.org/wiki/Producer-consumer_problem" target="_blank">producer-consumer</a> problem:</strong></p>
+<p><em>Note that the content is generalized explanation. Practical details will vary from implementation.</em></p>
+<p>Consider the standard producer-consumer problem. Assume, we have a buffer of 4096 byte length. A producer thread will collect the data and writes it to the buffer. A consumer thread will process the collected data from the buffer. Objective is, both the threads should not run at the same time.</p>
+<p><strong>Using Mutex:</strong></p>
+<p>A mutex provides mutual exclusion, either producer or consumer can have the key (mutex) and proceed with their work. As long as the buffer is filled by producer, the consumer needs to wait, and vice versa.</p>
+<p>At any point of time, only one thread can work with the <em>entire</em> buffer. The concept can be generalized using semaphore.</p>
+<p><strong>Using Semaphore:</strong></p>
+<p>A semaphore is a generalized mutex. In lieu of single buffer, we can split the 4 KB buffer into four 1 KB buffers (identical resources). A semaphore can be associated with these four buffers. The consumer and producer can work on different buffers at the same time.</p>
+<p><strong>Misconception:</strong></p>
+<p>There is an ambiguity between <em>binary semaphore</em> and <em>mutex</em>. We might have come across that a mutex is binary semaphore. <em>But they are not</em>! The purpose of mutex and semaphore are different. May be, due to similarity in their implementation a mutex would be referred as binary semaphore.</p>
+<p>Strictly speaking, a mutex is <strong><span style="color: #0000ff">locking mechanism</span></strong> used to synchronize access to a resource. Only one task (can be a thread or process based on OS abstraction) can acquire the mutex. It means there will be ownership associated with mutex, and only the owner can release the lock (mutex).</p>
+<p>Semaphore is <span style="color: #0000ff"><strong>signaling mechanism</strong></span> (&#8220;I am done, you can carry on&#8221; kind of signal). For example, if you are listening songs (assume it as one task) on your mobile and at the same time your friend called you, an interrupt will be triggered upon which an interrupt service routine (ISR) will signal the call processing task to wakeup.</p>
+<p><strong>General Questions:</strong></p>
+<p><em>1. Can a thread acquire more than one lock (Mutex)?</em></p>
+<p>Yes, it is possible that a thread will be in need of more than one resource, hence the locks. If any lock is not available the thread will wait (block) on the lock.</p>
+<p><em>2. Can a mutex be locked more than once?</em></p>
+<p>A mutex is a lock. Only one state (locked/unlocked) is associated with it. However, a <em>recursive mutex</em> can be locked more than once (POSIX complaint systems), in which a count is associated with it, yet retains only one state (locked/unlocked). The programmer must unlock the mutex as many number times as it was locked.</p>
+<p><em>3. What will happen if a non-recursive mutex is locked more than once.</em></p>
+<p>Deadlock. If a thread which had already locked a mutex, tries to lock the mutex again, it will enter into the waiting list of that mutex, which results in deadlock. It is because no other thread can unlock the mutex. An operating system implementer can exercise care in identifying the owner of mutex and return if it is already locked by same thread to prevent deadlocks.</p>
+<p><em>4. Are binary semaphore and mutex same?</em></p>
+<p>No. We will suggest to treat them separately, as it was explained signalling vs locking mechanisms. But a binary semaphore may experience the same critical issues (e.g. priority inversion) associated with mutex. We will cover these later article.</p>
+<p>A programmer can prefer mutex rather than creating a semaphore with count 1.</p>
+<p><em>5. What is a mutex and critical section?</em></p>
+<p>Some operating systems use the same word <em>critical section</em> in the API. Usually a mutex is costly operation due to protection protocols associated with it. At last, the objective of mutex is atomic access. There are other ways to achieve atomic access like disabling interrupts which can be much faster but ruins responsiveness. The alternate API makes use of disabling interrupts.</p>
+<p><em>6. What are events?</em></p>
+<p>The semantics of mutex, semaphore, event, critical section, etc&#8230; are same. All are synchronization primitives. Based on their cost in using them they are different. We should consult the OS documentation for exact details.</p>
+<p><em>7. Can we acquire mutex/semaphore in an Interrupt Service Routine?</em></p>
+<p>An ISR will run asynchronously in the context of current running thread. It is <strong>not recommended</strong> to query (blocking call) the availability of synchronization primitives in an ISR. The ISR are meant be short, the call to mutex/semaphore may block the current running thread. However, an ISR can signal a semaphore or unlock a mutex.</p>
+<p><em>8. What we mean by &#8220;thread blocking on mutex/semaphore&#8221; when they are not available?</em></p>
+<p>Every synchronization primitive will have waiting list associated with it. When the resource is not available, the requesting thread will be moved from the running list of processor to the waiting list of the synchronization primitive. When the resource is available, the higher priority thread on the waiting list will get resource (more precisely, it depends on the scheduling policies).</p>
+<p><em>9. Is it necessary that a thread must block always when resource is not available?</em></p>
+<p>Not necessarily. If the design is sure &#8216;<em>what has to be done when resource is not available</em>&#8216;, the thread can take up that work (a different code branch). To support application requirements the OS provides non-blocking API.</p>
+<p>For example POSIX pthread_mutex_trylock() API. When the mutex is not available the function will return immediately where as the API pthread_mutex_lock() will block the thread till resource is available.</p>
+<p><strong>References:</strong></p>
+<p><strong><a href="http://www.netrino.com/node/202">http://www.netrino.com/node/202</a></strong></p>
+<p><strong><a href="http://doc.trolltech.com/4.7/qsemaphore.html">http://doc.trolltech.com/4.7/qsemaphore.html</a></strong></p>
+<p>Also compare mutex/semaphores with Peterson&#8217;s algorithm and Dekker&#8217;s algorithm. A good reference is the <em>Art of Concurrency </em>book. Also explore reader locks and writer locks in Qt documentation.</p>
+<p><strong>Exercise:</strong></p>
+<p>Implement a program that prints a message &#8220;An instance is running&#8221; when executed more than once in the same session. For example, if we observe word application or Adobe reader in Windows, we can see only one instance in the task manager. How to implement it?</p>
+<p>Article compiled by <strong>Venki</strong>. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/problem-binary-search-implementations/" title="A Problem in Many Binary Search Implementations">A Problem in Many Binary Search Implementations</a></li><li><a href="http://www.geeksforgeeks.org/analysis-of-algorithms-set-4-analysis-of-loops/" title="Analysis of Algorithms | Set 4 (Analysis of Loops)">Analysis of Algorithms | Set 4 (Analysis of Loops)</a></li><li><a href="http://www.geeksforgeeks.org/analysis-of-algorithms-set-3asymptotic-notations/" title="Analysis of Algorithms | Set 3 (Asymptotic Notations)">Analysis of Algorithms | Set 3 (Asymptotic Notations)</a></li><li><a href="http://www.geeksforgeeks.org/np-completeness-set-1/" title="NP-Completeness | Set 1 (Introduction)">NP-Completeness | Set 1 (Introduction)</a></li><li><a href="http://www.geeksforgeeks.org/static-vs-dynamic-libraries/" title="Static and Dynamic Libraries | Set 1">Static and Dynamic Libraries | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/the-ubiquitous-binary-search-set-1/" title="The Ubiquitous Binary Search | Set 1">The Ubiquitous Binary Search | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/reservoir-sampling/" title="Reservoir Sampling">Reservoir Sampling</a></li><li><a href="http://www.geeksforgeeks.org/analysis-of-algorithms-set-2-asymptotic-analysis/" title="Analysis of Algorithms | Set 2 (Worst, Average and Best Cases)">Analysis of Algorithms | Set 2 (Worst, Average and Best Cases)</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/operating-systems/" rel="tag">Operating systems</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fmutex-vs-semaphore%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/mutex-vs-semaphore/" data-text="Mutex vs Semaphore" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/mutex-vs-semaphore/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-33840">
+        <div id="dsq-comment-header-33840" class="dsq-comment-header">
+            <cite id="dsq-cite-33840">
+                <span id="dsq-author-user-33840">Bill</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33840" class="dsq-comment-body">
+            <div id="dsq-comment-message-33840" class="dsq-comment-message"><p>I disagree with your &#8220;disabling interrupts&#8221; statement. Disabling interrupts is only effective in single processor systems, and in modern processors it is a very expensive operation, even more than locking a mutex.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-33726">
+        <div id="dsq-comment-header-33726" class="dsq-comment-header">
+            <cite id="dsq-cite-33726">
+                <span id="dsq-author-user-33726">r00zster</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33726" class="dsq-comment-body">
+            <div id="dsq-comment-message-33726" class="dsq-comment-message"><p>I feel like this is a lot of great information&#8230;sorry if this is rude, but there are a lot of grammar errors that make it a little hard to understand at some points, and require a few re-reads to fully comprehend. </p>
+<p>I mean I guess it&#8217;s not a big deal but it would certainly make it easier to understand the technical aspects. Not to take away from the content, which is great.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-32997">
+        <div id="dsq-comment-header-32997" class="dsq-comment-header">
+            <cite id="dsq-cite-32997">
+                <span id="dsq-author-user-32997">fateh_singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32997" class="dsq-comment-body">
+            <div id="dsq-comment-message-32997" class="dsq-comment-message"><p>is another difference between mutex and thread is-</p>
+<p>&#8211;with “mutex” no other thread can unlock the lock<br />
+in your thread<br />
+&#8211;with “binary-semaphore”  any other thread can unlock<br />
+the lock in your thread<br />
+??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+<ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-30684">
+        <div id="dsq-comment-header-30684" class="dsq-comment-header">
+            <cite id="dsq-cite-30684">
+                <span id="dsq-author-user-30684">Anupam</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30684" class="dsq-comment-body">
+            <div id="dsq-comment-message-30684" class="dsq-comment-message"><p>no&#8230;it mutex can sleep</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-17638">
+        <div id="dsq-comment-header-17638" class="dsq-comment-header">
+            <cite id="dsq-cite-17638">
+                <span id="dsq-author-user-17638">DashDash</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17638" class="dsq-comment-body">
+            <div id="dsq-comment-message-17638" class="dsq-comment-message"><p>Am I right here, as far as I understood the difference</p>
+<p>2 threads</p>
+<p>A                                        B<br />
+Wait(x)                                Release(x)<br />
+//Critical section                     //Critical section<br />
+Release(x)                             Wait(x)</p>
+<p>Here in case of mutex when A executes Wait(x) and goes into critical section and when B says Release(x) it will give error as A has locked it.</p>
+<p>But in case of semaphores when A is in critical section and B says Release(x) x will be incremented.<br />
+right?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-14434">
+        <div id="dsq-comment-header-14434" class="dsq-comment-header">
+            <cite id="dsq-cite-14434">
+                <span id="dsq-author-user-14434">Vijay</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14434" class="dsq-comment-body">
+            <div id="dsq-comment-message-14434" class="dsq-comment-message"><p><a href="https://www.youtube.com/watch?v=VQFJQJGmixM" rel="nofollow">https://www.youtube.com/watch?v=VQFJQJGmixM</a> Should give you basic idea of semaphore and mutes. it explains the concept in simplified terms.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-13482">
+        <div id="dsq-comment-header-13482" class="dsq-comment-header">
+            <cite id="dsq-cite-13482">
+                <span id="dsq-author-user-13482">Aadishri</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13482" class="dsq-comment-body">
+            <div id="dsq-comment-message-13482" class="dsq-comment-message"><p>I found this man-page of Semaphore at Yolinux useful<br />
+[http://man.yolinux.com/cgi-bin/man2html?cgi_command=sem_overview(7)]</p>
+<p>Even Mutex is explained in detail</p>
+<pre> <code language="C">
+/* check at http://man.yolinux.com/cgi-bin/man2html?cgi_command=sem_wait(3) for an example */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-12310">
+        <div id="dsq-comment-header-12310" class="dsq-comment-header">
+            <cite id="dsq-cite-12310">
+                <span id="dsq-author-user-12310">Titus</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12310" class="dsq-comment-body">
+            <div id="dsq-comment-message-12310" class="dsq-comment-message"><p>Nice Post</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-12309">
+        <div id="dsq-comment-header-12309" class="dsq-comment-header">
+            <cite id="dsq-cite-12309">
+                <span id="dsq-author-user-12309">Titus</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12309" class="dsq-comment-body">
+            <div id="dsq-comment-message-12309" class="dsq-comment-message"><p>Nice Post&#8230;&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-12285">
+        <div id="dsq-comment-header-12285" class="dsq-comment-header">
+            <cite id="dsq-cite-12285">
+http://playingwithsignals.blogspot.com                <span id="dsq-author-user-12285">rahul agarwal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12285" class="dsq-comment-body">
+            <div id="dsq-comment-message-12285" class="dsq-comment-message"><p>please refer this link for better clarification&#8230;<br />
+and always remember that a semaphore is a generalized mutex..<br />
+<a href="http://doc.qt.digia.com/4.7/qsemaphore.html" rel="nofollow">http://doc.qt.digia.com/4.7/qsemaphore.html</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-9786">
+        <div id="dsq-comment-header-9786" class="dsq-comment-header">
+            <cite id="dsq-cite-9786">
+                <span id="dsq-author-user-9786">Urvish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9786" class="dsq-comment-body">
+            <div id="dsq-comment-message-9786" class="dsq-comment-message"><p>Difference between Binary Semaphore and Mutex&#8230;<br />
+(as per my understanding)</p>
+<p>Assume there are 3 processes, 2 producers and 1 consumer.<br />
+Scheduling is like this. P1, P2, C, P1 ,P2, C,&#8230;..</p>
+<p>Mutex<br />
+=====<br />
+Now, lets say there is no stock.</p>
+<p>When it was turn of P1, it started producing. It got some stock ready and P1 will take mutex to add some stock. Just after it took mutex its time is over. Now key of LOCKED Mutex is with P1.</p>
+<p>Now it is turn of P2. It has some stock ready but it cannot add coz key is with P1. So, it will wait for lock to be opened by P1. Its time will be over just by waiting.</p>
+<p>Now, its C turn and it cannot consume anything as Key is with P1 and moreover, there is no stock.</p>
+<p>Next it will be P1&#8217;s turn and it will add stock and unlock. Then C can consume.</p>
+<p>Here, you can see that only owner (P1 here) can open lock. So the work is delayed.</p>
+<p>Now take case of Binary Semaphore. Here there is not like owner of semaphore.<br />
+So in simple case, though P1 has locked it, as P2 has some stock ready, it will unlock and add some stock. So, in 1st cycle only, C will get it.</p>
+<p>//let me know if I am wrong somewhere.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-9025">
+        <div id="dsq-comment-header-9025" class="dsq-comment-header">
+            <cite id="dsq-cite-9025">
+                <span id="dsq-author-user-9025">autoAlgorithmist</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9025" class="dsq-comment-body">
+            <div id="dsq-comment-message-9025" class="dsq-comment-message"><p>@Venki, I have got great confusion between binary semaphore &amp; mutex It would be very helpful if you cite an example where binary semaphore fails &amp; mutex performs the task?<br />
+Thank you.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-7753">
+        <div id="dsq-comment-header-7753" class="dsq-comment-header">
+            <cite id="dsq-cite-7753">
+                <span id="dsq-author-user-7753">Naveen</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7753" class="dsq-comment-body">
+            <div id="dsq-comment-message-7753" class="dsq-comment-message"><p>From General Question 2 &#8211; Does it mean recursive mutex and semaphores same ?<br />
+Can you please give an example of recursive mutex ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-6518">
+        <div id="dsq-comment-header-6518" class="dsq-comment-header">
+            <cite id="dsq-cite-6518">
+                <span id="dsq-author-user-6518">Vijay Ekkaladevi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6518" class="dsq-comment-body">
+            <div id="dsq-comment-message-6518" class="dsq-comment-message"><p>Though mutex &amp; semaphores are used as synchronization primitives ,there is a big difference between them.<br />
+In the case of mutex, only the thread that locked or acquired the mutex can unlock it.<br />
+In the case of a semaphore, a thread waiting on a semaphore can be signaled by a different thread.<br />
+Some operating system supports using mutex &amp; semaphores between process. Typically usage is creating in shared memory.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-ashokraju even thread-odd thread-alt depth-1" id="dsq-comment-6344">
+        <div id="dsq-comment-header-6344" class="dsq-comment-header">
+            <cite id="dsq-cite-6344">
+http://www.ashokraju.in                <span id="dsq-author-user-6344">yash</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6344" class="dsq-comment-body">
+            <div id="dsq-comment-message-6344" class="dsq-comment-message"><p>will somebody provide solution for the exercise to help solve it..</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-11547">
+        <div id="dsq-comment-header-11547" class="dsq-comment-header">
+            <cite id="dsq-cite-11547">
+                <span id="dsq-author-user-11547">Ganesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11547" class="dsq-comment-body">
+            <div id="dsq-comment-message-11547" class="dsq-comment-message"><p>Here&#8217;s the idea&#8230;</p>
+<pre> <code language="C">
+
+pthread_mutex_t lock;
+
+void *execute(void *arg)
+{
+ pthread_mutex_lock(&amp;lock);
+ execl(&quot;some program...&quot;)
+ pthread_mutex_unlock(&amp;lock);
+}
+
+int main(void)
+{
+ pthread_mutex_init(&amp;lock, NULL);
+ while(loop mulpltiple threads) 
+ {
+   pthread_create(..,&amp;execute ,...);
+ }
+ pthread_join(..)
+ pthread_mutex_destroy(&amp;lock);
+ 
+}
+
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-5399">
+        <div id="dsq-comment-header-5399" class="dsq-comment-header">
+            <cite id="dsq-cite-5399">
+http://www.gdeepak.com                <span id="dsq-author-user-5399">phd@deep (visitor)</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5399" class="dsq-comment-body">
+            <div id="dsq-comment-message-5399" class="dsq-comment-message"><p>i like Finding Best Hashing Strategies and Hashing Functions.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-4155">
+        <div id="dsq-comment-header-4155" class="dsq-comment-header">
+            <cite id="dsq-cite-4155">
+                <span id="dsq-author-user-4155">Dumanshu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4155" class="dsq-comment-body">
+            <div id="dsq-comment-message-4155" class="dsq-comment-message"><p>@venki : i have heard that mutex is used for only threads whereas semaphores can be used for both processes and threads. is it true? because for different processes i don&#8217;t think its possible to have a shared mutex.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3871">
+        <div id="dsq-comment-header-3871" class="dsq-comment-header">
+            <cite id="dsq-cite-3871">
+                <span id="dsq-author-user-3871">umesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3871" class="dsq-comment-body">
+            <div id="dsq-comment-message-3871" class="dsq-comment-message"><p>Mutex and binary semaphore are same, the only diffrence might be of ownership. Rest is counting semaphore.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-venki bypostauthor odd alt depth-2" id="dsq-comment-3874">
+        <div id="dsq-comment-header-3874" class="dsq-comment-header">
+            <cite id="dsq-cite-3874">
+http://www.linkedin.com/in/ramanawithu                <span id="dsq-author-user-3874">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3874" class="dsq-comment-body">
+            <div id="dsq-comment-message-3874" class="dsq-comment-message"><p>@umesh, If they are same why two different names? and why should they functionally different (ownership)? Can you cite an example, where binary semaphores and mutex can be used interchangeably?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-3875">
+        <div id="dsq-comment-header-3875" class="dsq-comment-header">
+            <cite id="dsq-cite-3875">
+                <span id="dsq-author-user-3875">umesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3875" class="dsq-comment-body">
+            <div id="dsq-comment-message-3875" class="dsq-comment-message"><p>@venki, The binary semaphore can have two values 0 or 1, 0-&gt;process has to wait, 1-&gt;process can go ahead, the same applies to mutex too, the only case might be when locking a function having a series of function calls as all such functions also have to be locked in that case the binary semaphore fails and mutex is the right choice.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-5146">
+        <div id="dsq-comment-header-5146" class="dsq-comment-header">
+            <cite id="dsq-cite-5146">
+                <span id="dsq-author-user-5146">Don</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5146" class="dsq-comment-body">
+            <div id="dsq-comment-message-5146" class="dsq-comment-message"><p>Here is a .Net implementation difference for semaphores and mutexes: </p>
+<p>&#8220;The Mutex class enforces thread identity, so a mutex can be released only by the thread that acquired it. By contrast, the Semaphore class does not enforce thread identity.&#8221;</p>
+<p><a href="http://msdn.microsoft.com/en-us/library/system.threading.mutex.aspx" rel="nofollow">http://msdn.microsoft.com/en-us/library/system.threading.mutex.aspx</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-tech_geek even thread-odd thread-alt depth-1" id="dsq-comment-3843">
+        <div id="dsq-comment-header-3843" class="dsq-comment-header">
+            <cite id="dsq-cite-3843">
+                <span id="dsq-author-user-3843">Tech_geek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3843" class="dsq-comment-body">
+            <div id="dsq-comment-message-3843" class="dsq-comment-message"><p>I still did not understand what is the difference between them. they are same. You can say that Mutex too is used for signaling like when one process will say &#8221; I am done with these resources &#8221; only after that other process can use those resources.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3795">
+        <div id="dsq-comment-header-3795" class="dsq-comment-header">
+            <cite id="dsq-cite-3795">
+http://ahmetalpbalkan.com                <span id="dsq-author-user-3795">ahmet alp balkan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3795" class="dsq-comment-body">
+            <div id="dsq-comment-message-3795" class="dsq-comment-message"><p>nice post again! fan of your blog.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/mutex-vs-semaphore/';
+var disqus_identifier = '9102 http://geeksforgeeks.org/?p=9102';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Mutex vs Semaphore";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.207 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-12-02 17:39:35 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

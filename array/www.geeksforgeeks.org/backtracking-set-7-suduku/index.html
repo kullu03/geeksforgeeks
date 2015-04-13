@@ -1,0 +1,1937 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Backtracking | Set 7 (Sudoku) - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/backtracking-set-7-suduku/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Backtracking | Set 7 (Sudoku) - GeeksforGeeks" />
+<meta property="og:description" content="Given a partially filled 9&#215;9 2D array &#8216;grid[9][9]&#8217;, the goal is to assign digits (from 1 to 9) to the empty cells so that every row, column, and subgrid of size 3&#215;3 contains exactly one instance of the digits from 1 to 9. Naive Algorithm The Naive Algorithm is to generate all possible configurations of &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/backtracking-set-7-suduku/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Backtracking" />
+<meta property="article:section" content="Misc" />
+<meta property="article:published_time" content="2012-07-14T10:39:35+00:00" />
+<meta property="article:modified_time" content="2012-07-14T11:33:53+00:00" />
+<meta property="og:updated_time" content="2012-07-14T11:33:53+00:00" />
+<meta property="og:image" content="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/suduku.png" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.485 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111572 77.247.181.163';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Backtracking | Set 7 (Sudoku)</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>Given a partially filled 9&#215;9 2D array &#8216;grid[9][9]&#8217;, the goal is to assign digits (from 1 to 9) to the empty cells so that every row, column, and subgrid of size 3&#215;3 contains exactly one instance of the digits from 1 to 9.  <span id="more-13779"></span></p>
+<p><a href="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/suduku.png"><img src="http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/suduku.png" alt="" title="suduku" width="240" height="230" class="aligncenter size-full wp-image-21866" /></a></p>
+<p><strong>Naive Algorithm</strong><br />
+The Naive Algorithm is to generate all possible configurations of numbers from 1 to 9 to fill the empty cells. Try every configuration one by one until the correct configuration is found.</p>
+<p><strong>Backtracking Algorithm</strong><br />
+Like all other <a href="http://www.geeksforgeeks.org/archives/tag/backtracking">Backtracking problems</a>, we can solve Sudoku by one by one assigning numbers to empty cells. Before assigning a number, we check whether it is safe to assign. We basically check that the same number is not present in current row, current column and current 3X3 subgrid. After checking for safety, we assign the number, and recursively check whether this assignment leads to a solution or not.  If the assignment doesn&#8217;t lead to a solution, then we try next number for current empty cell. And if none of number (1 to 9) lead to solution, we return false.</p>
+<pre>
+  Find row, col of an unassigned cell
+  If there is none, return true
+  For digits from 1 to 9
+    a) If there is no conflict for digit at row,col
+        assign digit to row,col and recursively try fill in rest of grid
+    b) If recursion successful, return true
+    c) Else, remove digit and try another
+  If all digits have been tried and nothing worked, return false
+</pre>
+<p>Following is C++ implementation for Sudoku problem. It prints the completely filled grid as output.</p>
+<pre class="brush: cpp; highlight: [16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45]; title: ; notranslate" title="">
+// A Backtracking program  in C++ to solve Sudoku problem
+#include &lt;stdio.h&gt;
+
+// UNASSIGNED is used for empty cells in sudoku grid
+#define UNASSIGNED 0
+
+// N is used for size of Sudoku grid. Size will be NxN
+#define N 9
+
+// This function finds an entry in grid that is still unassigned
+bool FindUnassignedLocation(int grid[N][N], int &amp;row, int &amp;col);
+
+// Checks whether it will be legal to assign num to the given row,col
+bool isSafe(int grid[N][N], int row, int col, int num);
+
+/* Takes a partially filled-in grid and attempts to assign values to
+  all unassigned locations in such a way to meet the requirements
+  for Sudoku solution (non-duplication across rows, columns, and boxes) */
+bool SolveSudoku(int grid[N][N])
+{
+    int row, col;
+
+    // If there is no unassigned location, we are done
+    if (!FindUnassignedLocation(grid, row, col))
+       return true; // success!
+
+    // consider digits 1 to 9
+    for (int num = 1; num &lt;= 9; num++)
+    {
+        // if looks promising
+        if (isSafe(grid, row, col, num))
+        {
+            // make tentative assignment
+            grid[row][col] = num;
+
+            // return, if success, yay!
+            if (SolveSudoku(grid))
+                return true;
+
+            // failure, unmake &amp; try again
+            grid[row][col] = UNASSIGNED;
+        }
+    }
+    return false; // this triggers backtracking
+}
+
+/* Searches the grid to find an entry that is still unassigned. If
+   found, the reference parameters row, col will be set the location
+   that is unassigned, and true is returned. If no unassigned entries
+   remain, false is returned. */
+bool FindUnassignedLocation(int grid[N][N], int &amp;row, int &amp;col)
+{
+    for (row = 0; row &lt; N; row++)
+        for (col = 0; col &lt; N; col++)
+            if (grid[row][col] == UNASSIGNED)
+                return true;
+    return false;
+}
+
+/* Returns a boolean which indicates whether any assigned entry
+   in the specified row matches the given number. */
+bool UsedInRow(int grid[N][N], int row, int num)
+{
+    for (int col = 0; col &lt; N; col++)
+        if (grid[row][col] == num)
+            return true;
+    return false;
+}
+
+/* Returns a boolean which indicates whether any assigned entry
+   in the specified column matches the given number. */
+bool UsedInCol(int grid[N][N], int col, int num)
+{
+    for (int row = 0; row &lt; N; row++)
+        if (grid[row][col] == num)
+            return true;
+    return false;
+}
+
+/* Returns a boolean which indicates whether any assigned entry
+   within the specified 3x3 box matches the given number. */
+bool UsedInBox(int grid[N][N], int boxStartRow, int boxStartCol, int num)
+{
+    for (int row = 0; row &lt; 3; row++)
+        for (int col = 0; col &lt; 3; col++)
+            if (grid[row+boxStartRow][col+boxStartCol] == num)
+                return true;
+    return false;
+}
+
+/* Returns a boolean which indicates whether it will be legal to assign
+   num to the given row,col location. */
+bool isSafe(int grid[N][N], int row, int col, int num)
+{
+    /* Check if 'num' is not already placed in current row,
+       current column and current 3x3 box */
+    return !UsedInRow(grid, row, num) &amp;&amp;
+           !UsedInCol(grid, col, num) &amp;&amp;
+           !UsedInBox(grid, row - row%3 , col - col%3, num);
+}
+
+/* A utility function to print grid  */
+void printGrid(int grid[N][N])
+{
+    for (int row = 0; row &lt; N; row++)
+    {
+       for (int col = 0; col &lt; N; col++)
+             printf(&quot;%2d&quot;, grid[row][col]);
+        printf(&quot;\n&quot;);
+    }
+}
+
+/* Driver Program to test above functions */
+int main()
+{
+    // 0 means unassigned cells
+    int grid[N][N] = {{3, 0, 6, 5, 0, 8, 4, 0, 0},
+                      {5, 2, 0, 0, 0, 0, 0, 0, 0},
+                      {0, 8, 7, 0, 0, 0, 0, 3, 1},
+                      {0, 0, 3, 0, 1, 0, 0, 8, 0},
+                      {9, 0, 0, 8, 6, 3, 0, 0, 5},
+                      {0, 5, 0, 0, 9, 0, 6, 0, 0},
+                      {1, 3, 0, 0, 0, 0, 2, 5, 0},
+                      {0, 0, 0, 0, 0, 0, 0, 7, 4},
+                      {0, 0, 5, 2, 0, 6, 3, 0, 0}};
+    if (SolveSudoku(grid) == true)
+          printGrid(grid);
+    else
+         printf(&quot;No solution exists&quot;);
+
+    return 0;
+}
+</pre>
+<p>Output:</p>
+<pre>
+  3 1 6 5 7 8 4 9 2
+  5 2 9 1 3 4 7 6 8
+  4 8 7 6 2 9 5 3 1
+  2 6 3 4 1 5 9 8 7
+  9 7 4 8 6 3 1 2 5
+  8 5 1 7 9 2 6 4 3
+  1 3 8 9 4 7 2 5 6
+  6 9 2 3 5 1 8 7 4
+  7 4 5 2 8 6 3 1 9
+</pre>
+<p>References:<br />
+<a href="http://see.stanford.edu/materials/icspacs106b/H19-RecBacktrackExamples.pdf">http://see.stanford.edu/materials/icspacs106b/H19-RecBacktrackExamples.pdf</a></p>
+<p>Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/job-sequencing-problem-set-1-greedy-algorithm/" title="Job Sequencing Problem | Set 1 (Greedy Algorithm)">Job Sequencing Problem | Set 1 (Greedy Algorithm)</a></li><li><a href="http://www.geeksforgeeks.org/multiply-two-polynomials-2/" title="Multiply two polynomials">Multiply two polynomials</a></li><li><a href="http://www.geeksforgeeks.org/algorithm-practice-question-beginners-set-1/" title="Algorithm Practice Question for Beginners | Set 1">Algorithm Practice Question for Beginners | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/count-distinct-non-negative-pairs-x-y-satisfy-inequality-xx-yy-n-2/" title="Count Distinct Non-Negative Integer Pairs (x, y) that Satisfy the Inequality x*x + y*y &lt; n">Count Distinct Non-Negative Integer Pairs (x, y) that Satisfy the Inequality x*x + y*y < n</a></li><li><a href="http://www.geeksforgeeks.org/binomial-heap-2/" title="Binomial Heap">Binomial Heap</a></li><li><a href="http://www.geeksforgeeks.org/print-increasing-sequences-length-k-first-n-natural-numbers/" title="Print all increasing sequences of length k from first n natural numbers">Print all increasing sequences of length k from first n natural numbers</a></li><li><a href="http://www.geeksforgeeks.org/find-nth-number-number-system-3-4/" title="Find n&#8217;th number in a number system with only 3 and 4">Find n&#8217;th number in a number system with only 3 and 4</a></li><li><a href="http://www.geeksforgeeks.org/minimum-cost-polygon-triangulation/" title="Minimum Cost Polygon Triangulation">Minimum Cost Polygon Triangulation</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/backtracking/" rel="tag">Backtracking</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Fbacktracking-set-7-suduku%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/backtracking-set-7-suduku/" data-text="Backtracking | Set 7 (Sudoku)" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/backtracking-set-7-suduku/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-34525">
+        <div id="dsq-comment-header-34525" class="dsq-comment-header">
+            <cite id="dsq-cite-34525">
+                <span id="dsq-author-user-34525">Argha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34525" class="dsq-comment-body">
+            <div id="dsq-comment-message-34525" class="dsq-comment-message"><p>//A simple c++ version</p>
+<p>#include </p>
+<p>#include </p>
+<p>#include </p>
+<p>#define UNASSIGNED 0</p>
+<p>#define MAX 9</p>
+<p>using namespace std;</p>
+<p>class Sudoku</p>
+<p>{</p>
+<p>	private:</p>
+<p>			int A[MAX][MAX];</p>
+<p>	public:</p>
+<p>			static int count;</p>
+<p>			void getPuzzle();</p>
+<p>			void display();	</p>
+<p>			bool checkSquare(int i,int j,int x);//place for x within a Square</p>
+<p>			bool checkRow(int i,int j,int x);//place for x within a Row</p>
+<p>			bool checkCol(int i,int j,int x);//place for x in a Column</p>
+<p>			bool isSafe(int i,int j,int x);//all restrictions</p>
+<p>			bool FindUnassignedLocation(int &amp;row, int &amp;col);</p>
+<p>			bool SolveSudoku();</p>
+<p>};</p>
+<p>int Sudoku::count=0;</p>
+<p>bool Sudoku::SolveSudoku()</p>
+<p>{</p>
+<p>	count++;</p>
+<p>	ofstream out;</p>
+<p>	out.open(&#8220;Moments.txt&#8221;, std::ios_base::app);</p>
+<p>	for(int i=0;i&lt;MAX;i++)</p>
+<p>		{</p>
+<p>			for(int j=0;j&lt;MAX;j++)</p>
+<p>				{</p>
+<p>					out&lt;&lt;A[i][j]&lt;&lt;&quot; &quot;;</p>
+<p>				}</p>
+<p>				out&lt;&lt;endl;</p>
+<p>		}</p>
+<p>		out&lt;&lt;endl&lt;&lt;endl;</p>
+<p>		out.close();</p>
+<p>    int row, col;</p>
+<p>    if (FindUnassignedLocation(row, col)==false)</p>
+<p>       return true; </p>
+<p>    for (int num = 1; num &lt;= 9; num++)</p>
+<p>    {        </p>
+<p>        if (isSafe( row, col, num)==true)</p>
+<p>        {            </p>
+<p>            A[row][col] = num;            </p>
+<p>            if (SolveSudoku()==true)</p>
+<p>                return true;            </p>
+<p>            A[row][col] = UNASSIGNED;</p>
+<p>        }</p>
+<p>    }</p>
+<p>    return false; </p>
+<p>}</p>
+<p>bool Sudoku::FindUnassignedLocation(int &amp;row, int &amp;col)</p>
+<p>{</p>
+<p>    for (row = 0; row &lt; MAX; row++)</p>
+<p>        for (col = 0; col &lt; MAX; col++)</p>
+<p>            if (A[row][col] == UNASSIGNED)</p>
+<p>                return true;</p>
+<p>    return false;</p>
+<p>}</p>
+<p>bool Sudoku::isSafe(int i,int j,int x)</p>
+<p>{</p>
+<p>	if(checkSquare(i,j,x)==false &amp;&amp; checkRow(i,j,x)==false &amp;&amp; checkCol(i,j,x)==false)</p>
+<p>	{</p>
+<p>		return true;</p>
+<p>	}</p>
+<p>	return false;</p>
+<p>}</p>
+<p>bool Sudoku::checkSquare(int i,int j,int x)</p>
+<p>{</p>
+<p>	int m,n;</p>
+<p>	m=(i/3)*3;//Trucation for proper block idejntification</p>
+<p>	n=(j/3)*3;//Trucation for proper block idejntification</p>
+<p>	for(int p=m;p&lt;m+3;p++)</p>
+<p>	{</p>
+<p>		for(int q=n;q&lt;n+3;q++)</p>
+<p>		{</p>
+<p>			if (A[p][q]==x)</p>
+<p>			{</p>
+<p>				return true;</p>
+<p>			}</p>
+<p>		}</p>
+<p>	}</p>
+<p>	return false;</p>
+<p>}</p>
+<p>bool Sudoku::checkRow(int i,int j,int x)</p>
+<p>{</p>
+<p>	for(int p=0;p&lt;9;p++)</p>
+<p>	{</p>
+<p>		if(A[i][p]==x)</p>
+<p>		{</p>
+<p>			return true;</p>
+<p>		}</p>
+<p>	}</p>
+<p>	return false;</p>
+<p>}</p>
+<p>bool Sudoku::checkCol(int i,int j,int x)</p>
+<p>{</p>
+<p>	for(int p=0;p&lt;9;p++)</p>
+<p>	{</p>
+<p>		if(A[p][j]==x)</p>
+<p>		{</p>
+<p>			return true;</p>
+<p>		}</p>
+<p>	}</p>
+<p>	return false;</p>
+<p>}</p>
+<p>void Sudoku::display()</p>
+<p>{</p>
+<p>	for(int i=0;i&lt;MAX;i++)</p>
+<p>	{</p>
+<p>		for(int j=0;j&lt;MAX;j++)</p>
+<p>		{</p>
+<p>			cout&lt;&lt;A[i][j]&lt;&lt;&quot; &quot;;</p>
+<p>		}</p>
+<p>		cout&lt;&lt;endl;</p>
+<p>	}</p>
+<p>}</p>
+<p>void Sudoku::getPuzzle()</p>
+<p>{</p>
+<p>	ifstream in;</p>
+<p>	in.open(&quot;Solve.txt&quot;);</p>
+<p>	for(int i=0;i&lt;MAX;i++)</p>
+<p>		for(int j=0;j&gt;A[i][j];		</p>
+<p>}</p>
+<p>int main()</p>
+<p>{</p>
+<p>	Sudoku X;</p>
+<p>	X.getPuzzle();</p>
+<p>	X.SolveSudoku();</p>
+<p>	X.display();</p>
+<p>	cout&lt;&lt;endl&lt;&lt;endl&lt;&lt;&quot;Backtracking count= &quot;&lt;&lt;Sudoku::count;</p>
+<p>	getch();</p>
+<p>	return 0;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-33234">
+        <div id="dsq-comment-header-33234" class="dsq-comment-header">
+            <cite id="dsq-cite-33234">
+                <span id="dsq-author-user-33234">KK</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33234" class="dsq-comment-body">
+            <div id="dsq-comment-message-33234" class="dsq-comment-message"><p>An improvement to FindUnassignedLocation as proposed by Skiena in The Algorithm Design Manual. This might not make any different in easy puzzles as mentioned in this page. But for the puzzle at the end of this comment, it took 20 seconds on my PC without this optimization and 1 second with it. </p>
+<p>int SuitableVals(int grid[N][N], int row, int col)<br />
+{<br />
+    int total = 0;<br />
+    for (int i = 1; i &lt; 10; i++)<br />
+    {<br />
+        if (isSafe(grid, row, col, i))<br />
+            total++;<br />
+    }<br />
+    return total;<br />
+}</p>
+<p>bool FindUnassignedLocation(int grid[N][N], int &amp;row, int &amp;col)<br />
+{<br />
+    int min = 10;<br />
+    int cur = 0;<br />
+    int retrow, retcol;<br />
+    bool solfound = false;<br />
+    for (retrow = 0; retrow &lt; N; retrow++)<br />
+    {<br />
+        for (retcol = 0; retcol &lt; N; retcol++)<br />
+        {<br />
+            if (grid[retrow][retcol] == UNASSIGNED)<br />
+            {<br />
+                solfound = true;<br />
+                cur = SuitableVals(grid, retrow, retcol);<br />
+                if (cur &lt; min)<br />
+                {<br />
+                    min = cur;<br />
+                    row = retrow;<br />
+                    col = retcol;<br />
+                }<br />
+            }<br />
+        }<br />
+    }<br />
+    return solfound;<br />
+}</p>
+<p>Very Hard Puzzle</p>
+<p>{ { 0, 0, 0, 0, 0, 0, 0, 1, 2 },<br />
+    { 0, 0, 0, 0, 3, 5, 0, 0, 0 },<br />
+    { 0, 0, 0, 6, 0, 0, 0, 7, 0 },<br />
+    { 7, 0, 0, 0, 0, 0, 3, 0, 0 },<br />
+    { 0, 0, 0, 4, 0, 0, 8, 0, 0 },<br />
+    { 1, 0, 0, 0, 0, 0, 0, 0, 0 },<br />
+    { 0, 0, 0, 1, 2, 0, 0, 0, 0 },<br />
+    { 0, 8, 0, 0, 0, 0, 0, 4, 0 },<br />
+    { 0, 5, 0, 0, 0, 0, 6, 0, 0 } };</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-32673">
+        <div id="dsq-comment-header-32673" class="dsq-comment-header">
+            <cite id="dsq-cite-32673">
+                <span id="dsq-author-user-32673">Shailedra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32673" class="dsq-comment-body">
+            <div id="dsq-comment-message-32673" class="dsq-comment-message"><p>@admin  this algo. does not  give solution to many sudoku puzzle&#8230;like</p>
+<p>{{0, 0, 6, 0, 0, 0, 0, 0, 4},<br />
+                      {0, 0, 0, 8, 6, 0, 7, 3, 0},<br />
+{0, 4, 0, 3, 5, 4, 0, 0, 2},<br />
+                      {1, 7, 0, 4, 0, 0, 6, 0, 0},<br />
+{0, 9, 0, 0, 0, 0, 0, 8, 0},<br />
+                      {0, 0, 8, 0, 0, 6, 0, 1, 7},<br />
+                      {2, 0, 0, 0, 8, 1, 0, 4, 0},<br />
+                      {0, 6, 7, 0, 4, 3, 0, 0, 0},<br />
+{8, 0, 0, 0, 0, 0, 3, 0, 0}}  and many more test cases &#8230;<br />
+i tried many test cases&#8230;<br />
+i think it should include to find the min. number to get the optimal solution&#8230;.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-30996">
+        <div id="dsq-comment-header-30996" class="dsq-comment-header">
+            <cite id="dsq-cite-30996">
+                <span id="dsq-author-user-30996">charamander</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30996" class="dsq-comment-body">
+            <div id="dsq-comment-message-30996" class="dsq-comment-message"><p>I took the array b[][] to keep track of the data initially filled in the question. In this problem I gave it manually to suit the input(written at last)&#8230;.b[][] contains 100 at the place already given in the quesiton and so cant be modified while solving the sudoku. I am not getting any output. I am thankful to anyone who can pull me out of this&#8230;..</p>
+<p>whats wrong with my fill_sudoku function????</p>
+<p># include </p>
+<p># include </p>
+<p>#define N 9</p>
+<p>int b[N][N]={{100, 0, 100, 100, 0, 100, 100, 0, 0},</p>
+<p>                      {100, 100, 0, 0, 0, 0, 0, 0, 0},</p>
+<p>                      {0, 100, 100, 0, 0, 0, 0, 100, 100},</p>
+<p>                      {0, 0, 100, 0, 100, 0, 0, 100, 0},</p>
+<p>                      {100, 0, 0, 100, 100, 100, 0, 0, 100},</p>
+<p>                      {0, 100, 0, 0, 100, 0, 100, 0, 0},</p>
+<p>                      {100, 100, 0, 0, 0, 0, 100, 100, 0},</p>
+<p>                      {0, 0, 0, 0, 0, 0, 0, 100, 100},</p>
+<p>                      {0, 0, 100, 100, 0, 100, 100, 0, 0}};;</p>
+<p>/* Returns a boolean which indicates whether any assigned entry</p>
+<p>   in the specified row matches the given number. */</p>
+<p>bool UsedInRow(int grid[N][N], int row, int num)</p>
+<p>{</p>
+<p>    for (int col = 0; col &lt; N; col++)</p>
+<p>        if (grid[row][col] == num)</p>
+<p>            return true;</p>
+<p>    return false;</p>
+<p>}</p>
+<p>/* Returns a boolean which indicates whether any assigned entry</p>
+<p>   in the specified column matches the given number. */</p>
+<p>bool UsedInCol(int grid[N][N], int col, int num)</p>
+<p>{</p>
+<p>    for (int row = 0; row &lt; N; row++)</p>
+<p>        if (grid[row][col] == num)</p>
+<p>            return true;</p>
+<p>    return false;</p>
+<p>}</p>
+<p>/* Returns a boolean which indicates whether any assigned entry</p>
+<p>   within the specified 3&#215;3 box matches the given number. */</p>
+<p>bool UsedInBox(int grid[N][N], int boxStartRow, int boxStartCol, int num)</p>
+<p>{</p>
+<p>    for (int row = 0; row &lt; 3; row++)</p>
+<p>        for (int col = 0; col &lt; 3; col++)</p>
+<p>            if (grid[row+boxStartRow][col+boxStartCol] == num)</p>
+<p>                return true;</p>
+<p>    return false;</p>
+<p>}</p>
+<p>/* Returns a boolean which indicates whether it will be legal to assign</p>
+<p>   num to the given row,col location. */</p>
+<p>bool isSafe(int grid[N][N], int row, int col, int num)</p>
+<p>{</p>
+<p>  if(b[row][col]!=100)</p>
+<p>  {</p>
+<p>    /* Check if &#039;num&#039; is not already placed in current row,</p>
+<p>       current column and current 3&#215;3 box */</p>
+<p>    return !UsedInRow(grid, row, num) &amp;&amp;</p>
+<p>           !UsedInCol(grid, col, num) &amp;&amp;</p>
+<p>           !UsedInBox(grid, row &#8211; row%3 , col &#8211; col%3, num);</p>
+<p>  }</p>
+<p>  else</p>
+<p>    return false;</p>
+<p>}</p>
+<p>void printGrid(int grid[N][N])</p>
+<p>{</p>
+<p>    for (int row = 0; row &lt; N; row++)</p>
+<p>    {</p>
+<p>       for (int col = 0; col &lt; N; col++)</p>
+<p>             printf(&quot;%2d&quot;, grid[row][col]);</p>
+<p>        printf(&quot;n&quot;);</p>
+<p>    }</p>
+<p>}</p>
+<p>void fill_sudoku(int grid[N][N],int row, int column)</p>
+<p>{</p>
+<p>     int i=1;</p>
+<p>     if(row==8&amp;&amp;column==8)</p>
+<p>      printGrid(grid);</p>
+<p>    if(grid[row][column]==100)</p>
+<p>    {</p>
+<p>      if(column==8)</p>
+<p>        fill_sudoku(grid,row+1,0);</p>
+<p>      else</p>
+<p>        fill_sudoku(grid,row,column+1);</p>
+<p>    }</p>
+<p>     for(;i&lt;=9;i++)</p>
+<p>    {</p>
+<p>         grid[row][column]=i;</p>
+<p>      if(isSafe(grid, row, column, i)==1)</p>
+<p>        {</p>
+<p>          grid[row][column]=i;</p>
+<p>          if(column==8)</p>
+<p>            {fill_sudoku(grid,row+1,column);}</p>
+<p>          else</p>
+<p>            {fill_sudoku(grid,row,column+1);}</p>
+<p>        }</p>
+<p>     }</p>
+<p>}</p>
+<p>int main()</p>
+<p>{</p>
+<p>  int grid[9][9]= {{3, 0, 6, 5, 0, 8, 4, 0, 0},</p>
+<p>                      {5, 2, 0, 0, 0, 0, 0, 0, 0},</p>
+<p>                      {0, 8, 7, 0, 0, 0, 0, 3, 1},</p>
+<p>                      {0, 0, 3, 0, 1, 0, 0, 8, 0},</p>
+<p>                      {9, 0, 0, 8, 6, 3, 0, 0, 5},</p>
+<p>                      {0, 5, 0, 0, 9, 0, 6, 0, 0},</p>
+<p>                      {1, 3, 0, 0, 0, 0, 2, 5, 0},</p>
+<p>                      {0, 0, 0, 0, 0, 0, 0, 7, 4},</p>
+<p>                      {0, 0, 5, 2, 0, 6, 3, 0, 0}};</p>
+<p>  fill_sudoku(grid,0,0);</p>
+<p>  return 0;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-29354">
+        <div id="dsq-comment-header-29354" class="dsq-comment-header">
+            <cite id="dsq-cite-29354">
+                <span id="dsq-author-user-29354">chandeepsignh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29354" class="dsq-comment-body">
+            <div id="dsq-comment-message-29354" class="dsq-comment-message"><p>I copied the above code in Java but it produces the same result as the default input not the output shown above.<br />
+Where am I making mistake? Please suggest.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-23070">
+        <div id="dsq-comment-header-23070" class="dsq-comment-header">
+            <cite id="dsq-cite-23070">
+                <span id="dsq-author-user-23070">LinuxWorld</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-23070" class="dsq-comment-body">
+            <div id="dsq-comment-message-23070" class="dsq-comment-message"><p>/* this solving the sudo ku using hashing    // bashed on the // advice list and the backtracking */</p>
+<p>#include<br />
+#include<br />
+#include<br />
+int sudoku[10][10] = {  {0,0,0,0,0,0,0,0,0,0},<br />
+			{0,0,8,0,0,0,9,0,7,2},<br />
+			{0,6,0,0,0,0,0,0,0,4},<br />
+			{0,0,5,0,0,6,0,9,0,1},<br />
+			{0,2,0,0,0,0,5,0,0,0},<br />
+			{0,3,7,6,1,8,4,2,9,5},<br />
+			{0,0,0,0,3,0,0,0,0,6},<br />
+			{0,9,0,1,0,2,0,0,4,0},<br />
+			{0,5,0,0,0,0,0,0,0,9},<br />
+			{0,8,4,0,9,0,0,0,2,0}};  // very hard</p>
+<p>int row[10][10]  = {0} ; 		// this matrix used for the hashing the row and the digit<br />
+int col[10][10] = {0} ;			// this is for the hashing the column<br />
+int TCT[4][4][10] ={0} ;   // three cross three (for the three cross three matrix)	to hashing the 3*3 board<br />
+int counter[10] = {0};<br />
+int l  =   0 ;<br />
+struct advice			// this take the information of about the list of the data that can be insereted into the matrix of 					//	the sudo ku<br />
+{<br />
+  int i , j ;<br />
+  int count ;<br />
+  int adv[10] ;<br />
+};<br />
+long int total ;</p>
+<p>typedef struct advice advice ;</p>
+<p>advice adv1[81] ;</p>
+<p>void advicearray(advice *adv) ;</p>
+<p>/* this method for the setting the those position that is filled already  	in the matrix   (row , col , TCT-&gt;three cross )<br />
+//	in the TCT we are using the hasing */</p>
+<p>void initial()<br />
+{<br />
+	int i , j , m,n;<br />
+	for(i = 1 ; i &lt; 10 ;i++ )<br />
+	{<br />
+		for(j = 1 ; j &lt; 10 ; j++)<br />
+		{<br />
+			if(sudoku[i][j])<br />
+			{<br />
+				row[i][sudoku[i][j]] = 1 ;<br />
+				col[j][sudoku[i][j]]  = 1 ;<br />
+				TCT[(int)ceil((double)i/3)][(int)ceil((double)j/3)][sudoku[i][j]] = 1 ;<br />
+			}<br />
+		 }<br />
+	}<br />
+}</p>
+<p>// based on the initialization we can create the list of the of unfilled with and the possible input   that is advice list<br />
+void advicearray(advice *adv1)<br />
+{<br />
+	int i , j , k , counter[10] = {0} , m ;<br />
+	l = 0 ;<br />
+	for(i = 1 ; i &lt; 10 ;i++ )<br />
+	{<br />
+		for(j = 1 ; j &lt; 10 ; j++)<br />
+		{<br />
+			if(!sudoku[i][j])<br />
+			{<br />
+			for(k = 1 ; k &lt; 10 ; k++)<br />
+			       counter[k] = row[i][k] || col[j][k] || TCT[(int)ceil((double)i/3)][(int)ceil((double) j/3)][k] ;</p>
+<p>				m = 1 ;<br />
+				for(k = 1 ; k &lt; 10 ; k++)<br />
+				{<br />
+					if(!counter[k])<br />
+					 adv1[l].adv[m++] = k ;<br />
+					counter[k] = 0 ;<br />
+				}<br />
+					adv1[l].count = m  ;<br />
+					adv1[l].i = i ;<br />
+					adv1[l].j = j ;<br />
+					l++ ;<br />
+			}<br />
+		}<br />
+	 } </p>
+<p>}<br />
+void print()<br />
+{<br />
+	int i,j;<br />
+	for( i = 1 ;  i &lt; 10 ;i++)<br />
+	{<br />
+		for(j = 1; j &lt; 10 ; j++)<br />
+			printf(&quot;%d \t&quot;,sudoku[i][j]) ;<br />
+		putchar(&#039;\n&#039;);<br />
+		putchar(&#039;\n&#039;);<br />
+	}<br />
+}</p>
+<p>/* this is the main logic for the solving the sudo ku using hasing and the back-tracking */</p>
+<p>int sudoku_solver(int i , int j , int lb,int ub)<br />
+{<br />
+	int k,p,m,num ; // next num</p>
+<p>	if(lb == ub)<br />
+		return 1 ;</p>
+<p>	for(k = 1 ; k &lt; adv1[lb].count ; k++)<br />
+	{       total++ ;<br />
+		num = adv1[lb].adv[k] ;<br />
+		p = row[i][num] || col[j][num] || TCT[(int)ceil((double)i/3)][(int)ceil((double) j/3)][num] ;  /// checking the row col  and TCT<br />
+		if(p == 0)  // recursive call<br />
+		{<br />
+			sudoku[i][j] = num ;<br />
+			row[i][num] = 1 ;<br />
+			col[j][num] = 1 ;<br />
+			TCT[(int)ceil((double)i/3)][(int)ceil((double) j/3)][num]  = 1;<br />
+			if(!sudoku_solver(adv1[lb+1].i , adv1[lb+1].j,lb+1,ub))<br />
+			{<br />
+				row[i][num] = 0 ;<br />
+				col[j][num] = 0 ;<br />
+				TCT[(int)ceil((double)i/3)][(int)ceil((double) j/3)][num] = 0 ;<br />
+				sudoku[i][j] = 0;<br />
+			}<br />
+			else<br />
+			return 1 ;<br />
+		}</p>
+<p>	}<br />
+	return 0 ;</p>
+<p>}</p>
+<p>int main()<br />
+{</p>
+<p>		initial();<br />
+		advicearray(adv1) ;<br />
+	  	if(sudoku_solver(adv1[0].i , adv1[0].j , 0 , l)) ;<br />
+			print();<br />
+        return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-19669">
+        <div id="dsq-comment-header-19669" class="dsq-comment-header">
+            <cite id="dsq-cite-19669">
+                <span id="dsq-author-user-19669">Gengis Khan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19669" class="dsq-comment-body">
+            <div id="dsq-comment-message-19669" class="dsq-comment-message"><p>Never mind. I got it.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-19667">
+        <div id="dsq-comment-header-19667" class="dsq-comment-header">
+            <cite id="dsq-cite-19667">
+                <span id="dsq-author-user-19667">Gengis Khan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19667" class="dsq-comment-body">
+            <div id="dsq-comment-message-19667" class="dsq-comment-message"><p>There&#8217;s a bug. How are the row and col variables getting initialized? They aren&#8217;t even declared.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-27266">
+        <div id="dsq-comment-header-27266" class="dsq-comment-header">
+            <cite id="dsq-cite-27266">
+                <span id="dsq-author-user-27266">Harshit Gupta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27266" class="dsq-comment-body">
+            <div id="dsq-comment-message-27266" class="dsq-comment-message"><p>They are initialised by FindUnassignedLocation() &#8230;<br />
+it took address of both.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-hitesh-dholaria odd alt thread-even depth-1" id="dsq-comment-18669">
+        <div id="dsq-comment-header-18669" class="dsq-comment-header">
+            <cite id="dsq-cite-18669">
+http://in.linkedin.com/in/hiteshdholaria                <span id="dsq-author-user-18669">Hitesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18669" class="dsq-comment-body">
+            <div id="dsq-comment-message-18669" class="dsq-comment-message"><pre> <code language="C">
+/*
+	Title			# SUDOKU solver in C language
+	Author			# Hitesh Dholaria
+	Email			# hitesh.dholaria@gmail.com
+
+	Input 			# Following is a sample SUDOKU problem stored in the file named &quot;problem.txt&quot;
+					# Here, 0 represents empty place
+					# So, our overall goal is to replace such 0-places by some appropriate numbers
+					# There are total of 9 rows, 9 columns and 9 blocks of size (3x3)
+
+					008000050
+					370009010
+					000140007
+					050020600
+					001908300
+					003060020
+					700084000
+					080200063
+					090000400
+
+	Time Complexity # O(rows^2) OR O(columns^2)
+*/
+
+#include&lt;stdio.h&gt;
+#include&lt;conio.h&gt;
+
+// Global array to hold main SUDOKU problem
+int A[9][9];
+
+void readProblem(void);
+void printProblem(void);
+int isProblemSolved(void);
+void eliminatePossibility(int,int);
+void getStartingIndicesOfBlock(int,int,int *,int *);
+
+// Main function
+int main() {
+
+	int counter=0,number=0;
+	int i=0,j=0,k=0,l=0,x=0,y=0;
+
+	// First read the SUDOKU input problem into A[9][9]
+	readProblem();
+	printf(&quot;----- Problem -----\n\n&quot;);
+	printProblem();
+
+	// Main loop of the program
+	// Keep running this loop, until the number of valid elements in array becomes 81
+	// That is, until problem is solved
+
+	while(!isProblemSolved()) {
+
+		// Run this loop once for each of the numbers from 1 to 9
+		// Every time increment this &quot;number&quot; and if it is overflown, reinitialize it to 1
+		// This &quot;number&quot; is like &quot;key&quot; or &quot;seed&quot; for this main loop
+
+		number++;
+		if(number&gt;9) {
+			number=1;
+		}
+
+		// Eliminate possibility of being number at some of the 0-places by assigning -1 to those places
+
+		for(i=0;i&lt;9;i++) {
+			for(j=0;j&lt;9;j++) {
+				if(A[i][j]==number) {
+					eliminatePossibility(i,j);
+				}
+			}
+		}
+
+		// After eliminating possibilities,
+		// if you find any 0-place,
+		// then it means, there is a possibility of this &quot;number&quot; being at that place.
+		// Count such 0-places in rows,columns and blocks
+		// If it is only 1, then such 0-place must be updated by this &quot;number&quot;,
+		// (because of no other possibility at that 0-place and wer'e 100% sure about that!)
+		
+		// Moreover, eliminate possibilities again after updation
+
+		// For all the rows
+
+		for(i=0;i&lt;9;i++) {
+			counter=0;
+			for(j=0;j&lt;9;j++) {
+				if(A[i][j]==0) {
+					// Save column index of this 0-place
+					k=j;
+					counter++;
+				}
+			}
+	
+			if(counter==1) {
+				A[i][k]=number;
+				eliminatePossibility(i,k);
+			}
+		}
+
+		// For all the columns
+
+		for(i=0;i&lt;9;i++) {
+			counter=0;
+			for(j=0;j&lt;9;j++) {
+				if(A[j][i]==0) {
+					// Save row index of this 0-place
+					k=j;
+					counter++;
+				}
+			}
+			if(counter==1) {
+				A[k][i]=number;
+				eliminatePossibility(k,i);
+			}
+		}
+
+		// For all the blocks
+
+		for(i=0;i&lt;9;i+=3) {
+			for(j=0;j&lt;9;j+=3) {
+				counter=0;
+				for(k=i;k&lt;i+3;k++) {
+					for(l=j;l&lt;j+3;l++) {
+						if(A[k][l]==0) {
+							// Save row and column indices of this 0-place
+							x=k,y=l;
+							counter++;
+						}
+					}
+				}
+				if(counter==1) {
+					A[x][y]=number;
+					eliminatePossibility(x,y);
+				}
+			}
+		}
+	}
+	// Main loop ends here
+	// Now, problem has been solved
+	// So, printing the final solution
+
+	printf(&quot;\n---- Solution ----\n\n&quot;);
+	printProblem();
+	getch();
+	return 0;
+}
+
+// This function initializes problem array A[9][9] by reading SUDOKU elements from file
+
+void readProblem(void) {
+	int i,j;
+	FILE *fp;
+	fp = fopen(&quot;problem.txt&quot;,&quot;r&quot;);
+	for(i=0;i&lt;9;i++) {
+		for(j=0;j&lt;9;j++) {
+			A[i][j]=fgetc(fp)-48;
+		}
+		// Skip reading '\n' into array A[9][9]
+		fgetc(fp);
+	}
+	fclose(fp);	
+}
+
+// This function prints problem array A[9][9]
+
+void printProblem(void) {
+	int i,j;
+	for(i=0;i&lt;9;i++) {
+		for(j=0;j&lt;9;j++) {
+			printf(&quot;%d &quot;,A[i][j]);
+		}
+		printf(&quot;\n&quot;);
+	}
+}
+
+// This function returns 1(true), if number of valid elements(i.e. non-empty places) in A[9][9] is 81.
+// Otherwise, returns 0(false)
+// Also, note that whenever number of valid elements becomes 81,
+// that means our SUDOKU problem has been solved completely.
+
+int isProblemSolved(void) {
+	int i,j,numberOfValidElements=0;
+	for(i=0;i&lt;9;i++) {
+		for(j=0;j&lt;9;j++) {
+			if(A[i][j]&gt;0) {
+				numberOfValidElements++;
+			} else {
+				A[i][j]=0;
+			}
+		}
+	}
+	if(numberOfValidElements&lt;81) {
+		return 0;
+	} else {
+		return 1;
+	}
+}
+
+// Eliminate possibility of specific &quot;number&quot; being at some of the 0-places by assigning -1 to those places
+// Arguments (row,column) represents indices of any arbitrary place in A[9][9]
+
+void eliminatePossibility(int row,int column) {
+	int i,j;
+
+	// Eliminating possibility from all the rows corresponding to &quot;column&quot;
+	for(i=0;i&lt;9;i++) {
+		if(A[i][column]==0) {
+			A[i][column]=-1;
+		}
+	}
+
+	// Eliminating possibility from all the columns corresponding to &quot;row&quot;
+	for(i=0;i&lt;9;i++) {
+		if(A[row][i]==0) {
+			A[row][i]=-1;
+		}
+	}
+
+	// Eliminating possibility from all the places corresponding to &quot;row&quot; and &quot;column&quot;
+	getStartingIndicesOfBlock(row,column,&amp;row,&amp;column);
+
+	// Now, &quot;row&quot; and &quot;column&quot; contains the indices of the first element of the current block
+	for(i=row;i&lt;row+3;i++) {
+		for(j=column;j&lt;column+3;j++) {
+			if(A[i][j]==0) {
+				A[i][j]=-1;
+			}
+		}
+	}
+}
+
+// This function returns the indices of the first element of the 3x3 block
+// Here, specific block is being identified by the provided indices (i,j) of A[9][9]
+// Resultant indices are returned by the pointers (*rowIndex,*columnIndex) to the calling function
+
+void getStartingIndicesOfBlock(int i,int j,int *rowIndex,int *columnIndex) {
+	if(i&lt;3) {
+		*rowIndex=0;
+	} else if(i&lt;6) {
+		*rowIndex=3;
+	} else {
+		*rowIndex=6;
+	}
+	if(j&lt;3) {
+		*columnIndex=0;
+	} else if(j&lt;6) {
+		*columnIndex=3;
+	} else {
+		*columnIndex=6;
+	}
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-16450">
+        <div id="dsq-comment-header-16450" class="dsq-comment-header">
+            <cite id="dsq-cite-16450">
+                <span id="dsq-author-user-16450">minhaz</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16450" class="dsq-comment-body">
+            <div id="dsq-comment-message-16450" class="dsq-comment-message"><p>Don&#8217;t get it, how the row and column being updated in SolveSudko function?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-16452">
+        <div id="dsq-comment-header-16452" class="dsq-comment-header">
+            <cite id="dsq-cite-16452">
+                <span id="dsq-author-user-16452">minhaz</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16452" class="dsq-comment-body">
+            <div id="dsq-comment-message-16452" class="dsq-comment-message"><p>Oops got it.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-18122">
+        <div id="dsq-comment-header-18122" class="dsq-comment-header">
+            <cite id="dsq-cite-18122">
+                <span id="dsq-author-user-18122">rohit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18122" class="dsq-comment-body">
+            <div id="dsq-comment-message-18122" class="dsq-comment-message"><p>Can you please tell me how are Rows and Column getting updated </p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-18637">
+        <div id="dsq-comment-header-18637" class="dsq-comment-header">
+            <cite id="dsq-cite-18637">
+                <span id="dsq-author-user-18637">vignesh m</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18637" class="dsq-comment-body">
+            <div id="dsq-comment-message-18637" class="dsq-comment-message"><p>we are doing pass by reference hence values are updated , check signature below</p>
+<pre> <code language="C">
+bool FindUnassignedLocation(int grid[N][N], int &amp;row, int &amp;col)
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-14965">
+        <div id="dsq-comment-header-14965" class="dsq-comment-header">
+            <cite id="dsq-cite-14965">
+                <span id="dsq-author-user-14965">proxhotdog</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14965" class="dsq-comment-body">
+            <div id="dsq-comment-message-14965" class="dsq-comment-message"><p>I have ported this code in ruby and it said stack level too deep (SystemStackError)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-11261">
+        <div id="dsq-comment-header-11261" class="dsq-comment-header">
+            <cite id="dsq-cite-11261">
+                <span id="dsq-author-user-11261">abc</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11261" class="dsq-comment-body">
+            <div id="dsq-comment-message-11261" class="dsq-comment-message"><p>why row-row%3</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-11262">
+        <div id="dsq-comment-header-11262" class="dsq-comment-header">
+            <cite id="dsq-cite-11262">
+                <span id="dsq-author-user-11262">abc</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11262" class="dsq-comment-body">
+            <div id="dsq-comment-message-11262" class="dsq-comment-message"><p>Sorry understood!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-16636">
+        <div id="dsq-comment-header-16636" class="dsq-comment-header">
+            <cite id="dsq-cite-16636">
+                <span id="dsq-author-user-16636">mani</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16636" class="dsq-comment-body">
+            <div id="dsq-comment-message-16636" class="dsq-comment-message"><p>I don&#8217;t understand. can u please explain ?</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-18848">
+        <div id="dsq-comment-header-18848" class="dsq-comment-header">
+            <cite id="dsq-cite-18848">
+                <span id="dsq-author-user-18848">mahesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18848" class="dsq-comment-body">
+            <div id="dsq-comment-message-18848" class="dsq-comment-message"><p>Incase the UNASSIGNED number is 5th row we need to check if the num fits in the 3*3 block. </p>
+<p>5 &#8211; 5%3 = 5 &#8211; 2 =  3 (starting row of that 3*3 block)</p>
+<p>take for example we are updating in 8th row </p>
+<p>8 &#8211; 8%3  = 8 &#8211; 2 = 6 (starting row of that 3*3 block). Beautiful thinking .</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-9664">
+        <div id="dsq-comment-header-9664" class="dsq-comment-header">
+            <cite id="dsq-cite-9664">
+                <span id="dsq-author-user-9664">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9664" class="dsq-comment-body">
+            <div id="dsq-comment-message-9664" class="dsq-comment-message"><p>An interesting question would be &#8220;How can we assure that the given input is feasible?&#8221;. The situation faced by Sudoku game designers while drafting Easy, Medium and Hard puzzles.</p>
+<p>Any thoughts on how can we ensure minimum input which can lead to a solution? Or sufficiency of input to lead a valid solution.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-9687">
+        <div id="dsq-comment-header-9687" class="dsq-comment-header">
+            <cite id="dsq-cite-9687">
+                <span id="dsq-author-user-9687">Aashish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9687" class="dsq-comment-body">
+            <div id="dsq-comment-message-9687" class="dsq-comment-message"><p>@Venki,<br />
+Bit vector can be used to ensure whether an input will<br />
+lead to solution.<br />
+9 bits can be used to represent any of the digits from 1 to 9[we are talking about 9&#215;9 Sudoku,right!].<br />
+To check whether a Cell is pre-filled &amp; thus can&#8217;t be used for user input, it can be easily checked by ANDing the 9 bit vector with 511[2^9-1].If the result of AND operation is zero[none of the bit of the bit vector is set], the cell is empty.</p>
+<p>The below structure can be handy.</p>
+<pre> <code language="C">
+struct mask
+{
+	int bit:9;
+};
+
+struct mask m[9][9];
+</code> </pre>
+<p>A 2D bit vector of size NxN[9 here] is needed to represent each cell.<br />
+The memory has thus reduced from 9x9x4 = 324 bytes[if bit vectors are not used] to<br />
+9x9x9/8 = 92 bytes.</p>
+<p>Let me know if we can do better.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-9691">
+        <div id="dsq-comment-header-9691" class="dsq-comment-header">
+            <cite id="dsq-cite-9691">
+                <span id="dsq-author-user-9691">Venki</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9691" class="dsq-comment-body">
+            <div id="dsq-comment-message-9691" class="dsq-comment-message"><p>Whether to represent the matrix as bit vector or boolean array, or int/char array, how does it matter? We will conserve space, but all are same.</p>
+<p>My question is given a partially filled grid, how can we ensure that the user can successfully arrive at valid solution?</p>
+<p>Putting in other words, generate all possible grid permutations. Now discard the invalid grids. From the remaining grids, take any grid. Gradually remove random elements one after another from this grid. How many such random deletions can be possible? Say, we left with N elements in the grid after 81-N deletions. Can we ensure that the user will be able to fill these deleted elements? What if we delete one more element, and left with N-1 elements on the grid. Now is it possible to fill it in?</p>
+<p>There must be a criteria to design the puzzle. I am looking for more thoughts.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-9608">
+        <div id="dsq-comment-header-9608" class="dsq-comment-header">
+            <cite id="dsq-cite-9608">
+                <span id="dsq-author-user-9608">Diksha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9608" class="dsq-comment-body">
+            <div id="dsq-comment-message-9608" class="dsq-comment-message"><pre> <code language="C">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#define SIZE 9
+ 
+int isValid(int (*sudoku)[SIZE],int row,int col,int weight)
+{
+        int i,j,start_row,start_col;
+        
+        for(i=0;i&lt;SIZE;i++)
+                if(sudoku[row][i]==weight)
+                        return 0;
+                        
+        for(i=0;i&lt;SIZE;i++)
+                if(sudoku[i][col]==weight)
+                        return 0;
+        
+        start_row=(row/3)*3;
+        start_col=(col/3)*3;
+        for(i=start_row;i&lt;start_row+3;i++)
+                for(j=start_col;j&lt;start_col+3;j++)
+                        if(sudoku[i][j]==weight)
+                                return 0;
+                                
+        return 1;
+}
+ 
+void printSolution(int (*sudoku)[SIZE])
+{
+        int i,j;
+        printf(&quot;....................................\n&quot;);
+        for(i=0;i&lt;SIZE;i++)
+        {
+                for(j=0;j&lt;SIZE;j++)
+                        printf(&quot;%d &quot;,sudoku[i][j]);
+                printf(&quot;\n&quot;);
+        }
+        printf(&quot;....................................\n&quot;);
+}
+ 
+void solveSudoku(int (*sudoku)[SIZE],int row,int col)
+{
+        int i;
+        if(row==SIZE &amp;&amp; col==0)
+                printSolution(sudoku);
+        else
+        {
+                if(sudoku[row][col])    //encounters a pre-filled cell.
+                {
+                        solveSudoku(sudoku,row,col+1);
+                        
+                        if(col==SIZE-1)
+                                solveSudoku(sudoku,row+1,0);
+                }
+                else
+                        for(i=1;i&lt;=SIZE;i++)
+                                if( isValid(sudoku,row,col,i) )
+                                {
+                                        sudoku[row][col]=i;
+                                        
+                                        solveSudoku(sudoku,row,col+1);
+                                
+                                        if(col==SIZE-1)
+                                                solveSudoku(sudoku,row+1,0);
+                                        
+                                        sudoku[row][col]=0;
+                                }
+        }
+}
+ 
+int main()
+{
+        int sudoku[SIZE][SIZE]={{3, 0, 6, 5, 0, 8, 4, 0, 0},
+                                {5, 2, 0, 0, 0, 0, 0, 0, 0},
+                                {0, 8, 7, 0, 0, 0, 0, 3, 1},
+                                {0, 0, 3, 0, 1, 0, 0, 8, 0},
+                                {9, 0, 0, 8, 6, 3, 0, 0, 5},
+                                {0, 5, 0, 0, 9, 0, 6, 0, 0},
+                                {1, 3, 0, 0, 0, 0, 2, 5, 0},
+                                {0, 0, 0, 0, 0, 0, 0, 7, 4},
+                                {0, 0, 5, 2, 0, 6, 3, 0, 0}};;
+        int i,j;
+                        
+        printSolution(sudoku);  //Display inputted sudoku from the file
+        
+        solveSudoku(sudoku,0,0);
+        
+        return 0;
+}
+</code> </pre>
+<p>See output here: <a href="http://ideone.com/8YZ4z" rel="nofollow">http://ideone.com/8YZ4z</a></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-subin odd alt depth-2" id="dsq-comment-17604">
+        <div id="dsq-comment-header-17604" class="dsq-comment-header">
+            <cite id="dsq-cite-17604">
+                <span id="dsq-author-user-17604">Subin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17604" class="dsq-comment-body">
+            <div id="dsq-comment-message-17604" class="dsq-comment-message"><p>Nice Code. Its working fine for me.<br />
+only you have to handle col variable from going into array index out of bounds error which can be handled with one simple if case&#8230;.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-30690">
+        <div id="dsq-comment-header-30690" class="dsq-comment-header">
+            <cite id="dsq-cite-30690">
+                <span id="dsq-author-user-30690">jinzhi chen</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30690" class="dsq-comment-body">
+            <div id="dsq-comment-message-30690" class="dsq-comment-message"><p>very nice. thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-9603">
+        <div id="dsq-comment-header-9603" class="dsq-comment-header">
+            <cite id="dsq-cite-9603">
+                <span id="dsq-author-user-9603">varun</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9603" class="dsq-comment-body">
+            <div id="dsq-comment-message-9603" class="dsq-comment-message"><p>What should be the complexity for this algo..</p>
+<p>Let&#8217;s say total empty columns are n then I think complexity should be 9^n  because for each empty box maximum tries should be 9 (1&#8230;9).</p>
+<p>What others think about complexity???</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-9606">
+        <div id="dsq-comment-header-9606" class="dsq-comment-header">
+            <cite id="dsq-cite-9606">
+                <span id="dsq-author-user-9606">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9606" class="dsq-comment-body">
+            <div id="dsq-comment-message-9606" class="dsq-comment-message"><p>Yes, it should be 9^n in worst case.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-9607">
+        <div id="dsq-comment-header-9607" class="dsq-comment-header">
+            <cite id="dsq-cite-9607">
+                <span id="dsq-author-user-9607">Diksha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9607" class="dsq-comment-body">
+            <div id="dsq-comment-message-9607" class="dsq-comment-message"><p>Are you sure the time complexity is 9^n.<br />
+AFAIT, each empty slot can be filled in 9 ways.<br />
+So, the time complexity should be (no. of empty slots)^9.</p>
+<p>Let me know if i am missing anything.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-9609">
+        <div id="dsq-comment-header-9609" class="dsq-comment-header">
+            <cite id="dsq-cite-9609">
+                <span id="dsq-author-user-9609">Diksha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9609" class="dsq-comment-body">
+            <div id="dsq-comment-message-9609" class="dsq-comment-message"><p>Sorry, i misunderstood, it would be<br />
+9^(no. of empty slots)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-9592">
+        <div id="dsq-comment-header-9592" class="dsq-comment-header">
+            <cite id="dsq-cite-9592">
+                <span id="dsq-author-user-9592">charan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9592" class="dsq-comment-body">
+            <div id="dsq-comment-message-9592" class="dsq-comment-message"><p>Its very explanatory. thanks for sharing <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /></p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-33460">
+        <div id="dsq-comment-header-33460" class="dsq-comment-header">
+            <cite id="dsq-cite-33460">
+                <span id="dsq-author-user-33460">Zheng Luo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33460" class="dsq-comment-body">
+            <div id="dsq-comment-message-33460" class="dsq-comment-message"><p>Very Nice Code. Thanks for sharing</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/backtracking-set-7-suduku/';
+var disqus_identifier = '13779 http://geeksforgeeks.org/?p=13779';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Backtracking | Set 7 (Sudoku)";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 0.210 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:36:12 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->

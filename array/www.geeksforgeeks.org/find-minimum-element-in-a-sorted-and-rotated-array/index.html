@@ -1,0 +1,2690 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+       <title>Find the minimum element in a sorted and rotated array - GeeksforGeeks</title>
+       <style type="text/css" media="screen">
+          @import url('http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/style.css');
+    </style>
+      <link href="http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico" rel="shortcut icon" />    
+    
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.geeksforgeeks.org/find-minimum-element-in-a-sorted-and-rotated-array/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Find the minimum element in a sorted and rotated array - GeeksforGeeks" />
+<meta property="og:description" content="A sorted array is rotated at some unknown point, find the minimum element in it. Following solution assumes that all elements are distinct. Examples Input: {5, 6, 1, 2, 3, 4} Output: 1 Input: {1, 2, 3, 4} Output: 1 Input: {2, 1} Output: 1 A simple solution is to traverse the complete array and &hellip;" />
+<meta property="og:url" content="http://www.geeksforgeeks.org/find-minimum-element-in-a-sorted-and-rotated-array/" />
+<meta property="og:site_name" content="GeeksforGeeks" />
+<meta property="article:tag" content="Divide and Conquer" />
+<meta property="article:section" content="Arrays" />
+<meta property="article:published_time" content="2013-07-02T12:21:05+00:00" />
+<meta property="article:modified_time" content="2013-07-10T14:14:24+00:00" />
+<meta property="og:updated_time" content="2013-07-10T14:14:24+00:00" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bbp-default-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.5.4-5380' type='text/css' media='screen' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+
+<!-- Bad Behavior 2.2.16 run time: 1.482 ms -->
+<script type="text/javascript">
+<!--
+function bb2_addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		}
+	}
+}
+
+bb2_addLoadEvent(function() {
+	for ( i=0; i < document.forms.length; i++ ) {
+		if (document.forms[i].method == 'post') {
+			var myElement = document.createElement('input');
+			myElement.setAttribute('type', 'hidden');
+			myElement.name = 'bb2_screener_';
+			myElement.value = '1417111513 106.51.130.69';
+			document.forms[i].appendChild(myElement);
+		}
+	}
+});
+// --></script>
+		<style type="text/css" id="syntaxhighlighteranchor"></style>
+   <meta name="google-site-verification" content="rHK2v8_zzuAZQY8JHAzbllDN8u-aQxcn2Kqnp67Old0" />
+</head>
+
+<body>
+<!-- o4dI0sCXUgoSONabbd8mbZ4SA3E -->    
+    <div id="wrapper">
+        <div class="blog-info">
+                <h1 class="blog-title">
+                <a href="http://www.geeksforgeeks.org" title="GeeksforGeeks">GeeksforGeeks</a>
+            </h1>
+       
+            <div class="blog-description">
+                A computer science portal for geeks            </div>
+        </div>
+        <b><p>  <h2 align="right"> <a href="http://geeksquiz.com/">GeeksQuiz</a></h2> 
+   <a href="http://www.geeksforgeeks.org/wp-login.php">Login</a> 
+         </p></b>  
+         
+         <div class="clear"></div>         
+              
+                     
+            <div id="menu">   
+                 <ul>
+ <li><a href="http://www.geeksforgeeks.org">Home</a></li>
+  <li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">Algorithms</a></li>
+ <li><a href="http://www.geeksforgeeks.org/data-structures/">DS</a></li>
+  <li><a href="http://www.geeksforgeeks.org/gate-corner/">GATE</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/interview-corner/">Interview Corner</a></li>
+  <li><a href="http://www.geeksforgeeks.org/forums/">Q&A</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c/">C</a></li>
+  <li><a href="http://www.geeksforgeeks.org/c-plus-plus/">C++</a></li>
+  <li><a href="http://www.geeksforgeeks.org/java/">Java</a></li>
+  <li><a href="http://www.geeksforgeeks.org/books/">Books</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/">Contribute</a></li>
+  <li><a href="http://www.geeksforgeeks.org/contribute/ask-a-question/">Ask a Q</a></li>
+  <li><a href="http://www.geeksforgeeks.org/about/">About</a></li>
+            </ul>
+
+               
+            <div class="clear"></div>     
+        </div>
+             <div id="navmenu">
+				<ul id="menu" style="padding:0; margin:0;">
+						<li class="cat-item cat-item-3"><a href="http://www.geeksforgeeks.org/category/c-arrays/" title="Questions regarding Arrays">Array</a>
+</li>	
+
+	<li class="cat-item cat-item-17"><a href="http://www.geeksforgeeks.org/category/bit-magic/" title="View all posts filed under Bit Magic">Bit Magic</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.geeksforgeeks.org/category/c-puzzles/" title="View all posts filed under C/C++ Puzzles">C/C++</a>
+</li>
+
+<li class="cat-item cat-item-18"><a href="http://www.geeksforgeeks.org/category/articles/" title="View all posts filed under Articles">Articles</a>
+</li>
+
+	<li class="cat-item cat-item-67"><a href="http://www.geeksforgeeks.org/category/gfact/" title="View all posts filed under GFacts">GFacts</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.geeksforgeeks.org/category/linked-list/" title="Linked List problems">Linked List</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.geeksforgeeks.org/category/multiple-choice-question/" title="View all posts filed under MCQ">MCQ</a>
+
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.geeksforgeeks.org/category/c-programs/" title="Miscellaneous">Misc</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.geeksforgeeks.org/category/program-output/" title="View all posts filed under Output">Output</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.geeksforgeeks.org/category/c-strings/" title="Questions related to strings">String</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/tree/" title="View all posts filed under Trees">Tree</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.geeksforgeeks.org/category/graph/" title="View all posts filed under Graph">Graph</a>
+</li>
+</ul>
+        </div>
+             <div id="content">	   	
+	<div class="post" id="post">
+							<div class="post-info">			
+					<div class="post-title-info">
+						<h2 class="post-title">Find the minimum element in a sorted and rotated array</h2>
+					</div>			
+					<div class="clear"></div>				  
+				<div class="post-content" id="post-content">
+					<p>A sorted array is rotated at some unknown point, find the minimum element in it.   </p>
+<p>Following solution assumes that all elements are distinct.<span id="more-119937"></span></p>
+<p>Examples
+<pre>
+Input: {5, 6, 1, 2, 3, 4}
+Output: 1
+
+Input: {1, 2, 3, 4}
+Output: 1
+
+Input: {2, 1}
+Output: 1</pre>
+<p>A simple solution is to traverse the complete array and find minimum.  This solution requires <img src="http://d2o58evtke57tz.cloudfront.net/wp-content/ql-cache/quicklatex.com-2dd9d505adf5381835b8f13594a885b0_l3.png" class="ql-img-inline-formula " alt="&#92;&#84;&#104;&#101;&#116;&#97;&#40;&#110;&#41;" title="Rendered by QuickLaTeX.com" height="18" width="38" style="vertical-align: -4px;"/> time.<br />
+We can do it in O(Logn) using Binary Search. If we take a closer look at above examples, we can easily figure out following pattern: The minimum element is the only element whose previous element is greater than it. If there is no such element, then there is no rotation and first element is the minimum element. Therefore, we do binary search for an element which is smaller than the previous element. We strongly recommend you to try it yourself before seeing the following C implementation. </p>
+<pre class="brush: cpp; highlight: [4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29]; title: ; notranslate" title="">
+// C program to find minimum element in a sorted and rotated array
+#include &lt;stdio.h&gt;
+
+int findMin(int arr[], int low, int high)
+{
+    // This condition is needed to handle the case when array is not
+    // rotated at all
+    if (high &lt; low)  return arr[0];
+
+    // If there is only one element left
+    if (high == low) return arr[low];
+
+    // Find mid
+    int mid = low + (high - low)/2; /*(low + high)/2;*/
+
+    // Check if element (mid+1) is minimum element. Consider
+    // the cases like {3, 4, 5, 1, 2}
+    if (mid &lt; high &amp;&amp; arr[mid+1] &lt; arr[mid])
+       return arr[mid+1];
+
+    // Check if mid itself is minimum element
+    if (mid &gt; low &amp;&amp; arr[mid] &lt; arr[mid - 1])
+       return arr[mid];
+
+    // Decide whether we need to go to left half or right half
+    if (arr[high] &gt; arr[mid])
+       return findMin(arr, low, mid-1);
+    return findMin(arr, mid+1, high);
+}
+
+// Driver program to test above functions
+int main()
+{
+    int arr1[] =  {5, 6, 1, 2, 3, 4};
+    int n1 = sizeof(arr1)/sizeof(arr1[0]);
+    printf(&quot;The minimum element is %d\n&quot;, findMin(arr1, 0, n1-1));
+
+    int arr2[] =  {1, 2, 3, 4};
+    int n2 = sizeof(arr2)/sizeof(arr2[0]);
+    printf(&quot;The minimum element is %d\n&quot;, findMin(arr2, 0, n2-1));
+
+    int arr3[] =  {1};
+    int n3 = sizeof(arr3)/sizeof(arr3[0]);
+    printf(&quot;The minimum element is %d\n&quot;, findMin(arr3, 0, n3-1));
+
+    int arr4[] =  {1, 2};
+    int n4 = sizeof(arr4)/sizeof(arr4[0]);
+    printf(&quot;The minimum element is %d\n&quot;, findMin(arr4, 0, n4-1));
+
+    int arr5[] =  {2, 1};
+    int n5 = sizeof(arr5)/sizeof(arr5[0]);
+    printf(&quot;The minimum element is %d\n&quot;, findMin(arr5, 0, n5-1));
+
+    int arr6[] =  {5, 6, 7, 1, 2, 3, 4};
+    int n6 = sizeof(arr6)/sizeof(arr6[0]);
+    printf(&quot;The minimum element is %d\n&quot;, findMin(arr6, 0, n6-1));
+
+    int arr7[] =  {1, 2, 3, 4, 5, 6, 7};
+    int n7 = sizeof(arr7)/sizeof(arr7[0]);
+    printf(&quot;The minimum element is %d\n&quot;, findMin(arr7, 0, n7-1));
+
+    int arr8[] =  {2, 3, 4, 5, 6, 7, 8, 1};
+    int n8 = sizeof(arr8)/sizeof(arr8[0]);
+    printf(&quot;The minimum element is %d\n&quot;, findMin(arr8, 0, n8-1));
+
+    int arr9[] =  {3, 4, 5, 1, 2};
+    int n9 = sizeof(arr9)/sizeof(arr9[0]);
+    printf(&quot;The minimum element is %d\n&quot;, findMin(arr9, 0, n9-1));
+
+    return 0;
+}
+</pre>
+<p>Output:
+<pre>The minimum element is 1
+The minimum element is 1
+The minimum element is 1
+The minimum element is 1
+The minimum element is 1
+The minimum element is 1
+The minimum element is 1
+The minimum element is 1
+The minimum element is 1</pre>
+<p><strong>How to handle duplicates?</strong><br />
+It turned out that duplicates can&#8217;t be handled in O(Logn) time in all cases.  Thanks to <a href="https://www.facebook.com/amitjain0909" target="_blank">Amit Jain</a> for inputs.  The special cases that cause problems are like {2, 2, 2, 2, 2, 2, 2, 2, 0, 1, 1, 2} and {2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2}.  It doesn&#8217;t look possible to go to left half or right half by doing constant number of comparisons at the middle.  Following is an implementation that handles duplicates.  It may become O(n) in worst case though.</p>
+<pre class="brush: cpp; highlight: [6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36]; title: ; notranslate" title="">
+// C program to find minimum element in a sorted and rotated array
+#include &lt;stdio.h&gt;
+
+int min(int x, int y) { return (x &lt; y)? x :y; }
+
+// The function that handles duplicates.  It can be O(n) in worst case.
+int findMin(int arr[], int low, int high)
+{
+    // This condition is needed to handle the case when array is not
+    // rotated at all
+    if (high &lt; low)  return arr[0];
+
+    // If there is only one element left
+    if (high == low) return arr[low];
+
+    // Find mid
+    int mid = low + (high - low)/2; /*(low + high)/2;*/
+
+    // Check if element (mid+1) is minimum element. Consider
+    // the cases like {1, 1, 0, 1}
+    if (mid &lt; high &amp;&amp; arr[mid+1] &lt; arr[mid])
+       return arr[mid+1];
+
+    // This case causes O(n) time
+    if (arr[low] == arr[mid] &amp;&amp; arr[high] == arr[mid])
+        return min(findMin(arr, low, mid-1), findMin(arr, mid+1, high));
+
+    // Check if mid itself is minimum element
+    if (mid &gt; low &amp;&amp; arr[mid] &lt; arr[mid - 1])
+       return arr[mid];
+
+    // Decide whether we need to go to left half or right half
+    if (arr[high] &gt; arr[mid])
+       return findMin(arr, low, mid-1);
+    return findMin(arr, mid+1, high);
+}
+
+// Driver program to test above functions
+int main()
+{
+    int arr1[] =  {5, 6, 1, 2, 3, 4};
+    int n1 = sizeof(arr1)/sizeof(arr1[0]);
+    printf(&quot;The minimum element is %d\n&quot;, findMin(arr1, 0, n1-1));
+
+    int arr2[] =  {1, 1, 0, 1};
+    int n2 = sizeof(arr2)/sizeof(arr2[0]);
+    printf(&quot;The minimum element is %d\n&quot;, findMin(arr2, 0, n2-1));
+
+    int arr3[] =  {1, 1, 2, 2, 3};
+    int n3 = sizeof(arr3)/sizeof(arr3[0]);
+    printf(&quot;The minimum element is %d\n&quot;, findMin(arr3, 0, n3-1));
+
+    int arr4[] =  {3, 3, 3, 4, 4, 4, 4, 5, 3, 3};
+    int n4 = sizeof(arr4)/sizeof(arr4[0]);
+    printf(&quot;The minimum element is %d\n&quot;, findMin(arr4, 0, n4-1));
+
+    int arr5[] =  {2, 2, 2, 2, 2, 2, 2, 2, 0, 1, 1, 2};
+    int n5 = sizeof(arr5)/sizeof(arr5[0]);
+    printf(&quot;The minimum element is %d\n&quot;, findMin(arr5, 0, n5-1));
+
+    int arr6[] =  {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1};
+    int n6 = sizeof(arr6)/sizeof(arr6[0]);
+    printf(&quot;The minimum element is %d\n&quot;, findMin(arr6, 0, n6-1));
+
+    int arr7[] =  {2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2};
+    int n7 = sizeof(arr7)/sizeof(arr7[0]);
+    printf(&quot;The minimum element is %d\n&quot;, findMin(arr7, 0, n7-1));
+
+    return 0;
+}
+</pre>
+<p>Output:
+<pre>The minimum element is 1
+The minimum element is 0
+The minimum element is 1
+The minimum element is 3
+The minimum element is 0
+The minimum element is 1
+The minimum element is 0</pre>
+<p>This article is contributed by <strong>Abhay Rathi</strong>. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.</p>
+		
+&nbsp;
+&nbsp;
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big Rectangle Blog Bottom -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4061219431"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+<h3>Related Topics:</h3><ul><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array-set-2-expected-linear-time/" title="K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)">K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)</a></li><li><a href="http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array/" title="K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1">K&#8217;th Smallest/Largest Element in Unsorted Array | Set 1</a></li><li><a href="http://www.geeksforgeeks.org/time-complexity-insertion-sort-inversions/" title="Time complexity of insertion sort when there are O(n) inversions?">Time complexity of insertion sort when there are O(n) inversions?</a></li><li><a href="http://www.geeksforgeeks.org/check-two-given-sets-disjoint/" title="How to check if two given sets are disjoint?">How to check if two given sets are disjoint?</a></li><li><a href="http://www.geeksforgeeks.org/minimum-number-platforms-required-railwaybus-station/" title="Minimum Number of Platforms Required for a Railway/Bus Station">Minimum Number of Platforms Required for a Railway/Bus Station</a></li><li><a href="http://www.geeksforgeeks.org/given-two-sorted-arrays-number-x-find-pair-whose-sum-closest-x/" title="Find the closest pair from two sorted arrays">Find the closest pair from two sorted arrays</a></li><li><a href="http://www.geeksforgeeks.org/print-elements-sorted-order-row-column-wise-sorted-matrix/" title="Print all elements in sorted order from row and column wise sorted matrix">Print all elements in sorted order from row and column wise sorted matrix</a></li><li><a href="http://www.geeksforgeeks.org/length-largest-subarray-contiguous-elements-set-1/" title="Length of the largest subarray with contiguous elements | Set 1">Length of the largest subarray with contiguous elements | Set 1</a></li></ul>
+<p>Tags: <a href="http://www.geeksforgeeks.org/tag/divide-and-conquer/" rel="tag">Divide and Conquer</a></p> 
+<div>
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.geeksforgeeks.org%2Ffind-minimum-element-in-a-sorted-and-rotated-array%2F&layout=button_count&show_faces=false&width=90&action=like&colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:90px; height:20px"></iframe>
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.geeksforgeeks.org/find-minimum-element-in-a-sorted-and-rotated-array/" data-text="Find the minimum element in a sorted and rotated array" data-count="horizontal" data-via="jakerutter">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<g:plusone size="medium" href="http://www.geeksforgeeks.org/find-minimum-element-in-a-sorted-and-rotated-array/"></g:plusone>
+<!-- Place this render call where appropriate -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+
+
+
+
+
+				</div>		  
+			</div> <!-- end post main -->					
+			<div class="post-meta">
+				<div class="left"></div>				
+				<div class="clear"></div>
+			</div>			
+        
+			<div class="comments-main">		
+ <b>Writing code in comment?</b> Please use <b><a href="http://ideone.com/">ideone.com</a></b> and share the link here.
+				
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-34581">
+        <div id="dsq-comment-header-34581" class="dsq-comment-header">
+            <cite id="dsq-cite-34581">
+                <span id="dsq-author-user-34581">himanshu dagar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34581" class="dsq-comment-body">
+            <div id="dsq-comment-message-34581" class="dsq-comment-message"><p>This code can not handle the elements in descending order(that is in the category of sorted )</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-34550">
+        <div id="dsq-comment-header-34550" class="dsq-comment-header">
+            <cite id="dsq-cite-34550">
+                <span id="dsq-author-user-34550">reshma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34550" class="dsq-comment-body">
+            <div id="dsq-comment-message-34550" class="dsq-comment-message"><p>why (mid&lt;high)..checking ..it is always true na..<br />
+tell me if i am incorrect..</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-34579">
+        <div id="dsq-comment-header-34579" class="dsq-comment-header">
+            <cite id="dsq-cite-34579">
+                <span id="dsq-author-user-34579">himanshu dagar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34579" class="dsq-comment-body">
+            <div id="dsq-comment-message-34579" class="dsq-comment-message"><p>suppose our mid is last element at some time .So to prevent the checking of that element  with the next element which doesn&#8217;t exist ,we have to check that first . Another wise Ur code can give unexpected result. We should remain in array bounds na.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-34350">
+        <div id="dsq-comment-header-34350" class="dsq-comment-header">
+            <cite id="dsq-cite-34350">
+                <span id="dsq-author-user-34350">Brave Heart</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34350" class="dsq-comment-body">
+            <div id="dsq-comment-message-34350" class="dsq-comment-message"><p>The recursive function presented is overly complicated.<br />
+Here&#8217;s a simple solution I coded: <a href="http://hastebin.com/hocuranebo.m" rel="nofollow">http://hastebin.com/hocuranebo.m</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-33671">
+        <div id="dsq-comment-header-33671" class="dsq-comment-header">
+            <cite id="dsq-cite-33671">
+                <span id="dsq-author-user-33671">Naveed</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33671" class="dsq-comment-body">
+            <div id="dsq-comment-message-33671" class="dsq-comment-message"><p>public class minimumElementInTheSortedRotatedArray {</p>
+<p>    static int a[] = {8,9,10,1,1,2,2,3,7};<br />
+    static boolean sorted = true;<br />
+    public static void main(String[] args) {<br />
+        for(int i=0;i<a>a[i+1]) {<br />
+                System.out.println(a[i+1]);<br />
+                sorted = false;<br />
+                break;<br />
+            }<br />
+        }<br />
+        if(sorted) {<br />
+            System.out.println(a[0]);<br />
+        }<br />
+    }</p>
+<p>}</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-33635">
+        <div id="dsq-comment-header-33635" class="dsq-comment-header">
+            <cite id="dsq-cite-33635">
+                <span id="dsq-author-user-33635">vrg</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33635" class="dsq-comment-body">
+            <div id="dsq-comment-message-33635" class="dsq-comment-message"><p>This Question is asked many times in the comment section but not answered<br />
+// This condition is needed to handle the case when array is not rotated at //all</p>
+<p>    if (high &lt; low)  return arr[0];</p>
+<p>When will the above statement get executed?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-33233">
+        <div id="dsq-comment-header-33233" class="dsq-comment-header">
+            <cite id="dsq-cite-33233">
+                <span id="dsq-author-user-33233">pulkit mehra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33233" class="dsq-comment-body">
+            <div id="dsq-comment-message-33233" class="dsq-comment-message"><p>In the 2nd program handling repetitive case, you should change the following line:-</p>
+<p>if (arr[high] &gt; arr[mid])</p>
+<p>to </p>
+<p>if (arr[high] &gt;= arr[mid])</p>
+<p>else it won&#8217;t work for i/p such as {3,4,1,2,2,2,2,2,2,2,2}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-32529">
+        <div id="dsq-comment-header-32529" class="dsq-comment-header">
+            <cite id="dsq-cite-32529">
+                <span id="dsq-author-user-32529">Musa Paljoš</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32529" class="dsq-comment-body">
+            <div id="dsq-comment-message-32529" class="dsq-comment-message"><p>This is the iterative solution for this problem. Please correct me If I&#8217;m wrong? Could we optimise this?</p>
+<p>public static int minInRotadedArray(int[] arr) { // Find the minimum element in a sorted and rotated array<br />
+        int l = 0;<br />
+        int r = arr.length &#8211; 1;<br />
+        int i;<br />
+        while (r &gt;= l) {<br />
+            i = l + (r &#8211; l) / 2;<br />
+            if (arr[l]  arr[i]) {<br />
+                return l;<br />
+            } else if (arr[l] &gt; arr[i] &amp;&amp; arr[r]  arr[i] &amp;&amp; arr[r] &gt; arr[i]) {<br />
+                r = i;<br />
+            } else if (arr[l] &lt; arr[i] &amp;&amp; arr[r]  arr[r] ? r : i;<br />
+            }<br />
+        }<br />
+        return -1;<br />
+    }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-32306">
+        <div id="dsq-comment-header-32306" class="dsq-comment-header">
+            <cite id="dsq-cite-32306">
+                <span id="dsq-author-user-32306">Pankkaj Yadav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32306" class="dsq-comment-body">
+            <div id="dsq-comment-message-32306" class="dsq-comment-message"><p>why u r trying to follow a long way&#8230;. I have another idea&#8230;.I am giving my logic &#8230;.please check the syntax accordingly&#8230;.<br />
+function(int a[])</p>
+<p>{<br />
+static int i=0;<br />
+if (a[i]&gt;a[i+1])<br />
+{<br />
+i++;<br />
+function(a[]);<br />
+}<br />
+else<br />
+printf(&#8220;%d minimum number in present in array is  &#8220;, a[i]);<br />
+}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-32323">
+        <div id="dsq-comment-header-32323" class="dsq-comment-header">
+            <cite id="dsq-cite-32323">
+                <span id="dsq-author-user-32323">sijayaraman</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32323" class="dsq-comment-body">
+            <div id="dsq-comment-message-32323" class="dsq-comment-message"><p>its is not working for the input {5,6,1,2,3,4}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-32038">
+        <div id="dsq-comment-header-32038" class="dsq-comment-header">
+            <cite id="dsq-cite-32038">
+                <span id="dsq-author-user-32038">bani</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32038" class="dsq-comment-body">
+            <div id="dsq-comment-message-32038" class="dsq-comment-message"><p>when the array is reverse sorted , method 1 gives wrong answer&#8230;<br />
+ test case where code is flawed :-<br />
+arr[]={6,5,4,3,2,1}<br />
+kindly look into this</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-32237">
+        <div id="dsq-comment-header-32237" class="dsq-comment-header">
+            <cite id="dsq-cite-32237">
+                <span id="dsq-author-user-32237">sijayaraman</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32237" class="dsq-comment-body">
+            <div id="dsq-comment-message-32237" class="dsq-comment-message"><p>the question is for sorted and rotated array. i don&#8217;t think your input is correct.<br />
+suppose let say input = { 1,2,3,4,5,6} , if you rotate the array in clock or anticlockwise 5 times then the  output will be like this {2,3,4,5,6,1} and {6,1,2,3,4,5}.  i dont see you input is match  with clock or anticlockwise rotation.</p>
+<p>@GeeksForGeeks Could you please confirm?.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-31839">
+        <div id="dsq-comment-header-31839" class="dsq-comment-header">
+            <cite id="dsq-cite-31839">
+                <span id="dsq-author-user-31839">Shreyas</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31839" class="dsq-comment-body">
+            <div id="dsq-comment-message-31839" class="dsq-comment-message"><p>@geeksforgeeks:disqus method where duplicates are handled&#8230;. gives wrong answer for the array 9,10,1,2,2,2,2,2,2,2&#8230; kindly check&#8230;.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-31515">
+        <div id="dsq-comment-header-31515" class="dsq-comment-header">
+            <cite id="dsq-cite-31515">
+                <span id="dsq-author-user-31515">HRISHIKESH GOYAL</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31515" class="dsq-comment-body">
+            <div id="dsq-comment-message-31515" class="dsq-comment-message"><p>what about the array filled with numbers in descending order like 4 ,3 ,2,1,..<br />
+3,2 r also there  whose previous element is  greater than  it</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-32909">
+        <div id="dsq-comment-header-32909" class="dsq-comment-header">
+            <cite id="dsq-cite-32909">
+                <span id="dsq-author-user-32909">leonardsmith</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32909" class="dsq-comment-body">
+            <div id="dsq-comment-message-32909" class="dsq-comment-message"><p>Then It is not a sorted Array which is rotated!!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-31497">
+        <div id="dsq-comment-header-31497" class="dsq-comment-header">
+            <cite id="dsq-cite-31497">
+                <span id="dsq-author-user-31497">Mayank Kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31497" class="dsq-comment-body">
+            <div id="dsq-comment-message-31497" class="dsq-comment-message"><p>What is the use of adding mid low in the two if statements?<br />
+They will always be true. Please give a case where it is needed.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-31441">
+        <div id="dsq-comment-header-31441" class="dsq-comment-header">
+            <cite id="dsq-cite-31441">
+                <span id="dsq-author-user-31441">vikram</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31441" class="dsq-comment-body">
+            <div id="dsq-comment-message-31441" class="dsq-comment-message"><p>It would be good to combine these kind of problems into the section of &#8220;decrease and conquer&#8221; instead of &#8220;divide and conquer&#8221;.</p>
+<p>In divide and conquer, main problem will be divided into many small problems and the solution of small problems will be combined to obtain the solution of main problem.</p>
+<p>In decrease and conquer, main problem will be decreased to a small problem(by a constant or by a constant factor..etc) recursively to obtain the solution. For example,  in this problem, when we decide search element is in left half of the array, we ignore right half. problem size is almost decreased by half every time.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-31396">
+        <div id="dsq-comment-header-31396" class="dsq-comment-header">
+            <cite id="dsq-cite-31396">
+                <span id="dsq-author-user-31396">Spandan Pathak</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31396" class="dsq-comment-body">
+            <div id="dsq-comment-message-31396" class="dsq-comment-message"><p>Gives wrong answer for<br />
+int arr1[] =  {9,10,1,2,2,2,2,2,2,2};</p>
+<p>replace<br />
+if (arr[high] &gt; arr[mid])<br />
+       return findMin(arr, low, mid-1);</p>
+<p>with</p>
+<p>if (arr[high] &gt;= arr[mid])<br />
+return findMin(arr, low, mid-1);</p>
+<p>.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-31343">
+        <div id="dsq-comment-header-31343" class="dsq-comment-header">
+            <cite id="dsq-cite-31343">
+                <span id="dsq-author-user-31343">Gagan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31343" class="dsq-comment-body">
+            <div id="dsq-comment-message-31343" class="dsq-comment-message"><p>a = [1,2,3,4]<br />
+   for i in range(len(a)):<br />
+..   if i == len(a)-1:<br />
+..       print &#8220;Array not rotated&#8221;<br />
+..       print a[0]<br />
+..   else:<br />
+..     if a[i]a[i+1]:<br />
+..       print a[i+1]<br />
+..       break</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-30834">
+        <div id="dsq-comment-header-30834" class="dsq-comment-header">
+            <cite id="dsq-cite-30834">
+                <span id="dsq-author-user-30834">ATul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30834" class="dsq-comment-body">
+            <div id="dsq-comment-message-30834" class="dsq-comment-message"><p>Isnt there a typo at the last step ,, else is missing.. in the first Algo</p>
+<p>without it will be having O(n) complexity</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-30383">
+        <div id="dsq-comment-header-30383" class="dsq-comment-header">
+            <cite id="dsq-cite-30383">
+                <span id="dsq-author-user-30383">salahuddin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30383" class="dsq-comment-body">
+            <div id="dsq-comment-message-30383" class="dsq-comment-message"><p>I think this program work for ascending order arrar but will give wrong output for descending array&#8230;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-30925">
+        <div id="dsq-comment-header-30925" class="dsq-comment-header">
+            <cite id="dsq-cite-30925">
+                <span id="dsq-author-user-30925">codoc</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30925" class="dsq-comment-body">
+            <div id="dsq-comment-message-30925" class="dsq-comment-message"><p>This case will never arise when you rotate a sorted array(increasing). Rotation is always done left to right not right to left. So in that case this case won&#8217;t appear.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-30178">
+        <div id="dsq-comment-header-30178" class="dsq-comment-header">
+            <cite id="dsq-cite-30178">
+                <span id="dsq-author-user-30178">Ameya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30178" class="dsq-comment-body">
+            <div id="dsq-comment-message-30178" class="dsq-comment-message"><p>The second code which can handle duplicates does not work in for this input   int arr[] =  {2, 0, 1, 1,1} Ref:  <a href="http://codepad.org/tGk3APBK" rel="nofollow">http://codepad.org/tGk3APBK</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-29585">
+        <div id="dsq-comment-header-29585" class="dsq-comment-header">
+            <cite id="dsq-cite-29585">
+                <span id="dsq-author-user-29585">bismoy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29585" class="dsq-comment-body">
+            <div id="dsq-comment-message-29585" class="dsq-comment-message"><p>it has a flaw !! it wont work for this testcase&#8230;.5, 6, 8, 7, 3, 4</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-29643">
+        <div id="dsq-comment-header-29643" class="dsq-comment-header">
+            <cite id="dsq-cite-29643">
+                <span id="dsq-author-user-29643">Vijay Kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29643" class="dsq-comment-body">
+            <div id="dsq-comment-message-29643" class="dsq-comment-message"><p>the array should be sorted</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-29313">
+        <div id="dsq-comment-header-29313" class="dsq-comment-header">
+            <cite id="dsq-cite-29313">
+                <span id="dsq-author-user-29313">manjunathak</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29313" class="dsq-comment-body">
+            <div id="dsq-comment-message-29313" class="dsq-comment-message"><p>public static int getMin(int[] a)</p>
+<p>	{</p>
+<p>		int min=a[0];</p>
+<p>		for(int i=1;i&lt;=a.length-1;i++)</p>
+<p>		{<br />
+// Handles right most element case .<br />
+		   if(i==a.length-1)</p>
+<p>		   {</p>
+<p>			   if(a[i] &lt; a[i-1])</p>
+<p>			   {</p>
+<p>				   min=a[i];</p>
+<p>			       break;</p>
+<p>			   }</p>
+<p>		   }</p>
+<p>		   if(a[i] &lt; a[i-1] &amp;&amp; a[i] &lt; a[i+1] )</p>
+<p>		   {</p>
+<p>			   min=a[i];</p>
+<p>		       break;</p>
+<p>		   }</p>
+<p>		}</p>
+<p>		return min;</p>
+<p>	}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-29042">
+        <div id="dsq-comment-header-29042" class="dsq-comment-header">
+            <cite id="dsq-cite-29042">
+                <span id="dsq-author-user-29042">Javed</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29042" class="dsq-comment-body">
+            <div id="dsq-comment-message-29042" class="dsq-comment-message"><p>@GeeksforGeeks : doesnt seem to work for this case : <a href="http://ideone.com/ay1poW" rel="nofollow">http://ideone.com/ay1poW</a><br />
+please correct if I am wrong.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-28735">
+        <div id="dsq-comment-header-28735" class="dsq-comment-header">
+            <cite id="dsq-cite-28735">
+                <span id="dsq-author-user-28735">n</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28735" class="dsq-comment-body">
+            <div id="dsq-comment-message-28735" class="dsq-comment-message"><p>//step 1:<br />
+//fix min=arr[0]<br />
+//step 2:<br />
+//traverse the array, arr iteratively &#8230;<br />
+//step 3:</p>
+<p>//if(arr[i]&lt;min)<br />
+//return arr[i];<br />
+//arr[i] is the answer<br />
+//also works when duplicate is present</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-28733">
+        <div id="dsq-comment-header-28733" class="dsq-comment-header">
+            <cite id="dsq-cite-28733">
+                <span id="dsq-author-user-28733">nikin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28733" class="dsq-comment-body">
+            <div id="dsq-comment-message-28733" class="dsq-comment-message"><p>cool !!!<br />
+   i ll suggest u a new approach.<br />
+step 1:<br />
+      fix min=arr[0]<br />
+step 2:<br />
+        traverse the array, arr iteratively &#8230;<br />
+step 3:<br />
+       if(arr[i]&lt;min)<br />
+                return arr[i];  // this arr[i] is the required answer</p>
+<p>simple as it sounds&#8230;. the worst case complexity is O(n). It will work for duplicates also</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-28278">
+        <div id="dsq-comment-header-28278" class="dsq-comment-header">
+            <cite id="dsq-cite-28278">
+                <span id="dsq-author-user-28278">vibhash</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28278" class="dsq-comment-body">
+            <div id="dsq-comment-message-28278" class="dsq-comment-message"><p>// A simple code  if I am wrong then correct me.</p>
+<p>#include<br />
+#include<br />
+#include<br />
+using namespace std;<br />
+int i=0;<br />
+int getmin(int *arr,int low,int high)<br />
+{<br />
+    i++;<br />
+    cout&lt;&lt;i&lt;=high)<br />
+        return arr[low];</p>
+<p>    else<br />
+    {<br />
+     if(arr[low]&lt;=arr[middle])<br />
+     {</p>
+<p>         m=getmin(arr,low,middle);<br />
+     }<br />
+     else<br />
+     {</p>
+<p>         m=getmin(arr,middle,high);<br />
+     }<br />
+    }<br />
+    return m;<br />
+}<br />
+int main()<br />
+{<br />
+    int arr[]={5,6,1,2,3,4};<br />
+    int n=sizeof (arr)/sizeof (int);<br />
+//    mid=(0+(n-1))/2;<br />
+int minimum=getmin(arr,0,n-1);<br />
+    cout&lt;&lt;minimum;<br />
+    //cout&lt;&lt;endl&lt;&lt;i;<br />
+}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-28282">
+        <div id="dsq-comment-header-28282" class="dsq-comment-header">
+            <cite id="dsq-cite-28282">
+                <span id="dsq-author-user-28282">vibhash</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28282" class="dsq-comment-body">
+            <div id="dsq-comment-message-28282" class="dsq-comment-message"><p>if (low==middle)<br />
+return arr[high];<br />
+should also be there</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-27446">
+        <div id="dsq-comment-header-27446" class="dsq-comment-header">
+            <cite id="dsq-cite-27446">
+                <span id="dsq-author-user-27446">srinivas</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27446" class="dsq-comment-body">
+            <div id="dsq-comment-message-27446" class="dsq-comment-message"><p>#include</p>
+<p>int main()</p>
+<p>{</p>
+<p>    int a[]= {2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2};// it will work for any input</p>
+<p>int i,min,n;</p>
+<p>   n=sizeof(a)/sizeof(int);</p>
+<p>min=a[0];</p>
+<p>for(i=0;ia[i+1])</p>
+<p>      {      </p>
+<p>           min=a[i+1];</p>
+<p>           break;</p>
+<p>      }</p>
+<p>   printf(&#8220;min-&gt;%d&#8221;,min);                </p>
+<p>   return 0;</p>
+<p>}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-27447">
+        <div id="dsq-comment-header-27447" class="dsq-comment-header">
+            <cite id="dsq-cite-27447">
+                <span id="dsq-author-user-27447">srinivas</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27447" class="dsq-comment-body">
+            <div id="dsq-comment-message-27447" class="dsq-comment-message"><p>#include</p>
+<p>int main()<br />
+{<br />
+int a[]= {2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2};<br />
+int i,min,n;<br />
+n=sizeof(a)/sizeof(int);<br />
+min=a[0];<br />
+for(i=0;ia[i+1])<br />
+{<br />
+min=a[i+1];<br />
+break;<br />
+}<br />
+printf(&#8220;min-&gt;%d&#8221;,min);<br />
+return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-27254">
+        <div id="dsq-comment-header-27254" class="dsq-comment-header">
+            <cite id="dsq-cite-27254">
+                <span id="dsq-author-user-27254">Alien</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27254" class="dsq-comment-body">
+            <div id="dsq-comment-message-27254" class="dsq-comment-message"><p>Iterative and simpler program with same algorithm:</p>
+<p>// C program to find minimum element in a sorted and rotated array</p>
+<p>#include </p>
+<p>int findMin(int arr[], int low, int high)</p>
+<p>{</p>
+<p>        int mid;</p>
+<p>        while(low&lt;=high)</p>
+<p>        {</p>
+<p>                mid = (low+high)/2;</p>
+<p>                // if element found</p>
+<p>                if(arr[mid] &lt; arr[mid-1])</p>
+<p>                {</p>
+<p>                        return arr[mid];</p>
+<p>                }</p>
+<p>                // if first half is sorted, go to right</p>
+<p>                else if(arr[low]&lt;=arr[mid])</p>
+<p>                {</p>
+<p>                        low = mid+1;</p>
+<p>                }</p>
+<p>                // if second half is sorted, go to left</p>
+<p>                else</p>
+<p>                {</p>
+<p>                        high = mid -1;</p>
+<p>                }</p>
+<p>        }</p>
+<p>}</p>
+<p>int main()</p>
+<p>{</p>
+<p>    int arr1[] =  {2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2};</p>
+<p>    int n1 = sizeof(arr1)/sizeof(arr1[0]);</p>
+<p>    printf(&quot;The minimum element is %dn&quot;, findMin(arr1, 0, n1-1));</p>
+<p>        return 0;</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-26885">
+        <div id="dsq-comment-header-26885" class="dsq-comment-header">
+            <cite id="dsq-cite-26885">
+http://www.facebook.com/ashishism10                <span id="dsq-author-user-26885">Ashish Ranjan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26885" class="dsq-comment-body">
+            <div id="dsq-comment-message-26885" class="dsq-comment-message"><p>The above solution will work for only those test case when every element is distinct.<br />
+But it may fail if there is the repetition of the some elements.</p>
+<p>e.g &#8211; for array {2, 1, 2, 2, 2, 2}<br />
+output will be 2 rather 1.</p>
+<p>So, modify last 3 lines of solution as:<br />
+/*<br />
+    if (arr[high] &gt; arr[mid])<br />
+       return findMin(arr, low, mid-1);<br />
+    else if(arr[high] == arr[mid])<br />
+       return min(findMin(arr, low, mid-1), findMin(arr, mid+1, high));<br />
+    else<br />
+       return findMin(arr, mid+1, high);<br />
+*/<br />
+Note- After modifying worst case complexity will we N^2 while avarage case complexity will be log(N);</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-26979">
+        <div id="dsq-comment-header-26979" class="dsq-comment-header">
+            <cite id="dsq-cite-26979">
+                <span id="dsq-author-user-26979">Geek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26979" class="dsq-comment-body">
+            <div id="dsq-comment-message-26979" class="dsq-comment-message"><p>The time complexity is O(n) only.  The recurrence for time complexity in worst case would be T(n) &lt;= 2T(n/2) + c.  Solution of this recurrence is O(n).</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-27806">
+        <div id="dsq-comment-header-27806" class="dsq-comment-header">
+            <cite id="dsq-cite-27806">
+                <span id="dsq-author-user-27806">KIston</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27806" class="dsq-comment-body">
+            <div id="dsq-comment-message-27806" class="dsq-comment-message"><p>Bhai tum v Nisha ma&#8217;am se padhe ho kya????<br />
+mera v pahle wahi O(n) aaya tha,, jab mai khud se padha to log n aa gya.<br />
+T(n) &lt;= 2T(n/2) + c</p>
+<p>Ka solution logn hoga.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-27851">
+        <div id="dsq-comment-header-27851" class="dsq-comment-header">
+            <cite id="dsq-cite-27851">
+                <span id="dsq-author-user-27851">Prashanth</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27851" class="dsq-comment-body">
+            <div id="dsq-comment-message-27851" class="dsq-comment-message"><p>T(n) &lt;= 2T(n/2) + c  ,  solution  is O(n)<br />
+        = 2^(log2 n ) * T(1)  + k<br />
+        = O(n)</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-5" id="dsq-comment-27872">
+        <div id="dsq-comment-header-27872" class="dsq-comment-header">
+            <cite id="dsq-cite-27872">
+                <span id="dsq-author-user-27872">kiston</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27872" class="dsq-comment-body">
+            <div id="dsq-comment-message-27872" class="dsq-comment-message"><p>yes u r right,, 1st case of master&#8217;s theorem,<br />
+It&#8217;s O(n)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-raghvendra odd alt thread-odd thread-alt depth-1" id="dsq-comment-26676">
+        <div id="dsq-comment-header-26676" class="dsq-comment-header">
+            <cite id="dsq-cite-26676">
+                <span id="dsq-author-user-26676">raghvendra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26676" class="dsq-comment-body">
+            <div id="dsq-comment-message-26676" class="dsq-comment-message"><pre> <code language="C">
+#include&lt;stdio.h&gt;
+#include&lt;iostream&gt;
+using namespace std;
+int A[100];
+int binary(int low,int high)
+{
+    int mid;
+
+    while(low&lt;=high)
+    {
+      mid=low+(high-low)/2;
+      if(low==high)return A[mid];
+      else if(low==high-1)
+      {
+          if(A[high]&gt;=A[low])return A[low];
+          else return A[high];
+      }
+      else
+      {
+          if(A[mid]&lt;=A[mid+1]&amp;&amp;A[mid]&lt;=A[mid-1])
+            return A[mid];
+          else if(A[mid]&gt;=A[high])
+            low=mid+1;
+          else
+            high=mid-1;
+      }
+    }
+    return -1;
+}
+int main()
+{
+    int n;
+    cin&gt;&gt;n;
+    for(int i=0;i&lt;n;i++)
+    {
+        cin&gt;&gt;A[i];
+    }
+    cout&lt;&lt;binary(0,n-1);
+    return 0;
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-25027">
+        <div id="dsq-comment-header-25027" class="dsq-comment-header">
+            <cite id="dsq-cite-25027">
+http://thylavatory.wordpress.com                <span id="dsq-author-user-25027">Manik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-25027" class="dsq-comment-body">
+            <div id="dsq-comment-message-25027" class="dsq-comment-message"><p>Only for no duplicates,<br />
+How is it better -&gt; O(1) space</p>
+<p>int search(int a[], int n)<br />
+{<br />
+    int store;</p>
+<p>	if( a[n-1] &gt; a[0] )<br />
+		return 0;<br />
+	else<br />
+		store = a[n-1];</p>
+<p>	int start = 0;<br />
+	int end = n;<br />
+	int mid;</p>
+<p>	while(1)<br />
+	{<br />
+		mid =  (start + end)/2;</p>
+<p>		if(mid == start) // single element<br />
+			return mid;</p>
+<p>		if(a[mid] &gt; store)<br />
+		{		// minimum lies on right side<br />
+			if(mid&lt;end-1)<br />
+				if(a[mid+1] &lt; a[mid])<br />
+					return mid+1;</p>
+<p>			start = mid+1;<br />
+			//mid = (start+end)/2;<br />
+			continue;<br />
+		}<br />
+		else<br />
+		{		//minimum lies on left or mid is itself the minimum</p>
+<p>			if(mid&gt;start)<br />
+				if(a[mid-1] &gt; a[mid])<br />
+					return mid;</p>
+<p>			end = mid;<br />
+			//mid = (start + end)/2;<br />
+			continue;<br />
+		}<br />
+	}<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+<ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-27402">
+        <div id="dsq-comment-header-27402" class="dsq-comment-header">
+            <cite id="dsq-cite-27402">
+http://atiqwhiz.blogspot.in/                <span id="dsq-author-user-27402">atiq</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27402" class="dsq-comment-body">
+            <div id="dsq-comment-message-27402" class="dsq-comment-message"><p>good point @3ec67a04e1fb2b49f8aebd41ee80988a:disqus +1&#8230; i also spent hours to find such techniques.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-jamalahmedmaaz even thread-odd thread-alt depth-1" id="dsq-comment-23089">
+        <div id="dsq-comment-header-23089" class="dsq-comment-header">
+            <cite id="dsq-cite-23089">
+                <span id="dsq-author-user-23089">jamalahmedmaaz</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-23089" class="dsq-comment-body">
+            <div id="dsq-comment-message-23089" class="dsq-comment-message"><pre> <code language="C">
+public class FindMinOrPointOfIncursion {
+
+  public static void find(int a[], int l, int h) {
+    if (l &lt; h) {
+      if (a[l] &lt; a[h]) {
+        System.out.println(&quot;min ele &quot; + a[l]);
+        return;
+      }
+      int m = (l + h) / 2;
+      if (((h - m) == 1) &amp;&amp; a[h] &lt; a[m]) {
+        System.out.println(&quot;min ele &quot; + a[h]);
+        return;
+      }
+      if (((m - l) == 1) &amp;&amp; a[l] &gt; a[m]) {
+        System.out.println(&quot;min ele &quot; + a[m]);
+        return;
+      }
+      boolean goleft = a[m] &lt; a[l];
+      boolean goright = a[m] &gt; a[h];
+      if (goleft) {
+        if (a[l] &lt; a[l + 1]) {
+          l = l + 1;
+        } else if (a[m] &gt; a[m - 1]) {
+          m = m - 1;
+        }
+        FindMinOrPointOfIncursion.find(a, l, m);
+      }
+      if (goright) {
+        if (a[m] &lt; a[m + 1]) {
+          m = m + 1;
+        } else if (a[h] &gt; a[h - 1]) {
+          h = h - 1;
+        }
+        FindMinOrPointOfIncursion.find(a, m, h);
+      }
+    }
+  }
+
+  public static void main(String[] args) {
+    // TODO Auto-generated method stub
+    int a[] = {6, 7, 8, 8, 8, 8, 8, 9, 10, 11, 12, 12, 12, 12, 1, 1, 1, 1, 1, 2, 3, 4, 5, 5, 5, 5,
+        5};
+    FindMinOrPointOfIncursion.find(a, 0, a.length - 1);
+  }
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-22896">
+        <div id="dsq-comment-header-22896" class="dsq-comment-header">
+            <cite id="dsq-cite-22896">
+                <span id="dsq-author-user-22896">Pavan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22896" class="dsq-comment-body">
+            <div id="dsq-comment-message-22896" class="dsq-comment-message"><pre> <code language="C">
+#include &lt;stdio.h&gt;
+int findPivot(int arr[], int low, int high)
+{
+   // base cases
+   if (high &lt; low)  return -1;
+   if (high == low) return low;
+ 
+   int mid = (low + high)/2;   /*low + (high - low)/2;*/
+   if (mid &lt; high &amp;&amp; arr[mid] &gt; arr[mid + 1])
+     return mid;
+   if (mid &gt; low &amp;&amp; arr[mid] &lt; arr[mid - 1])
+     return (mid-1);
+   if (arr[low] &gt;= arr[mid])
+     return findPivot(arr, low, mid-1);
+   else
+     return findPivot(arr, mid + 1, high);
+}
+int findMin(int arr[], int low, int high)
+{  
+   if(low==high)
+   return arr[0];
+   int pivot = findPivot(arr, low, high); 
+   if(pivot==-1)
+   return arr[0];
+   else
+   return arr[pivot+1];
+}
+ 
+int main()
+{
+    int arr1[] =  {5, 6, 1, 2, 3, 4};
+    int n1 = sizeof(arr1)/sizeof(arr1[0]);
+    printf(&quot;The minimum element is %d\n&quot;, findMin(arr1, 0, n1-1));
+ 
+    int arr2[] =  {1, 2, 3, 4};
+    int n2 = sizeof(arr2)/sizeof(arr2[0]);
+    printf(&quot;The minimum element is %d\n&quot;, findMin(arr2, 0, n2-1));
+ 
+    int arr3[] =  {1};
+    int n3 = sizeof(arr3)/sizeof(arr3[0]);
+    printf(&quot;The minimum element is %d\n&quot;, findMin(arr3, 0, n3-1));
+ 
+    int arr4[] =  {1, 2};
+    int n4 = sizeof(arr4)/sizeof(arr4[0]);
+    printf(&quot;The minimum element is %d\n&quot;, findMin(arr4, 0, n4-1));
+ 
+    int arr5[] =  {2, 1};
+    int n5 = sizeof(arr5)/sizeof(arr5[0]);
+    printf(&quot;The minimum element is %d\n&quot;, findMin(arr5, 0, n5-1));
+ 
+    int arr6[] =  {5, 6, 7, 1, 2, 3, 4};
+    int n6 = sizeof(arr6)/sizeof(arr6[0]);
+    printf(&quot;The minimum element is %d\n&quot;, findMin(arr6, 0, n6-1));
+ 
+    int arr7[] =  {1, 2, 3, 4, 5, 6, 7};
+    int n7 = sizeof(arr7)/sizeof(arr7[0]);
+    printf(&quot;The minimum element is %d\n&quot;, findMin(arr7, 0, n7-1));
+ 
+    int arr8[] =  {2, 3, 4, 5, 6, 7, 8, 1};
+    int n8 = sizeof(arr8)/sizeof(arr8[0]);
+    printf(&quot;The minimum element is %d\n&quot;, findMin(arr8, 0, n8-1));
+ 
+    int arr9[] =  {3, 4, 5, 1, 2};
+    int n9 = sizeof(arr9)/sizeof(arr9[0]);
+    printf(&quot;The minimum element is %d\n&quot;, findMin(arr9, 0, n9-1));
+ 
+    return 0;
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-masters even thread-odd thread-alt depth-1" id="dsq-comment-22694">
+        <div id="dsq-comment-header-22694" class="dsq-comment-header">
+            <cite id="dsq-cite-22694">
+                <span id="dsq-author-user-22694">Masters</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22694" class="dsq-comment-body">
+            <div id="dsq-comment-message-22694" class="dsq-comment-message"><pre> <code language="C"></code> </pre>
+<p>/* Paste your code here (You may delete these lines if not writing code) */<br />
+#include <stdio .h></p>
+<p>int min(int x, int y) { return (x < y)? x :y; }</p>
+<p>// The function that handles duplicates.  It can be O(n) in worst case.<br />
+int findMin(int arr[], int low, int high)<br />
+{<br />
+    // This condition is needed to handle the case when array is not<br />
+    // rotated at all<br />
+    if (high < low)  return arr[0];</p>
+<p>    // If there is only one element left<br />
+    if (high == low) return arr[low];</p>
+<p>    // Find mid<br />
+    int mid = low + (high - low)/2; /*(low + high)/2;*/</p>
+<p>    // Check if element (mid+1) is minimum element. Consider<br />
+    // the cases like {1, 1, 0, 1}<br />
+    if (mid < high &#038;&#038; arr[mid+1] < arr[mid])<br />
+       return arr[mid+1];</p>
+<p>    // This case causes O(n) time<br />
+    if (arr[low] >= arr[mid] &#038;&#038; arr[high] >= arr[mid])<br />
+        return min(findMin(arr, low, mid-1), findMin(arr, mid+1, high));</p>
+<p>    // Check if mid itself is minimum element<br />
+    if (mid > low &#038;&#038; arr[mid] < arr[mid - 1])<br />
+       return arr[mid];</p>
+<p>    // Decide whether we need to go to left half or right half<br />
+    if (arr[high] > arr[mid])<br />
+       return findMin(arr, low, mid-1);<br />
+    return findMin(arr, mid+1, high);<br />
+}</p>
+<p>// Driver program to test above functions<br />
+int main()<br />
+{<br />
+    int arr1[] =  {5, 6, 1, 2, 3, 4};<br />
+    int n1 = sizeof(arr1)/sizeof(arr1[0]);<br />
+    printf(&#8220;The minimum element is %d\n&#8221;, findMin(arr1, 0, n1-1));</p>
+<p>    int arr2[] =  {1, 1, 0, 1};<br />
+    int n2 = sizeof(arr2)/sizeof(arr2[0]);<br />
+    printf(&#8220;The minimum element is %d\n&#8221;, findMin(arr2, 0, n2-1));</p>
+<p>    int arr3[] =  {1, 1, 2, 2, 3};<br />
+    int n3 = sizeof(arr3)/sizeof(arr3[0]);<br />
+    printf(&#8220;The minimum element is %d\n&#8221;, findMin(arr3, 0, n3-1));</p>
+<p>    int arr4[] =  {3, 3, 3, 4, 4, 4, 4, 5, 3, 3};<br />
+    int n4 = sizeof(arr4)/sizeof(arr4[0]);<br />
+    printf(&#8220;The minimum element is %d\n&#8221;, findMin(arr4, 0, n4-1));</p>
+<p>    int arr5[] =  {2, 2, 2, 2, 2, 2, 2, 2, 0, 1, 1, 2};<br />
+    int n5 = sizeof(arr5)/sizeof(arr5[0]);<br />
+    printf(&#8220;The minimum element is %d\n&#8221;, findMin(arr5, 0, n5-1));</p>
+<p>    int arr6[] =  {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1};<br />
+    int n6 = sizeof(arr6)/sizeof(arr6[0]);<br />
+    printf(&#8220;The minimum element is %d\n&#8221;, findMin(arr6, 0, n6-1));</p>
+<p>    int arr7[] =  {3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,5,1,2};<br />
+    int n7 = sizeof(arr7)/sizeof(arr7[0]);<br />
+    printf(&#8220;The minimum element is %d\n&#8221;, findMin(arr7, 0, n7-1));</p>
+<p>    int arr8[] =  {2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2};<br />
+    int n8 = sizeof(arr8)/sizeof(arr8[0]);<br />
+    printf(&#8220;The minimum element is %d\n&#8221;, findMin(arr8, 0, n8-1));<br />
+        return 0;<br />
+}</stdio></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geekcomp odd alt depth-2" id="dsq-comment-24895">
+        <div id="dsq-comment-header-24895" class="dsq-comment-header">
+            <cite id="dsq-cite-24895">
+                <span id="dsq-author-user-24895">geekcomp</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24895" class="dsq-comment-body">
+            <div id="dsq-comment-message-24895" class="dsq-comment-message"><p>what is the need of very first line<br />
+if (high < low)  return arr[0];<br />
+I mean How can we get high<low?? as we are passing the index. Please clarify this line..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-22693">
+        <div id="dsq-comment-header-22693" class="dsq-comment-header">
+            <cite id="dsq-cite-22693">
+                <span id="dsq-author-user-22693">Rebel</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22693" class="dsq-comment-body">
+            <div id="dsq-comment-message-22693" class="dsq-comment-message"><pre> <code language="C"></code> </pre>
+<p>/* Paste your code here (You may delete these lines if not writing code) */<br />
+#include </p>
+<p>int min(int x, int y) { return (x &lt; y)? x :y; }</p>
+<p>// The function that handles duplicates.  It can be O(n) in worst case.<br />
+int findMin(int arr[], int low, int high)<br />
+{<br />
+    // This condition is needed to handle the case when array is not<br />
+    // rotated at all<br />
+    if (high &lt; low)  return arr[0];</p>
+<p>    // If there is only one element left<br />
+    if (high == low) return arr[low];</p>
+<p>    // Find mid<br />
+    int mid = low + (high &#8211; low)/2; /*(low + high)/2;*/</p>
+<p>    // Check if element (mid+1) is minimum element. Consider<br />
+    // the cases like {1, 1, 0, 1}<br />
+    if (mid &lt; high &amp;&amp; arr[mid+1] = arr[mid] &amp;&amp; arr[high] &gt;= arr[mid])<br />
+        return min(findMin(arr, low, mid-1), findMin(arr, mid+1, high));</p>
+<p>    // Check if mid itself is minimum element<br />
+    if (mid &gt; low &amp;&amp; arr[mid]  arr[mid])<br />
+       return findMin(arr, low, mid-1);<br />
+    return findMin(arr, mid+1, high);<br />
+}</p>
+<p>// Driver program to test above functions<br />
+int main()<br />
+{<br />
+    int arr1[] =  {5, 6, 1, 2, 3, 4};<br />
+    int n1 = sizeof(arr1)/sizeof(arr1[0]);<br />
+    printf(&#8220;The minimum element is %d\n&#8221;, findMin(arr1, 0, n1-1));</p>
+<p>    int arr2[] =  {1, 1, 0, 1};<br />
+    int n2 = sizeof(arr2)/sizeof(arr2[0]);<br />
+    printf(&#8220;The minimum element is %d\n&#8221;, findMin(arr2, 0, n2-1));</p>
+<p>    int arr3[] =  {1, 1, 2, 2, 3};<br />
+    int n3 = sizeof(arr3)/sizeof(arr3[0]);<br />
+    printf(&#8220;The minimum element is %d\n&#8221;, findMin(arr3, 0, n3-1));</p>
+<p>    int arr4[] =  {3, 3, 3, 4, 4, 4, 4, 5, 3, 3};<br />
+    int n4 = sizeof(arr4)/sizeof(arr4[0]);<br />
+    printf(&#8220;The minimum element is %d\n&#8221;, findMin(arr4, 0, n4-1));</p>
+<p>    int arr5[] =  {2, 2, 2, 2, 2, 2, 2, 2, 0, 1, 1, 2};<br />
+    int n5 = sizeof(arr5)/sizeof(arr5[0]);<br />
+    printf(&#8220;The minimum element is %d\n&#8221;, findMin(arr5, 0, n5-1));</p>
+<p>    int arr6[] =  {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1};<br />
+    int n6 = sizeof(arr6)/sizeof(arr6[0]);<br />
+    printf(&#8220;The minimum element is %d\n&#8221;, findMin(arr6, 0, n6-1));</p>
+<p>    int arr7[] =  {3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,5,1,2};<br />
+    int n7 = sizeof(arr7)/sizeof(arr7[0]);<br />
+    printf(&#8220;The minimum element is %d\n&#8221;, findMin(arr7, 0, n7-1));</p>
+<p>    int arr8[] =  {2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2};<br />
+    int n8 = sizeof(arr8)/sizeof(arr8[0]);<br />
+    printf(&#8220;The minimum element is %d\n&#8221;, findMin(arr8, 0, n8-1));</p>
+<p>    return 0;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-22681">
+        <div id="dsq-comment-header-22681" class="dsq-comment-header">
+            <cite id="dsq-cite-22681">
+                <span id="dsq-author-user-22681">prakash</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22681" class="dsq-comment-body">
+            <div id="dsq-comment-message-22681" class="dsq-comment-message"><p>will the code work if i give an input set  &#8220;222622222222&#8221;</p>
+<p> the statement to handle the duplicate input, is min(findMin(arr, low, mid-1), findMin(arr, mid+1, high));  will always return minimum number.. plz help me clarifying this&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-22314">
+        <div id="dsq-comment-header-22314" class="dsq-comment-header">
+            <cite id="dsq-cite-22314">
+                <span id="dsq-author-user-22314">prashi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22314" class="dsq-comment-body">
+            <div id="dsq-comment-message-22314" class="dsq-comment-message"><p>its my solution,<br />
+i think it works on array having duplicate elements,<br />
+if anything wrong with this please comment.</p>
+<pre> <code language="C">
+/* 
+int minfind(int a[], int low, int high)
+ {
+   int mid, l,r;
+  if(low&gt;=high)
+    return a[0];
+ 
+  mid=(low+high)/2 +1;
+ if(a[mid]&lt;a[mid -1])
+  return a[m];
+
+ l=minfind(a,low,mid-1);
+ r=minfind(a,mid+1,high);
+ 
+  if(l&lt;r)
+   return l;
+return r;
+}
+ */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-itsyash odd alt thread-odd thread-alt depth-1" id="dsq-comment-22244">
+        <div id="dsq-comment-header-22244" class="dsq-comment-header">
+            <cite id="dsq-cite-22244">
+                <span id="dsq-author-user-22244">itsyash</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22244" class="dsq-comment-body">
+            <div id="dsq-comment-message-22244" class="dsq-comment-message"><p>What is the use of following condition ?? We can  have the code working without this condition also, right ?</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+// Check if element (mid+1) is minimum element. Consider
+    // the cases like {3, 4, 5, 1, 2}
+    if (mid &lt; high &amp;&amp; arr[mid+1] &lt; arr[mid])
+       return arr[mid+1];
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-27854">
+        <div id="dsq-comment-header-27854" class="dsq-comment-header">
+            <cite id="dsq-cite-27854">
+                <span id="dsq-author-user-27854">Prashanth</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27854" class="dsq-comment-body">
+            <div id="dsq-comment-message-27854" class="dsq-comment-message"><p>This condition is required because it checks if the array is rotated at &#8220;mid + 1 &#8221; position.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-bateesh odd alt thread-even depth-1" id="dsq-comment-22203">
+        <div id="dsq-comment-header-22203" class="dsq-comment-header">
+            <cite id="dsq-cite-22203">
+                <span id="dsq-author-user-22203">bateesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22203" class="dsq-comment-body">
+            <div id="dsq-comment-message-22203" class="dsq-comment-message"><p>@Geekforgeek<br />
+The code for handling duplicates fails for the following case<br />
+4,5,1,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3</p>
+<p>it give 3 as o/p.</p>
+<p>If arr[high]and arr[mid] are same and mid is not the minimum element then it is clear that from mid to high no min will be there as arr[mid] and arr[high] are equal.Instead of going to right we will go to left.Kindly update it as follow<br />
+// Decide whether we need to go to left half or right half<br />
+    if (arr[high] >= arr[mid])<br />
+       return findMin(arr, low, mid-1);<br />
+    return findMin(arr, mid+1, high);</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-22132">
+        <div id="dsq-comment-header-22132" class="dsq-comment-header">
+            <cite id="dsq-cite-22132">
+                <span id="dsq-author-user-22132">Sudhansu sekhar jena</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22132" class="dsq-comment-body">
+            <div id="dsq-comment-message-22132" class="dsq-comment-message"><pre> <code language="C">
+public  static int findMin(int arr[],int low,int high){
+		int mid=(low+high)/2;
+		if(arr[low]&lt;arr[high]){
+			return arr[low];
+		}
+		if(low==high)
+			return arr[low];
+		if(arr[mid-1]&gt;arr[mid])
+			return arr[mid];
+		else if(arr[mid-1]&lt;arr[mid] &amp;&amp; arr[low]&lt;arr[mid]){
+			low=mid+1;
+		}
+		else if(arr[mid-1]&lt;arr[mid] &amp;&amp; arr[low]&gt;arr[mid]){
+			high=mid+1;
+		}
+			
+		
+		return  findMin(arr,low,high);
+	}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-22128">
+        <div id="dsq-comment-header-22128" class="dsq-comment-header">
+            <cite id="dsq-cite-22128">
+                <span id="dsq-author-user-22128">Sudhansu Sekhar Jena</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22128" class="dsq-comment-body">
+            <div id="dsq-comment-message-22128" class="dsq-comment-message"><p>Hey this is my solution&#8230;</p>
+<p>public  static int findMin(int arr[],int low,int high){<br />
+		int mid=(low+high)/2;<br />
+		if(arr[low]arr[mid])<br />
+			return arr[mid];<br />
+		else if(arr[mid-1]&lt;arr[mid] &amp;&amp; arr[low]&lt;arr[mid]){<br />
+			low=mid+1;<br />
+		}<br />
+		else if(arr[mid-1]arr[mid]){<br />
+			high=mid+1;<br />
+		}</p>
+<p>		return  findMin(arr,low,high);<br />
+	}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-21982">
+        <div id="dsq-comment-header-21982" class="dsq-comment-header">
+            <cite id="dsq-cite-21982">
+                <span id="dsq-author-user-21982">Ankit Chaudhary</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21982" class="dsq-comment-body">
+            <div id="dsq-comment-message-21982" class="dsq-comment-message"><p>First solution seems to be incorrect is array is reverse sorted<br />
+i.e. 5 4 3 2 1</p>
+<p>Above code will return 2 because<br />
+if(mid&lt;high &amp;&amp; arr[mid+1]&lt;a[mid])<br />
+   return a[mid+1];</p>
+<p>will be true and return 2.<br />
+Correct me If I am Wrong</p>
+<p>/* Paste your code here (You may delete these lines if not writing code) </p>
+<p>Check out this code if any error then please reply me.<br />
+int func(int *a,int left,int right)<br />
+{<br />
+    if(left==right) return a[left];<br />
+    if(right==left+1)<br />
+        return a[left]&lt;a[right]?a[left]:a[right];<br />
+    int mid=(left+right)/2;</p>
+<p>    if(a[mid]&gt;a[left] &amp;&amp; a[mid]&lt;a[right]) // if array is sorted<br />
+        return a[left];<br />
+    if(a[mid]&lt;a[left] &amp;&amp; a[mid]&gt;a[right])// if array is reverse sorted<br />
+        return a[right];</p>
+<p>    if(a[mid]&lt;a[left] &amp;&amp; a[mid]&lt;a[mid-1]) // 20 25 5 10 15<br />
+        return a[mid];<br />
+    if(a[mid]&lt;a[left])   //  25 5 10 15 20<br />
+        return func(a,left,mid);</p>
+<p>    if(a[mid]&gt;a[right] &amp;&amp; a[mid+1]&lt;a[mid])  // 15 20 25 5 10<br />
+        return a[mid+1];<br />
+    return func(a,mid,right);  //  10 15 20 25 5</p>
+<p>}</p>
+<p>*/</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik odd alt depth-2" id="dsq-comment-21983">
+        <div id="dsq-comment-header-21983" class="dsq-comment-header">
+            <cite id="dsq-cite-21983">
+                <span id="dsq-author-user-21983">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21983" class="dsq-comment-body">
+            <div id="dsq-comment-message-21983" class="dsq-comment-message"><p>@Ankit: The array {5, 4, 3, 2, 1} doesn&#8217;t seem to be a valid input.  I think the post is about counterclockwise rotations.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik even depth-3" id="dsq-comment-21989">
+        <div id="dsq-comment-header-21989" class="dsq-comment-header">
+            <cite id="dsq-cite-21989">
+                <span id="dsq-author-user-21989">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21989" class="dsq-comment-body">
+            <div id="dsq-comment-message-21989" class="dsq-comment-message"><p>Apologies.  I meant clockwise.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-neo_t odd alt thread-even depth-1" id="dsq-comment-21971">
+        <div id="dsq-comment-header-21971" class="dsq-comment-header">
+            <cite id="dsq-cite-21971">
+                <span id="dsq-author-user-21971">Neo_T</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21971" class="dsq-comment-body">
+            <div id="dsq-comment-message-21971" class="dsq-comment-message"><p>Should it not be < < return findMin(arr, mid+2, high); >> in the last line of solution because we have already checked for mid and mid+1.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-neo_t even depth-2" id="dsq-comment-21972">
+        <div id="dsq-comment-header-21972" class="dsq-comment-header">
+            <cite id="dsq-cite-21972">
+                <span id="dsq-author-user-21972">Neo_T</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21972" class="dsq-comment-body">
+            <div id="dsq-comment-message-21972" class="dsq-comment-message"><p>Also < < if(high<low) >> statement can be checked in the main() by comparing first and last elements of array. Correct me if I am wrong.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-21932">
+        <div id="dsq-comment-header-21932" class="dsq-comment-header">
+            <cite id="dsq-cite-21932">
+                <span id="dsq-author-user-21932">abhishek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21932" class="dsq-comment-body">
+            <div id="dsq-comment-message-21932" class="dsq-comment-message"><p>how the line if(high&lt;low) represent it is not rotated</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-nishant_agarwal even thread-even depth-1" id="dsq-comment-21652">
+        <div id="dsq-comment-header-21652" class="dsq-comment-header">
+            <cite id="dsq-cite-21652">
+                <span id="dsq-author-user-21652">Nishant</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21652" class="dsq-comment-body">
+            <div id="dsq-comment-message-21652" class="dsq-comment-message"><p>// This condition is needed to handle the case when array is not<br />
+    // rotated at all<br />
+    if (high < low)  return arr[0];</p>
+<p>Above line is compiled only when there are 2 elements in an array like {1, 2} but for other cases like {1, 2, 3} or {1, 2, 3, 4, 5} , program is not returning from here. </p>
+<p>I think we can check above case in main() function itself just before calling findMin() function. We can write something like</p>
+<p>if (arr[0] < arr[n-1])<br />
+printf(&#8220;%d\n&#8221;,arr[0]);<br />
+else<br />
+findmin(&#8230;);</p>
+<p>Please correct me if I&#8217;m wrong.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-21629">
+        <div id="dsq-comment-header-21629" class="dsq-comment-header">
+            <cite id="dsq-cite-21629">
+                <span id="dsq-author-user-21629">coder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21629" class="dsq-comment-body">
+            <div id="dsq-comment-message-21629" class="dsq-comment-message"><p>if (arr[low] == arr[mid] &amp;&amp; arr[high] == arr[mid])<br />
+        return min(findMin(arr, low, mid-1), findMin(arr, mid+1, high));</p>
+<p>Please explain that how this code segment is responsible for O(n) time&#8230;according to me findMin(arr,low,mid-1) will take O(logn) and findMin(arr,mid+1,high) will take O(logn)then how it is O(n).<br />
+  I know it may be very silly question but i don;t know i;m not getting it right&#8230;<br />
+  Thanx in advance&#8230;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor even depth-2" id="dsq-comment-21633">
+        <div id="dsq-comment-header-21633" class="dsq-comment-header">
+            <cite id="dsq-cite-21633">
+                <span id="dsq-author-user-21633">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21633" class="dsq-comment-body">
+            <div id="dsq-comment-message-21633" class="dsq-comment-message"><p>Following is recurrence in worst case.</p>
+<p>Time Complexity T(n) = 2T(n/2) + C where C is a constant</p>
+<p>Solution of above recurrence is O(n).  We can apply Master Theorem to solve the recurrence.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-neo_t odd alt depth-2" id="dsq-comment-21973">
+        <div id="dsq-comment-header-21973" class="dsq-comment-header">
+            <cite id="dsq-cite-21973">
+                <span id="dsq-author-user-21973">Neo_T</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21973" class="dsq-comment-body">
+            <div id="dsq-comment-message-21973" class="dsq-comment-message"><p>It can also be understood by a simple method.<br />
+Let us say that when such situation arises, we have to check both sides of MID to find the minimum element and while doing so, in the worst case, we end up checking whole array for the minimum element. Hence, O(n)<br />
+Whereas in 1st solution where no duplicates are allowed, we reject one side of MID, thereby reducing the array size. Hence, O(log n)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+<ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-31047">
+        <div id="dsq-comment-header-31047" class="dsq-comment-header">
+            <cite id="dsq-cite-31047">
+                <span id="dsq-author-user-31047">ananam</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31047" class="dsq-comment-body">
+            <div id="dsq-comment-message-31047" class="dsq-comment-message"><p>private int findMin(int[] arr,int low, int high) {<br />
+if(high == low) return arr[low]; // only element in array;<br />
+int mid = (low+high)/2;<br />
+return (Math.min(findMin(arr,low,mid),findMin(arr,mid+1,high)));<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-21443">
+        <div id="dsq-comment-header-21443" class="dsq-comment-header">
+            <cite id="dsq-cite-21443">
+                <span id="dsq-author-user-21443">pranav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21443" class="dsq-comment-body">
+            <div id="dsq-comment-message-21443" class="dsq-comment-message"><pre> <code language="C">
+int min_array(int* a,int p,int r)
+{
+	if(p==r)
+		return *(a+p);
+	if(r-p==1)
+		return min(*(a+p),*(a+r));
+	if(*(a+p)&lt;*(a+r))
+		return *(a+p);
+	int q=(p+r)/2;
+	if(*(a+p)&lt;*(a+q))
+		return min_array(a,q+1,r);
+	return min_array(a,p+1,q);
+}
+i think this works fine except in the case of duplicates
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-21381">
+        <div id="dsq-comment-header-21381" class="dsq-comment-header">
+            <cite id="dsq-cite-21381">
+http://crazyforcode.com                <span id="dsq-author-user-21381">hemant</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21381" class="dsq-comment-body">
+            <div id="dsq-comment-message-21381" class="dsq-comment-message"><pre> <code language="C">
+int maxRepeating(int *a, int s,int n)
+{
+    int mid;
+    mid = (s+n)/2;
+     if(mid &lt;= s)
+        return a[s]&lt;a[n]?a[s]:a[n];
+    printf(&quot;%d&quot;,mid);
+    if(a[mid] &gt; a[n])
+        maxRepeating(a,mid,n);
+    else if (a[s] &gt; a[mid])
+        maxRepeating(a,s,mid);
+    
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-21357">
+        <div id="dsq-comment-header-21357" class="dsq-comment-header">
+            <cite id="dsq-cite-21357">
+                <span id="dsq-author-user-21357">Arjun</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21357" class="dsq-comment-body">
+            <div id="dsq-comment-message-21357" class="dsq-comment-message"><p>Try this with your code : 87654123</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-kartik even depth-2" id="dsq-comment-21358">
+        <div id="dsq-comment-header-21358" class="dsq-comment-header">
+            <cite id="dsq-cite-21358">
+                <span id="dsq-author-user-21358">kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21358" class="dsq-comment-body">
+            <div id="dsq-comment-message-21358" class="dsq-comment-message"><p>{8,7,6,5,4,1,2,3} doesn&#8217;t seem to be a valid sorted and rotated array.  It should be 4, 5, 6, 7, 8, 1, 2, 3, 4</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-21258">
+        <div id="dsq-comment-header-21258" class="dsq-comment-header">
+            <cite id="dsq-cite-21258">
+http://www.crazyforcode.com                <span id="dsq-author-user-21258">hemant</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21258" class="dsq-comment-body">
+            <div id="dsq-comment-message-21258" class="dsq-comment-message"><p>I dont understand the first condition??</p>
+<p>How is<br />
+if (high &lt; low)  return arr[0];</p>
+<p>/* Paste your code here (You may delete these lines if not writing code) */</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-21160">
+        <div id="dsq-comment-header-21160" class="dsq-comment-header">
+            <cite id="dsq-cite-21160">
+https://plus.google.com/u/0/100854281690352241497?prsrc=4                <span id="dsq-author-user-21160">Viky</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21160" class="dsq-comment-body">
+            <div id="dsq-comment-message-21160" class="dsq-comment-message"><pre> <code language="C">
+#include&lt;stdio.h&gt;
+int min(int a[], int x,int y)
+{
+    return a[x]&gt;a[y]?y:x;
+}
+int binary_search(int a[],int low,int high)
+{
+    int mid = low + (high-low)/2;
+    if(low==high) return low;
+    if(a[low] &lt; a[high])        // normal situation as sorting data is there
+    {
+        return low;
+    }
+    else
+    {
+        if(low==mid) return min(a,low,high);
+        if(a[low] == a[mid])
+        {
+            return min(a,binary_search(a,low,mid-1),binary_search(a,mid+1,high));
+        }
+        else
+        if(a[low] &gt; a[mid])
+        {
+            return binary_search(a,low,mid);
+        }
+        else
+        {
+            return binary_search(a,mid+1,high);
+        }
+    }
+}
+int find_min(int a[],int n)
+{
+    return binary_search(a,0,n-1);
+}
+int main()
+{
+    int a[]= {5, 6, 1, 2, 3, 4};
+    int n = sizeof(a)/sizeof(a[0]);
+    int min= find_min(a,n);
+    printf(&quot;integer %d is at index: %d\nn== %d\n&quot;,a[min],min,n);
+}
+
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-21087">
+        <div id="dsq-comment-header-21087" class="dsq-comment-header">
+            <cite id="dsq-cite-21087">
+                <span id="dsq-author-user-21087">Asap</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21087" class="dsq-comment-body">
+            <div id="dsq-comment-message-21087" class="dsq-comment-message"><p>I dont think we need to check mid&gt;low condition.</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-21090">
+        <div id="dsq-comment-header-21090" class="dsq-comment-header">
+            <cite id="dsq-cite-21090">
+                <span id="dsq-author-user-21090">Asap</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21090" class="dsq-comment-body">
+            <div id="dsq-comment-message-21090" class="dsq-comment-message"><p>Ok got it<br />
+My func was this<br />
+int min(int a[],int i,int n){<br />
+	int mid=i+(n-i)/2;<br />
+	if((i+1)==n)<br />
+	return a[n];<br />
+	if(i==n)<br />
+	return a[i];<br />
+	if(a[mid-1]&gt;a[mid])<br />
+	return a[mid];<br />
+	if(a[mid]&lt;a[n])<br />
+	return min(a,i,mid-1);</p>
+<p>	return min(a,mid,n);<br />
+}<br />
+So i didnt need it</p>
+<p>/* Paste your code here (You may delete these lines if not writing code) */</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-21070">
+        <div id="dsq-comment-header-21070" class="dsq-comment-header">
+            <cite id="dsq-cite-21070">
+                <span id="dsq-author-user-21070">rahul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21070" class="dsq-comment-body">
+            <div id="dsq-comment-message-21070" class="dsq-comment-message"><p>is something wrong with last if statement ??</p>
+<p>if (arr[low] &gt;= arr[mid] &amp;&amp; arr[high] &gt; arr[mid])</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-jainamit0909gmail-com even thread-odd thread-alt depth-1" id="dsq-comment-21064">
+        <div id="dsq-comment-header-21064" class="dsq-comment-header">
+            <cite id="dsq-cite-21064">
+                <span id="dsq-author-user-21064">AMIT</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21064" class="dsq-comment-body">
+            <div id="dsq-comment-message-21064" class="dsq-comment-message"><p>@geeksforgeeks&#8211;<br />
+I still believe o(logn) worst case algorithm is not possible if allow duplicates<br />
+The above program won&#8217;t work for arr[]={2,2,2,0,2,2,2,2,2,2,2}.It returns 2<br />
+I replied in my above fb comment,but its not showing there</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-geeksforgeeks bypostauthor odd alt depth-2" id="dsq-comment-21068">
+        <div id="dsq-comment-header-21068" class="dsq-comment-header">
+            <cite id="dsq-cite-21068">
+                <span id="dsq-author-user-21068">GeeksforGeeks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21068" class="dsq-comment-body">
+            <div id="dsq-comment-message-21068" class="dsq-comment-message"><p>Your point seems valid. It doesn&#8217;t look possible to find minimum in O(Logn) in all cases. We have updated the post. Keep it up!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment byuser comment-author-abdullah_adel even thread-even depth-1" id="dsq-comment-21061">
+        <div id="dsq-comment-header-21061" class="dsq-comment-header">
+            <cite id="dsq-cite-21061">
+                <span id="dsq-author-user-21061">Abdullah_Adel</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21061" class="dsq-comment-body">
+            <div id="dsq-comment-message-21061" class="dsq-comment-message"><p>My solution:</p>
+<pre> <code language="C">
+int findMin(int arr[], int low, int high)
+{
+	if (high &lt; low)
+		return arr[0];
+
+	if (high == low)
+		return arr[low];
+
+	int mid = (high + low)/2;
+
+	if (arr[mid] &gt;= arr[low])
+		return std::min(arr[low], findMin(arr, mid+1, high));
+	return std::min(arr[low], findMin(arr, low, mid));
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-21060">
+        <div id="dsq-comment-header-21060" class="dsq-comment-header">
+            <cite id="dsq-cite-21060">
+http://nims11.wordpress.com                <span id="dsq-author-user-21060">nims</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21060" class="dsq-comment-body">
+            <div id="dsq-comment-message-21060" class="dsq-comment-message"><p>O(lgn) won&#8217;t work on arrays having duplicate elements.<br />
+A better explanation of O(lgn) which works with distinct elements:</p>
+<p>If a sorted rotated array V of size N exists such that V[x%N]&gt;V[(x+1)%N] (i.e. V[x%N] is max and V[(x+1)%N] is min), then all the subarrays W of V containing V[x%N] and V[(x+1)%N] will also be a rooted sorted array. </p>
+<p>All rooted sorted array will hold the following property: W[0]&gt;W[size_W-1].</p>
+<p>For each y, we define subarrays V[0..y] and V[y+1..N-1], we know y = x when both V[0..y] and V[y+1..N-1] fails the test for sorted rooted array. Perform a binary search on y to get the value.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment byuser comment-author-abdullah_adel even thread-even depth-1" id="dsq-comment-21059">
+        <div id="dsq-comment-header-21059" class="dsq-comment-header">
+            <cite id="dsq-cite-21059">
+                <span id="dsq-author-user-21059">Abdullah_Adel</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21059" class="dsq-comment-body">
+            <div id="dsq-comment-message-21059" class="dsq-comment-message"><p>I want to know, what is your point in using:<br />
+int mid = low + (high &#8211; low)/2;<br />
+instead of commented one?</p>
+<p>thanks!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-bakwasscoder odd alt depth-2" id="dsq-comment-21388">
+        <div id="dsq-comment-header-21388" class="dsq-comment-header">
+            <cite id="dsq-cite-21388">
+                <span id="dsq-author-user-21388">bakwasscoder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21388" class="dsq-comment-body">
+            <div id="dsq-comment-message-21388" class="dsq-comment-message"><p>to prevent integer overflow as (low+high) could be a very big number for large arrays.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-21051">
+        <div id="dsq-comment-header-21051" class="dsq-comment-header">
+            <cite id="dsq-cite-21051">
+                <span id="dsq-author-user-21051">Nishtha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21051" class="dsq-comment-body">
+            <div id="dsq-comment-message-21051" class="dsq-comment-message"><p>Sorry! for 9,8,7,6,5,4,11,10 it will return 4 correctly.<br />
+But for the input 9,8,7,6,5,4,3,10 a[mid]=5.<br />
+The following condition<br />
+// Check if element (mid+1) is minimum element. Consider<br />
+// the cases like {1, 1, 0, 1}<br />
+    if (mid &lt; high &amp;&amp; arr[mid+1] &lt; arr[mid])//4&lt;8 &amp;&amp; arr[5]&lt;arr[4] is true<br />
+       return arr[mid+1];<br />
+So arr[5] will be returned. But the minimum element is 3.<br />
+Correct me if I am wrong! Thanks <img src="http://d2o58evtke57tz.cloudfront.net/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /><br />
+And cant we use two pointers to solve this problem?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-21047">
+        <div id="dsq-comment-header-21047" class="dsq-comment-header">
+            <cite id="dsq-cite-21047">
+                <span id="dsq-author-user-21047">Nishtha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21047" class="dsq-comment-body">
+            <div id="dsq-comment-message-21047" class="dsq-comment-message"><p>What if the input is 9,8,7,6,5,4,11,10? This is also sorted and rotated array but in clockwise direction.<br />
+During the first call a[mid]=5, a[low]=9 and a[high]=10<br />
+a[low]&gt;=a[mid] is true and a[high]&gt;a[amid] is also true. So again findMin(arr, low, mid-1) will be called. Now from 9,8,7,6 the lowest element, 6, will be searched and returned; which is not the correct answer. </p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-21043">
+        <div id="dsq-comment-header-21043" class="dsq-comment-header">
+            <cite id="dsq-cite-21043">
+                <span id="dsq-author-user-21043">Bala Sravan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21043" class="dsq-comment-body">
+            <div id="dsq-comment-message-21043" class="dsq-comment-message"><p>My logic is that in a rotated sorted array if we take mid element either or both of the halfs will be sorted and this property continues for both the halfs<br />
+Hence finding minl,minr minimum in left half and minimum in right half is easy task whichever half has got minimum recursively do this procedure for that half<br />
+here is the c language implementation</p>
+<pre> <code language="C">
+#include&lt;stdio.h&gt;
+void min(int* a,int i,int j,int* mini);
+void main()
+{
+FILE* fp=fopen(&quot;input.txt&quot;,&quot;r&quot;);
+int n;
+fscanf(fp,&quot;%d&quot;,&amp;n);
+int i=0,a[n];
+while(i!=n)
+{
+fscanf(fp,&quot;%d&quot;,&amp;a[i]);
+i++;
+}
+i=0;
+/*while(i!=n)
+{
+printf(&quot;%d &quot;,a[i]);
+i++;
+}*/
+int mini=619;
+min(a,0,n-1,&amp;mini);
+printf(&quot;%d &quot;,mini);
+}
+void min(int* a,int i,int j,int* mini)
+{
+if(i&gt;j)
+return;
+if(i==j&amp;&amp;*(a+i)&lt;*mini)
+{
+*mini=*(a+i);
+return;
+}
+if(j==i+1)
+{
+if(*mini&gt;*(a+i))
+*mini=*(a+i);
+if(*(mini)&gt;*(a+j))
+*mini=*(a+j);
+return;
+}
+int mid=(i+j)/2,minl,minr;
+if(*mini&gt;*(a+mid))
+*mini=*(a+mid);
+if(*(a+i)&lt;=*(a+mid-1))
+minl=*(a+i);
+else
+minl=*(a+mid-1);
+if(*(a+mid+1)&lt;=*(a+j))
+minr=*(a+mid+1);
+else
+minr=*(a+j);
+if(minl==minr)
+{
+min(a,i,mid-1,mini);
+min(a,mid+1,j,mini);
+return;
+}
+if(minl&lt;minr)
+min(a,i,mid-1,mini);
+else
+min(a,mid+1,j,mini);
+}
+</code> </pre>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</li><!-- #comment-## -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-21037">
+        <div id="dsq-comment-header-21037" class="dsq-comment-header">
+            <cite id="dsq-cite-21037">
+                <span id="dsq-author-user-21037">Lakshman</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21037" class="dsq-comment-body">
+            <div id="dsq-comment-message-21037" class="dsq-comment-message"><p>Is this methode correct ?<br />
+We can find the pivot in O(logn)<br />
+And , then we have two sorted arrays , one on the left side of the pivot and another on the right side of the pivot.<br />
+Now we can find the min in these sorted arrays O(1).<br />
+and display the min value of the two min values</p>
+<pre> <code language="C">
+/* Paste your code here (You may delete these lines if not writing code) */
+</code> </pre>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-ronny even depth-2" id="dsq-comment-21062">
+        <div id="dsq-comment-header-21062" class="dsq-comment-header">
+            <cite id="dsq-cite-21062">
+                <span id="dsq-author-user-21062">Ronny</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21062" class="dsq-comment-body">
+            <div id="dsq-comment-message-21062" class="dsq-comment-message"><p>@Lakshman<br />
+This is very much similar to finding the pivot only.<br />
+If you observe the code carefully, it is just finding the element next to pivot i.e. a[mid]<a[mid-1]<br />
+And this is O(log n) only.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.geeksforgeeks.org/find-minimum-element-in-a-sorted-and-rotated-array/';
+var disqus_identifier = '119937 http://www.geeksforgeeks.org/?p=119937';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'geeksforgeeks';
+var disqus_title = "Find the minimum element in a sorted and rotated array";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+			</div>
+	
+					
+			
+			
+
+		</div> <!-- end post -->	
+
+<br></br>
+	
+</div> <!-- end content -->
+
+<ul id="sidebar">
+	<li id="text-19" class="widget widget_text">			<div class="textwidget"><script>
+  (function() {
+    var cx = '009682134359037907028:tj6eafkv_be';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: "Trebuchet MS", sans-serif;
+    border-color: #E1F3DA;
+    background-color: #E1F3DA;
+  }
+  input.gsc-input {
+    border-color: #94CC7A;
+  }
+  input.gsc-search-button {
+    border-color: #94CC7A;
+    background-color: #AADA92;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gsc-tabsArea {
+    border-color: #A9DA92;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #009900;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #003300;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #009900;
+  }
+  .gsc-cursor-page {
+    color: #009900;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #009900;
+  }
+  .gs-webResult.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    color: #33cc00;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult.gs-result .gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #A9DA92;
+  }
+  .gsc-results .gsc-cursor-page {
+    border-color: #A9DA92;
+    background-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-page.gsc-cursor-current-page {
+    border-color: #A9DA92;
+    background-color: #A9DA92;
+  }
+  .gs-promotion.gs-result {
+    border-color: #94CC7A;
+    background-color: #CBE8B4;
+  }
+  .gs-promotion.gs-result a.gs-title:link {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:visited {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:hover {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result a.gs-title:active {
+    color: #0066CC;
+  }
+  .gs-promotion.gs-result .gs-snippet {
+    color: #454545;
+  }
+  .gs-promotion.gs-result .gs-visibleUrl,
+  .gs-promotion.gs-result .gs-visibleUrl-short {
+    color: #815FA7;
+  }
+</style>    </div>
+		</li>
+<li id="text-9" class="widget widget_text">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=138031159685820";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like-box" data-href="https://www.facebook.com/pages/GeeksforGeeks/316764689022" data-width="250" data-height="170" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div></div>
+		</li>
+<li id="text-18" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LargeRectangleSide -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="1884636833"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-13" class="widget widget_text">			<div class="textwidget"><ul><li><a href="http://www.geeksforgeeks.org/category/interview-experiences/">Interview Experiences</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/advance-data-structures">Advanced Data Structures</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/dynamic-programming">Dynamic Programming</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/Greedy-Algorithm/">Greedy Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/backtracking">Backtracking</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/pattern-searching">Pattern Searching</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/divide-and-conquer">Divide & Conquer</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/MathematicalAlgo">Mathematical Algorithms</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/recursion">Recursion</a></li>
+<li><a href="http://www.geeksforgeeks.org/tag/geometric-algorithms/">Geometric Algorithms</a></li>
+</ul></div>
+		</li>
+<li id="text-17" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Big 300x600 Sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="4402736037"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+<li id="text-14" class="widget widget_text"><h2 class="widgettitle">Popular Posts</h2>
+			<div class="textwidget"><ul>
+<li><a href="http://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/">  All permutations of a given string </a></li>
+<li><a href="http://www.geeksforgeeks.org/memory-layout-of-c-program/"> Memory Layout of C Programs</a> </li>
+<li><a href="http://www.geeksforgeeks.org/understanding-extern-keyword-in-c/"> Understanding “extern” keyword in C</a> </li>
+<li><a href="http://www.geeksforgeeks.org/median-of-two-sorted-arrays/">Median of two sorted arrays</a> </li>
+<li><a href="http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/"> Tree traversal without recursion and without stack! </a></li>
+<li><a href="http://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/"> Structure Member Alignment, Padding and Data Packing</a> </li>
+<li><a href="http://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/"> Intersection point of two Linked Lists</a> </li>
+<li><a href="http://www.geeksforgeeks.org/lowest-common-ancestor-in-a-binary-search-tree/"> Lowest Common Ancestor in a BST.</span></a> </li>
+<li><a href="http://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/"> Check if a binary tree is BST or not</a> </li>
+<li><a href="http://www.geeksforgeeks.org/sorted-linked-list-to-balanced-bst/"> Sorted Linked List to Balanced BST</a></li>
+</ul></div>
+		</li>
+<li id="text-3" class="widget widget_text">			<div class="textwidget"><a href="https://twitter.com/GeeksforGeeks" class="twitter-follow-button" data-show-count="false">Follow @GeeksforGeeks</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>         
+
+
+<!-- GOOGLE FEEDBURNER BUTTON-->
+<a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0"/></a><a href="http://feeds.feedburner.com/Geeksforgeeks" title="Subscribe to my feed" rel="alternate" type="application/rss+xml">Subscribe</a>
+
+</div>
+		</li>
+<li id="text-21" class="widget widget_text"><h2 class="widgettitle">Recent Comments</h2>
+			<div class="textwidget"><script type="text/javascript" src="http://geeksforgeeks.disqus.com//recent_comments_widget.js?num_items=6&hide_avatars=1&excerpt_length=50&hide_mods=0"></script></div>
+		</li>
+<li id="text-22" class="widget widget_text">			<div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- LinkAd -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:90px"
+     data-ad-client="ca-pub-9465609616171866"
+     data-ad-slot="2606115235"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</li>
+
+</ul>					  
+		<div class="clear"></div>
+
+		<div id="footer">
+		
+		    <div class="xhtml">
+                        @geeksforgeeks, <a href="http://creativecommons.org/licenses/by-nc-nd/2.5/in/deed.en_US" title="Valid XHTML Strict 1.0">Some rights reserved</a>  <a href="http://www.geeksforgeeks.org/about/contact-us/"> &nbsp; &nbsp; &nbsp; &nbsp;Contact Us!</a>
+
+		    </div>
+		    
+		    <div class="credits">
+			  Powered by <a href="http://wordpress.org">WordPress </a> &amp; <a href="http://mootools.net/" title="Mootools JavaScript Framework">MooTools</a>, customized by geeksforgeeks team </div>
+			  
+		   <div class="clear"></div>						                            
+		   
+		</div> <!--end footer-->  
+        
+		        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'geeksforgeeks';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://d2o58evtke57tz.cloudfront.net/wp-content/plugins/bbpress/templates/default/js/editor.js?ver=2.5.4-5380'></script>
+				  
+		</div> <!--end wrapper-->
+        <div id="ajaxSpinner"></div> <!--For AJAX spinner holder-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12148232-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+
+</html>
+<!-- Dynamic page generated in 1.041 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-11-27 23:35:14 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->
